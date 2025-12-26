@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: roboto;
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+}
+
+:root {
+  --color-azulado: #0770CC;
+  --color-oscuro: #2B2A29;
+  --color-naranjado: #FF6600;
+  --color-palido: #FFFFFF;
+  --color-grisClaro: #DBDBDB;
+  --color-grisOscuro: #787878;
+  --tamano-pequeno: 1rem;
+  --tamano-mediano: 1.5rem;
+  --tamano-grande: 3rem;
+  --tamano-titulo: 4rem;
+}
+#app{
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-grisClaro);
+    display: flex;
+    flex-direction: column;
+  }
+.container{
+  width: 90%;
+  background-color: var(--color-palido);
+  border-radius: 40px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  gap: 15px;
+}
+.boton{
+  width: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--color-naranjado);
+  color: var(--color-palido);
+  font-weight: bolder;
+  background-color: var(--color-oscuro);
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+  border: 3px solid var(--color-palido);
+}
+.form{
+  color: var(--color-oscuro);
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.form__titulo{
+  text-align: center;
+}
+.container__logo{
+  width: 200px;
+}
+.form__input{
+  padding: 10px;
+  border: #FF6600 solid 3px;
+  border-radius: 10px;
+  text-align: start;
+  width: 100%;
+  filter: drop-shadow(0px 5px 5px var(--color-grisClaro));
+}
+.form__boton{
+  margin: auto;
+  background-color: var(--color-naranjado);
+}
+.form__boton:hover{
+  background-color: var(--color-palido);
+  color: var(--color-naranjado);
+  border: 3px solid var(--color-naranjado);
+}
+.container__forgot{
+  text-decoration: none;
+  color: var(--color-grisOscuro);
+  font-weight: bolder;
+}
+.decoration{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-grisOscuro);
+  font-weight: bolder;
+}
+.decoration__linea{
+  width: 125px;
+  height: 2px;
+  background-color: var(--color-grisOscuro);
+}
+.container__boton{
+  background-color: var(--color-azulado);
+}
+.container__boton:hover{
+  background-color: var(--color-palido);
+  color: var(--color-azulado);
+  border: 3px solid var(--color-azulado);
+}

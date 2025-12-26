@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defensa Civil</title>
+    <link rel="icon" href="public/logo.png" />
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <main id="app">
+        <div class="container">
+            <img src="logo.png" alt="logoDefensaCivil" class="container__logo">
+            <form action="" class="form">
+                <h2 class="form__titulo">Bienvenido!</h2>
+                <h3 class="form__titulo">Inicie Sesión</h3>
+                <input type="text" class="form__input input__correo" placeholder="Correo Electronico">
+                <input type="password" class="form__input input_contrasena" placeholder="Contraseña">
+                <button class="form__boton boton">Ingresar</button>
+            </form>
+            <a class='container__forgot' href=forgotPassword.html>¿Olvido su contraseña?</a>
+            <div class="decoration">
+                <div class="decoration__linea"></div>
+                <p>o</p>
+                <div class="decoration__linea"></div>
+            </div>
+            <button class="container__boton boton" href="">Crear Cuenta</button>
+        </div>
+    </main>
+
+    <script type="module" src="src/Views/Auth/login.js"></script>
+</body>
+</html>
