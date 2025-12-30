@@ -1,6 +1,8 @@
-import Swal from 'sweetalert2';
+import * as alerta from "../../../Helpers/alertas";
+import * as api from "../../../Helpers/api";
 
 export const loginController = () => {
+const app = document.querySelector("#app");
 const form = document.querySelector('.form');
 const correo = document.querySelector('.input__correo');
 const contrasena = document.querySelector('.input_contrasena');
@@ -12,40 +14,23 @@ form.addEventListener('submit', async (e) => {
         email: correo.value,
         password: contrasena.value
     };
+
     console.log(datosUsuario);
-
     try {
-        const response = await fetch('http://localhost:8000/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datosUsuario)
-        });
-
-        const data = await response.json();
-        
-        if (data.success) {
-            Swal.fire({
-                icon: 'success',
-                title: 'OK',
-                text: data.message || 'Login correcto'
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: data.message || 'Credenciales incorrectas'
-            });
-        }
+        const data = await api.postPublic('login',datosUsuario);
+        if (data.success)
+            {
+                await alerta.alertaOK(data.message)
+                window.location.href = '#/Logim';
+            }
+        else alerta.alertaWarning(data.message)
 
     } catch (error) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudo conectar con el servidor'
-        });
-        console.error(error);
+        alerta.alertaError(error);
     }
+});
+
+window.addEventListener("click", async (e) => {
+    if (e.target.matches("#crearCuenta")) window.location.href = '#/Register';
 });
 }
