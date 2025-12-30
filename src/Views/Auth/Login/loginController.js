@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 
+export const loginController = () => {
 const form = document.querySelector('.form');
 const correo = document.querySelector('.input__correo');
 const contrasena = document.querySelector('.input_contrasena');
@@ -47,3 +48,4 @@ form.addEventListener('submit', async (e) => {
         console.error(error);
     }
 });
+}

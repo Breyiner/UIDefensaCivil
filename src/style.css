@@ -14,7 +14,9 @@
   --color-oscuro: #2B2A29;
   --color-naranjado: #FF6600;
   --color-palido: #FFFFFF;
-  --color-grisClaro: #DBDBDB;
+  --color-grisFondo: #F8F8F8;
+  --color-grisSombra: #E3E3E3;
+  --color-grisLogin: #DBDBDB;
   --color-grisOscuro: #787878;
   --tamano-pequeno: 1rem;
   --tamano-mediano: 1.5rem;
@@ -24,7 +26,7 @@
 #app{
     width: 100vw;
     height: 100vh;
-    background-color: var(--color-grisClaro);
+    background-color: var(--color-grisFondo);
     display: flex;
     flex-direction: column;
   }
@@ -75,7 +77,7 @@
   border-radius: 10px;
   text-align: start;
   width: 100%;
-  filter: drop-shadow(0px 5px 5px var(--color-grisClaro));
+  filter: drop-shadow(0px 5px 5px var(--color-grisLogin));
 }
 .form__boton{
   margin: auto;
@@ -110,4 +112,60 @@
   background-color: var(--color-palido);
   color: var(--color-azulado);
   border: 3px solid var(--color-azulado);
+}
+.header{
+  width: 100vw;
+  height: 50px;
+  background-color: var(--color-palido);
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr 1fr;
+  grid-template-areas: "logo texto notification boton";
+  border-bottom: 2px solid var(--color-grisSombra);
+}
+.header__logo{
+  grid-area: logo;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header__imagen{
+  width: 40px;
+  height: 40px;
+}
+.header__texto{
+  grid-area: texto;
+  font-size: var(--tamano-pequeno);
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header__notification{
+  grid-area: notification;
+  font-size: var(--tamano-mediano);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-naranjado);
+}
+.header__boton{
+  grid-area: boton;
+  font-size: var(--tamano-mediano);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header__botonBack{
+  color: var(--color-palido);
+  cursor: pointer;
+  background-color: var(--color-naranjado);
+  padding: 0px 12px;
+  border-radius: 20px;
+  border: 2px solid var(--color-palido);
+  transition: 0.3s;
+}
+.header__botonBack:hover{
+  color: var(--color-naranjado);
+  background-color: var(--color-palido);
+  border: 2px solid var(--color-naranjado);
 }
