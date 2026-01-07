@@ -18,10 +18,10 @@
   --color-grisSombra: #E3E3E3;
   --color-grisLogin: #DBDBDB;
   --color-grisOscuro: #787878;
-  --tamano-pequeno: 1rem;
-  --tamano-mediano: 1.5rem;
-  --tamano-grande: 3rem;
-  --tamano-titulo: 4rem;
+  --tamano-pequeno: 0.6rem;
+  --tamano-mediano: 1rem;
+  --tamano-grande: 1.5rem;
+  --tamano-titulo: 2rem;
 }
 #app{
     width: 100vw;
@@ -37,7 +37,7 @@
 }
 #app:has(.public){
   height: 100vh;
-  background-color: red;
+  background-color: var(--color-grisFondo);
 }
 .container{
   width: 90%;
@@ -50,6 +50,9 @@
   justify-content: center;
   margin: auto;
   gap: 15px;
+}
+.container.public{
+  background-color: var(--color-grisFondo);
 }
 .boton{
   width: 200px;
@@ -97,10 +100,18 @@
   color: var(--color-naranjado);
   border: 3px solid var(--color-naranjado);
 }
-.container__forgot{
-  text-decoration: none;
+.form__link{
+  border: none;
+  text-decoration: underline;
   color: var(--color-grisOscuro);
   font-weight: bolder;
+  font-size: var(--tamano-mediano);
+  background: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.form__link:hover{
+  color: var(--color-azulado);
 }
 .decoration{
   display: flex;
@@ -114,10 +125,10 @@
   height: 2px;
   background-color: var(--color-grisOscuro);
 }
-.container__botonAzul{
+.botonAzul{
   background-color: var(--color-azulado);
 }
-.container__botonAzul:hover{
+.botonAzul:hover{
   background-color: var(--color-palido);
   color: var(--color-azulado);
   border: 3px solid var(--color-azulado);
@@ -157,6 +168,13 @@
   justify-content: center;
   color: var(--color-naranjado);
 }
+.header__burbuja{
+  grid-area: notification;
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  z-index: 1;
+}
 .header__boton{
   grid-area: boton;
   font-size: var(--tamano-mediano);
@@ -188,7 +206,40 @@
 }
 .explicacion__titulo{
   font-size: var(--tamano-mediano);
+  font-weight: bolder;
+  margin-bottom: 5px;
 }
 .explicacion__subtitulo{
-  font-size: var(--tamano-pequeno));
+  font-size: var(--tamano-pequeno);
+  font-weight: bolder;
+}
+.form__inputBox--double{
+  display: flex;
+  width: 100%;
+  gap: 5px;
+}
+.form__inputBox{
+  display: flex;
+  border: var(--color-grisOscuro) solid 2px;
+  border-radius: 10px;
+  padding: 5px;
+  width: 100%;
+}
+.form__inputBox--double > .form__inputBox{
+  width: 50%;
+}
+.form__inputBox > .form__input{
+  border: none;
+  width: 100%;
+}
+.form__inputBox > i{
+  color: var(--color-oscuro);
+  font-size: var(--tamano-mediano);
+  margin-right: 5px;
+}
+input::placeholder{
+  color: var(--color-grisOscuro);
+}
+input:focus{
+  outline: none;
 }

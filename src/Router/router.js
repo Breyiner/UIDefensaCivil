@@ -5,7 +5,7 @@ export const router = async (elemento) => {
   const segmentos = hash.split("/").filter(seg => seg);
 
   if (segmentos.length === 0) { 
-    redirigirARuta("Login");
+    redirigirARuta("login");
     return;
   }
 
@@ -21,7 +21,7 @@ export const router = async (elemento) => {
 
   if (ruta.private) {
     if (ruta.private && !localStorage.getItem('token')) { 
-      redirigirARuta("Login");
+      redirigirARuta("login");
       return;
     } else if (!puede(ruta) && ruta.private) { 
       window.history.back();

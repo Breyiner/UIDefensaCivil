@@ -1,15 +1,21 @@
 import { loginController } from '../Views/Auth/Login/loginController.js' 
 import { registerController } from '../Views/Auth/Register/registerController.js' 
+import { forgotPasswordController } from '../Views/Auth/ForgotPassword/ForgotPasswordController.js' 
 
 export const routes = { 
-  Login: {
+  login: {
     path: `Auth/Login/index.html`, 
     controlador: loginController,
     private: false,
   },
-  Register: {
+  register: {
     path: `Auth/Register/index.html`, 
     controlador: registerController,
+    private: false,
+  },
+  forgotPassword: {
+    path: `Auth/ForgotPassword/index.html`, 
+    controlador: forgotPasswordController,
     private: false,
   }
 };

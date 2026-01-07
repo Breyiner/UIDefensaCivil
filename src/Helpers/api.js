@@ -6,7 +6,8 @@ export const postPublic = async (endpoint, objeto) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(objeto)
+    body: JSON.stringify(objeto),
+    credentials: 'include'
   });
   const datos = await respuesta.json();
   return datos;
@@ -20,5 +21,5 @@ export const getPublic = async (endpoint) => {
     }
   });
   const datos = await respuesta.json();
-  return datos;
+  return datos.data;
 }
