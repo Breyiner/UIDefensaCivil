@@ -142,6 +142,9 @@
   color: var(--color-rojizo);
   border: 3px solid var(--color-rojizo);
 }
+.boton--grande{
+  width: 100%;
+}
 .header{
   width: 100%;
   height: 50px;
@@ -278,4 +281,13 @@ input:focus{
 }
 .invisible{
   display: none;
+}
+.botonOK {
+  background-color: var(--color-azulado);
+  color: white;
+}
+
+.botonCancelar {
+  background-color: var(--color-rojizo);
+  color: white;
 }

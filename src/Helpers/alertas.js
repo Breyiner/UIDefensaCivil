@@ -37,7 +37,7 @@ export const alertaWarning = (titulo, mensaje) => {
 }
 export const alertaQuest = (mensaje) => {
     return Swal.fire({
-        title: "Estas seguro?",
+        title: "¿Estas seguro?",
         text: mensaje,
         icon: "question",
         showCancelButton: true,
