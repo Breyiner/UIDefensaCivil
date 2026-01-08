@@ -11,6 +11,7 @@
 
 :root {
   --color-azulado: #0770CC;
+  --color-rojizo: #AD1010;
   --color-oscuro: #2B2A29;
   --color-naranjado: #FF6600;
   --color-palido: #FFFFFF;
@@ -30,6 +31,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: var(--color-oscuro);
   }
 #app:has(.login){
   height: 100vh;
@@ -54,6 +56,13 @@
 .container.public{
   background-color: var(--color-grisFondo);
 }
+.container__logo{
+  width: 200px;
+}
+.container__imagen{
+  width: 250px;
+  border-radius: 10px;
+}
 .boton{
   width: 200px;
   padding: 10px;
@@ -62,11 +71,15 @@
   background-color: var(--color-naranjado);
   color: var(--color-palido);
   font-weight: bolder;
-  background-color: var(--color-oscuro);
   cursor: pointer;
   font-size: 15px;
   transition: 0.3s;
   border: 3px solid var(--color-palido);
+}
+.boton:hover{
+  background-color: var(--color-palido);
+  color: var(--color-naranjado);
+  border: 3px solid var(--color-naranjado);
 }
 .form{
   color: var(--color-oscuro);
@@ -80,9 +93,6 @@
 .form__titulo{
   text-align: center;
 }
-.container__logo{
-  width: 200px;
-}
 .form__input--naranja{
   padding: 10px;
   border: #FF6600 solid 3px;
@@ -90,15 +100,6 @@
   text-align: start;
   width: 100%;
   filter: drop-shadow(0px 5px 5px var(--color-grisLogin));
-}
-.form__boton{
-  margin: auto;
-  background-color: var(--color-naranjado);
-}
-.form__boton:hover{
-  background-color: var(--color-palido);
-  color: var(--color-naranjado);
-  border: 3px solid var(--color-naranjado);
 }
 .form__link{
   border: none;
@@ -125,13 +126,21 @@
   height: 2px;
   background-color: var(--color-grisOscuro);
 }
-.botonAzul{
+.boton--azul{
   background-color: var(--color-azulado);
 }
-.botonAzul:hover{
+.boton--rojo{
+  background-color: var(--color-rojizo);
+}
+.boton--azul:hover{
   background-color: var(--color-palido);
   color: var(--color-azulado);
   border: 3px solid var(--color-azulado);
+}
+.boton--rojo:hover{
+  background-color: var(--color-palido);
+  color: var(--color-rojizo);
+  border: 3px solid var(--color-rojizo);
 }
 .header{
   width: 100%;
@@ -154,7 +163,7 @@
 }
 .header__texto{
   grid-area: texto;
-  font-size: var(--tamano-pequeno);
+  font-size: var(--tamano-mediano);
   font-weight: bolder;
   display: flex;
   align-items: center;
@@ -167,13 +176,37 @@
   align-items: center;
   justify-content: center;
   color: var(--color-naranjado);
+  transition: 0.3s;
+}
+.header__notification:hover{
+  cursor: pointer;
+  color: var(--color-azulado);
 }
 .header__burbuja{
   grid-area: notification;
-  background-color: red;
   width: 10px;
   height: 10px;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.header__numerito{
+  background-color: var(--color-azulado);
+  color: var(--color-palido);
+  font-size: var(--tamano-pequeno);
+  font-weight: bolder;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-left: 15px;
 }
 .header__boton{
   grid-area: boton;
@@ -242,4 +275,7 @@ input::placeholder{
 }
 input:focus{
   outline: none;
+}
+.invisible{
+  display: none;
 }

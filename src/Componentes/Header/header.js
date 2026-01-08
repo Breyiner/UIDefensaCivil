@@ -1,4 +1,10 @@
+import { validarCookies } from '../../Helpers/validarCookies.js';
 export const componenteHeader = () => { 
-    console.log("header");
-    
+    const header = document.querySelector(".header");
+    if(!validarCookies()){
+        header.classList.add("invisible");
+    }
+    else{
+        header.classList.remove("invisible");
+    }
 };

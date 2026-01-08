@@ -23,7 +23,7 @@ form.addEventListener('submit', async (e) => {
         if (data.success)
             {
                 await alerta.alertaOK(data.message)
-                window.location.href = '#/login';
+                window.location.href = '#/home';
             }
         else alerta.alertaWarning(data.message)
 
