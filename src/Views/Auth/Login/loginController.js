@@ -20,14 +20,15 @@ form.addEventListener('submit', async (e) => {
     window.procesoPeticion = true;
     try {
         const data = await api.postPublic('login',datosUsuario);
+        console.log(data);
         if (data.success)
             {
                 await alerta.alertaOK(data.message)
                 window.location.href = '#/home';
             }
-        else alerta.alertaWarning(data.message)
-
+        else alerta.alertaWarning(data.message,data.errors)
     } catch (error) {
+        console.log(error);
         alerta.alertaError(error);
     }
     boton.disabled = false;

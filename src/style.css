@@ -81,6 +81,12 @@
   color: var(--color-naranjado);
   border: 3px solid var(--color-naranjado);
 }
+.boton:disabled {
+  border: 3px solid var(--color-grisOscuro);
+  color: var(--color-grisOscuro);
+  background-color: var(--color-palido);
+  cursor: not-allowed;
+}
 .form{
   color: var(--color-oscuro);
   gap: 15px;
