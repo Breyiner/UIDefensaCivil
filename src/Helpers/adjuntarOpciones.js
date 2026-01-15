@@ -14,6 +14,17 @@ datos.forEach(dat => {
 });
 }
 
+export const adjuntarNoValida = async (combox,endpoint) => 
+{
+const datos = await api.getPublic(endpoint);
+datos.forEach(dat => {
+        const option = document.createElement('option');
+        option.value = dat.id;
+        option.textContent = `${dat.name}`;
+        combox.appendChild(option);
+});
+}
+
 export const adjuntarInfo = async (combox,endpoint,infoDato) => 
 {
 const datos = await api.getPublic(endpoint);
@@ -41,5 +52,19 @@ export const adjuntarReseteo = async (combox,endpoint) =>
         option.textContent = `${dat.name}`;
         combox.appendChild(option);
     }
+});
+}
+
+export const adjuntarReseteoNoValida  = async (combox,endpoint) => 
+{
+    const datos = await api.getPublic(endpoint);
+    combox.options.length = 0;
+    combox.disabled = false;
+    datos.forEach(dat => {
+        const option = document.createElement('option');
+        option.value = dat.id;
+        option.textContent = `${dat.name}`;
+        combox.appendChild(option);
+    
 });
 }

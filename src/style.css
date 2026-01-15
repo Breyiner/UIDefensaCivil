@@ -84,8 +84,12 @@
 .boton:disabled {
   border: 3px solid var(--color-grisOscuro);
   color: var(--color-grisOscuro);
-  background-color: var(--color-palido);
+  background-color: var(--color-grisSombra);
   cursor: not-allowed;
+}
+#autorization{
+  transform: scale(1.5);
+  accent-color: var(--color-azulado);
 }
 .form{
   color: var(--color-oscuro);
@@ -119,6 +123,11 @@
 }
 .form__link:hover{
   color: var(--color-azulado);
+}
+.form_autorizacion{
+  display: flex;
+  gap: 10px;
+  font-size: var(--tamano-pequeno);
 }
 .decoration{
   display: flex;
@@ -292,7 +301,6 @@ input:focus{
   background-color: var(--color-azulado);
   color: white;
 }
-
 .botonCancelar {
   background-color: var(--color-rojizo);
   color: white;

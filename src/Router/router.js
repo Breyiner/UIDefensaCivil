@@ -3,7 +3,7 @@ import { routes } from "./routers";
 export const router = async (elemento) => { 
   const hash = location.hash.slice(2);
   const segmentos = hash.split("/").filter(seg => seg);
-
+  
   if (segmentos.length === 0) { 
     redirigirARuta("login");
     return;
@@ -44,10 +44,10 @@ const encontrarRuta = (routes, segmentos) => {
   let parametros = {};
 
   if (segmentos.length === 3 && segmentos[2].includes("=")) { 
-    parametros = extraerParametros(segmentos[2]);
+    parametros = extraerParametros(segmentos[2]);    
     segmentos.pop();
   }
-
+  
   segmentos.forEach(segmento => {
     if (rutaActual[segmento]) { 
       rutaActual = rutaActual[segmento];

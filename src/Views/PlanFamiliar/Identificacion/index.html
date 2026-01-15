@@ -1,0 +1,42 @@
+    <div class="container public">
+    <div class="explicacion">
+        <p class="explicacion__titulo">Identificacion de la familia</p>
+        <p class="explicacion__subtitulo">Llene los datos con la informacion de la familia</p>
+    </div>
+<form method="POST" class="form">
+    <div class="form__inputBox">
+        <i class="ri-id-card-fill"></i>
+        <input type="text" class="form__input input__familia" placeholder="Familia segura N°" autocomplete="off" disabled>
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-parent-fill"></i>
+        <input type="text" class="form__input input__apellidos" placeholder="Apellidos de la familia" autocomplete="off">
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-map-pin-2-fill"></i>
+        <input type="text" class="form__input input__dirrecion" placeholder="Dirrecion" autocomplete="off">
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-community-fill"></i>
+        <select class="form__input input__sector">
+        <option value ="0" hidden>Seleccione un sector</option>
+        </select>
+    </div>
+    <div class="form__inputBox">
+            <i class="ri-building-fill"></i>
+            <input type="text" class="form__input input__sectorNombre" placeholder="Escriba el nombre de su sector" autocomplete="off">
+    </div>
+        <div class="form__inputBox">
+            <i class="ri-phone-fill"></i>
+            <input type="date" class="form__input input__telefono" placeholder="telefono fijo" autocomplete="off">
+        </div>
+    <div class="form__inputBox">
+        <i class="ri-home-2-fill"></i>
+        <select class="form__input input__calidad">
+        <option value ="0" hidden>Seleccione una calidad de vivienda</option>
+        </select>
+    </div>
+
+    <button class="form__boton boton form__btnSiguiente">Crear</button>
+</form>
+</div>
