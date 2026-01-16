@@ -305,3 +305,62 @@ input:focus{
   background-color: var(--color-rojizo);
   color: white;
 }
+.form__georeferencia{
+  font-size: 14px;
+}
+.form__geo{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.form__botonGeo{
+  background-color: var(--color-naranjado);
+  border: none;
+  color: var(--color-palido);
+  font-weight: bolder;
+  border-radius: 5px;
+  padding: 0px 10px;
+  border: 2px var(--color-palido) solid;
+  transition: 0.2s;
+}
+.form__botonGeo:hover{
+  background-color: var(--color-palido);
+  color: var(--color-naranjado);
+  border: 2px var(--color-naranjado) solid;
+}
+.container__descripcion{
+  color: var(--color-grisOscuro);
+  font-size: var(--tamano-pequeno);
+  font-weight: bolder;
+  width: 100%;
+  text-align: center;
+}
+
+.SubirImagen {
+  position: relative;
+  display: inline-block;
+}
+
+.SubirImagen input[type=file] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.SubirImagen:hover .boton{
+  background-color: var(--color-palido);
+  color: var(--color-naranjado);
+  border: 3px solid var(--color-naranjado);
+}
+
+#preview {
+  margin-top: 20px;
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}

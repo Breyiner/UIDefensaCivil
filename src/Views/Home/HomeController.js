@@ -14,7 +14,7 @@ window.addEventListener("click", async (e) => {
         }
     if (e.target.matches("#nuevoPlan"))
     {
-      window.location.href = '#/planFamiliar/Crear';
+      window.location.href = '#/planFamiliar/crear';
     }
 });
 }

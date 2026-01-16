@@ -1,4 +1,4 @@
-    <div class="container public">
+    <div class="container">
     <div class="explicacion">
         <p class="explicacion__titulo">Identificacion de la familia</p>
         <p class="explicacion__subtitulo">Llene los datos con la informacion de la familia</p>
@@ -14,29 +14,36 @@
     </div>
     <div class="form__inputBox">
         <i class="ri-map-pin-2-fill"></i>
-        <input type="text" class="form__input input__dirrecion" placeholder="Dirrecion" autocomplete="off">
+        <input type="text" class="form__input input__dirrecion" placeholder="Dirrecion" name="dirrecion" autocomplete="off">
     </div>
     <div class="form__inputBox">
         <i class="ri-community-fill"></i>
-        <select class="form__input input__sector">
+        <select class="form__input input__sector" name="sectorTipo">
         <option value ="0" hidden>Seleccione un sector</option>
         </select>
     </div>
     <div class="form__inputBox">
             <i class="ri-building-fill"></i>
-            <input type="text" class="form__input input__sectorNombre" placeholder="Escriba el nombre de su sector" autocomplete="off">
+            <input type="text" class="form__input input__sectorNombre" name="sectorNombre" placeholder="Escriba el nombre de su sector" autocomplete="off">
     </div>
         <div class="form__inputBox">
             <i class="ri-phone-fill"></i>
-            <input type="date" class="form__input input__telefono" placeholder="telefono fijo" autocomplete="off">
+            <input type="text" class="form__input input__telefono" name="telefonoFijo" placeholder="telefono fijo" autocomplete="off">
         </div>
     <div class="form__inputBox">
         <i class="ri-home-2-fill"></i>
-        <select class="form__input input__calidad">
+        <select class="form__input input__calidad" name="calidadVivienda">
         <option value ="0" hidden>Seleccione una calidad de vivienda</option>
         </select>
     </div>
+    <div class="form__inputBox">
+        <i class="ri-earth-fill"></i>
+        <div class="form__geo">
+            <div class="form__georeferencia">Georeferenciacion</div>
+            <button class="form__botonGeo"><i class="ri-add-fill"></i></button>
+        </div>
+    </div>
 
-    <button class="form__boton boton form__btnSiguiente">Crear</button>
+    <button class="form__boton boton">Crear</button>
 </form>
 </div>

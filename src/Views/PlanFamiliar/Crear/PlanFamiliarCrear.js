@@ -2,7 +2,7 @@ import * as adjuntarOpc from "../../../Helpers/adjuntarOpciones"
 import * as alerta from "../../../Helpers/alertas";
 import * as api from "../../../Helpers/api";
 
-export const PlanCrearController = () => {
+export default () => {
     const form = document.querySelector('.form');
     const apellidos = document.querySelector('.input__apellidos')
     const zona = document.querySelector('.input__zona');
@@ -35,7 +35,7 @@ export const PlanCrearController = () => {
                 {
                     console.log(data);
                     await alerta.alertaOK(data.message)
-                    window.location.href = `#/planFamiliar/Indentificacion/${data.data.id}`;
+                    window.location.href = `#/planFamiliar/identificacion/id=${data.data.id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
     

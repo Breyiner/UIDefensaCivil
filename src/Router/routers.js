@@ -2,9 +2,7 @@ import { loginController } from '../Views/Auth/Login/loginController.js'
 import { registerController } from '../Views/Auth/Register/registerController.js' 
 import { forgotPasswordController } from '../Views/Auth/ForgotPassword/ForgotPasswordController.js' 
 import { homeController } from '../Views/Home/HomeController.js'
-import { PlanCrearController } from '../Views/PlanFamiliar/Crear/PlanFamiliarCrear.js'
-import { PlanIdentificacionController } from '../Views/PlanFamiliar/Identificacion/PlanFamiliarIdentificacion.js'
-
+import * as planFamiliar from '../Views/PlanFamiliar/index.js'
 export const routes = { 
   login: {
     path: `Auth/Login/index.html`, 
@@ -27,14 +25,19 @@ export const routes = {
     private: false,
   },
   planFamiliar: {
-    Crear: {
+    crear: {
       path: `PlanFamiliar/Crear/index.html`,
-      controlador: PlanCrearController,
+      controlador: planFamiliar.CrearController,
       private: false,
     },
-    Identificacion: {
+    identificacion: {
       path: `PlanFamiliar/Identificacion/index.html`,
-      controlador: PlanIdentificacionController,
+      controlador: planFamiliar.IdentiController,
+      private: false,
+    },
+    georeferenciacion: {
+      path: `PlanFamiliar/Georeferenciacion/index.html`,
+      controlador: planFamiliar.GeoreController,
       private: false,
     }
   }
