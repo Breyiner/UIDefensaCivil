@@ -1,6 +1,8 @@
-import { validarCookies } from '../../Helpers/validarCookies.js';
+import * as cookie from "../../Helpers/Cookies";
+
 const listConNoti = ['home']
 const listSinBack = ['home']
+
 export const componenteHeader = () => { 
     const header = document.querySelector(".header");
     const noti = document.querySelector(".header__notification");
@@ -9,7 +11,7 @@ export const componenteHeader = () => {
     const back = document.querySelector(".header__boton");
     const hash = location.hash.slice(2);
 
-    if(!validarCookies()){
+    if(!cookie.existe){
         header.classList.add("invisible");
     }
     else{
