@@ -11,7 +11,7 @@ export const componenteHeader = () => {
     const back = document.querySelector(".header__boton");
     const hash = location.hash.slice(2);
 
-    if(!cookie.existe){
+    if(!cookie.existe()){
         header.classList.add("invisible");
     }
     else{

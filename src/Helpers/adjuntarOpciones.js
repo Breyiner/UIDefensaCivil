@@ -2,7 +2,7 @@ import * as api from "./api";
 
 export const adjuntar = async (combox,endpoint) => 
 {
-const datos = await api.getPublic(endpoint);
+const datos = await api.get(endpoint);
 datos.forEach(dat => {
     if (dat.is_active == 1)
     {   
@@ -16,7 +16,7 @@ datos.forEach(dat => {
 
 export const adjuntarNoValida = async (combox,endpoint) => 
 {
-const datos = await api.getPublic(endpoint);
+const datos = await api.get(endpoint);
 datos.forEach(dat => {
         const option = document.createElement('option');
         option.value = dat.id;
@@ -27,13 +27,13 @@ datos.forEach(dat => {
 
 export const adjuntarInfo = async (combox,endpoint,infoDato) => 
 {
-const datos = await api.getPublic(endpoint);
+const datos = await api.get(endpoint);
 datos.forEach(dat => {
     if (dat.is_active == 1)
     {   
         const option = document.createElement('option');
         option.value = dat.id;
-        option.textContent = `${dat[infoDato]} - ${dat.name}`;//se utiliza corchetes y no . para hacerlo dinamico
+        option.textContent = `${dat[infoDato]} - ${dat.name}`;
         combox.appendChild(option);
     }
 });
@@ -41,7 +41,7 @@ datos.forEach(dat => {
 
 export const adjuntarReseteo = async (combox,endpoint) => 
 {
-    const datos = await api.getPublic(endpoint);
+    const datos = await api.get(endpoint);
     combox.options.length = 0;
     combox.disabled = false;
     datos.forEach(dat => {
@@ -57,7 +57,7 @@ export const adjuntarReseteo = async (combox,endpoint) =>
 
 export const adjuntarReseteoNoValida  = async (combox,endpoint) => 
 {
-    const datos = await api.getPublic(endpoint);
+    const datos = await api.get(endpoint);
     combox.options.length = 0;
     combox.disabled = false;
     datos.forEach(dat => {
@@ -65,6 +65,5 @@ export const adjuntarReseteoNoValida  = async (combox,endpoint) =>
         option.value = dat.id;
         option.textContent = `${dat.name}`;
         combox.appendChild(option);
-    
 });
 }

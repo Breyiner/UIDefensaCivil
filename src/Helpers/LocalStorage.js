@@ -23,3 +23,16 @@ export const importacionLocalStorage = (nombreLocal) => {
         localStorage.removeItem(nombreLocal);
     };
 }
+
+export const eliminarLocalStorage = () => 
+{
+    window.localStorage.clear();
+}
+
+export const eliminarCookiesVanilla = () => {
+  document.cookie.split(";").forEach(cookie => {
+    const nombre = cookie.split("=")[0].trim();
+
+    document.cookie = `${nombre}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+  });
+};

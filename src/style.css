@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
   margin: 0;
@@ -10,38 +10,38 @@
 }
 
 :root {
-  --color-azulado: #0770CC;
-  --color-rojizo: #AD1010;
-  --color-oscuro: #2B2A29;
-  --color-naranjado: #FF6600;
-  --color-palido: #FFFFFF;
-  --color-grisFondo: #F8F8F8;
-  --color-grisSombra: #E3E3E3;
-  --color-grisLogin: #DBDBDB;
+  --color-azulado: #0770cc;
+  --color-rojizo: #ad1010;
+  --color-oscuro: #2b2a29;
+  --color-naranjado: #ff6600;
+  --color-palido: #ffffff;
+  --color-grisFondo: #f8f8f8;
+  --color-grisSombra: #e3e3e3;
+  --color-grisLogin: #dbdbdb;
   --color-grisOscuro: #787878;
   --tamano-pequeno: 0.6rem;
   --tamano-mediano: 1rem;
   --tamano-grande: 1.5rem;
   --tamano-titulo: 2rem;
 }
-#app{
-    width: 100vw;
-    height: calc(100vh - 50px);
-    background-color: var(--color-grisFondo);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: var(--color-oscuro);
-  }
-#app:has(.login){
+#app {
+  width: 100vw;
+  height: calc(100vh - 50px);
+  background-color: var(--color-grisFondo);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--color-oscuro);
+}
+#app:has(.login) {
   height: 100vh;
   background-color: var(--color-grisOscuro);
 }
-#app:has(.public){
+#app:has(.public) {
   height: 100vh;
   background-color: var(--color-grisFondo);
 }
-.container{
+.container {
   width: 90%;
   background-color: var(--color-palido);
   border-radius: 40px;
@@ -53,17 +53,17 @@
   margin: auto;
   gap: 15px;
 }
-.container.public{
+.container.public {
   background-color: var(--color-grisFondo);
 }
-.container__logo{
+.container__logo {
   width: 200px;
 }
-.container__imagen{
+.container__imagen {
   width: 250px;
   border-radius: 10px;
 }
-.boton{
+.boton {
   width: 200px;
   padding: 10px;
   border-radius: 10px;
@@ -76,7 +76,7 @@
   transition: 0.3s;
   border: 3px solid var(--color-palido);
 }
-.boton:hover{
+.boton:hover {
   background-color: var(--color-palido);
   color: var(--color-naranjado);
   border: 3px solid var(--color-naranjado);
@@ -87,11 +87,11 @@
   background-color: var(--color-grisSombra);
   cursor: not-allowed;
 }
-#autorization{
+#autorization {
   transform: scale(1.5);
   accent-color: var(--color-azulado);
 }
-.form{
+.form {
   color: var(--color-oscuro);
   gap: 15px;
   display: flex;
@@ -100,18 +100,18 @@
   align-items: center;
   width: 100%;
 }
-.form__titulo{
+.form__titulo {
   text-align: center;
 }
-.form__input--naranja{
+.form__input--naranja {
   padding: 10px;
-  border: #FF6600 solid 3px;
+  border: #ff6600 solid 3px;
   border-radius: 10px;
   text-align: start;
   width: 100%;
   filter: drop-shadow(0px 5px 5px var(--color-grisLogin));
 }
-.form__link{
+.form__link {
   border: none;
   text-decoration: underline;
   color: var(--color-grisOscuro);
@@ -121,46 +121,46 @@
   cursor: pointer;
   transition: 0.3s;
 }
-.form__link:hover{
+.form__link:hover {
   color: var(--color-azulado);
 }
-.form_autorizacion{
+.form_autorizacion {
   display: flex;
   gap: 10px;
   font-size: var(--tamano-pequeno);
 }
-.decoration{
+.decoration {
   display: flex;
   align-items: center;
   gap: 10px;
   color: var(--color-grisOscuro);
   font-weight: bolder;
 }
-.decoration__linea{
+.decoration__linea {
   width: 125px;
   height: 2px;
   background-color: var(--color-grisOscuro);
 }
-.boton--azul{
+.boton--azul {
   background-color: var(--color-azulado);
 }
-.boton--rojo{
+.boton--rojo {
   background-color: var(--color-rojizo);
 }
-.boton--azul:hover{
+.boton--azul:hover {
   background-color: var(--color-palido);
   color: var(--color-azulado);
   border: 3px solid var(--color-azulado);
 }
-.boton--rojo:hover{
+.boton--rojo:hover {
   background-color: var(--color-palido);
   color: var(--color-rojizo);
   border: 3px solid var(--color-rojizo);
 }
-.boton--grande{
+.boton--grande {
   width: 100%;
 }
-.header{
+.header {
   width: 100%;
   height: 50px;
   background-color: var(--color-palido);
@@ -169,17 +169,17 @@
   grid-template-areas: "logo texto notification boton";
   border-bottom: 2px solid var(--color-grisSombra);
 }
-.header__logo{
+.header__logo {
   grid-area: logo;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.header__imagen{
+.header__imagen {
   width: 40px;
   height: 40px;
 }
-.header__texto{
+.header__texto {
   grid-area: texto;
   font-size: var(--tamano-mediano);
   font-weight: bolder;
@@ -187,7 +187,7 @@
   align-items: center;
   justify-content: center;
 }
-.header__notification{
+.header__notification {
   grid-area: notification;
   font-size: var(--tamano-mediano);
   display: flex;
@@ -196,11 +196,11 @@
   color: var(--color-naranjado);
   transition: 0.3s;
 }
-.header__notification:hover{
+.header__notification:hover {
   cursor: pointer;
   color: var(--color-azulado);
 }
-.header__burbuja{
+.header__burbuja {
   grid-area: notification;
   width: 10px;
   height: 10px;
@@ -212,7 +212,7 @@
   height: 100%;
   pointer-events: none;
 }
-.header__numerito{
+.header__numerito {
   background-color: var(--color-azulado);
   color: var(--color-palido);
   font-size: var(--tamano-pequeno);
@@ -226,14 +226,14 @@
   margin-bottom: 20px;
   margin-left: 15px;
 }
-.header__boton{
+.header__boton {
   grid-area: boton;
   font-size: var(--tamano-mediano);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.header__botonBack{
+.header__botonBack {
   color: var(--color-palido);
   cursor: pointer;
   background-color: var(--color-naranjado);
@@ -242,12 +242,15 @@
   border: 2px solid var(--color-palido);
   transition: 0.3s;
 }
-.header__botonBack:hover{
+.header__botonBack:hover {
   color: var(--color-naranjado);
   background-color: var(--color-palido);
   border: 2px solid var(--color-naranjado);
 }
-.explicacion{
+body:has(.container.login) .header {
+  display: none;
+}
+.explicacion {
   background-color: var(--color-azulado);
   border-radius: 10px;
   width: 100%;
@@ -255,46 +258,46 @@
   text-align: center;
   color: var(--color-palido);
 }
-.explicacion__titulo{
+.explicacion__titulo {
   font-size: var(--tamano-mediano);
   font-weight: bolder;
   margin-bottom: 5px;
 }
-.explicacion__subtitulo{
+.explicacion__subtitulo {
   font-size: var(--tamano-pequeno);
   font-weight: bolder;
 }
-.form__inputBox--double{
+.form__inputBox--double {
   display: flex;
   width: 100%;
   gap: 5px;
 }
-.form__inputBox{
+.form__inputBox {
   display: flex;
   border: var(--color-grisOscuro) solid 2px;
   border-radius: 10px;
   padding: 5px;
   width: 100%;
 }
-.form__inputBox--double > .form__inputBox{
+.form__inputBox--double > .form__inputBox {
   width: 50%;
 }
-.form__inputBox > .form__input{
+.form__inputBox > .form__input {
   border: none;
   width: 100%;
 }
-.form__inputBox > i{
+.form__inputBox > i {
   color: var(--color-oscuro);
   font-size: var(--tamano-mediano);
   margin-right: 5px;
 }
-input::placeholder{
+input::placeholder {
   color: var(--color-grisOscuro);
 }
-input:focus{
+input:focus {
   outline: none;
 }
-.invisible{
+.invisible {
   display: none;
 }
 .botonOK {
@@ -305,15 +308,15 @@ input:focus{
   background-color: var(--color-rojizo);
   color: white;
 }
-.form__georeferencia{
+.form__georeferencia {
   font-size: 14px;
 }
-.form__geo{
+.form__geo {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-.form__botonGeo{
+.form__botonGeo {
   background-color: var(--color-naranjado);
   border: none;
   color: var(--color-palido);
@@ -323,12 +326,12 @@ input:focus{
   border: 2px var(--color-palido) solid;
   transition: 0.2s;
 }
-.form__botonGeo:hover{
+.form__botonGeo:hover {
   background-color: var(--color-palido);
   color: var(--color-naranjado);
   border: 2px var(--color-naranjado) solid;
 }
-.container__descripcion{
+.container__descripcion {
   color: var(--color-grisOscuro);
   font-size: var(--tamano-pequeno);
   font-weight: bolder;
@@ -341,7 +344,7 @@ input:focus{
   display: inline-block;
 }
 
-.SubirImagen input[type=file] {
+.SubirImagen input[type="file"] {
   position: absolute;
   left: 0;
   top: 0;
@@ -351,7 +354,7 @@ input:focus{
   cursor: pointer;
 }
 
-.SubirImagen:hover .boton{
+.SubirImagen:hover .boton {
   background-color: var(--color-palido);
   color: var(--color-naranjado);
   border: 3px solid var(--color-naranjado);
@@ -362,5 +365,5 @@ input:focus{
   width: 300px;
   height: 300px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }

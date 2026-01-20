@@ -30,7 +30,7 @@ export default () => {
         };
         console.log(datosRegistro);
         try {
-            const data = await api.postPublic('familyPlans',datosRegistro);
+            const data = await api.post('familyPlans',datosRegistro);
             if (data.success)
                 {
                     console.log(data);

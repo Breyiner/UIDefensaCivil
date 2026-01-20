@@ -21,9 +21,9 @@ const corrElectronico = document.querySelector('.input__corrElectronico');
 const contrasena = document.querySelector('.input__contrasena');
 const confContrasena = document.querySelector('.input__confContrasena');
 
-adjuntarOpc.adjuntarInfo(tipoDocumento,"documentTypes","acronym")
-adjuntarOpc.adjuntar(genero,"genders")
-adjuntarOpc.adjuntar(seccional,"sectionals")
+adjuntarOpc.adjuntarInfo(tipoDocumento,"documentTypesPublic","acronym")
+adjuntarOpc.adjuntar(genero,"gendersPublic")
+adjuntarOpc.adjuntar(seccional,"sectionalsPublic")
 boton.disabled = false;
 
 form.addEventListener('submit', async (e) => {
@@ -50,7 +50,7 @@ form.addEventListener('submit', async (e) => {
     };
     console.log(datosRegistro);
     try {
-        const data = await api.postPublic('register',datosRegistro);
+        const data = await api.post('register',datosRegistro);
         if (data.success)
             {
                 await alerta.alertaOK(data.message)
