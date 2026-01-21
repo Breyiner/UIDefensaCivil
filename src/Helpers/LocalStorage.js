@@ -26,7 +26,7 @@ export const importacionLocalStorage = (nombreLocal) => {
 
 export const eliminarLocalStorage = () => 
 {
-    window.localStorage.clear();
+    localStorage.clear();
 }
 
 export const eliminarCookiesVanilla = () => {

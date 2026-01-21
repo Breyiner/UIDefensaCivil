@@ -26,7 +26,7 @@ export default () => {
           last_names: apellidos.value,
           zone_id: zona.value,
           city_id: ciudad.value,
-          sectionals_id: "1"
+          sectionals_id: localStorage.getItem('sectional_id')
         };
         console.log(datosRegistro);
         try {
@@ -35,7 +35,7 @@ export default () => {
                 {
                     console.log(data);
                     await alerta.alertaOK(data.message)
-                    window.location.href = `#/planFamiliar/identificacion/id=${data.data.id}`;
+                    window.location.href = `#/planFamiliar/testVunerabilidad/id=${data.data.id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
     

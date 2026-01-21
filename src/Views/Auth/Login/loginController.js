@@ -10,12 +10,11 @@ export const loginController = () => {
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = false;
   }
-  local.eliminarLocalStorage();
-  local.eliminarCookiesVanilla();
-
+  // local.eliminarLocalStorage();
+  // local.eliminarCookiesVanilla();
+  
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     const datosUsuario = {
       email: correo.value,
       password: contrasena.value,
@@ -29,10 +28,11 @@ export const loginController = () => {
       localStorage.setItem("id", atributos.id);
       localStorage.setItem("permissions", atributos.permissions);
       localStorage.setItem("role_id", atributos.role_id);
+      localStorage.setItem("sectional_id", atributos.sectional_id);
       await alerta.alertaOK(data.message);
       window.location.href = "#/home";
     } else {
-      await alerta.alertaError("Credenciales Invalidas");
+      await alerta.alertaError(data.message);
     }
     boton.disabled = false;
     window.procesoPeticion = false;

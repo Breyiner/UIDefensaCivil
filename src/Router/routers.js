@@ -45,5 +45,11 @@ export const routes = {
       private: true,
       can: "family-plans.destroy",
     },
+    testVunerabilidad: {
+      path: `PlanFamiliar/TestVulnerabilidad/index.html`,
+      controlador: planFamiliar.TestVulController,
+      private: true,
+      can: "family-plans.destroy",
+    }
   },
 };
