@@ -3,7 +3,9 @@ import * as alerta from "../../../Helpers/alertas";
 import * as api from "../../../Helpers/api";
 
 export default () => {
+    const botonBack = document.getElementById("boton-back");
     const form = document.querySelector('.form');
+
     const apellidos = document.querySelector('.input__apellidos')
     const zona = document.querySelector('.input__zona');
     const apartamento = document.querySelector('.input__apartamento');
@@ -20,30 +22,30 @@ export default () => {
     form.addEventListener('submit', async (e) => {
         window.procesoPeticion = true
         e.preventDefault();
+
         boton.disabled = true;
         checkbox.disabled = true;
+
         const datosRegistro = {
           last_names: apellidos.value,
           zone_id: zona.value,
           city_id: ciudad.value,
           sectionals_id: localStorage.getItem('sectional_id')
         };
-        console.log(datosRegistro);
+
         try {
             const data = await api.post('familyPlans',datosRegistro);
             if (data.success)
                 {
-                    console.log(data);
                     await alerta.alertaOK(data.message)
                     window.location.href = `#/planFamiliar/testVunerabilidad/id=${data.data.id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
-    
         } catch (error) {
             alerta.alertaError(error.errors);
         }
+
         boton.disabled = false;
-        checkbox.checked = true;
         checkbox.disabled = false;
         window.procesoPeticion = false;
     });
@@ -51,18 +53,13 @@ export default () => {
     apartamento.addEventListener('change',async () => {
         adjuntarOpc.adjuntarReseteoNoValida(ciudad,`cities/apartment/${apartamento.value}`); }
     );
+
     checkbox.addEventListener("change", () => {
     checkbox.checked ? boton.disabled = false : boton.disabled = true;
     });
 
-    window.addEventListener("click", async (e) => {
-    if (e.target.matches(".header__botonBack") && !window.procesoPeticion) 
-        {
-            const pregunta = await alerta.alertaQuest('¿Seguro que quieres volver?');
-            if (pregunta.isConfirmed)
-            {
-                window.location.href = '#/home';
-            }
-        }
-});
+    botonBack.addEventListener("click", async () => {
+        const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
+        if (confirmacion.isConfirmed) location.href = "#/home";
+    });
 }

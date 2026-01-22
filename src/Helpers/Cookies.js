@@ -1,27 +1,23 @@
 export const obtener = (name) => {
+  let stringCookies = document.cookie;
 
-    let stringCookies = document.cookie;
+  let arrayCookies = stringCookies.split("; ");
 
-    let arrayCookies = stringCookies.split("; ");
+  let cookie = null;
 
-    let cookie = null;
-    
-    arrayCookies.forEach((elemento) => {
+  arrayCookies.forEach((elemento) => {
+    let [key, value] = elemento.split("=");
 
-        let [key, value] = elemento.split('=');
-        
-        if(key == name) cookie = value;
+    if (key == name) cookie = value;
+  });
 
-    });
+  return decodeURIComponent(cookie);
+};
 
-    return decodeURIComponent(cookie);
-}
-
-export const existe = () => { 
- const cookie = document.cookie;
- if (!cookie)
- {
+export const existe = () => {
+  const cookie = document.cookie;
+  if (!cookie) {
     return false;
- }
- return true;
+  }
+  return true;
 };

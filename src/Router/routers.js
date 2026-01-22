@@ -1,8 +1,9 @@
 import { loginController } from "../Views/Auth/Login/loginController.js";
 import { registerController } from "../Views/Auth/Register/registerController.js";
 import { forgotPasswordController } from "../Views/Auth/ForgotPassword/ForgotPasswordController.js";
-import { homeController } from "../Views/Home/HomeController.js";
+import { homeController } from "../Views/Home/homeController.js";
 import * as planFamiliar from "../Views/PlanFamiliar/index.js";
+import { menuFamiliarController } from "../Views/MenuFamiliar/menuFamiliarController.js";
 
 export const routes = {
   login: {
@@ -52,4 +53,10 @@ export const routes = {
       can: "family-plans.destroy",
     }
   },
+  menuFamiliar: {
+    path: `menuFamiliar/index.html`,
+    controlador: menuFamiliarController,
+    private: true,
+    can: "family-plans.show",
+  }
 };

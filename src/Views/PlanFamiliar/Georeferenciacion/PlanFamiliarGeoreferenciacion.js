@@ -2,6 +2,7 @@ import * as alerta from "../../../Helpers/alertas";
 import * as api from "../../../Helpers/api";
 
 export default async () => {
+  const botonBack = document.getElementById("boton-back");
   const id = location.hash.split("=")[1];
   const form = document.querySelector(".form");
   const boton = document.querySelector(".form__boton");
@@ -54,19 +55,15 @@ export default async () => {
         alerta.alertaWarning(data.message, data.errors);
       }
     } catch (error) {
-      console.log(error);
       alerta.alertaError(error.errors);
     }
     boton.disabled = false;
     window.procesoPeticion = false;
   });
 
-  window.addEventListener("click", async (e) => {
-    if (e.target.matches(".header__botonBack") && !window.procesoPeticion) {
-      const pregunta = await alerta.alertaQuest("¿Seguro que quieres volver?");
-      if (pregunta.isConfirmed) {
-        window.location.href = `#/planFamiliar/identificacion/id=${id}`;
-      }
-    }
+  botonBack.addEventListener("click", async () => {
+    if(!window.procesoPeticion) return;
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver?");
+    if (confirmacion.isConfirmed) location.href = `#/planFamiliar/identificacion/id=${id}`;
   });
 };

@@ -66,3 +66,16 @@ export const alertaMensaje = (mensaje) => {
     },
   });
 };
+export const loading = () => {
+  Swal.fire({
+    title: 'Cargando...',
+    text: 'Por favor espera',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+   }
+  });
+};
+export const loadingCerrar = () => {
+  Swal.close();
+}

@@ -47,7 +47,6 @@ export const registerController = async () => {
       email: corrElectronico.value,
       password: contrasena.value,
     };
-    console.log(datosRegistro);
     try {
       const data = await api.post("register", datosRegistro);
       if (data.success) {

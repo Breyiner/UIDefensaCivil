@@ -26,8 +26,7 @@ export const getExiste = async (endpoint) => {
       });
 
       if (response.status === 401) {
-        cerrarTodos();
-        error("Sesión expirada");
+        alerta.alertaError("Sesion Expirada");
         window.location.href = "#/login";
         localStorage.clear();
         return null;
@@ -103,8 +102,7 @@ export const getImagen = async (endpoint) => {
       });
 
       if (response.status === 401) {
-        cerrarTodos();
-        error("Sesión expirada");
+        alerta.alertaError("Sesion Expirada");
         window.location.href = "#/login";
         localStorage.clear();
         return null;
@@ -143,8 +141,7 @@ export const get = async (endpoint) => {
       });
 
       if (response.status === 401) {
-        cerrarTodos();
-        error("Sesión expirada");
+        alerta.alertaError("Sesion Expirada");
         window.location.href = "#/login";
         localStorage.clear();
         return null;
@@ -222,9 +219,9 @@ export const put = async (endpoint,datos) => {
       });
 
       if (response.status === 401) {
-        cerrarTodos();
-        error("Sesión expirada");
+        alerta.alertaError("Sesion Expirada");
         window.location.href = "#/login";
+        localStorage.clear();
         return null;
       }
     }
@@ -261,9 +258,9 @@ export const patch = async (endpoint,datos) => {
       });
 
       if (response.status === 401) {
-        cerrarTodos();
-        error("Sesión expirada");
+        alerta.alertaError("Sesion Expirada");
         window.location.href = "#/login";
+        localStorage.clear();
         return null;
       }
     }
@@ -298,9 +295,9 @@ export const delet = async (endpoint) => {
       });
 
       if (response.status === 401) {
-        cerrarTodos();
-        error("Sesión expirada");
+        alerta.alertaError("Sesion Expirada");
         window.location.href = "#/login";
+        localStorage.clear();
         return null;
       }
     }

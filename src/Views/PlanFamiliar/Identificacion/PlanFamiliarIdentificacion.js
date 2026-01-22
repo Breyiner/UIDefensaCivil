@@ -6,8 +6,12 @@ import * as localStorage from "../../../Helpers/LocalStorage";
 
 export default async () => {
   const id = location.hash.split("=")[1];
+  const botonBack = document.getElementById("boton-back");
+
   const form = document.querySelector(".form");
   const boton = document.querySelector(".form__boton");
+  const botonGeo = document.querySelector(".form__botonGeo");
+
   const familia = document.querySelector(".input__familia");
   const apellidos = document.querySelector(".input__apellidos");
   const dirrecion = document.querySelector(".input__dirrecion");
@@ -15,7 +19,6 @@ export default async () => {
   const sectorNombre = document.querySelector(".input__sectorNombre");
   const telefono = document.querySelector(".input__telefono");
   const calidad = document.querySelector(".input__calidad");
-  const botonGeo = document.querySelector(".form__botonGeo");
 
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = false;
@@ -31,6 +34,7 @@ export default async () => {
     window.procesoPeticion = true;
     e.preventDefault();
     boton.disabled = true;
+
     const datosRegistro = {
       last_names: apellidos.value,
       address: dirrecion.value,
@@ -39,39 +43,31 @@ export default async () => {
       landline_phone: telefono.value,
       housing_quality_id: calidad.value,
     };
-    console.log(datosRegistro);
+
     try {
       const data = await api.patch(`familyPlans/identify/${id}`, datosRegistro);
       if (data.success) {
-        console.log(data);
         await alerta.alertaOK(data.message);
         const geo = await api.getExiste(`housingInfo/${id}`);
-        !geo
-          ? await alerta.alertaWarning(
-              "Se puede agregar la Georeferenciacion despues...",
-            )
-          : "";
+        !geo ? await alerta.alertaWarning("Se puede agregar la Georeferenciacion despues...",) : "";
         window.location.href = `#/home`;
       } else alerta.alertaWarning(data.message, data.errors);
     } catch (error) {
-      console.log(error);
       alerta.alertaError(error.errors);
     }
+    
     boton.disabled = false;
     window.procesoPeticion = false;
   });
-
-  window.addEventListener("click", async (e) => {
-    if (e.target.matches(".header__botonBack") && !window.procesoPeticion) {
-      const pregunta = await alerta.alertaQuest(
-        "¿Seguro que quieres volver, perderas el progreso?",    
-      );
-      if (pregunta.isConfirmed) {
-        window.location.href = "#/home";
-      }
-    }
+    
+  botonBack.addEventListener("click", async () => {
+    if(!window.procesoPeticion) return;
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
+    if (confirmacion.isConfirmed) location.href = "#/home";
   });
+
   botonGeo.addEventListener("click", (e) => {
+    if(!window.procesoPeticion) return;
     e.preventDefault();
     localStorage.envioLocalStorage([
       dirrecion,

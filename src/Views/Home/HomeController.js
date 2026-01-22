@@ -17,5 +17,10 @@ window.addEventListener("click", async (e) => {
     {
       window.location.href = '#/planFamiliar/crear';
     }
+    if (e.target.matches("#verPlanes"))
+    {
+      window.location.href = '#/menuFamiliar';
+    }
+    
 });
 }
