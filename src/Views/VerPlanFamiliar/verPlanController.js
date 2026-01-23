@@ -1,9 +1,9 @@
 import * as alerta from "../../Helpers/alertas";
 
-export const menuFamiliarController = () => {
+export default () => {
     const botonBack = document.getElementById("boton-back");
     botonBack.addEventListener("click", async () => {
-        const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
+        const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver?");
         if (confirmacion.isConfirmed) location.href = "#/home";
     });
 }

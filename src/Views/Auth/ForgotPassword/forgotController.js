@@ -1,7 +1,7 @@
 import * as alerta from "../../../Helpers/alertas";
 import * as api from "../../../Helpers/api";
 
-export const forgotPasswordController = () => {
+export default async() => {
 const form = document.querySelector('.form');
 const correo = document.querySelector('.input__correo');
 const boton = document.querySelector('.form__boton');

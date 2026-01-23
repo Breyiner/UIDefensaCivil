@@ -4,25 +4,28 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: roboto;
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
 }
 
 :root {
   --color-azulado: #0770cc;
-  --color-rojizo: #ad1010;
+  --color-rojizo: #FF0000;
+  --color-rojoMalo: #AD1010;
+  --color-verdoso: #36BD36;
   --color-oscuro: #2b2a29;
   --color-naranjado: #ff6600;
   --color-palido: #ffffff;
   --color-grisFondo: #f8f8f8;
   --color-grisSombra: #e3e3e3;
-  --color-grisLogin: #dbdbdb;
+  --color-grisLogin: #DBDBDB;
   --color-grisOscuro: #787878;
+  --color-transparencia: rgba(50, 127, 126, 0);
   --tamano-pequeno: 0.7rem;
   --tamano-mediano: 1rem;
   --tamano-grande: 1.5rem;
   --tamano-titulo: 2rem;
+
 }
 #app {
   width: 100vw;
@@ -35,15 +38,13 @@
 }
 #app:has(.login) {
   height: 100vh;
-  background-color: var(--color-grisOscuro);
+  background-color: var(--color-grisLogin);
 }
 #app:has(.public) {
   height: 100vh;
-  background-color: var(--color-grisFondo);
 }
 .container {
-  width: 90%;
-  background-color: var(--color-palido);
+  width: 100%;
   border-radius: 40px;
   padding: 20px;
   display: flex;
@@ -53,14 +54,16 @@
   margin: auto;
   gap: 15px;
 }
-.container.public {
-  background-color: var(--color-grisFondo);
+.container.login{
+  background-color: var(--color-palido);
+  width: 90%;
+  height: 90%;
 }
 .container__logo {
-  width: 200px;
+  width: 90%;
 }
 .container__imagen {
-  width: 250px;
+  width: 100%;
   border-radius: 10px;
 }
 .boton {
@@ -74,7 +77,7 @@
   cursor: pointer;
   font-size: 15px;
   transition: 0.3s;
-  border: 3px solid var(--color-palido);
+  border: 3px solid var(--color-transparencia);
 }
 .boton:hover {
   background-color: var(--color-palido);
@@ -102,6 +105,12 @@
 }
 .form__titulo {
   text-align: center;
+}
+input{
+  font-size: var(--tamano-mediano);
+}
+select{
+  font-size: var(--tamano-mediano);
 }
 .form__input--naranja {
   padding: 10px;
@@ -145,7 +154,7 @@
   background-color: var(--color-azulado);
 }
 .boton--rojo {
-  background-color: var(--color-rojizo);
+  background-color: var(--color-rojoMalo);
 }
 .boton--azul:hover {
   background-color: var(--color-palido);
@@ -179,7 +188,7 @@
   background-color: var(--color-naranjado);
   padding: 4px 12px;
   border-radius: 20px;
-  border: 2px solid var(--color-palido);
+  border: 2px solid var(--color-transparencia);
   transition: 0.3s;
   font-weight: bold;
 }
@@ -269,6 +278,9 @@
 body:has(.container.login) .header {
   display: none;
 }
+body:has(.container.public) .header {
+  display: none;
+}
 .explicacion {
   background-color: var(--color-azulado);
   border-radius: 10px;
@@ -278,13 +290,12 @@ body:has(.container.login) .header {
   color: var(--color-palido);
 }
 .explicacion__titulo {
-  font-size: var(--tamano-mediano);
+  font-size: var(--tamano-grande);
   font-weight: bolder;
   margin-bottom: 5px;
 }
 .explicacion__subtitulo {
-  font-size: var(--tamano-pequeno);
-  font-weight: bolder;
+  font-size: var(--tamano-mediano);
 }
 .form__inputBox--double {
   display: flex;
@@ -297,6 +308,8 @@ body:has(.container.login) .header {
   border-radius: 10px;
   padding: 5px;
   width: 100%;
+  background-color: var(--color-palido);
+  padding: 10px;
 }
 .form__inputBox--double > .form__inputBox {
   width: 50%;
@@ -320,7 +333,7 @@ input:focus {
   display: none;
 }
 .botonOK {
-  background-color: var(--color-azulado);
+  background-color: var(--color-verdoso);
   color: white;
 }
 .botonCancelar {
@@ -482,13 +495,15 @@ input:focus {
   font-weight: bolder;
   transition: 0.3s;
 }
-input[type="radio"]:checked  + .test__opcion{
-  background-color: var(--color-naranjado);
+input[type="radio"]:checked  + .test__opcion.test__opcion--si{
+  background-color: var(--color-verdoso);
   color: var(--color-palido);
+  border: 1px solid var(--color-verdoso);
 }
-.container.noFondo{
-  background-color: var(--color-grisFondo);
-  width: 100%;
+input[type="radio"]:checked  + .test__opcion.test__opcion--no{
+  background-color: var(--color-rojizo);
+  color: var(--color-palido);
+  border: 1px solid var(--color-rojizo);
 }
 .rutaInvalida{
   color: red;

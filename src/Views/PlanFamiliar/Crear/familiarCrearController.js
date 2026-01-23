@@ -2,7 +2,7 @@ import * as adjuntarOpc from "../../../Helpers/adjuntarOpciones"
 import * as alerta from "../../../Helpers/alertas";
 import * as api from "../../../Helpers/api";
 
-export default () => {
+export default async() => {
     const botonBack = document.getElementById("boton-back");
     const form = document.querySelector('.form');
 
@@ -30,7 +30,7 @@ export default () => {
           last_names: apellidos.value,
           zone_id: zona.value,
           city_id: ciudad.value,
-          sectionals_id: localStorage.getItem('sectional_id')
+          sectional_id: localStorage.getItem('sectional_id')
         };
 
         try {

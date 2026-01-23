@@ -1,7 +1,8 @@
 import * as alerta from "../../../Helpers/alertas";
 import * as api from "../../../Helpers/api";
 import * as adjuntarOpc from "../../../Helpers/adjuntarOpciones";
-export const registerController = async () => {
+
+export default async () => {
   const form = document.querySelector(".form");
   const boton = document.querySelector(".form__boton");
   if (window.procesoPeticion === undefined) {

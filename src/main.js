@@ -2,7 +2,7 @@ import 'remixicon/fonts/remixicon.css'
 import "./style.css";
 import { router } from "./Router/router.js"; 
 import componenteHeader from "../src/componentes/header/index.html?raw";
-import { componenteHeader as header } from "./componentes/header/header.js";
+import { componenteHeader as header } from "./Componentes/Header/header.js"
 
 document.querySelector("body").insertAdjacentHTML("afterbegin", componenteHeader);
 

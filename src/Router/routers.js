@@ -1,24 +1,22 @@
-import { loginController } from "../Views/Auth/Login/loginController.js";
-import { registerController } from "../Views/Auth/Register/registerController.js";
-import { forgotPasswordController } from "../Views/Auth/ForgotPassword/ForgotPasswordController.js";
-import { homeController } from "../Views/Home/homeController.js";
+import * as auth from "../Views/Auth/index.js"
+import homeController from "../Views/Home/controller.js";
 import * as planFamiliar from "../Views/PlanFamiliar/index.js";
-import { menuFamiliarController } from "../Views/MenuFamiliar/menuFamiliarController.js";
+import * as verPlan from "../Views/VerPlanFamiliar/index.js";
 
 export const routes = {
   login: {
     path: `Auth/Login/index.html`,
-    controlador: loginController,
+    controlador: auth.loginController,
     private: false,
   },
   register: {
     path: `Auth/Register/index.html`,
-    controlador: registerController,
+    controlador: auth.registerController,
     private: false,
   },
   forgotPassword: {
     path: `Auth/ForgotPassword/index.html`,
-    controlador: forgotPasswordController,
+    controlador: auth.forgotPasswordController,
     private: false,
   },
   home: {
@@ -53,10 +51,18 @@ export const routes = {
       can: "family-plans.destroy",
     }
   },
-  menuFamiliar: {
-    path: `menuFamiliar/index.html`,
-    controlador: menuFamiliarController,
+  verPlanFamiliar:{
+  "/": {
+    path: `VerPlanFamiliar/index.html`,
+    controlador: verPlan.VerPlanFamiliar,
     private: true,
     can: "family-plans.show",
+  },
+  menu: {
+    path: `VerPlanFamiliar/Menu/index.html`,
+    controlador: verPlan.MenuController,
+    private: true,
+    can: "family-plans.show",
+  },
   }
 };

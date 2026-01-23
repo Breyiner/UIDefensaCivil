@@ -1,7 +1,7 @@
 import * as alerta from "../../Helpers/alertas";
 import * as api from "../../Helpers/api"
 
-export const homeController = () => {
+export default () => {
 window.addEventListener("click", async (e) => {
     if (e.target.matches("#cerrarSesion")) 
         {
@@ -17,9 +17,9 @@ window.addEventListener("click", async (e) => {
     {
       window.location.href = '#/planFamiliar/crear';
     }
-    if (e.target.matches("#verPlanes"))
+    if (e.target.matches("#verPlan"))
     {
-      window.location.href = '#/menuFamiliar';
+      window.location.href = '#/verPlanFamiliar';
     }
     
 });

@@ -2,7 +2,7 @@ import * as alerta from "../../../Helpers/alertas";
 import * as api from "../../../Helpers/api";
 import * as local from "../../../Helpers/LocalStorage";
 
-export const loginController = () => {
+export default async() => {
   const form = document.querySelector(".form");
   const correo = document.querySelector(".input__correo");
   const contrasena = document.querySelector(".input_contrasena");

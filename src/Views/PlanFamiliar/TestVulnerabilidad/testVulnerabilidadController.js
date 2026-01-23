@@ -9,10 +9,9 @@ export default async () => {
   const preguntas = document.querySelector(".preguntas");
   const siguiente = document.querySelector(".botonera__siguiente");
   const atras = document.querySelector(".botonera__atras");
-  const header = document.querySelector(".header");
 
   if (window.procesoPeticion === undefined) {
-    window.procesoPeticion = false;
+    window.procesoPeticion = true;
   }
 
   let paginaActual = 1;
@@ -58,11 +57,11 @@ export default async () => {
         <div class="test__opciones">
           <input type="radio" class="invisible" name="opcion-${opcion.id}" id="si-${opcion.id}" value="true"
             ${localStorage.getItem(`opcion-${opcion.id}`) === "true" ? "checked" : ""}>
-          <label class="test__opcion" for="si-${opcion.id}">SI</label>
+          <label class="test__opcion test__opcion--si" for="si-${opcion.id}">SI</label>
 
           <input type="radio" class="invisible" name="opcion-${opcion.id}" id="no-${opcion.id}" value="false"
             ${localStorage.getItem(`opcion-${opcion.id}`) === "false" ? "checked" : ""}>
-          <label class="test__opcion" for="no-${opcion.id}">NO</label>
+          <label class="test__opcion test__opcion--no" for="no-${opcion.id}">NO</label>
         </div>
       `;
 
@@ -125,22 +124,12 @@ export default async () => {
     else if(e.target.value == "false") localStorage.removeItem(`puntaje-${e.target.name}`);
   });
 
-  header.addEventListener("click", async (e) => {
-    if (!e.target.matches(".header__botonBack")) return;
-
-    const confirmacion = await alerta.alertaQuest(
-      "¿Seguro que quieres volver? Perderás tu progreso"
-    );
-
-    if (confirmacion.isConfirmed) {
-      location.href = "#/home";
-    }
-  });
-
   botonBack.addEventListener("click", async () => {
-    if(!window.procesoPeticion) return;
+    if(!window.procesoPeticion)
+    {
       const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
       if (confirmacion.isConfirmed) location.href = "#/home";
+    }
     });
 
   async function evaluarTest() {
@@ -183,8 +172,13 @@ export default async () => {
     }
     alerta.loading();
     for (const p of verPreguntas) {
-      if (!p.is_active) return;
-      const datos = {
+      if (!p.is_active)
+        {
+          window.procesoPeticion =  false
+          siguiente.disabled = false;
+          return;
+        }
+        const datos = {
         vulnerable_question_id: p.id,
         family_plan_id: id,
         answer: localStorage.getItem(`opcion-${p.id}`) === "true",
