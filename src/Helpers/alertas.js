@@ -7,7 +7,7 @@ export const alertaError = (mensaje) => {
     text: mensaje,
     confirmButtonText: "Ok",
     customClass: {
-      confirmButton: "botonOK",
+      confirmButton: "botonCancelar",
     },
   });
 };

@@ -340,9 +340,6 @@ input:focus {
   background-color: var(--color-rojizo);
   color: white;
 }
-.form__georeferencia {
-  font-size: 14px;
-}
 .form__geo {
   display: flex;
   justify-content: space-between;
@@ -532,4 +529,89 @@ body:has(.rutaInvalida) .header {
 }
 .menuFamilia__boton{
   margin: 10px 0px;
+}
+.container__verPlan{
+  width: 100%;
+}
+.verPlan{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+.verPlan__apellidoEstado{
+  color: var(--color-oscuro);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: var(--tamano-grande);
+  font-weight: bolder;
+}
+.verPlan__apellidos{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.verPlan__estado{
+  background-color: var(--color-azulado);
+  color: var(--color-palido);
+  font-size: var(--tamano-mediano);
+  padding: 5px 30px;
+  border-radius: 10px;
+}
+.verPlan__estado--naranja{
+  background-color: var(--color-naranjado);
+}
+.verPlan__detalles{
+  color: var(--color-oscuro);
+  font-size: var(--tamano-mediano);
+  margin: 10px 0px 10px 35px;
+  font-weight: bolder;
+}
+.verPlan__boton{
+  margin: 0 auto;
+  padding: 2px;
+}
+.container__paginador{
+  display: grid;
+  grid-auto-flow: column;
+  width: 100%;
+}
+.paginador__numero{
+  border: none;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--color-palido);
+  color: var(--color-azulado);
+  font-weight: bolder;
+  border-top: var(--color-azulado) 3px solid;
+  border-right: var(--color-azulado) 3px solid;
+  border-bottom: var(--color-azulado) 3px solid;
+  transition: 0.3s;
+}
+.paginador__numero:first-child
+{
+  border-left: var(--color-azulado) 3px solid;
+  border-radius: 10px 0px 0px 10px;
+}
+.paginador__numero:last-child{
+  border-radius: 0px 10px 10px 0px;
+}
+.paginador__numero:hover{
+  background-color: var(--color-azulado);
+  color: var(--color-palido);
+}
+.paginador__numero--activo{
+  background-color: var(--color-azulado);
+  color: var(--color-palido);
+}
+.noPlan{
+  text-align: center;
+  color: var(--color-grisOscuro);
+  font-weight: bolder;
+  font-size: var(--tamano-mediano);
+  
 }
