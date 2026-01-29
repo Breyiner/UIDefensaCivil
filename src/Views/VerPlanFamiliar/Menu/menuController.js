@@ -6,4 +6,8 @@ export default () => {
         const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
         if (confirmacion.isConfirmed) location.href = "#/verPlanFamiliar";
     });
+    const integrante = document.getElementById("integrante");
+    integrante.addEventListener("click", async () => {
+        location.href = "#/planIntegrante";
+    });
 }

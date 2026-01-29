@@ -2,6 +2,7 @@ import * as auth from "../Views/Auth/index.js"
 import homeController from "../Views/Home/controller.js";
 import * as planFamiliar from "../Views/PlanFamiliar/index.js";
 import * as verPlan from "../Views/VerPlanFamiliar/index.js";
+import * as Planintegrante from "../Views/PlanIntegrante/index.js";
 
 export const routes = {
   login: {
@@ -64,5 +65,13 @@ export const routes = {
     private: true,
     can: "family-plans.show",
   },
+  },
+  planIntegrante:{
+  "/": {
+    path: `PlanIntegrante/index.html`,
+    controlador: Planintegrante.verPlanIntegrantes,
+    private: true,
+    can: "family-plans.show",
+  }
   }
 };

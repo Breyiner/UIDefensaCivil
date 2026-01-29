@@ -36,6 +36,7 @@ export default async () => {
     containerPaginador.addEventListener("click", async (e) => {   
         if (e.target.classList.contains("paginador__numero") && !window.procesoPeticion)
         {
+            if (paginaActual == e.target.id) return;
             paginaActual = e.target.id;
             paginacion();
             cargarPagina();
@@ -107,15 +108,14 @@ export default async () => {
                 let info = planes[plan];
                 let cartaInfo = document.createElement('div');
                 cartaInfo.innerHTML = `
-                    <div class="verPlan__apellidoEstado">
-                        <div class="verPlan__apellidos"><i class="ri-parent-fill"></i>   ${info.family_plan.last_names}</div>
-                        <div class="verPlan__estado verPlan__estado--naranja">${info.action.name}</div>
+                    <div class="verPlan__icono"><i class="ri-parent-fill"></i></div>
+                    <div class="verPlan__apellidos">${info.family_plan.last_names}</div>
+                    <div class="verPlan__estado verPlan__estado--naranja">${info.action.name}</div>
+                    <div class="verPlan__detalles--ubicacion">
+                        <i class="ri-map-pin-line"></i>${info.family_plan.city.apartment.name} - ${info.family_plan.city.name}
                     </div>
-                    <div class="verPlan__detalles">
-                        <i class="ri-map-pin-line"></i> ${info.family_plan.city.apartment.name} - ${info.family_plan.city.name}
-                    </div>
-                    <div class="verPlan__detalles">
-                        <i class="ri-calendar-event-fill"></i> Ultima Edicion: ${info.date}
+                    <div class="verPlan__detalles--fecha">
+                        <i class="ri-calendar-event-fill"></i>Ultima Edicion: ${info.date}
                     </div>
                     <button class="verPlan__boton boton" id=${info.family_plan.id}>Revisar Plan</button>`;
                 cartaInfo.classList.add('verPlan');
