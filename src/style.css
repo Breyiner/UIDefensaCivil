@@ -60,7 +60,7 @@
   height: 90%;
 }
 .container__logo {
-  width: 90%;
+  max-width: 90%;
 }
 .container__imagen {
   width: 100%;
