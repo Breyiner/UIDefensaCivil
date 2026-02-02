@@ -150,7 +150,7 @@
   max-width: 90%;
 }
 .container__imagen {
-  width: 100%;
+  max-width: 100%;
   border-radius: 10px;
 }
 .boton {
@@ -553,8 +553,8 @@ body:has(.rutaInvalida) .header {
   grid-template-rows: repeat(4,30px);
   grid-template-areas:
     "iconoApellido apellido estado"
-    ". detalleUbicacion ."
-    ". detalleFecha ."
+    ". detalleUbicacion detalleUbicacion"
+    ". detalleFecha detalleFecha"
     "boton boton boton";
 }
 .verPlan__icono{

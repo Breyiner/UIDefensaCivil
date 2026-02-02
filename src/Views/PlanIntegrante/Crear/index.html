@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="explicacion">
+        <p class="explicacion__titulo">Integrantes de la familia</p>
+        <p class="explicacion__subtitulo">Llene los datos con la informacion del integrante</p>
+    </div>
+<form method="POST" class="form">
+    <div class="form__inputBox">
+        <i class="ri-user-fill"></i>
+        <input type="text" class="form__input input__nombresApellidos" placeholder="nombres y apellidos" autocomplete="off">
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-id-card-fill"></i>
+        <select class="form__input input__tipoDocumento">
+        <option value ="0" hidden>Seleccione un tipo de documento</option>
+        </select>
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-info-card-fill"></i>
+        <input type="text" class="form__input input__numDocumento" placeholder="numero de documento" autocomplete="off">
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-men-fill"></i>
+        <select class="form__input input__genero">
+        <option value ="0" hidden>Seleccione un genero</option>
+        </select>
+    </div>
+    <div class="form__inputBox--double">
+        <div class="form__inputBox">
+            <i class="ri-cake-2-fill"></i>
+            <input type="date" class="form__input input__nacimiento" placeholder="fecha de nacimiento" autocomplete="off">
+        </div>
+        <div class="form__inputBox">
+            <i class="ri-phone-fill"></i>
+            <input type="text" class="form__input input__eps" placeholder="eps" autocomplete="off">
+        </div>
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-team-fill"></i>
+        <select class="form__input input__parentesco">
+        <option value ="0" hidden>Seleccione un parentesco</option>
+        </select>
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-team-fill"></i>
+        <select class="form__input input__grupoSanguineo">
+        <option value ="0" hidden>Seleccione un grupo sanguineo</option>
+        </select>
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-team-fill"></i>
+        <select class="form__input input__nacionalidad">
+        <option value ="0" hidden>Seleccione un nacionalidad</option>
+        </select>
+    </div>
+    <div class="form__inputBox">
+            <i class="ri-phone-fill"></i>
+            <input type="text" class="form__input input__celular" placeholder="celular personal" autocomplete="off">
+    </div>
+    <button class="form__boton boton" disabled>Guardar</button>
+</form>
+</div>

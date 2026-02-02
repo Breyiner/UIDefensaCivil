@@ -1,3 +1,5 @@
 import verPlanIntegrantes from "./verPlanIntegrantes";
 
-export { verPlanIntegrantes };
+import crearController from "./Crear/CrearController";
+
+export { verPlanIntegrantes, crearController };

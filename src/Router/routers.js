@@ -67,11 +67,17 @@ export const routes = {
   },
   },
   planIntegrante:{
-  "/": {
+  ver: {
     path: `PlanIntegrante/index.html`,
     controlador: Planintegrante.verPlanIntegrantes,
     private: true,
     can: "family-plans.show",
-  }
+  },
+    crear: {
+    path: `PlanIntegrante/Crear/index.html`,
+    controlador: Planintegrante.crearController,
+    private: true,
+    can: "family-plans.store",
+    },
   }
 };
