@@ -9,7 +9,8 @@ export default async () => {
     const id = location.hash.split("=")[1];
 
     // Inputs de texto
-    const nombresApellidos = document.querySelector('.input__nombresApellidos');
+    const nombres = document.querySelector('.input__nombres');
+    const apellidos = document.querySelector('.input__apellidos');
     const numDocumento     = document.querySelector('.input__numDocumento');
     const eps              = document.querySelector('.input__eps');
     const celular          = document.querySelector('.input__celular');
@@ -39,8 +40,8 @@ export default async () => {
         boton.disabled = true;
     
         const datosRegistro = {
-            names: nombresApellidos.value,
-            last_names: nombresApellidos.value,
+            names: nombres.value,
+            last_names: apellidos.value,
             birth_date: nacimiento.value,
             blood_group_id: grupoSanguineo.value,
             document_type_id: tipoDocumento.value,
