@@ -50,7 +50,6 @@ export const alertaQuest = (mensaje) => {
   });
 };
 
-
 export const alertaMensaje = (mensaje) => {
   return Swal.fire({
     toast: true,
@@ -66,7 +65,23 @@ export const alertaMensaje = (mensaje) => {
     },
   });
 };
-export const loading = () => {
+
+export const alertaPreguntarMasTarde = (mensaje) => {
+  return Swal.fire({
+    title: "¿Estas seguro?",
+    text: mensaje,
+    icon: "question",
+    showCancelButton: true,
+    cancelButtonText: "Mas tarde",
+    confirmButtonText: "Si",
+    customClass: {
+      confirmButton: "botonOK",
+      cancelButton: "botonCancelar",
+    },
+  });
+};
+
+export const alertaLoading = () => {
   Swal.fire({
     title: 'Cargando...',
     text: 'Por favor espera',
@@ -76,6 +91,6 @@ export const loading = () => {
    }
   });
 };
-export const loadingCerrar = () => {
+export const alertaLoadingCerrar = () => {
   Swal.close();
 }

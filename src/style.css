@@ -90,7 +90,6 @@
   z-index: 1;
 }
 .header__notification:active {
-  cursor: pointer;
   color: var(--color-azulado);
 }
 .header__burbuja {
@@ -161,7 +160,6 @@
   background-color: var(--color-naranjado);
   color: var(--color-palido);
   font-weight: bolder;
-  cursor: pointer;
   font-size: 15px;
   transition: 0.3s;
   border: 3px solid var(--color-transparencia);
@@ -175,7 +173,6 @@
   border: 3px solid var(--color-grisOscuro);
   color: var(--color-grisOscuro);
   background-color: var(--color-grisSombra);
-  cursor: not-allowed;
 }
 #autorization {
   transform: scale(1.5);
@@ -214,7 +211,6 @@ select{
   font-weight: bolder;
   font-size: var(--tamano-mediano);
   background: none;
-  cursor: pointer;
   transition: 0.3s;
 }
 .form__link:active {
@@ -271,7 +267,6 @@ select{
 }
 .boton--redondo{
   color: var(--color-palido);
-  cursor: pointer;
   background-color: var(--color-naranjado);
   padding: 4px 12px;
   border-radius: 20px;
@@ -319,6 +314,8 @@ body:has(.container.public) .header {
   width: 100%;
   background-color: var(--color-palido);
   padding: 10px;
+  gap: 10px;
+  text-align: center;
 }
 .form__inputBox--double > .form__inputBox {
   width: 50%;
@@ -328,9 +325,9 @@ body:has(.container.public) .header {
   width: 100%;
 }
 .form__inputBox > i {
+  text-align: center;
   color: var(--color-oscuro);
   font-size: var(--tamano-mediano);
-  margin-right: 5px;
 }
 input::placeholder {
   color: var(--color-grisOscuro);
@@ -389,7 +386,6 @@ input:focus {
   opacity: 0;
   width: 100%;
   height: 100%;
-  cursor: pointer;
 }
 
 .SubirImagen:active .boton {
@@ -425,7 +421,6 @@ input:focus {
   justify-content: center;
   align-items: center;
   margin-bottom: 5px;
-  cursor: pointer;
   transition: 0.3s;
 }
 .paginado__numero:active{
@@ -626,7 +621,6 @@ body:has(.rutaInvalida) .header {
   color: var(--color-azulado);
   font-weight: bolder;
   transition: 0.3s;
-  cursor: pointer;
   border-radius: 10px;
 }
 .paginador__numero:active{
@@ -747,4 +741,67 @@ body:has(.rutaInvalida) .header {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.acordeon{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px auto;
+  grid-template-areas:
+    "titulo"
+    "contenido";
+}
+.acordeon__nombre{
+  grid-area: titulo;
+  font-size: var(--tamano-grande);
+  font-weight: bolder;
+  padding: 10px;
+  color: var(--color-palido);
+  width: 100%;
+  background-color: var(--color-naranjado);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 5fr 1fr ;
+  grid-template-rows: 1fr;
+  border: 3px solid var(--color-naranjado);
+  transition: 0.3s;
+  z-index: 1;
+}
+.acordeon__nombre:active{
+  background-color: var(--color-palido);
+  color: var(--color-naranjado);
+}
+.acordeon__iconoTitulo{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+}
+.acordeon__flecha{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.acordeon__contenido{
+  grid-area: contenido;
+  min-height: 50px;
+  padding-top: 20px;
+  width: 100%;
+  border-radius: 40px;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.acordeon__contenido--oculto{
+  height: 0px;
+  grid-area: titulo;
+  overflow: hidden;
+}
+
+#acordeon__container{
+  transition: 0.3s;
 }

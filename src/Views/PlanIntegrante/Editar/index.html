@@ -1,10 +1,21 @@
 <div class="container">
-    <div class="explicacion">
-        <p class="explicacion__titulo">Integrantes de la familia</p>
-        <p class="explicacion__subtitulo">Llene los datos con la informacion del integrante</p>
+        <div class="explicacion">
+        <p class="explicacion__titulo">Integrante de la familia</p>
+        <p class="explicacion__subtitulo">Editar informacion y añadir enfermedad, discapacidad y alergias</p>
     </div>
-<form method="POST" class="form">
-    <div class="form__inputBox">
+
+<div class="acordeon">
+    <button class="acordeon__nombre">
+        <div class="acordeon__iconoTitulo">
+            <i class="ri-user-line acordeon__icono"></i>
+            <p class="acordeon__titulo">Datos del integrante</p>
+        </div>
+        <div class="acordeon__flecha">
+            <i class="ri-arrow-down-s-line"></i>
+        </div>
+    </button>
+    <div class="acordeon__contenido--oculto" id="acordeon__container">
+            <div class="form__inputBox">
         <i class="ri-user-fill"></i>
         <input type="text" class="form__input input__nombres" placeholder="nombres" autocomplete="off">
     </div>
@@ -62,4 +73,17 @@
     </div>
     <button class="form__boton boton" disabled>Guardar</button>
 </form>
+    </div>
+</div>
+<div class="acordeon">
+    <button class="acordeon__nombre">
+        <div class="acordeon__iconoTitulo">
+            <i class="ri-medicine-bottle-line acordeon__icono"></i>
+            <p class="acordeon__titulo">Afeccion del integrante</p>
+        </div>
+        <div class="acordeon__flecha">
+            <i class="ri-arrow-down-s-line"></i>
+        </div>
+    </button>
+    <div class="acordeon__contenido--oculto" id="acordeon__container"></div>
 </div>

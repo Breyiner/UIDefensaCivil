@@ -19,7 +19,6 @@ export default async () => {
 
     const paginas = await api.get("histories/voluntario");
     const cantidad = paginas.last_page;
-    console.log(paginas);
     
     const evaluacion = await evaluarDatos();
 

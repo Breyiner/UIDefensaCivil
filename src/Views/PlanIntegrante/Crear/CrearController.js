@@ -57,7 +57,8 @@ export default async () => {
             if (data.success)
                 {
                     await alerta.alertaOK(data.message)
-                    window.location.href = `#/planIntegrante/ver/id=${id}`;
+                    const pregunta = await alerta.alertaQuest("Deseas agregar las enfermedades/discapacidad/alergias/ de este integrante?")
+                    pregunta.isConfirmed ? window.location.href = `#/planIntegrante/editar/id=${id}` : location.href = `#/planIntegrante/ver/id=${id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
         } catch (error) {

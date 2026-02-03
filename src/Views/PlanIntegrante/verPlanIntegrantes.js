@@ -133,7 +133,7 @@ export default async () => {
 
     container.addEventListener('click',async (e) => {
     if (e.target.classList.contains('boton__editar')) {
-        console.log('Editar ID:', e.target.dataset.id);
+        window.location.href = `#/planIntegrante/editar/id=${id},${e.target.dataset.id}`;
     }
 
     if (e.target.classList.contains('boton__eliminar')) {

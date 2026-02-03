@@ -170,7 +170,7 @@ export default async () => {
       siguiente.disabled = false;
       return;
     }
-    alerta.loading();
+    alerta.alertaLoading();
     for (const p of verPreguntas) {
       if (!p.is_active)
         {
@@ -188,7 +188,7 @@ export default async () => {
       localStorage.removeItem(`opcion-${p.id}`);
       localStorage.removeItem(`puntaje-opcion-${p.id}`);
     }
-    alerta.loadingCerrar();
+    alerta.alertaLoadingCerrar();
     await alerta.alertaOK("Test evaluado con éxito");
     location.replace(`#/planFamiliar/identificacion/id=${id}`);
   }

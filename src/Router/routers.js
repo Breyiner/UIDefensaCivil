@@ -79,5 +79,11 @@ export const routes = {
     private: true,
     can: "family-plans.store",
     },
+    editar: {
+    path: `PlanIntegrante/Editar/index.html`,
+    controlador: Planintegrante.editarController,
+    private: true,
+    can: "family-plans.store",
+    },
   }
 };
