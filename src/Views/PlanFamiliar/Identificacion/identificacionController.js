@@ -21,19 +21,29 @@ export default async () => {
   const calidad = document.querySelector(".input__calidad");
 
   if (window.procesoPeticion === undefined) {
-    window.procesoPeticion = false;
+    window.procesoPeticion = true;
   }
+  window.procesoPeticion = true;
+
+  botonBack.onclick = async () => {
+  if (window.procesoPeticion) return;
+  const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso",);
+  if (confirmacion.isConfirmed) location.href = "#/home";};
 
   cargarDatos(`familyPlans/${id}`, [familia, apellidos], ["id", "last_names"]);
   await adjuntarOpc.adjuntarNoValida(sector, "sectors");
   await adjuntarOpc.adjuntarNoValida(calidad, "housingQualities");
   localStorage.importacionLocalStorage("identificacion");
+
+  boton.disabled = false;
   botonGeo.disabled = false;
+  window.procesoPeticion = false;
 
   form.addEventListener("submit", async (e) => {
-    window.procesoPeticion = true;
     e.preventDefault();
     boton.disabled = true;
+    botonGeo.disabled = true;
+    window.procesoPeticion = true;
 
     const datosRegistro = {
       last_names: apellidos.value,
@@ -49,25 +59,24 @@ export default async () => {
       if (data.success) {
         await alerta.alertaOK(data.message);
         const geo = await api.getExiste(`housingInfo/${id}`);
-        !geo ? await alerta.alertaWarning("Se puede agregar la Georeferenciacion despues...",) : "";
-        window.location.href = `#/home`;
+        !geo
+          ? await alerta.alertaWarning(
+              "Se puede agregar la Georeferenciacion despues...",
+            )
+          : "";
+        location.replace(`#/home`);
       } else alerta.alertaWarning(data.message, data.errors);
     } catch (error) {
       alerta.alertaError(error.errors);
     }
-    
+
     boton.disabled = false;
+    botonGeo.disabled = false;
     window.procesoPeticion = false;
-  });
-    
-  botonBack.addEventListener("click", async () => {
-    if(!window.procesoPeticion) return;
-    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-    if (confirmacion.isConfirmed) location.href = "#/home";
   });
 
   botonGeo.addEventListener("click", (e) => {
-    if(!window.procesoPeticion) return;
+    if (window.procesoPeticion) return;
     e.preventDefault();
     localStorage.envioLocalStorage([
       dirrecion,
@@ -76,6 +85,6 @@ export default async () => {
       telefono,
       calidad,
     ]);
-    window.location.href = `#/planFamiliar/georeferenciacion/id=${id}`;
+    location.replace(`#/planFamiliar/georeferenciacion/id=${id}`);
   });
 };

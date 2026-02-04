@@ -11,8 +11,14 @@ export default async () => {
   const preview = document.getElementById("preview");
 
   if (window.procesoPeticion === undefined) {
-    window.procesoPeticion = false;
+    window.procesoPeticion = true;
   }
+  window.procesoPeticion = true;
+  
+  botonBack.onclick = async() => {
+  if(window.procesoPeticion) return;
+  const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver?");
+  if (confirmacion.isConfirmed) location.href = `#/planFamiliar/identificacion/id=${id}`;};
 
   const existe = await api.getExiste(`housingInfo/${id}`);
   if (existe) {
@@ -20,6 +26,9 @@ export default async () => {
     preview.src = await url;
     preview.style.display = "block";
   }
+
+  window.procesoPeticion = false;
+  boton.disabled = false;
 
   input.addEventListener("change", () => {
     const file = input.files[0];
@@ -30,16 +39,14 @@ export default async () => {
 
     const formData = new FormData();
     formData.append("imagen", file);
-    boton.disabled = false;
   });
 
   form.addEventListener("submit", async (e) => {
-    const file = input.files[0];
-    if (!file) return alerta.alertaWarning("Selecciona un archivo primero");
-
     e.preventDefault();
     window.procesoPeticion = true;
     boton.disabled = true;
+    const file = input.files[0];
+    if (!file) return alerta.alertaWarning("Selecciona un archivo primero");
     const formData = new FormData();
     formData.append("path", file);
     formData.append("family_plan_id", id);
@@ -50,20 +57,15 @@ export default async () => {
       const data = await api.postImagen(`housingInfo`, formData);
       if (data.success) {
         await alerta.alertaOK(data.message);
-        window.location.href = `#/planFamiliar/identificacion/id=${id}`;
+        location.replace(`#/planFamiliar/identificacion/id=${id}`);
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }
     } catch (error) {
       alerta.alertaError(error.errors);
     }
+
     boton.disabled = false;
     window.procesoPeticion = false;
-  });
-
-  botonBack.addEventListener("click", async () => {
-    if(!window.procesoPeticion) return;
-    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver?");
-    if (confirmacion.isConfirmed) location.href = `#/planFamiliar/identificacion/id=${id}`;
   });
 };

@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-
+import * as api from "./api.js";
 export const alertaError = (mensaje) => {
   return Swal.fire({
     icon: "error",
@@ -94,3 +94,13 @@ export const alertaLoading = () => {
 export const alertaLoadingCerrar = () => {
   Swal.close();
 }
+export const mostrarModalEnfermedad = async (htmlModal,funcionModal) => {
+    Swal.fire({
+        html: htmlModal,
+        confirmButtonText: 'Guardar',
+        confirmButtonColor: '#ff6600', // El naranja de tu botón "Guardar"
+        showCloseButton: true,
+        focusConfirm: false,
+        preConfirm: async () => {funcionModal()}
+    });
+};

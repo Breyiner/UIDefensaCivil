@@ -10,6 +10,7 @@
 
 :root {
   --color-azulado: #0770cc;
+  --color-lila: #7575FC;
   --color-rojizo: #FF0000;
   --color-rojoMalo: #AD1010;
   --color-verdoso: #36BD36;
@@ -25,6 +26,7 @@
   --color-sombra: rgba(0, 0, 0, 0.250);
   --tamano-pequeno: 0.7rem;
   --tamano-mediano: 1rem;
+  --tamano-medio-grande: 1.25rem;
   --tamano-grande: 1.5rem;
   --tamano-titulo: 2rem;
 
@@ -189,6 +191,12 @@
 }
 .form__titulo {
   text-align: center;
+}
+.modal{
+  margin-top:40px ;
+}
+.modal-50{
+  margin-top: 20px;
 }
 input{
   font-size: var(--tamano-mediano);
@@ -746,7 +754,7 @@ body:has(.rutaInvalida) .header {
 .acordeon{
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 100%;
   grid-template-rows: 50px auto;
   grid-template-areas:
     "titulo"
@@ -804,4 +812,62 @@ body:has(.rutaInvalida) .header {
 
 #acordeon__container{
   transition: 0.3s;
+}
+
+.gestioarAfecciones{
+  border: var(--color-grisOscuro) solid 2px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.gestionarAfecciones__header{
+  display: flex;
+  font-size: var(--tamano-mediano);
+  justify-content: space-between;
+}
+.gestionarAfecciones__titulo{
+  display: flex;
+  color: var(--color-grisOscuro);
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--tamano-mediano);
+}
+.gestionarAfecciones__boton{
+  padding: 0px 10px;
+  border-radius: 5px;
+}
+.gestionarAfecciones__lista{
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  width: 95%;
+  gap: 10px;
+}
+.gestionarAfecciones__afeccion{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--tamano-mediano);
+  border: 2px solid var(--color-lila);
+  color: var(--color-lila);
+  padding: 5px;
+  border-radius: 10px;
+  margin-left: 5px;
+  transition: 0.3s;
+}
+.gestionarAfecciones__tipoNombre{
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gestionarAfecciones__afeccion:active{
+  background-color: var(--color-lila);
+  color: var(--color-palido);
 }

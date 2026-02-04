@@ -14,10 +14,18 @@ export default async() => {
     const boton = document.querySelector('.form__boton');
 
     if (window.procesoPeticion === undefined) {
-    window.procesoPeticion = false;
+    window.procesoPeticion = true;
     }
+    window.procesoPeticion = true;
+    
+    botonBack.onclick = async() => {
+    if(window.procesoPeticion) return;
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
+    if (confirmacion.isConfirmed) location.href = "#/home";};
+
     adjuntarOpc.adjuntarNoValida(zona,"zones");
     adjuntarOpc.adjuntarNoValida(apartamento,"apartments");
+    window.procesoPeticion = false;
 
     form.addEventListener('submit', async (e) => {
         window.procesoPeticion = true
@@ -56,10 +64,5 @@ export default async() => {
 
     checkbox.addEventListener("change", () => {
     checkbox.checked ? boton.disabled = false : boton.disabled = true;
-    });
-
-    botonBack.addEventListener("click", async () => {
-        const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-        if (confirmacion.isConfirmed) location.href = "#/home";
     });
 }

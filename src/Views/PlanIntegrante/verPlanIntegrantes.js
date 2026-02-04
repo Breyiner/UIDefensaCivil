@@ -10,7 +10,11 @@ export default async () => {
 
     if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
-}
+}   
+    botonBack.onclick = () => {
+    if(window.procesoPeticion) return;
+    location.href = `#/verPlanFamiliar/menu/id=${id}`;}
+    
     let paginaActual = 1;
 
     const paginas = await api.get(`members/familyPlan/${id}`);
@@ -150,11 +154,6 @@ export default async () => {
     if (e.target.classList.contains('boton__vermas')) {
         console.log('Ver más ID:', e.target.dataset.id);
     }});
-    
-    botonBack.addEventListener("click", async () => {
-        const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-        if (confirmacion.isConfirmed) location.href = `#/verPlanFamiliar/menu/id=${id}`;
-    });
 
     crear.addEventListener("click", async () => {
         location.href = `#/planIntegrante/crear/id=${id}`;

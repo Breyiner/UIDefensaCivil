@@ -2,18 +2,15 @@ import * as api from "../../Helpers/api";
 import * as alerta from "../../Helpers/alertas";
 
 export default async () => {
-    const botonBack = document.getElementById("boton-back");
     const container = document.querySelector(".container__verPlan");
     const containerPaginador = document.querySelector(".container__paginador");
-    botonBack.addEventListener("click", async () => {
-    
-    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver?");
-    if (confirmacion.isConfirmed) location.href = "#/home";
-    });
+    const botonBack = document.getElementById("boton-back");
 
     if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
     }
+    
+    botonBack.onclick = () => {location.href = `#/home`;}
 
     let paginaActual = 1;
 

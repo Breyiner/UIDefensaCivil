@@ -8,6 +8,14 @@ export default async () => {
     const form = document.querySelector('.form');
     const id = location.hash.split("=")[1];
 
+    if (window.procesoPeticion === undefined) {window.procesoPeticion = true;} 
+    window.procesoPeticion = true;
+
+    botonBack.onclick = async() => {
+    if(window.procesoPeticion) return;
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
+    if (confirmacion.isConfirmed) location.href = `#/planIntegrante/ver/id=${id}`;}
+    
     // Inputs de texto
     const nombres = document.querySelector('.input__nombres');
     const apellidos = document.querySelector('.input__apellidos');
@@ -22,16 +30,14 @@ export default async () => {
     const parentesco      = document.querySelector('.input__parentesco');
     const grupoSanguineo  = document.querySelector('.input__grupoSanguineo');
     const nacionalidad    = document.querySelector('.input__nacionalidad');
-
-    if (window.procesoPeticion === undefined) {
-        window.procesoPeticion = false;
-    }  
+    
     await adjuntarOpc.adjuntar(tipoDocumento,"documentTypes");
     await adjuntarOpc.adjuntarNoValida(genero,"genders");
     await adjuntarOpc.adjuntarNoValida(parentesco,"kinships");
     await adjuntarOpc.adjuntarNoValida(grupoSanguineo,"bloodGroups");
     await adjuntarOpc.adjuntarNoValida(nacionalidad,"nationalities");
 
+    window.procesoPeticion = false;
     boton.disabled = false;
     
     form.addEventListener('submit', async (e) => {
@@ -67,10 +73,5 @@ export default async () => {
     
         boton.disabled = false;
         window.procesoPeticion = false;
-    });
-
-    botonBack.addEventListener("click", async () => {
-        const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-        if (confirmacion.isConfirmed) location.href = `#/planIntegrante/ver/id=${id}`;
     });
 }

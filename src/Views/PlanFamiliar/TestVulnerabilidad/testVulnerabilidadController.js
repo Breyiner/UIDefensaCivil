@@ -10,9 +10,14 @@ export default async () => {
   const siguiente = document.querySelector(".botonera__siguiente");
   const atras = document.querySelector(".botonera__atras");
 
-  if (window.procesoPeticion === undefined) {
-    window.procesoPeticion = true;
-  }
+  if (window.procesoPeticion === undefined) {window.procesoPeticion = true;}
+  window.procesoPeticion = true;
+
+  botonBack.onclick = async() => {
+    if(window.procesoPeticion) return
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
+    if (confirmacion.isConfirmed) location.href = "#/home";
+  };
 
   let paginaActual = 1;
 
@@ -123,14 +128,6 @@ export default async () => {
     }
     else if(e.target.value == "false") localStorage.removeItem(`puntaje-${e.target.name}`);
   });
-
-  botonBack.addEventListener("click", async () => {
-    if(!window.procesoPeticion)
-    {
-      const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-      if (confirmacion.isConfirmed) location.href = "#/home";
-    }
-    });
 
   async function evaluarTest() {
     siguiente.disabled = true;
