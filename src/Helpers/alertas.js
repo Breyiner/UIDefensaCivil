@@ -94,13 +94,49 @@ export const alertaLoading = () => {
 export const alertaLoadingCerrar = () => {
   Swal.close();
 }
-export const mostrarModalEnfermedad = async (htmlModal,funcionModal) => {
+export const Crear = async (htmlModal,funcionModal) => {
     Swal.fire({
         html: htmlModal,
         confirmButtonText: 'Guardar',
         confirmButtonColor: '#ff6600', // El naranja de tu botón "Guardar"
         showCloseButton: true,
         focusConfirm: false,
+        customClass: {
+            confirmButton: 'botonOK'
+        },
         preConfirm: async () => {funcionModal()}
+    });
+};
+
+export const Ver = (htmlModal,mostrarEditar,mostrarEliminar,funcionEditar,funcionEliminar) => {
+    Swal.fire({
+        html: htmlModal,
+        showCloseButton: true,
+        focusConfirm: false,
+
+        // BOTÓN EDITAR
+        showConfirmButton: mostrarEditar,
+        confirmButtonText: 'Editar',
+
+        // BOTÓN ELIMINAR
+        showCancelButton: mostrarEliminar,
+        cancelButtonText: 'Eliminar',
+
+        customClass: {
+            confirmButton: 'botonEditar',
+            cancelButton: 'botonEliminar'
+        },
+        preConfirm: () => {
+            if (mostrarEditar && funcionEditar) {
+                funcionEditar()
+            }
+            return false;
+        }
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+            if (mostrarEliminar && funcionEliminar) {
+                funcionEliminar()
+            }
+        }
     });
 };

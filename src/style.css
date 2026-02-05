@@ -206,7 +206,7 @@ select{
 }
 .form__input--naranja {
   padding: 10px;
-  border: #ff6600 solid 3px;
+  border: #ff6600 solid 2px;
   border-radius: 10px;
   text-align: start;
   width: 100%;
@@ -343,14 +343,19 @@ input::placeholder {
 input:focus {
   outline: none;
 }
-.invisible {
-  display: none;
-}
 .botonOK {
   background-color: var(--color-verdoso);
   color: white;
 }
 .botonCancelar {
+  background-color: var(--color-rojizo);
+  color: white;
+}
+.botonEditar{
+  background-color: var(--color-azulado);
+  color: white;
+}
+.botonEliminar{
   background-color: var(--color-rojizo);
   color: white;
 }
@@ -828,6 +833,7 @@ body:has(.rutaInvalida) .header {
   display: flex;
   font-size: var(--tamano-mediano);
   justify-content: space-between;
+  width: 100%;
 }
 .gestionarAfecciones__titulo{
   display: flex;
@@ -844,7 +850,7 @@ body:has(.rutaInvalida) .header {
 .gestionarAfecciones__lista{
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  
   width: 95%;
   gap: 10px;
 }
@@ -861,6 +867,10 @@ body:has(.rutaInvalida) .header {
   margin-left: 5px;
   transition: 0.3s;
 }
+.gestionarAfecciones__afeccion:nth-child(1)
+{
+  margin-top: 10px;
+}
 .gestionarAfecciones__tipoNombre{
   max-width: 100%;
   white-space: nowrap;
@@ -870,4 +880,45 @@ body:has(.rutaInvalida) .header {
 .gestionarAfecciones__afeccion:active{
   background-color: var(--color-lila);
   color: var(--color-palido);
+}
+.modalVer{
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  font-weight: bolder;
+  font-size: var(--tamano-mediano);
+}
+.modalVer__dato{
+  width: 50%;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+  "icono titulo"
+  ". texto";
+  margin-bottom: 10px;
+}
+.modalVer__icono{
+  text-align: start;
+  grid-area: icono;
+  color: var(--color-grisOscuro);
+  font-size: var(--tamano-medio-grande);
+}
+.modalVer__titulo{
+  grid-area: titulo;
+  display: flex;
+  justify-content: start;
+  color: var(--color-grisOscuro);
+}
+.modalVer__texto{
+  grid-area: texto;
+  color: var(--color-oscuro);
+  text-align: start;
+}
+.modalVer__dato--largo{
+  width: 100%;
+  grid-template-columns: 1fr 9fr;
+}
+.invisible {
+  display: none;
 }
