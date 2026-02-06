@@ -12,7 +12,7 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
-    "remixicon": "^4.7.0",
+    "remixicon": "^4.9.1",
     "sweetalert2": "^11.26.17"
   }
 }

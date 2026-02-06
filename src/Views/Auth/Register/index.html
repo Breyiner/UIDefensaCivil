@@ -4,7 +4,7 @@
         <p class="explicacion__subtitulo">Llene los datos solicitados para crear su cuenta en el sistema</p>
     </div>
 <form method="POST" class="form">
-    <div class="form__inpuBox--double">
+    <div class="form__inputBox--double">
         <div class="form__inputBox">
             <i class="ri-user-fill"></i>
             <input type="text" class="form__input input__nombres" placeholder="nombres" autocomplete="off">
@@ -15,31 +15,56 @@
         </div>
     </div>
     <div class="form__inputBox">
-        <i class="ri-user-fill"></i>
+        <i class="ri-id-card-fill"></i>
+        <select class="form__input input__tipoDocumento">
+        <option value ="0" hidden>Seleccione un tipo de documento</option>
+        </select>
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-info-card-fill"></i>
         <input type="text" class="form__input input__numDocumento" placeholder="numero de documento" autocomplete="off">
     </div>
-    <div class="form__inpuBox--double">
+    <div class="form__inputBox">
+        <i class="ri-men-fill"></i>
+        <select class="form__input input__genero">
+        <option value ="0" hidden>Seleccione un genero</option>
+        </select>
+    </div>
+    <div class="form__inputBox--double">
         <div class="form__inputBox">
-            <i class="ri-user-fill"></i>
-            <input type="date" class="form__input input__nombres" placeholder="fecha de nacimiento" autocomplete="off">
+            <i class="ri-cake-2-fill"></i>
+            <input type="date" class="form__input input__nacimiento" placeholder="fecha de nacimiento" autocomplete="off">
         </div>
         <div class="form__inputBox">
-            <i class="ri-user-fill"></i>
-            <input type="text" class="form__input input__apellidos" placeholder="celular" autocomplete="off">
+            <i class="ri-phone-fill"></i>
+            <input type="text" class="form__input input__telefono" placeholder="celular" autocomplete="off">
         </div>
     </div>
     <div class="form__inputBox">
-        <i class="ri-user-fill"></i>
+        <i class="ri-team-fill"></i>
+        <select class="form__input input__seccional">
+        <option value ="0" hidden>Seleccione una seccional</option>
+        </select>
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-group-3-fill"></i>
+        <select class="form__input input__organizacion" disabled>
+        <option value ="0" hidden>Seleccione una organizacion</option>
+        </select>
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-mail-fill"></i>
         <input type="text" class="form__input input__corrElectronico" placeholder="correo eletronico" autocomplete="off">
     </div>
     <div class="form__inputBox">
-        <i class="ri-user-fill"></i>
-        <input type="text" class="form__input input__contrasena" placeholder="contraseña" autocomplete="off">
+        <i class="ri-lock-2-fill"></i>
+        <input type="password" class="form__input input__contrasena" placeholder="contraseña" autocomplete="off">
     </div>
     <div class="form__inputBox">
-        <i class="ri-user-fill"></i>
-        <input type="text" class="form__input input__confContrasena" placeholder="confirmar contraseña" autocomplete="off">
+        <i class="ri-lock-unlock-fill"></i>
+        <input type="password" class="form__input input__confContrasena" placeholder="confirmar contraseña" autocomplete="off">
     </div>
-    <button class="form__boton boton">Crear cuenta</button>
+    <button class="form__boton boton" disabled>Crear cuenta</button>
 </form>
+    <button class="form__link" id="tengoCuenta">Ya tengo cuenta</button>
 </div>

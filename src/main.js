@@ -2,11 +2,9 @@ import 'remixicon/fonts/remixicon.css'
 import "./style.css";
 import { router } from "./Router/router.js"; 
 import componenteHeader from "../src/componentes/header/index.html?raw";
-import { componenteHeader as header } from "./componentes/header/header.js";
-import { validarCookies } from './Helpers/validarCookies.js';
+import { componenteHeader as header } from "./Componentes/Header/header.js"
 
-
-validarCookies() ? document.querySelector("body").insertAdjacentHTML("afterbegin", componenteHeader) : "";
+document.querySelector("body").insertAdjacentHTML("afterbegin", componenteHeader);
 
 const main = document.querySelector("#app");
 
