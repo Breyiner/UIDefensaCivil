@@ -33,6 +33,7 @@ export default async () => {
   cargarDatos(`familyPlans/${id}`, [familia, apellidos], ["id", "last_names"]);
   await adjuntarOpc.adjuntarNoValida(sector, "sectors");
   await adjuntarOpc.adjuntarNoValida(calidad, "housingQualities");
+  familia.value = `Familia segura N.${familia.value}`;
   localStorage.importacionLocalStorage("identificacion");
 
   boton.disabled = false;

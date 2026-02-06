@@ -20,6 +20,7 @@ export const alertaOK = (mensaje) => {
     confirmButtonText: "Ok",
     customClass: {
       confirmButton: "botonOK",
+      title: "modalTitulo",
     },
   });
 };

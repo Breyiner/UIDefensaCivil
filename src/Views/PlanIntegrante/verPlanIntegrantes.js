@@ -28,7 +28,7 @@ export default async () => {
     await cargarPagina();
     window.procesoPeticion = false;
   } else {
-    container.innerHTML = `<div class="noPlan">No tienes ningun miembro de la familia.</div>`;
+    container.innerHTML = `<div class="noCantidad">No tienes ningun miembro de la familia.</div>`;
     window.procesoPeticion = false;
   }
 

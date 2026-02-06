@@ -1,0 +1,18 @@
+.SubirImagen {
+  position: relative;
+  display: inline-block;
+}
+
+.SubirImagen:active .boton {
+  background-color: var(--color-palido);
+  color: var(--color-primario);
+  border: 3px solid var(--color-primario);
+}
+
+#preview {
+  margin-top: 20px;
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--color-sombra);
+}

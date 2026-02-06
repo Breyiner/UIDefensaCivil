@@ -1,0 +1,16 @@
+.decoration {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-grisOscuro);
+}
+.decoration__text{
+  font-weight: 500;
+  font-family: var(--fuente-titulos);
+  font-size: var(--tamano-pequeno);
+}
+.decoration__linea {
+  width: 100px;
+  height: 1px;
+  background-color: var(--color-grisOscuro);
+}

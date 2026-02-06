@@ -1,0 +1,6 @@
+#autorization {
+  transform: scale(1.5);
+  accent-color: var(--color-secundario);
+  align-self: flex-start;
+  margin-top: 10px;
+}

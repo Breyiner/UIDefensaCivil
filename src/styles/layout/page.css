@@ -1,0 +1,37 @@
+/* body */
+body:has(.container.login) .header {
+  display: none;
+}
+body:has(.container.public) .header {
+  display: none;
+}
+
+body:has(.rutaInvalida) .header {
+  display: none;
+}
+
+/* contenedor principal */
+#app {
+  width: 100vw;
+  min-height: calc(100vh - 50px);
+  background-color: var(--color-grisFondo);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  color: var(--color-oscuro);
+  margin-top: 50px;
+}
+#app:has(.login) {
+  height: 100vh;
+  margin-top: 0px;
+  background-color: var(--color-grisLogin);
+}
+#app:has(.public) {
+  height: 100vh;
+  margin-top: 0px;
+}
+
+#app:has(.rutaInvalida){
+  background-color: black;
+  height: 100vh;
+}

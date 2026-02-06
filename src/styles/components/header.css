@@ -1,0 +1,83 @@
+.header {
+  width: 100%;
+  height: 60px;
+  background-color: var(--color-palido);
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  grid-template-areas: "logo texto notificationBoton";
+  box-shadow: 0px 2px 10px 0px var(--color-sombra);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.header__logo {
+  grid-area: logo;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.header__imagen {
+  width: 40px;
+  height: 40px;
+}
+.header__texto {
+  grid-area: texto;
+  font-family: var(--fuente-titulos);
+  font-size: var(--tamano-mediano);
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-left: 10px;
+}
+.header__notification {
+  grid-area: notificationBoton;
+  font-size: var(--tamano-grande);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primario);
+  transition: 0.3s;
+  z-index: 1;
+}
+.header__notification:active {
+  color: var(--color-secundario);
+}
+.header__burbuja {
+  font-size: var(--tamano-mediano);
+  grid-area: notificationBoton;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+.header__numerito {
+  background-color: var(--color-secundario);
+  color: var(--color-palido);
+  font-size: var(--tamano-pequeno);
+  font-weight: bolder;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-left: 15px;
+}
+.header__boton {
+  grid-area: notificationBoton;
+  font-size: var(--tamano-mediano);
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+.header__boton > button {
+  width: 90%;
+}

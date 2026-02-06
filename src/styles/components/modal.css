@@ -1,0 +1,67 @@
+.modal{
+  margin-top:40px ;
+}
+
+.modal-50{
+  margin-top: 20px;
+}
+.modalVer{
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  font-weight: bolder;
+  font-size: var(--tamano-mediano);
+}
+.modalVer__dato{
+  width: 50%;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+  "icono titulo"
+  ". texto";
+  margin-bottom: 10px;
+}
+.modalVer__icono{
+  text-align: start;
+  grid-area: icono;
+  color: var(--color-grisOscuro);
+  font-size: var(--tamano-medio-grande);
+}
+.modalVer__titulo{
+  grid-area: titulo;
+  display: flex;
+  justify-content: start;
+  color: var(--color-grisOscuro);
+}
+.modalVer__texto{
+  grid-area: texto;
+  color: var(--color-oscuro);
+  text-align: start;
+}
+.modalVer__dato--largo{
+  width: 100%;
+  grid-template-columns: 1fr 9fr;
+}
+
+/* botones que solo se usan en modales */
+.botonOK {
+  background-color: var(--color-verdoso);
+  color: white;
+}
+.botonCancelar {
+  background-color: var(--color-rojizo);
+  color: white;
+}
+.botonEditar{
+  background-color: var(--color-secundario);
+  color: white;
+}
+.botonEliminar{
+  background-color: var(--color-rojizo);
+  color: white;
+}
+ro
+.modalTitulo{
+  font-family: var(--fuente-titulos);
+}

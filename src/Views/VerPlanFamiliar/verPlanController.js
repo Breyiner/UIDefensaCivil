@@ -26,7 +26,7 @@ export default async () => {
         window.procesoPeticion = false
     }
     else{
-        container.innerHTML = `<div class="noPlan">No tienes ningun plan familiar realizado.</div>`
+        container.innerHTML = `<div class="noCantidad">No tienes ningun plan familiar realizado.</div>`
         window.procesoPeticion = false;
     }
 
