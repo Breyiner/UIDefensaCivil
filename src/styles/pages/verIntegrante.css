@@ -12,6 +12,7 @@
     "documento documento telefono telefono"
     "parentesco parentesco edad edad"
     "botonEditar botonEliminar botonEliminar verMas";
+    font-family: var(--fuente-contenido);
 }
 .verIntegrante__nombre {
   grid-area: nombreApellido;

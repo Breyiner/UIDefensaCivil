@@ -12,6 +12,7 @@
     ". detalleUbicacion detalleUbicacion"
     ". detalleFecha detalleFecha"
     "boton boton boton";
+  font-family: var(--fuente-contenido);
 }
 .verPlan__icono{
   text-align: center;

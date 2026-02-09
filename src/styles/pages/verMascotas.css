@@ -1,0 +1,110 @@
+.verMascotas{
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 0 10px var(--color-sombra);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr ;
+  grid-template-rows: 30px 30px 30px 20px 30px;
+  grid-template-areas:
+    "iconoMascota nombreMascota nombreMascota generoIconoMascota"
+    "iconoMascota datosMascota datosMascota generoIconoMascota"
+    "iconoMascota edadMascota . generoMascota"
+    ". . . ."
+    "botonEditarMascota botonEliminarMascota verMasMascota verMasMascota";
+  font-family: var(--fuente-contenido);
+}
+.verMascotas__icono{
+  display: flex;
+  grid-area: iconoMascota;
+  justify-content: start;
+  align-items: center;
+}
+.verMascotas__icono > img{
+  width: 75%;
+  background-color: var(--color-grisSombra);
+  border-radius: var(--border-radius-tarjetas);
+  padding: 5px;
+}
+.verMascotas__nombre{
+  font-size: var(--tamano-grande);
+  grid-area: nombreMascota;
+  font-weight: bolder;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  color: var(--color-oscuro);
+  margin: auto 0;
+  width: 100%;
+}
+.verMascotas__datos{
+  grid-area: datosMascota;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  margin: auto 0;
+  color: var(--color-grisOscuro);
+}
+.verMascotas__edad{
+  grid-area: edadMascota;
+  display: flex;
+  align-items: center;
+  color: var(--color-grisOscuro);
+}
+.verMascotas__generoIcono{
+  grid-area: generoIconoMascota;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: end;
+}
+.verMascotas__generoIcono > i{
+  font-size: var(--tamano-titulo);
+  color: var(--color-secundario);
+  padding: 10px;
+  background-color: var(--color-lila-50);
+  border-radius: var(--border-radius-tarjetas);
+}
+
+.verMascotas__generoIcono--hembra > i{
+  color: var(--color-rosa);
+}
+.verMascotas__genero{
+  grid-area: generoMascota;
+  color: var(--color-grisOscuro);
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.verMascotas__boton--editar {
+  grid-area: botonEditarMascota;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.verMascotas__boton--eliminar {
+  grid-area: botonEliminarMascota;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.verMascotas__boton--verMas {
+  grid-area: verMasMascota;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
