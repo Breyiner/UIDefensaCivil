@@ -5,7 +5,7 @@ export default async () => {
   const botonBack = document.getElementById("boton-back");
   const crear = document.getElementById("crear");
   const id = location.hash.split("=")[1];
-  const container = document.querySelector(".container__verIntegrante");
+  const container = document.querySelector(".container__verMascota");
   const containerPaginador = document.querySelector(".container__paginador");
 
   if (window.procesoPeticion === undefined) {
@@ -18,7 +18,7 @@ export default async () => {
 
   let paginaActual = 1;
 
-  const paginas = await api.get(`members/familyPlan/${id}`);
+  const paginas = await api.get(`pets/familyPlan/${id}`);
   const cantidad = paginas.last_page;
 
   const evaluacion = await evaluarDatos();
@@ -28,7 +28,7 @@ export default async () => {
     await cargarPagina();
     window.procesoPeticion = false;
   } else {
-    container.innerHTML = `<div class="noCantidad">No tienes ningun miembro de la familia.</div>`;
+    container.innerHTML = `<div class="noCantidad">No tienes ninguna mascota en la familia.</div>`;
     window.procesoPeticion = false;
   }
 
@@ -43,7 +43,7 @@ export default async () => {
       cargarPagina();
     }
   });
-  
+
   async function paginacion() {
     containerPaginador.innerHTML = "";
     if (cantidad <= 10) {
@@ -101,29 +101,52 @@ export default async () => {
   async function cargarPagina() {
     container.innerHTML = "";
 
-    const datos = await api.get(
-      `members/familyPlan/${id}?page=${paginaActual}`,
+    const datos = await api.get(`pets/familyPlan/${id}?page=${paginaActual}`,
     );
-    const integrantes = datos.data;
-
-    for (const index in integrantes) {
-      const info = integrantes[index];
+    const mascotas = datos.data;
+    for (const index in mascotas) {
+      const info = mascotas[index];
+      console.log(info);
       const cartaInfo = document.createElement("div");
-      cartaInfo.classList.add("verIntegrante");
+      cartaInfo.classList.add("verMascotas");
       cartaInfo.innerHTML = `
-                <div class="verIntegrante__nombre">${info.full_name}</div>
-                <div class="verIntegrante__sangre">${info.blood_group}</div>
-                <div class="verIntegrante__documento"><i class="ri-passport-line"></i>${info.document_number}</div>
-                <div class="verIntegrante__telefono"><i class="ri-phone-line"></i>${info.phone}</div>
-                <div class="verIntegrante__parentesco"><i class="ri-parent-line"></i>${info.kinship}</div>
-                <div class="verIntegrante__edad"><i class="ri-cake-2-line"></i>${info.birth_date}</div>
-                <button class="boton boton--azul boton__editar" data-id="${info.id}">Editar</button>
-                <button class="boton boton--azul boton__eliminar" data-id="${info.id}">Eliminar</button>
-                <button class="boton boton__vermas" data-id="${info.id}">Ver más</button>
+            <div class="verMascotas__icono"><img src="icon/${await adaptarIcono(info.species.name)}.svg"></div>
+            <div class="verMascotas__nombre">${info.name}</div>
+            <div class="verMascotas__datos">${info.species.name} - ${info.breed}</div>
+            <div class="verMascotas__edad">${info.age} años</div>
+            <div class="verMascotas__generoIcono ${info.animal_gender_id == 1 ? "" : "verMascotas__generoIcono--hembra"}"><i class="ri-${info.animal_gender_id == 1 ? 'men' : 'women'}-line"></i></div>
+            <div class="verMascotas__genero"><span>${info.animal_gender.name}</span></div>
+            <button class="boton boton--azul verMascotas__boton--editar">Editar</button>
+            <button class="boton boton--azul verMascotas__boton--eliminar">Eliminar</button>
+            <button class="boton verMascotas__boton--verMas">Ver más</button>
             `;
       container.appendChild(cartaInfo);
     }
   }
+
+  async function adaptarIcono (animal) {
+    switch (animal) {
+        case "Perro":
+        return "Perro";
+        case "Gato":
+        return "Gato";
+        case "Conejo":
+        return "Conejo";
+        case "Ruedor":
+        return "Ruedor";
+        case "Ave":
+        return "Ave";
+        case "Insecto":
+        return "Insecto";
+        case "Pez":
+        return "Pez";
+        case "Rana":
+        return "Rana";
+        case "Serpiente":
+        return "Serpiente";
+        default:
+        return "Pata";
+    }};
 
   async function evaluarDatos() {
     if (paginas.data.length == 0) {
@@ -135,7 +158,7 @@ export default async () => {
 
   container.addEventListener("click", async (e) => {
     if (e.target.classList.contains("boton__editar")) {
-      window.location.href = `#/planIntegrante/editar/id=${id},${e.target.dataset.id}`;
+      window.location.href = `#/planMascota/editar/id=${id},${e.target.dataset.id}`;
     }
 
     if (e.target.classList.contains("boton__eliminar")) {
@@ -257,6 +280,6 @@ export default async () => {
   });
 
   crear.addEventListener("click", async () => {
-    location.href = `#/planIntegrante/crear/id=${id}`;
+    location.href = `#/planMascota/crear/id=${id}`;
   });
 };

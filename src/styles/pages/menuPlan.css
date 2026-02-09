@@ -1,0 +1,14 @@
+.informacion{
+  display: flex;
+  color: var(--color-oscuro);
+  font-size: var(--tamano-grande);
+  justify-content: space-between;
+  width: 100%;
+  font-weight: bolder;
+}
+.menuFamilia{
+  width: 100%;
+}
+.menuFamilia__boton{
+  margin: 10px 0px;
+}
