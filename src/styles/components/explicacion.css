@@ -1,0 +1,17 @@
+.explicacion {
+  background-color: var(--color-secundario);
+  border-radius: 10px;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  color: var(--color-palido);
+  font-family: var(--fuente-titulos);
+}
+.explicacion__titulo {
+  font-size: var(--tamano-medio-grande);
+  font-weight: bolder;
+  margin-bottom: 5px;
+}
+.explicacion__subtitulo {
+  font-size: var(--tamano-mediano);
+}

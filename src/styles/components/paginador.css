@@ -1,0 +1,21 @@
+.paginador__numero{
+  border: none;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--color-grisFondo);
+  color: var(--color-secundario);
+  font-weight: bolder;
+  transition: 0.3s;
+  border-radius: var(--border-radius-tarjetas);
+}
+.paginador__numero:active{
+  background-color: var(--color-secundario);
+  color: var(--color-palido);
+}
+.paginador__numero--activo{
+  background-color: var(--color-secundario);
+  color: var(--color-palido);
+}
+.paginador__numero > i{
+  pointer-events: none;
+}

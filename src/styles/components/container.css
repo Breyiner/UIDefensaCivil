@@ -1,0 +1,53 @@
+.container {
+  width: 100%;
+  border-radius: 40px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  gap: 15px;
+} 
+
+.container.login{
+  background-color: var(--color-palido);
+  width: 90%;
+  height: 90%;
+}
+
+.container__logo {
+  max-width: 90%;
+}
+
+.container__imagen {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.container__descripcion {
+  color: var(--color-grisOscuro);
+  font-size: var(--tamano-mediano);
+  font-weight: bolder;
+  width: 100%;
+  text-align: center;
+  font-family: var(--fuente-titulos);
+}
+
+.container__verPlan{
+  width: 100%;
+}
+
+.container__verIntegrante{
+  width: 100%;
+}
+
+.container__paginador{
+  display: grid;
+  grid-auto-flow: column;
+  width: 100%;
+}
+
+#acordeon__container{
+  transition: 0.3s;
+}

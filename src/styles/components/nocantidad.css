@@ -1,0 +1,6 @@
+.noCantidad{
+  text-align: center;
+  color: var(--color-grisOscuro);
+  font-weight: bolder;
+  font-size: var(--tamano-mediano);
+}

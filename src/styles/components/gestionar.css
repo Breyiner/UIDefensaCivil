@@ -1,0 +1,63 @@
+.gestioarAfecciones{
+  border: var(--color-grisOscuro) solid 2px;
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--border-radius-tarjetas);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.gestionarAfecciones__header{
+  display: flex;
+  font-size: var(--tamano-mediano);
+  justify-content: space-between;
+  width: 100%;
+}
+.gestionarAfecciones__titulo{
+  display: flex;
+  color: var(--color-grisOscuro);
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--tamano-mediano);
+}
+.gestionarAfecciones__boton{
+  padding: 0px 10px;
+  border-radius: 5px;
+}
+.gestionarAfecciones__lista{
+  display: flex;
+  flex-direction: column;
+  
+  width: 95%;
+  gap: 10px;
+}
+.gestionarAfecciones__afeccion{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--tamano-mediano);
+  border: 2px solid var(--color-lila);
+  color: var(--color-lila);
+  padding: 5px;
+  border-radius: 10px;
+  margin-left: 5px;
+  transition: 0.3s;
+}
+.gestionarAfecciones__afeccion:nth-child(1)
+{
+  margin-top: 10px;
+}
+.gestionarAfecciones__tipoNombre{
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gestionarAfecciones__afeccion:active{
+  background-color: var(--color-lila);
+  color: var(--color-palido);
+}
+

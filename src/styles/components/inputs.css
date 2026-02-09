@@ -1,0 +1,79 @@
+input{
+  font-size: var(--tamano-mediano);
+}
+
+.form__input--naranja {
+  padding: 10px;
+  border: #ff6600 solid 1px;
+  border-radius: var(--border-radius-botones);
+  text-align: start;
+  width: 100%;
+  filter: drop-shadow(0px 5px 5px var(--color-grisLogin));
+}
+
+.form__inputBox--double {
+  display: flex;
+  width: 100%;
+  gap: 5px;
+}
+
+.form__inputBox {
+  display: flex;
+  border: var(--color-grisOscuro) solid 2px;
+  border-radius: var(--border-radius-botones);
+  padding: 5px;
+  width: 100%;
+  background-color: var(--color-palido);
+  padding: 10px;
+  gap: 10px;
+  text-align: center;
+  font-family: var(--fuente-contenido);
+}
+
+.form__inputBox--double > .form__inputBox {
+  width: 50%;
+}
+
+.form__inputBox > .form__input {
+  border: none;
+  width: 100%;
+}
+
+.form__inputBox > i {
+  text-align: center;
+  color: var(--color-oscuro);
+  font-size: var(--tamano-medio-grande);
+}
+
+i.form__inputBox--iconoGrande{
+  font-size: var(--tamano-titulo);
+}
+
+input::placeholder {
+  color: var(--color-grisOscuro);
+}
+
+input:focus {
+  outline: none;
+}
+
+.SubirImagen input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+
+input[type="radio"]:checked  + .test__opcion.test__opcion--si{
+  background-color: var(--color-verdoso);
+  color: var(--color-palido);
+  border: 1px solid var(--color-verdoso);
+}
+
+input[type="radio"]:checked  + .test__opcion.test__opcion--no{
+  background-color: var(--color-rojizo);
+  color: var(--color-palido);
+  border: 1px solid var(--color-rojizo);
+}
