@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  /* colores principales */
+  --color-primario: #FF6600;
+  --color-secundario: #0770CC;
+
+  /* colores complementarios */
+  --color-lila: #7575FC;
+  --color-rojizo: #FF0000;
+  --color-rojoMalo: #AD1010;
+  --color-verdoso: #36BD36;
+  --color-oscuro: #2b2a29;
+  --color-naranjado-50: rgb(255, 102, 0,0.25);
+  --color-palido: #ffffff;
+  --color-grisFondo: #f8f8f8;
+  --color-grisSombra: #e3e3e3;
+  --color-grisLogin: #DBDBDB;
+  --color-grisOscuro: #787878;
+  --color-transparencia: rgba(50, 127, 126, 0);
+  --color-sombra: rgba(0, 0, 0, 0.250);
+
+  /* fuentes */
+  --fuente-titulos: Roboto;
+  --fuente-contenido: Noto Sans;
+  --tamano-pequeno: 0.7rem;
+  --tamano-mediano: 1rem;
+  --tamano-medio-grande: 1.25rem;
+  --tamano-grande: 1.5rem;
+  --tamano-titulo: 2rem;
+
+  /* bordes */
+  --border-radius-tarjetas:12px;
+  --border-radius-botones:8px;
+}

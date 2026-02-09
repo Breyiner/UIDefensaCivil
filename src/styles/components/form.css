@@ -1,0 +1,61 @@
+.form {
+  color: var(--color-oscuro);
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.form__titulo {
+  text-align: center;
+  font-family: var(--fuente-titulos);
+}
+
+.form__texto {
+  font-family: var(--fuente-contenido);
+  font-weight: 500;
+  font-size: var(--tamano-mediano);
+}
+
+.form__link {
+  border: none;
+  text-decoration: underline;
+  color: var(--color-grisOscuro);
+  font-size: var(--tamano-mediano);
+  background: none;
+  transition: 0.3s;
+  font-family: var(--fuente-contenido);
+}
+
+.form__link:active {
+  color: var(--color-secundario);
+}
+
+.form_autorizacion {
+  display: flex;
+  gap: 10px;
+  font-size: var(--tamano-pequeno);
+}
+
+.form__geo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.form__botonGeo {
+  background-color: var(--color-primario);
+  border: none;
+  color: var(--color-palido);
+  font-weight: bolder;
+  border-radius: var(--border-radius-botones);
+  padding: 4px 10px;
+  border: 2px var(--color-palido) solid;
+  transition: 0.2s;
+}
+.form__botonGeo:active {
+  background-color: var(--color-palido);
+  color: var(--color-primario);
+  border: 2px var(--color-primario) solid;
+}

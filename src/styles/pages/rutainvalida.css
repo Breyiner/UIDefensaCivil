@@ -1,0 +1,7 @@
+.rutaInvalida{
+  color: red;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: var(--tamano-grande);
+}

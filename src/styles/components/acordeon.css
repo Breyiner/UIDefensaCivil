@@ -1,0 +1,58 @@
+.acordeon{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 50px auto;
+  grid-template-areas:
+    "titulo"
+    "contenido";
+}
+.acordeon__nombre{
+  grid-area: titulo;
+  font-size: var(--tamano-grande);
+  font-weight: bolder;
+  padding: 10px;
+  color: var(--color-palido);
+  width: 100%;
+  background-color: var(--color-primario);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 5fr 1fr ;
+  grid-template-rows: 1fr;
+  border: 3px solid var(--color-primario);
+  transition: 0.3s;
+  z-index: 1;
+}
+.acordeon__nombre:active{
+  background-color: var(--color-palido);
+  color: var(--color-primario);
+}
+.acordeon__iconoTitulo{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+}
+.acordeon__flecha{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.acordeon__contenido{
+  grid-area: contenido;
+  min-height: 50px;
+  padding-top: 20px;
+  width: 100%;
+  border-radius: 40px;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.acordeon__contenido--oculto{
+  height: 0px;
+  grid-area: titulo;
+  overflow: hidden;
+}

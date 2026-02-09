@@ -1,0 +1,99 @@
+.verIntegrante{
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 0 10px var(--color-sombra);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  grid-template-rows: repeat(4,30px);
+  grid-template-areas:
+    "nombreApellido nombreApellido nombreApellido sangre"
+    "documento documento telefono telefono"
+    "parentesco parentesco edad edad"
+    "botonEditar botonEliminar botonEliminar verMas";
+}
+.verIntegrante__nombre {
+  grid-area: nombreApellido;
+  font-size: var(--tamano-grande);
+  font-weight: bolder;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+}
+
+.verIntegrante__sangre {
+  grid-area: sangre;
+  justify-self: end;
+  width: 50%;
+  font-size: var(--tamano-grande);
+  font-weight: bolder;
+  background-color: var(--color-naranjado-50);
+  color: var(--color-primario);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.verIntegrante__documento {
+  grid-area: documento;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--tamano-mediano);
+}
+
+.verIntegrante__telefono {
+  grid-area: telefono;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--tamano-mediano);
+}
+
+.verIntegrante__parentesco {
+  grid-area: parentesco;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--tamano-mediano);
+}
+
+.verIntegrante__edad {
+  grid-area: edad;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--tamano-mediano);
+}
+
+.boton__editar {
+  grid-area: botonEditar;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boton__eliminar {
+  grid-area: botonEliminar;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.boton__vermas {
+  grid-area: verMas;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
