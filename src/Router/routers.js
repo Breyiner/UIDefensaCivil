@@ -3,6 +3,7 @@ import homeController from "../Views/Home/controller.js";
 import * as planFamiliar from "../Views/PlanFamiliar/index.js";
 import * as verPlan from "../Views/VerPlanFamiliar/index.js";
 import * as Planintegrante from "../Views/PlanIntegrante/index.js";
+import * as planMascota from "../Views/PlanMascota/index.js";
 
 export const routes = {
   login: {
@@ -82,6 +83,26 @@ export const routes = {
     editar: {
     path: `PlanIntegrante/Editar/index.html`,
     controlador: Planintegrante.editarController,
+    private: true,
+    can: "family-plans.store",
+    },
+  },
+  planMascota:{
+  ver: {
+    path: `PlanMascota/index.html`,
+    controlador: planMascota.verPlanMascota,
+    private: true,
+    can: "family-plans.show",
+  },
+    crear: {
+    path: `PlanMascota/Crear/index.html`,
+    controlador: planMascota.crearController,
+    private: true,
+    can: "family-plans.store",
+    },
+    editar: {
+    path: `PlanMascota/Editar/index.html`,
+    controlador: planMascota.editarController,
     private: true,
     can: "family-plans.store",
     },

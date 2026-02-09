@@ -61,10 +61,11 @@ export default async () => {
         try {
             const data = await api.post(`members/${id}`,datosRegistro);
             if (data.success)
-                {
+                {   
+                    console.log(data);
                     await alerta.alertaOK(data.message)
                     const pregunta = await alerta.alertaQuest("Deseas agregar las enfermedades/discapacidad/alergias/ de este integrante?")
-                    pregunta.isConfirmed ? window.location.href = `#/planIntegrante/editar/id=${id}` : location.href = `#/planIntegrante/ver/id=${id}`;
+                    pregunta.isConfirmed ? window.location.href = `#/planIntegrante/editar/id=${id},${data.data.id}` : location.href = `#/planIntegrante/ver/id=${id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
         } catch (error) {

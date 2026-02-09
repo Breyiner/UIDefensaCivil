@@ -20,6 +20,7 @@
 @import "./components/acordeon.css";
 @import "./components/invisible.css";
 @import "./components/subirImagen.css";
+@import "./components/noCantidad.css";
 
 /* pages */
 @import "./pages/familiarcrear.css";
@@ -28,3 +29,5 @@
 @import "./pages/rutainvalida.css";
 @import "./pages/verIntegrante.css";
 @import "./pages/verPlan.css";
+@import "./pages/menuPlan.css";
+@import "./pages/verMascotas.css";
