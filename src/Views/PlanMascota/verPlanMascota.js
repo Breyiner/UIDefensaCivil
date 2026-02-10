@@ -106,7 +106,6 @@ export default async () => {
     const mascotas = datos.data;
     for (const index in mascotas) {
       const info = mascotas[index];
-      console.log(info);
       const cartaInfo = document.createElement("div");
       cartaInfo.classList.add("verMascotas");
       cartaInfo.innerHTML = `
@@ -116,8 +115,8 @@ export default async () => {
             <div class="verMascotas__edad">${info.age} años</div>
             <div class="verMascotas__generoIcono ${info.animal_gender_id == 1 ? "" : "verMascotas__generoIcono--hembra"}"><i class="ri-${info.animal_gender_id == 1 ? 'men' : 'women'}-line"></i></div>
             <div class="verMascotas__genero"><span>${info.animal_gender.name}</span></div>
-            <button class="boton boton--azul verMascotas__boton--editar">Editar</button>
-            <button class="boton boton--azul verMascotas__boton--eliminar">Eliminar</button>
+            <button class="boton boton--azul verMascotas__boton--editar" data-id="${info.id}">Editar</button>
+            <button class="boton boton--azul verMascotas__boton--eliminar" data-id="${info.id}">Eliminar</button>
             <button class="boton verMascotas__boton--verMas">Ver más</button>
             `;
       container.appendChild(cartaInfo);
@@ -157,17 +156,20 @@ export default async () => {
   }
 
   container.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("boton__editar")) {
+    if (e.target.classList.contains("verMascotas__boton--editar")) {
       window.location.href = `#/planMascota/editar/id=${id},${e.target.dataset.id}`;
     }
 
-    if (e.target.classList.contains("boton__eliminar")) {
+    if (e.target.classList.contains("verMascotas__boton--eliminar")) {
       const id = e.target.dataset.id;
+      console.log(e.target);
+      
       const confirmacion = await alerta.alertaQuest(
-        "¿Seguro que deseas eliminar este miembro de la familia?",
+        "¿Seguro que deseas eliminar esta mascota de la familia?",
       );
       if (!confirmacion.isConfirmed) return;
-      const eliminado = await api.delet(`members/${id}`);
+
+      const eliminado = await api.delet(`pets/${id}`);
       if (eliminado.success) {
         await alerta.alertaOK(eliminado.message);
         await cargarPagina();
@@ -175,7 +177,7 @@ export default async () => {
       } else alerta.alertaError(eliminado.message);
     }
 
-    if (e.target.classList.contains("boton__vermas")) {
+    if (e.target.classList.contains("verMascotas__boton--verMas")) {
       const id = e.target.dataset.id;
       const datos = await api.get(`members/${id}`);
       const condiciones = await api.get(`conditionMembers/member/${id}`);

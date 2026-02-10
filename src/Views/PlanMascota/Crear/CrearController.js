@@ -22,7 +22,10 @@ export default async () => {
     const edad = document.querySelector('.input__edad');
     // Selects
     const especie = document.querySelector('.input__especie');
+    const genero = document.querySelector('.input__genero');
     await adjuntarOpc.adjuntar(especie,"species");
+    await adjuntarOpc.adjuntar(genero,"animalGenders");
+
     window.procesoPeticion = false;
     boton.disabled = false;
     
@@ -32,19 +35,21 @@ export default async () => {
         boton.disabled = true;
     
         const datosRegistro = {
-            names: nombre.value,
-            last_names: raza.value,
-            birth_date: edad.value,
-            blood_group_id: especie.value,
+            name: nombre.value,
+            breed: raza.value,
+            age: edad.value,
+            species_id: especie.value,
+            animal_gender_id: genero.value,
+            family_plan_id: id
         };
         try {
-            const data = await api.post(`pets/${id}`,datosRegistro);
+            const data = await api.post(`pets`,datosRegistro);
             if (data.success)
                 {   
                     console.log(data);
                     await alerta.alertaOK(data.message)
-                    const pregunta = await alerta.alertaQuest("Deseas agregar las enfermedades/discapacidad/alergias/ de este integrante?")
-                    pregunta.isConfirmed ? window.location.href = `#/planIntegrante/editar/id=${id},${data.data.id}` : location.href = `#/planIntegrante/ver/id=${id}`;
+                    const pregunta = await alerta.alertaQuest("Deseas agregar las vacunas de esta mascota?")
+                    pregunta.isConfirmed ? window.location.href = `#/planMascota/editar/id=${id},${data.data.id}` : location.href = `#/planMascota/ver/id=${id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
         } catch (error) {
