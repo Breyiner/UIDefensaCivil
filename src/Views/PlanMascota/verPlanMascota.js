@@ -106,7 +106,6 @@ export default async () => {
     const mascotas = datos.data;
     for (const index in mascotas) {
       const info = mascotas[index];
-      console.log(info);
       const cartaInfo = document.createElement("div");
       cartaInfo.classList.add("verMascotas");
       cartaInfo.innerHTML = `
@@ -116,9 +115,9 @@ export default async () => {
             <div class="verMascotas__edad">${info.age} años</div>
             <div class="verMascotas__generoIcono ${info.animal_gender_id == 1 ? "" : "verMascotas__generoIcono--hembra"}"><i class="ri-${info.animal_gender_id == 1 ? 'men' : 'women'}-line"></i></div>
             <div class="verMascotas__genero"><span>${info.animal_gender.name}</span></div>
-            <button class="boton boton--azul verMascotas__boton--editar">Editar</button>
-            <button class="boton boton--azul verMascotas__boton--eliminar">Eliminar</button>
-            <button class="boton verMascotas__boton--verMas">Ver más</button>
+            <button class="boton boton--azul verMascotas__boton--editar" data-id="${info.id}">Editar</button>
+            <button class="boton boton--azul verMascotas__boton--eliminar" data-id="${info.id}">Eliminar</button>
+            <button class="boton verMascotas__boton--verMas" data-id="${info.id}">Ver más</button>
             `;
       container.appendChild(cartaInfo);
     }
@@ -157,17 +156,20 @@ export default async () => {
   }
 
   container.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("boton__editar")) {
+    if (e.target.classList.contains("verMascotas__boton--editar")) {
       window.location.href = `#/planMascota/editar/id=${id},${e.target.dataset.id}`;
     }
 
-    if (e.target.classList.contains("boton__eliminar")) {
+    if (e.target.classList.contains("verMascotas__boton--eliminar")) {
       const id = e.target.dataset.id;
+      console.log(e.target);
+      
       const confirmacion = await alerta.alertaQuest(
-        "¿Seguro que deseas eliminar este miembro de la familia?",
+        "¿Seguro que deseas eliminar esta mascota de la familia?",
       );
       if (!confirmacion.isConfirmed) return;
-      const eliminado = await api.delet(`members/${id}`);
+
+      const eliminado = await api.delet(`pets/${id}`);
       if (eliminado.success) {
         await alerta.alertaOK(eliminado.message);
         await cargarPagina();
@@ -175,104 +177,51 @@ export default async () => {
       } else alerta.alertaError(eliminado.message);
     }
 
-    if (e.target.classList.contains("boton__vermas")) {
+    if (e.target.classList.contains("verMascotas__boton--verMas")) {
       const id = e.target.dataset.id;
-      const datos = await api.get(`members/${id}`);
-      const condiciones = await api.get(`conditionMembers/member/${id}`);
+      const datos = await api.get(`pets/${id}`);
+      const condiciones = await api.get(`petVaccines/pet/${id}`);
 
-      let condicionNombre = ""
-      let condicionMedicina = ""
-      let contadorCondicionNombre = 0
-      let contadorCondicionMedicina = 0
+      let condicionVacunas = ""
+      let contadorCondicionVacunas = 0
 
       condiciones.forEach(condicion =>
       {
-        contadorCondicionNombre > 0 ? condicionNombre += ","+condicion.name : condicionNombre += condicion.name;
-        contadorCondicionNombre++;
-        if (condicion.dose != null)
-        {
-            contadorCondicionMedicina > 0 ? condicionMedicina += ","+condicion.dose : condicionMedicina += condicion.dose;
-            contadorCondicionMedicina++;
-        }
-        contadorCondicionNombre == 0 ? condicionNombre = "ninguno" : "";
-        contadorCondicionMedicina == 0 ? condicionNombre = "ninguno" : "";
+        contadorCondicionVacunas > 0 ? condicionVacunas += ","+condicion.name : condicionVacunas += condicion.name;
+        contadorCondicionVacunas++;
+        contadorCondicionVacunas == 0 ? condicionVacunas = "ninguna" : "";
       });
 
       if (condiciones.length == 0){
-        condicionNombre = "ninguno";
-        condicionMedicina = "ninguno";}
+        condicionVacunas = "ninguna";
+      }
       
       const htmlModal = `
         <div class="modalVer modal">
             <div class="modalVer__dato">
-                <i class="ri-user-line"></i>
+                <i class="ri-coupon-line"></i>
                 <div class="modalVer__titulo">Nombre</div>
-                <div class="modalVer__texto">${datos.names}</div>
+                <div class="modalVer__texto">${datos.name}</div>
             </div>
             <div class="modalVer__dato">
-                <i class="ri-user-line"></i>
-                <div class="modalVer__titulo">Apellidos</div>
-                <div class="modalVer__texto">${datos.last_names}</div>
+                <i class="ri-dna-line"></i>
+                <div class="modalVer__titulo">Raza</div>
+                <div class="modalVer__texto">${datos.breed}</div>
             </div>
             <div class="modalVer__dato">
-                <i class="ri-info-card-line"></i>
-                <div class="modalVer__titulo">Tip documento </div>
-                <div class="modalVer__texto">${datos.document_type.acronym}</div>
+                <i class="ri-cake-2-line"></i>
+                <div class="modalVer__titulo">Edad</div>
+                <div class="modalVer__texto">${datos.age}</div>
             </div>
             <div class="modalVer__dato">
-                <i class="ri-id-card-line"></i>
-                <div class="modalVer__titulo">Num documento</div>
-                <div class="modalVer__texto">${datos.document_number}</div>
-            </div>
-            <div class="modalVer__dato">
-                <i class="ri-calendar-line modalVer__icono"></i>
-                <div class="modalVer__titulo">Fecha nacimiento</div>
-                <div class="modalVer__texto">${datos.birth_date}</div>
-            </div>
-            <div class="modalVer__dato">
-                <i class="ri-phone-line"></i>
-                <div class="modalVer__titulo">Telefono</div>
-                <div class="modalVer__texto">${datos.phone}</div>
-            </div>
-            <div class="modalVer__dato">
-                <i class="ri-men-line"></i>
-                <div class="modalVer__titulo">Genero</div>
-                <div class="modalVer__texto">${datos.gender.name}</div>
-            </div>
-            <div class="modalVer__dato">
-                <i class="ri-flag-line"></i>
-                <div class="modalVer__titulo">Parentesco</div>
-                <div class="modalVer__texto">${datos.kinship.name}</div>
-            </div>
-            <div class="modalVer__dato">
-                <i class="ri-heart-pulse-line"></i>
-                <div class="modalVer__titulo">Grupo Sanguineo</div>
-                <div class="modalVer__texto">${datos.blood_group.name}</div>
-            </div>
-            <div class="modalVer__dato">
-                <i class="ri-health-book-line"></i>
-                <div class="modalVer__titulo">EPS</div>
-                <div class="modalVer__texto">${datos.eps}</div>
-            </div>
-            <div class="modalVer__dato">
-                <i class="ri-flag-line"></i>
-                <div class="modalVer__titulo">Nacionalidad</div>
-                <div class="modalVer__texto">${datos.nationality.name}</div>
-            </div>
-            <div class="modalVer__dato modalVer__dato--largo ${datos.novelty == null ? "invisible" : ""}">
-                <i class="ri-parent-line"></i>
-                <div class="modalVer__titulo">Novedad</div>
-                <div class="modalVer__texto">${datos.novelty}</div>
+                <i class="ri-bell-line"></i>
+                <div class="modalVer__titulo">Especie</div>
+                <div class="modalVer__texto">${datos.species.name}</div>
             </div>
             <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-stethoscope-line"></i>
-                <div class="modalVer__titulo">Afecciones</div>
-                <div class="modalVer__texto">${condicionNombre}</div>
-            </div>
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-capsule-fill"></i>
-                <div class="modalVer__titulo">Medicinas o Dosis</div>
-                <div class="modalVer__texto">${condicionMedicina}</div>
+                <i class="ri-syringe-line"></i>
+                <div class="modalVer__titulo">Vacunas</div>
+                <div class="modalVer__texto">${condicionVacunas}</div>
             </div>
         </div>`;
       alerta.Ver(htmlModal, false, false, null, null);
