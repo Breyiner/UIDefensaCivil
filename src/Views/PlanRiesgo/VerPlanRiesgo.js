@@ -5,7 +5,7 @@ export default async () => {
   const botonBack = document.getElementById("boton-back");
   const crear = document.getElementById("crear");
   const id = location.hash.split("=")[1];
-  const container = document.querySelector(".container__verMascota");
+  const container = document.querySelector(".container__verRiesgo");
   const containerPaginador = document.querySelector(".container__paginador");
 
   if (window.procesoPeticion === undefined) {
@@ -18,7 +18,7 @@ export default async () => {
 
   let paginaActual = 1;
 
-  const paginas = await api.get(`pets/familyPlan/${id}`);
+  const paginas = await api.get(`riskFactors/familyPlan/${id}`);
   const cantidad = paginas.last_page;
 
   const evaluacion = await evaluarDatos();
@@ -28,7 +28,7 @@ export default async () => {
     await cargarPagina();
     window.procesoPeticion = false;
   } else {
-    container.innerHTML = `<div class="noCantidad">No tienes ninguna mascota en la familia.</div>`;
+    container.innerHTML = `<div class="noCantidad">No tienes ningun factor de riesgo en la familia.</div>`;
     window.procesoPeticion = false;
   }
 
@@ -101,51 +101,32 @@ export default async () => {
   async function cargarPagina() {
     container.innerHTML = "";
 
-    const datos = await api.get(`pets/familyPlan/${id}?page=${paginaActual}`,
+    const datos = await api.get(`riskFactors/familyPlan/${id}?page=${paginaActual}`,
     );
-    const mascotas = datos.data;
-    for (const index in mascotas) {
-      const info = mascotas[index];
-      const cartaInfo = document.createElement("div");
-      cartaInfo.classList.add("verMascotas");
-      cartaInfo.innerHTML = `
-            <div class="verMascotas__icono"><img src="icon/${await adaptarIcono(info.species.name)}.svg"></div>
-            <div class="verMascotas__nombre">${info.name}</div>
-            <div class="verMascotas__datos">${info.species.name} - ${info.breed}</div>
-            <div class="verMascotas__edad">${info.age} años</div>
-            <div class="verMascotas__generoIcono ${info.animal_gender_id == 1 ? "" : "verMascotas__generoIcono--hembra"}"><i class="ri-${info.animal_gender_id == 1 ? 'men' : 'women'}-line"></i></div>
-            <div class="verMascotas__genero"><span>${info.animal_gender.name}</span></div>
-            <button class="boton boton--azul verMascotas__boton--editar" data-id="${info.id}">Editar</button>
-            <button class="boton boton--azul verMascotas__boton--eliminar" data-id="${info.id}">Eliminar</button>
-            <button class="boton verMascotas__boton--verMas" data-id="${info.id}">Ver más</button>
-            `;
-      container.appendChild(cartaInfo);
+    const riesgos = datos.data;
+    for (const index in riesgos) {
+        const info = riesgos[index];
+        const cartaInfo = document.createElement("div");
+        cartaInfo.classList.add("verRiesgos");
+        console.log(info);
+        cartaInfo.innerHTML = `
+            <div class="verRiesgos__tipoRiesgo">
+                <i class="ri-error-warning-line"></i>${info.threat_type.name}</div>
+            <div class="verRiesgos__ubicacion">
+                <i class="ri-map-2-line"></i>${info.ubication}</div>
+            <div class="verRiesgos__distancia">
+                <i class="ri-map-pin-line"></i>${info.distance} m</div>
+            <div class="verRiesgos__descripcion">
+                <p>Descripción:</p>${info.description}
+            </div>
+            <button class="boton boton--azul verRiesgos__boton--editar" data-id="${info.id}">Editar</button>
+            <button class="boton boton--azul verRiesgos__boton--eliminar" data-id="${info.id}">Eliminar</button>
+            <button class="boton verRiesgos__boton--verMas" data-id="${info.id}">Ver más</button>
+        `;
+        container.appendChild(cartaInfo);
     }
   }
 
-  async function adaptarIcono (animal) {
-    switch (animal) {
-        case "Perro":
-        return "Perro";
-        case "Gato":
-        return "Gato";
-        case "Conejo":
-        return "Conejo";
-        case "Ruedor":
-        return "Ruedor";
-        case "Ave":
-        return "Ave";
-        case "Insecto":
-        return "Insecto";
-        case "Pez":
-        return "Pez";
-        case "Rana":
-        return "Rana";
-        case "Serpiente":
-        return "Serpiente";
-        default:
-        return "Pata";
-    }};
 
   async function evaluarDatos() {
     if (paginas.data.length == 0) {
@@ -162,7 +143,6 @@ export default async () => {
 
     if (e.target.classList.contains("verMascotas__boton--eliminar")) {
       const id = e.target.dataset.id;
-      console.log(e.target);
       
       const confirmacion = await alerta.alertaQuest(
         "¿Seguro que deseas eliminar esta mascota de la familia?",
@@ -229,6 +209,6 @@ export default async () => {
   });
 
   crear.addEventListener("click", async () => {
-    location.href = `#/planMascota/crear/id=${id}`;
+    location.href = `#/planRiesgo/crear/id=${id}`;
   });
 };

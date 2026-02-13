@@ -1,0 +1,94 @@
+.verRiesgos {
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 0 10px var(--color-sombra);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 3fr 3fr 1fr 2fr;
+    grid-template-rows: 30px 30px auto 30px;
+    grid-template-areas:
+        "tipoRiesgo tipoRiesgo tipoRiesgo tipoRiesgo"
+        "ubicacion ubicacion ubicacion distancia"
+        "descripcion descripcion descripcion descripcion"
+        "botonEditarRiesgo botonEliminarRiesgo botonVerMasRiesgo botonVerMasRiesgo";
+    font-family: var(--fuente-contenido);
+}
+
+.verRiesgos__tipoRiesgo {
+    grid-area: tipoRiesgo;
+    font-weight: bolder;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+    margin: auto 0;
+    width: 100%;
+}
+
+.verRiesgos__tipoRiesgo>i {
+    margin-right: 10px;
+}
+
+.verRiesgos__ubicacion {
+    grid-area: ubicacion;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+    margin: auto 0;
+    width: 100%;
+}
+
+.verRiesgos__ubicacion>i {
+    margin-right: 10px;
+}
+
+.verRiesgos__distancia {
+    grid-area: distancia;
+    text-align: end;
+    margin: 0 auto;
+}
+
+.verRiesgos__distancia>i {
+    margin-right: 10px;
+}
+
+.verRiesgos__descripcion {
+    grid-area: descripcion;
+    color: var(--color-grisOscuro);
+    padding-bottom: 10px;
+}
+
+.verRiesgos__descripcion>p {
+    color: var(--color-oscuro);
+    font-weight: bolder;
+    margin-bottom: 2.5px;
+}
+
+.verRiesgos__boton--editar {
+    grid-area: botonEditarRiesgo;
+    margin: 0 auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.verRiesgos__boton--eliminar {
+    grid-area: botonEliminarRiesgo;
+    margin: 0 auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.verRiesgos__boton--verMas {
+    grid-area: botonVerMasRiesgo;
+    margin: 0 auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
