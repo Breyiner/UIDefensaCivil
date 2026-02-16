@@ -34,29 +34,63 @@ export const adjuntarInfo = async (combox, endpoint, infoDato) => {
   });
 };
 
-export const adjuntarReseteo = async (combox, endpoint) => {
+export const adjuntarReseteo = async (combox, endpoint) => {  
   const datos = await api.get(endpoint);
-  combox.options.length = 0;
-  combox.disabled = false;
+
+  const tom = combox.tomselect;
+
+  if (!tom) return;
+
+  tom.disable(); // lo deshabilitas mientras carga
+
+  tom.clear();
+  tom.clearOptions();
 
   datos.forEach((dat) => {
     if (dat.is_active == 1) {
-      const option = document.createElement("option");
-      option.value = dat.id;
-      option.textContent = `${dat.name}`;
-      combox.appendChild(option);
+      tom.addOption({
+        value: dat.id,
+        text: dat.name
+      });
     }
   });
+
+  tom.refreshOptions(false);
+
+  tom.enable(); // 🔥 lo vuelves a activar
 };
 
 export const adjuntarReseteoNoValida = async (combox, endpoint) => {
   const datos = await api.get(endpoint);
-  combox.options.length = 0;
-  combox.disabled = false;
-  datos.forEach((dat) => {
-    const option = document.createElement("option");
-    option.value = dat.id;
-    option.textContent = `${dat.name}`;
-    combox.appendChild(option);
-  });
+
+  // 🔥 Si tiene TomSelect
+  if (combox.tomselect) {
+    const tom = combox.tomselect;
+
+    tom.disable();      // opcional mientras carga
+    tom.clear();
+    tom.clearOptions();
+
+    datos.forEach((dat) => {
+      tom.addOption({
+        value: dat.id,
+        text: dat.name
+      });
+    });
+
+    tom.refreshOptions(false);
+    tom.enable();
+
+  } else {
+    // 🔹 Si es un select normal
+    combox.options.length = 0;
+    combox.disabled = false;
+
+    datos.forEach((dat) => {
+      const option = document.createElement("option");
+      option.value = dat.id;
+      option.textContent = dat.name;
+      combox.appendChild(option);
+    });
+  }
 };

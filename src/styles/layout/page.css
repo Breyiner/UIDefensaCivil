@@ -32,6 +32,9 @@ body:has(.rutaInvalida) .header {
 }
 
 #app:has(.rutaInvalida){
-  background-color: black;
   height: 100vh;
+  margin-top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

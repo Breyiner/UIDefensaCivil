@@ -15,10 +15,10 @@
     </button>
     <div class="acordeon__contenido--oculto" id="acordeon__container">
  <form method="POST" class="form">
-    <div class="form__inputBox">
-        <i class="ri-bell-fill"></i>
-        <select class="form__input input__especie">
-        <option value ="0" hidden>Seleccione un tipo de especie</option>
+    <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-bell-fill" id="selector__icono"></i>
+        <select class="form__input input__especie" id="selector">
+        <option value ="" hidden>Seleccione un tipo de especie...</option>
         </select>
     </div>
     <div class="form__inputBox">
@@ -35,10 +35,10 @@
         <input type="text" class="form__input input__edad" placeholder="edad" autocomplete="off">
     </div>
     </div>
-    <div class="form__inputBox">
-        <i class="ri-bell-fill"></i>
-        <select class="form__input input__genero">
-        <option value ="0" hidden>Seleccione Macho/Hembra</option>
+    <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-bell-fill" id="selector__icono"></i>
+        <select class="form__input input__genero" id="selector">
+        <option value ="" hidden>Seleccione Macho/Hembra...</option>
         </select>
     </div>
     <button class="form__boton boton" disabled>Guardar</button>

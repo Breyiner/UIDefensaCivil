@@ -18,13 +18,12 @@ export default async () => {
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
     if (confirmacion.isConfirmed) location.href = "#/home";
   };
-
+  
   let paginaActual = 1;
 
-  const paginas = await api.get("vulnerableQuestions/paginate");
-  const cantidad = paginas.last_page;
+  const paginas = await api.getPaginacion("vulnerableQuestions/paginate");
+  const cantidad = paginas.paginate.last_page;
 
-  /* ===== PAGINADO ===== */
   for (let i = 1; i <= cantidad; i++) {
     const p = document.createElement("p");
     p.textContent = i;
@@ -40,7 +39,6 @@ export default async () => {
 
   await cargarPagina();
 
-  /* ===== FUNCIONES ===== */
 
   async function cargarPagina() {
     window.procesoPeticion = true;
@@ -48,8 +46,7 @@ export default async () => {
 
     const pagina = await api.get(`vulnerableQuestions/paginate?page=${paginaActual}`);
     let cont = paginaActual === 1 ? 1 : (paginaActual - 1) * 3 + 1;
-
-    pagina.data.forEach((opcion) => {
+    pagina.forEach((opcion) => {
       const contenedor = document.createElement("div");
 
       contenedor.className = opcion.question_caution
@@ -99,7 +96,6 @@ export default async () => {
     cargarPagina();
   }
 
-  /* ===== EVENTOS ===== */
 
   paginado.addEventListener("click", (e) => {
     const page = e.target.dataset.page;

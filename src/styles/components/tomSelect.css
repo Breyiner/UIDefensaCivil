@@ -1,0 +1,45 @@
+.ts-wrapper .option {
+    background: #f0f0f0;
+    color: var(--color-oscuro)
+}
+/* Cambiar la fuente de las opciones */
+.ts-wrapper .option {
+    font-family: var(--fuente-contenido);
+    display: flex;
+    width: 100%;
+    background-color: var(--color-palido);
+    font-size: var(--tamano-mediano);
+}
+/* Cambiar borde y fondo del control */
+.ts-wrapper .ts-control {
+    border: none;
+    border-radius: 4px;
+    color: var(--color-oscuro);
+    font-size: var(--tamano-mediano);
+    font-family: var(--fuente-contenido);
+    padding-left: 30px;
+}
+.ts-wrapper .ts-control .item {
+    font-family: var(--fuente-contenido);
+    color: var(--color-oscuro);
+    font-size: var(--tamano-mediano);
+
+}
+.ts-wrapper .ts-control input::placeholder{
+    color: var(--color-oscuro);
+    font-family: var(--fuente-contenido);
+    font-size: var(--tamano-mediano);
+}
+.form__inputBox--selector{
+    position: relative;
+}
+#selector__icono{
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-oscuro);
+    font-size: 24px;
+    padding-left: 20px;
+    z-index: 2;
+}

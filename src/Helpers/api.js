@@ -309,6 +309,43 @@ export const delet = async (endpoint) => {
   }
 };
 
+export const getPaginacion = async (endpoint) => {
+  try {
+    let response = await fetch(`${url}/${endpoint}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookie.obtener("access_token")}`,
+      },
+    });
+
+    if (response.status === 401) {
+      await refreshToken();
+      response = await fetch(`${url}/${endpoint}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${cookie.obtener("access_token")}`,
+        },
+      });
+
+      if (response.status === 401) {
+        alerta.alertaError("Sesion Expirada");
+        window.location.href = "#/login";
+        localStorage.clear();
+        return null;
+      }
+    }
+    const obtenciones = await response.json();
+    return {data: obtenciones.data, paginate: obtenciones.paginate};
+  } catch (error) {
+    console.error("Error en GET:", error);
+    return null;
+  }
+};
+
 export const refreshToken = async () => {
   try {
     await fetch(`${url}/refresh-token`, {

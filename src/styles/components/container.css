@@ -34,15 +34,7 @@
   font-family: var(--fuente-titulos);
 }
 
-.container__verPlan{
-  width: 100%;
-}
-
-.container__verIntegrante{
-  width: 100%;
-}
-
-.container__verMascota{
+.container__paginas{
   width: 100%;
 }
 

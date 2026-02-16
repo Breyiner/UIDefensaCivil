@@ -4,6 +4,8 @@ import * as planFamiliar from "../Views/PlanFamiliar/index.js";
 import * as verPlan from "../Views/VerPlanFamiliar/index.js";
 import * as Planintegrante from "../Views/PlanIntegrante/index.js";
 import * as planMascota from "../Views/PlanMascota/index.js";
+import * as PlanEntorno from "../Views/PlanEntorno/index.js";
+import * as planRiesgo from "../Views/PlanRiesgo/index.js";
 
 export const routes = {
   login: {
@@ -106,5 +108,33 @@ export const routes = {
     private: true,
     can: "family-plans.store",
     },
-  }
+  },
+  planRiesgo:{
+  ver: {
+    path: `PlanRiesgo/index.html`,
+    controlador: planRiesgo.verPlanRiesgo,
+    private: true,
+    can: "family-plans.show",
+  },
+    crear: {
+    path: `PlanRiesgo/Crear/index.html`,
+    controlador: planRiesgo.crearController,
+    private: true,
+    can: "family-plans.store",
+    },
+    editar: {
+    path: `PlanRiesgo/Editar/index.html`,
+    controlador: planRiesgo.editarController,
+    private: true,
+    can: "family-plans.store",
+    },
+  },
+  planEntorno:{
+  Editar:{
+    path: `PlanEntorno/Editar/index.html`,
+    controlador: PlanEntorno.EditarController,
+    private: true,
+    can: "home-frontend.voluntario",
+  },
+  },
 };
