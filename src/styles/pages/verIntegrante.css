@@ -39,6 +39,7 @@
 }
 
 .verIntegrante__documento {
+  margin-top: 10px;
   grid-area: documento;
   display: flex;
   align-items: center;
@@ -47,6 +48,7 @@
 }
 
 .verIntegrante__telefono {
+  margin-top: 10px;
   grid-area: telefono;
   justify-self: end;
   display: flex;

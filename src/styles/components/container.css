@@ -34,10 +34,7 @@
   font-family: var(--fuente-titulos);
 }
 
-.container__verPlan,
-.container__verIntegrante,
-.container__verMascota,
-.container__verRiesgo{
+.container__paginas{
   width: 100%;
 }
 

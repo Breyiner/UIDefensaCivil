@@ -13,26 +13,29 @@ window.Chart = Chart;
 
 // 1. Crea una función para inicializar TomSelect
 const initTomSelect = () => {
-    const el = document.querySelector("#selector");
-    if (el) {
+    const elements = document.querySelectorAll("#selector");
+
+    elements.forEach(el => {
         new TomSelect(el, {
-            create: true,
+            create: false,
             sortField: { field: "text", direction: "asc" },
-            
-            // Aquí definimos cómo mostrar las opciones y el item seleccionado
+
             render: {
                 option: function(data, escape) {
-                    // data.icon puede ser algo como "ri-error-warning-fill"
-                    const icon = data.icon ? `<i class="${escape(data.icon)}"></i> ` : '';
+                    const icon = data.icon 
+                        ? `<i class="${escape(data.icon)}"></i> ` 
+                        : '';
                     return `<div>${icon}${escape(data.text)}</div>`;
                 },
                 item: function(data, escape) {
-                    const icon = data.icon ? `<i class="${escape(data.icon)}"></i> ` : '';
+                    const icon = data.icon 
+                        ? `<i class="${escape(data.icon)}"></i> ` 
+                        : '';
                     return `<div>${icon}${escape(data.text)}</div>`;
                 }
             }
         });
-    }
+    });
 };
 
 document.querySelector("body").insertAdjacentHTML("afterbegin", componenteHeader);

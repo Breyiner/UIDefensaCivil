@@ -23,8 +23,8 @@ export default async() => {
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
     if (confirmacion.isConfirmed) location.href = "#/home";};
 
-    adjuntarOpc.adjuntarNoValida(zona,"zones");
-    adjuntarOpc.adjuntarNoValida(apartamento,"apartments");
+    await adjuntarOpc.adjuntarNoValida(zona,"zones");
+    await adjuntarOpc.adjuntarNoValida(apartamento,"apartments");
     window.procesoPeticion = false;
 
     form.addEventListener('submit', async (e) => {
@@ -59,7 +59,7 @@ export default async() => {
     });
 
     apartamento.addEventListener('change',async () => {
-        adjuntarOpc.adjuntarReseteoNoValida(ciudad,`cities/apartment/${apartamento.value}`); }
+        await adjuntarOpc.adjuntarReseteoNoValida(ciudad,`cities/apartment/${apartamento.value}`); }
     );
 
     checkbox.addEventListener("change", () => {
