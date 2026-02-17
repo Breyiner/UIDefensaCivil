@@ -21,6 +21,7 @@
 @import "./components/invisible.css";
 @import "./components/subirImagen.css";
 @import "./components/noCantidad.css";
+@import "./components/tomSelect.css";
 
 /* pages */
 @import "./pages/familiarcrear.css";
@@ -31,3 +32,4 @@
 @import "./pages/verPlan.css";
 @import "./pages/menuPlan.css";
 @import "./pages/verMascotas.css";
+@import "./pages/verRiesgo.css";

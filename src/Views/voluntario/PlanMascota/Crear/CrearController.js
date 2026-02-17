@@ -45,8 +45,7 @@ export default async () => {
         try {
             const data = await api.post(`pets`,datosRegistro);
             if (data.success)
-                {   
-                    console.log(data);
+                {
                     await alerta.alertaOK(data.message)
                     const pregunta = await alerta.alertaQuest("Deseas agregar las vacunas de esta mascota?")
                     pregunta.isConfirmed ? window.location.href = `#/planMascota/editar/id=${id},${data.data.id}` : location.href = `#/planMascota/ver/id=${id}`;

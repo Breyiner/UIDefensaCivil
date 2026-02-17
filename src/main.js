@@ -1,20 +1,55 @@
-import 'remixicon/fonts/remixicon.css'
-
+import 'remixicon/fonts/remixicon.css';
 import "./styles/main.css";
+import 'tom-select/dist/css/tom-select.css'; // Estilos arriba
+
 import { router } from "./Router/router.js"; 
 import componenteHeader from "../src/componentes/header/index.html?raw";
 import { componenteHeader as header } from "./Componentes/Header/header.js"
+import { Chart, registerables } from 'chart.js';
+import TomSelect from 'tom-select';
+
+Chart.register(...registerables);
+window.Chart = Chart;
+
+// 1. Crea una función para inicializar TomSelect
+const initTomSelect = () => {
+    const elements = document.querySelectorAll("#selector");
+
+    elements.forEach(el => {
+        new TomSelect(el, {
+            create: false,
+            sortField: { field: "text", direction: "asc" },
+
+            render: {
+                option: function(data, escape) {
+                    const icon = data.icon 
+                        ? `<i class="${escape(data.icon)}"></i> ` 
+                        : '';
+                    return `<div>${icon}${escape(data.text)}</div>`;
+                },
+                item: function(data, escape) {
+                    const icon = data.icon 
+                        ? `<i class="${escape(data.icon)}"></i> ` 
+                        : '';
+                    return `<div>${icon}${escape(data.text)}</div>`;
+                }
+            }
+        });
+    });
+};
 
 document.querySelector("body").insertAdjacentHTML("afterbegin", componenteHeader);
-
 const main = document.querySelector("#app");
 
-window.addEventListener("hashchange", async (e) => {
+// 2. Ejecuta la inicialización después de que el router termine
+window.addEventListener("hashchange", async () => {
     header();
-    router(main);
+    await router(main);
+    initTomSelect(); // <--- Aquí
 });
 
 window.addEventListener("DOMContentLoaded", async () => {
     header();
-    router(main);
+    await router(main); 
+    initTomSelect(); // <--- Y aquí
 });

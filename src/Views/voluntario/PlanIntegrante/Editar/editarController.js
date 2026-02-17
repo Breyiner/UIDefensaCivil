@@ -1,7 +1,9 @@
-import * as api from "../../../../Helpers/api";
-import * as alerta from "../../../../Helpers/alertas";
-import * as cargarDatos from "../../../../Helpers/cargarDatos";
-import * as adjuntarOpc from "../../../../Helpers/adjuntarOpciones";
+import * as api from "../../../Helpers/api";
+import * as alerta from "../../../Helpers/alertas";
+import * as cargarDatos from "../../../Helpers/cargarDatos";
+import * as adjuntarOpc from "../../../Helpers/adjuntarOpciones";
+import * as modalIntegrante from "../../../Helpers/modales/integrante";
+import acordeon from "../../../Helpers/acordeon";
 
 export default async () => {
   const botonBack = document.getElementById("boton-back");
@@ -10,9 +12,7 @@ export default async () => {
   const id = location.hash.split("=")[1];
   const planId = id.split(",")[0];
   const integranteId = id.split(",")[1];
-  const contenedorAfeccioness = document.querySelector(
-    ".gestionarAfecciones__lista",
-  );
+  const contenedorAfecciones = document.querySelector(".gestionarAfecciones__lista",);
   const botonAñadir = document.querySelector(".gestionarAfecciones__boton");
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
@@ -31,8 +31,7 @@ export default async () => {
   const eps = document.querySelector(".input__eps");
   const celular = document.querySelector(".input__celular");
   const nacimiento = document.querySelector(".input__nacimiento");
-
-  // Selects
+// Selects
   const tipoDocumento = document.querySelector(".input__tipoDocumento");
   const genero = document.querySelector(".input__genero");
   const parentesco = document.querySelector(".input__parentesco");
@@ -44,219 +43,40 @@ export default async () => {
   await adjuntarOpc.adjuntarNoValida(parentesco, "kinships");
   await adjuntarOpc.adjuntarNoValida(grupoSanguineo, "bloodGroups");
   await adjuntarOpc.adjuntarNoValida(nacionalidad, "nationalities");
-  await cargarDatos.cargarDatos(
-    `members/${integranteId}`,
-    [
-      nombres,
-      apellidos,
-      numDocumento,
-      eps,
-      celular,
-      nacimiento,
-      tipoDocumento,
-      genero,
-      parentesco,
-      grupoSanguineo,
-      nacionalidad,
-    ],
-    [
-      "names",
-      "last_names",
-      "document_number",
-      "eps",
-      "phone",
-      "birth_date",
-      "document_type_id",
-      "gender_id",
-      "kinship_id",
-      "blood_group_id",
-      "nationality_id",
-    ],
+  await cargarDatos.cargarDatos(`members/${integranteId}`,
+    [nombres,apellidos,numDocumento,eps,celular,nacimiento,tipoDocumento,genero,parentesco,grupoSanguineo,nacionalidad,],
+    ["names","last_names","document_number","eps","phone","birth_date","document_type_id","gender_id","kinship_id","blood_group_id","nationality_id",],
   );
-
-  window.procesoPeticion = false;
-  boton.disabled = false;
 
   const cargarAfecciones = async () => {
     const afecciones = await api.get(`conditionMembers/member/${integranteId}`);
-    contenedorAfeccioness.innerHTML = "";
-
+    contenedorAfecciones.innerHTML = "";
+  
     afecciones.forEach((item) => {
       const boton = document.createElement("button");
       boton.className = "gestionarAfecciones__afeccion";
       boton.dataset.id = item.id;
       boton.innerHTML = `
-                <span class="gestionarAfecciones__tipoNombre">
+        <span class="gestionarAfecciones__tipoNombre">
                     <i class="ri-eye-fill"></i> ${item.condition_type.name} - ${item.name}
-                </span>`;
-      contenedorAfeccioness.appendChild(boton);
-    });
+        </span>`;
+      contenedorAfecciones.appendChild(boton);
+      });
   };
 
+  acordeon()
   cargarAfecciones();
 
-  //Query para alcanzar varios con una misma clase
-  document.querySelectorAll(".acordeon__nombre").forEach((boton) => {
-    boton.addEventListener("click", () => {
-      const acordeonContenido = boton.nextElementSibling; //devuelve el siguiente
-
-      if (acordeonContenido.classList.contains("acordeon__contenido--oculto")) {
-        acordeonContenido.className = "acordeon__contenido";
-      } else if (acordeonContenido.classList.contains("acordeon__contenido")) {
-        acordeonContenido.className = "acordeon__contenido--oculto";
-      }
-    });
-  });
+  window.procesoPeticion = false;
+  boton.disabled = false;
 
   botonAñadir.addEventListener("click", async () => {
-    const tipos = await api.get("conditionTypes");
-    let opcionesTexto = "";
-    for (let i = 0; i < tipos.length; i++) {
-      // Vamos sumando cada opción al texto
-      opcionesTexto += `<option value="${tipos[i].id}">${tipos[i].name}</option>`;
-    }
-    const htmlModal = `
-            <div class="explicacion modal">
-                <p class="explicacion__titulo">Agregar Afección</p>
-            </div>
-            <div class="form">
-                <div class="form__inputBox modal-50">
-                    <i class="ri-building-fill"></i>
-                    <select class="form__input form__afeccion">
-                    <option value="0" hidden>Seleccione una afeccion</option>
-                    ${opcionesTexto}
-                    </select>
-                    </div>
-                <div class="form__inputBox">
-                    <i class="ri-syringe-fill"></i>
-                    <input type="text" class="form__input form__nombreAfeccion" placeholder="Nombre de la afección" autocomplete="off">
-                </div>
-                <div class="form__inputBox">
-                    <i class="ri-calendar-fill"></i>
-                    <input type="text" class="form__input form__descripcion" placeholder="Descripción de dosis" autocomplete="off">
-                </div>
-            </div>`;
-
-    const funcionModal = async () => {
-      const afeccion = document.querySelector(".form__afeccion").value;
-      const nombreAfeccion = document.querySelector(
-        ".form__nombreAfeccion",
-      ).value;
-      const descripcion = document.querySelector(".form__descripcion").value;
-
-      const datos = {
-        member_id: integranteId,
-        condition_type_id: afeccion,
-        name: nombreAfeccion,
-        dose: descripcion,
-      };
-
-      try {
-        const data = await api.post("conditionMembers", datos);
-        if (data.success) {
-          await alerta.alertaOK(data.message);
-          await cargarAfecciones();
-        } else alerta.alertaWarning(data.message, data.errors);
-      } catch (error) {
-        console.log(error);
-        alerta.alertaError(error.errors);
-      }
-    };
-    alerta.Crear(htmlModal, funcionModal);
+    modalIntegrante.crear(integranteId,cargarAfecciones);
   });
 
-  contenedorAfeccioness.addEventListener("click", async (e) => {
+  contenedorAfecciones.addEventListener("click", async (e) => {
     const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id;
-    const datos = await api.get(`conditionMembers/${id}`);
-    const htmlModal = `
-            <div class="modalVer modal">
-                <div class="modalVer__dato">
-                    <i class="ri-building-line modalVer__icono"></i>
-                    <div class="modalVer__titulo">Tipo de Afeccion</div>
-                    <div class="modalVer__texto">${datos.condition_type.name}</div>
-                </div>
-
-                <div class="modalVer__dato">
-                    <i class="ri-syringe-line modalVer__icono"></i>
-                    <div class="modalVer__titulo">Nombre Afeccion</div>
-                    <div class="modalVer__texto">${datos.name}</div>
-                </div>
-
-                <div class="modalVer__dato modalVer__dato--largo">
-                    <i class="ri-calendar-line modalVer__icono"></i>
-                    <div class="modalVer__titulo">Descripcion</div>
-                    <div class="modalVer__texto">${datos.dose}</div>
-                </div>
-            </div>`;
-
-    const funcionModalEditar = async () => {
-      const tipos = await api.get("conditionTypes");
-      const info = await api.get(`conditionMembers/${id}`);
-      let opcionesTexto = "";
-      for (let i = 0; i < tipos.length; i++) {
-        opcionesTexto += `<option value="${tipos[i].id}" ${tipos[i].id == info.condition_type_id ? "selected" : ""}>${tipos[i].name}</option>`;
-      }
-      const htmlModal = `
-            <div class="explicacion modal">
-                <p class="explicacion__titulo">Agregar Afección</p>
-            </div>
-            <div class="form">
-                <div class="form__inputBox modal-50">
-                    <i class="ri-building-fill"></i>
-                    <select class="form__input form__afeccion">
-                    ${opcionesTexto}
-                    </select>
-                    </div>
-                <div class="form__inputBox">
-                    <i class="ri-syringe-fill"></i>
-                    <input type="text" class="form__input form__nombreAfeccion" placeholder="Nombre de la afección" autocomplete="off" value="${info.name}">
-                </div>
-                <div class="form__inputBox">
-                    <i class="ri-calendar-fill"></i>
-                    <input type="text" class="form__input form__descripcion" placeholder="Descripción de dosis" autocomplete="off" value="${info.dose}">
-                </div>
-            </div>`;
-
-      const funcionModal = async () => {
-        const afeccion = document.querySelector(".form__afeccion").value;
-        const nombreAfeccion = document.querySelector(
-          ".form__nombreAfeccion",
-        ).value;
-        const descripcion = document.querySelector(".form__descripcion").value;
-
-        const datos = {
-          member_id: integranteId,
-          condition_type_id: afeccion,
-          name: nombreAfeccion,
-          dose: descripcion,
-        };
-
-        try {
-          const data = await api.put(`conditionMembers/${id}`, datos);
-          if (data.success) {
-            await alerta.alertaOK(data.message);
-            await cargarAfecciones();
-          } else alerta.alertaWarning(data.message, data.errors);
-        } catch (error) {
-          console.log(error);
-          alerta.alertaError(error.errors);
-        }
-      };
-      alerta.Crear(htmlModal, funcionModal);
-    };
-    const funcionModalEliminar = async () => {
-      const confirmacion = await alerta.alertaQuest(
-        "¿Seguro que deseas eliminar esta afeccion del integrante?",
-      );
-      if (!confirmacion.isConfirmed) return;
-      const eliminado = await api.delet(`conditionMembers/${id}`);
-      if (eliminado.success) {
-        await alerta.alertaOK(eliminado.message);
-        await cargarAfecciones();
-      }
-    };
-
-    alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar);
+    modalIntegrante.verEditarEliminar(id,integranteId,cargarAfecciones);
   });
 
   form.addEventListener("submit", async (e) => {

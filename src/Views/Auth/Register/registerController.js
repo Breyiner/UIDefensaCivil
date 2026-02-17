@@ -22,9 +22,9 @@ export default async () => {
   const contrasena = document.querySelector(".input__contrasena");
   const confContrasena = document.querySelector(".input__confContrasena");
 
-  adjuntarOpc.adjuntarInfo(tipoDocumento, "documentTypesPublic", "acronym");
-  adjuntarOpc.adjuntar(genero, "gendersPublic");
-  adjuntarOpc.adjuntar(seccional, "sectionalsPublic");
+  await adjuntarOpc.adjuntarInfo(tipoDocumento, "documentTypesPublic", "acronym");
+  await adjuntarOpc.adjuntar(genero, "gendersPublic");
+  await adjuntarOpc.adjuntar(seccional, "sectionalsPublic");
   boton.disabled = false;
 
   form.addEventListener("submit", async (e) => {
@@ -61,10 +61,7 @@ export default async () => {
     window.procesoPeticion = false;
   });
   seccional.addEventListener("change", async () => {
-    adjuntarOpc.adjuntarReseteo(
-      organizacion,
-      `organizationsPublic/sectional/${seccional.value}`,
-    );
+    await adjuntarOpc.adjuntarReseteo(organizacion,`organizationsPublic/sectional/${seccional.value}`);
   });
   window.addEventListener("click", async (e) => {
     if (e.target.matches("#tengoCuenta") && !window.procesoPeticion)
