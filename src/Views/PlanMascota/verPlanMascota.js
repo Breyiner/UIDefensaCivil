@@ -3,12 +3,13 @@ import * as alerta from "../../Helpers/alertas";
 import * as modalMascota from "../../Helpers/modales/mascota";
 import paginacion from "../../Helpers/paginacion";
 
-export default async () => {;
+export default async () => {
+    ;
     const crear = document.getElementById("crear");
     const botonBack = document.getElementById("boton-back");
     const id = location.hash.split("=")[1];
-    
-    if (window.procesoPeticion === undefined) {window.procesoPeticion = true;}
+
+    if (window.procesoPeticion === undefined) { window.procesoPeticion = true; }
     window.procesoPeticion = true;
 
     botonBack.onclick = () => {
@@ -16,35 +17,36 @@ export default async () => {;
         location.href = `#/verPlanFamiliar/menu/id=${id}`;
     };
 
-    crear.addEventListener("click", async () => {location.href = `#/planMascota/crear/id=${id}`;});
+    crear.addEventListener("click", async () => { location.href = `#/planMascota/crear/id=${id}`; });
 
     let mensajeVacio = "No tienes ninguna mascota registrada de la familia...";
-    
-    const carta = async(info) => {
-        function adaptarIcono (animal) {
-        switch (animal) {
-            case "Perro":
-            return "Perro";
-            case "Gato":
-            return "Gato";
-            case "Conejo":
-            return "Conejo";
-            case "Ruedor":
-            return "Ruedor";
-            case "Ave":
-            return "Ave";
-            case "Insecto":
-            return "Insecto";
-            case "Pez":
-            return "Pez";
-            case "Rana":
-            return "Rana";
-            case "Serpiente":
-            return "Serpiente";
-            default:
-            return "Pata";
-        }};
-        
+
+    const carta = async (info) => {
+        function adaptarIcono(animal) {
+            switch (animal) {
+                case "Perro":
+                    return "Perro";
+                case "Gato":
+                    return "Gato";
+                case "Conejo":
+                    return "Conejo";
+                case "Ruedor":
+                    return "Ruedor";
+                case "Ave":
+                    return "Ave";
+                case "Insecto":
+                    return "Insecto";
+                case "Pez":
+                    return "Pez";
+                case "Rana":
+                    return "Rana";
+                case "Serpiente":
+                    return "Serpiente";
+                default:
+                    return "Pata";
+            }
+        };
+
         let cartaInfo = document.createElement('div');
         cartaInfo.classList.add("verMascotas");
         cartaInfo.innerHTML = `
@@ -61,31 +63,30 @@ export default async () => {;
         return cartaInfo;
     }
 
-    const funcionBotones = async(e) => {
+    const funcionBotones = async (e) => {
         if (e.target.classList.contains("verMascotas__boton--editar")) {
-        window.location.href = `#/planMascota/editar/id=${id},${e.target.dataset.id}`;
+            window.location.href = `#/planMascota/editar/id=${id},${e.target.dataset.id}`;
         }
 
         if (e.target.classList.contains("verMascotas__boton--eliminar")) {
-        const id = e.target.dataset.id;
-        const confirmacion = await alerta.alertaQuest(
-            "¿Seguro que deseas eliminar esta mascota de la familia?",
-        );
-        if (!confirmacion.isConfirmed) return;
+            const id = e.target.dataset.id;
+            const confirmacion = await alerta.alertaQuest(
+                "¿Seguro que deseas eliminar esta mascota de la familia?",
+            );
+            if (!confirmacion.isConfirmed) return;
 
-        const eliminado = await api.delet(`pets/${id}`);
-        if (eliminado.success) {
-            await alerta.alertaOK(eliminado.message);
-            location.reload();
-        } else alerta.alertaError(eliminado.message);
+            const eliminado = await api.delet(`pets/${id}`);
+            if (eliminado.success) {
+                await alerta.alertaOK(eliminado.message);
+                location.reload();
+            } else alerta.alertaError(eliminado.message);
         }
 
-        if (e.target.classList.contains("verMascotas__boton--verMas"))
-        {
+        if (e.target.classList.contains("verMascotas__boton--verMas")) {
             const id = e.target.dataset.id;
             modalMascota.ver(id);
         }
     }
 
-    await paginacion(`pets/familyPlan/${id}`,mensajeVacio,carta,funcionBotones);
+    await paginacion(`pets/familyPlan/${id}`, mensajeVacio, carta, funcionBotones);
 }
