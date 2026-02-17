@@ -1,7 +1,7 @@
-import * as api from "../../Helpers/api";
-import * as alerta from "../../Helpers/alertas";
-import * as modalIntegrante from "../../Helpers/modales/integrante";
-import paginacion from "../../Helpers/paginacion";
+import * as api from "../../../Helpers/api";
+import * as alerta from "../../../Helpers/alertas";
+import * as modalIntegrante from "../../../Helpers/modales/integrante";
+import paginacion from "../../../Helpers/paginacion";
 
 export default async () => {;
     const crear = document.getElementById("crear");

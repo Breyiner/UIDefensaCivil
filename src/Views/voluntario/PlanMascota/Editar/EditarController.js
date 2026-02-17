@@ -1,9 +1,9 @@
-import * as api from "../../../Helpers/api";
-import * as alerta from "../../../Helpers/alertas";
-import * as cargarDatos from "../../../Helpers/cargarDatos";
-import * as adjuntarOpc from "../../../Helpers/adjuntarOpciones";
-import * as modalMascota from "../../../Helpers/modales/mascota";
-import acordeon from "../../../Helpers/acordeon";
+import * as api from "../../../../Helpers/api";
+import * as alerta from "../../../../Helpers/alertas";
+import * as cargarDatos from "../../../../Helpers/cargarDatos";
+import * as adjuntarOpc from "../../../../Helpers/adjuntarOpciones";
+import * as modalMascota from "../../../../Helpers/modales/mascota";
+import acordeon from "../../../../Helpers/acordeon";
 
 export default async () => {
   const botonBack = document.getElementById("boton-back");
