@@ -1,5 +1,5 @@
-import * as alerta from "../../Helpers/alertas";
-import * as api from "../../Helpers/api"
+import * as alerta from "../../../Helpers/alertas";
+import * as api from "../../../Helpers/api"
 
 export default () => {
 window.addEventListener("click", async (e) => {

@@ -1,8 +1,8 @@
-import * as adjuntarOpc from "../../../Helpers/adjuntarOpciones";
-import * as alerta from "../../../Helpers/alertas";
-import * as api from "../../../Helpers/api";
-import { cargarDatos } from "../../../Helpers/cargarDatos";
-import * as localStorage from "../../../Helpers/LocalStorage";
+import * as adjuntarOpc from "../../../../Helpers/adjuntarOpciones";
+import * as alerta from "../../../../Helpers/alertas";
+import * as api from "../../../../Helpers/api";
+import { cargarDatos } from "../../../../Helpers/cargarDatos";
+import * as localStorage from "../../../../Helpers/LocalStorage";
 
 export default async () => {
   const id = location.hash.split("=")[1];

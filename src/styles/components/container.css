@@ -12,12 +12,12 @@
 
 .container.login{
   background-color: var(--color-palido);
-  width: 90%;
-  height: 90%;
+  width: 90vw;
+  height: 95vh;
 }
 
 .container__logo {
-  max-width: 90%;
+  max-width: 80%;
 }
 
 .container__imagen {

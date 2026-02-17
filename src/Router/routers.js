@@ -1,9 +1,9 @@
 import * as auth from "../Views/Auth/index.js"
-import homeController from "../Views/Home/controller.js";
-import * as planFamiliar from "../Views/PlanFamiliar/index.js";
-import * as verPlan from "../Views/VerPlanFamiliar/index.js";
-import * as Planintegrante from "../Views/PlanIntegrante/index.js";
-import * as planMascota from "../Views/PlanMascota/index.js";
+import homeController from "../Views/voluntario/Home/controller.js";
+import * as planFamiliar from "../Views/voluntario/PlanFamiliar/index.js";
+import * as verPlan from "../Views/voluntario/VerPlanFamiliar/index.js";
+import * as Planintegrante from "../Views/voluntario/PlanIntegrante/index.js";
+import * as planMascota from "../Views/voluntario/PlanMascota/index.js";
 
 export const routes = {
   login: {
@@ -53,58 +53,58 @@ export const routes = {
       can: "family-plans.destroy",
     }
   },
-  verPlanFamiliar:{
-  "/": {
-    path: `VerPlanFamiliar/index.html`,
-    controlador: verPlan.VerPlanFamiliar,
-    private: true,
-    can: "family-plans.show",
+  verPlanFamiliar: {
+    "/": {
+      path: `VerPlanFamiliar/index.html`,
+      controlador: verPlan.VerPlanFamiliar,
+      private: true,
+      can: "family-plans.show",
+    },
+    menu: {
+      path: `VerPlanFamiliar/Menu/index.html`,
+      controlador: verPlan.MenuController,
+      private: true,
+      can: "family-plans.show",
+    },
   },
-  menu: {
-    path: `VerPlanFamiliar/Menu/index.html`,
-    controlador: verPlan.MenuController,
-    private: true,
-    can: "family-plans.show",
-  },
-  },
-  planIntegrante:{
-  ver: {
-    path: `PlanIntegrante/index.html`,
-    controlador: Planintegrante.verPlanIntegrantes,
-    private: true,
-    can: "family-plans.show",
-  },
+  planIntegrante: {
+    ver: {
+      path: `PlanIntegrante/index.html`,
+      controlador: Planintegrante.verPlanIntegrantes,
+      private: true,
+      can: "family-plans.show",
+    },
     crear: {
-    path: `PlanIntegrante/Crear/index.html`,
-    controlador: Planintegrante.crearController,
-    private: true,
-    can: "family-plans.store",
+      path: `PlanIntegrante/Crear/index.html`,
+      controlador: Planintegrante.crearController,
+      private: true,
+      can: "family-plans.store",
     },
     editar: {
-    path: `PlanIntegrante/Editar/index.html`,
-    controlador: Planintegrante.editarController,
-    private: true,
-    can: "family-plans.store",
+      path: `PlanIntegrante/Editar/index.html`,
+      controlador: Planintegrante.editarController,
+      private: true,
+      can: "family-plans.store",
     },
   },
-  planMascota:{
-  ver: {
-    path: `PlanMascota/index.html`,
-    controlador: planMascota.verPlanMascota,
-    private: true,
-    can: "family-plans.show",
-  },
+  planMascota: {
+    ver: {
+      path: `PlanMascota/index.html`,
+      controlador: planMascota.verPlanMascota,
+      private: true,
+      can: "family-plans.show",
+    },
     crear: {
-    path: `PlanMascota/Crear/index.html`,
-    controlador: planMascota.crearController,
-    private: true,
-    can: "family-plans.store",
+      path: `PlanMascota/Crear/index.html`,
+      controlador: planMascota.crearController,
+      private: true,
+      can: "family-plans.store",
     },
     editar: {
-    path: `PlanMascota/Editar/index.html`,
-    controlador: planMascota.editarController,
-    private: true,
-    can: "family-plans.store",
+      path: `PlanMascota/Editar/index.html`,
+      controlador: planMascota.editarController,
+      private: true,
+      can: "family-plans.store",
     },
   }
 };
