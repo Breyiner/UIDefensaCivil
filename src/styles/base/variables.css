@@ -10,7 +10,8 @@
   --color-lila-50: #E8E8FF;
   --color-rosa: #EA3FB8;
   --color-rojizo: #FF0000;
-  --color-rojoMalo: #AD1010;
+  --color-rojizo-25: rgb(255, 0, 0,0.10);
+  --color-rojoMalo: #ad1010;
   --color-verdoso: #36BD36;
   --color-oscuro: #2b2a29;
   --color-naranjado-50: rgb(255, 102, 0,0.25);

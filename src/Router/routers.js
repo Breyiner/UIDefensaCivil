@@ -1,11 +1,13 @@
 import * as auth from "../Views/Auth/index.js"
-import homeController from "../Views/Voluntario/Home/controller.js";
+import VoluntarioHomeController from "../Views/Voluntario/Home/HomeController.js";
 import * as planFamiliar from "../Views/Voluntario/PlanFamiliar/index.js";
 import * as verPlan from "../Views/Voluntario/VerPlanFamiliar/index.js";
 import * as Planintegrante from "../Views/Voluntario/PlanIntegrante/index.js";
 import * as planMascota from "../Views/Voluntario/PlanMascota/index.js";
 import * as planRiesgo from "../Views/Voluntario/PlanRiesgo/index.js";
 import * as PlanEntorno from "../Views/Voluntario/PlanEntorno/index.js";
+import AdministradorHomeController from "../Views/Administrador/Home/HomeController.js"
+import * as datosMaestros from "../Views/Administrador/DatosMaestros/index.js"
 
 export const routes = {
   login: {
@@ -26,7 +28,7 @@ export const routes = {
 
   home: {
     path: `Voluntario/Home/index.html`,
-    controlador: homeController,
+    controlador: VoluntarioHomeController,
     private: true,
     can: "home-frontend.voluntario",
   },
@@ -144,4 +146,26 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
   },
+
+  "administrador-home": {
+    path: `Administrador/Home/index.html`,
+    controlador: AdministradorHomeController,
+    private: true,
+    can: "home-frontend.voluntario",
+  },
+
+  "administrador-datosMaestros":{
+    "/":{
+    path: `Administrador/DatosMaestros/index.html`,
+    controlador: datosMaestros.verController,
+    private: true,
+    can: "home-frontend.voluntario",
+    },
+    "seccional":{
+    path: `Administrador/DatosMaestros/Seccionales/index.html`,
+    controlador: datosMaestros.seccionalController,
+    private: true,
+    can: "home-frontend.voluntario",
+    }
+  }
 };

@@ -12,7 +12,7 @@ window.addEventListener("click", async (e) => {
               window.location.href = '#/login';
               localStorage.clear();
             }
-        }
+        } 
     if (e.target.matches("#nuevoPlan"))
     {
       window.location.href = '#/planFamiliar/crear';

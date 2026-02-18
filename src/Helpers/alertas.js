@@ -141,3 +141,56 @@ export const Ver = (htmlModal,mostrarEditar,mostrarEliminar,funcionEditar,funcio
         }
     });
 };
+
+export const VerEstado = (
+    htmlModal,
+    mostrarEditar,
+    is_active,
+    funcionEditar,
+    funcionActivar,
+    funcionDesactivar
+) => {
+
+    const textoEstado = is_active == 1 ? "Desactivar" : "Activar";
+    const claseBotonEstado = is_active == 1 ? "botonEliminar" : "botonActivar";
+
+    Swal.fire({
+        html: htmlModal,
+        showCloseButton: true,
+        focusConfirm: false,
+
+        // BOTÓN EDITAR
+        showConfirmButton: mostrarEditar,
+        confirmButtonText: 'Editar',
+
+        // BOTÓN ACTIVAR / DESACTIVAR
+        showCancelButton: true,
+        cancelButtonText: textoEstado,
+
+        customClass: {
+            confirmButton: 'botonEditar',
+            cancelButton: claseBotonEstado
+        },
+
+        preConfirm: () => {
+            if (mostrarEditar && funcionEditar) {
+                funcionEditar();
+            }
+            return false;
+        }
+
+    }).then((result) => {
+
+        if (result.dismiss === Swal.DismissReason.cancel) {
+
+            if (is_active == 1) {
+                if (funcionDesactivar) funcionDesactivar();
+            } else {
+                if (funcionActivar) funcionActivar();
+            }
+
+        }
+
+    });
+};
+

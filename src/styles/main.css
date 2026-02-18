@@ -22,6 +22,7 @@
 @import "./components/subirImagen.css";
 @import "./components/noCantidad.css";
 @import "./components/tomSelect.css";
+@import "./components/listaDatos.css";
 
 /* pages */
 @import "./pages/familiarcrear.css";
@@ -33,3 +34,5 @@
 @import "./pages/menuPlan.css";
 @import "./pages/verMascotas.css";
 @import "./pages/verRiesgo.css";
+@import "./pages/datosMaestros.css";
+@import "./pages/dashboard.css";

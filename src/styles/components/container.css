@@ -47,3 +47,10 @@
 #acordeon__container{
   transition: 0.3s;
 }
+
+@media screen and (min-width: 850px) {
+  .container.login {
+    width: 25%;            /* más ancho en pantalla grande */
+    margin: auto;        /* centrado horizontal */
+  }
+}

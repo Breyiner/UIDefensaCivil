@@ -1,0 +1,51 @@
+.listaDatos{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+.listaDatos__valor{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--tamano-mediano);
+  border: 2px solid var(--color-secundario);
+  color: var(--color-secundario);
+  padding: 10px;
+  border-radius: 10px;
+  margin-left: 5px;
+  transition: 0.3s;
+}
+.listaDatos__valor:nth-child(1)
+{
+  margin-top: 10px;
+}
+.listaDatos__nombre{
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.listaDatos__nombre > i{
+    font-size: var(--tamano-grande);
+}
+.listaDatos__nombre > span{
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.listaDatos__valor:active{
+  background-color: var(--color-secundario);
+  color: var(--color-palido);
+}
+
+.listaDatos_Inactivo{
+    color: var(--color-rojizo);
+    border-color: var(--color-rojizo);
+    background-color: var(--color-rojizo-25);
+}
+.listaDatos_Inactivo:active{
+    background-color: var(--color-rojizo);
+}
