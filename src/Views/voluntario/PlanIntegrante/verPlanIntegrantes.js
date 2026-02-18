@@ -24,12 +24,12 @@ export default async () => {;
         let cartaInfo = document.createElement('div');
         cartaInfo.classList.add("verIntegrante");
         cartaInfo.innerHTML = `
-            <div class="verIntegrante__nombre">${info.full_name}</div>
-            <div class="verIntegrante__sangre">${info.blood_group}</div>
-            <div class="verIntegrante__documento"><i class="ri-passport-line"></i>${info.document_number}</div>
-            <div class="verIntegrante__telefono"><i class="ri-phone-line"></i>${info.phone}</div>
-            <div class="verIntegrante__parentesco"><i class="ri-parent-line"></i>${info.kinship}</div>
-            <div class="verIntegrante__edad"><i class="ri-cake-2-line"></i>${info.birth_date}</div>
+            <div class="verIntegrante__nombre"><p class="tarjeta__titulo">${info.full_name}</p></div>
+            <div class="verIntegrante__sangre"><p class="tarjeta__titulo">${info.blood_group}</p></div>
+            <div class="verIntegrante__documento"><i class="ri-passport-line"></i><p class="tarjeta__contenido">${info.document_number}</p></div>
+            <div class="verIntegrante__telefono"><i class="ri-phone-line"></i><p class="tarjeta__contenido">${info.phone}</p></div>
+            <div class="verIntegrante__parentesco"><i class="ri-parent-line"></i><p class="tarjeta__contenido">${info.kinship}</p></div>
+            <div class="verIntegrante__edad"><i class="ri-cake-2-line"></i><p class="tarjeta__contenido">${info.birth_date}</p></div>
             <button class="boton boton--azul boton__editar" data-id="${info.id}">Editar</button>
             <button class="boton boton--azul boton__eliminar" data-id="${info.id}">Eliminar</button>
             <button class="boton boton__vermas" data-id="${info.id}">Ver más</button>`;

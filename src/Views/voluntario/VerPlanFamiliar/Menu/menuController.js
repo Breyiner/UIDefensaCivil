@@ -13,7 +13,7 @@ export default async () => {
     const graficoEntorno = document.getElementById("graficoEntorno");
     const id = location.hash.split("=")[1];
     
-    await AccesoPlan(id);
+    // await AccesoPlan(id);
 
     botonBack.onclick = () => {location.href = `#/verPlanFamiliar`;}
 

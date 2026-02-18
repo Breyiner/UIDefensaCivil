@@ -1,7 +1,7 @@
 import * as cookie from "../../Helpers/Cookies";
 
 const listConNoti = ['home']
-const listSinBack = ['home']
+const listSinBack = ['home','supervisorHomepage/ver']
 
 export const componenteHeader = () => { 
     const header = document.querySelector(".header");
