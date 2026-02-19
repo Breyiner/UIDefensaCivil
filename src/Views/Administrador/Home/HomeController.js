@@ -140,5 +140,8 @@ export default () => {
     if (e.target.matches("#datosMaestros")) {
       window.location.href = '#/administrador-datosMaestros';
     }
+    if (e.target.matches("#peticiones")) {
+      window.location.href = '#/administrador-usuarios/peticiones';
+    }
   });
 };

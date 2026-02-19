@@ -1,0 +1,82 @@
+.verUsuario{
+    width: 100%;
+    padding: 15px;
+    box-shadow: 0 0 10px var(--color-sombra);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 30px 30px 30px 30px 50px;
+    grid-template-areas:
+        "documento rol "
+        "nombre nombre"
+        "correo correo"
+        "seccional organizacion"
+        "botones botones";
+    font-family: var(--fuente-contenido);
+}
+.verUsuario__documento{
+    grid-area: documento;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bolder;
+}
+.verUsuario__documento > i{
+    font-weight: normal;
+}
+.verUsuario__rol{
+    grid-area: rol;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+.verUsuario__rol > span{
+    background-color: var(--color-grisOscuro);
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: bolder;
+    color: var(--color-palido);
+}
+.verUsuario__nombre{
+    grid-area: nombre;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.verUsuario__correo{
+    grid-area: correo;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.verUsuario__seccional{
+    grid-area: seccional;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bolder;
+    
+}
+.verUsuario__organizacion{
+    grid-area: organizacion;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+    font-weight: bolder;
+}
+.verUsuario__organizacion > i{
+    font-weight: normal;
+}
+.verUsuario__seccional > i{
+    font-weight: normal;
+}
+
+.verUsuario__botones{
+    grid-area: botones;
+    display: flex;
+    justify-content: space-around;
+    align-items: end;
+    width: 100%;
+}

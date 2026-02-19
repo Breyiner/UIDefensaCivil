@@ -65,3 +65,22 @@
 .modalTitulo{
   font-family: var(--fuente-titulos);
 }
+
+.modalHistorial {
+  max-height: 80vh;
+}
+
+.contenedorHistorial {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.itemHistorial {
+  margin-bottom: 10px;
+}
+
+.botonHistorial {
+  background-color: #6c757d !important;
+  color: white !important;
+}

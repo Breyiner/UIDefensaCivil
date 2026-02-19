@@ -6,14 +6,19 @@ import * as alerta from "../alertas";
 ===================================================== */
 export const ver = async (id, recargarContainer) => {
 
-    const datos = await api.get(`sectionals/${id}`);
-
+    const datos = await api.get(`resources/${id}`);
+    
     const htmlModal = `
         <div class="modalVer modal-50">
-            <div class="modalVer__dato">
-                <i class="ri-building-line"></i>
+            <div class="modalVer__dato modalVer__dato--largo">
+                <i class="ri-folder-line"></i>
                 <div class="modalVer__titulo">Nombre</div>
                 <div class="modalVer__texto">${datos.name}</div>
+            </div>
+            <div class="modalVer__dato modalVer__dato--largo">
+                <i class="ri-service-line"></i>
+                <div class="modalVer__titulo">Servicio</div>
+                <div class="modalVer__texto">${datos.service}</div>
             </div>
         </div>
     `;
@@ -28,26 +33,25 @@ export const ver = async (id, recargarContainer) => {
 
         // ACTIVAR
         async () => {
-            const resp = await api.patch(`sectionals/status/${id}`,{ is_active: 1});
+            const resp = await api.patch(`resources/status/${id}`, { is_active: 1 });
             if (resp.success) {
                 await alerta.alertaOK(resp.message);
                 await recargarContainer();
             } else {
-            alerta.alertaWarning(resp.message);
-        }
+                alerta.alertaWarning(resp.message);}
         },
 
         // DESACTIVAR
         async () => {
-            const resp = await api.patch(`sectionals/status/${id}`,{ is_active: 0});
+            const resp = await api.patch(`resources/status/${id}`, { is_active: 0 });
             if (resp.success) {
                 await alerta.alertaOK(resp.message);
                 await recargarContainer();
             } else {
-            alerta.alertaWarning(resp.message);
-        }
-        }
-        ,'sectionals',id
+                alerta.alertaWarning(resp.message);}
+        },
+        'resources',
+        id
     );
 };
 
@@ -59,16 +63,24 @@ export const crear = async (recargarContainer) => {
 
     const htmlModal = `
         <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Seccional</p>
+            <p class="explicacion__titulo">Crear Recurso</p>
         </div>
 
         <div class="form">
             <div class="form__inputBox modal-50">
-                <i class="ri-building-fill"></i>
+                <i class="ri-folder-fill"></i>
                 <input 
                     type="text" 
                     class="form__input form__nombre" 
-                    placeholder="Nombre de la seccional"
+                    placeholder="Nombre del recurso"
+                    autocomplete="off">
+            </div>
+            <div class="form__inputBox">
+                <i class="ri-service-fill"></i>
+                <input 
+                    type="text" 
+                    class="form__input form__servicio" 
+                    placeholder="Service del recurso"
                     autocomplete="off">
             </div>
         </div>
@@ -78,7 +90,9 @@ export const crear = async (recargarContainer) => {
 
         const nombre = document.querySelector(".form__nombre").value;
 
-        const data = await api.post("sectionals", { name: nombre });
+        const servicio = document.querySelector(".form__servicio").value;
+
+        const data = await api.post("resources", { name: nombre, service:servicio });
 
         if (data.success) {
             await alerta.alertaOK(data.message);
@@ -96,19 +110,27 @@ export const crear = async (recargarContainer) => {
 ===================================================== */
 export const editar = async (id, recargarContainer) => {
 
-    const info = await api.get(`sectionals/${id}`);
+    const info = await api.get(`resources/${id}`);
 
     const htmlModal = `
         <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Seccional</p>
+            <p class="explicacion__titulo">Editar Recurso</p>
         </div>
         <div class="form">
             <div class="form__inputBox modal-50">
-                <i class="ri-building-fill"></i>
+                <i class="ri-folder-fill"></i>
                 <input 
                     type="text" 
                     class="form__input form__nombre"
                     value="${info.name}"
+                    autocomplete="off">
+            </div> 
+            <div class="form__inputBox">
+                <i class="ri-service-fill"></i>
+                <input 
+                    type="text" 
+                    class="form__input form__servicio" 
+                    value="${info.service}"
                     autocomplete="off">
             </div>
         </div>
@@ -117,9 +139,11 @@ export const editar = async (id, recargarContainer) => {
     alerta.Crear(htmlModal, async () => {
 
         const nombre = document.querySelector(".form__nombre").value;
-        
-        const data = await api.patch(`sectionals/${id}`, { name: nombre });
-        
+
+        const servicio = document.querySelector(".form__servicio").value;
+
+        const data = await api.patch(`resources/${id}`, { name: nombre, service: servicio});
+
         if (data.success) {
             await alerta.alertaOK(data.message);
             await recargarContainer();

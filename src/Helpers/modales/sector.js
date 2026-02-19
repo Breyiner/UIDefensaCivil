@@ -6,12 +6,12 @@ import * as alerta from "../alertas";
 ===================================================== */
 export const ver = async (id, recargarContainer) => {
 
-    const datos = await api.get(`sectionals/${id}`);
+    const datos = await api.get(`sectors/${id}`);
 
     const htmlModal = `
         <div class="modalVer modal-50">
             <div class="modalVer__dato">
-                <i class="ri-building-line"></i>
+                <i class="ri-map-pin-2-line"></i>
                 <div class="modalVer__titulo">Nombre</div>
                 <div class="modalVer__texto">${datos.name}</div>
             </div>
@@ -28,26 +28,25 @@ export const ver = async (id, recargarContainer) => {
 
         // ACTIVAR
         async () => {
-            const resp = await api.patch(`sectionals/status/${id}`,{ is_active: 1});
+            const resp = await api.patch(`sectors/status/${id}`, { is_active: 1 });
             if (resp.success) {
                 await alerta.alertaOK(resp.message);
                 await recargarContainer();
             } else {
-            alerta.alertaWarning(resp.message);
-        }
+                alerta.alertaWarning(resp.message);}
         },
 
         // DESACTIVAR
         async () => {
-            const resp = await api.patch(`sectionals/status/${id}`,{ is_active: 0});
+            const resp = await api.patch(`sectors/status/${id}`, { is_active: 0 });
             if (resp.success) {
                 await alerta.alertaOK(resp.message);
                 await recargarContainer();
             } else {
-            alerta.alertaWarning(resp.message);
-        }
-        }
-        ,'sectionals',id
+                alerta.alertaWarning(resp.message);}
+        },
+        'sectors',
+        id
     );
 };
 
@@ -59,16 +58,16 @@ export const crear = async (recargarContainer) => {
 
     const htmlModal = `
         <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Seccional</p>
+            <p class="explicacion__titulo">Crear Sector</p>
         </div>
 
         <div class="form">
             <div class="form__inputBox modal-50">
-                <i class="ri-building-fill"></i>
+                <i class="ri-map-pin-fill"></i>
                 <input 
                     type="text" 
                     class="form__input form__nombre" 
-                    placeholder="Nombre de la seccional"
+                    placeholder="Nombre del sector"
                     autocomplete="off">
             </div>
         </div>
@@ -78,7 +77,7 @@ export const crear = async (recargarContainer) => {
 
         const nombre = document.querySelector(".form__nombre").value;
 
-        const data = await api.post("sectionals", { name: nombre });
+        const data = await api.post("sectors", { name: nombre });
 
         if (data.success) {
             await alerta.alertaOK(data.message);
@@ -96,15 +95,15 @@ export const crear = async (recargarContainer) => {
 ===================================================== */
 export const editar = async (id, recargarContainer) => {
 
-    const info = await api.get(`sectionals/${id}`);
+    const info = await api.get(`sectors/${id}`);
 
     const htmlModal = `
         <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Seccional</p>
+            <p class="explicacion__titulo">Editar Sector</p>
         </div>
         <div class="form">
             <div class="form__inputBox modal-50">
-                <i class="ri-building-fill"></i>
+                <i class="ri-map-pin-fill"></i>
                 <input 
                     type="text" 
                     class="form__input form__nombre"
@@ -117,9 +116,9 @@ export const editar = async (id, recargarContainer) => {
     alerta.Crear(htmlModal, async () => {
 
         const nombre = document.querySelector(".form__nombre").value;
-        
-        const data = await api.patch(`sectionals/${id}`, { name: nombre });
-        
+
+        const data = await api.patch(`sectors/${id}`, { name: nombre });
+
         if (data.success) {
             await alerta.alertaOK(data.message);
             await recargarContainer();
