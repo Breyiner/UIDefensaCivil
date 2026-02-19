@@ -32,7 +32,7 @@ export default async () => {;
     const funcionBotones = async(e) => {
     if (e.target.classList.contains("verPlan__boton") && !window.procesoPeticion) 
         {
-            location.href = `#/verPlanFamiliar/menu/id=${e.target.id}`;
+            location.href = `#/voluntario-verPlanFamiliar/menu/id=${e.target.id}`;
         }
     }
 

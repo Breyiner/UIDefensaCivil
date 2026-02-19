@@ -15,13 +15,13 @@ export default async () => {
     
     // await AccesoPlan(id);
 
-    botonBack.onclick = () => {location.href = `#/verPlanFamiliar`;}
+    botonBack.onclick = () => {location.href = `#/voluntario-verPlanFamiliar`;}
 
-    integrante.addEventListener("click", async () => {location.href = `#/planIntegrante/ver/id=${id}`;});
+    integrante.addEventListener("click", async () => {location.href = `#/voluntario-planIntegrante/ver/id=${id}`;});
 
-    mascotas.addEventListener("click", async () => {location.href = `#/planMascota/ver/id=${id}`;});
+    mascotas.addEventListener("click", async () => {location.href = `#/voluntario-planMascota/ver/id=${id}`;});
 
-    factoresRiesgo.addEventListener("click", async () => {location.href = `#/planRiesgo/ver/id=${id}`;});
+    factoresRiesgo.addEventListener("click", async () => {location.href = `#/voluntario-planRiesgo/ver/id=${id}`;});
 
     recursosDisponibles.addEventListener("click", async () => {location.href = `#/planRecursos/ver/id=${id}`;});
 
@@ -29,5 +29,5 @@ export default async () => {
 
     planAccion.addEventListener("click", async () => {location.href = `#/planAccion/ver/id=${id}`;});
 
-    graficoEntorno.addEventListener("click", async () => {location.href = `#/planEntorno/Editar/id=${id}`;});
+    graficoEntorno.addEventListener("click", async () => {location.href = `#/voluntario-planEntorno/editar/id=${id}`;});
 }

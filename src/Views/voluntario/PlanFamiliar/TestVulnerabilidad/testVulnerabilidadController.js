@@ -183,6 +183,6 @@ export default async () => {
     }
     alerta.alertaLoadingCerrar();
     await alerta.alertaOK("Test evaluado con éxito");
-    location.replace(`#/planFamiliar/identificacion/id=${id}`);
+    location.replace(`#/voluntario-planFamiliar/identificacion/id=${id}`);
   }
 };

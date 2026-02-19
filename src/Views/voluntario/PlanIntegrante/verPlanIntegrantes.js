@@ -13,10 +13,10 @@ export default async () => {;
 
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
     };
 
-    crear.addEventListener("click", async () => {location.href = `#/planIntegrante/crear/id=${id}`;});
+    crear.addEventListener("click", async () => {location.href = `#/voluntario-planIntegrante/crear/id=${id}`;});
 
     let mensajeVacio = "No tienes ningun miembro de la familia...";
     
@@ -38,7 +38,7 @@ export default async () => {;
 
     const funcionBotones = async(e) => {
     if (e.target.classList.contains("boton__editar")) {
-          window.location.href = `#/planIntegrante/editar/id=${id},${e.target.dataset.id}`;}
+          window.location.href = `#/voluntario-planIntegrante/editar/id=${id},${e.target.dataset.id}`;}
     
     if (e.target.classList.contains("boton__eliminar")) {
         const id = e.target.dataset.id;
