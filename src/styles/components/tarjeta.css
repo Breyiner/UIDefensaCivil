@@ -1,48 +1,50 @@
-.tarjeta{
+.tarjeta {
     padding: 20px;
     box-shadow: 0 0 10px var(--color-sombra);
+    border-radius: var(--border-radius-tarjetas);
 }
 
-.tarjeta__titulo{
+
+.tarjeta--fila {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tarjeta--completa {
+    width: 100%;
+}
+
+.tarjeta__titulo {
     font-size: var(--tamano-grande);
     font-weight: bolder;
     font-family: var(--fuente-titulos);
 }
 
-.tarjeta__titulo--left{
+.tarjeta__titulo--left {
     align-self: flex-start;
 }
-.seccion{
-    display: flex;
-    gap: 10px;
-}
-.seccion__tarjeta{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    border-radius: var(--border-radius-tarjetas);
-    font-family: var(--fuente-titulos);
-    color: var(--color-palido);
-    font-size: var(--tamano-pequeno);
-    font-weight: 400;
+
+.tarjeta__titulo--pequeno {
+    font-size: var(--tamano-medio-grande);
 }
 
-.seccion__tarjeta--azul{
-    background-color: var(--color-secundario);
+.tarjeta__icono {
+    font-size: var(--tamano-grande);
 }
 
-.seccion__tarjeta--amarillo{
-    background-color: var(--color-amarillo);
+.tarjeta__icono--azul {
+    color: var(--color-secundario);
 }
 
-.seccion__tarjeta--verde{
-    background-color: var(--color-verdoso);
-}
-.seccion__tarjeta--rojo{
-    background-color: var(--color-vino);
+.tarjeta__icono--verde {
+    color: var(--color-verdoso);
 }
 
-.icono__tarjeta{
-    font-size: var(--tamano-titulo);
+.tarjeta__boton {
+    margin-top: 5px;
+}
+
+.icono__tarjeta {
+    font-size: 40px;
 }

@@ -23,6 +23,7 @@
 @import "./components/noCantidad.css";
 @import "./components/tomSelect.css";
 @import "./components/tarjeta.css";
+@import "./components/seccion.css";
 
 /* pages */
 @import "./pages/familiarcrear.css";
