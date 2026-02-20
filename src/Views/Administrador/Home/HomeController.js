@@ -22,10 +22,10 @@ export default () => {
   new Chart(document.getElementById('canvaEstadoUsuario'), {
     type: "doughnut",
     data: {
-      labels: ["Activos", "Inactivos", "Enviados"],
+      labels: ["Activos", "Peticiones", "Inactivos"],
       datasets: [{
         label: "Estado",
-        data: [20, 5, 12],
+        data: [23, 12, 6],
         backgroundColor: ["#0770CC", "#BDBDBD", "#FF0000"] // verde, gris limón, rojo
       }]
     },
@@ -142,6 +142,9 @@ export default () => {
     }
     if (e.target.matches("#peticiones")) {
       window.location.href = '#/administrador-usuarios/peticiones';
+    }
+    if (e.target.matches("#gestion")) {
+      window.location.href = '#/administrador-usuarios/gestion';
     }
   });
 };

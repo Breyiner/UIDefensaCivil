@@ -29,5 +29,5 @@ export default async () => {
 
     planAccion.addEventListener("click", async () => {location.href = `#/planAccion/ver/id=${id}`;});
 
-    graficoEntorno.addEventListener("click", async () => {location.href = `#/planEntorno/Editar/id=${id}`;});
+    graficoEntorno.addEventListener("click", async () => {location.href = `#/planEntorno/editar/id=${id}`;});
 }

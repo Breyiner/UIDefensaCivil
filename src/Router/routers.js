@@ -246,6 +246,12 @@ export const routes = {
       controlador: AdminstradorUsuarios.PeticionesController,
       private: true,
       can: "home-frontend.voluntario",
+    },
+    "gestion":{
+      path: `Administrador/Usuarios/Gestion/index.html`,
+      controlador: AdminstradorUsuarios.GestionController,
+      private: true,
+      can: "home-frontend.voluntario",
     }
   },
 };

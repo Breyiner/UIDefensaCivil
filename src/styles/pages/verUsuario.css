@@ -28,8 +28,9 @@
 .verUsuario__rol{
     grid-area: rol;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: end;
+    font-size: var(--tamano-pequeno);
 }
 .verUsuario__rol > span{
     background-color: var(--color-grisOscuro);
@@ -37,6 +38,18 @@
     border-radius: 10px;
     font-weight: bolder;
     color: var(--color-palido);
+}
+.verUsuario__rol--supervisor > span{
+    background-color: var(--color-azulado-50);
+    color: var(--color-secundario);
+}
+.verUsuario__rol--voluntario > span{
+    background-color: var(--color-naranjado-50);
+    color: var(--color-primario);
+}
+.verUsuario__rol--desactivado > span{
+    background-color: var(--color-rojizo-25);
+    color: var(--color-rojizo);
 }
 .verUsuario__nombre{
     grid-area: nombre;

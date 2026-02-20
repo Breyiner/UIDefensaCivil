@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import * as api from "./api.js";
+
 export const alertaError = (mensaje) => {
   return Swal.fire({
     icon: "error",
@@ -207,13 +208,14 @@ export const VerEstado = (
 
 export const Historial = async (nombre, id) => {
     const data = await api.get(`${nombre}/history/${id}`);
-    
+
     let contenido = `
       <div class="contenedorHistorial">
         ${data.map(item => `
           <div class="itemHistorial">
             <p><strong>Acción:</strong> ${item.action_execute}</p>
             <p><strong>Usuario:</strong> ${item.user_name}</p>
+            <p><strong>Rol:</strong> ${item.rol}</p>
             <p><strong>Fecha:</strong> ${item.date_time}</p>
             ${item.status_old != item.status_new ? '<p><strong>Cambio de estado a:</strong> '+item.status_new+'</p>' : ""}
             <hr>
@@ -325,5 +327,124 @@ export const VerAprobarEliminarUsuarios = (
         alertaError("Error al borrar");
       }
     }
+  });
+};
+
+export const VerCambiarEstadoRolUsuarios = (
+  htmlModal,
+  recargarContainer,
+  id,
+  estado,
+  rol,
+  esAdmin
+) => {
+
+  Swal.fire({
+    html: htmlModal,
+    showCloseButton: true,
+    focusConfirm: false,
+
+    // 👉 CAMBIAR ROL
+    showConfirmButton: esAdmin && estado == 1,
+    confirmButtonText: "Cambiar Rol",
+
+    // 👉 ACTIVAR / DESACTIVAR
+    showCancelButton: true,
+    cancelButtonText: estado == 1 ? "Desactivar" : "Activar",
+
+    // 👉 HISTORIAL (BOTÓN CENTRAL)
+    showDenyButton: true,
+    denyButtonText: "Historial",
+
+    customClass: {
+      confirmButton: "botonOK",
+      cancelButton: estado == 1 ? "botonEliminar" : "botonOK",
+      denyButton: "botonHistorial"
+    },
+
+    // 👉 CONFIRMAR (CAMBIAR ROL)
+    preConfirm: async () => {
+
+      const confirmacion = await Swal.fire({
+        title: `¿Seguro que deseas cambiar el rol de usuario a ${rol == 3 ? "Supervisor" : "Voluntario"}?`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí",
+        cancelButtonText: "Cancelar",
+        customClass: {
+          confirmButton: 'botonOK',
+          cancelButton: 'botonEliminar',
+        }
+      });
+
+      if (!confirmacion.isConfirmed) return false;
+
+      try {
+
+        const datos = {
+          role: rol == 3 ? "Supervisor" : "Voluntario",
+        };
+
+        const response = await api.patch(`users/role/${id}`, datos);
+
+        if (response.success) {
+          await alertaOK(response.message);
+          if (recargarContainer) await recargarContainer();
+        } else {
+          alertaWarning(response.message, response.errors);
+        }
+
+      } catch (error) {
+        console.error(error);
+        alertaError("Error al cambiar rol");
+      }
+
+      return true;
+    }
+
+  }).then(async (result) => {
+
+    // 👉 HISTORIAL
+    if (result.isDenied) {
+      Historial("users", id);
+      return;
+    }
+
+    // 👉 ACTIVAR / DESACTIVAR
+    if (result.dismiss === Swal.DismissReason.cancel) {
+
+      const confirmacion = await Swal.fire({
+        title: `¿Seguro que deseas ${estado == 1 ? "desactivar" : "activar"} al usuario?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: estado == 1 ? "Sí, desactivar" : "Sí, activar",
+        cancelButtonText: "Cancelar",
+        customClass: {
+          confirmButton: estado == 1 ? "botonEliminar" : "botonOK",
+          cancelButton: estado == 1 ? "botonOK" : "botonEliminar",
+        }
+      });
+
+      if (!confirmacion.isConfirmed) return;
+
+      try {
+
+        const response = await api.patch(`users/status/${id}`, {
+          state_user_id: estado == 1 ? 2 : 1,
+        });
+
+        if (response.success) {
+          await alertaOK(response.message);
+          if (recargarContainer) await recargarContainer();
+        } else {
+          alertaWarning(response.message, response.errors);
+        }
+
+      } catch (error) {
+        console.error(error);
+        alertaError("Error al cambiar estado");
+      }
+    }
+
   });
 };
