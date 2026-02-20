@@ -7,6 +7,7 @@ import * as planMascota from "../Views/Voluntario/PlanMascota/index.js";
 import * as planRiesgo from "../Views/Voluntario/PlanRiesgo/index.js";
 import * as PlanEntorno from "../Views/Voluntario/PlanEntorno/index.js";
 import * as HomepageSupervisor from "../Views/Supervisor/homepage/homepage.js"
+import * as RevisionPlanSupervisor from "../Views/Supervisor/RevisionPlan/RevisionPlan.js"
 
 export const routes = {
   login: {
@@ -151,6 +152,14 @@ export const routes = {
     "ver": {
       path:`supervisor/homepage/index.html`,
       controlador: HomepageSupervisor,
+      private: false
+    },
+  },
+
+  "supervisor-RevisionPlan": {
+    "ver": {
+      path:`supervisor/RevisionPlan/index.html`,
+      controlador: RevisionPlanSupervisor,
       private: false
     }
   }
