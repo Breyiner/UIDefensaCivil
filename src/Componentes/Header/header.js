@@ -15,7 +15,7 @@ export const componenteHeader = () => {
 //         header.classList.add("invisible");
 //     }
 //     else{
-//         header.classList.remove("invisible");
+//         header.classList.remove("invisible"); 
 //     }
 //     if (listConNoti.includes(hash))
 //     {
