@@ -23,6 +23,7 @@
 @import "./components/noCantidad.css";
 @import "./components/tomSelect.css";
 @import "./components/listaDatos.css";
+@import "./components/ventanaHistorial.css";
 
 /* pages */
 @import "./pages/familiarcrear.css";
