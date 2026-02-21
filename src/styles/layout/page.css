@@ -17,7 +17,7 @@ body:has(.rutaInvalida) .header {
   background-color: var(--color-grisFondo);
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
   color: var(--color-oscuro);
   margin-top: 50px;
 }

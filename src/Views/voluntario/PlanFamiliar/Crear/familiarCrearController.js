@@ -46,7 +46,7 @@ export default async() => {
             if (data.success)
                 {
                     await alerta.alertaOK(data.message)
-                    window.location.href = `#/planFamiliar/testVunerabilidad/id=${data.data.id}`;
+                    window.location.href = `#/voluntario-planFamiliar/testVunerabilidad/id=${data.data.id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
         } catch (error) {

@@ -13,10 +13,10 @@ export default async () => {;
 
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
     };
 
-    crear.addEventListener("click", async () => {location.href = `#/planMascota/crear/id=${id}`;});
+    crear.addEventListener("click", async () => {location.href = `#/voluntario-planMascota/crear/id=${id}`;});
 
     let mensajeVacio = "No tienes ninguna mascota registrada de la familia...";
     
@@ -63,7 +63,7 @@ export default async () => {;
 
     const funcionBotones = async(e) => {
         if (e.target.classList.contains("verMascotas__boton--editar")) {
-        window.location.href = `#/planMascota/editar/id=${id},${e.target.dataset.id}`;
+        window.location.href = `#/voluntario-planMascota/editar/id=${id},${e.target.dataset.id}`;
         }
 
         if (e.target.classList.contains("verMascotas__boton--eliminar")) {

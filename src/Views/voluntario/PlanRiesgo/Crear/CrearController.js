@@ -14,7 +14,8 @@
         botonBack.onclick = async() => {
             if(window.procesoPeticion) return;
             const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-            if (confirmacion.isConfirmed) location.href = `#/planRiesgo/ver/id=${id}`;}
+            if (confirmacion.isConfirmed) location.href = `#/planRiesgo/ver/id=${id}`;
+        };
         
         // Inputs de texto
         const descripcion = document.querySelector('.input__descripcion');
@@ -44,7 +45,7 @@
                 if (data.success)
                     {   
                         await alerta.alertaOK(data.message)
-                        window.location.href = `#/planRiesgo/ver/id=${id}`;
+                        window.location.href = `#/voluntario-planRiesgo/ver/id=${id}`;
                     }
                 else alerta.alertaWarning(data.message,data.errors)
             } catch (error) {

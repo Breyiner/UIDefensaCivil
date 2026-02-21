@@ -14,7 +14,8 @@ export default async () => {
     botonBack.onclick = async() => {
         if(window.procesoPeticion) return;
         const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-        if (confirmacion.isConfirmed) location.href = `#/planMascota/ver/id=${id}`;}
+        if (confirmacion.isConfirmed) location.href = `#/planMascota/ver/id=${id}`;
+    };
     
     // Inputs de texto
     const nombre = document.querySelector('.input__nombre');
@@ -48,7 +49,7 @@ export default async () => {
                 {
                     await alerta.alertaOK(data.message)
                     const pregunta = await alerta.alertaQuest("Deseas agregar las vacunas de esta mascota?")
-                    pregunta.isConfirmed ? window.location.href = `#/planMascota/editar/id=${id},${data.data.id}` : location.href = `#/planMascota/ver/id=${id}`;
+                    pregunta.isConfirmed ? window.location.href = `#/voluntario-planMascota/editar/id=${id},${data.data.id}` : location.href = `#/voluntario-planMascota/ver/id=${id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
         } catch (error) {

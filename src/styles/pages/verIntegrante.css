@@ -16,8 +16,6 @@
 }
 .verIntegrante__nombre {
   grid-area: nombreApellido;
-  font-size: var(--tamano-grande);
-  font-weight: bolder;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

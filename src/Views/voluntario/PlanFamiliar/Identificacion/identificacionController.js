@@ -86,6 +86,6 @@ export default async () => {
       telefono,
       calidad,
     ]);
-    location.replace(`#/planFamiliar/georeferenciacion/id=${id}`);
+    location.replace(`#/voluntario-planFamiliar/georeferenciacion/id=${id}`);
   });
 };

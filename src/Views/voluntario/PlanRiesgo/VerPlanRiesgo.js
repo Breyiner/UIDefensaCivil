@@ -16,7 +16,7 @@ export default async () => {;
         location.href = `#/verPlanFamiliar/menu/id=${id}`;
     };
 
-    crear.addEventListener("click", async () => {location.href = `#/planRiesgo/crear/id=${id}`;});
+    crear.addEventListener("click", async () => {location.href = `#/voluntario-planRiesgo/crear/id=${id}`;});
 
     let mensajeVacio = "No tienes ningun factor de riesgo registrado en la familia...";
     
@@ -42,7 +42,7 @@ export default async () => {;
 
     const funcionBotones = async(e) => {
     if (e.target.classList.contains("verRiesgos__boton--editar")) {
-          window.location.href = `#/planRiesgo/editar/id=${id},${e.target.dataset.id}`;}
+          window.location.href = `#/voluntario-planRiesgo/editar/id=${id},${e.target.dataset.id}`;}
     
     if (e.target.classList.contains("verRiesgos__boton--eliminar")) {
         const id = e.target.dataset.id;

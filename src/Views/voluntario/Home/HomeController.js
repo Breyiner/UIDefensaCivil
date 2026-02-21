@@ -15,11 +15,11 @@ window.addEventListener("click", async (e) => {
         } 
     if (e.target.matches("#nuevoPlan"))
     {
-      window.location.href = '#/planFamiliar/crear';
+      window.location.href = '#/voluntario-planFamiliar/crear';
     }
     if (e.target.matches("#verPlan"))
     {
-      window.location.href = '#/verPlanFamiliar';
+      window.location.href = '#/voluntario-verPlanFamiliar';
     }
     
 });

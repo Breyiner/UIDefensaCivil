@@ -9,6 +9,8 @@ import * as PlanEntorno from "../Views/Voluntario/PlanEntorno/index.js";
 import AdministradorHomeController from "../Views/Administrador/Home/HomeController.js"
 import * as datosMaestros from "../Views/Administrador/DatosMaestros/index.js"
 import * as AdminstradorUsuarios from "../Views/Administrador/Usuarios/index.js"
+import * as HomepageSupervisor from "../Views/Supervisor/homepage/homepage.js"
+import * as RevisionPlanSupervisor from "../Views/Supervisor/RevisionPlan/RevisionPlan.js"
 
 export const routes = {
   login: {
@@ -34,7 +36,7 @@ export const routes = {
     can: "home-frontend.voluntario",
   },
 
-  planFamiliar: {
+  "voluntario-planFamiliar": {
     crear: {
       path: `Voluntario/PlanFamiliar/Crear/index.html`,
       controlador: planFamiliar.CrearController,
@@ -61,7 +63,7 @@ export const routes = {
     }
   },
 
-  verPlanFamiliar: {
+  "voluntario-verPlanFamiliar": {
     "/": {
       path: `Voluntario/VerPlanFamiliar/index.html`,
       controlador: verPlan.VerPlanFamiliar,
@@ -76,7 +78,7 @@ export const routes = {
     },
   },
 
-  planIntegrante: {
+  "voluntario-planIntegrante": {
     ver: {
       path: `Voluntario/PlanIntegrante/index.html`,
       controlador: Planintegrante.verPlanIntegrantes,
@@ -97,7 +99,7 @@ export const routes = {
     },
   },
 
-  planMascota: {
+  "voluntario-planMascota": {
     ver: {
       path: `Voluntario/PlanMascota/index.html`,
       controlador: planMascota.verPlanMascota,
@@ -118,7 +120,7 @@ export const routes = {
     },
   },
 
-  planRiesgo:{
+  "voluntario-planRiesgo":{
     ver: {
       path: `Voluntario/PlanRiesgo/index.html`,
       controlador: planRiesgo.verPlanRiesgo,
@@ -139,7 +141,7 @@ export const routes = {
     },
   },
 
-  planEntorno:{
+  "voluntario-planEntorno":{
     editar:{
       path: `Voluntario/PlanEntorno/Editar/index.html`,
       controlador: PlanEntorno.EditarController,
@@ -254,4 +256,21 @@ export const routes = {
       can: "home-frontend.voluntario",
     }
   },
+  //supervisor
+  "supervisor-Homepage": {
+    "ver": {
+      path:`supervisor/homepage/index.html`,
+      controlador: HomepageSupervisor,
+      private: false
+    },
+  },
+
+  "supervisor-RevisionPlan": {
+    "ver": {
+      path:`supervisor/RevisionPlan/index.html`,
+      controlador: RevisionPlanSupervisor,
+      private: false
+    }
+  }
+
 };

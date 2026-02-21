@@ -24,6 +24,8 @@
 @import "./components/tomSelect.css";
 @import "./components/listaDatos.css";
 @import "./components/ventanaHistorial.css";
+@import "./components/tarjeta.css";
+@import "./components/seccion.css";
 
 /* pages */
 @import "./pages/familiarcrear.css";

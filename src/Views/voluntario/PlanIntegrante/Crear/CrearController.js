@@ -14,7 +14,7 @@ export default async () => {
     botonBack.onclick = async() => {
     if(window.procesoPeticion) return;
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-    if (confirmacion.isConfirmed) location.href = `#/planIntegrante/ver/id=${id}`;}
+    if (confirmacion.isConfirmed) location.href = `#/planIntegrante/ver/id=${id}`;};
     
     // Inputs de texto
     const nombres = document.querySelector('.input__nombres');
@@ -64,7 +64,7 @@ export default async () => {
                 {
                     await alerta.alertaOK(data.message)
                     const pregunta = await alerta.alertaQuest("Deseas agregar las enfermedades/discapacidad/alergias/ de este integrante?")
-                    pregunta.isConfirmed ? window.location.href = `#/planIntegrante/editar/id=${id},${data.data.id}` : location.href = `#/planIntegrante/ver/id=${id}`;
+                    pregunta.isConfirmed ? window.location.href = `#/voluntario-planIntegrante/editar/id=${id},${data.data.id}` : location.href = `#/voluntario-planIntegrante/ver/id=${id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
         } catch (error) {

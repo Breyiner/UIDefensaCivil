@@ -18,7 +18,7 @@ export default async () => {
   botonBack.onclick = async() => {
   if(window.procesoPeticion) return;
   const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver?");
-  if (confirmacion.isConfirmed) location.href = `#/planFamiliar/identificacion/id=${id}`;};
+  if (confirmacion.isConfirmed) location.href = `#/voluntario-planFamiliar/identificacion/id=${id}`;};
 
   const existe = await api.getExiste(`housingInfo/${id}`);
   if (existe) {
@@ -57,7 +57,7 @@ export default async () => {
       const data = await api.postImagen(`housingInfo`, formData);
       if (data.success) {
         await alerta.alertaOK(data.message);
-        location.replace(`#/planFamiliar/identificacion/id=${id}`);
+        location.replace(`#/voluntario-planFamiliar/identificacion/id=${id}`);
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }

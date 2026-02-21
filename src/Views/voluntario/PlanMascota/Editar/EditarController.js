@@ -21,7 +21,7 @@ export default async () => {
 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/planMascota/ver/id=${planId}`;
+    location.href = `#/voluntario-planMascota/ver/id=${planId}`;
   };
 
   // Inputs de texto

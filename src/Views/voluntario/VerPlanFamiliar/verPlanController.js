@@ -18,6 +18,7 @@ export default async () => {;
     const carta = async(info) => {
         let cartaInfo = document.createElement('div');
         cartaInfo.classList.add('verPlan');
+        cartaInfo.classList.add('tarjeta');
         cartaInfo.innerHTML = `
             <div class="verPlan__icono"><i class="ri-parent-fill"></i></div>
             <div class="verPlan__apellidos">${info.last_names}</div>
@@ -31,7 +32,7 @@ export default async () => {;
     const funcionBotones = async(e) => {
     if (e.target.classList.contains("verPlan__boton") && !window.procesoPeticion) 
         {
-            location.href = `#/verPlanFamiliar/menu/id=${e.target.id}`;
+            location.href = `#/voluntario-verPlanFamiliar/menu/id=${e.target.id}`;
         }
     }
 
