@@ -164,8 +164,8 @@ export const routes = {
 
   "supervisor-revisionPlan": {
     "/": {
-      path: `Voluntario/VerPlanFamiliar/index.html`,
-      controlador: verPlan.VerPlanFamiliar,
+      path: `Supervisor/RevisionPlan/index.html`,
+      controlador:RevisionPlanSupervisor,
       private: false
     }
   },

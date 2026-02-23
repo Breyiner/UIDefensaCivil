@@ -10,6 +10,16 @@
   border: 3px solid var(--color-transparencia);
   font-family: var(--fuente-titulos);
 }
+.boton-width{
+  width: 100%;
+  padding: 15px;
+}
+
+.boton--sinfondo{
+  background-color: transparent;
+  border: 1px solid var(--color-primario);
+  color: var(--color-primario);
+}
 .boton:active {
   background-color: var(--color-palido);
   color: var(--color-primario);
@@ -68,3 +78,7 @@
   border: 2px solid var(--color-primario);
 }
 
+.boton--height{
+  height: 50px;
+  width: 100%;
+}

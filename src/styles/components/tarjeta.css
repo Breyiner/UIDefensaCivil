@@ -48,3 +48,30 @@
 .icono__tarjeta {
     font-size: 40px;
 }
+
+.tarjeta-introduccion{
+    display: grid;
+    grid-template-columns: 1fr 4fr 2fr;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--color-grisOscuro);
+    margin-bottom: 20px;
+}
+
+.tarjeta-contenido{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.texto--contenido{
+    font-size: var(--tamano-pequeno);
+    font-family: var(--fuente-contenido);
+}
+
+.tarjeta__subtitulo{
+    font-size: var(--tamano-medio-grande);
+    font-family: var(--fuente-titulos);
+    font-weight: bold;
+}
