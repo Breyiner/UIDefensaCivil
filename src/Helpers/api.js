@@ -264,8 +264,15 @@ export const patch = async (endpoint,datos) => {
         return null;
       }
     }
-
+    
+    if (response.status === 400)
+    {
+      let error = await response.json()
+      alerta.alertaError(error.message);
+      return null;
+    }
     return await response.json();
+    
   } catch (error) {
     console.error("Error en PATCH:", error);
     return null;

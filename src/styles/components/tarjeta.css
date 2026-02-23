@@ -1,0 +1,50 @@
+.tarjeta {
+    padding: 20px;
+    box-shadow: 0 0 10px var(--color-sombra);
+    border-radius: var(--border-radius-tarjetas);
+}
+
+
+.tarjeta--fila {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tarjeta--completa {
+    width: 100%;
+}
+
+.tarjeta__titulo {
+    font-size: var(--tamano-grande);
+    font-weight: bolder;
+    font-family: var(--fuente-titulos);
+}
+
+.tarjeta__titulo--left {
+    align-self: flex-start;
+}
+
+.tarjeta__titulo--pequeno {
+    font-size: var(--tamano-medio-grande);
+}
+
+.tarjeta__icono {
+    font-size: var(--tamano-grande);
+}
+
+.tarjeta__icono--azul {
+    color: var(--color-secundario);
+}
+
+.tarjeta__icono--verde {
+    color: var(--color-verdoso);
+}
+
+.tarjeta__boton {
+    margin-top: 5px;
+}
+
+.icono__tarjeta {
+    font-size: 40px;
+}

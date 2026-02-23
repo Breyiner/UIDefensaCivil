@@ -1,0 +1,69 @@
+.dashBoard{
+    display: grid;
+    width: 95vw;
+    height: 90vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "superior_izquierda superior_esquina_derecha superior_esquina_derecha superior_esquina_derecha superior_esquina_derecha"
+        "inferior_izquierda inferior_izquierda inferior_medio inferior_medio inferior_derecha";
+    font-family: var(--fuente-contenido);
+}
+.dashBoard__superior_izquierda {
+    grid-area: superior_izquierda;
+}
+
+.dashBoard__superior_esquina_derecha {
+    grid-area: superior_esquina_derecha;
+}
+
+.dashBoard__inferior_izquierda {
+    grid-area: inferior_izquierda;
+}
+
+.dashBoard__inferior_medio {
+    grid-area: inferior_medio;
+}
+
+.dashBoard__inferior_derecha {
+    grid-area: inferior_derecha;
+}
+.dashBoard__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    height: 95%;
+    background-color: var(--color-palido);
+    border-radius: 20px;
+}
+.dashBoard__botones{
+    display: none;
+}
+@media screen and (max-width: 768px) {
+.dashBoard{
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas:
+        "botones"
+        "superior_izquierda"
+        "superior_esquina_derecha"
+        "inferior_izquierda"
+        "inferior_medio"
+        "inferior_derecha";
+}
+.dashBoard__botones{
+    grid-area: botones;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+}

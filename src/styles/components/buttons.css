@@ -25,7 +25,7 @@
   background-color: var(--color-secundario);
 }
 .boton--rojo {
-  background-color: var(--color-rojoMalo);
+  background-color: var(--color-vino);
 }
 .boton--azul:active {
   background-color: var(--color-palido);
@@ -57,7 +57,7 @@
   color: var(--color-palido);
   background-color: var(--color-primario);
   padding: 4px 12px;
-  border-radius: 20px;
+  border-radius: var(--border-radius-botones);
   border: 2px solid var(--color-transparencia);
   transition: 0.3s;
   font-weight: bold;

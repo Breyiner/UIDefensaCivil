@@ -38,7 +38,8 @@ const initTomSelect = () => {
     });
 };
 
-document.querySelector("body").insertAdjacentHTML("afterbegin", componenteHeader);
+const layout = document.querySelector(".layout");
+layout.insertAdjacentHTML("afterbegin", componenteHeader);
 const main = document.querySelector("#app");
 
 // 2. Ejecuta la inicialización después de que el router termine

@@ -1,0 +1,49 @@
+.datos{
+  width: 100%;
+  padding: 10px;
+  box-shadow: 0 5px 10px var(--color-sombra);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "icono titulo"
+    "icono descripcion";
+  font-family: var(--fuente-contenido);
+  background-color: var(--color-palido);
+  transition: 0.3s;
+}
+.datos__icono{
+    grid-area: icono;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: 3.3rem;
+    color: var(--color-grisOscuro);
+    transition: 0.3s;
+    font-weight: normal;
+}
+.datos__titulo{
+    display: flex;
+    align-items: start;
+    grid-area: titulo;
+    font-size: var(--tamano-mediano);
+    color: var(--color-oscuro);
+    font-weight: bold;
+    transition: 0.3s;
+}
+.datos__descripcion{
+    grid-area: descripcion;
+    text-align: start;
+    font-size: var(--tamano-pequeno);
+    color: var(--color-grisOscuro);
+    transition: 0.3s;
+}
+.datos:active{
+    border-color: var(--color-secundario);
+}
+.datos:active > .datos__icono,
+.datos:active > .datos__titulo,
+.datos:active > .datos__descripcion{
+    color: var(--color-secundario);
+}

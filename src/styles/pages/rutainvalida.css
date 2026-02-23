@@ -1,4 +1,9 @@
 .rutaInvalida{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--color-grisOscuro);
   font-size: var(--tamano-grande);
 }

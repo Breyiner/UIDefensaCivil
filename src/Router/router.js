@@ -15,9 +15,9 @@ export const router = async (elemento) => {
   if (!resultadoRuta) {
     console.warn("Ruta inválida:", hash);
     elemento.innerHTML = `
-    <div class="rutaInvalida">
+    <div class="rutaInvalida noHeader">
     <h2>Ruta no encontrada <i class="ri-code-box-fill"></i>
-    </h2></div>`;
+    </h2>`;
     return;
   }
 

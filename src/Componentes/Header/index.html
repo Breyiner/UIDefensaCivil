@@ -1,17 +1,26 @@
 <header class="header">
-    <div class="header__logo">
-        <img src="logo.png" alt="logoDefensaCivil" class="header__imagen">
+    <button class="header__boton header__boton--padding header__boton--oscuro" id="boton-back">
+        <i class="ri-arrow-left-s-line header__icono"></i>
+    </button>
+
+    <div class="header__contenedor">
+        <button class="header__boton">
+            <img src="logo.png" alt="Logotipo" class="header__imagen-logo">
+        </button>
+        <div class="header__texto">
+            <p class="header__subtitulo">PLAN FAMILIAR DE</p>
+            <p class="header__titulo">EMERGENCIA</p>
+        </div>
     </div>
-    <p class="header__texto">Plan Familiar de Emergencia</p>
-    <div class="header__notification invisible">
-        <i class="ri-notification-2-fill"></i>
-    </div>
-    <div class="header__boton">
-        <button class="boton--redondo" id="boton-back">
-            <i class="ri-arrow-left-long-line"></i>
+
+    <div class="header__contenedor">
+        <button class="header__boton header__boton--padding header__boton--notificacion header__boton--oscuro">
+            <i class="header__icono ri-notification-2-fill"></i>
+            <span class="header__indicador">5</span>
+        </button>
+        <button class="header__boton header__boton--padding header__boton--oscuro">
+            <i class="header__icono ri-user-3-fill"></i>
         </button>
     </div>
-    <div class="header__burbuja invisible">
-        <div class="header__numerito">+9</div>
-    </div>
+
 </header>
