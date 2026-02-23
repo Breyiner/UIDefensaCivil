@@ -14,7 +14,7 @@ export default async () => {
 
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
-        location.href = `#/administrador-home`;
+        location.href = `#/supervisor-home`;
     };
 
     let mensajeVacio = "No hay ninguna peticion de activacion";
@@ -24,7 +24,7 @@ export default async () => {
         cartaInfo.classList.add("verUsuario");
         cartaInfo.innerHTML = `
             <div class="verUsuario__documento"><i class="ri-id-card-line"></i>${info.document_number}</div>
-            <div class="verUsuario__rol"><span>Peticion</span></div>
+            <div class="verUsuario__rol ${info.state_user_id != 2 ? info.rol == "Supervisor" ? "verUsuario__rol--supervisor" : "verUsuario__rol--voluntario" : "verUsuario__rol--desactivado"}"><span>${info.rol} - ${info.state_user}</span></div>
             <div class="verUsuario__nombre"><i class="ri-jewelry-line"></i>${info.full_name}</div>
             <div class="verUsuario__correo"><i class="ri-mail-line"></i>${info.email}</div>
             <div class="verUsuario__seccional"><i class="ri-team-line"></i>${info.sectional}</div>
@@ -43,14 +43,14 @@ export default async () => {
 
             // 👇 FUNCIÓN QUE RECARGA LA LISTA
             const recargarContainer = async () => {
-                await paginacion(`users/requestsAdmins`, mensajeVacio, carta, funcionBotones);
+                await paginacion(`users/userForSupervisor`, mensajeVacio, carta, funcionBotones);
             };
 
             // 👇 PASAMOS LA FUNCIÓN AL MODAL
-            modalUsuario.ver(id, recargarContainer,true,true);
+            modalUsuario.ver(id, recargarContainer,false,false);
         }
     };
 
     // 👇 PRIMERA CARGA
-    await paginacion(`users/requestsAdmins`, mensajeVacio, carta, funcionBotones);
+    await paginacion(`users/userForSupervisor`, mensajeVacio, carta, funcionBotones);
 };

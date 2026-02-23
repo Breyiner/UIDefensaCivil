@@ -4,6 +4,16 @@ import ventanaHistorial from "../../../Helpers/ventanaHistorial";
 import * as canva from "../../../Helpers/canvas";
 
 export default async() => {
+  const explicaciontitulo = document.querySelector(".explicacion__titulo");
+  const nombre = localStorage.getItem("full_name");
+  const genero = localStorage.getItem("gender_id");
+  if (genero == 2) {
+    explicaciontitulo.innerHTML += "a " + nombre;
+  }
+    else {
+    explicaciontitulo.innerHTML += " " + nombre;
+  }
+  
   const usuariosHistorial = document.getElementById('usuariosHistorial');
   const catalogoHistorial = document.getElementById('catalogoHistorial');
   const canvaEstadoUsuario = document.getElementById('canvaEstadoUsuario');

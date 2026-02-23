@@ -1,6 +1,6 @@
 import * as api from "../../../Helpers/api";
 import * as alerta from "../../../Helpers/alertas";
-import * as modalIntegrante from "../../../Helpers/modales/integrante";
+import * as modalFactorRiesgo from "../../../Helpers/modales/factorRiesgo";
 import paginacion from "../../../Helpers/paginacion";
 
 export default async () => {;
@@ -13,7 +13,7 @@ export default async () => {;
 
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
     };
 
     crear.addEventListener("click", async () => {location.href = `#/voluntario-planRiesgo/crear/id=${id}`;});
@@ -57,7 +57,7 @@ export default async () => {;
     if (e.target.classList.contains("verRiesgos__boton--verMas"))
     {
         const id = e.target.dataset.id;
-        modalIntegrante.ver(id);}
+        modalFactorRiesgo.ver(id);}
     }
 
     await paginacion(`riskFactors/familyPlan/${id}`, mensajeVacio,carta,funcionBotones);

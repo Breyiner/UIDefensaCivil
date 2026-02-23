@@ -32,7 +32,7 @@ export default async () => {
   const especie = document.querySelector('.input__especie');
   const genero = document.querySelector('.input__genero');
   await adjuntarOpc.adjuntar(especie,"species");
-  await adjuntarOpc.adjuntar(genero,"animalGenders");
+  await adjuntarOpc.adjuntarNoValida(genero,"animalGenders");
   await cargarDatos.cargarDatos(`pets/${mascotaId}`,[nombre,raza,edad,especie,genero,],["name","breed","age","species_id","animal_gender_id",],);
 
   const cargarAfecciones = async () => {

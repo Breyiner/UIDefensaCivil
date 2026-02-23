@@ -15,15 +15,21 @@
 .header__boton {
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.925);
-  background: rgba(255, 255, 255, 0.637);
+  background-color: rgba(255, 255, 255, 0.637);
   cursor: pointer;
+  aspect-ratio: 1;
+  transition: 0.3s;
 }
 
 .header__boton--padding {
   padding: 8px;
-  height: 50px;
+  height: 45px;
 }
 
+.header__boton--oscuro{
+  background-color: rgba(217, 217, 217,0.4);
+  border-color: rgba(255, 255, 255,0.2);
+}
 .header__boton--logo {
   padding: 0;
   border: none;
@@ -32,10 +38,13 @@
 .header__icono {
   color: white;
   font-size: 20px;
+  transition: 0.3s;
+  pointer-events: none;
 }
 
 .header__imagen-logo {
-  width: 50px;
+  display: flex;
+  height: 50px;
 }
 
 .header__texto {
@@ -76,4 +85,12 @@
   align-items: center;
   justify-content: center;
   color: white;
+}
+
+.header__boton:active {
+  background-color: white;
+}
+
+.header__boton:active .header__icono {
+  color: #0770CC;
 }

@@ -21,7 +21,7 @@ export default async() => {
     botonBack.onclick = async() => {
     if(window.procesoPeticion) return;
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-    if (confirmacion.isConfirmed) location.href = "#/home";};
+    if (confirmacion.isConfirmed) location.href = "#/voluntario-home";};
 
     await adjuntarOpc.adjuntarNoValida(zona,"zones");
     await adjuntarOpc.adjuntarNoValida(apartamento,"apartments");
@@ -38,9 +38,9 @@ export default async() => {
           last_names: apellidos.value,
           zone_id: zona.value,
           city_id: ciudad.value,
-          sectional_id: localStorage.getItem('sectional_id')
+          sectional_id: localStorage.getItem('sectional_id'),
+          user_id: localStorage.getItem('id'),
         };
-
         try {
             const data = await api.post('familyPlans',datosRegistro);
             if (data.success)

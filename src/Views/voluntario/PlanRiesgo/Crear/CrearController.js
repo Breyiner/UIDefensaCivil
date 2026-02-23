@@ -14,7 +14,7 @@
         botonBack.onclick = async() => {
             if(window.procesoPeticion) return;
             const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-            if (confirmacion.isConfirmed) location.href = `#/planRiesgo/ver/id=${id}`;
+            if (confirmacion.isConfirmed) location.href = `#/voluntario-planRiesgo/ver/id=${id}`;
         };
         
         // Inputs de texto

@@ -1,15 +1,19 @@
 import * as auth from "../Views/Auth/index.js"
 import VoluntarioHomeController from "../Views/Voluntario/Home/HomeController.js";
+import AdministradorHomeController from "../Views/Administrador/Home/HomeController.js"
+import SupervisorHomeController from "../Views/Supervisor/Home/HomeController.js"
+
 import * as planFamiliar from "../Views/Voluntario/PlanFamiliar/index.js";
 import * as verPlan from "../Views/Voluntario/VerPlanFamiliar/index.js";
 import * as Planintegrante from "../Views/Voluntario/PlanIntegrante/index.js";
 import * as planMascota from "../Views/Voluntario/PlanMascota/index.js";
 import * as planRiesgo from "../Views/Voluntario/PlanRiesgo/index.js";
 import * as PlanEntorno from "../Views/Voluntario/PlanEntorno/index.js";
-import AdministradorHomeController from "../Views/Administrador/Home/HomeController.js"
+
+import * as SupervisorUsuarios from "../Views/Supervisor/Usuarios/index.js"
+
 import * as datosMaestros from "../Views/Administrador/DatosMaestros/index.js"
 import * as AdminstradorUsuarios from "../Views/Administrador/Usuarios/index.js"
-import * as HomepageSupervisor from "../Views/Supervisor/homepage/homepage.js"
 import * as RevisionPlanSupervisor from "../Views/Supervisor/RevisionPlan/RevisionPlan.js"
 
 export const routes = {
@@ -29,7 +33,7 @@ export const routes = {
     private: false,
   },
 
-  home: {
+  'voluntario-home': {
     path: `Voluntario/Home/index.html`,
     controlador: VoluntarioHomeController,
     private: true,
@@ -120,7 +124,7 @@ export const routes = {
     },
   },
 
-  "voluntario-planRiesgo":{
+  "voluntario-planRiesgo": {
     ver: {
       path: `Voluntario/PlanRiesgo/index.html`,
       controlador: planRiesgo.verPlanRiesgo,
@@ -141,8 +145,8 @@ export const routes = {
     },
   },
 
-  "voluntario-planEntorno":{
-    editar:{
+  "voluntario-planEntorno": {
+    editar: {
       path: `Voluntario/PlanEntorno/Editar/index.html`,
       controlador: PlanEntorno.EditarController,
       private: true,
@@ -150,7 +154,36 @@ export const routes = {
     },
   },
 
-  "administrador-home": {
+  "supervisor-home": {
+    "/": {
+      path: `supervisor/home/index.html`,
+      controlador: SupervisorHomeController,
+      private: false
+    },
+  },
+
+  "supervisor-revisionPlan": {
+    "/": {
+      path: `Voluntario/VerPlanFamiliar/index.html`,
+      controlador: verPlan.VerPlanFamiliar,
+      private: false
+    }
+  },
+  "supervisor-usuarios": {
+    "peticiones": {
+      path: `Supervisor/Usuarios/Peticiones/index.html`,
+      controlador: SupervisorUsuarios.PeticionesController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+    "gestion": {
+      path: `Supervisor/Usuarios/Gestion/index.html`,
+      controlador: SupervisorUsuarios.GestionController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+  },
+    "administrador-home": {
     path: `Administrador/Home/index.html`,
     controlador: AdministradorHomeController,
     private: true,
@@ -243,34 +276,17 @@ export const routes = {
     }
   },
   "administrador-usuarios": {
-    "peticiones":{
+    "peticiones": {
       path: `Administrador/Usuarios/Peticiones/index.html`,
       controlador: AdminstradorUsuarios.PeticionesController,
       private: true,
       can: "home-frontend.voluntario",
     },
-    "gestion":{
+    "gestion": {
       path: `Administrador/Usuarios/Gestion/index.html`,
       controlador: AdminstradorUsuarios.GestionController,
       private: true,
       can: "home-frontend.voluntario",
     }
   },
-  //supervisor
-  "supervisor-Homepage": {
-    "ver": {
-      path:`supervisor/homepage/index.html`,
-      controlador: HomepageSupervisor,
-      private: false
-    },
-  },
-
-  "supervisor-RevisionPlan": {
-    "ver": {
-      path:`supervisor/RevisionPlan/index.html`,
-      controlador: RevisionPlanSupervisor,
-      private: false
-    }
-  }
-
 };

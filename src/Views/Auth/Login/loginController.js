@@ -29,10 +29,11 @@ export default async() => {
       localStorage.setItem("permissions", atributos.permissions);
       localStorage.setItem("role_id", atributos.role_id);
       localStorage.setItem("sectional_id", atributos.sectional_id);
+      localStorage.setItem("gender_id", atributos.gender);
       await alerta.alertaOK(data.message);
       if (atributos.role_id == 1) window.location.href = "#/administrador-home";
-      else if (atributos.role_id == 2) window.location.href = "#/home";
-      else if (atributos.role_id == 3) window.location.href = "#/home";
+      else if (atributos.role_id == 2) window.location.href = "#/supervisor-home";
+      else if (atributos.role_id == 3) window.location.href = "#/voluntario-home";
       else window.location.href = "#/login";
     } else {
       await alerta.alertaError(data.message);

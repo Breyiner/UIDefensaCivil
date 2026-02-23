@@ -14,7 +14,7 @@ export default async () => {
 
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
-        location.href = `#/administrador-home`;
+        location.href = `#/supervisor-home`;
     };
 
     let mensajeVacio = "No hay ninguna peticion de activacion";
@@ -52,5 +52,5 @@ export default async () => {
     };
 
     // 👇 PRIMERA CARGA
-    await paginacion(`users/requestsAdmins`, mensajeVacio, carta, funcionBotones);
+    await paginacion(`users/requestsSupervisors`, mensajeVacio, carta, funcionBotones);
 };

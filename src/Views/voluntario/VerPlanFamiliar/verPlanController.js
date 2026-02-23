@@ -10,7 +10,7 @@ export default async () => {;
 
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/home`;
+        location.href = `#/voluntario-home`;
     };
 
     let mensajeVacio = "No tienes ningun plan familiar realizado.";
@@ -22,9 +22,9 @@ export default async () => {;
         cartaInfo.innerHTML = `
             <div class="verPlan__icono"><i class="ri-parent-fill"></i></div>
             <div class="verPlan__apellidos">${info.last_names}</div>
-            <div class="verPlan__estado verPlan__estado--naranja">${info.action_name}</div>
-            <div class="verPlan__detalles--ubicacion"><i class="ri-map-pin-line"></i>${info.apartment_name} - ${info.city_name}</div>
-            <div class="verPlan__detalles--fecha"><i class="ri-calendar-event-fill"></i>Ultima Edicion: ${info.date}</div>
+            <div class="verPlan__estado verPlan__estado--naranja">${info.status}</div>
+            <div class="verPlan__detalles--ubicacion"><i class="ri-map-pin-line"></i>${info.department} - ${info.city}</div>
+            <div class="verPlan__detalles--fecha"><i class="ri-calendar-event-fill"></i>Ultima Edicion: ${info.date_create}</div>
             <button class="verPlan__boton boton" id=${info.id}>Revisar Plan</button>`;
         return cartaInfo;
     }
@@ -36,5 +36,5 @@ export default async () => {;
         }
     }
 
-    await paginacion(`histories/voluntario`, mensajeVacio,carta,funcionBotones);
+    await paginacion(`familyPlans/byUser`,mensajeVacio,carta,funcionBotones);
 }

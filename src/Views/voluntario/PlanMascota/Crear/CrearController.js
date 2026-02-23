@@ -14,7 +14,7 @@ export default async () => {
     botonBack.onclick = async() => {
         if(window.procesoPeticion) return;
         const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-        if (confirmacion.isConfirmed) location.href = `#/planMascota/ver/id=${id}`;
+        if (confirmacion.isConfirmed) location.href = `#/voluntario-planMascota/ver/id=${id}`;
     };
     
     // Inputs de texto
@@ -25,7 +25,7 @@ export default async () => {
     const especie = document.querySelector('.input__especie');
     const genero = document.querySelector('.input__genero');
     await adjuntarOpc.adjuntar(especie,"species");
-    await adjuntarOpc.adjuntar(genero,"animalGenders");
+    await adjuntarOpc.adjuntarNoValida(genero,"animalGenders");
 
     window.procesoPeticion = false;
     boton.disabled = false;
