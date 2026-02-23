@@ -4,21 +4,25 @@ import * as api from "../../../../Helpers/api";
 export default async () => {
   const id = location.hash.split("=")[1];
   const botonBack = document.getElementById("boton-back");
-  
+
   const paginado = document.querySelector(".paginado");
   const preguntas = document.querySelector(".preguntas");
   const siguiente = document.querySelector(".botonera__siguiente");
   const atras = document.querySelector(".botonera__atras");
 
-  if (window.procesoPeticion === undefined) {window.procesoPeticion = true;}
+  if (window.procesoPeticion === undefined) {
+    window.procesoPeticion = true;
+  }
   window.procesoPeticion = true;
 
-  botonBack.onclick = async() => {
-    if(window.procesoPeticion) return
-    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
+  botonBack.onclick = async () => {
+    if (window.procesoPeticion) return;
+    const confirmacion = await alerta.alertaQuest(
+      "¿Seguro que quieres volver? perderás tu progreso",
+    );
     if (confirmacion.isConfirmed) location.href = "#/voluntario-home";
   };
-  
+
   let paginaActual = 1;
 
   const paginas = await api.getPaginacion("vulnerableQuestions/paginate");
@@ -39,12 +43,13 @@ export default async () => {
 
   await cargarPagina();
 
-
   async function cargarPagina() {
     window.procesoPeticion = true;
     preguntas.innerHTML = "";
 
-    const pagina = await api.get(`vulnerableQuestions/paginate?page=${paginaActual}`);
+    const pagina = await api.get(
+      `vulnerableQuestions/paginate?page=${paginaActual}`,
+    );
     let cont = paginaActual === 1 ? 1 : (paginaActual - 1) * 3 + 1;
     pagina.forEach((opcion) => {
       const contenedor = document.createElement("div");
@@ -75,7 +80,8 @@ export default async () => {
     atras.dataset.page = paginaActual - 1;
 
     siguiente.textContent = paginaActual === cantidad ? "Evaluar" : "Siguiente";
-    siguiente.dataset.page = paginaActual === cantidad ? "fin" : paginaActual + 1;
+    siguiente.dataset.page =
+      paginaActual === cantidad ? "fin" : paginaActual + 1;
 
     window.procesoPeticion = false;
   }
@@ -95,7 +101,6 @@ export default async () => {
 
     cargarPagina();
   }
-
 
   paginado.addEventListener("click", (e) => {
     const page = e.target.dataset.page;
@@ -118,16 +123,18 @@ export default async () => {
 
     localStorage.setItem(e.target.name, e.target.value);
 
-    if (!e.target.closest(".preguntas__contendor--precaucion") && e.target.value == "true")
-    {
+    if (
+      !e.target.closest(".preguntas__contendor--precaucion") &&
+      e.target.value == "true"
+    ) {
       localStorage.setItem(`puntaje-${e.target.name}`, e.target.value);
-    }
-    else if(e.target.value == "false") localStorage.removeItem(`puntaje-${e.target.name}`);
+    } else if (e.target.value == "false")
+      localStorage.removeItem(`puntaje-${e.target.name}`);
   });
 
   async function evaluarTest() {
     siguiente.disabled = true;
-    window.procesoPeticion =  true
+    window.procesoPeticion = true;
     const verPreguntas = await api.get("vulnerableQuestions");
 
     let total = 0;
@@ -135,53 +142,77 @@ export default async () => {
     let puntos = 0;
 
     verPreguntas.forEach((p) => {
-      if (!p.is_active)
-        {
-          window.procesoPeticion =  false
-          siguiente.disabled = false;
-          return;
-        }
+      if (!p.is_active) {
+        window.procesoPeticion = false;
+        siguiente.disabled = false;
+        return;
+      }
       total++;
       const respuesta = localStorage.getItem(`opcion-${p.id}`);
       if (respuesta !== null) respondidas++;
 
-      if (!p.question_caution && localStorage.getItem(`puntaje-opcion-${p.id}`)) {
+      if (
+        !p.question_caution &&
+        localStorage.getItem(`puntaje-opcion-${p.id}`)
+      ) {
         puntos++;
       }
     });
 
     if (respondidas < total) {
-      await alerta.alertaWarning(`No ha respondido todas (${respondidas}/${total})`);
-      window.procesoPeticion =  false
-      siguiente.disabled = false;
-      return;
-    }
-
-    if (puntos < 5) {
-      await alerta.alertaWarning("No cumple con los requisitos");
-      window.procesoPeticion =  false
+      await alerta.alertaWarning(
+        `No ha respondido todas (${respondidas}/${total})`,
+      );
+      window.procesoPeticion = false;
       siguiente.disabled = false;
       return;
     }
     alerta.alertaLoading();
     for (const p of verPreguntas) {
-      if (!p.is_active)
-        {
-          window.procesoPeticion =  false
-          siguiente.disabled = false;
-          return;
-        }
-        const datos = {
+      if (!p.is_active) {
+        window.procesoPeticion = false;
+        siguiente.disabled = false;
+        return;
+      }
+      const datos = {
         vulnerable_question_id: p.id,
         family_plan_id: id,
         answer: localStorage.getItem(`opcion-${p.id}`) === "true",
-      }
-      await api.post("vulnerableTest",datos);
-      
+      };
+      await api.post("vulnerableTest", datos);
+
       localStorage.removeItem(`opcion-${p.id}`);
       localStorage.removeItem(`puntaje-opcion-${p.id}`);
     }
     alerta.alertaLoadingCerrar();
+    if (puntos < 5) {
+      await alerta.alertaWarning(
+        "El plan familiar presentado no cumple con los requisitos y lineamientos establecidos para su aprobación, se redigira a la vista home",
+      );
+      try {
+        const data = await api.patch(`familyPlans/status/${id}`, {
+          status_plan_id: 2,
+        });
+        if (data.success) {
+          window.location.href = `#/voluntario-home`;
+        } else alerta.alertaWarning(data.message, data.errors);
+      } catch (error) {
+        alerta.alertaError(error.errors);
+      }
+      window.procesoPeticion = false;
+      siguiente.disabled = false;
+      return;
+    }
+
+    try {
+      const data = await api.patch(`familyPlans/status/${id}`, {
+        status_plan_id: 3,
+      });
+      if (data.success) {
+      } else alerta.alertaWarning(data.message, data.errors);
+    } catch (error) {
+      alerta.alertaError(error.errors);
+    }
     await alerta.alertaOK("Test evaluado con éxito");
     location.replace(`#/voluntario-planFamiliar/identificacion/id=${id}`);
   }

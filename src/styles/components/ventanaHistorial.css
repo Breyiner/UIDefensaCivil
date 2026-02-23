@@ -1,5 +1,5 @@
 .ventanaHistorial{
-    border: 2px solid var(--color-grisOscuro);
+    border: 2px solid var(--color-secundario);
     width: 100%;
 }
 .ventanaHistorial__titulo{
@@ -7,15 +7,15 @@
     text-align: center;
     font-weight: bolder;
     padding: 10px;
-    color: var(--color-grisOscuro);
+    color: var(--color-secundario);
     width: 100%;
     height: 10%;
-    background-color: var(--color-grisSombra);
+    background-color: var(--color-azulado-50);
 }
 .ventanaHistorial__contenido{
     font-size: var(--tamano-pequeno);
     color: var(--color-grisOscuro);
-    border-top: 2px solid var(--color-grisOscuro);
+    border-top: 2px solid var(--color-secundario);
     width: 100%;
     height: 300px;
     overflow-y: auto;

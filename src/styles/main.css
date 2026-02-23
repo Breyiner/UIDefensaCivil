@@ -26,6 +26,7 @@
 @import "./components/ventanaHistorial.css";
 @import "./components/tarjeta.css";
 @import "./components/seccion.css";
+@import "./components/dashboard.css";
 
 /* pages */
 @import "./pages/familiarcrear.css";
@@ -39,4 +40,3 @@
 @import "./pages/verRiesgo.css";
 @import "./pages/verUsuario.css";
 @import "./pages/datosMaestros.css";
-@import "./pages/dashboard.css";

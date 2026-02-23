@@ -21,7 +21,7 @@ export default async() => {
   const canvaCatalogoEstados = document.getElementById('canvaCatalogoEstados'); 
 
   const {history_general,history_members,monthly_changes,rols,summary} = await api.get('audits/dashBoardAdmin');
-
+  
   ventanaHistorial(history_members,usuariosHistorial)
   ventanaHistorial(history_general,catalogoHistorial)
   canva.dona(canvaEstadoUsuario,"Estados de Usuario","Activos","Inactivos","Pendientes",summary.active,summary.inactive,summary.request);

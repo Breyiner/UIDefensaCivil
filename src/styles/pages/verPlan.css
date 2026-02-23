@@ -30,8 +30,8 @@
 
 .verPlan__estado{
   grid-area: estado;
-  background-color: var(--color-secundario);
-  color: var(--color-palido);
+  background-color: var(--color-naranjado-50);
+  color: var(--color-primario);
   font-size: var(--tamano-mediano);
   border-radius: 10px;
   display: flex;
@@ -39,10 +39,19 @@
   justify-content: center;
   
 }
-.verPlan__estado--naranja{
-  background-color: var(--color-naranjado-50);
-  color: var(--color-primario);
+.verPlan__estado--azul{
+  background-color: var(--color-azulado-50);
+  color: var(--color-secundario);
 }
+.verPlan__estado--rojo{
+  background-color: var(--color-rojizo-25);
+  color: var(--color-rojizo);
+}
+.verPlan__estado--verde{
+  background-color: var(--color-verdoso-25);
+  color: var(--color-verdoso);
+}
+
 
 .verPlan__detalles--fecha{
   grid-area: detalleFecha;

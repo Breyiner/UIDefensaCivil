@@ -1,7 +1,7 @@
-import * as auth from "../Views/Auth/index.js"
+import * as auth from "../Views/Auth/index.js";
 import VoluntarioHomeController from "../Views/Voluntario/Home/HomeController.js";
-import AdministradorHomeController from "../Views/Administrador/Home/HomeController.js"
-import SupervisorHomeController from "../Views/Supervisor/Home/HomeController.js"
+import AdministradorHomeController from "../Views/Administrador/Home/HomeController.js";
+import SupervisorHomeController from "../Views/Supervisor/Home/HomeController.js";
 
 import * as planFamiliar from "../Views/Voluntario/PlanFamiliar/index.js";
 import * as verPlan from "../Views/Voluntario/VerPlanFamiliar/index.js";
@@ -10,12 +10,10 @@ import * as planMascota from "../Views/Voluntario/PlanMascota/index.js";
 import * as planRiesgo from "../Views/Voluntario/PlanRiesgo/index.js";
 import * as PlanEntorno from "../Views/Voluntario/PlanEntorno/index.js";
 
-import * as SupervisorUsuarios from "../Views/Supervisor/Usuarios/index.js"
-
-import * as datosMaestros from "../Views/Administrador/DatosMaestros/index.js"
-import * as AdminstradorUsuarios from "../Views/Administrador/Usuarios/index.js"
-import * as RevisionPlanSupervisor from "../Views/Supervisor/RevisionPlan/RevisionPlan.js"
-
+import * as SupervisorUsuarios from "../Views/Supervisor/Usuarios/index.js";
+import * as SupervisorPlanes from "../Views/Supervisor/PlanFamiliar/index.js"
+import * as datosMaestros from "../Views/Administrador/DatosMaestros/index.js";
+import * as AdminstradorUsuarios from "../Views/Administrador/Usuarios/index.js";
 export const routes = {
   login: {
     path: `Auth/Login/index.html`,
@@ -33,7 +31,7 @@ export const routes = {
     private: false,
   },
 
-  'voluntario-home': {
+  "voluntario-home": {
     path: `Voluntario/Home/index.html`,
     controlador: VoluntarioHomeController,
     private: true,
@@ -64,7 +62,7 @@ export const routes = {
       controlador: planFamiliar.TestVulController,
       private: true,
       can: "family-plans.destroy",
-    }
+    },
   },
 
   "voluntario-verPlanFamiliar": {
@@ -158,32 +156,43 @@ export const routes = {
     "/": {
       path: `supervisor/home/index.html`,
       controlador: SupervisorHomeController,
-      private: false
+      private: false,
     },
   },
 
-  "supervisor-revisionPlan": {
-    "/": {
+  "supervisor-planFamiliar": {
+    "/":{
       path: `Voluntario/VerPlanFamiliar/index.html`,
       controlador: verPlan.VerPlanFamiliar,
-      private: false
+      private: false,
+    },
+    revision: {
+      path: `Supervisor/PlanFamiliar/RevisionPlan/index.html`,
+      controlador: SupervisorPlanes.RevisionPlanController,
+      private: false,
+    },
+    estadistica: {
+      path: `Supervisor/PlanFamiliar/Estadistica/index.html`,
+      controlador: SupervisorPlanes.EstadisticaController,
+      private: false,
     }
   },
   "supervisor-usuarios": {
-    "peticiones": {
+    peticiones: {
       path: `Supervisor/Usuarios/Peticiones/index.html`,
       controlador: SupervisorUsuarios.PeticionesController,
       private: true,
       can: "home-frontend.voluntario",
     },
-    "gestion": {
+    gestion: {
       path: `Supervisor/Usuarios/Gestion/index.html`,
       controlador: SupervisorUsuarios.GestionController,
       private: true,
       can: "home-frontend.voluntario",
     },
   },
-    "administrador-home": {
+
+  "administrador-home": {
     path: `Administrador/Home/index.html`,
     controlador: AdministradorHomeController,
     private: true,
@@ -198,95 +207,95 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
 
-    "seccionales": {
+    seccionales: {
       path: `Administrador/DatosMaestros/Seccionales/index.html`,
       controlador: datosMaestros.seccionalesController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "organizaciones": {
+    organizaciones: {
       path: `Administrador/DatosMaestros/Organizaciones/index.html`,
       controlador: datosMaestros.organizacionesController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "tiposDocumento": {
+    tiposDocumento: {
       path: `Administrador/DatosMaestros/TiposDocumento/index.html`,
       controlador: datosMaestros.tiposDocumentoController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "calidadesVivienda": {
+    calidadesVivienda: {
       path: `Administrador/DatosMaestros/CalidadesVivienda/index.html`,
       controlador: datosMaestros.calidadesViviendaController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "sectores": {
+    sectores: {
       path: `Administrador/DatosMaestros/Sectores/index.html`,
       controlador: datosMaestros.sectoresController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "preguntasVulnerabilidad": {
+    preguntasVulnerabilidad: {
       path: `Administrador/DatosMaestros/PreguntasVulnerabilidad/index.html`,
       controlador: datosMaestros.preguntasVulnerabilidadController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "nacionalidades": {
+    nacionalidades: {
       path: `Administrador/DatosMaestros/Nacionalidades/index.html`,
       controlador: datosMaestros.nacionalidadesController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "tiposAmenaza": {
+    tiposAmenaza: {
       path: `Administrador/DatosMaestros/TiposAmenaza/index.html`,
       controlador: datosMaestros.tiposAmenazaController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "especies": {
+    especies: {
       path: `Administrador/DatosMaestros/Especies/index.html`,
       controlador: datosMaestros.especiesController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "recursos": {
+    recursos: {
       path: `Administrador/DatosMaestros/Recursos/index.html`,
       controlador: datosMaestros.recursosController,
       private: true,
       can: "home-frontend.voluntario",
     },
 
-    "vulnerabilidades": {
+    vulnerabilidades: {
       path: `Administrador/DatosMaestros/Vulnerabilidades/index.html`,
       controlador: datosMaestros.vulnerabilidadesController,
       private: true,
       can: "home-frontend.voluntario",
-    }
+    },
   },
   "administrador-usuarios": {
-    "peticiones": {
+    peticiones: {
       path: `Administrador/Usuarios/Peticiones/index.html`,
       controlador: AdminstradorUsuarios.PeticionesController,
       private: true,
       can: "home-frontend.voluntario",
     },
-    "gestion": {
+    gestion: {
       path: `Administrador/Usuarios/Gestion/index.html`,
       controlador: AdminstradorUsuarios.GestionController,
       private: true,
       can: "home-frontend.voluntario",
-    }
+    },
   },
 };

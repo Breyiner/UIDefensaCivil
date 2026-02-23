@@ -28,7 +28,7 @@ export default async () => {
   botonBack.onclick = async () => {
   if (window.procesoPeticion) return;
   const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso",);
-  if (confirmacion.isConfirmed) location.href = "#/home";};
+  if (confirmacion.isConfirmed) location.href = "#/voluntario-home";};
 
   cargarDatos(`familyPlans/${id}`, [familia, apellidos], ["id", "last_names"]);
   await adjuntarOpc.adjuntarNoValida(sector, "sectors");
