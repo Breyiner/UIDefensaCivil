@@ -39,14 +39,9 @@
     background-color: var(--color-palido);
     border-radius: 20px;
 }
-.dashBoard__container:has(.ventanaHistorial){
-    justify-content: start;
-    background-color: transparent;
-}
 .dashBoard__botones{
     display: none;
 }
-
 @media screen and (max-width: 768px) {
 .dashBoard{
     width: 100%;

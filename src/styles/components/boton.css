@@ -9,6 +9,7 @@
   transition: 0.3s;
   border: 3px solid var(--color-transparencia);
   font-family: var(--fuente-titulos);
+  cursor: pointer;
 }
 .boton-width{
   width: 100%;

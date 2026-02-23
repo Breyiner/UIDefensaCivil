@@ -537,3 +537,87 @@ export const AutorizacionDatos = () => {
     }
   })
 };
+
+export const rechazarCambios = (id) => {
+  return Swal.fire({
+    title: "rechazar con cambios",
+    html: `
+      <div style="text-align:left;">
+        <label style="font-weight:600;">Comentarios</label>
+        <textarea 
+          id="comentariosDevolver" 
+          placeholder="Escribe el motivo de la devolución (mínimo 10 caracteres)..."
+          style="
+            width:100%;
+            height:150px;
+            margin-top:8px;
+            padding:10px;
+            border-radius:10px;
+            border:1px solid #ddd;
+            resize:none;
+            overflow-y:auto;
+            font-size:14px;
+          "
+        ></textarea>
+        <small id="contadorTexto" style="display:block;margin-top:6px;color:#888;">
+          0 / mínimo 10 caracteres
+        </small>
+      </div>
+    `,
+    width: 600,
+    showCancelButton: true,
+    confirmButtonText: "Devolver",
+    cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "botonEliminar",
+      cancelButton: "botonOK",
+      title: "modalTitulo"
+    },
+
+    didOpen: () => {
+      const textarea = document.getElementById("comentariosDevolver");
+      const confirmBtn = Swal.getConfirmButton();
+      const contador = document.getElementById("contadorTexto");
+
+      confirmBtn.disabled = true;
+
+      textarea.addEventListener("input", () => {
+        const longitud = textarea.value.trim().length;
+        contador.textContent = `${longitud} / mínimo 10 caracteres`;
+
+        confirmBtn.disabled = longitud < 10;
+      });
+    },
+
+    preConfirm: async () => {
+
+      const comentarios = document.getElementById("comentariosDevolver").value.trim();
+
+      if (comentarios.length < 10) {
+        Swal.showValidationMessage("El comentario debe tener mínimo 10 caracteres");
+        return;
+      }
+
+      try {
+
+        const response = await api.patch(`familyPlans/status/${id}`, {
+          status_plan_id: 5,
+          comentary: comentarios
+        });
+
+        if (response.success) {
+          await alertaOK(response.message);
+        } else {
+          alertaWarning(response.message, response.errors);
+        }
+
+      } catch (error) {
+        console.error(error);
+        alertaError("Error al devolver");
+      }
+
+      return; 
+    }
+  });
+
+};

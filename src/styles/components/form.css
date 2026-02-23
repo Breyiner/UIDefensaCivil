@@ -27,6 +27,7 @@
   background: none;
   transition: 0.3s;
   font-family: var(--fuente-contenido);
+  cursor: pointer;
 }
 
 .form__link:active {

@@ -53,7 +53,7 @@ export default async () => {
   botonEnviar.addEventListener("click", async () => {
     try {
       const data = await api.patch(`familyPlans/status/${id}`, {
-        status_plan_id: 5,
+        status_plan_id: 4,
       });
       if (data.success) {
         await alerta.alertaOK(data.message);

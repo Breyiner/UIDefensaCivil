@@ -7,7 +7,7 @@ export default async () => {;
 
     if (window.procesoPeticion === undefined) {window.procesoPeticion = false;}
     window.procesoPeticion = false;
-    const rolId = localStorage.getItem("rol_id");
+    const rolId = localStorage.getItem("role_id");
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
         location.href = rolId == 3 ? `#/voluntario-home` : `#/supervisor-home`;
@@ -25,14 +25,14 @@ export default async () => {;
             <div class="verPlan__estado ${info.status_id == 3 ? "verPlan__estado--azul" : info.status_id == 4 || info.status_id == 7 ? "verPlan__estado--verde" : info.status_id == 5 || info.status_id == 6 ? "verPlan__estado--rojo" : ""}">${info.status_id == 5 ? "Rechz.Cambios": info.status_id == 6 ? "Rechz.Definitivo" : info.status}</div>
             <div class="verPlan__detalles--ubicacion"><i class="ri-map-pin-line"></i>${info.department} - ${info.city}</div>
             <div class="verPlan__detalles--fecha"><i class="ri-calendar-event-fill"></i>Ultima Edicion: ${info.date_create}</div>
-            ${info.status_id == 1 || info.status_id == 2 ? '' : `<button class="verPlan__boton boton" id=${info.id}>Revisar Plan</button>`}`;
+            ${info.status_id == 2 || info.status_id == 6 ? '' : `<button class="verPlan__boton boton" id=${info.id}>Revisar Plan</button>`}`;
         return cartaInfo;
     }
 
     const funcionBotones = async(e) => {
     if (e.target.classList.contains("verPlan__boton") && !window.procesoPeticion) 
         {
-            location.href = `#/voluntario-verPlanFamiliar/menu/id=${e.target.id}`;
+            location.href = rolId == 3 ? `#/voluntario-verPlanFamiliar/menu/id=${e.target.id}` : `#/supervisor-planFamiliar/revision/id=${e.target.id}`;
         }
     }
 
