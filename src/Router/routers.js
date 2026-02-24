@@ -4,6 +4,7 @@ import AdministradorHomeController from "../Views/Administrador/Home/HomeControl
 import SupervisorHomeController from "../Views/Supervisor/Home/HomeController.js";
 
 import * as planFamiliar from "../Views/Voluntario/PlanFamiliar/index.js";
+import * as datosPrincipales from "../Views/Voluntario/PlanDatosPrincipales/index.js";
 import * as verPlan from "../Views/Voluntario/VerPlanFamiliar/index.js";
 import * as Planintegrante from "../Views/Voluntario/PlanIntegrante/index.js";
 import * as planMascota from "../Views/Voluntario/PlanMascota/index.js";
@@ -11,9 +12,10 @@ import * as planRiesgo from "../Views/Voluntario/PlanRiesgo/index.js";
 import * as PlanEntorno from "../Views/Voluntario/PlanEntorno/index.js";
 
 import * as SupervisorUsuarios from "../Views/Supervisor/Usuarios/index.js";
-import * as SupervisorPlanes from "../Views/Supervisor/PlanFamiliar/index.js"
+import * as SupervisorPlanes from "../Views/Supervisor/PlanFamiliar/index.js";
 import * as datosMaestros from "../Views/Administrador/DatosMaestros/index.js";
 import * as AdminstradorUsuarios from "../Views/Administrador/Usuarios/index.js";
+import { editar } from "../Helpers/Modales/seccional.js";
 export const routes = {
   login: {
     path: `Auth/Login/index.html`,
@@ -79,7 +81,14 @@ export const routes = {
       can: "family-plans.show",
     },
   },
-
+  "voluntario-planDatos": {
+    "ver": {
+      path: `Voluntario/PlanDatosPrincipales/Editar/index.html`,
+      controlador: datosPrincipales.EditarController,
+      private: true,
+      can: "family-plans.show",
+    },
+  },
   "voluntario-planIntegrante": {
     ver: {
       path: `Voluntario/PlanIntegrante/index.html`,
@@ -161,7 +170,7 @@ export const routes = {
   },
 
   "supervisor-planFamiliar": {
-    "/":{
+    "/": {
       path: `Voluntario/VerPlanFamiliar/index.html`,
       controlador: verPlan.VerPlanFamiliar,
       private: false,
@@ -175,7 +184,7 @@ export const routes = {
       path: `Supervisor/PlanFamiliar/Estadistica/index.html`,
       controlador: SupervisorPlanes.EstadisticaController,
       private: false,
-    }
+    },
   },
   "supervisor-usuarios": {
     peticiones: {

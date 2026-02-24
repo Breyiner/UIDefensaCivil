@@ -11,8 +11,9 @@ export default async () => {
 
   const form = document.querySelector(".form");
   const boton = document.querySelector(".form__boton");
-  const botonGeo = document.querySelector(".form__botonGeo");
-
+  const zona = document.querySelector(".selector--zona");
+  const apartamento = document.querySelector(".selector--apartamento");
+  const ciudad = document.querySelector(".selector--ciudad");
   const familia = document.getElementById("familiaId");
   const apellidos = document.getElementById("apellidos");
   const dirrecion = document.getElementById("dirrecion");
@@ -28,20 +29,44 @@ export default async () => {
 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    const confirmacion = await alerta.alertaQuest(
-      "¿Seguro que quieres volver? perderás tu progreso",
-    );
-    if (confirmacion.isConfirmed) location.href = "#/voluntario-home";
+    location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
   };
 
-  cargarDatos(`familyPlans/${id}`, [familia, apellidos], ["id", "last_names"]);
+  await adjuntarOpc.adjuntarNoValida(zona, "zones");
+  await adjuntarOpc.adjuntarNoValida(apartamento, "apartments");
+  await adjuntarOpc.adjuntarNoValida(ciudad, "cities");
   await adjuntarOpc.adjuntarNoValida(sector, "sectors");
   await adjuntarOpc.adjuntarNoValida(calidad, "housingQualities");
+  await cargarDatos(
+    `familyPlans/${id}`,
+    [
+      familia,
+      apellidos,
+      zona,
+      apartamento,
+      ciudad,
+      dirrecion,
+      sector,
+      sectorNombre,
+      telefono,
+      calidad,
+    ],
+    [
+      "id",
+      "last_names",
+      "zone_id",
+      "apartment_id",
+      "city_id",
+      "address",
+      "sector_id",
+      "sector_name",
+      "landline_phone",
+      "housing_quality_id",
+    ],
+  );
   familia.value = `Familia segura N.${familia.value}`;
-  localStorage.importacionLocalStorage("identificacion");
 
   boton.disabled = false;
-  botonGeo.disabled = false;
   window.procesoPeticion = false;
 
   apellidos.addEventListener("keydown", (e) => {
@@ -65,8 +90,8 @@ export default async () => {
   dirrecion.addEventListener("blur", (e) => {
     validacion.limpiarError(dirrecion);
   });
-  sector.addEventListener("change", async () =>{ 
-    validacion.limpiarError(sector)
+  sector.addEventListener("change", async () => {
+    validacion.limpiarError(sector);
   });
   sectorNombre.addEventListener("blur", (e) => {
     validacion.limpiarError(sectorNombre);
@@ -75,24 +100,29 @@ export default async () => {
     validacion.limpiarError(telefono);
   });
   calidad.addEventListener("change", async () => {
-    validacion.limpiarError(calidad)
+    validacion.limpiarError(calidad);
   });
-  
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     boton.disabled = true;
-    botonGeo.disabled = true;
     window.procesoPeticion = true;
 
     let validarApellidos = validacion.validarMinimo(apellidos, 3);
+    let validarZona = validacion.validarSelect(zona);
+    let validarApartamento = validacion.validarSelect(apartamento);
+    let validarCiudad = validacion.validarSelect(ciudad);
     let validarDirrecion = validacion.validarMinimo(dirrecion, 10);
     let validarSector = validacion.validarSelect(sector);
     let validarSectorNombre = validacion.validarMinimo(sectorNombre, 3);
-    let validarTelefono = validacion.validarSiExiste(telefono,3);
+    let validarTelefono = validacion.validarSiExiste(telefono, 3);
     let validarCalidad = validacion.validarSelect(calidad);
 
     if (
       validarApellidos &&
+      validarZona &&
+      validarApartamento &&
+      validarCiudad &&
       validarDirrecion &&
       validarSector &&
       validarSectorNombre &&
@@ -115,33 +145,18 @@ export default async () => {
         );
         if (data.success) {
           await alerta.alertaOK(data.message);
-          const geo = await api.getExiste(`housingInfo/${id}`);
-          !geo
-            ? await alerta.alertaWarning(
-                "Se puede agregar la Georeferenciacion despues...",
-              )
-            : "";
-          location.href= `#/voluntario-verPlanFamiliar/menu/id=${id}`;
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors);
       }
     }
     boton.disabled = false;
-    botonGeo.disabled = false;
     window.procesoPeticion = false;
   });
-
-  botonGeo.addEventListener("click", (e) => {
-    if (window.procesoPeticion) return;
-    e.preventDefault();
-    localStorage.envioLocalStorage([
-      dirrecion,
-      sector,
-      sectorNombre,
-      telefono,
-      calidad,
-    ]);
-    location.href = `#/voluntario-planFamiliar/georeferenciacion/id=${id}`;
+  apartamento.addEventListener("change", async () => {
+    await adjuntarOpc.adjuntarReseteoNoValida(
+      ciudad,
+      `cities/apartment/${apartamento.value}`,
+    );
   });
 };

@@ -10,6 +10,8 @@ export default async() => {
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = false;
   }
+  window.procesoPeticion = false;
+  
   correo.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 40)
   });
@@ -17,11 +19,17 @@ export default async() => {
   contrasena.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 40)
   });
+  correo.addEventListener("blur", (e) => {
+    validacion.limpiarError(correo);
+  });
+  contrasena.addEventListener("blur", (e) => {
+    validacion.limpiarError(contrasena);
+  });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     let validarCorreo = validacion.validarCorreo(correo);
-    let validarContrasena = validacion.validarPassword(contrasena);
+    let validarContrasena = validacion.validarMinimo(contrasena,8);
     
     if (validarCorreo && validarContrasena){
       const datosUsuario = {

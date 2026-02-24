@@ -1,9 +1,12 @@
 import * as api from "../../../../Helpers/api";
 import * as alerta from "../../../../Helpers/alertas";
+import { cargarDatos } from "../../../../Helpers/cargarDatos";
 import AccesoPlan from "../../../../Helpers/accesoPlan";
 
 export default async () => {
   const botonBack = document.getElementById("boton-back");
+  const nombreFamilia = document.querySelector(".informacion__nombreFamiliar");
+  const datosPrincipales = document.getElementById("datosPrincipales");
   const integrante = document.getElementById("integrantes");
   const mascotas = document.getElementById("mascotas");
   const factoresRiesgo = document.getElementById("factoresRiesgo");
@@ -16,11 +19,17 @@ export default async () => {
 
   const id = location.hash.split("=")[1];
 
-  // await AccesoPlan(id);
+  await AccesoPlan(id);
+  await cargarDatos(`familyPlans/${id}`, [nombreFamilia], ["last_names"]);
+  nombreFamilia.textContent = `Familia ${nombreFamilia.value}`;
 
   botonBack.onclick = () => {
     location.href = `#/voluntario-verPlanFamiliar`;
   };
+
+  datosPrincipales.addEventListener("click", async () => {
+    location.href = `#/voluntario-planDatos/ver/id=${id}`;
+  });
 
   integrante.addEventListener("click", async () => {
     location.href = `#/voluntario-planIntegrante/ver/id=${id}`;

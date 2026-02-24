@@ -14,15 +14,6 @@
   border-radius: 10px;
 }
 
-.container__descripcion {
-  color: var(--color-grisOscuro);
-  font-size: var(--tamano-mediano);
-  font-weight: bolder;
-  width: 100%;
-  text-align: center;
-  font-family: var(--fuente-titulos);
-}
-
 .container__paginas{
   width: 100%;
 }

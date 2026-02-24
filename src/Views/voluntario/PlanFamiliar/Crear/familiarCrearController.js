@@ -1,15 +1,15 @@
 import * as adjuntarOpc from "../../../../Helpers/adjuntarOpciones";
 import * as alerta from "../../../../Helpers/alertas";
 import * as api from "../../../../Helpers/api";
-
+import * as validacion from "../../../../Helpers/validacionInputs";
 export default async () => {
   const botonBack = document.getElementById("boton-back");
   const form = document.querySelector(".form");
 
-  const apellidos = document.querySelector(".input__apellidos");
-  const zona = document.querySelector(".input__zona");
-  const apartamento = document.querySelector(".input__apartamento");
-  const ciudad = document.querySelector(".input__ciudad");
+  const apellidos = document.getElementById("apellidos");
+  const zona = document.querySelector(".selector--zona");
+  const apartamento = document.querySelector(".selector--apartamento");
+  const ciudad = document.querySelector(".selector--ciudad");
   const boton = document.querySelector(".form__boton");
 
   if (window.procesoPeticion === undefined) {
@@ -28,31 +28,60 @@ export default async () => {
   await adjuntarOpc.adjuntarNoValida(zona, "zones");
   await adjuntarOpc.adjuntarNoValida(apartamento, "apartments");
   window.procesoPeticion = false;
-
+  boton.disabled = false;
+  
+  apellidos.addEventListener("keydown", (e) => {
+    validacion.limiteCaracteres(e, 75);
+    validacion.textoConEspacios(e);
+  });
+  apellidos.addEventListener("blur", (e) => {
+    validacion.limpiarError(apellidos);
+  });
+  zona.addEventListener("change", async () =>{ 
+    validacion.limpiarError(zona)
+  });
+  apartamento.addEventListener("change", async () => {
+    validacion.limpiarError(apartamento)
+  });
+  ciudad.addEventListener("change", async () => {
+    validacion.limpiarError(ciudad)
+  });
+  
   form.addEventListener("submit", async (e) => {
     window.procesoPeticion = true;
     e.preventDefault();
-
     boton.disabled = true;
 
-    const datosRegistro = {
-      last_names: apellidos.value,
-      zone_id: zona.value,
-      city_id: ciudad.value,
-      sectional_id: localStorage.getItem("sectional_id"),
-      user_id: localStorage.getItem("id"),
-    };
+    let validarApellidos = validacion.validarMinimo(apellidos, 3);
+    let validarZona = validacion.validarSelect(zona);
+    let validarApartamento = validacion.validarSelect(apartamento);
+    let validarCiudad = validacion.validarSelect(ciudad);
 
-    const autorizacion = await alerta.AutorizacionDatos();
-    if (autorizacion.isConfirmed) {
-      try {
-        const data = await api.post("familyPlans", datosRegistro);
-        if (data.success) {
-          await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario-planFamiliar/testVunerabilidad/id=${data.data.id}`;
-        } else alerta.alertaWarning(data.message, data.errors);
-      } catch (error) {
-        alerta.alertaError(error.errors);
+    if (
+      validarApellidos &&
+      validarZona &&
+      validarApartamento &&
+      validarCiudad
+    ) {
+      const datosRegistro = {
+        last_names: apellidos.value,
+        zone_id: zona.value,
+        city_id: ciudad.value,
+        sectional_id: localStorage.getItem("sectional_id"),
+        user_id: localStorage.getItem("id"),
+      };
+
+      const autorizacion = await alerta.AutorizacionDatos();
+      if (autorizacion.isConfirmed) {
+        try {
+          const data = await api.post("familyPlans", datosRegistro);
+          if (data.success) {
+            await alerta.alertaOK(data.message);
+            window.location.href = `#/voluntario-planFamiliar/testVunerabilidad/id=${data.data.id}`;
+          } else alerta.alertaWarning(data.message, data.errors);
+        } catch (error) {
+          alerta.alertaError(error.errors);
+        }
       }
     }
     boton.disabled = false;

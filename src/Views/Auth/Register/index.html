@@ -49,23 +49,26 @@
 
         <div class="input">
             <div class="form__inputBox--double">
-                <div class="form__inputBox">
-                    <i class="ri-cake-2-fill"></i>
-                    <input type="date" class="form__input input__nacimiento" placeholder="fecha de nacimiento"
-                        name="fecha de nacimiento" autocomplete="off">
+                <div class="input">
+                    <div class="form__inputBox">
+                        <i class="ri-cake-2-line"></i>
+                        <input type="date" class="form__input" placeholder="fecha de nacimiento" id="nacimiento"
+                            autocomplete="off">
+                    </div>
                 </div>
-                <div class="form__inputBox">
-                    <i class="ri-phone-fill"></i>
-                    <input type="text" class="form__input input__telefono" placeholder="celular" name="celular"
-                        autocomplete="off">
+                <div class="input">
+                    <div class="form__inputBox">
+                        <i class="ri-phone-line"></i>
+                        <input type="text" class="form__input" placeholder="celular" id="telefono" autocomplete="off">
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="input">
             <div class="form__inputBox form__inputBox--selector">
-                <i class="ri-team-fill" id="selector__icono"></i>
-                <select class="form__input input__seccional" id="selector">
+                <i class="ri-team-line" id="selector__icono"></i>
+                <select class="form__input selector--seccional" id="selector">
                     <option value="" hidden>Seleccione una seccional...</option>
                 </select>
             </div>
@@ -73,8 +76,8 @@
 
         <div class="input">
             <div class="form__inputBox form__inputBox--selector">
-                <i class="ri-group-3-fill" id="selector__icono"></i>
-                <select class="form__input input__organizacion" id="selector" disabled>
+                <i class="ri-group-3-line" id="selector__icono"></i>
+                <select class="form__input selector--organizacion" id="selector" disabled>
                     <option value="" hidden>Seleccione una organizacion...</option>
                 </select>
             </div>
@@ -82,24 +85,23 @@
 
         <div class="input">
             <div class="form__inputBox">
-                <i class="ri-mail-fill"></i>
-                <input type="text" class="form__input input__corrElectronico" placeholder="correo eletronico"
-                    name="correo electronico" autocomplete="off">
-            </div>
-        </div>
-
-        <div class="input">
-            <div class="form__inputBox">
-                <i class="ri-lock-2-fill"></i>
-                <input type="password" class="form__input input__contrasena" placeholder="contraseña"
+                <i class="ri-mail-line"></i>
+                <input type="text" class="form__input" placeholder="correo eletronico" id="correoElectronico"
                     autocomplete="off">
             </div>
         </div>
 
         <div class="input">
             <div class="form__inputBox">
-                <i class="ri-lock-unlock-fill"></i>
-                <input type="password" class="form__input input__confContrasena" placeholder="confirmar contraseña"
+                <i class="ri-lock-2-line"></i>
+                <input type="password" class="form__input" placeholder="contraseña" id="contrasena" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="input">
+            <div class="form__inputBox">
+                <i class="ri-lock-unlock-line"></i>
+                <input type="password" class="form__input" placeholder="confirmar contraseña" id="confirmarContrasena"
                     autocomplete="off">
             </div>
         </div>

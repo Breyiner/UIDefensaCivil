@@ -25,7 +25,6 @@ input{
   display: flex;
   border: var(--color-grisOscuro) solid 2px;
   border-radius: var(--border-radius-botones);
-  padding: 5px;
   width: 100%;
   background-color: var(--color-palido);
   padding: 10px;
@@ -34,16 +33,26 @@ input{
   font-family: var(--fuente-contenido);
 }
 
-/* .input:has(span.error) input{
+/* Input directo */
+.input:has(> span.error) input {
   color: var(--color-rojizo);
 }
-.input:has(span.error) i{
+
+/* Icono directo */
+.input:has(> span.error) i {
   color: var(--color-rojizo);
 }
-.input:has(span.error) .form__inputBox{
+
+/* Si quieres mantener el id específico */
+.input:has(> span.error) i#selector__icono {
+  color: var(--color-rojizo);
+}
+
+/* Contenedor directo */
+.input:has(> span.error) > .form__inputBox {
   border-color: var(--color-rojizo);
-} */
- 
+}
+
 .form__inputBox--double > .form__inputBox {
   width: 50%;
 }

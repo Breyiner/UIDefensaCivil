@@ -20,7 +20,7 @@ export default async () => {
     const confirmacion = await alerta.alertaQuest(
       "¿Seguro que quieres volver? perderás tu progreso",
     );
-    if (confirmacion.isConfirmed) location.href = "#/voluntario-home";
+    if (confirmacion.isConfirmed) location.href = "#/voluntario-verPlanFamiliar";
   };
 
   let paginaActual = 1;
@@ -214,6 +214,6 @@ export default async () => {
       alerta.alertaError(error.errors);
     }
     await alerta.alertaOK("Test evaluado con éxito");
-    location.replace(`#/voluntario-planFamiliar/identificacion/id=${id}`);
+    location.href = `#/voluntario-planFamiliar/identificacion/id=${id}`;
   }
 };

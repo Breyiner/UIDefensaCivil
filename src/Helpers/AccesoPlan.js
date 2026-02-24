@@ -8,6 +8,6 @@ export default async (id) => {
     if (!accesoBolean)
     {
         alerta.alertaMensaje("No tienes acceso a este plan familiar.");
-        location.href = `#/voluntario-verPlanFamiliar`;
+        location.replace(`#/voluntario-verPlanFamiliar`);
     }
 }

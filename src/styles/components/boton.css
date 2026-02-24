@@ -83,3 +83,14 @@
   height: 50px;
   width: 100%;
 }
+
+.boton--containerStart{
+  display: flex;
+  justify-content: start;
+  width: 100%;
+}
+.boton--containerEnd{
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}

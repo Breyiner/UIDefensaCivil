@@ -27,7 +27,7 @@ const mostrarError = (input, mensaje) => {
   input.parentElement.parentElement.appendChild(span);
 };
 
-const limpiarError = (input) => {
+export const limpiarError = (input) => {
   const error = input.parentElement.parentElement.querySelector(".error");
   if (error) error.remove();
 };
@@ -219,4 +219,51 @@ export const validarIgualdad = (input, inputComparar) => {
     return error(input, "Los campos no coinciden.");
 
   return true;
+};
+
+// =====================================================
+// VALIDAR MAYOR DE EDAD
+// =====================================================
+
+export const validarMayorDeEdad = (input, edadMinima = 18) => {
+  const value = input.value;
+
+  limpiarError(input);
+
+  if (!value)
+    return error(input, "La fecha es obligatoria.");
+
+  const fechaNacimiento = new Date(value);
+  const hoy = new Date();
+
+  let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+  const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+
+  if (
+    mes < 0 ||
+    (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())
+  ) {
+    edad--;
+  }
+
+  if (edad < edadMinima)
+    return error(
+      input,
+      `Debe ser mayor de ${edadMinima} años.`
+    );
+
+  return true;
+};
+
+
+export const validarSiExiste = (input, minimo) => {
+  const value = input.value.trim();
+
+  limpiarError(input);
+
+  // Si está vacío, no valida nada y devuelve true
+  if (!value) return true;
+
+  // Si tiene contenido, ejecuta la validación que le pases
+  return validarMinimo(input,minimo);
 };
