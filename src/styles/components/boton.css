@@ -94,3 +94,11 @@
   justify-content: end;
   width: 100%;
 }
+.boton--containerStarEnd{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.boton--containerStarEnd > .boton{
+  width: 45%;
+}

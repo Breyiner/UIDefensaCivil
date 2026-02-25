@@ -10,7 +10,8 @@ import * as Planintegrante from "../Views/Voluntario/PlanIntegrante/index.js";
 import * as planMascota from "../Views/Voluntario/PlanMascota/index.js";
 import * as planRiesgo from "../Views/Voluntario/PlanRiesgo/index.js";
 import * as PlanEntorno from "../Views/Voluntario/PlanEntorno/index.js";
-
+import * as planRecurso from "../Views/Voluntario/planRecursos/index.js";
+import * as planAccion from "../Views/Voluntario/planAccion/index.js"
 import * as SupervisorUsuarios from "../Views/Supervisor/Usuarios/index.js";
 import * as SupervisorPlanes from "../Views/Supervisor/PlanFamiliar/index.js";
 import * as datosMaestros from "../Views/Administrador/DatosMaestros/index.js";
@@ -151,7 +152,26 @@ export const routes = {
       can: "family-plans.store",
     },
   },
-
+  "voluntario-planRecursos": {
+    ver: {
+      path: `Voluntario/planRecursos/index.html`,
+      controlador: planRecurso.verPlanRecursos,
+      private: true,
+      can: "family-plans.show",
+    },
+    crear: {
+      path: `Voluntario/planRecursos/Crear/index.html`,
+      controlador: planRecurso.crearController,
+      private: true,
+      can: "family-plans.store",
+    },
+    editar: {
+      path: `Voluntario/planRecursos/Editar/index.html`,
+      controlador: planRecurso.editarController,
+      private: true,
+      can: "family-plans.store",
+    },
+  },
   "voluntario-planEntorno": {
     editar: {
       path: `Voluntario/PlanEntorno/Editar/index.html`,
@@ -160,7 +180,26 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
   },
-
+  "voluntario-planAccion":{
+    antes: {
+      path: `Voluntario/planAccion/antes/index.html`,
+      controlador: planAccion.antes,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+    durante: {
+      path: `Voluntario/planAccion/durante/index.html`,
+      controlador: planAccion.durante,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+    despues: {
+      path: `Voluntario/planAccion/despues/index.html`,
+      controlador: planAccion.despues,
+      private: true,
+      can: "home-frontend.voluntario",
+    }
+  },
   "supervisor-home": {
     "/": {
       path: `supervisor/home/index.html`,

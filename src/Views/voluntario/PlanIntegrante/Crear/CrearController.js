@@ -14,7 +14,7 @@ export default async () => {
     botonBack.onclick = async() => {
     if(window.procesoPeticion) return;
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-    if (confirmacion.isConfirmed) location.href = `#/planIntegrante/ver/id=${id}`;};
+    if (confirmacion.isConfirmed) location.href = `#/voluntario-planIntegrante/ver/id=${id}`;};
     
     // Inputs de texto
     const nombres = document.querySelector('.input__nombres');

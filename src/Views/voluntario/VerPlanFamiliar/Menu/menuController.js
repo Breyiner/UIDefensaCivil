@@ -14,14 +14,15 @@ export default async () => {
   const graficosVivienda = document.getElementById("graficosVivienda");
   const planAccion = document.getElementById("planAccion");
   const graficoEntorno = document.getElementById("graficoEntorno");
+  const comentarios = document.getElementById("comentarios");
   const botonEnviar = document.getElementById("enviar");
   const verPDF = document.getElementById("verPDF");
 
   const id = location.hash.split("=")[1];
-
   await AccesoPlan(id);
-  await cargarDatos(`familyPlans/${id}`, [nombreFamilia], ["last_names"]);
-  nombreFamilia.textContent = `Familia ${nombreFamilia.value}`;
+  const planFamiliar = await api.get(`familyPlans/${id}`);
+
+  nombreFamilia.textContent += ` ${planFamiliar.last_names}`;
 
   botonBack.onclick = () => {
     location.href = `#/voluntario-verPlanFamiliar`;
@@ -44,37 +45,53 @@ export default async () => {
   });
 
   recursosDisponibles.addEventListener("click", async () => {
-    location.href = `#/planRecursos/ver/id=${id}`;
-  });
-
-  graficosVivienda.addEventListener("click", async () => {
-    location.href = `#/planVivienda/ver/id=${id}`;
-  });
-
-  planAccion.addEventListener("click", async () => {
-    location.href = `#/planAccion/ver/id=${id}`;
+    location.href = `#/voluntario-planRecursos/ver/id=${id}`;
   });
 
   graficoEntorno.addEventListener("click", async () => {
     location.href = `#/voluntario-planEntorno/editar/id=${id}`;
   });
 
+  graficosVivienda.addEventListener("click", async () => {
+    location.href = `#/voluntario-planVivienda/ver/id=${id}`;
+  });
+
+  planAccion.addEventListener("click", async () => {
+    location.href = `#/voluntario-planAccion/antes/id=${id}`;
+  });
+
   botonEnviar.addEventListener("click", async () => {
-    try {
-      const data = await api.patch(`familyPlans/status/${id}`, {
-        status_plan_id: 4,
-      });
-      if (data.success) {
-        await alerta.alertaOK(data.message);
-        window.location.href = `#/voluntario-verPlanFamiliar`;
-      } else alerta.alertaWarning(data.message, data.errors);
-    } catch (error) {
-      alerta.alertaError(error.errors);
+    const confirmacion = await alerta.alertaQuest(
+      "¿Seguro que ya deseas enviar tu plan familiar?",
+    );
+    if (confirmacion.isConfirmed) {
+      try {
+        const data = await api.patch(`familyPlans/status/${id}`, {
+          status_plan_id: 4,
+        });
+        if (data.success) {
+          await alerta.alertaOK(data.message);
+          window.location.href = `#/voluntario-verPlanFamiliar`;
+        } else alerta.alertaWarning(data.message, data.errors);
+      } catch (error) {
+        alerta.alertaError(error.errors);
+      }
     }
   });
 
-verPDF.addEventListener("click", () => {
+  verPDF.addEventListener("click", () => {
     // Abre el PDF en otra pestaña
     api.getPdf(`familyPlans/pdf/${id}`, `plan_${id}.pdf`);
-});
+  });
+
+  if (planFamiliar.comentary) comentarios.classList.remove("invisible");
+  comentarios.addEventListener("click", async () => {
+    const htmlModal = `
+        <div class="explicacion modal">
+          <p class="explicacion__titulo">Rechazado con solicitud de cambios</p>
+          <p class="explicacion__subtitulo">Este plan familiar fue rechazado con solicitud de cambios y en el siguiente texto se especifica cuales fueron esos errores</p>
+        </div>
+        <div class="explicacion_subtitulo">${planFamiliar.comentary}</div>`;
+    alerta.Ver(htmlModal, false, false, null, null);
+  });
 };

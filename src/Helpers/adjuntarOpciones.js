@@ -34,6 +34,44 @@ export const adjuntarInfo = async (combox, endpoint, infoDato) => {
   });
 };
 
+export const adjuntarDouble = async (combox, endpoint,input,infoDato) => {
+  const datos = await api.get(endpoint);
+  datos.forEach((dat) => {
+    if (dat.is_active == 1) {
+      const option = document.createElement("option");
+      option.value = dat.id;
+      option.textContent = `${dat.name}`;
+      combox.appendChild(option);
+    }
+  });
+  combox.addEventListener("change", () => {
+    const seleccionado = combox.value;
+    const seleccionadoInfo = datos.find((dat) => dat.id == seleccionado);
+    input.value = seleccionadoInfo[infoDato];
+    input.dispatchEvent(new Event("blur"));
+  });
+};
+
+export const adjuntarMiembros = async (combox, endpoint) => {
+  const datos = await api.get(endpoint);
+  datos.forEach((dat) => {
+    const option = document.createElement("option");
+    option.value = dat.id;
+    option.textContent = `${dat.full_name} - ${dat.document_number}(${dat.kinship})`;
+    combox.appendChild(option);
+  });
+};
+
+export const adjuntarFactorRiesgo = async (combox, endpoint) => {
+  const datos = await api.get(endpoint);
+  datos.forEach((dat) => {
+    const option = document.createElement("option");
+    option.value = dat.id;
+    option.textContent = `${dat.threat_type_name} - ${dat.description}`;
+    combox.appendChild(option);
+  });
+};
+
 export const adjuntarReseteo = async (combox, endpoint) => {  
   const datos = await api.get(endpoint);
 

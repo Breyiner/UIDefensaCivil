@@ -4,7 +4,6 @@ import * as modalMascota from "../../../Helpers/modales/mascota";
 import paginacion from "../../../Helpers/paginacion";
 
 export default async () => {
-    ;
     const crear = document.getElementById("crear");
     const botonBack = document.getElementById("boton-back");
     const id = location.hash.split("=")[1];
@@ -42,6 +41,8 @@ export default async () => {
                     return "Rana";
                 case "Serpiente":
                     return "Serpiente";
+                case "Tortuga":
+                    return "Tortuga";
                 default:
                     return "Pata";
             }

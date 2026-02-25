@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="explicacion">
+        <p class="explicacion__titulo">Agregar recurso disponible</p>
+        <p class="explicacion__subtitulo">Llene los datos con la informacion del recurso</p>
+    </div>
+    <form method="POST" class="form">
+        <div class="input">
+            <div class="form__inputBox form__inputBox--selector">
+                <i class="ri-error-warning-line" id="selector__icono"></i>
+                <select class="form__input selector--recursos" id="selector">
+                    <option value="" hidden>Seleccione un recurso...</option>
+                </select>
+            </div>
+        </div>
+        <div class="input">
+            <div class="form__inputBox">
+                <i class="ri-heart-line"></i>
+                <input type="text" class="form__input" placeholder="Servicio del recurso" id="servicio" disabled autocomplete="off">
+            </div>
+        </div>
+        <div class="input">
+            <div class="form__inputBox">
+                <i class="ri-phone-line"></i>
+                <input type="text" class="form__input" placeholder="Telefono del contacto del recurso" id="telefono" autocomplete="off">
+            </div>
+        </div>
+        <div class="input">
+            <div class="form__inputBox">
+                <i class="ri-file-text-line"></i>
+                <input type="text" class="form__input" placeholder="Descripcion" id="descripcion" autocomplete="off">
+            </div>
+        </div>
+        <div class="input">
+            <div class="form__inputBox">
+                <i class="ri-map-2-line"></i>
+                <input type="text" class="form__input" placeholder="Ubicacion del recurso" id="ubicacion"
+                    autocomplete="off">
+            </div>
+        </div>
+        <div class="input">
+            <div class="form__inputBox">
+                <i class="ri-map-pin-line"></i>
+                <input type="text" class="form__input" placeholder="Distancia del recurso" id="distancia"
+                    autocomplete="off">
+            </div>
+        </div>
+        <button class="form__boton boton" disabled>Crear</button>
+    </form>
+</div>

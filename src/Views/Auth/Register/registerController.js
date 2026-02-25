@@ -43,7 +43,7 @@ export default async () => {
     validacion.soloNumeros(e);
   });
   telefono.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 15);
+    validacion.limiteCaracteres(e, 10);
     validacion.soloNumeros(e);
   });
   corrElectronico.addEventListener("keydown", (e) => {

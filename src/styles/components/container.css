@@ -13,7 +13,12 @@
   max-width: 100%;
   border-radius: 10px;
 }
-
+.container__tipoAccion{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .container__paginas{
   width: 100%;
 }
