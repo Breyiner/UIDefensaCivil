@@ -182,19 +182,19 @@ export const routes = {
   },
   "voluntario-planAccion":{
     antes: {
-      path: `Voluntario/planAccion/antes/index.html`,
+      path: `Voluntario/planAccion/index.html`,
       controlador: planAccion.antes,
       private: true,
       can: "home-frontend.voluntario",
     },
     durante: {
-      path: `Voluntario/planAccion/durante/index.html`,
+      path: `Voluntario/planAccion/index.html`,
       controlador: planAccion.durante,
       private: true,
       can: "home-frontend.voluntario",
     },
     despues: {
-      path: `Voluntario/planAccion/despues/index.html`,
+      path: `Voluntario/planAccion/index.html`,
       controlador: planAccion.despues,
       private: true,
       can: "home-frontend.voluntario",

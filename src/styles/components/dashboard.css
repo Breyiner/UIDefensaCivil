@@ -1,69 +1,160 @@
 .dashBoard{
     display: grid;
-    width: 95vw;
-    height: 90vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 2fr 1fr 1fr 2fr 0.2fr 1.8fr 1.5fr;
+    grid-template-rows: 1fr 3fr 3fr;
     grid-template-areas:
-        "superior_izquierda superior_esquina_derecha superior_esquina_derecha superior_esquina_derecha superior_esquina_derecha"
-        "inferior_izquierda inferior_izquierda inferior_medio inferior_medio inferior_derecha";
+        "totalUsuarios activos activos inactivos voluntarios voluntarios botones"
+        "catalogo catalogo catalogo catalogo roles roles roles"
+        "historialUsuarios historialUsuarios historialCambios historialCambios . estadoUsuario estadoUsuario";
     font-family: var(--fuente-contenido);
 }
-.dashBoard__superior_izquierda {
-    grid-area: superior_izquierda;
-}
 
-.dashBoard__superior_esquina_derecha {
-    grid-area: superior_esquina_derecha;
-}
-
-.dashBoard__inferior_izquierda {
-    grid-area: inferior_izquierda;
-}
-
-.dashBoard__inferior_medio {
-    grid-area: inferior_medio;
-}
-
-.dashBoard__inferior_derecha {
-    grid-area: inferior_derecha;
-}
-.dashBoard__container {
+.dashBoard__container{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 95%;
-    height: 95%;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
     background-color: var(--color-palido);
     border-radius: 20px;
-}
-.dashBoard__botones{
-    display: none;
-}
-@media screen and (max-width: 768px) {
-.dashBoard{
-    width: 100%;
-    height: 100%;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas:
-        "botones"
-        "superior_izquierda"
-        "superior_esquina_derecha"
-        "inferior_izquierda"
-        "inferior_medio"
-        "inferior_derecha";
+    margin: auto;
+    padding: 10px;
 }
 .dashBoard__botones{
     grid-area: botones;
-    width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    gap: 10px;
+    gap: 5px;
+    justify-content: center;
+    align-items: start;
+}
+.dashBoard__botones > .boton{
+    background-color: #F8FAFC;
+    color: var(--color-oscuro);
+    border: 1px solid #E2E8F0;
+    font-size: var(--tamano-pequeno);
+    padding: 3px;
+    text-align: start;
+    padding-left: 20px;
+}
+.dashBoard__botones > .boton:hover{
+    background:#E2E8F0;
+    border-color: #F8FAFC;
+    color: var(--color-primario);
+}
+.dashBoard__botones > .boton--iconoAzul:hover{
+    color: var(--color-secundario);
+}
+
+.dashBoard__botones > .boton > i{
+    color: var(--color-primario);
+}
+.dashBoard__botones > .boton--iconoAzul > i{
+    color: var(--color-secundario);
+}
+.dashbBoard__catalogo{
+    grid-area: catalogo;
+}
+.dashBoard__roles{
+    grid-area: roles;
+}
+.dashBoard__estadosUsuario{
+    grid-area: estadoUsuario;
+}
+.dashBoard__historialCambios{
+    grid-area: historialCambios;
+}
+.dashBoard__historialUsuarios{
+    grid-area: historialUsuarios;
+}
+.dashBoard__totalUsuarios{
+    grid-area: totalUsuarios;
+}
+.dashBoard__activos{
+    grid-area: activos;
+}
+.dashBoard__inactivos{
+    grid-area: inactivos;
+}
+.dashBoard__voluntarios{
+    grid-area: voluntarios;
+}
+.dashBoard__titulo--botones{
+    font-size: var(--tamano-pequeno);
+    color: var(--color-grisOscuro);
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.dashBoard__card{
+    display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+    gap: 10px;
 }
+.dashBoard__cardInfo{
+    display: flex;
+    flex-direction: column;
+}
+.dashBoard__cardTitulo{
+    color: var(--color-grisOscuro);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: var(--tamano-pequeno);
+}
+.dashBoard__cardNumero{
+    color: var(--color-oscuro);
+    font-weight: bold;
+    font-size: var(--tamano-titulo);
+}
+.dashBoard__icono{
+    font-size: var(--tamano-titulo);
+}
+.dashBoard__icono--naranja > i{
+    color: var(--color-primario);
+    background-color: var(--color-naranjado-50);
+    padding: 10px;
+    border-radius: 10px;
+}
+.dashBoard__icono--rojo > i{
+    color: var(--color-rojizo);
+    background-color: var(--color-rojizo-25);
+    padding: 10px;
+    border-radius: 10px;
+}
+.dashBoard__icono--verde > i{
+    color: var(--color-verdoso);
+    background-color: var(--color-verdoso-25);
+    padding: 10px;
+    border-radius: 10px;
+}
+.dashBoard__icono--azul > i{
+    color: var(--color-secundario);
+    background-color: var(--color-azulado-50);
+    padding: 10px;
+    border-radius: 10px;
+}
+@media screen and (max-width: 768px) {
+    .dashBoard{
+        width: 100%;
+        height: 100%;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 0.2fr 0.2fr 0.4fr 0.8fr 0.8fr 0.4fr 0.4fr 0.8fr;
+        grid-template-areas:
+            "totalUsuarios activos"
+            "inactivos voluntarios"
+            "botones botones"
+            "catalogo catalogo"
+            "roles roles"
+            "historialUsuarios historialUsuarios"
+            "historialCambios historialCambios"
+            "estadoUsuario estadoUsuario";
+    }
+    .dashBoard__botones > .boton{
+        padding: 20px;
+        font-size: var(--tamano-mediano);
+    }
 }
