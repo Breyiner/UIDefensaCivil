@@ -39,11 +39,10 @@ const initTomSelect = () => {
 };
 
 export const initTomSelectPortatil = () => {
-    const elements = document.querySelectorAll(".selector");
+    const elements = document.querySelectorAll("#selector");
 
     elements.forEach(el => {
 
-        // ✅ Si ya existe, no lo vuelvas a crear
         if (el.tomselect) return;
 
         new TomSelect(el, {

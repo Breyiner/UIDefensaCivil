@@ -251,7 +251,7 @@ export const routes = {
     "/": {
       path: `Administrador/DatosMaestros/index.html`,
       controlador: datosMaestros.verController,
-      private: true,
+      private: false,
       can: "home-frontend.voluntario",
     },
 

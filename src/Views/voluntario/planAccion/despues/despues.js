@@ -12,7 +12,7 @@ export default async () => {
   const id = location.hash.split("=")[1];
   const miembro = document.querySelector(".selector--miembro");
   const factorRiesgo = document.querySelector(".selector--factorRiesgo");
-  const containerTipoAccion = document.querySelector(".container__tipoAccion");
+  const containerTipoAccion = document.querySelector(".container__gap");
   const botonSiguiente = document.getElementById("siguiente");
   const botonAtras = document.getElementById("atras");
 

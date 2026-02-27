@@ -93,23 +93,33 @@ export const alertaLoading = () => {
    }
   });
 };
+
 export const alertaLoadingCerrar = () => {
   Swal.close();
 }
-export const Crear = async (htmlModal,funcionModal) => {
-    Swal.fire({
-        html: htmlModal,
-        confirmButtonText: 'Guardar',
-        confirmButtonColor: '#ff6600', // El naranja de tu botón "Guardar"
-        showCloseButton: true,
-        focusConfirm: false,
-        customClass: {
-            confirmButton: 'botonOK'
-        },
-        preConfirm: async () => {funcionModal()}
-    });
-};
 
+export const Crear = async (htmlModal, funcionModal, funcionAlAbrir) => {
+  Swal.fire({
+    html: htmlModal,
+    confirmButtonText: 'Guardar',
+    confirmButtonColor: '#ff6600',
+    showCloseButton: true,
+    focusConfirm: false,
+    customClass: {
+      confirmButton: 'botonOK'
+    },
+
+    didOpen: () => {
+      if (funcionAlAbrir) {
+        funcionAlAbrir();
+      }
+    },
+
+    preConfirm: async () => {
+      return await funcionModal();
+    }
+  });
+};
 export const Ver = (htmlModal,mostrarEditar,mostrarEliminar,funcionEditar,funcionEliminar) => {
     Swal.fire({
         html: htmlModal,
