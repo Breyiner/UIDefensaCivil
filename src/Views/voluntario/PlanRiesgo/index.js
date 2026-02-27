@@ -1,7 +1,7 @@
-import verPlanRiesgo from "./VerPlanRiesgo";
+import verPlanRiesgo from "./verPlanRiesgo";
 
-import crearController from "./Crear/CrearController";
+import crearController from "./crear/crearController";
 
-import editarController from "./Editar/EditarController";
+import editarController from "./editar/editarController";
 
 export {verPlanRiesgo, crearController, editarController };

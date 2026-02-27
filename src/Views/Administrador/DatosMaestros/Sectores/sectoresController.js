@@ -1,6 +1,6 @@
-import crearLista from "../../../../Helpers/crearLista";
-import * as alerta from "../../../../Helpers/alertas";
-import * as sector from "../../../../Helpers/Modales/sector";
+import crearLista from "../../../../helpers/crearLista";
+import * as alerta from "../../../../helpers/alertas";
+import * as sector from "../../../../helpers/modales/sector";
 
 export default async () => {
 

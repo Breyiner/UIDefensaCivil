@@ -2,9 +2,9 @@ import 'remixicon/fonts/remixicon.css';
 import "./styles/main.css";
 import 'tom-select/dist/css/tom-select.css'; // Estilos arriba
 
-import { router } from "./Router/router.js"; 
-import componenteHeader from "../src/componentes/header/index.html?raw";
-import { componenteHeader as header } from "./Componentes/Header/header.js"
+import { router } from "./router/router.js";
+import componenteHeader from "./componentes/header/index.html?raw";
+import { componenteHeader as header } from "./componentes/header/header.js"
 import { Chart, registerables } from 'chart.js';
 import TomSelect from 'tom-select';
 
@@ -21,15 +21,15 @@ const initTomSelect = () => {
             sortField: { field: "text", direction: "asc" },
 
             render: {
-                option: function(data, escape) {
-                    const icon = data.icon 
-                        ? `<i class="${escape(data.icon)}"></i> ` 
+                option: function (data, escape) {
+                    const icon = data.icon
+                        ? `<i class="${escape(data.icon)}"></i> `
                         : '';
                     return `<div>${icon}${escape(data.text)}</div>`;
                 },
-                item: function(data, escape) {
-                    const icon = data.icon 
-                        ? `<i class="${escape(data.icon)}"></i> ` 
+                item: function (data, escape) {
+                    const icon = data.icon
+                        ? `<i class="${escape(data.icon)}"></i> `
                         : '';
                     return `<div>${icon}${escape(data.text)}</div>`;
                 }
@@ -51,6 +51,6 @@ window.addEventListener("hashchange", async () => {
 
 window.addEventListener("DOMContentLoaded", async () => {
     header();
-    await router(main); 
+    await router(main);
     initTomSelect(); // <--- Y aquí
 });

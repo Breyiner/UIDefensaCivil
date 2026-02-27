@@ -1,11 +1,12 @@
-import * as api from "../../../Helpers/api";
-import * as alerta from "../../../Helpers/alertas";
-import paginacion from "../../../Helpers/paginacion";
+import * as api from "../../../helpers/api";
+import * as alerta from "../../../helpers/alertas";
+import paginacion from "../../../helpers/paginacion";
 
-export default async () => {;
+export default async () => {
+    ;
     const botonBack = document.getElementById("boton-back");
 
-    if (window.procesoPeticion === undefined) {window.procesoPeticion = false;}
+    if (window.procesoPeticion === undefined) { window.procesoPeticion = false; }
     window.procesoPeticion = false;
 
     botonBack.onclick = () => {
@@ -14,8 +15,8 @@ export default async () => {;
     };
 
     let mensajeVacio = "No tienes ningun plan familiar realizado.";
-    
-    const carta = async(info) => {
+
+    const carta = async (info) => {
         let cartaInfo = document.createElement('div');
         cartaInfo.classList.add('verPlan');
         cartaInfo.classList.add('tarjeta');
@@ -29,12 +30,11 @@ export default async () => {;
         return cartaInfo;
     }
 
-    const funcionBotones = async(e) => {
-    if (e.target.classList.contains("verPlan__boton") && !window.procesoPeticion) 
-        {
+    const funcionBotones = async (e) => {
+        if (e.target.classList.contains("verPlan__boton") && !window.procesoPeticion) {
             location.href = `#/voluntario-verPlanFamiliar/menu/id=${e.target.id}`;
         }
     }
 
-    await paginacion(`familyPlans/byUser`,mensajeVacio,carta,funcionBotones);
+    await paginacion(`familyPlans/byUser`, mensajeVacio, carta, funcionBotones);
 }

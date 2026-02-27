@@ -1,8 +1,8 @@
-import * as alerta from "../../../Helpers/alertas";
-import * as api from "../../../Helpers/api";
-import * as local from "../../../Helpers/LocalStorage";
+import * as alerta from "../../../helpers/alertas";
+import * as api from "../../../helpers/api";
+import * as local from "../../../helpers/localStorage";
 
-export default async() => {
+export default async () => {
   const form = document.querySelector(".form");
   const correo = document.querySelector(".input__correo");
   const contrasena = document.querySelector(".input_contrasena");
@@ -12,7 +12,7 @@ export default async() => {
   }
   // local.eliminarLocalStorage();
   // local.eliminarCookiesVanilla();
-  
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const datosUsuario = {

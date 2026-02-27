@@ -1,6 +1,6 @@
-import * as api from "../../../../Helpers/api";
-import * as alerta from "../../../../Helpers/alertas";
-import AccesoPlan from "../../../../Helpers/accesoPlan";
+import * as api from "../../../../helpers/api";
+import * as alerta from "../../../../helpers/alertas";
+import AccesoPlan from "../../../../helpers/accesoPlan";
 
 export default async () => {
     const botonBack = document.getElementById("boton-back");

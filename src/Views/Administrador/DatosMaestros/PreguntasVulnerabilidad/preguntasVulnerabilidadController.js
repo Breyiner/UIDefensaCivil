@@ -1,6 +1,6 @@
-import crearLista from "../../../../Helpers/crearLista";
-import * as alerta from "../../../../Helpers/alertas";
-import * as vulnerabilidad from "../../../../Helpers/Modales/preguntaVulnerabilidad";
+import crearLista from "../../../../helpers/crearLista";
+import * as alerta from "../../../../helpers/alertas";
+import * as vulnerabilidad from "../../../../helpers/modales/preguntaVulnerabilidad";
 
 export default async () => {
 

@@ -1,5 +1,5 @@
 import VerPlanFamiliar from "./verPlanController";
 
-import MenuController from "./Menu/menuController";
+import MenuController from "./menu/menuController";
 
 export { VerPlanFamiliar, MenuController };

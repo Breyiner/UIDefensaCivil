@@ -1,5 +1,5 @@
 import * as alerta from "./alertas";
-import * as cookie from "./Cookies";
+import * as cookie from "./cookies";
 
 const url = "http://localhost:8000/api";
 const urlStorage = "http://localhost:8000/storage";
@@ -194,7 +194,7 @@ export const post = async (endpoint, datos) => {
   }
 };
 
-export const put = async (endpoint,datos) => {
+export const put = async (endpoint, datos) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
       method: "PUT",
@@ -233,7 +233,7 @@ export const put = async (endpoint,datos) => {
   }
 };
 
-export const patch = async (endpoint,datos) => {
+export const patch = async (endpoint, datos) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
       method: "PATCH",
@@ -264,15 +264,14 @@ export const patch = async (endpoint,datos) => {
         return null;
       }
     }
-    
-    if (response.status === 400)
-    {
+
+    if (response.status === 400) {
       let error = await response.json()
       alerta.alertaError(error.message);
       return null;
     }
     return await response.json();
-    
+
   } catch (error) {
     console.error("Error en PATCH:", error);
     return null;
@@ -346,7 +345,7 @@ export const getPaginacion = async (endpoint) => {
       }
     }
     const obtenciones = await response.json();
-    return {data: obtenciones.data, paginate: obtenciones.paginate};
+    return { data: obtenciones.data, paginate: obtenciones.paginate };
   } catch (error) {
     console.error("Error en GET:", error);
     return null;

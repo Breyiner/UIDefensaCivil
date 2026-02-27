@@ -1,9 +1,9 @@
-import * as api from "../../../../Helpers/api";
-import * as alerta from "../../../../Helpers/alertas";
-import * as cargarDatos from "../../../../Helpers/cargarDatos";
-import * as adjuntarOpc from "../../../../Helpers/adjuntarOpciones";
-import * as modalIntegrante from "../../../../Helpers/modales/integrante";
-import acordeon from "../../../../Helpers/acordeon";
+import * as api from "../../../../helpers/api";
+import * as alerta from "../../../../helpers/alertas";
+import * as cargarDatos from "../../../../helpers/cargarDatos";
+import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
+import * as modalIntegrante from "../../../../helpers/modales/integrante";
+import acordeon from "../../../../helpers/acordeon";
 
 export default async () => {
   const botonBack = document.getElementById("boton-back");
@@ -31,7 +31,7 @@ export default async () => {
   const eps = document.querySelector(".input__eps");
   const celular = document.querySelector(".input__celular");
   const nacimiento = document.querySelector(".input__nacimiento");
-// Selects
+  // Selects
   const tipoDocumento = document.querySelector(".input__tipoDocumento");
   const genero = document.querySelector(".input__genero");
   const parentesco = document.querySelector(".input__parentesco");
@@ -44,14 +44,14 @@ export default async () => {
   await adjuntarOpc.adjuntarNoValida(grupoSanguineo, "bloodGroups");
   await adjuntarOpc.adjuntarNoValida(nacionalidad, "nationalities");
   await cargarDatos.cargarDatos(`members/${integranteId}`,
-    [nombres,apellidos,numDocumento,eps,celular,nacimiento,tipoDocumento,genero,parentesco,grupoSanguineo,nacionalidad,],
-    ["names","last_names","document_number","eps","phone","birth_date","document_type_id","gender_id","kinship_id","blood_group_id","nationality_id",],
+    [nombres, apellidos, numDocumento, eps, celular, nacimiento, tipoDocumento, genero, parentesco, grupoSanguineo, nacionalidad,],
+    ["names", "last_names", "document_number", "eps", "phone", "birth_date", "document_type_id", "gender_id", "kinship_id", "blood_group_id", "nationality_id",],
   );
 
   const cargarAfecciones = async () => {
     const afecciones = await api.get(`conditionMembers/member/${integranteId}`);
     contenedorAfecciones.innerHTML = "";
-  
+
     afecciones.forEach((item) => {
       const boton = document.createElement("button");
       boton.className = "gestionarAfecciones__afeccion";
@@ -61,7 +61,7 @@ export default async () => {
                     <i class="ri-eye-fill"></i> ${item.condition_type.name} - ${item.name}
         </span>`;
       contenedorAfecciones.appendChild(boton);
-      });
+    });
   };
 
   acordeon()
@@ -71,12 +71,12 @@ export default async () => {
   boton.disabled = false;
 
   botonAñadir.addEventListener("click", async () => {
-    modalIntegrante.crear(integranteId,cargarAfecciones);
+    modalIntegrante.crear(integranteId, cargarAfecciones);
   });
 
   contenedorAfecciones.addEventListener("click", async (e) => {
     const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id;
-    modalIntegrante.verEditarEliminar(id,integranteId,cargarAfecciones);
+    modalIntegrante.verEditarEliminar(id, integranteId, cargarAfecciones);
   });
 
   form.addEventListener("submit", async (e) => {

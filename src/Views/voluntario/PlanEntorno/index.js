@@ -1,3 +1,3 @@
-import EditarController from "./Editar/EditarController";
+import EditarController from "./editar/editarController";
 
 export {EditarController};

@@ -1,5 +1,5 @@
-import * as alerta from "../../../../Helpers/alertas";
-import * as api from "../../../../Helpers/api";
+import * as alerta from "../../../../helpers/alertas";
+import * as api from "../../../../helpers/api";
 
 export default async () => {
   const botonBack = document.getElementById("boton-back");
@@ -14,11 +14,12 @@ export default async () => {
     window.procesoPeticion = true;
   }
   window.procesoPeticion = true;
-  
-  botonBack.onclick = async() => {
-  if(window.procesoPeticion) return;
-  const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver?");
-  if (confirmacion.isConfirmed) location.href = `#/voluntario-planFamiliar/identificacion/id=${id}`;};
+
+  botonBack.onclick = async () => {
+    if (window.procesoPeticion) return;
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver?");
+    if (confirmacion.isConfirmed) location.href = `#/voluntario-planFamiliar/identificacion/id=${id}`;
+  };
 
   const existe = await api.getExiste(`housingInfo/${id}`);
   if (existe) {

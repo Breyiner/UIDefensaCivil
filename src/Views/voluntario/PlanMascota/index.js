@@ -1,7 +1,7 @@
 import verPlanMascota from "./verPlanMascota";
 
-import crearController from "./Crear/CrearController";
+import crearController from "./crear/crearController";
 
-import editarController from "./Editar/EditarController";
+import editarController from "./editar/editarController";
 
 export { verPlanMascota, crearController, editarController };

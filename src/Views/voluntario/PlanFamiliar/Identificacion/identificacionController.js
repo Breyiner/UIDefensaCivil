@@ -1,8 +1,8 @@
-import * as adjuntarOpc from "../../../../Helpers/adjuntarOpciones";
-import * as alerta from "../../../../Helpers/alertas";
-import * as api from "../../../../Helpers/api";
-import { cargarDatos } from "../../../../Helpers/cargarDatos";
-import * as localStorage from "../../../../Helpers/LocalStorage";
+import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
+import * as alerta from "../../../../helpers/alertas";
+import * as api from "../../../../helpers/api";
+import { cargarDatos } from "../../../../helpers/cargarDatos";
+import * as localStorage from "../../../../helpers/localStorage";
 
 export default async () => {
   const id = location.hash.split("=")[1];
@@ -26,9 +26,10 @@ export default async () => {
   window.procesoPeticion = true;
 
   botonBack.onclick = async () => {
-  if (window.procesoPeticion) return;
-  const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso",);
-  if (confirmacion.isConfirmed) location.href = "#/home";};
+    if (window.procesoPeticion) return;
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso",);
+    if (confirmacion.isConfirmed) location.href = "#/home";
+  };
 
   cargarDatos(`familyPlans/${id}`, [familia, apellidos], ["id", "last_names"]);
   await adjuntarOpc.adjuntarNoValida(sector, "sectors");
@@ -62,8 +63,8 @@ export default async () => {
         const geo = await api.getExiste(`housingInfo/${id}`);
         !geo
           ? await alerta.alertaWarning(
-              "Se puede agregar la Georeferenciacion despues...",
-            )
+            "Se puede agregar la Georeferenciacion despues...",
+          )
           : "";
         location.replace(`#/home`);
       } else alerta.alertaWarning(data.message, data.errors);

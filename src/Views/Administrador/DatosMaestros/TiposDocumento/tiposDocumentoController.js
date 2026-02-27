@@ -1,6 +1,6 @@
-import crearLista from "../../../../Helpers/crearLista";
-import * as alerta from "../../../../Helpers/alertas";
-import * as tipoDocumento from "../../../../Helpers/Modales/tipoDocumento";
+import crearLista from "../../../../helpers/crearLista";
+import * as alerta from "../../../../helpers/alertas";
+import * as tipoDocumento from "../../../../helpers/modales/tipoDocumento";
 
 export default async () => {
 

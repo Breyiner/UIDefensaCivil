@@ -1,7 +1,7 @@
 import verPlanIntegrantes from "./verPlanIntegrantes";
 
-import crearController from "./Crear/CrearController";
+import crearController from "./crear/crearController";
 
-import editarController from "./Editar/EditarController";
+import editarController from "./editar/EditarController";
 
 export { verPlanIntegrantes, crearController, editarController };

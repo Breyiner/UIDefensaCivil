@@ -1,24 +1,24 @@
-import * as alerta from "../../../../Helpers/alertas";
-import * as api from "../../../../Helpers/api";
+import * as alerta from "../../../../helpers/alertas";
+import * as api from "../../../../helpers/api";
 
 export default async () => {
   const id = location.hash.split("=")[1];
   const botonBack = document.getElementById("boton-back");
-  
+
   const paginado = document.querySelector(".paginado");
   const preguntas = document.querySelector(".preguntas");
   const siguiente = document.querySelector(".botonera__siguiente");
   const atras = document.querySelector(".botonera__atras");
 
-  if (window.procesoPeticion === undefined) {window.procesoPeticion = true;}
+  if (window.procesoPeticion === undefined) { window.procesoPeticion = true; }
   window.procesoPeticion = true;
 
-  botonBack.onclick = async() => {
-    if(window.procesoPeticion) return
+  botonBack.onclick = async () => {
+    if (window.procesoPeticion) return
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
     if (confirmacion.isConfirmed) location.href = "#/voluntario-home";
   };
-  
+
   let paginaActual = 1;
 
   const paginas = await api.getPaginacion("vulnerableQuestions/paginate");
@@ -118,16 +118,15 @@ export default async () => {
 
     localStorage.setItem(e.target.name, e.target.value);
 
-    if (!e.target.closest(".preguntas__contendor--precaucion") && e.target.value == "true")
-    {
+    if (!e.target.closest(".preguntas__contendor--precaucion") && e.target.value == "true") {
       localStorage.setItem(`puntaje-${e.target.name}`, e.target.value);
     }
-    else if(e.target.value == "false") localStorage.removeItem(`puntaje-${e.target.name}`);
+    else if (e.target.value == "false") localStorage.removeItem(`puntaje-${e.target.name}`);
   });
 
   async function evaluarTest() {
     siguiente.disabled = true;
-    window.procesoPeticion =  true
+    window.procesoPeticion = true
     const verPreguntas = await api.get("vulnerableQuestions");
 
     let total = 0;
@@ -135,12 +134,11 @@ export default async () => {
     let puntos = 0;
 
     verPreguntas.forEach((p) => {
-      if (!p.is_active)
-        {
-          window.procesoPeticion =  false
-          siguiente.disabled = false;
-          return;
-        }
+      if (!p.is_active) {
+        window.procesoPeticion = false
+        siguiente.disabled = false;
+        return;
+      }
       total++;
       const respuesta = localStorage.getItem(`opcion-${p.id}`);
       if (respuesta !== null) respondidas++;
@@ -152,32 +150,31 @@ export default async () => {
 
     if (respondidas < total) {
       await alerta.alertaWarning(`No ha respondido todas (${respondidas}/${total})`);
-      window.procesoPeticion =  false
+      window.procesoPeticion = false
       siguiente.disabled = false;
       return;
     }
 
     if (puntos < 5) {
       await alerta.alertaWarning("No cumple con los requisitos");
-      window.procesoPeticion =  false
+      window.procesoPeticion = false
       siguiente.disabled = false;
       return;
     }
     alerta.alertaLoading();
     for (const p of verPreguntas) {
-      if (!p.is_active)
-        {
-          window.procesoPeticion =  false
-          siguiente.disabled = false;
-          return;
-        }
-        const datos = {
+      if (!p.is_active) {
+        window.procesoPeticion = false
+        siguiente.disabled = false;
+        return;
+      }
+      const datos = {
         vulnerable_question_id: p.id,
         family_plan_id: id,
         answer: localStorage.getItem(`opcion-${p.id}`) === "true",
       }
-      await api.post("vulnerableTest",datos);
-      
+      await api.post("vulnerableTest", datos);
+
       localStorage.removeItem(`opcion-${p.id}`);
       localStorage.removeItem(`puntaje-opcion-${p.id}`);
     }

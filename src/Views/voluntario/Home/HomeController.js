@@ -1,5 +1,5 @@
-import * as alerta from "../../../Helpers/alertas";
-import * as api from "../../../Helpers/api"
+import * as alerta from "../../../helpers/alertas";
+import * as api from "../../../helpers/api"
 
 export default () => {
   const explicaciontitulo = document.querySelector(".explicacion__titulo");

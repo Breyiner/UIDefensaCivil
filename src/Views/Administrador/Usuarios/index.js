@@ -1,5 +1,5 @@
-import PeticionesController from "./Peticiones/peticionesController";
+import PeticionesController from "./peticiones/peticionesController";
 
-import GestionController from "./Gestion/gestionController"
+import GestionController from "./gestion/gestionController"
 
 export {PeticionesController,GestionController};

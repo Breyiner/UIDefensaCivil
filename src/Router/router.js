@@ -1,5 +1,5 @@
 import { routes } from "./routers";
-import * as alerta from "../Helpers/alertas";
+import * as alerta from "../helpers/alertas";
 
 export const router = async (elemento) => {
   const hash = location.hash.slice(2);

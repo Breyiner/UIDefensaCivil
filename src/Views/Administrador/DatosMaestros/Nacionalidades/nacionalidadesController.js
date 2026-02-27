@@ -1,6 +1,6 @@
-import crearLista from "../../../../Helpers/crearLista";
-import * as alerta from "../../../../Helpers/alertas";
-import * as nacionalidad from "../../../../Helpers/Modales/nacionalidad";
+import crearLista from "../../../../helpers/crearLista";
+import * as alerta from "../../../../helpers/alertas";
+import * as nacionalidad from "../../../../helpers/modales/nacionalidad";
 
 export default async () => {
 

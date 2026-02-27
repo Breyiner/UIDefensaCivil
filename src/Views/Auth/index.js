@@ -1,7 +1,7 @@
-import loginController from "./Login/loginController";
+import loginController from "./login/loginController.js";
 
-import registerController from "./Register/registerController";
+import registerController from "./register/registerController.js";
 
-import forgotPasswordController from "./ForgotPassword/forgotController.js";
+import forgotPasswordController from "./forgotPassword/forgotController.js";
 
-export { loginController,registerController,forgotPasswordController };
+export { loginController, registerController, forgotPasswordController };

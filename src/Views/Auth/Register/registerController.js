@@ -1,6 +1,6 @@
-import * as alerta from "../../../Helpers/alertas";
-import * as api from "../../../Helpers/api";
-import * as adjuntarOpc from "../../../Helpers/adjuntarOpciones";
+import * as alerta from "../../../helpers/alertas";
+import * as api from "../../../helpers/api";
+import * as adjuntarOpc from "../../../helpers/adjuntarOpciones";
 
 export default async () => {
   const form = document.querySelector(".form");
@@ -61,7 +61,7 @@ export default async () => {
     window.procesoPeticion = false;
   });
   seccional.addEventListener("change", async () => {
-    await adjuntarOpc.adjuntarReseteo(organizacion,`organizationsPublic/sectional/${seccional.value}`);
+    await adjuntarOpc.adjuntarReseteo(organizacion, `organizationsPublic/sectional/${seccional.value}`);
   });
   window.addEventListener("click", async (e) => {
     if (e.target.matches("#tengoCuenta") && !window.procesoPeticion)

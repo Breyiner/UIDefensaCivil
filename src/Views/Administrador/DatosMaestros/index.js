@@ -1,16 +1,16 @@
 import verController from "./verController.js";
 
-import seccionalesController from "./Seccionales/seccionalesController.js";
-import organizacionesController from "./Organizaciones/organizacionesController.js";
-import tiposDocumentoController from "./TiposDocumento/tiposDocumentoController.js";
-import calidadesViviendaController from "./CalidadesVivienda/calidadesViviendaController.js";
-import sectoresController from "./Sectores/sectoresController.js";
-import preguntasVulnerabilidadController from "./PreguntasVulnerabilidad/preguntasVulnerabilidadController.js";
-import nacionalidadesController from "./Nacionalidades/nacionalidadesController.js";
-import tiposAmenazaController from "./TiposAmenaza/tiposAmenazaControlles.js";
-import especiesController from "./Especies/especiesController.js";
-import recursosController from "./Recursos/recursosController.js";
-import vulnerabilidadesController from "./Vulnerabilidades/vulnerabilidadesController.js";
+import seccionalesController from "./seccionales/seccionalesController.js";
+import organizacionesController from "./organizaciones/organizacionesController.js";
+import tiposDocumentoController from "./tiposDocumento/tiposDocumentoController.js";
+import calidadesViviendaController from "./calidadesVivienda/calidadesViviendaController.js";
+import sectoresController from "./sectores/sectoresController.js";
+import preguntasVulnerabilidadController from "./preguntasVulnerabilidad/preguntasVulnerabilidadController.js";
+import nacionalidadesController from "./nacionalidades/nacionalidadesController.js";
+import tiposAmenazaController from "./tiposAmenaza/tiposAmenazaControlles.js";
+import especiesController from "./especies/especiesController.js";
+import recursosController from "./recursos/recursosController.js";
+import vulnerabilidadesController from "./vulnerabilidades/vulnerabilidadesController.js";
 
 export {
   verController,

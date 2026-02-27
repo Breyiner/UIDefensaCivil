@@ -1,7 +1,7 @@
-import * as alerta from "../../../../Helpers/alertas";
-import * as api from "../../../../Helpers/api";
-import paginacion from "../../../../Helpers/paginacion";
-import * as modalUsuario from "../../../../Helpers/Modales/usuario";
+import * as alerta from "../../../../helpers/alertas";
+import * as api from "../../../../helpers/api";
+import paginacion from "../../../../helpers/paginacion";
+import * as modalUsuario from "../../../../helpers/Modales/usuario";
 
 export default async () => {
 
@@ -47,7 +47,7 @@ export default async () => {
             };
 
             // 👇 PASAMOS LA FUNCIÓN AL MODAL
-            modalUsuario.ver(id, recargarContainer,true,true);
+            modalUsuario.ver(id, recargarContainer, true, true);
         }
     };
 

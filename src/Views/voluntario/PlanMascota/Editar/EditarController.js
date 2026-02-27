@@ -1,9 +1,9 @@
-import * as api from "../../../../Helpers/api";
-import * as alerta from "../../../../Helpers/alertas";
-import * as cargarDatos from "../../../../Helpers/cargarDatos";
-import * as adjuntarOpc from "../../../../Helpers/adjuntarOpciones";
-import * as modalMascota from "../../../../Helpers/modales/mascota";
-import acordeon from "../../../../Helpers/acordeon";
+import * as api from "../../../../helpers/api";
+import * as alerta from "../../../../helpers/alertas";
+import * as cargarDatos from "../../../../helpers/cargarDatos";
+import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
+import * as modalMascota from "../../../../helpers/modales/mascota";
+import acordeon from "../../../../helpers/acordeon";
 
 export default async () => {
   const botonBack = document.getElementById("boton-back");
@@ -28,12 +28,12 @@ export default async () => {
   const nombre = document.querySelector('.input__nombre');
   const raza = document.querySelector('.input__raza');
   const edad = document.querySelector('.input__edad');
-      // Selects
+  // Selects
   const especie = document.querySelector('.input__especie');
   const genero = document.querySelector('.input__genero');
-  await adjuntarOpc.adjuntar(especie,"species");
-  await adjuntarOpc.adjuntarNoValida(genero,"animalGenders");
-  await cargarDatos.cargarDatos(`pets/${mascotaId}`,[nombre,raza,edad,especie,genero,],["name","breed","age","species_id","animal_gender_id",],);
+  await adjuntarOpc.adjuntar(especie, "species");
+  await adjuntarOpc.adjuntarNoValida(genero, "animalGenders");
+  await cargarDatos.cargarDatos(`pets/${mascotaId}`, [nombre, raza, edad, especie, genero,], ["name", "breed", "age", "species_id", "animal_gender_id",],);
 
   const cargarAfecciones = async () => {
     const afecciones = await api.get(`petVaccines/pet/${mascotaId}`);
@@ -58,12 +58,12 @@ export default async () => {
   boton.disabled = false;
 
   botonAñadir.addEventListener("click", async () => {
-    modalMascota.crearVacunas(mascotaId,cargarAfecciones);
+    modalMascota.crearVacunas(mascotaId, cargarAfecciones);
   });
 
   contenedorAfecciones.addEventListener("click", async (e) => {
     const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id;
-    modalMascota.verEditarEliminar(id,mascotaId,cargarAfecciones);
+    modalMascota.verEditarEliminar(id, mascotaId, cargarAfecciones);
   });
 
   form.addEventListener("submit", async (e) => {

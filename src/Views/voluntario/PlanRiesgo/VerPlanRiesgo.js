@@ -1,14 +1,15 @@
-import * as api from "../../../Helpers/api";
-import * as alerta from "../../../Helpers/alertas";
-import * as modalFactorRiesgo from "../../../Helpers/modales/factorRiesgo";
-import paginacion from "../../../Helpers/paginacion";
+import * as api from "../../../helpers/api";
+import * as alerta from "../../../helpers/alertas";
+import * as modalFactorRiesgo from "../../../helpers/modales/factorRiesgo";
+import paginacion from "../../../helpers/paginacion";
 
-export default async () => {;
+export default async () => {
+    ;
     const crear = document.getElementById("crear");
     const botonBack = document.getElementById("boton-back");
     const id = location.hash.split("=")[1];
-    
-    if (window.procesoPeticion === undefined) {window.procesoPeticion = true;}
+
+    if (window.procesoPeticion === undefined) { window.procesoPeticion = true; }
     window.procesoPeticion = true;
 
     botonBack.onclick = () => {
@@ -16,11 +17,11 @@ export default async () => {;
         location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
     };
 
-    crear.addEventListener("click", async () => {location.href = `#/voluntario-planRiesgo/crear/id=${id}`;});
+    crear.addEventListener("click", async () => { location.href = `#/voluntario-planRiesgo/crear/id=${id}`; });
 
     let mensajeVacio = "No tienes ningun factor de riesgo registrado en la familia...";
-    
-    const carta = async(info) => {
+
+    const carta = async (info) => {
         let cartaInfo = document.createElement('div');
         cartaInfo.classList.add("verRiesgos");
         cartaInfo.innerHTML = `
@@ -40,25 +41,28 @@ export default async () => {;
         return cartaInfo;
     }
 
-    const funcionBotones = async(e) => {
-    if (e.target.classList.contains("verRiesgos__boton--editar")) {
-          window.location.href = `#/voluntario-planRiesgo/editar/id=${id},${e.target.dataset.id}`;}
-    
-    if (e.target.classList.contains("verRiesgos__boton--eliminar")) {
-        const id = e.target.dataset.id;
-        const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar este factor de riesgo?",);
-        if (!confirmacion.isConfirmed) return;
-        const eliminado = await api.delet(`threats/${id}`);
-        if (eliminado.success) {
-            await alerta.alertaOK(eliminado.message);
-            location.reload();}
-        else alerta.alertaError(eliminado.message);}
-    
-    if (e.target.classList.contains("verRiesgos__boton--verMas"))
-    {
-        const id = e.target.dataset.id;
-        modalFactorRiesgo.ver(id);}
+    const funcionBotones = async (e) => {
+        if (e.target.classList.contains("verRiesgos__boton--editar")) {
+            window.location.href = `#/voluntario-planRiesgo/editar/id=${id},${e.target.dataset.id}`;
+        }
+
+        if (e.target.classList.contains("verRiesgos__boton--eliminar")) {
+            const id = e.target.dataset.id;
+            const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar este factor de riesgo?",);
+            if (!confirmacion.isConfirmed) return;
+            const eliminado = await api.delet(`threats/${id}`);
+            if (eliminado.success) {
+                await alerta.alertaOK(eliminado.message);
+                location.reload();
+            }
+            else alerta.alertaError(eliminado.message);
+        }
+
+        if (e.target.classList.contains("verRiesgos__boton--verMas")) {
+            const id = e.target.dataset.id;
+            modalFactorRiesgo.ver(id);
+        }
     }
 
-    await paginacion(`riskFactors/familyPlan/${id}`, mensajeVacio,carta,funcionBotones);
+    await paginacion(`riskFactors/familyPlan/${id}`, mensajeVacio, carta, funcionBotones);
 }

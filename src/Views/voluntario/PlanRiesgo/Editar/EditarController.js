@@ -1,9 +1,9 @@
-import * as api from "../../../../Helpers/api";
-import * as alerta from "../../../../Helpers/alertas";
-import * as cargarDatos from "../../../../Helpers/cargarDatos";
-import * as adjuntarOpc from "../../../../Helpers/adjuntarOpciones";
-import * as modalFactorRiesgo from "../../../../Helpers/modales/factorRiesgo";
-import acordeon from "../../../../Helpers/acordeon";
+import * as api from "../../../../helpers/api";
+import * as alerta from "../../../../helpers/alertas";
+import * as cargarDatos from "../../../../helpers/cargarDatos";
+import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
+import * as modalFactorRiesgo from "../../../../helpers/modales/factorRiesgo";
+import acordeon from "../../../../helpers/acordeon";
 
 export default async () => {
     const botonBack = document.getElementById("boton-back");
@@ -91,10 +91,10 @@ export default async () => {
         modalFactorRiesgo.crearVulnerabilidad(riesgoId, cargarVulnerabilidades);
     });
 
-    contenedorAcciones.addEventListener("click", async (e) => {  
+    contenedorAcciones.addEventListener("click", async (e) => {
         const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id;
         modalFactorRiesgo.verEditarEliminarAccion(id, planId, cargarAcciones);
-      });
+    });
     contenedorVulnerabilidades.addEventListener("click", async (e) => {
         const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id;
         modalFactorRiesgo.verEditarEliminarVulnerabilidad(id, cargarVulnerabilidades);

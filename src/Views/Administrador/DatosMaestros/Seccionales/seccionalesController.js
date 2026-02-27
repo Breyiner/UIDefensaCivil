@@ -1,11 +1,11 @@
-import crearLista from "../../../../Helpers/crearLista";
-import * as alerta from "../../../../Helpers/alertas";
-import * as seccional from "../../../../Helpers/Modales/seccional";
+import crearLista from "../../../../helpers/crearLista";
+import * as alerta from "../../../../helpers/alertas";
+import * as seccional from "../../../../helpers/modales/seccional";
 
 export default async () => {
     const botonBack = document.getElementById("boton-back");
     if (window.procesoPeticion === undefined) {
-    window.procesoPeticion = false;
+        window.procesoPeticion = false;
     }
     window.procesoPeticion = false;
 
