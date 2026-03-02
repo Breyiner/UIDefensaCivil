@@ -1,6 +1,6 @@
-import * as alerta from "../../../../Helpers/alertas";
-import * as api from "../../../../Helpers/api";
-import * as canva from "../../../../Helpers/canvas";
+import * as alerta from "../../../../helpers/alertas";
+import * as api from "../../../../helpers/api";
+import * as canva from "../../../../helpers/canvas";
 
 
 export default async () => {

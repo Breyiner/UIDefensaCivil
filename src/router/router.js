@@ -87,7 +87,7 @@ const extraerParametros = (parametros) => {
 
 const cargarVista = async (path, elemento) => {
   try {
-    const response = await fetch(`./src/Views/${path}`);
+    const response = await fetch(`./src/views/${path}`);
     if (!response.ok) throw new Error("Vista no encontrada");
 
     const contenido = await response.text();

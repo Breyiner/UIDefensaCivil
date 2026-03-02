@@ -11,6 +11,8 @@ import TomSelect from 'tom-select';
 Chart.register(...registerables);
 window.Chart = Chart;
 
+console.log(router)
+
 // 1. Crea una función para inicializar TomSelect
 const initTomSelect = () => {
     const elements = document.querySelectorAll("#selector");

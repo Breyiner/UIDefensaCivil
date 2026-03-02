@@ -1,5 +1,5 @@
-import barra from "./Canvas/barra";
-import dona from "./Canvas/dona"
-import lineaTemporal from "./Canvas/lineaTemporal";
+import barra from "./canvas/barra";
+import dona from "./canvas/dona"
+import lineaTemporal from "./canvas/lineaTemporal";
 
 export {barra,dona,lineaTemporal};

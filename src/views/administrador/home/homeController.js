@@ -4,17 +4,17 @@ import ventanaHistorial from "../../../helpers/ventanaHistorial";
 import * as canva from "../../../helpers/canvas";
 
 export default async () => {
-  const explicaciontitulo = document.querySelector(".explicacion__titulo");
   const nombre = localStorage.getItem("full_name");
   const genero = localStorage.getItem("gender_id");
-  if (genero == 2) {
-    explicaciontitulo.innerHTML += "a " + nombre;
-  }
-  else {
-    explicaciontitulo.innerHTML += " " + nombre;
-  }
+
+
+  const activos = document.getElementById("activos")
+  const inactivos = document.getElementById("inactivos")
+  const voluntarios = document.getElementById("voluntarios")
+  const totalUsuarios = document.getElementById("totalUsuarios")
 
   const usuariosHistorial = document.getElementById('usuariosHistorial');
+
   const catalogoHistorial = document.getElementById('catalogoHistorial');
   const canvaEstadoUsuario = document.getElementById('canvaEstadoUsuario');
   const canvaRoles = document.getElementById('canvaRoles');
@@ -29,6 +29,13 @@ export default async () => {
   canva.lineaTemporal(canvaCatalogoEstados, "Catálogo Activos e Inactivos",
     monthly_changes[0].month, monthly_changes[1].month, monthly_changes[2].month, monthly_changes[3].month, monthly_changes[4].month, monthly_changes[5].month,
     monthly_changes[0].total, monthly_changes[1].total, monthly_changes[2].total, monthly_changes[3].total, monthly_changes[4].total, monthly_changes[5].total);
+
+    totalUsuarios.textContent = Number(summary.active) + Number(summary.inactive);
+    activos.textContent = summary.active;
+    inactivos.textContent = summary.inactive;
+    voluntarios.textContent = rols.volunteer;
+
+
 
   // Eventos click
   window.addEventListener("click", async (e) => {

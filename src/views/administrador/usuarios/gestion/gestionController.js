@@ -1,7 +1,7 @@
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import paginacion from "../../../../helpers/paginacion";
-import * as modalUsuario from "../../../../helpers/Modales/usuario";
+import * as modalUsuario from "../../../../helpers/modales/usuario";
 
 export default async () => {
 

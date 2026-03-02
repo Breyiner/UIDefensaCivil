@@ -1,7 +1,7 @@
-import * as api from "../../../Helpers/api";
-import * as alerta from "../../../Helpers/alertas";
-import * as modalMascota from "../../../Helpers/modales/mascota";
-import paginacion from "../../../Helpers/paginacion";
+import * as api from "../../../helpers/api";
+import * as alerta from "../../../helpers/alertas";
+import * as modalMascota from "../../../helpers/modales/mascota";
+import paginacion from "../../../helpers/paginacion";
 
 export default async () => {
     const crear = document.getElementById("crear");

@@ -1,6 +1,6 @@
-import * as auth from "../Views/Auth/index.js"
+import * as auth from "../views/auth/index.js"
 import VoluntarioHomeController from "../views/voluntario/home/homeController.js";
-import AdministradorHomeController from "../views/administrador/home/HomeController.js"
+import AdministradorHomeController from "../views/administrador/home/homeController.js"
 import SupervisorHomeController from "../views/supervisor/home/homeController.js"
 
 import * as planFamiliar from "../views/voluntario/planFamiliar/index.js";
@@ -10,12 +10,12 @@ import * as Planintegrante from "../views/voluntario/planIntegrante/index.js";
 import * as planMascota from "../views/voluntario/planMascota/index.js";
 import * as planRiesgo from "../views/voluntario/planRiesgo/index.js";
 import * as PlanEntorno from "../views/voluntario/planEntorno/index.js";
-import * as planRecurso from "../Views/voluntario/planRecursos/index.js";
-import * as planAccion from "../Views/Voluntario/planAccion/index.js"
+import * as planRecurso from "../views/voluntario/planRecursos/index.js";
+import * as planAccion from "../views/voluntario/planAccion/index.js"
 import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
 
 import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
-import * as AdminstradorUsuarios from "../views/administrador/usuarios/index.js"
+import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
 import * as RevisionPlanSupervisor from "../views/supervisor/revisionPlan/revisionPlan.js"
 
 export const routes = {
@@ -325,13 +325,13 @@ export const routes = {
   "administrador-usuarios": {
     "peticiones": {
       path: `administrador/usuarios/peticiones/index.html`,
-      controlador: AdminstradorUsuarios.PeticionesController,
+      controlador: AdministradorUsuarios.PeticionesController,
       private: true,
       can: "home-frontend.voluntario",
     },
     "gestion": {
       path: `administrador/usuarios/gestion/index.html`,
-      controlador: AdminstradorUsuarios.GestionController,
+      controlador: AdministradorUsuarios.GestionController,
       private: true,
       can: "home-frontend.voluntario",
     },
