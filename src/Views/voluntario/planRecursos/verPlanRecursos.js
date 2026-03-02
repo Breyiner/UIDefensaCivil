@@ -42,7 +42,7 @@ export default async () => {;
 
     const funcionBotones = async(e) => {
     if (e.target.classList.contains("verRiesgos__boton--editar")) {
-          window.location.href = `#/voluntario-planRecursos/editar/id=${id},${e.target.dataset.id}`;}
+        window.location.href = `#/voluntario-planRecursos/editar/id=${id},${e.target.dataset.id}`;}
     
     if (e.target.classList.contains("verRiesgos__boton--eliminar")) {
         const id = e.target.dataset.id;
@@ -51,7 +51,8 @@ export default async () => {;
         const eliminado = await api.delet(`availableResources/${id}`);
         if (eliminado.success) {
             await alerta.alertaOK(eliminado.message);
-            location.reload();}
+            location.reload();
+        }
         else alerta.alertaError(eliminado.message);}
     
     if (e.target.classList.contains("verRiesgos__boton--verMas"))
