@@ -5,11 +5,13 @@ import SupervisorHomeController from "../views/supervisor/home/homeController.js
 
 import * as planFamiliar from "../views/voluntario/planFamiliar/index.js";
 import * as verPlan from "../views/voluntario/verPlanFamiliar/index.js";
+import * as planDatos from "../views/voluntario/planDatos/index.js";
 import * as Planintegrante from "../views/voluntario/planIntegrante/index.js";
 import * as planMascota from "../views/voluntario/planMascota/index.js";
 import * as planRiesgo from "../views/voluntario/planRiesgo/index.js";
 import * as PlanEntorno from "../views/voluntario/planEntorno/index.js";
 import * as planRecurso from "../Views/voluntario/planRecursos/index.js";
+import * as planAccion from "../Views/Voluntario/planAccion/index.js"
 import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
 
 import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
@@ -83,8 +85,8 @@ export const routes = {
   },
   "voluntario-planDatos": {
     "ver": {
-      path: `Voluntario/PlanDatosPrincipales/Editar/index.html`,
-      controlador: datosPrincipales.EditarController,
+      path: `Voluntario/planDatos/Editar/index.html`,
+      controlador: planDatos.EditarController,
       private: true,
       can: "family-plans.show",
     },

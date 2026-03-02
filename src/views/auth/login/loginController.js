@@ -1,6 +1,7 @@
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 import * as local from "../../../helpers/localStorage";
+import * as validacion from "../../../helpers/validacionInputs";
 
 export default async () => {
   const form = document.querySelector(".form");

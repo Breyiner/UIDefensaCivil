@@ -1,7 +1,7 @@
-import * as api from "../../../../Helpers/api";
-import * as alerta from "../../../../Helpers/alertas";
-import * as validacion from "../../../../Helpers/validacionInputs";
-import * as adjuntarOpc from "../../../../Helpers/adjuntarOpciones";
+import * as api from "../../../../helpers/api";
+import * as alerta from "../../../../helpers/alertas";
+import * as validacion from "../../../../helpers/validacionInputs";
+import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
   const botonBack = document.getElementById("boton-back");
