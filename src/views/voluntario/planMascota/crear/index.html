@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="explicacion">
+        <p class="explicacion__titulo">Mascotas o Animales</p>
+        <p class="explicacion__subtitulo">Editar informacion y añadir enfermedad, discapacidad y alergias</p>
+    </div>
+ <form method="POST" class="form">
+    <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-bell-fill" id="selector__icono"></i>
+        <select class="form__input input__especie" id="selector">
+        <option value ="" hidden>Seleccione un tipo de especie...</option>
+        </select>
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-coupon-fill"></i>
+        <input type="text" class="form__input input__nombre" placeholder="nombre" autocomplete="off">
+    </div>
+    <div class="form__inputBox--double">
+    <div class="form__inputBox">
+       <i class="ri-dna-fill"></i>
+        <input type="text" class="form__input input__raza" placeholder="raza" autocomplete="off">
+    </div>
+    <div class="form__inputBox">
+        <i class="ri-cake-2-fill"></i>
+        <input type="text" class="form__input input__edad" placeholder="edad" autocomplete="off">
+    </div>
+    </div>
+    <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-bell-fill" id="selector__icono"></i>
+        <select class="form__input input__genero" id="selector">
+        <option value ="" hidden>Seleccione Macho/Hembra...</option>
+        </select>
+    </div>
+    <button class="form__boton boton" disabled>Guardar</button>
+</form>
+</div>
