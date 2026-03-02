@@ -8,7 +8,7 @@
 
 /* componentes */
 @import "./components/header.css";
-@import "./components/buttons.css";
+@import "./components/boton.css";
 @import "./components/container.css";
 @import "./components/inputs.css";
 @import "./components/form.css";
@@ -26,7 +26,8 @@
 @import "./components/ventanaHistorial.css";
 @import "./components/tarjeta.css";
 @import "./components/seccion.css";
-
+@import "./components/dashboard.css";
+@import "./components/error.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";
@@ -39,5 +40,4 @@
 @import "./pages/verRiesgo.css";
 @import "./pages/verUsuario.css";
 @import "./pages/datosMaestros.css";
-@import "./pages/dashboard.css";
 @import "./pages/revisionplansupervisor";

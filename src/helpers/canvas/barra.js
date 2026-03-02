@@ -1,4 +1,4 @@
-  export default (contenedor,titulo,nombre1,nombre2,dato1,dato2) => {
+export default (contenedor, titulo, nombre1, nombre2, dato1, dato2) => {
   new Chart(contenedor, {
     type: "bar",
     data: {
@@ -10,10 +10,20 @@
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false, // 👈 usa todo el espacio
       plugins: {
-        legend: false,
-        title: { display: true, text: titulo },
-        display: false
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: "     ● " + titulo,
+          align: "start", // 👈 izquierda
+          padding: {
+            top: 15,
+            bottom: 20
+          }
+        }
       }
     }
   });

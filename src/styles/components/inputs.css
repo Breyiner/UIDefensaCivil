@@ -1,6 +1,11 @@
 input{
   font-size: var(--tamano-mediano);
 }
+.input{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
 .form__input--naranja {
   padding: 10px;
@@ -8,7 +13,6 @@ input{
   border-radius: var(--border-radius-botones);
   text-align: start;
   width: 100%;
-  filter: drop-shadow(0px 5px 5px var(--color-grisLogin));
 }
 
 .form__inputBox--double {
@@ -21,13 +25,32 @@ input{
   display: flex;
   border: var(--color-grisOscuro) solid 2px;
   border-radius: var(--border-radius-botones);
-  padding: 5px;
   width: 100%;
   background-color: var(--color-palido);
   padding: 10px;
   gap: 10px;
   text-align: center;
   font-family: var(--fuente-contenido);
+}
+
+/* Input directo */
+.input:has(> span.error) input {
+  color: var(--color-rojizo);
+}
+
+/* Icono directo */
+.input:has(> span.error) i {
+  color: var(--color-rojizo);
+}
+
+/* Si quieres mantener el id específico */
+.input:has(> span.error) i#selector__icono {
+  color: var(--color-rojizo);
+}
+
+/* Contenedor directo */
+.input:has(> span.error) > .form__inputBox {
+  border-color: var(--color-rojizo);
 }
 
 .form__inputBox--double > .form__inputBox {

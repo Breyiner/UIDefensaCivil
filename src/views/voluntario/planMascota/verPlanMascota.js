@@ -1,10 +1,9 @@
-import * as api from "../../../helpers/api";
-import * as alerta from "../../../helpers/alertas";
-import * as modalMascota from "../../../helpers/modales/mascota";
-import paginacion from "../../../helpers/paginacion";
+import * as api from "../../../Helpers/api";
+import * as alerta from "../../../Helpers/alertas";
+import * as modalMascota from "../../../Helpers/modales/mascota";
+import paginacion from "../../../Helpers/paginacion";
 
 export default async () => {
-    ;
     const crear = document.getElementById("crear");
     const botonBack = document.getElementById("boton-back");
     const id = location.hash.split("=")[1];
@@ -17,7 +16,7 @@ export default async () => {
         location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
     };
 
-    crear.addEventListener("click", async () => { location.href = `#/voluntario-planMascota/crear/id=${id}`; });
+    crear.addEventListener("click", async () => {location.href = `#/voluntario-planMascota/crear/id=${id}`;});
 
     let mensajeVacio = "No tienes ninguna mascota registrada de la familia...";
 
@@ -42,6 +41,8 @@ export default async () => {
                     return "Rana";
                 case "Serpiente":
                     return "Serpiente";
+                case "Tortuga":
+                    return "Tortuga";
                 default:
                     return "Pata";
             }
@@ -65,7 +66,7 @@ export default async () => {
 
     const funcionBotones = async (e) => {
         if (e.target.classList.contains("verMascotas__boton--editar")) {
-            window.location.href = `#/voluntario-planMascota/editar/id=${id},${e.target.dataset.id}`;
+        window.location.href = `#/voluntario-planMascota/editar/id=${id},${e.target.dataset.id}`;
         }
 
         if (e.target.classList.contains("verMascotas__boton--eliminar")) {

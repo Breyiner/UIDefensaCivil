@@ -1,5 +1,9 @@
 import * as api from "../api";
 import * as alerta from "../alertas";
+import * as validacion from "../validacionInputs"
+import * as adjuntarOpc from "../adjuntarOpciones"
+
+import {initTomSelectPortatil} from "../../main";
 
 export const ver = async(id) => {
   const datos = await api.get(`members/${id}`);
@@ -107,60 +111,100 @@ export const ver = async(id) => {
 };
 
 export const crear = async (id,recargarContainer) => {
-    const tipos = await api.get("conditionTypes");
-        let opcionesTexto = "";
-        for (let i = 0; i < tipos.length; i++) {
-          // Vamos sumando cada opción al texto
-          opcionesTexto += `<option value="${tipos[i].id}">${tipos[i].name}</option>`;
+  const tiposAfeccionesPeticion = await api.get(`conditionTypes`);
+  let tiposAfecciones = "";
+  for (let i = 0; i < tiposAfeccionesPeticion.length; i++) {
+    tiposAfecciones += `<option value="${tiposAfeccionesPeticion[i].id}">${tiposAfeccionesPeticion[i].name}</option>`;
+  }
+
+  const htmlModal = `
+    <div class="explicacion modal">
+      <p class="explicacion__titulo">Agregar Afección</p>
+    </div>
+    <div class="container__gap modal-50">
+    <div class="input">
+      <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-id-card-line" id="selector__icono"></i>
+        <select class="form__input selector--afeccion" id="selector">
+          <option value ="" hidden>Seleccione una afeccion...</option>
+          ${tiposAfecciones}
+        </select>
+      </div>
+    </div>
+      <div class="input">
+        <div class="form__inputBox">
+          <i class="ri-syringe-line"></i>
+          <input type="text" class="form__input" placeholder="Nombre de la afección" id="nombreAfeccion" autocomplete="off">
+        </div>
+      </div>
+      <div class="input">
+        <div class="form__inputBox">
+          <i class="ri-calendar-line"></i>
+          <input type="text" class="form__input" placeholder="Descripción de dosis" id="descripcion" autocomplete="off">
+        </div>
+      </div>
+    </div>`;
+  
+  const funcionModal = async () => {
+    const afeccion = document.querySelector(".selector--afeccion");
+    const nombreAfeccion = document.getElementById("nombreAfeccion")
+    const descripcion = document.getElementById("descripcion");
+
+    let validarAfeccion = validacion.validarSelect(afeccion);
+    let validarNombreAfeccion = validacion.validarMinimo(nombreAfeccion, 3);
+    let validarDescripcion = validacion.validarSiExiste(descripcion, 10);
+    
+    if (validarAfeccion &&
+        validarNombreAfeccion &&
+        validarDescripcion){
+      const datos = {
+        member_id: id,
+        condition_type_id: afeccion.value,
+        name: nombreAfeccion.value,
+        dose: descripcion.value,
+      };
+      
+      try {
+        const data = await api.post("conditionMembers", datos);
+        if (data.success) {
+          await alerta.alertaOK(data.message);
+          await recargarContainer();
+          return true} 
+        else{
+          alerta.alertaWarning(data.message, data.errors);
+          return false
         }
-        const htmlModal = `
-                <div class="explicacion modal">
-                    <p class="explicacion__titulo">Agregar Afección</p>
-                </div>
-                <div class="form">
-                    <div class="form__inputBox modal-50">
-                        <i class="ri-building-fill"></i>
-                        <select class="form__input form__afeccion">
-                        <option value="0" hidden>Seleccione una afeccion</option>
-                        ${opcionesTexto}
-                        </select>
-                        </div>
-                    <div class="form__inputBox">
-                        <i class="ri-syringe-fill"></i>
-                        <input type="text" class="form__input form__nombreAfeccion" placeholder="Nombre de la afección" autocomplete="off">
-                    </div>
-                    <div class="form__inputBox">
-                        <i class="ri-calendar-fill"></i>
-                        <input type="text" class="form__input form__descripcion" placeholder="Descripción de dosis" autocomplete="off">
-                    </div>
-                </div>`;
-    
-        const funcionModal = async () => {
-          const afeccion = document.querySelector(".form__afeccion").value;
-          const nombreAfeccion = document.querySelector(
-            ".form__nombreAfeccion",
-          ).value;
-          const descripcion = document.querySelector(".form__descripcion").value;
-    
-          const datos = {
-            member_id: id,
-            condition_type_id: afeccion,
-            name: nombreAfeccion,
-            dose: descripcion,
-          };
-    
-          try {
-            const data = await api.post("conditionMembers", datos);
-            if (data.success) {
-              await alerta.alertaOK(data.message);
-              await recargarContainer();
-            } else alerta.alertaWarning(data.message, data.errors);
-          } catch (error) {
-            console.log(error);
-            alerta.alertaError(error.errors);
-          }
-        };
-        alerta.Crear(htmlModal, funcionModal);
+      }catch (error){
+        console.log(error);
+        alerta.alertaError(error.errors);
+        return false}
+    }return false
+    };
+    const funcionAlAbrir = async () => {
+      const afeccion = document.querySelector(".selector--afeccion");
+      const nombreAfeccion = document.getElementById("nombreAfeccion")
+      const descripcion = document.getElementById("descripcion");
+      
+      nombreAfeccion.addEventListener("keydown", (e) => {
+        validacion.limiteCaracteres(e, 30);
+        validacion.textoConEspacios(e);
+      });
+      descripcion.addEventListener("keydown", (e) => {
+        validacion.limiteCaracteres(e, 200);
+      });
+
+      afeccion.addEventListener("change", (e) => {
+          validacion.limpiarError(e.target);
+      });
+      nombreAfeccion.addEventListener("blur", (e) => {
+        validacion.limpiarError(e.target);
+      });
+      descripcion.addEventListener("blur", (e) => {
+        validacion.limpiarError(e.target);
+      });
+    }
+      alerta.Crear(htmlModal, funcionModal,funcionAlAbrir);
+      initTomSelectPortatil();
     }
 
 export const verEditarEliminar = async (id,integranteId,recargarContainer) => {

@@ -1,6 +1,6 @@
 .ts-wrapper .option {
     background: #f0f0f0;
-    color: var(--color-oscuro)
+    color: var(--color-oscuro);
 }
 /* Cambiar la fuente de las opciones */
 .ts-wrapper .option {
@@ -17,13 +17,13 @@
     color: var(--color-oscuro);
     font-size: var(--tamano-mediano);
     font-family: var(--fuente-contenido);
+    text-align: start;
     padding-left: 30px;
 }
 .ts-wrapper .ts-control .item {
     font-family: var(--fuente-contenido);
     color: var(--color-oscuro);
     font-size: var(--tamano-mediano);
-
 }
 .ts-wrapper .ts-control input::placeholder{
     color: var(--color-oscuro);

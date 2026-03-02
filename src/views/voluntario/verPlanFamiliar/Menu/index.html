@@ -1,12 +1,17 @@
 <div class="container">
   <div class="informacion">
-    <p>Familia </p>
-    <button class="informacion__pdf boton--redondo">
+    <p class="informacion__nombreFamiliar">Familia </p>
+    <button id="verPDF" class="informacion__pdf boton--redondo">
       <i class="ri-file-text-line"></i> Ver PDF
     </button>
   </div>
-
+  
   <div class="menuFamilia">
+    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="datosPrincipales">
+      <i class="ri-parent-line"></i>
+      <span>Datos principales</span>
+    </button>
+    
     <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="integrantes">
       <i class="ri-user-add-line"></i>
       <span>Integrantes</span>
@@ -41,10 +46,12 @@
       <i class="ri-file-list-3-line"></i>
       <span>Plan de Acción</span>
     </button>
+
+    <button class="menuFamilia__boton boton boton--rojo boton--grande boton--menu invisible" id="comentarios">
+      <i class="ri-message-2-line"></i>
+      <span>Comentarios</span>
+    </button>
     
   </div>
-
-  <form>
-    <button class="boton" id="enviar">Enviar</button>
-  </form>
+  <button class="boton" id="enviar">Enviar</button>
 </div>

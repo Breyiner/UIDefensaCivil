@@ -13,6 +13,7 @@
   --color-rojizo-25: rgb(255, 0, 0,0.10);
   --color-vino: #AD1010;
   --color-verdoso: #36BD36;
+  --color-verdoso-25: rgba(54, 189, 54,0.25);
   --color-amarillo:#D2B511;
   --color-oscuro: #2b2a29;
   --color-naranjado-50: rgb(255, 102, 0,0.25);
@@ -22,7 +23,7 @@
   --color-grisSombra: #e3e3e3;
   --color-grisLogin: #DBDBDB;
   --color-grisOscuro: #787878;
-  --color-transparencia: rgba(50, 127, 126, 0);
+  --color-transparencia: rgba(0, 0, 0, 0);
   --color-sombra: rgba(0, 0, 0, 0.250);
 
   /* fuentes */

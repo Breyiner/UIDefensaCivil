@@ -12,13 +12,13 @@ export default async () => {
   const boton = document.querySelector(".form__boton");
   const botonGeo = document.querySelector(".form__botonGeo");
 
-  const familia = document.querySelector(".input__familia");
-  const apellidos = document.querySelector(".input__apellidos");
-  const dirrecion = document.querySelector(".input__dirrecion");
-  const sector = document.querySelector(".input__sector");
-  const sectorNombre = document.querySelector(".input__sectorNombre");
-  const telefono = document.querySelector(".input__telefono");
-  const calidad = document.querySelector(".input__calidad");
+  const familia = document.getElementById("familiaId");
+  const apellidos = document.getElementById("apellidos");
+  const dirrecion = document.getElementById("dirrecion");
+  const sector = document.querySelector(".selector--sector");
+  const sectorNombre = document.getElementById("sectorNombre");
+  const telefono = document.getElementById("telefonoFijo");
+  const calidad = document.querySelector(".selector--calidadVivienda");
 
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
@@ -27,8 +27,10 @@ export default async () => {
 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso",);
-    if (confirmacion.isConfirmed) location.href = "#/home";
+    const confirmacion = await alerta.alertaQuest(
+      "¿Seguro que quieres volver? perderás tu progreso",
+    );
+    if (confirmacion.isConfirmed) location.href = "#/voluntario-home";
   };
 
   cargarDatos(`familyPlans/${id}`, [familia, apellidos], ["id", "last_names"]);
@@ -41,37 +43,89 @@ export default async () => {
   botonGeo.disabled = false;
   window.procesoPeticion = false;
 
+  apellidos.addEventListener("keydown", (e) => {
+    validacion.limiteCaracteres(e, 75);
+    validacion.textoConEspacios(e);
+  });
+  dirrecion.addEventListener("keydown", (e) => {
+    validacion.limiteCaracteres(e, 100);
+  });
+  sectorNombre.addEventListener("keydown", (e) => {
+    validacion.limiteCaracteres(e, 50);
+  });
+  telefono.addEventListener("keydown", (e) => {
+    validacion.limiteCaracteres(e, 15);
+    validacion.soloNumeros(e);
+  });
+
+  apellidos.addEventListener("blur", (e) => {
+    validacion.limpiarError(apellidos);
+  });
+  dirrecion.addEventListener("blur", (e) => {
+    validacion.limpiarError(dirrecion);
+  });
+  sector.addEventListener("change", async () =>{ 
+    validacion.limpiarError(sector)
+  });
+  sectorNombre.addEventListener("blur", (e) => {
+    validacion.limpiarError(sectorNombre);
+  });
+  telefono.addEventListener("blur", (e) => {
+    validacion.limpiarError(telefono);
+  });
+  calidad.addEventListener("change", async () => {
+    validacion.limpiarError(calidad)
+  });
+  
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     boton.disabled = true;
     botonGeo.disabled = true;
     window.procesoPeticion = true;
 
-    const datosRegistro = {
-      last_names: apellidos.value,
-      address: dirrecion.value,
-      sector_id: sector.value,
-      sector_name: sectorNombre.value,
-      landline_phone: telefono.value,
-      housing_quality_id: calidad.value,
-    };
+    let validarApellidos = validacion.validarMinimo(apellidos, 3);
+    let validarDirrecion = validacion.validarMinimo(dirrecion, 10);
+    let validarSector = validacion.validarSelect(sector);
+    let validarSectorNombre = validacion.validarMinimo(sectorNombre, 3);
+    let validarTelefono = validacion.validarSiExiste(telefono,3);
+    let validarCalidad = validacion.validarSelect(calidad);
 
-    try {
-      const data = await api.patch(`familyPlans/identify/${id}`, datosRegistro);
-      if (data.success) {
-        await alerta.alertaOK(data.message);
-        const geo = await api.getExiste(`housingInfo/${id}`);
-        !geo
-          ? await alerta.alertaWarning(
-            "Se puede agregar la Georeferenciacion despues...",
-          )
-          : "";
-        location.replace(`#/home`);
-      } else alerta.alertaWarning(data.message, data.errors);
-    } catch (error) {
-      alerta.alertaError(error.errors);
+    if (
+      validarApellidos &&
+      validarDirrecion &&
+      validarSector &&
+      validarSectorNombre &&
+      validarTelefono &&
+      validarCalidad
+    ) {
+      const datosRegistro = {
+        last_names: apellidos.value,
+        address: dirrecion.value,
+        sector_id: sector.value,
+        sector_name: sectorNombre.value,
+        landline_phone: telefono.value,
+        housing_quality_id: calidad.value,
+      };
+
+      try {
+        const data = await api.patch(
+          `familyPlans/identify/${id}`,
+          datosRegistro,
+        );
+        if (data.success) {
+          await alerta.alertaOK(data.message);
+          const geo = await api.getExiste(`housingInfo/${id}`);
+          !geo
+            ? await alerta.alertaWarning(
+                "Se puede agregar la Georeferenciacion despues...",
+              )
+            : "";
+          location.href= `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+        } else alerta.alertaWarning(data.message, data.errors);
+      } catch (error) {
+        alerta.alertaError(error.errors);
+      }
     }
-
     boton.disabled = false;
     botonGeo.disabled = false;
     window.procesoPeticion = false;
@@ -87,6 +141,6 @@ export default async () => {
       telefono,
       calidad,
     ]);
-    location.replace(`#/voluntario-planFamiliar/georeferenciacion/id=${id}`);
+    location.href = `#/voluntario-planFamiliar/georeferenciacion/id=${id}`;
   });
 };

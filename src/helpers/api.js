@@ -352,6 +352,53 @@ export const getPaginacion = async (endpoint) => {
   }
 };
 
+export const getPdf = async (endpoint, filename = "archivo.pdf") => {
+  try {
+    let response = await fetch(`${url}/${endpoint}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${cookie.obtener("access_token")}`,
+      },
+    });
+
+    if (response.status === 401) {
+      await refreshToken();
+      response = await fetch(`${url}/${endpoint}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${cookie.obtener("access_token")}`,
+        },
+      });
+
+      if (response.status === 401) {
+        alerta.alertaError("Sesión expirada");
+        window.location.href = "#/login";
+        localStorage.clear();
+        return null;
+      }
+    }
+
+    // Convertir la respuesta en blob (PDF)
+    const blob = await response.blob();
+
+    // Crear URL temporal para descargar
+    const urlBlob = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = urlBlob;
+    a.download = filename; // nombre del PDF
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(urlBlob);
+
+  } catch (error) {
+    console.error("Error descargando PDF:", error);
+    alerta.alertaError(error.message || error);
+  }
+};
+
 export const refreshToken = async () => {
   try {
     await fetch(`${url}/refresh-token`, {

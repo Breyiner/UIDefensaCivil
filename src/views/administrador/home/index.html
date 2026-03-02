@@ -1,40 +1,73 @@
 <div class="container">
     <div class="dashBoard">
-        <div class="dashBoard__botones dashBoard__container">
-            <div class="explicacion">
-                <p class="explicacion__titulo">Hola, Administrador</p>
-                <p class="explicacion__subtitulo">Bienvenido al panel de Control</p>
+        <div class="dashBoard__container dashBoard__card dashBoard__totalUsuarios">
+            <div class="dashBoard__icono dashBoard__icono--naranja">
+                <i class="ri-group-line"></i>
             </div>
-            <button id="peticiones" class="container__boton boton boton--grande boton--azul"><i
-                    class="ri-mail-line"></i>
-                Peticiones de Activacion</button>
-            <button id="gestion" class="container__boton boton boton--grande boton--azul"><i
-                    class="ri-user-settings-line"></i>
-                Gestion de Usuarios</button>
-            <button id="datosMaestros" class="container__boton boton boton--grande"><i class="ri-database-2-line"></i>
-                Catalogo de Datos Maestros</button>
-            <button id="cerrarSesion" class="container__boton boton boton--rojo"><i class="ri-logout-box-line"></i>
-                Cerrar Sesion</button>
+            <div class="dashBoard__cardInfo">
+                <div class="dashBoard__cardTitulo">total usuarios</div>
+                <div class="dashBoard__cardNumero" id="totalUsuarios">-</div>
+            </div>
         </div>
-        <div class="dashBoard__superior_izquierda dashBoard__container">
+        <div class="dashBoard__container dashBoard__card dashBoard__activos">
+            <div class="dashBoard__icono dashBoard__icono--verde">
+                <i class="ri-checkbox-circle-line"></i>
+            </div>
+            <div class="dashBoard__cardInfo">
+                <div class="dashBoard__cardTitulo">activos</div>
+                <div class="dashBoard__cardNumero" id="activos">-</div>
+            </div>
+        </div>
+        <div class="dashBoard__container dashBoard__card dashBoard__inactivos">
+            <div class="dashBoard__icono dashBoard__icono--rojo">
+                <i class="ri-close-circle-line"></i>
+            </div>
+            <div class="dashBoard__cardInfo">
+                <div class="dashBoard__cardTitulo">inactivos</div>
+                <div class="dashBoard__cardNumero" id="inactivos">-</div>
+            </div>
+        </div>
+        <div class="dashBoard__container dashBoard__card dashBoard__voluntarios">
+            <div class="dashBoard__icono dashBoard__icono--azul">
+                <i class="ri-user-community-line"></i>
+            </div>
+            <div class="dashBoard__cardInfo">
+                <div class="dashBoard__cardTitulo">voluntarios</div>
+                <div class="dashBoard__cardNumero" id="voluntarios">-</div>
+            </div>
+        </div>
+        <div class="dashBoard__botones dashBoard__container">
+            <p class="dashBoard__titulo--botones"> ● Gestion Rapida</p>
+            <button id="peticiones" class="container__boton boton boton--grande boton--iconoAzul">
+                <i class="ri-circle-fill"></i>
+                Peticiones de Activacion</button>
+            <button id="gestion" class="container__boton boton boton--grande">
+                <i class="ri-circle-fill"></i>
+                Gestion de Usuarios</button>
+            <button id="datosMaestros" class="container__boton boton boton--grande boton--iconoAzul">
+                <i class="ri-circle-fill"></i>
+                Datos Maestros</button>
+        </div>
+        <div class="dashBoard__historialUsuarios dashBoard__container">
             <div class="ventanaHistorial">
                 <div class="ventanaHistorial__titulo">Historial cambios en usuarios</div>
                 <div id="usuariosHistorial" class="ventanaHistorial__contenido"></div>
             </div>
         </div>
-        <div class="dashBoard__superior_esquina_derecha dashBoard__container">
+        <div class="dashbBoard__catalogo dashBoard__container">
             <canvas id="canvaCatalogoEstados"></canvas>
         </div>
-        <div class="dashBoard__inferior_izquierda dashBoard__container">
+        <div class="dashBoard__estadosUsuario dashBoard__container">
             <canvas id="canvaEstadoUsuario"></canvas>
         </div>
-        <div class="dashBoard__inferior_medio dashBoard__container">
+        <div class="dashBoard__roles dashBoard__container">
             <canvas id="canvaRoles"></canvas>
         </div>
-        <div class="dashBoard__inferior_derecha dashBoard__container">
+        <div class="dashBoard__historialCambios dashBoard__container">
             <div class="ventanaHistorial">
-                <div class="ventanaHistorial__titulo">Historial cambios en Datos Maestros</div>
+                <div class="ventanaHistorial__titulo"> ● HISTORIAL DE CAMBIOS EN DATOS MAESTROS</div>
                 <div id="catalogoHistorial" class="ventanaHistorial__contenido"></div>
             </div>
         </div>
     </div>
+</div>

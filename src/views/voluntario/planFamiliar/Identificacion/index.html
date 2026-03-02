@@ -6,45 +6,58 @@
     </p>
   </div>
   <form method="POST" class="form">
-    <div class="form__inputBox">
-      <i class="ri-id-card-fill"></i>
-      <input type="text" class="form__input input__familia" placeholder="Familia segura N°" autocomplete="off"
-        disabled />
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-id-card-line"></i>
+        <input type="text" class="form__input" placeholder="Familia segura N°" id="familiaId" autocomplete="off"
+          disabled />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-parent-line"></i>
+        <input type="text" class="form__input" placeholder="Apellidos de la familia" id="apellidos"
+          autocomplete="off" />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-map-pin-2-line"></i>
+        <input type="text" class="form__input" placeholder="Dirrecion" name="dirrecion" id="dirrecion"
+          autocomplete="off" />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-community-line" id="selector__icono"></i>
+        <select class="form__input selector--sector" id="selector">
+          <option value="" hidden>Seleccione un sector...</option>
+        </select>
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-building-line"></i>
+        <input type="text" class="form__input" placeholder="Escriba el nombre de su sector" id="sectorNombre"
+          autocomplete="off" />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-phone-line"></i>
+        <input type="text" class="form__input" placeholder="telefono fijo (si tiene)" autocomplete="off" id="telefonoFijo" />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-home-2-line" id="selector__icono"></i>
+        <select class="form__input selector--calidadVivienda" id="selector">
+          <option value="" hidden>Seleccione una calidad de vivienda...</option>
+        </select>
+      </div>
     </div>
     <div class="form__inputBox">
-      <i class="ri-parent-fill"></i>
-      <input type="text" class="form__input input__apellidos" placeholder="Apellidos de la familia"
-        autocomplete="off" />
-    </div>
-    <div class="form__inputBox">
-      <i class="ri-map-pin-2-fill"></i>
-      <input type="text" class="form__input input__dirrecion" placeholder="Dirrecion" name="dirrecion"
-        autocomplete="off" />
-    </div>
-    <div class="form__inputBox form__inputBox--selector" >
-      <i class="ri-community-fill" id="selector__icono"></i>
-      <select class="form__input input__sector" name="sectorTipo" id="selector">
-        <option value="" hidden>Seleccione un sector...</option>
-      </select>
-    </div>
-    <div class="form__inputBox">
-      <i class="ri-building-fill"></i>
-      <input type="text" class="form__input input__sectorNombre" name="sectorNombre"
-        placeholder="Escriba el nombre de su sector" autocomplete="off" />
-    </div>
-    <div class="form__inputBox">
-      <i class="ri-phone-fill"></i>
-      <input type="text" class="form__input input__telefono" name="telefonoFijo" placeholder="telefono fijo"
-        autocomplete="off" />
-    </div>
-    <div class="form__inputBox form__inputBox--selector">
-      <i class="ri-home-2-fill" id="selector__icono"></i>
-      <select class="form__input input__calidad" name="calidadVivienda" id="selector">
-        <option value="" hidden>Seleccione una calidad de vivienda...</option>
-      </select>
-    </div>
-    <div class="form__inputBox">
-      <i class="ri-earth-fill"></i>
+      <i class="ri-earth-line"></i>
       <div class="form__geo">
         <div class="form__georeferencia">Georeferenciacion</div>
         <button class="form__botonGeo" disabled>
@@ -52,6 +65,6 @@
         </button>
       </div>
     </div>
-    <button class="form__boton boton" disabled>Crear</button>
+    <button class="form__boton boton" disabled>Siguiente</button>
   </form>
 </div>

@@ -38,6 +38,20 @@ const initTomSelect = () => {
     });
 };
 
+export const initTomSelectPortatil = () => {
+    const elements = document.querySelectorAll("#selector");
+
+    elements.forEach(el => {
+
+        if (el.tomselect) return;
+
+        new TomSelect(el, {
+            create: false,
+            sortField: { field: "text", direction: "asc" }
+        });
+    });
+};
+
 const layout = document.querySelector(".layout");
 layout.insertAdjacentHTML("afterbegin", componenteHeader);
 const main = document.querySelector("#app");

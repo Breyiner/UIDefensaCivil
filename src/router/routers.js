@@ -9,7 +9,7 @@ import * as Planintegrante from "../views/voluntario/planIntegrante/index.js";
 import * as planMascota from "../views/voluntario/planMascota/index.js";
 import * as planRiesgo from "../views/voluntario/planRiesgo/index.js";
 import * as PlanEntorno from "../views/voluntario/planEntorno/index.js";
-
+import * as planRecurso from "../Views/voluntario/planRecursos/index.js";
 import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
 
 import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
@@ -64,7 +64,7 @@ export const routes = {
       controlador: planFamiliar.TestVulController,
       private: true,
       can: "family-plans.destroy",
-    }
+    },
   },
 
   "voluntario-verPlanFamiliar": {
@@ -81,7 +81,14 @@ export const routes = {
       can: "family-plans.show",
     },
   },
-
+  "voluntario-planDatos": {
+    "ver": {
+      path: `Voluntario/PlanDatosPrincipales/Editar/index.html`,
+      controlador: datosPrincipales.EditarController,
+      private: true,
+      can: "family-plans.show",
+    },
+  },
   "voluntario-planIntegrante": {
     ver: {
       path: `voluntario/planIntegrante/index.html`,
@@ -144,7 +151,26 @@ export const routes = {
       can: "family-plans.store",
     },
   },
-
+  "voluntario-planRecursos": {
+    ver: {
+      path: `Voluntario/planRecursos/index.html`,
+      controlador: planRecurso.verPlanRecursos,
+      private: true,
+      can: "family-plans.show",
+    },
+    crear: {
+      path: `Voluntario/planRecursos/Crear/index.html`,
+      controlador: planRecurso.crearController,
+      private: true,
+      can: "family-plans.store",
+    },
+    editar: {
+      path: `Voluntario/planRecursos/Editar/index.html`,
+      controlador: planRecurso.editarController,
+      private: true,
+      can: "family-plans.store",
+    },
+  },
   "voluntario-planEntorno": {
     editar: {
       path: `voluntario/planEntorno/editar/index.html`,
@@ -153,16 +179,35 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
   },
-
+  "voluntario-planAccion":{
+    antes: {
+      path: `Voluntario/planAccion/index.html`,
+      controlador: planAccion.antes,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+    durante: {
+      path: `Voluntario/planAccion/index.html`,
+      controlador: planAccion.durante,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+    despues: {
+      path: `Voluntario/planAccion/index.html`,
+      controlador: planAccion.despues,
+      private: true,
+      can: "home-frontend.voluntario",
+    }
+  },
   "supervisor-home": {
     "/": {
       path: `supervisor/home/index.html`,
       controlador: SupervisorHomeController,
-      private: false
+      private: false,
     },
   },
 
-  "supervisor-revisionPlan": {
+  "supervisor-planFamiliar": {
     "/": {
       path: `supervisor/revisionPlan/index.html`,
       controlador:RevisionPlanSupervisor,
@@ -194,7 +239,7 @@ export const routes = {
     "/": {
       path: `administrador/datosMaestros/index.html`,
       controlador: datosMaestros.verController,
-      private: true,
+      private: false,
       can: "home-frontend.voluntario",
     },
 
@@ -273,7 +318,7 @@ export const routes = {
       controlador: datosMaestros.vulnerabilidadesController,
       private: true,
       can: "home-frontend.voluntario",
-    }
+    },
   },
   "administrador-usuarios": {
     "peticiones": {
@@ -287,6 +332,6 @@ export const routes = {
       controlador: AdminstradorUsuarios.GestionController,
       private: true,
       can: "home-frontend.voluntario",
-    }
+    },
   },
 };

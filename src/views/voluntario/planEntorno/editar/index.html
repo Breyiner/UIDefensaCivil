@@ -1,3 +1,15 @@
- <div class="container">
-    
+<div class="container">
+    <div class="explicacion">
+        <p class="explicacion__titulo">Georeferenciacion</p>
+        <p class="explicacion__subtitulo">Ingrese la imagen de la georeferenciación del hogar,Indique el lugar en donde se encuentra la familia y el sistema le indicara las coordenadas exactas(Google maps o Google earth)</p>
+    </div>
+    <div class="SubirImagen">
+        <button class="boton">Subir Imagen</button>
+        <input type="file" id="imagenInput" accept="image/*">
+    </div>
+    <img id="preview" style="display:none;"/>
+    <p class="explicacion__subtitulo imagen__titulo"></p>
+    <form class="form" action="">
+        <button class="form__boton boton" disabled>Guardar Imagen</button>
+    </form>
 </div>

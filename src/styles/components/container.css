@@ -13,16 +13,12 @@
   max-width: 100%;
   border-radius: 10px;
 }
-
-.container__descripcion {
-  color: var(--color-grisOscuro);
-  font-size: var(--tamano-mediano);
-  font-weight: bolder;
+.container__gap{
   width: 100%;
-  text-align: center;
-  font-family: var(--fuente-titulos);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
 .container__paginas{
   width: 100%;
 }

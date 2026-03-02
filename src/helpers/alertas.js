@@ -39,8 +39,7 @@ export const alertaWarning = (titulo, mensaje) => {
 };
 export const alertaQuest = (mensaje) => {
   return Swal.fire({
-    title: "¿Estas seguro?",
-    text: mensaje,
+    title: mensaje,
     icon: "question",
     showCancelButton: true,
     cancelButtonText: "No",
@@ -93,23 +92,33 @@ export const alertaLoading = () => {
    }
   });
 };
+
 export const alertaLoadingCerrar = () => {
   Swal.close();
 }
-export const Crear = async (htmlModal,funcionModal) => {
-    Swal.fire({
-        html: htmlModal,
-        confirmButtonText: 'Guardar',
-        confirmButtonColor: '#ff6600', // El naranja de tu botón "Guardar"
-        showCloseButton: true,
-        focusConfirm: false,
-        customClass: {
-            confirmButton: 'botonOK'
-        },
-        preConfirm: async () => {funcionModal()}
-    });
-};
 
+export const Crear = async (htmlModal, funcionModal, funcionAlAbrir) => {
+  Swal.fire({
+    html: htmlModal,
+    confirmButtonText: 'Guardar',
+    confirmButtonColor: '#ff6600',
+    showCloseButton: true,
+    focusConfirm: false,
+    customClass: {
+      confirmButton: 'botonOK'
+    },
+
+    didOpen: () => {
+      if (funcionAlAbrir) {
+        funcionAlAbrir();
+      }
+    },
+
+    preConfirm: async () => {
+      return await funcionModal();
+    }
+  });
+};
 export const Ver = (htmlModal,mostrarEditar,mostrarEliminar,funcionEditar,funcionEliminar) => {
     Swal.fire({
         html: htmlModal,
@@ -447,4 +456,177 @@ export const VerCambiarEstadoRolUsuarios = (
     }
 
   });
+};
+
+export const AutorizacionDatos = () => {
+  return Swal.fire({
+    title: "Autorización para el Tratamiento de Datos Personales",
+    html: `
+      <div style="text-align:left; font-size:13px; line-height:1.6;">
+
+        <div style="
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 8px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+        ">
+
+          <p>
+            En cumplimiento de lo dispuesto en la Ley 1581 de 2012 y el Decreto 1377 de 2013,
+            autorizo de manera libre, previa, expresa, voluntaria e informada el tratamiento
+            de mis datos personales suministrados a través del presente formulario.
+          </p>
+
+          <p>
+            Los datos serán utilizados con la finalidad de elaborar, gestionar y administrar
+            el Plan Familiar de Emergencia, así como para realizar procesos de validación,
+            seguimiento, control y mejora de los programas institucionales relacionados
+            con la gestión del riesgo y la atención de emergencias.
+          </p>
+
+          <p>
+            Entiendo que el tratamiento podrá incluir la recolección, almacenamiento,
+            uso, circulación, actualización y supresión de la información, conforme
+            a las políticas de protección de datos adoptadas por la entidad.
+          </p>
+
+          <p>
+            Declaro que he sido informado acerca de mis derechos como titular de datos
+            personales, entre ellos:
+          </p>
+
+          <ul style="padding-left:18px;">
+            <li>Conocer, actualizar y rectificar mis datos personales.</li>
+            <li>Solicitar prueba de la autorización otorgada.</li>
+            <li>Ser informado sobre el uso que se ha dado a mis datos.</li>
+            <li>Revocar la autorización y/o solicitar la supresión del dato cuando proceda.</li>
+            <li>Acceder en forma gratuita a mis datos personales.</li>
+          </ul>
+
+          <p>
+            Esta autorización permanecerá vigente mientras exista una relación
+            administrativa o legal con la entidad o hasta que el titular
+            solicite su revocatoria en los términos establecidos por la ley.
+          </p>
+
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px;">
+          <input type="checkbox" id="checkAutorizacion">
+          <label for="checkAutorizacion" style="cursor:pointer;">
+            Declaro que he leído y acepto la autorización
+          </label>
+        </div>
+
+      </div>
+    `,
+    icon: false,
+    width: 600,
+    showCancelButton: true,
+    confirmButtonText: "Aceptar y continuar",
+    cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "botonOK",
+      cancelButton: "botonCancelar",
+      title: "modalTitulo"
+    },
+
+    didOpen: () => {
+      const confirmBtn = Swal.getConfirmButton();
+      confirmBtn.disabled = true;
+
+      const checkbox = document.getElementById("checkAutorizacion");
+
+      checkbox.addEventListener("change", () => {
+        confirmBtn.disabled = !checkbox.checked;
+      });
+    }
+  })
+};
+
+export const rechazarCambios = (id) => {
+  return Swal.fire({
+    title: "rechazar con cambios",
+    html: `
+      <div style="text-align:left;">
+        <label style="font-weight:600;">Comentarios</label>
+        <textarea 
+          id="comentariosDevolver" 
+          placeholder="Escribe el motivo de la devolución (mínimo 10 caracteres)..."
+          style="
+            width:100%;
+            height:150px;
+            margin-top:8px;
+            padding:10px;
+            border-radius:10px;
+            border:1px solid #ddd;
+            resize:none;
+            overflow-y:auto;
+            font-size:14px;
+          "
+        ></textarea>
+        <small id="contadorTexto" style="display:block;margin-top:6px;color:#888;">
+          0 / mínimo 10 caracteres
+        </small>
+      </div>
+    `,
+    width: 600,
+    showCancelButton: true,
+    confirmButtonText: "Devolver",
+    cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "botonEliminar",
+      cancelButton: "botonOK",
+      title: "modalTitulo"
+    },
+
+    didOpen: () => {
+      const textarea = document.getElementById("comentariosDevolver");
+      const confirmBtn = Swal.getConfirmButton();
+      const contador = document.getElementById("contadorTexto");
+
+      confirmBtn.disabled = true;
+
+      textarea.addEventListener("input", () => {
+        const longitud = textarea.value.trim().length;
+        contador.textContent = `${longitud} / mínimo 10 caracteres`;
+
+        confirmBtn.disabled = longitud < 10;
+      });
+    },
+
+    preConfirm: async () => {
+
+      const comentarios = document.getElementById("comentariosDevolver").value.trim();
+
+      if (comentarios.length < 10) {
+        Swal.showValidationMessage("El comentario debe tener mínimo 10 caracteres");
+        return;
+      }
+
+      try {
+
+        const response = await api.patch(`familyPlans/status/${id}`, {
+          status_plan_id: 5,
+          comentary: comentarios
+        });
+
+        if (response.success) {
+          await alertaOK(response.message);
+        } else {
+          alertaWarning(response.message, response.errors);
+        }
+
+      } catch (error) {
+        console.error(error);
+        alertaError("Error al devolver");
+      }
+
+      return; 
+    }
+  });
+
 };

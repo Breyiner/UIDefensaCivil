@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="explicacion">
+    <p class="explicacion__titulo">Identificacion de la familia</p>
+    <p class="explicacion__subtitulo">
+      Datos principales de la familia que se uso al registrarse.
+    </p>
+  </div>
+  <form method="POST" class="form">
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-id-card-line"></i>
+        <input type="text" class="form__input" placeholder="Familia segura N°" id="familiaId" autocomplete="off"
+          disabled />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-parent-line"></i>
+        <input type="text" class="form__input" placeholder="Apellidos de la familia" id="apellidos"
+          autocomplete="off" />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-map-line" id="selector__icono"></i>
+        <select class="form__input selector--zona" id="selector">
+          <option value="" hidden>Seleccione un tipo de zona...</option>
+        </select>
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-building-line" id="selector__icono"></i>
+        <select class="form__input selector--apartamento" id="selector">
+          <option value="" hidden>Seleccione el apartamento...</option>
+        </select>
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-building-4-line" id="selector__icono"></i>
+        <select class="form__input selector--ciudad" id="selector" disabled>
+          <option value="" hidden>Seleccione la ciudad...</option>
+        </select>
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-map-pin-2-line"></i>
+        <input type="text" class="form__input" placeholder="Dirrecion" name="dirrecion" id="dirrecion"
+          autocomplete="off" />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-community-line" id="selector__icono"></i>
+        <select class="form__input selector--sector" id="selector">
+          <option value="" hidden>Seleccione un sector...</option>
+        </select>
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-building-line"></i>
+        <input type="text" class="form__input" placeholder="Escriba el nombre de su sector" id="sectorNombre"
+          autocomplete="off" />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox">
+        <i class="ri-phone-line"></i>
+        <input type="text" class="form__input" placeholder="telefono fijo (si tiene)" autocomplete="off"
+          id="telefonoFijo" />
+      </div>
+    </div>
+    <div class="input">
+      <div class="form__inputBox form__inputBox--selector">
+        <i class="ri-home-2-line" id="selector__icono"></i>
+        <select class="form__input selector--calidadVivienda" id="selector">
+          <option value="" hidden>Seleccione una calidad de vivienda...</option>
+        </select>
+      </div>
+    </div>
+    <button class="form__boton boton" disabled>Guardar</button>
+  </form>
+</div>
