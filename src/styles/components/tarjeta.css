@@ -75,3 +75,7 @@
     font-family: var(--fuente-titulos);
     font-weight: bold;
 }
+
+.tarjeta__linea{
+    width: 150px;
+}
