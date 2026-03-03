@@ -1,6 +1,7 @@
 import * as api from "../../../../helpers/api";
 import * as alerta from "../../../../helpers/alertas";
 import * as validacion from "../../../../helpers/validacionInputs";
+import * as cargarDatos from "../../../../helpers/cargarDatos";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
@@ -8,6 +9,8 @@ export default async () => {
   const boton = document.querySelector(".form__boton");
   const form = document.querySelector(".form");
   const id = location.hash.split("=")[1];
+  const planId = id.split(",")[0];
+  const recursoId = id.split(",")[1];
 
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
@@ -16,11 +19,7 @@ export default async () => {
 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    const confirmacion = await alerta.alertaQuest(
-      "¿Seguro que quieres volver? perderás tu progreso",
-    );
-    if (confirmacion.isConfirmed)
-      location.href = `#/voluntario-planRecursos/ver/id=${id}`;
+    location.href = `#/voluntario-planRecurso/ver/id=${planId}`;
   };
 
   // Inputs de texto
@@ -31,7 +30,8 @@ export default async () => {
   const recurso = document.querySelector(".selector--recursos");
   const servicio = document.getElementById("servicio");
   await adjuntarOpc.adjuntarDouble(recurso, "resources",servicio,'service');
-
+  await cargarDatos.cargarDatos(`availableResources/${recursoId}`,[telefono,descripcion,distancia,ubicacion,recurso,servicio,],["phone","description","distance","location","resource_id","resource_service","resource_name"],);
+  
   telefono.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 10);
     validacion.soloNumeros(e);
@@ -93,13 +93,12 @@ export default async () => {
         location: ubicacion.value,
         distance: distancia.value,
         phone: telefono.value,
-        family_plan_id: id,
       };
       try {
-        const data = await api.post(`availableResources`, datosRegistro);
+        const data = await api.patch(`availableResources/${recursoId}`, datosRegistro);
         if (data.success) {
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario-planRecursos/ver/id=${id}`;
+          window.location.href = `#/voluntario-planRecursos/ver/id=${planId}`;
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors);

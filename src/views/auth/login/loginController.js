@@ -13,8 +13,6 @@ export default async () => {
   }
   window.procesoPeticion = false;
 
-  console.log(form)
-
   correo.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 40)
   });

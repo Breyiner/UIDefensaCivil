@@ -1,7 +1,7 @@
-import verPlanRecursos from "./verPlanRecursos";
+import verController from "./verPlanRecurso";
 
 import crearController from "./crear/crearController";
 
 import editarController from "./editar/editarController";
 
-export { verPlanRecursos, crearController, editarController };
+export { verController, crearController, editarController };

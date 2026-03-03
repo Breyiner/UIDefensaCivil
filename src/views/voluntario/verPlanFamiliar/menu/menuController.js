@@ -44,7 +44,7 @@ export default async () => {
   });
 
   recursosDisponibles.addEventListener("click", async () => {
-    location.href = `#/voluntario-planRecursos/ver/id=${id}`;
+    location.href = `#/voluntario-planRecurso/ver/id=${id}`;
   });
 
   graficoEntorno.addEventListener("click", async () => {
@@ -52,7 +52,7 @@ export default async () => {
   });
 
   graficosVivienda.addEventListener("click", async () => {
-    location.href = `#/voluntario-planVivienda/ver/id=${id}`;
+    location.href = `#/voluntario-planGrafico/crear/id=${id}`;
   });
 
   planAccion.addEventListener("click", async () => {
