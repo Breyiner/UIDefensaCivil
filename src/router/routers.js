@@ -17,6 +17,7 @@ import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
 import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
 import * as RevisionPlanSupervisor from "../views/supervisor/revisionPlan/revisionPlan.js"
+import * as usuario from "../views/usuario/index.js"
 
 export const routes = {
   login: {
@@ -336,4 +337,16 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
   },
+  "usuarios":{
+    "perfil": {
+      path: `usuario/perfil/index.html`,
+      controlador: usuario.perfilController,
+      private:false
+    },
+    "notificaciones":{
+      path: `usuario/notificaciones/index.html`,
+      controlador: usuario.notificacionesController,
+      private:false
+    }
+  }
 };

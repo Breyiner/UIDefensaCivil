@@ -3,6 +3,7 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import { cargarDatos } from "../../../../helpers/cargarDatos";
 import * as localStorage from "../../../../helpers/localStorage";
+import * as validacion from "../../../../helpers/validacionInputs";
 
 export default async () => {
   const id = location.hash.split("=")[1];
