@@ -26,12 +26,13 @@
   --color-transparencia: rgba(0, 0, 0, 0);
   --color-sombra: rgba(0, 0, 0, 0.250);
   --color-blancotranslucido: rgba(255, 255, 255, 0.473); 
-
+  --color-fondogristranslucido: #d9d9d95b;
+  --color-fondoazultranslucido: #0770cc28;
   /* fuentes */
   --fuente-titulos: Roboto;
   --fuente-contenido: Noto Sans;
   /* tamaños de fuente */
-  --tamano-pequeno: 0.7rem;
+  --tamano-pequeno: 0.8rem;
   --tamano-mediano: 1rem;
   --tamano-medio-grande: 1.25rem;
   --tamano-grande: 1.5rem;

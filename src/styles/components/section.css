@@ -1,18 +1,18 @@
-.section {
+.banner {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     gap: 8px;
 }
-.section--azul{
+.banner--azul{
     background: var(--color-secundario);
     color: var(--color-palido);
 }
-.section__titulo{
+.banner__titulo{
     font-size: var(--tamano-grande);
 }
-.section__span{
+.banner__span{
     font-family: var(--fuente-contenido);
     background-color: var(--color-blancotranslucido);
     padding: 5px 10px;

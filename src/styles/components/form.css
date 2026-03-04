@@ -7,26 +7,24 @@
   align-items: center;
   width: 100%;
 }
+.form--alineacion{
+  align-items: stretch;
+}
+
 .form--grid{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px 30px;
 }
-
-
 .form__campo {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
-.form__campo label {
-  flex: 0 0 auto;
-  width: 120px; 
+
+.form__label{
+  font-size: var(--tamano-pequeno);
 }
-.form__campo input {
-  flex: 1 1 auto;
-  width: 100%;
-}
+
 .form__titulo {
   text-align: center;
   font-family: var(--fuente-titulos);
