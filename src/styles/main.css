@@ -39,5 +39,6 @@
 @import "./pages/verMascotas.css";
 @import "./pages/verRiesgo.css";
 @import "./pages/verUsuario.css";
+@import "./pages/verGrafico.css";
 @import "./pages/datosMaestros.css";
 @import "./pages/revisionplansupervisor";
