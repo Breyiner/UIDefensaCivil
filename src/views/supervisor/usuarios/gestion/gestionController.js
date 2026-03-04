@@ -70,7 +70,7 @@ export default async () => {
 
     const recargarContainer = async () => {
         contenedor.innerHTML = "";
-        await paginacion(`users/serForSupervisor`, mensajeVacio, carta);
+        await paginacion(`users/userForSupervisor`, mensajeVacio, carta);
     };
 
     contenedor.addEventListener("click", async (e) => {

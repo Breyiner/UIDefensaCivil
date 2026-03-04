@@ -2,6 +2,7 @@ import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import * as validacion from "../../../../helpers/validacionInputs";
+
 export default async () => {
   const botonBack = document.getElementById("boton-back");
   const form = document.querySelector(".form");
@@ -26,7 +27,7 @@ export default async () => {
   };
 
   await adjuntarOpc.adjuntarNoValida(zona, "zones");
-  await adjuntarOpc.adjuntarNoValida(apartamento, "apartments");
+  await adjuntarOpc.adjuntarNoValida(apartamento, "departments");
   window.procesoPeticion = false;
   boton.disabled = false;
   
@@ -91,7 +92,7 @@ export default async () => {
   apartamento.addEventListener("change", async () => {
     await adjuntarOpc.adjuntarReseteoNoValida(
       ciudad,
-      `cities/apartment/${apartamento.value}`,
+      `cities/department/${apartamento.value}`,
     );
   });
 };

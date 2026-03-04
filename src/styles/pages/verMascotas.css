@@ -22,7 +22,8 @@
   align-items: center;
 }
 .verMascotas__icono > img{
-  width: 75%;
+  width: 90px;
+  aspect-ratio: 1;
   background-color: var(--color-grisSombra);
   border-radius: var(--border-radius-tarjetas);
   padding: 5px;
