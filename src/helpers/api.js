@@ -2,7 +2,7 @@ import * as alerta from "./alertas";
 import * as cookie from "./cookies";
 
 const url = "http://localhost:8000/api";
-const urlStorage = "http://localhost:8000/storage";
+export const urlStorage = "http://localhost:8000/storage";
 
 export const getExiste = async (endpoint) => {
   try {

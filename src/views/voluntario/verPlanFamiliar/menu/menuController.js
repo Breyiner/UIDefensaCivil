@@ -52,7 +52,7 @@ export default async () => {
   });
 
   graficosVivienda.addEventListener("click", async () => {
-    location.href = `#/voluntario-planGrafico/crear/id=${id}`;
+    location.href = `#/voluntario-planGrafico/ver/id=${id}`;
   });
 
   planAccion.addEventListener("click", async () => {
