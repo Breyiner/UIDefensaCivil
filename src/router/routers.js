@@ -85,7 +85,7 @@ export const routes = {
   },
   "voluntario-planDatos": {
     "ver": {
-      path: `Voluntario/planDatos/Editar/index.html`,
+      path: `voluntario/planDatos/editar/index.html`,
       controlador: planDatos.EditarController,
       private: true,
       can: "family-plans.show",

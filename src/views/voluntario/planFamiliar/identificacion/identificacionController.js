@@ -3,7 +3,7 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import { cargarDatos } from "../../../../helpers/cargarDatos";
 import * as localStorage from "../../../../helpers/localStorage";
-
+import * as validacion from "../../../../helpers/validacionInputs";
 export default async () => {
   const id = location.hash.split("=")[1];
   const botonBack = document.getElementById("boton-back");
@@ -58,6 +58,7 @@ export default async () => {
     validacion.soloNumeros(e);
   });
 
+  // Event listeners que limpian los errores una vez corregidos
   apellidos.addEventListener("blur", (e) => {
     validacion.limpiarError(apellidos);
   });
@@ -87,7 +88,7 @@ export default async () => {
     let validarDirrecion = validacion.validarMinimo(dirrecion, 10);
     let validarSector = validacion.validarSelect(sector);
     let validarSectorNombre = validacion.validarMinimo(sectorNombre, 3);
-    let validarTelefono = validacion.validarSiExiste(telefono,3);
+    let validarTelefono = validacion.validarSiExiste(telefono,7);
     let validarCalidad = validacion.validarSelect(calidad);
 
     if (

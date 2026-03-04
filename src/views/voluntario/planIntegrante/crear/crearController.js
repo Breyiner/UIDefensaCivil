@@ -1,6 +1,7 @@
 import * as api from "../../../../helpers/api";
 import * as alerta from "../../../../helpers/alertas";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
+import * as validacion from "../../../../helpers/validacionInputs";
 
 export default async () => {
     const botonBack = document.getElementById("boton-back");
@@ -39,9 +40,16 @@ export default async () => {
 
     window.procesoPeticion = false;
     boton.disabled = false;
+
+    validacion.validadorAutomatico.init(form);
     
     form.addEventListener('submit', async (e) => {
+
         e.preventDefault();
+
+        validacion.validadorAutomatico.validarTodo(form);
+
+
         window.procesoPeticion = true
         boton.disabled = true;
     

@@ -18,6 +18,7 @@ export const TECLAS_ESPECIALES = [
 // =====================================================
 
 const mostrarError = (input, mensaje) => {
+
   limpiarError(input);
 
   const span = document.createElement("span");
@@ -25,6 +26,8 @@ const mostrarError = (input, mensaje) => {
   span.textContent = mensaje;
 
   input.parentElement.parentElement.appendChild(span);
+  console.log(input)
+
 };
 
 export const limpiarError = (input) => {
@@ -41,6 +44,7 @@ const error = (input, mensaje) => {
 // VALIDACIONES POR TECLA
 // =====================================================
 
+// Funcion permitir tecla, params: Evento y la regex para permitir la tecla
 const permitirTecla = (event, regex) => {
   if (
     !regex.test(event.key) &&
@@ -50,6 +54,7 @@ const permitirTecla = (event, regex) => {
   }
 };
 
+// Funciones que llaman a permitirTecla y le pasan la regex para permitir unicamente los respectivos caracteres 
 export const soloNumeros = (event) =>
   permitirTecla(event, /^\d$/);
 
@@ -58,6 +63,8 @@ export const soloTexto = (event) =>
 
 export const textoConEspacios = (event) =>
   permitirTecla(event, /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]$/);
+
+
 // =====================================================
 // LIMITE DE CARACTERES
 // =====================================================
@@ -135,6 +142,7 @@ export const validarVacio = (input) => {
 };
 
 export const validarMinimo = (input, minimo) => {
+
   const value = input.value.trim();
 
   limpiarError(input);
@@ -143,6 +151,7 @@ export const validarMinimo = (input, minimo) => {
     return error(input, "No puede estar vacío.");
 
   if (value.length < minimo)
+    // console.log("XD")
     return error(
       input,
       `Debe tener al menos ${minimo} caracteres.`
@@ -256,7 +265,7 @@ export const validarMayorDeEdad = (input, edadMinima = 18) => {
 };
 
 
-export const validarSiExiste = (input, minimo) => {
+export const  validarSiExiste = (input, minimo) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -267,3 +276,67 @@ export const validarSiExiste = (input, minimo) => {
   // Si tiene contenido, ejecuta la validación que le pases
   return validarMinimo(input,minimo);
 };
+
+
+// Funcion para validar los inputs:
+// Objeto que tiene dos elementos: 
+// init (formulario) para los inputs que funcionan en "tiempo real", ej: Un input de texto que no permite escribir numeros
+// validarTodo (formulario) para que valide TODOS los inputs una vez que se oprima "submit" en el formulario.
+// Las funciones de este objeto 
+
+export const validadorAutomatico = {
+  init: (formulario) => {
+    const inputs = formulario.querySelectorAll("input")
+
+    inputs.forEach(input => {
+        
+        input.addEventListener("keydown", e => {
+          switch (input.dataset.tipo){
+            case "textoEspacio":
+              textoConEspacios(e);
+              break;
+            case "texto":
+              soloTexto(e);
+              break;
+            case "numero":
+              soloNumeros(e);
+              break;
+          }
+        })
+    })},
+
+  validarTodo: (formulario) => {
+    const inputs = formulario.querySelectorAll("input");
+    const selects = formulario.querySelectorAll("select");
+    
+    inputs.forEach(input => {
+  
+      if (input.dataset.min){
+        validarMinimo(input,Number(input.dataset.min))
+        
+      }
+      if (input.dataset.max){
+        validarMaximo(input,Number(input.dataset.max))
+      }
+
+      // NOTA: en minimo, poner el valor minimo de todos modos
+      if (input.dataset.opcional){
+        validarSiExiste(input, Number(input.dataset.min))
+      }
+    })
+
+    selects.forEach(select => {
+      validarSelect(select);
+    })
+    //IMPORTANTE:
+    // Esta funcion valida cada input de acuerdo a los DATA ATTRIBUTES del <input> (data-atributo) que se escriben en el HTML
+    // Los data attributes que se validan son:
+    // data-min: Si hay minimo de caracteres
+    // data-max: Si hay maximo de caracteres
+    // data-tipo: El tipo de dato que maneja el input (texto, textoEspacio y numero)
+    // data-opcional: Si el dato es opcional o no (Mientras el atributo exista, se valida como opcional sin importar el valor de este)
+    // Los <select> no requieren data attributes ya que estos se validan al hacer submit en el form y verificar si estan o no seleccionados
+  }
+
+
+}
