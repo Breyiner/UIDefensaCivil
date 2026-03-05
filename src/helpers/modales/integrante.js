@@ -1,9 +1,10 @@
 import * as api from "../api";
 import * as alerta from "../alertas";
 import * as validacion from "../validacionInputs"
-import {initTomSelectPortatil} from "../../main";
+import {initTomSelectPortatil} from "../tomSelectPortatil";
 
 export const ver = async(id) => {
+  
   const datos = await api.get(`members/${id}`);
   const condiciones = await api.get(`conditionMembers/member/${id}`);
 
