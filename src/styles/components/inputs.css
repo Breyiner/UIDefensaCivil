@@ -40,6 +40,15 @@ textarea:focus {
   gap: 5px;
 }
 
+.form__input{
+  padding: 6px 10px;
+  background-color: var(--color-fondogristranslucido);
+  border: 1px solid var(--color-grisLogin);
+  border-radius: var(--border-radius-botones);
+  flex: 1 1 auto;
+  width: 100%;
+}
+
 .form__inputBox {
   display: flex;
   border: var(--color-grisOscuro) solid 2px;

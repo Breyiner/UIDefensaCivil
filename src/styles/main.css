@@ -28,6 +28,7 @@
 @import "./components/seccion.css";
 @import "./components/dashboard.css";
 @import "./components/error.css";
+@import "./components/section.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";
@@ -42,3 +43,4 @@
 @import "./pages/verGrafico.css";
 @import "./pages/datosMaestros.css";
 @import "./pages/revisionplansupervisor";
+@import "./pages/perfil.css";

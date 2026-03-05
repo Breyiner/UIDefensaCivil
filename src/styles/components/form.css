@@ -7,6 +7,23 @@
   align-items: center;
   width: 100%;
 }
+.form--alineacion{
+  align-items: stretch;
+}
+
+.form--grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 30px;
+}
+.form__campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__label{
+  font-size: var(--tamano-pequeno);
+}
 
 .form__titulo {
   text-align: center;
