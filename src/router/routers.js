@@ -13,11 +13,11 @@ import * as planRecurso from "../views/voluntario/planRecurso/index.js";
 import * as PlanEntorno from "../views/voluntario/planEntorno/index.js";
 import * as PlanGrafico from "../views/voluntario/planGrafico/index.js";
 import * as planAccion from "../views/voluntario/planAccion/index.js"
-import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
 
+import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
+import * as supervisorPlanFamiliar from "../views/supervisor/PlanFamiliar/index.js"
 import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
-import * as RevisionPlanSupervisor from "../views/supervisor/revisionPlan/revisionPlan.js"
 import * as usuario from "../views/usuario/index.js"
 
 export const routes = {
@@ -233,11 +233,22 @@ export const routes = {
 
   "supervisor-planFamiliar": {
     "/": {
+      path: `voluntario/verPlanFamiliar/index.html`,
+      controlador: verPlan.VerPlanFamiliar,
+      private: false
+    },
+    "revision": {
       path: `supervisor/revisionPlan/index.html`,
-      controlador:RevisionPlanSupervisor,
+      controlador:supervisorPlanFamiliar.RevisionPlanController,
+      private: false
+    },
+    "estadistica":{
+      path: `supervisor/PlanFamiliar/estadistica/index.html`,
+      controlador:supervisorPlanFamiliar.EstadisticaController,
       private: false
     }
   },
+
   "supervisor-usuarios": {
     "peticiones": {
       path: `supervisor/usuarios/peticiones/index.html`,

@@ -40,7 +40,7 @@ textarea:focus {
   gap: 5px;
 }
 
-.form__input{
+.form__input--gris{
   padding: 6px 10px;
   background-color: var(--color-fondogristranslucido);
   border: 1px solid var(--color-grisLogin);
