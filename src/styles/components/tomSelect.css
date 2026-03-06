@@ -33,6 +33,9 @@
 .form__inputBox--selector{
     position: relative;
 }
+.ts-wrapper{
+    width: 100%;
+}
 #selector__icono{
     position: absolute;
     left: -12px;
