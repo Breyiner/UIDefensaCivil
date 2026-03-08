@@ -1,0 +1,21 @@
+.banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 8px;
+}
+.banner--azul{
+    background: var(--color-secundario);
+    color: var(--color-palido);
+}
+.banner__titulo{
+    font-size: var(--tamano-grande);
+}
+.banner__span{
+    font-family: var(--fuente-contenido);
+    background-color: var(--color-blancotranslucido);
+    padding: 5px 10px;
+    border-radius: var(--border-radius-tarjetas);
+    border: 1px solid var(--color-palido);
+}

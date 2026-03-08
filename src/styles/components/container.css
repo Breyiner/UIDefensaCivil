@@ -8,7 +8,11 @@
   justify-content: start;
   gap: 10px;
 } 
-
+.container--form-fuentes{
+  font-family: var(--fuente-titulos);
+  text-transform: uppercase;
+  font-weight: bold;
+}
 .container__imagen {
   max-width: 100%;
   border-radius: 10px;

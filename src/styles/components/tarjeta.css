@@ -2,6 +2,7 @@
     padding: 20px;
     box-shadow: 0 0 10px var(--color-sombra);
     border-radius: var(--border-radius-tarjetas);
+    width: 100%;
 }
 
 
@@ -9,10 +10,22 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    margin: 10px 0;
 }
 
+.tarjeta--fila-fondo{
+    background-color: var(--color-fondoazultranslucido);
+    color: var(--color-secundario);
+    padding: 10px;
+    border-radius: var(--border-radius-botones);
+}
 .tarjeta--completa {
     width: 100%;
+}
+
+.tarjeta__header{
+    color: var(--color-secundario);
+
 }
 
 .tarjeta__titulo {
@@ -39,6 +52,10 @@
 
 .tarjeta__icono--verde {
     color: var(--color-verdoso);
+}
+
+.tarjeta__icono--naranja {
+    color: var(--color-primario);
 }
 
 .tarjeta__boton {
@@ -68,10 +85,15 @@
 .texto--contenido{
     font-size: var(--tamano-pequeno);
     font-family: var(--fuente-contenido);
+    text-transform: none;
 }
 
 .tarjeta__subtitulo{
     font-size: var(--tamano-medio-grande);
     font-family: var(--fuente-titulos);
     font-weight: bold;
+}
+
+.tarjeta__linea{
+    width: 150px;
 }
