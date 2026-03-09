@@ -58,40 +58,52 @@
 
     <div class="tarjeta">
         <div class="tarjeta--fila">
-            <div>
-                <i class="tarjeta__icono tarjeta__icono--azul ri-phone-line"></i>
-                <p class="tarjeta__header">Datos de contacto</p>
-            </div>
+            <i class="tarjeta__icono tarjeta__icono--azul tarjeta__icono--fondo-azul ri-phone-line"></i>
+            <p class="tarjeta__header">Datos de contacto</p>
             <hr class="tarjeta__linea">
-            <i class="tarjeta__icono tarjeta__icono--naranja ri-edit-box-line"></i>
+            <i class="tarjeta__icono tarjeta__icono--naranja tarjeta__icono--fondo-naranja tarjeta__icono--clickable ri-edit-box-line"
+                id="btnEditarContacto"></i>
         </div>
         <div class="form form--alineacion">
             <div class="form__campo">
                 <label class="form__label" for="celular">celular</label>
                 <input class="form__input form__input--gris" type="number" id="celular" name="user_name" placeholder="Martinez" disabled/>
             </div>
-            
+
             <div class="form__campo">
                 <label class="form__label" for="correo">Correo electronico</label>
-                <input class="form__input form__input--gris" type="email" id="correo" name="user_name" placeholder="Carlos" disabled/>
+                <input class="form__input" type="email" id="correo" name="user_name" placeholder="Carlos" disabled />
+            </div>
+
+            <div class="boton--containerStarEnd" id="accionesContacto">
+                <button type="button" class="boton boton--sinfondo" id="btnCancelarContacto">Cancelar</button>
+                <button type="button" class="boton" id="btnGuardarContacto">Guardar cambios</button>
             </div>
         </div>
     </div>
     <div class="tarjeta">
-        <div class="tarjeta--fila tarjeta--fila--alineacion">
-            <div>
-                <i class="tarjeta__icono tarjeta__icono--azul ri-lock-password-line"></i>
-                <p class="tarjeta__header">Contraseña</p>
-            </div>
+        <div class="tarjeta--fila">
+            <i class="tarjeta__icono tarjeta__icono--azul tarjeta__icono--fondo-azul ri-lock-password-line"></i>
+            <p class="tarjeta__header">Contraseña</p>
             <hr class="tarjeta__linea">
-            <i class="tarjeta__icono  tarjeta__icono--naranja ri-edit-box-line"></i>
+            <i class="tarjeta__icono tarjeta__icono--naranja tarjeta__icono--fondo-naranja tarjeta__icono--clickable ri-edit-box-line"
+                id="btnEditarPassword"></i>
         </div>
         <div class="form form--alineacion">
             <div class="form__campo">
                 <label class="form__label" for="contraseña">Contraseña</label>
-                <input class="form__input form__input--gris" type="password" id="contraseña" name="user_name" placeholder="Contraseña" disabled/>
+                <input class="form__input" type="password" id="contraseña" name="user_name"
+                    placeholder="******************" disabled />
+            </div>
+
+            <div class="boton--containerStarEnd" id="accionesPassword">
+                <button type="button" class="boton boton--sinfondo" id="btnCancelarPassword">Cancelar</button>
+                <button type="button" class="boton" id="btnGuardarPassword">Guardar cambios</button>
             </div>
         </div>
     </div>
-    <button id="cerrarSesion" class="container__boton boton boton--rojo">Cerrar Sesion</button>
+
+    <div class="boton--containerCenter">
+        <button type="button" class="boton boton--grande" id="btnCerrarSesion">Cerrar sesion</button>
+    </div>
 </div>

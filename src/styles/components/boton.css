@@ -11,21 +11,24 @@
   font-family: var(--fuente-titulos);
   cursor: pointer;
 }
-.boton-width{
+
+.boton-width {
   width: 100%;
   padding: 15px;
 }
 
-.boton--sinfondo{
+.boton--sinfondo {
   background-color: transparent;
   border: 1px solid var(--color-primario);
   color: var(--color-primario);
 }
+
 .boton:active {
   background-color: var(--color-palido);
   color: var(--color-primario);
   border: 3px solid var(--color-primario);
 }
+
 .boton:disabled {
   border: 3px solid var(--color-grisOscuro);
   color: var(--color-grisOscuro);
@@ -35,23 +38,28 @@
 .boton--azul {
   background-color: var(--color-secundario);
 }
+
 .boton--rojo {
   background-color: var(--color-vino);
 }
+
 .boton--azul:active {
   background-color: var(--color-palido);
   color: var(--color-secundario);
   border: 3px solid var(--color-secundario);
 }
+
 .boton--rojo:active {
   background-color: var(--color-palido);
   color: var(--color-rojizo);
   border: 3px solid var(--color-rojizo);
 }
+
 .boton--grande {
   width: 100%;
 }
-.boton--menu{
+
+.boton--menu {
   display: flex;
   justify-content: start;
   align-items: center;
@@ -59,12 +67,14 @@
   font-size: var(--tamano-grande);
   border-radius: 20px;
 }
-.boton--menu > i{
+
+.boton--menu>i {
   margin-left: 20px;
   font-weight: normal;
   font-size: var(--tamano-titulo);
 }
-.boton--redondo{
+
+.boton--redondo {
   color: var(--color-palido);
   background-color: var(--color-primario);
   padding: 4px 12px;
@@ -73,32 +83,48 @@
   transition: 0.3s;
   font-weight: bold;
 }
-.boton--redondo:active{
+
+.boton--redondo:active {
   color: var(--color-primario);
   background-color: var(--color-palido);
   border: 2px solid var(--color-primario);
 }
 
-.boton--height{
+.boton--height {
   height: 50px;
   width: 100%;
 }
 
-.boton--containerStart{
+.boton--containerStart {
   display: flex;
   justify-content: start;
   width: 100%;
 }
-.boton--containerEnd{
+
+.boton--containerEnd {
   display: flex;
   justify-content: end;
   width: 100%;
 }
-.boton--containerStarEnd{
+
+.boton--containerStarEnd {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-.boton--containerStarEnd > .boton{
+
+.boton--containerStarEnd>.boton {
   width: 45%;
+}
+
+.boton--containerCenter {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
+#accionesContacto,
+#accionesPassword {
+  display: none;
 }
