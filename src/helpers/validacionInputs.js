@@ -282,34 +282,51 @@ export const  validarSiExiste = (input, minimo) => {
 
 
 // objeto encargado de establecer un esquema para validar los inputs
+// cada propiedad de este objeto indica un DATA ATTRIBUTE que debe tener cada input para que este sea validado
 // faltan mas por agregar
 const inputTipos = {
   nombre: {validacion: (e) => textoConEspacios(e), min: 3, max: 50},
   telefono: {validacion: (e) => soloNumeros(e), min: 7, max: 10, opcional: true},
+  documento: {validacion: (e) => soloNumeros, min: 10, max: 20}
+
 }
 
 
 // validarTodo (formulario) para que valide TODOS los inputs una vez que se oprima "submit" en el formulario.
 // Las funciones de este objeto 
 
+
 export const validadorAutomatico = {
+  // init se utiliza para incializar la validacion de un form (validacion.validadorAutomatico.init(formulario))
   init: (formulario) => {
     const inputs = formulario.querySelectorAll("input")
-
-    // new
-
+    const selects = formulario.querySelectorAll("select");
+    
+    
     inputs.forEach(input => {
-
+      
       const tipo = input.dataset.tipo
+      
+      // A cada input se le añade la validacion para escribir solo los caracteres permitidos por input y el evento para borrar el error una vez corregido
 
       if (tipo in inputTipos){
         input.addEventListener("keydown", e=> {
           inputTipos[tipo].validacion(e);
         })
+        input.addEventListener("blur", e => {
+          limpiarError(input)
+        })
       }
+
+      selects.forEach(select => {
+        select.addEventListener("blur", e => {
+          limpiarError(select)
+        })
+      })
     })
   },
-
+  
+  // validarTodo se usa para validar todo el form una vez se haya oprimido el boton de submit (validacion.validadorAutomatico.validarTodo(formulario))
   validarTodo: (formulario) => {
 
     const inputs = formulario.querySelectorAll("input");
@@ -349,11 +366,7 @@ export const validadorAutomatico = {
     //IMPORTANTE:
     // Esta funcion valida cada input de acuerdo a los DATA ATTRIBUTES del <input> (data-atributo) que se escriben en el HTML
     // Los data attributes que se validan son:
-    // data-min: Si hay minimo de caracteres
-    // data-max: Si hay maximo de caracteres
-    // data-tipo: El tipo de dato que maneja el input (texto, textoEspacio y numero)
-    // data-opcional: Si el dato es opcional o no (Mientras el atributo exista, se valida como opcional sin importar el valor de este)
-    // data-mayorEdad: Si es necesario que el sujeto sea mayor de edad
+    // data-tipo: El tipo de dato que maneja el input (nombre, telefono)
     // Los <select> no requieren data attributes ya que estos se validan al hacer submit en el form y verificar si estan o no seleccionados
   }
 
