@@ -45,12 +45,13 @@ export default async () => {
 
         e.preventDefault();
 
-        validacion.validadorAutomatico.validarTodo(form);
-
-
+        
+        
         window.procesoPeticion = true
         botonGuardar.disabled = true;
-    
+        
+        validacion.validadorAutomatico.validarTodo(form);
+        
         const datosRegistro = {
             names: nombres.value,
             last_names: apellidos.value,

@@ -25,8 +25,8 @@ const mostrarError = (input, mensaje) => {
   span.className = "error";
   span.textContent = mensaje;
 
-  input.parentElement.parentElement.appendChild(span);
-  console.log(input)
+  input.parentElement.parentElement.append(span);
+  console.log(`ERROR EN EL INPUT:`, input)
 
 };
 
@@ -319,18 +319,27 @@ export const validadorAutomatico = {
     inputs.forEach(input => {
       
       const tipo = input.dataset.tipo
+      console.log(input)
       console.log(tipo)
-  
-      if (inputTipos[tipo].min){
-        validarMinimo(input,Number(inputTipos[tipo].min))
-      }
-      if (inputTipos[tipo].max){
-        validarMaximo(input,Number(inputTipos[tipo].max))
-      }
+      console.log(tipo in inputTipos)
+      if (tipo in inputTipos){
 
-      // NOTA: en minimo, poner el valor minimo de todos modos
-      if (inputTipos[tipo].opcional){
-        validarSiExiste(input, Number(inputTipos[tipo].min))
+        if (inputTipos[tipo].min && inputTipos[tipo].max){
+          validarMinimoMaximo(input,inputTipos[tipo].min,inputTipos[tipo].max)
+        }
+    
+        if (inputTipos[tipo].min){
+          validarMinimo(input,Number(inputTipos[tipo].min))
+        }
+        if (inputTipos[tipo].max){
+          validarMaximo(input,Number(inputTipos[tipo].max))
+        }
+  
+        // NOTA: en minimo, poner el valor minimo de todos modos
+        if (inputTipos[tipo].opcional){
+          validarSiExiste(input, Number(inputTipos[tipo].min))
+        }
+
       }
     })
 
