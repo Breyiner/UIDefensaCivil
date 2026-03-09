@@ -1,108 +1,143 @@
-
-<section class="banner banner--azul">
-    <div class="perfil__avatar flex flex--center">
-        <span class="icono__tarjeta">CM</span>
-    </div>
-    <h2 class="tarjeta__titulo">Carlos Martinez</h2>
-    <span class="banner__span">
-        Voluntario • Seccional Bucaramanga
-    </span>
-</section>
-
-<div class="container container--form-fuentes">
-    <div class="tarjeta">
-        <div class="tarjeta--fila">
-            <i class="tarjeta__icono tarjeta__icono--azul ri-git-repository-private-line"></i>
-            <p class="tarjeta__header">Informacion de la cuenta</p>
-            <hr class="tarjeta__linea">
+<div class="container container--noPadding">
+    <section class="banner banner--azul">
+        <div class="perfil__avatar flex flex--center">
+            <span class="icono__tarjeta">CM</span>
         </div>
-        <form class="form form--grid">
-            <div class="form__campo">
-                <label class="form__label" for="nombre">Nombres</label>
-                <input class="input--gris" type="text" id="nombre" name="user_name" placeholder="Carlos" disabled/>
-            </div>
-            <div class="form__campo">
-                <label class="form__label" for="apellido">apellidos</label>
-                <input class="input--gris" type="text" id="apellido" name="user_name" placeholder="Martinez" disabled/>
-            </div>
-            <div class="form__campo">
-                <label class="form__label" for="tipoDocumento">Tipo documento</label>
-                <input class="input--gris" type="text" id="tipoDocumento" name="user_name" placeholder="C.C" disabled/>
-            </div>
-            <div class="form__campo">
-                <label class="form__label" for="numeroDocumento">N° documento</label>
-                <input class="input--gris" type="number" id="numeroDocumento" name="user_name" placeholder="1065828634" disabled/>
-            </div>
-            <div class="form__campo">
-                <label class="form__label" for="fechaNacimiento">fecha de nac.</label>
-                <input class="input--gris" type="text" id="fechaNacimiento" name="user_name" placeholder="20/02/2004" disabled/>
-            </div>
-            <div class="form__campo">
-                <label class="form__label" for="genero">genero</label>
-                <input class="input--gris" type="text" id="genero" name="user_name" placeholder="Masculino" disabled/>
-            </div>
-            <div class="form__campo">
-                <label class="form__label" for="name">seccional</label>
-                <input class="input--gris" type="text" id="name" name="user_name" placeholder="Bucaramanga" disabled/>
-            </div>
-            <div class="form__campo">
-                <label class="form__label" for="departamento">Organizacion</label>
-                <input class="input--gris" type="text" id="departamento" name="user_name" placeholder="Santander" disabled/>
-            </div>
-        </form>
-        <div class="tarjeta--fila tarjeta--fila-fondo">
-            <i class="tarjeta__icono ri-information-line"></i>
-            <p class="texto--contenido">Estos datos solo pueden ser modificados por un administrador</p>
-        </div>
-    </div>
+        <h2 class="tarjeta__titulo">Carlos Martinez</h2>
+        <span class="banner__span">
+            Voluntario • Seccional Bucaramanga
+        </span>
+    </section>
 
-    <div class="tarjeta">
-        <div class="tarjeta--fila">
-            <i class="tarjeta__icono tarjeta__icono--azul tarjeta__icono--fondo-azul ri-phone-line"></i>
-            <p class="tarjeta__header">Datos de contacto</p>
-            <hr class="tarjeta__linea">
-            <i class="tarjeta__icono tarjeta__icono--naranja tarjeta__icono--fondo-naranja tarjeta__icono--clickable ri-edit-box-line"
-                id="btnEditarContacto"></i>
-        </div>
-        <div class="form form--alineacion">
-            <div class="form__campo">
-                <label class="form__label" for="celular">celular</label>
-                <input class="input--gris" type="number" id="celular" name="user_name" placeholder="Martinez" disabled/>
+    <div class="container container--form-fuentes">
+        <div class="tarjeta">
+            <div class="tarjeta--fila">
+                <i class="tarjeta__icono tarjeta__icono--azul ri-git-repository-private-line"></i>
+                <p class="tarjeta__header">Informacion de la cuenta</p>
+                <hr class="tarjeta__linea">
             </div>
-
-            <div class="form__campo">
-                <label class="form__label" for="correo">Correo electronico</label>
-                <input class="input--gris" type="email" id="correo" name="user_name" placeholder="Carlos" disabled />
-            </div>
-
-            <div class="boton--containerStarEnd" id="accionesContacto">
-                <button type="button" class="boton boton--sinfondo" id="btnCancelarContacto">Cancelar</button>
-                <button type="button" class="boton" id="btnGuardarContacto">Guardar cambios</button>
+            <form class="form form--grid">
+                <div class="form__campo">
+                    <label class="form__label" for="nombre">Nombres</label>
+                    <input class="input--gris" type="text" id="nombres" disabled />
+                </div>
+                <div class="form__campo">
+                    <label class="form__label" for="apellido">apellidos</label>
+                    <input class="input--gris" type="text" id="apellidos" disabled />
+                </div>
+                <div class="form__campo">
+                    <label class="form__label" for="tipoDocumento">Tipo documento</label>
+                    <input class="input--gris" type="text" id="tipoDocumento" disabled />
+                </div>
+                <div class="form__campo">
+                    <label class="form__label" for="numeroDocumento">N° documento</label>
+                    <input class="input--gris" type="text" id="numeroDocumento" disabled />
+                </div>
+                <div class="form__campo">
+                    <label class="form__label" for="fechaNacimiento">fecha de nac.</label>
+                    <input class="input--gris" type="text" id="fechaNacimiento" disabled />
+                </div>
+                <div class="form__campo">
+                    <label class="form__label" for="genero">genero</label>
+                    <input class="input--gris" type="text" id="genero" disabled />
+                </div>
+                <div class="form__campo">
+                    <label class="form__label" for="seccional">seccional</label>
+                    <input class="input--gris" type="text" id="seccional" disabled />
+                </div>
+                <div class="form__campo">
+                    <label class="form__label" for="organizacion">Organizacion</label>
+                    <input class="input--gris" type="text" id="organizacion" disabled />
+                </div>
+            </form>
+            <div class="tarjeta--fila tarjeta--fila-fondo">
+                <i class="tarjeta__icono ri-information-line"></i>
+                <p class="texto--contenido">Estos datos solo pueden ser modificados por un administrador</p>
             </div>
         </div>
-    </div>
-    <div class="tarjeta">
-        <div class="tarjeta--fila">
-            <i class="tarjeta__icono tarjeta__icono--azul tarjeta__icono--fondo-azul ri-lock-password-line"></i>
-            <p class="tarjeta__header">Contraseña</p>
-            <hr class="tarjeta__linea">
-            <i class="tarjeta__icono tarjeta__icono--naranja tarjeta__icono--fondo-naranja tarjeta__icono--clickable ri-edit-box-line"
-                id="btnEditarPassword"></i>
-        </div>
-        <div class="form form--alineacion">
-            <div class="form__campo">
-                <label class="form__label" for="contraseña">Contraseña</label>
-                <input class="input--gris" type="password" id="contraseña" name="user_name" placeholder="*****" disabled />
-            </div>
 
-            <div class="boton--containerStarEnd" id="accionesPassword">
-                <button type="button" class="boton boton--sinfondo" id="btnCancelarPassword">Cancelar</button>
-                <button type="button" class="boton" id="btnGuardarPassword">Guardar cambios</button>
+        <div class="tarjeta">
+            <div class="tarjeta--fila">
+                <i class="tarjeta__icono tarjeta__icono--azul tarjeta__icono--fondo-azul ri-phone-line"></i>
+                <p class="tarjeta__header">Telefono</p>
+                <hr class="tarjeta__linea">
+                <i class="tarjeta__icono tarjeta__icono--naranja tarjeta__icono--fondo-naranja tarjeta__icono--clickable ri-edit-box-line"
+                    id="botonEditarTelefono"></i>
+            </div>
+            <div class="form form--alineacion">
+                <div class="form__campo">
+                    <label class="form__label" for="telefono">numero de telefono</label>
+                    <input class="input--gris" type="text" id="telefono" disabled />
+                </div>
+                <div class="form__campo invisible">
+                    <label class="form__label" for="telefono">contraseña</label>
+                    <input class="input--gris" type="password" id="passwordTelefono" placeholder="Ingrese su contraseña" />
+                </div>
+                <div class="boton--containerStarEnd invisible" id="accionesTelefono">
+                    <button type="button" class="boton boton--sinfondo" id="botonCancelarTelefono">Cancelar</button>
+                    <button type="button" class="boton" id="botonGuardarTelefono">Guardar cambios</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="boton--containerCenter">
-        <button type="button" class="boton boton--grande" id="BotonCerrarSesion">Cerrar sesion</button>
+        <div class="tarjeta">
+            <div class="tarjeta--fila">
+                <i class="tarjeta__icono tarjeta__icono--azul tarjeta__icono--fondo-azul ri-mail-line"></i>
+                <p class="tarjeta__header">Correo</p>
+                <hr class="tarjeta__linea">
+                <i class="tarjeta__icono tarjeta__icono--naranja tarjeta__icono--fondo-naranja tarjeta__icono--clickable ri-edit-box-line"
+                    id="botonEditarCorreo"></i>
+            </div>
+            <div class="form form--alineacion">
+                <div class="form__campo">
+                    <label class="form__label" for="correo">correo electronico</label>
+                    <input class="input--gris" type="text" id="correo" disabled />
+                </div>
+                <div class="form__campo invisible">
+                    <label class="form__label" for="telefono">contraseña</label>
+                    <input class="input--gris" type="password" id="passwordCorreo" placeholder="Ingrese su contraseña" />
+                </div>
+                <div class="boton--containerStarEnd invisible" id="accionesCorreo">
+                    <button type="button" class="boton boton--sinfondo" id="botonCancelarCorreo">Cancelar</button>
+                    <button type="button" class="boton" id="botonGuardarCorreo">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tarjeta">
+            <div class="tarjeta--fila">
+                <i class="tarjeta__icono tarjeta__icono--azul tarjeta__icono--fondo-azul ri-lock-password-line"></i>
+                <p class="tarjeta__header">Contraseña</p>
+                <hr class="tarjeta__linea">
+                <i class="tarjeta__icono tarjeta__icono--naranja tarjeta__icono--fondo-naranja tarjeta__icono--clickable ri-edit-box-line"
+                    id="botonEditarPassword"></i>
+            </div>
+            <div class="form form--alineacion">
+                <div class="form__campo">
+                    <label class="form__label" for="contrasena">Contraseña</label>
+                    <input class="input--gris" type="password" id="contrasena" value="Hello World!" disabled />
+                </div>
+                <div class="form__campo invisible">
+                    <label class="form__label" for="telefono">contraseña</label>
+                    <input class="input--gris" type="password" id="passwordOriginal" placeholder="Ingrese la contraseña actual"/>
+                </div>
+                <div class="form__campo invisible">
+                    <label class="form__label" for="telefono">contraseña</label>
+                    <input class="input--gris" type="password" id="passwordNueva" placeholder="Ingrese la contraseña nueva"/>
+                </div>
+                <div class="form__campo invisible">
+                    <label class="form__label" for="telefono">contraseña</label>
+                    <input class="input--gris" type="password" id="passwordNuevaRepeticion" placeholder="ingrese nuevamente la contraseña nueva"/>
+                </div>                
+                <div class="boton--containerStarEnd invisible" id="accionesPassword">
+                    <button type="button" class="boton boton--sinfondo" id="botonCancelarPassword">Cancelar</button>
+                    <button type="button" class="boton" id="botonGuardarPassword">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="boton--containerCenter">
+            <button type="button" class="boton boton--grande" id="botonCerrarSesion">Cerrar sesion</button>
+        </div>
     </div>
 </div>

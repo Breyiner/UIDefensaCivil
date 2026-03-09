@@ -41,6 +41,10 @@ textarea:focus {
   border-radius: var(--border-radius-botones);
   flex: 1 1 auto;
   width: 100%;
+  color: var(--color-oscuro);
+}
+.input--gris:disabled{
+  color: var(--color-grisOscuro);
 }
 
 .form__inputBox--double {
