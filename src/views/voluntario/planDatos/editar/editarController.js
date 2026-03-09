@@ -37,7 +37,7 @@ export default async () => {
   };
 
   await adjuntarOpc.adjuntarNoValida(zona, "zones");
-  await adjuntarOpc.adjuntarNoValida(apartamento, "apartments");
+  await adjuntarOpc.adjuntarNoValida(apartamento, "departments");
   await adjuntarOpc.adjuntarNoValida(ciudad, "cities");
   await adjuntarOpc.adjuntarNoValida(sector, "sectors");
   await adjuntarOpc.adjuntarNoValida(calidad, "housingQualities");
@@ -59,7 +59,7 @@ export default async () => {
       "id",
       "last_names",
       "zone_id",
-      "apartment_id",
+      "department_id",
       "city_id",
       "address",
       "sector_id",
@@ -160,7 +160,7 @@ export default async () => {
   apartamento.addEventListener("change", async () => {
     await adjuntarOpc.adjuntarReseteoNoValida(
       ciudad,
-      `cities/apartment/${apartamento.value}`,
+      `cities/department/${apartamento.value}`,
     );
   });
 };

@@ -1,11 +1,10 @@
 import * as api from "../api";
 import * as alerta from "../alertas";
 import * as validacion from "../validacionInputs"
-import * as adjuntarOpc from "../adjuntarOpciones"
-
-import {initTomSelectPortatil} from "../../main";
+import {initTomSelectPortatil} from "../tomSelectPortatil";
 
 export const ver = async(id) => {
+  
   const datos = await api.get(`members/${id}`);
   const condiciones = await api.get(`conditionMembers/member/${id}`);
 
@@ -90,11 +89,6 @@ export const ver = async(id) => {
                     <i class="ri-flag-line"></i>
                     <div class="modalVer__titulo">Nacionalidad</div>
                     <div class="modalVer__texto">${datos.nationality.name}</div>
-                </div>
-                <div class="modalVer__dato modalVer__dato--largo ${datos.novelty == null ? "invisible" : ""}">
-                    <i class="ri-parent-line"></i>
-                    <div class="modalVer__titulo">Novedad</div>
-                    <div class="modalVer__texto">${datos.novelty}</div>
                 </div>
                 <div class="modalVer__dato modalVer__dato--largo">
                     <i class="ri-stethoscope-line"></i>

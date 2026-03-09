@@ -96,6 +96,8 @@ export default async () => {
   form.addEventListener("submit", async (e) => {
     window.procesoPeticion = true;
     e.preventDefault();
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres enviar tu peticion?");
+    if (!confirmacion.isConfirmed) return;
 
     let validarNombres = validacion.validarMinimo(nombres, 3);
     let validarApellidos = validacion.validarMinimo(apellidos, 3);

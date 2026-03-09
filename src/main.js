@@ -11,8 +11,6 @@ import TomSelect from 'tom-select';
 Chart.register(...registerables);
 window.Chart = Chart;
 
-console.log(router)
-
 // 1. Crea una función para inicializar TomSelect
 const initTomSelect = () => {
     const elements = document.querySelectorAll("#selector");
@@ -36,20 +34,6 @@ const initTomSelect = () => {
                     return `<div>${icon}${escape(data.text)}</div>`;
                 }
             }
-        });
-    });
-};
-
-export const initTomSelectPortatil = () => {
-    const elements = document.querySelectorAll("#selector");
-
-    elements.forEach(el => {
-
-        if (el.tomselect) return;
-
-        new TomSelect(el, {
-            create: false,
-            sortField: { field: "text", direction: "asc" }
         });
     });
 };
