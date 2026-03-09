@@ -26,7 +26,6 @@ const mostrarError = (input, mensaje) => {
   span.textContent = mensaje;
 
   input.parentElement.parentElement.append(span);
-  console.log(`ERROR EN EL INPUT:`, input)
 
 };
 
@@ -151,7 +150,6 @@ export const validarMinimo = (input, minimo) => {
     return error(input, "No puede estar vacío.");
 
   if (value.length < minimo)
-    // console.log("XD")
     return error(
       input,
       `Debe tener al menos ${minimo} caracteres.`
@@ -242,7 +240,8 @@ export const validarMayorDeEdad = (input, edadMinima = 18) => {
   if (!value)
     return error(input, "La fecha es obligatoria.");
 
-  const fechaNacimiento = new Date(value);    
+  const fechaNacimiento = new Date(value);   
+  console.log(fechaNacimiento.getDate()) 
   const hoy = new Date();
 
   let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
@@ -287,8 +286,8 @@ export const  validarSiExiste = (input, minimo) => {
 const inputTipos = {
   nombre: {validacion: (e) => textoConEspacios(e), min: 3, max: 50},
   telefono: {validacion: (e) => soloNumeros(e), min: 7, max: 10, opcional: true},
-  documento: {validacion: (e) => soloNumeros, min: 10, max: 20}
-
+  documento: {validacion: (e) => soloNumeros(e), min: 10, max: 20},
+  mayorDeEdad: {validacion: (input) => validarMayorDeEdad(input,18)}
 }
 
 
@@ -317,12 +316,12 @@ export const validadorAutomatico = {
           limpiarError(input)
         })
       }
-
-      selects.forEach(select => {
-        select.addEventListener("blur", e => {
-          limpiarError(select)
-        })
-      })
+    })
+  
+        selects.forEach(select => {
+          select.addEventListener("blur", e => {
+            limpiarError(select)
+          })
     })
   },
   
@@ -336,11 +335,14 @@ export const validadorAutomatico = {
     inputs.forEach(input => {
       
       const tipo = input.dataset.tipo
-      console.log(input)
-      console.log(tipo)
-      console.log(tipo in inputTipos)
+
       if (tipo in inputTipos){
 
+        // NOTA: en minimo, poner el valor minimo de todos modos
+        if (inputTipos[tipo].opcional){
+          validarSiExiste(input, Number(inputTipos[tipo].min))
+          return
+        }
         if (inputTipos[tipo].min && inputTipos[tipo].max){
           validarMinimoMaximo(input,inputTipos[tipo].min,inputTipos[tipo].max)
         }
@@ -351,11 +353,11 @@ export const validadorAutomatico = {
         if (inputTipos[tipo].max){
           validarMaximo(input,Number(inputTipos[tipo].max))
         }
-  
-        // NOTA: en minimo, poner el valor minimo de todos modos
-        if (inputTipos[tipo].opcional){
-          validarSiExiste(input, Number(inputTipos[tipo].min))
+
+        if (tipo == "mayorDeEdad"){
+          inputTipos[tipo].validacion(input)
         }
+        
 
       }
     })
