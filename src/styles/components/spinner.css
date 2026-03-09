@@ -1,8 +1,20 @@
-    .spinner {
-  width: 50px;
-  height: 50px;
+.spinner-background {
+    background-color: #0000004c;    
+
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner-background__spinner {
+  width: 5rem;
+  height: 5rem;
   border: 5px solid #f3f3f3; /* Light gray base */
-  border-top: 5px solid #3498db; /* Blue moving part */
+  border-top: 5px solid var(--color-primario); /* Blue moving part */
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
