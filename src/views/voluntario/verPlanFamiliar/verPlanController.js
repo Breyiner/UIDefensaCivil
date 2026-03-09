@@ -4,7 +4,7 @@ import paginacion from "../../../helpers/paginacion";
 
 export default async () => {
 
-    const botonBack = document.getElementById("boton-back");
+    const botonBack = document.getElementById("botonBack");
     const contenedor = document.querySelector(".container__paginas");
 
     if (window.procesoPeticion === undefined) window.procesoPeticion = false;

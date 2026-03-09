@@ -6,12 +6,12 @@ import * as validacion from "../../../../helpers/validacionInputs";
 import * as modalPlanAccion from "../../../../helpers/modales/planAccion";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
-  const boton = document.querySelector(".form__boton");
+  const botonBack = document.getElementById("botonBack");
+  const boton = document.getElementById("botonGuardar");
   const form = document.querySelector(".form");
   const id = location.hash.split("=")[1];
-  const miembro = document.querySelector(".selector--miembro");
-  const factorRiesgo = document.querySelector(".selector--factorRiesgo");
+  const miembro = document.getElementById("miembro");
+  const factorRiesgo = document.getElementById("factorRiesgo");;
   const containerTipoAccion = document.querySelector(".container__gap");
   const botonSiguiente = document.getElementById("siguiente");
   const botonAtras = document.getElementById("atras");

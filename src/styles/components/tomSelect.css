@@ -42,7 +42,6 @@
     top: 50%;
     transform: translateY(-50%);
     color: var(--color-oscuro);
-    font-size: 24px;
-    padding-left: 20px;
+    padding-left: 24px;
     z-index: 2;
 }

@@ -6,7 +6,7 @@ import paginacion from "../../../helpers/paginacion";
 export default async () => {
 
     const crear = document.getElementById("crear");
-    const botonBack = document.getElementById("boton-back");
+    const botonBack = document.getElementById("botonBack");
     const id = location.hash.split("=")[1];
     const contenedor = document.querySelector(".container__paginas");
 

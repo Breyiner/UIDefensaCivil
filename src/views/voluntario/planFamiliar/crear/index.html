@@ -13,7 +13,7 @@
         <div class="input">
             <div class="form__inputBox form__inputBox--selector">
                 <i class="ri-map-line" id="selector__icono"></i>
-                <select class="selector--zona" id="selector">
+                <select class="selector" id="zonas">
                     <option value="" hidden>Seleccione un tipo de zona...</option>
                 </select>
             </div>
@@ -21,21 +21,19 @@
         <div class="input">
             <div class="form__inputBox form__inputBox--selector">
                 <i class="ri-building-line" id="selector__icono"></i>
-                <select class="selector--apartamento" id="selector">
-                    <option value="" hidden>Seleccione el apartamento...</option>
+                <select class="selector" id="departamentos">
+                    <option value="" hidden>Seleccione el departamento...</option>
                 </select>
             </div>
         </div>
         <div class="input">
             <div class="form__inputBox form__inputBox--selector">
                 <i class="ri-building-4-line" id="selector__icono"></i>
-                <select class="selector--ciudad" id="selector" disabled>
+                <select class="selector" id="ciudades" disabled>
                     <option value="" hidden>Seleccione la ciudad...</option>
                 </select>
             </div>
         </div>
-        <div class="boton--containerEnd">
-            <button class="form__boton boton form__btnSiguiente" disabled>Siguiente</button>
-        </div>
+        <button class="boton" id="boton_siguiente" disabled>Siguiente</button>
     </form>
 </div>

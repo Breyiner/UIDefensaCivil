@@ -3,8 +3,8 @@ import * as alerta from "../../../../helpers/alertas";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
-    const botonBack = document.getElementById("boton-back");
-    const boton = document.querySelector('.form__boton');
+    const botonBack = document.getElementById("botonBack");
+    const botonSiguiente = document.getElementById('botonSiguiente');
     const form = document.querySelector('.form');
     const id = location.hash.split("=")[1];
 
@@ -17,21 +17,19 @@ export default async () => {
         if (confirmacion.isConfirmed) location.href = `#/voluntario-planRiesgo/ver/id=${id}`;
     };
 
-    // Inputs de texto
-    const descripcion = document.querySelector('.input__descripcion');
-    const distancia = document.querySelector('.input__distancia');
-    const ubicacion = document.querySelector('.input__ubicacion');
-    // Selects
-    const amenaza = document.querySelector('.input__tipoAmenaza');
+    const descripcion = document.getElementById('descripcion');
+    const distancia = document.getElementById('distancia');
+    const ubicacion = document.getElementById('ubicacion');
+    const amenaza = document.getElementById('tiposAmenaza');
     await adjuntarOpc.adjuntar(amenaza, "threatTypes");
 
     window.procesoPeticion = false;
-    boton.disabled = false;
+    botonSiguiente.disabled = false;
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         window.procesoPeticion = true
-        boton.disabled = true;
+        botonSiguiente.disabled = true;
 
         const datosRegistro = {
             threat_type_id: amenaza.value,
@@ -51,7 +49,7 @@ export default async () => {
             alerta.alertaError(error.errors);
         }
 
-        boton.disabled = false;
+        botonSiguiente.disabled = false;
         window.procesoPeticion = false;
     });
 }

@@ -1,7 +1,7 @@
 import TomSelect from 'tom-select';
 
 export const initTomSelectPortatil = () => {
-    const elements = document.querySelectorAll("#selector");
+    const elements = document.querySelectorAll(".selector-portatil");
 
     elements.forEach(el => {
 

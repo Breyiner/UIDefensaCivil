@@ -3,7 +3,7 @@ import * as api from "../../../../helpers/api";
 
 export default async () => {
   const id = location.hash.split("=")[1];
-  const botonBack = document.getElementById("boton-back");
+  const botonBack = document.getElementById("botonBack");
 
   const paginado = document.querySelector(".paginado");
   const preguntas = document.querySelector(".preguntas");
@@ -132,7 +132,11 @@ export default async () => {
       localStorage.removeItem(`puntaje-${e.target.name}`);
   });
 
-  async function evaluarTest() {
+  async function evaluarTest()
+   {
+    const preguntaContinuar = await alerta.alertaQuest("¿Seguro que deseas enviar el test de vulnerabilidad?",);
+    if (!preguntaContinuar.isConfirmed) return
+    
     siguiente.disabled = true;
     window.procesoPeticion = true
     const verPreguntas = await api.get("vulnerableQuestions");
@@ -166,12 +170,6 @@ export default async () => {
       return;
     }
 
-    if (puntos < 5) {
-      await alerta.alertaWarning("No cumple con los requisitos");
-      window.procesoPeticion = false
-      siguiente.disabled = false;
-      return;
-    }
     alerta.alertaLoading();
     for (const p of verPreguntas) {
       if (!p.is_active) {
@@ -189,11 +187,10 @@ export default async () => {
       localStorage.removeItem(`opcion-${p.id}`);
       localStorage.removeItem(`puntaje-opcion-${p.id}`);
     }
+
     alerta.alertaLoadingCerrar();
     if (puntos < 5) {
-      await alerta.alertaWarning(
-        "El plan familiar presentado no cumple con los requisitos y lineamientos establecidos para su aprobación, se redigira a la vista home",
-      );
+      await alerta.alertaWarning("El plan familiar presentado no cumple con los requisitos y lineamientos establecidos para su aprobación, se redigira a la vista home",);
       try {
         const data = await api.patch(`familyPlans/status/${id}`, {
           status_plan_id: 2,

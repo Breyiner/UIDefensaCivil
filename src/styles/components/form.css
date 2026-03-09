@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  font-family: var(--fuente-contenido);
 }
 
 .form__titulo {

@@ -26,7 +26,7 @@ textarea:focus {
   width: 100%;
 }
 
-.form__input--naranja {
+.input--naranja {
   padding: 10px;
   border: #ff6600 solid 1px;
   border-radius: var(--border-radius-botones);
@@ -43,7 +43,7 @@ textarea:focus {
 .form__input--gris{
   padding: 6px 10px;
   background-color: var(--color-fondogristranslucido);
-  border: 1px solid var(--color-grisLogin);
+  border: 1px solid var(--color-grisMedio);
   border-radius: var(--border-radius-botones);
   flex: 1 1 auto;
   width: 100%;
@@ -51,7 +51,7 @@ textarea:focus {
 
 .form__inputBox {
   display: flex;
-  border: var(--color-grisOscuro) solid 2px;
+  border: var(--color-grisMedio) solid 2px;
   border-radius: var(--border-radius-botones);
   width: 100%;
   background-color: var(--color-palido);
@@ -105,7 +105,9 @@ textarea:focus {
   font-size: var(--tamano-medio-grande);
   margin: auto;
 }
-
+.form__inputBox:has(textarea) > i {
+  margin: 0;
+}
 .SubirImagen input[type="file"] {
   position: absolute;
   left: 0;

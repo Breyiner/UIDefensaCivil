@@ -2,10 +2,10 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
+  const botonBack = document.getElementById("botonBack");
   const id = location.hash.split("=")[1];
   const form = document.querySelector(".form");
-  const boton = document.querySelector(".form__boton");
+  const botonCrear = document.getElementById("botonCrear");
 
   const input = document.getElementById("imagenInput");
   const preview = document.getElementById("preview");
@@ -26,7 +26,7 @@ export default async () => {
   };
 
   window.procesoPeticion = false;
-  boton.disabled = false;
+  botonCrear.disabled = false;
 
   input.addEventListener("change", async () => {
     const file = input.files[0];
@@ -58,7 +58,7 @@ export default async () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     window.procesoPeticion = true;
-    boton.disabled = true;
+    botonCrear.disabled = true;
     const file = input.files[0];
     if (!file) {
       boton.disabled = false;
@@ -89,7 +89,7 @@ export default async () => {
       alerta.alertaError(error.errors);
     }
 
-    boton.disabled = false;
+    botonCrear.disabled = false;
     window.procesoPeticion = false;
   });
 };

@@ -7,19 +7,19 @@ import * as validacion from "../../../../helpers/validacionInputs";
 
 export default async () => {
   const id = location.hash.split("=")[1];
-  const botonBack = document.getElementById("boton-back");
+  const botonBack = document.getElementById("botonBack");
 
   const form = document.querySelector(".form");
-  const boton = document.querySelector(".form__boton");
+  const botonSiguiente = document.getElementById("boton_siguiente");
   const botonGeo = document.querySelector(".form__botonGeo");
 
   const familia = document.getElementById("familiaId");
   const apellidos = document.getElementById("apellidos");
   const dirrecion = document.getElementById("dirrecion");
-  const sector = document.querySelector(".selector--sector");
+  const sector = document.getElementById("sectores");
   const sectorNombre = document.getElementById("sectorNombre");
   const telefono = document.getElementById("telefonoFijo");
-  const calidad = document.querySelector(".selector--calidadVivienda");
+  const calidad = document.getElementById("calidadesVivienda");
 
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
@@ -40,7 +40,7 @@ export default async () => {
   familia.value = `Familia segura N.${familia.value}`;
   localStorage.importacionLocalStorage("identificacion");
 
-  boton.disabled = false;
+  botonSiguiente.disabled = false;
   botonGeo.disabled = false;
   window.procesoPeticion = false;
 
@@ -80,7 +80,7 @@ export default async () => {
   
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    boton.disabled = true;
+    botonSiguiente.disabled = true;
     botonGeo.disabled = true;
     window.procesoPeticion = true;
 
@@ -127,7 +127,7 @@ export default async () => {
         alerta.alertaError(error.errors);
       }
     }
-    boton.disabled = false;
+    botonSiguiente.disabled = false;
     botonGeo.disabled = false;
     window.procesoPeticion = false;
   });

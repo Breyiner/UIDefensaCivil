@@ -5,8 +5,8 @@ import * as cargarDatos from "../../../../helpers/cargarDatos";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
-  const boton = document.querySelector(".form__boton");
+  const botonBack = document.getElementById("botonBack");
+  const botonGuardar = document.getElementById("botonGuardar");
   const form = document.querySelector(".form");
   const id = location.hash.split("=")[1];
   const planId = id.split(",")[0];
@@ -27,10 +27,10 @@ export default async () => {
   const descripcion = document.getElementById("descripcion");
   const distancia = document.getElementById("distancia");
   const ubicacion = document.getElementById("ubicacion");
-  const recurso = document.querySelector(".selector--recursos");
+  const recurso = document.getElementById("recursos");
   const servicio = document.getElementById("servicio");
   await adjuntarOpc.adjuntarDouble(recurso, "resources",servicio,'service');
-  await cargarDatos.cargarDatos(`availableResources/${recursoId}`,[telefono,descripcion,distancia,ubicacion,recurso,servicio,],["phone","description","distance","location","resource_id","resource_service","resource_name"],);
+  await cargarDatos.cargarDatos(`availableResources/${recursoId}`,[telefono,descripcion,distancia,ubicacion,recurso,servicio],["phone","description","distance","location","resource_id","resource_name"]);
   
   telefono.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 10);
@@ -66,12 +66,12 @@ export default async () => {
   });
 
   window.procesoPeticion = false;
-  boton.disabled = false;
+  botonGuardar.disabled = false;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     window.procesoPeticion = true;
-    boton.disabled = true;
+    botonGuardar.disabled = true;
 
     let validarDescripcion = validacion.validarMinimo(descripcion, 15);
     let validarUbicacion = validacion.validarMinimo(ubicacion, 5);
@@ -104,7 +104,7 @@ export default async () => {
         alerta.alertaError(error.errors);
       }
     }
-    boton.disabled = false;
+    botonGuardar.disabled = false;
     window.procesoPeticion = false;
   });
 };

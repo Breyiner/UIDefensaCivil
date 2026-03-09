@@ -2,9 +2,9 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
+  const botonBack = document.getElementById("botonBack");
   const form = document.querySelector(".form");
-  const boton = document.querySelector(".form__boton");
+  const botonGuardar = document.getElementById("botonGuardar");
   const preview = document.getElementById("preview");
   const id = location.hash.split("=")[1];
   const planId = id.split(",")[0];
@@ -22,7 +22,7 @@ export default async () => {
   };
 
   window.procesoPeticion = false;
-  boton.disabled = false;
+  botonGuardar.disabled = false;
 
   const datosGrafico = await api.get(`housingGraphics/${graficoId}`);
   preview.src = api.urlStorage + "/" + datosGrafico.path;
@@ -31,7 +31,7 @@ export default async () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     window.procesoPeticion = true;
-    boton.disabled = true;
+    botonGuardar.disabled = true;
 
     const datosRegistro = {
       description: descripcion.value,
@@ -49,7 +49,7 @@ export default async () => {
       alerta.alertaError(error.errors);
     }
 
-    boton.disabled = false;
+    botonGuardar.disabled = false;
     window.procesoPeticion = false;
   });
 };

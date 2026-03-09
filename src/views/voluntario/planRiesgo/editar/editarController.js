@@ -6,8 +6,8 @@ import * as modalFactorRiesgo from "../../../../helpers/modales/factorRiesgo";
 import acordeon from "../../../../helpers/acordeon";
 
 export default async () => {
-    const botonBack = document.getElementById("boton-back");
-    const boton = document.querySelector(".form__boton");
+    const botonBack = document.getElementById("botonBack");
+    const botonGuardar = document.getElementById("botonGuardar");
     const form = document.querySelector(".form");
     const contenedorAcciones = document.querySelector(".gestionarAcciones__lista");
     const contenedorVulnerabilidades = document.querySelector(".gestionarVulnerabilidades__lista");
@@ -28,17 +28,17 @@ export default async () => {
     };
 
     // Inputs
-    const tipoAmenaza = document.querySelector(".input__tipoAmenaza");
-    const descripcion = document.querySelector(".input__descripcion");
-    const ubicacion = document.querySelector(".input__ubicacion");
-    const distancia = document.querySelector(".input__distancia");
+    const amenazas = document.getElementById("tiposAmenaza");
+    const descripcion = document.getElementById("descripcion");
+    const ubicacion = document.getElementById("ubicacion");
+    const distancia = document.getElementById("distancia");
 
     // Select
-    await adjuntarOpc.adjuntar(tipoAmenaza, "threatTypes");
+    await adjuntarOpc.adjuntar(amenazas, "threatTypes");
 
     // Cargar datos del riesgo
     await cargarDatos.cargarDatos(`riskFactors/${riesgoId}`,
-        [tipoAmenaza, descripcion, ubicacion, distancia],
+        [amenazas, descripcion, ubicacion, distancia],
         ["threat_type_id", "description", "ubication", "distance"]
     );
 
@@ -81,7 +81,7 @@ export default async () => {
     cargarVulnerabilidades();
 
     window.procesoPeticion = false;
-    boton.disabled = false;
+    botonGuardar.disabled = false;
 
     botonAñadirAcciones.addEventListener("click", async () => {
         modalFactorRiesgo.crearAccion(riesgoId, planId, cargarAcciones);
@@ -105,10 +105,10 @@ export default async () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         window.procesoPeticion = true;
-        boton.disabled = true;
+        botonGuardar.disabled = true;
 
         const datosRegistro = {
-            threat_type_id: tipoAmenaza.value,
+            threat_type_id: amenazas.value,
             description: descripcion.value,
             location: ubicacion.value,
             distance: distancia.value,
@@ -125,7 +125,7 @@ export default async () => {
             alerta.alertaError(error.errors);
         }
 
-        boton.disabled = false;
+        botonGuardar.disabled = false;
         window.procesoPeticion = false;
     });
 };

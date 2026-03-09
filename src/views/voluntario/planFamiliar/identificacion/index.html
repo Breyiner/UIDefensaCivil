@@ -9,28 +9,25 @@
     <div class="input">
       <div class="form__inputBox">
         <i class="ri-id-card-line"></i>
-        <input type="text" class="form__input" placeholder="Familia segura N°" id="familiaId" autocomplete="off"
-          disabled />
+        <input type="text" placeholder="Familia segura N°" id="familiaId" autocomplete="off" disabled />
       </div>
     </div>
     <div class="input">
       <div class="form__inputBox">
         <i class="ri-parent-line"></i>
-        <input type="text" class="form__input" placeholder="Apellidos de la familia" id="apellidos"
-          autocomplete="off" />
+        <input type="text" placeholder="Apellidos de la familia" id="apellidos" autocomplete="off" />
       </div>
     </div>
     <div class="input">
       <div class="form__inputBox">
         <i class="ri-map-pin-2-line"></i>
-        <input type="text" class="form__input" placeholder="Dirrecion" name="dirrecion" id="dirrecion"
-          autocomplete="off" />
+        <input type="text" placeholder="Dirrecion" name="dirrecion" id="dirrecion" autocomplete="off" />
       </div>
     </div>
     <div class="input">
       <div class="form__inputBox form__inputBox--selector">
         <i class="ri-community-line" id="selector__icono"></i>
-        <select class="form__input selector--sector" id="selector">
+        <select class="selector" id="sectores">
           <option value="" hidden>Seleccione un sector...</option>
         </select>
       </div>
@@ -38,20 +35,19 @@
     <div class="input">
       <div class="form__inputBox">
         <i class="ri-building-line"></i>
-        <input type="text" class="form__input" placeholder="Escriba el nombre de su sector" id="sectorNombre"
-          autocomplete="off" />
+        <input type="text" placeholder="Escriba el nombre de su sector" id="sectorNombre" autocomplete="off" />
       </div>
     </div>
     <div class="input">
       <div class="form__inputBox">
         <i class="ri-phone-line"></i>
-        <input type="text" class="form__input" placeholder="telefono fijo (si tiene)" autocomplete="off" id="telefonoFijo" />
+        <input type="text" placeholder="telefono fijo (si tiene)" id="telefonoFijo" autocomplete="off" />
       </div>
     </div>
     <div class="input">
       <div class="form__inputBox form__inputBox--selector">
         <i class="ri-home-2-line" id="selector__icono"></i>
-        <select class="form__input selector--calidadVivienda" id="selector">
+        <select class="selector" id="calidadesVivienda">
           <option value="" hidden>Seleccione una calidad de vivienda...</option>
         </select>
       </div>
@@ -65,6 +61,6 @@
         </button>
       </div>
     </div>
-    <button class="form__boton boton" disabled>Siguiente</button>
+    <button class="boton" id="boton_siguiente" disabled>Siguiente</button>
   </form>
 </div>
