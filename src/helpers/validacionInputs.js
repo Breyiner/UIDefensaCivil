@@ -18,13 +18,15 @@ export const TECLAS_ESPECIALES = [
 // =====================================================
 
 const mostrarError = (input, mensaje) => {
+
   limpiarError(input);
 
   const span = document.createElement("span");
   span.className = "error";
   span.textContent = mensaje;
 
-  input.parentElement.parentElement.appendChild(span);
+  input.parentElement.parentElement.append(span);
+
 };
 
 export const limpiarError = (input) => {
@@ -41,6 +43,7 @@ const error = (input, mensaje) => {
 // VALIDACIONES POR TECLA
 // =====================================================
 
+// Funcion permitir tecla, params: Evento y la regex para permitir la tecla
 const permitirTecla = (event, regex) => {
   if (
     !regex.test(event.key) &&
@@ -50,6 +53,7 @@ const permitirTecla = (event, regex) => {
   }
 };
 
+
 export const soloNumeros = (event) =>
   permitirTecla(event, /^\d$/);
 
@@ -58,6 +62,8 @@ export const soloTexto = (event) =>
 
 export const textoConEspacios = (event) =>
   permitirTecla(event, /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]$/);
+
+
 // =====================================================
 // LIMITE DE CARACTERES
 // =====================================================
@@ -135,6 +141,7 @@ export const validarVacio = (input) => {
 };
 
 export const validarMinimo = (input, minimo) => {
+
   const value = input.value.trim();
 
   limpiarError(input);
@@ -233,7 +240,8 @@ export const validarMayorDeEdad = (input, edadMinima = 18) => {
   if (!value)
     return error(input, "La fecha es obligatoria.");
 
-  const fechaNacimiento = new Date(value);
+  const fechaNacimiento = new Date(value);   
+  console.log(fechaNacimiento.getDate()) 
   const hoy = new Date();
 
   let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
@@ -256,7 +264,7 @@ export const validarMayorDeEdad = (input, edadMinima = 18) => {
 };
 
 
-export const validarSiExiste = (input, minimo) => {
+export const  validarSiExiste = (input, minimo) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -267,3 +275,102 @@ export const validarSiExiste = (input, minimo) => {
   // Si tiene contenido, ejecuta la validación que le pases
   return validarMinimo(input,minimo);
 };
+
+
+
+
+
+// objeto encargado de establecer un esquema para validar los inputs
+// cada propiedad de este objeto indica un DATA ATTRIBUTE que debe tener cada input para que este sea validado
+// faltan mas por agregar
+const inputTipos = {
+  nombre: {validacion: (e) => textoConEspacios(e), min: 3, max: 50},
+  telefono: {validacion: (e) => soloNumeros(e), min: 7, max: 10, opcional: true},
+  documento: {validacion: (e) => soloNumeros(e), min: 10, max: 20},
+  mayorDeEdad: {validacion: (input) => validarMayorDeEdad(input,18)}
+}
+
+
+// validarTodo (formulario) para que valide TODOS los inputs una vez que se oprima "submit" en el formulario.
+// Las funciones de este objeto 
+
+
+export const validadorAutomatico = {
+  // init se utiliza para incializar la validacion de un form (validacion.validadorAutomatico.init(formulario))
+  init: (formulario) => {
+    const inputs = formulario.querySelectorAll("input")
+    const selects = formulario.querySelectorAll("select");
+    
+    
+    inputs.forEach(input => {
+      
+      const tipo = input.dataset.validacion
+      
+      // A cada input se le añade la validacion para escribir solo los caracteres permitidos por input y el evento para borrar el error una vez corregido
+
+      if (tipo in inputTipos){
+        input.addEventListener("keydown", e=> {
+          inputTipos[tipo].validacion(e);
+        })
+        input.addEventListener("blur", e => {
+          limpiarError(input)
+        })
+      }
+    })
+  
+        selects.forEach(select => {
+          select.addEventListener("blur", e => {
+            limpiarError(select)
+          })
+    })
+  },
+  
+  // validarTodo se usa para validar todo el form una vez se haya oprimido el boton de submit (validacion.validadorAutomatico.validarTodo(formulario))
+  validarTodo: (formulario) => {
+
+    const inputs = formulario.querySelectorAll("input");
+    const selects = formulario.querySelectorAll("select");
+
+    
+    inputs.forEach(input => {
+      
+      const tipo = input.dataset.validacion
+
+      if (tipo in inputTipos){
+
+        // NOTA: en minimo, poner el valor minimo de todos modos
+        if (inputTipos[tipo].opcional){
+          validarSiExiste(input, Number(inputTipos[tipo].min))
+          return
+        }
+        if (inputTipos[tipo].min && inputTipos[tipo].max){
+          validarMinimoMaximo(input,inputTipos[tipo].min,inputTipos[tipo].max)
+        }
+    
+        if (inputTipos[tipo].min){
+          validarMinimo(input,Number(inputTipos[tipo].min))
+        }
+        if (inputTipos[tipo].max){
+          validarMaximo(input,Number(inputTipos[tipo].max))
+        }
+
+        if (tipo == "mayorDeEdad"){
+          inputTipos[tipo].validacion(input)
+        }
+        
+
+      }
+    })
+
+    selects.forEach(select => {
+      validarSelect(select);
+    })
+    //IMPORTANTE:
+    // Esta funcion valida cada input de acuerdo a los DATA ATTRIBUTES del <input> (data-atributo) que se escriben en el HTML
+    // Los data attributes que se validan son:
+    // data-validacion: El tipo de dato que maneja el input (nombre, telefono)
+    // Los <select> no requieren data attributes ya que estos se validan al hacer submit en el form y verificar si estan o no seleccionados
+  }
+
+
+}

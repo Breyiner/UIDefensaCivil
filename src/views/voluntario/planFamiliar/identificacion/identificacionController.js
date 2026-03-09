@@ -59,6 +59,7 @@ export default async () => {
     validacion.soloNumeros(e);
   });
 
+  // Event listeners que limpian los errores una vez corregidos
   apellidos.addEventListener("blur", (e) => {
     validacion.limpiarError(apellidos);
   });
@@ -88,7 +89,7 @@ export default async () => {
     let validarDirrecion = validacion.validarMinimo(dirrecion, 10);
     let validarSector = validacion.validarSelect(sector);
     let validarSectorNombre = validacion.validarMinimo(sectorNombre, 3);
-    let validarTelefono = validacion.validarSiExiste(telefono,3);
+    let validarTelefono = validacion.validarSiExiste(telefono,7);
     let validarCalidad = validacion.validarSelect(calidad);
 
     if (
