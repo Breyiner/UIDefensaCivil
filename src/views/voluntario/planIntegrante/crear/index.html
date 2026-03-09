@@ -8,8 +8,7 @@
         <div class="form__inputBox">
             <i class="ri-user-fill"></i>
             <input type="text" class="form__input input__nombres" placeholder="nombres" autocomplete="off"
-                data-tipo="textoEspacio"
-                data-min="3"
+                data-tipo="nombre"
             >
         </div>
     </div>
@@ -17,7 +16,7 @@
         <div class="form__inputBox">
             <i class="ri-user-fill"></i>
             <input type="text" class="form__input input__apellidos" placeholder="apellidos" autocomplete="off"
-            data-tipo="textoEspacio"
+            data-tipo="nombre"
             data-min="3">
         </div>
     </div>
@@ -33,7 +32,7 @@
         <div class="form__inputBox">
             <i class="ri-info-card-fill"></i>
             <input type="text" class="form__input input__numDocumento" placeholder="numero de documento" autocomplete="off"
-            data-min="numero"
+            data-tipo="telefono"
             >
         </div>
     </div>
@@ -49,14 +48,14 @@
         <div class="form__inputBox--double">
             <div class="form__inputBox">
                 <i class="ri-cake-2-fill"></i>
-                <input type="date" class="form__input input__nacimiento" placeholder="fecha de nacimiento" autocomplete="off">
+                <input type="date" class="form__input input__nacimiento" placeholder="fecha de nacimiento" autocomplete="off"
+                data-tipo="edad"
+                >
             </div>
             <div class="form__inputBox">
                 <i class="ri-health-book-fill"></i>
                 <input type="text" class="form__input input__eps" placeholder="eps" autocomplete="off"
-                    data-min="3"
-                    data-tipo="textoEspacio"
-                    data-opcional="true"
+                    data-tipo="nombre"
                 >
             </div>
         </div>
@@ -89,9 +88,7 @@
         <div class="form__inputBox">
                 <i class="ri-phone-fill"></i>
                 <input type="text" class="form__input input__celular" placeholder="celular personal" autocomplete="off"
-                data-min="7"
-                data-max="10"
-                data-opcional="true"
+                data-tipo="telefono"
                 >
         </div>
     </div>
