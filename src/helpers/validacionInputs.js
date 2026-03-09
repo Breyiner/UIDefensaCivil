@@ -304,7 +304,7 @@ export const validadorAutomatico = {
     
     inputs.forEach(input => {
       
-      const tipo = input.dataset.tipo
+      const tipo = input.dataset.validacion
       
       // A cada input se le añade la validacion para escribir solo los caracteres permitidos por input y el evento para borrar el error una vez corregido
 
@@ -334,7 +334,7 @@ export const validadorAutomatico = {
     
     inputs.forEach(input => {
       
-      const tipo = input.dataset.tipo
+      const tipo = input.dataset.validacion
 
       if (tipo in inputTipos){
 
@@ -368,7 +368,7 @@ export const validadorAutomatico = {
     //IMPORTANTE:
     // Esta funcion valida cada input de acuerdo a los DATA ATTRIBUTES del <input> (data-atributo) que se escriben en el HTML
     // Los data attributes que se validan son:
-    // data-tipo: El tipo de dato que maneja el input (nombre, telefono)
+    // data-validacion: El tipo de dato que maneja el input (nombre, telefono)
     // Los <select> no requieren data attributes ya que estos se validan al hacer submit en el form y verificar si estan o no seleccionados
   }
 
