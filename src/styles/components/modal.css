@@ -43,7 +43,12 @@
   width: 100%;
   grid-template-columns: 1fr 9fr;
 }
-
+.modalVer__imagen{
+  width: 90%;
+  margin: auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
 /* botones que solo se usan en modales */
 .botonOK {
   background-color: var(--color-verdoso);

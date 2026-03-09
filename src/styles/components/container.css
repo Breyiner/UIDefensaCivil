@@ -7,31 +7,36 @@
   align-items: center;
   justify-content: start;
   gap: 10px;
-} 
+}
+
+.container--form-fuentes {
+  font-family: var(--fuente-titulos);
+  text-transform: uppercase;
+  font-weight: bold;
+}
 
 .container__imagen {
   max-width: 100%;
   border-radius: 10px;
 }
-.container__gap{
+
+.container__gap {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.container__paginas{
+
+.container__paginas {
   width: 100%;
 }
 
-.container__paginador{
+.container__paginador {
   display: grid;
   grid-auto-flow: column;
   width: 100%;
 }
 
-#acordeon__container{
+#acordeon__container {
   transition: 0.3s;
-}
-
-@media screen and (min-width: 1000px) {
 }

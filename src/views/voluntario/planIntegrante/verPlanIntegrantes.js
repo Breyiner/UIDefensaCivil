@@ -4,10 +4,11 @@ import * as modalIntegrante from "../../../helpers/modales/integrante";
 import paginacion from "../../../helpers/paginacion";
 
 export default async () => {
-    ;
+
     const crear = document.getElementById("crear");
-    const botonBack = document.getElementById("boton-back");
+    const botonBack = document.getElementById("botonBack");
     const id = location.hash.split("=")[1];
+    const contenedor = document.querySelector(".container__paginas");
 
     if (window.procesoPeticion === undefined) { window.procesoPeticion = true; }
     window.procesoPeticion = true;
@@ -17,7 +18,9 @@ export default async () => {
         location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
     };
 
-    crear.addEventListener("click", async () => { location.href = `#/voluntario-planIntegrante/crear/id=${id}`; });
+    crear.addEventListener("click", async () => {
+        location.href = `#/voluntario-planIntegrante/crear/id=${id}`;
+    });
 
     let mensajeVacio = "No tienes ningun miembro de la familia...";
 
@@ -35,30 +38,45 @@ export default async () => {
             <button class="boton boton--azul boton__eliminar" data-id="${info.id}">Eliminar</button>
             <button class="boton boton__vermas" data-id="${info.id}">Ver más</button>`;
         return cartaInfo;
-    }
+    };
 
-    const funcionBotones = async (e) => {
+    // 🔥 MÉTODO RECARGAR CONTAINER
+    const recargarContainer = async () => {
+        contenedor.innerHTML = "";
+        await paginacion(`members/familyPlan/${id}`, mensajeVacio, carta);
+    };
+
+    contenedor.addEventListener("click", async (e) => {
+
         if (e.target.classList.contains("boton__editar")) {
             window.location.href = `#/voluntario-planIntegrante/editar/id=${id},${e.target.dataset.id}`;
         }
 
         if (e.target.classList.contains("boton__eliminar")) {
-            const id = e.target.dataset.id;
-            const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar este miembro de la familia?",);
+            const memberId = e.target.dataset.id;
+
+            const confirmacion = await alerta.alertaQuest(
+                "¿Seguro que deseas eliminar este miembro de la familia?"
+            );
+
             if (!confirmacion.isConfirmed) return;
-            const eliminado = await api.delet(`members/${id}`);
+
+            const eliminado = await api.delet(`members/${memberId}`);
+
             if (eliminado.success) {
                 await alerta.alertaOK(eliminado.message);
-                location.reload();
+                await recargarContainer();
             }
-            else alerta.alertaError(eliminado.message);
+            else {
+                alerta.alertaError(eliminado.message);
+            }
         }
 
         if (e.target.classList.contains("boton__vermas")) {
-            const id = e.target.dataset.id;
-            modalIntegrante.ver(id);
+            const memberId = e.target.dataset.id;
+            modalIntegrante.ver(memberId);
         }
-    }
+    });
 
-    await paginacion(`members/familyPlan/${id}`, mensajeVacio, carta, funcionBotones);
-}
+    await recargarContainer();
+};

@@ -3,8 +3,8 @@ import * as alerta from "../../../../helpers/alertas";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
-    const botonBack = document.getElementById("boton-back");
-    const boton = document.querySelector('.form__boton');
+    const botonBack = document.getElementById("botonBack");
+    const botonGuardar = document.querySelector('.form__boton');
     const form = document.querySelector('.form');
     const id = location.hash.split("=")[1];
 
@@ -18,29 +18,29 @@ export default async () => {
     };
 
     // Inputs de texto
-    const nombre = document.querySelector('.input__nombre');
-    const raza = document.querySelector('.input__raza');
-    const edad = document.querySelector('.input__edad');
+    const nombre = document.getElementById('nombre');
+    const raza = document.getElementById('raza');
+    const edad = document.getElementById('edad');
     // Selects
-    const especie = document.querySelector('.input__especie');
-    const genero = document.querySelector('.input__genero');
-    await adjuntarOpc.adjuntar(especie, "species");
-    await adjuntarOpc.adjuntarNoValida(genero, "animalGenders");
+    const especies = document.getElementById('especies');
+    const generos = document.getElementById('generos');
+    await adjuntarOpc.adjuntar(especies, "species");
+    await adjuntarOpc.adjuntarNoValida(generos, "animalGenders");
 
     window.procesoPeticion = false;
-    boton.disabled = false;
+    botonGuardar.disabled = false;
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         window.procesoPeticion = true
-        boton.disabled = true;
+        botonGuardar.disabled = true;
 
         const datosRegistro = {
             name: nombre.value,
             breed: raza.value,
             age: edad.value,
-            species_id: especie.value,
-            animal_gender_id: genero.value,
+            species_id: especies.value,
+            animal_gender_id: generos.value,
             family_plan_id: id
         };
         try {
@@ -55,7 +55,7 @@ export default async () => {
             alerta.alertaError(error.errors);
         }
 
-        boton.disabled = false;
+        botonGuardar.disabled = false;
         window.procesoPeticion = false;
     });
 }

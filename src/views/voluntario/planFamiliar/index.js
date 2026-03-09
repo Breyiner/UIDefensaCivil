@@ -1,9 +1,9 @@
-import CrearController from "./crear/familiarCrearController";
+import CrearController from "./crear/crearController";
 
 import GeoreController from "./georeferenciacion/georeferenciacionController";
 
 import IdentiController from "./identificacion/identificacionController";
 
-import TestVulController from "./testVulnerabilidad/testController";
+import TestController from "./testVulnerabilidad/testController";
 
-export { CrearController, GeoreController, IdentiController, TestVulController};
+export { CrearController, GeoreController, IdentiController, TestController};

@@ -1,0 +1,12 @@
+.perfil__avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--color-primario);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid var(--color-palido);
+    font-family: var(--fuente-titulos);
+    font-weight: bold;
+}

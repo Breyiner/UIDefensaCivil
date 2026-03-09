@@ -6,8 +6,8 @@ import * as modalMascota from "../../../../helpers/modales/mascota";
 import acordeon from "../../../../helpers/acordeon";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
-  const boton = document.querySelector(".form__boton");
+  const botonBack = document.getElementById("botonBack");
+  const botonGuardar = document.getElementById("botonGuardar");
   const form = document.querySelector(".form");
   const id = location.hash.split("=")[1];
   const planId = id.split(",")[0];
@@ -25,15 +25,15 @@ export default async () => {
   };
 
   // Inputs de texto
-  const nombre = document.querySelector('.input__nombre');
-  const raza = document.querySelector('.input__raza');
-  const edad = document.querySelector('.input__edad');
-  // Selects
-  const especie = document.querySelector('.input__especie');
-  const genero = document.querySelector('.input__genero');
-  await adjuntarOpc.adjuntar(especie, "species");
-  await adjuntarOpc.adjuntarNoValida(genero, "animalGenders");
-  await cargarDatos.cargarDatos(`pets/${mascotaId}`, [nombre, raza, edad, especie, genero,], ["name", "breed", "age", "species_id", "animal_gender_id",],);
+  const nombre = document.getElementById('nombre');
+  const raza = document.getElementById('raza');
+  const edad = document.getElementById('edad');
+  const especies = document.getElementById('especies');
+  const generos = document.getElementById('generos');
+  
+  await adjuntarOpc.adjuntar(especies, "species");
+  await adjuntarOpc.adjuntarNoValida(generos, "animalGenders");
+  await cargarDatos.cargarDatos(`pets/${mascotaId}`, [nombre, raza, edad, especies, generos,], ["name", "breed", "age", "species_id", "animal_gender_id",],);
 
   const cargarAfecciones = async () => {
     const afecciones = await api.get(`petVaccines/pet/${mascotaId}`);
@@ -55,7 +55,7 @@ export default async () => {
   cargarAfecciones();
 
   window.procesoPeticion = false;
-  boton.disabled = false;
+  botonGuardar.disabled = false;
 
   botonAñadir.addEventListener("click", async () => {
     modalMascota.crearVacunas(mascotaId, cargarAfecciones);
@@ -69,14 +69,14 @@ export default async () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     window.procesoPeticion = true;
-    boton.disabled = true;
+    botonGuardar.disabled = true;
 
     const datosRegistro = {
       name: nombre.value,
       breed: raza.value,
       age: edad.value,
-      species_id: especie.value,
-      animal_gender_id: genero.value,
+      species_id: especies.value,
+      animal_gender_id: generos.value,
     };
     try {
       const data = await api.patch(`pets/${mascotaId}`, datosRegistro);
@@ -86,7 +86,7 @@ export default async () => {
     } catch (error) {
       alerta.alertaError(error.errors);
     }
-    boton.disabled = false;
+    botonGuardar.disabled = false;
     window.procesoPeticion = false;
   });
 };

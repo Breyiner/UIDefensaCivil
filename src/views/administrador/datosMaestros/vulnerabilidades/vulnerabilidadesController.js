@@ -4,7 +4,7 @@ import * as vulnerabilidad from "../../../../helpers/modales/vulnerabilidad";
 
 export default async () => {
 
-    const botonBack = document.getElementById("boton-back");
+    const botonBack = document.getElementById("botonBack");
 
     if (window.procesoPeticion === undefined) {
         window.procesoPeticion = false;

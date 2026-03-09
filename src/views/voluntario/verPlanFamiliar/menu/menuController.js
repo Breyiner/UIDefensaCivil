@@ -3,7 +3,7 @@ import * as alerta from "../../../../helpers/alertas";
 import AccesoPlan from "../../../../helpers/accesoPlan";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
+  const botonBack = document.getElementById("botonBack");
   const nombreFamilia = document.querySelector(".informacion__nombreFamiliar");
   const datosPrincipales = document.getElementById("datosPrincipales");
   const integrante = document.getElementById("integrantes");
@@ -44,7 +44,7 @@ export default async () => {
   });
 
   recursosDisponibles.addEventListener("click", async () => {
-    location.href = `#/voluntario-planRecursos/ver/id=${id}`;
+    location.href = `#/voluntario-planRecurso/ver/id=${id}`;
   });
 
   graficoEntorno.addEventListener("click", async () => {
@@ -52,7 +52,7 @@ export default async () => {
   });
 
   graficosVivienda.addEventListener("click", async () => {
-    location.href = `#/voluntario-planVivienda/ver/id=${id}`;
+    location.href = `#/voluntario-planGrafico/ver/id=${id}`;
   });
 
   planAccion.addEventListener("click", async () => {

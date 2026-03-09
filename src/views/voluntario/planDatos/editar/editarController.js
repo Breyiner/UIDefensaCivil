@@ -3,28 +3,24 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import { cargarDatos } from "../../../../helpers/cargarDatos";
 
-// IMPORT COMENTADO DEBIDO A DESUSO 
-// import * as localStorage from "../../../../helpers/localStorage";
-
-
 import * as validacion from "../../../../helpers/validacionInputs";
 
 export default async () => {
   const id = location.hash.split("=")[1];
-  const botonBack = document.getElementById("boton-back");
+  const botonBack = document.getElementById("botonBack");
 
   const form = document.querySelector(".form");
-  const boton = document.querySelector(".form__boton");
-  const zona = document.querySelector(".selector--zona");
-  const apartamento = document.querySelector(".selector--apartamento");
-  const ciudad = document.querySelector(".selector--ciudad");
+  const botonGuardar = document.getElementById("boton_guardar");
+  const zonas = document.getElementById("zonas");
+  const departamentos = document.getElementById("departamentos");
+  const ciudades = document.getElementById("ciudades");
   const familia = document.getElementById("familiaId");
   const apellidos = document.getElementById("apellidos");
   const dirrecion = document.getElementById("dirrecion");
-  const sector = document.querySelector(".selector--sector");
+  const sectores = document.getElementById("sectores");
   const sectorNombre = document.getElementById("sectorNombre");
   const telefono = document.getElementById("telefonoFijo");
-  const calidad = document.querySelector(".selector--calidadVivienda");
+  const calidadesVivienda = document.getElementById("calidadesVivienda");
 
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
@@ -36,41 +32,17 @@ export default async () => {
     location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
   };
 
-  await adjuntarOpc.adjuntarNoValida(zona, "zones");
-  await adjuntarOpc.adjuntarNoValida(apartamento, "apartments");
-  await adjuntarOpc.adjuntarNoValida(ciudad, "cities");
-  await adjuntarOpc.adjuntarNoValida(sector, "sectors");
-  await adjuntarOpc.adjuntarNoValida(calidad, "housingQualities");
-  await cargarDatos(
-    `familyPlans/${id}`,
-    [
-      familia,
-      apellidos,
-      zona,
-      apartamento,
-      ciudad,
-      dirrecion,
-      sector,
-      sectorNombre,
-      telefono,
-      calidad,
-    ],
-    [
-      "id",
-      "last_names",
-      "zone_id",
-      "apartment_id",
-      "city_id",
-      "address",
-      "sector_id",
-      "sector_name",
-      "landline_phone",
-      "housing_quality_id",
-    ],
-  );
+  await adjuntarOpc.adjuntarNoValida(zonas, "zones");
+  await adjuntarOpc.adjuntarNoValida(departamentos, "departments");
+  await adjuntarOpc.adjuntarNoValida(ciudades, "cities");
+  await adjuntarOpc.adjuntarNoValida(sectores, "sectors");
+  await adjuntarOpc.adjuntarNoValida(calidadesVivienda, "housingQualities");
+  await cargarDatos(`familyPlans/${id}`,
+  [familia,apellidos,zonas,departamentos,ciudades,dirrecion,sectores,sectorNombre,telefono,calidadesVivienda,],
+  ["id","last_names","zone_id","department_id","city_id","address","sector_id","sector_name","landline_phone","housing_quality_id",],);
   familia.value = `Familia segura N.${familia.value}`;
 
-  boton.disabled = false;
+  botonGuardar.disabled = false;
   window.procesoPeticion = false;
 
   apellidos.addEventListener("keydown", (e) => {
@@ -89,38 +61,38 @@ export default async () => {
   });
 
   apellidos.addEventListener("blur", (e) => {
-    validacion.limpiarError(apellidos);
+    validacion.limpiarError(e.target);
   });
   dirrecion.addEventListener("blur", (e) => {
-    validacion.limpiarError(dirrecion);
+    validacion.limpiarError(e.target);
   });
-  sector.addEventListener("change", async () => {
-    validacion.limpiarError(sector);
+  sectores.addEventListener("change", async (e) => {
+    validacion.limpiarError(e.target);
   });
   sectorNombre.addEventListener("blur", (e) => {
-    validacion.limpiarError(sectorNombre);
+    validacion.limpiarError(e.target);
   });
   telefono.addEventListener("blur", (e) => {
-    validacion.limpiarError(telefono);
+    validacion.limpiarError(e.target);
   });
-  calidad.addEventListener("change", async () => {
-    validacion.limpiarError(calidad);
+  calidadesVivienda.addEventListener("change", async (e) => {
+    validacion.limpiarError(e.target);
   });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    boton.disabled = true;
+    botonGuardar.disabled = true;
     window.procesoPeticion = true;
 
     let validarApellidos = validacion.validarMinimo(apellidos, 3);
-    let validarZona = validacion.validarSelect(zona);
-    let validarApartamento = validacion.validarSelect(apartamento);
-    let validarCiudad = validacion.validarSelect(ciudad);
+    let validarZona = validacion.validarSelect(zonas);
+    let validarApartamento = validacion.validarSelect(departamentos);
+    let validarCiudad = validacion.validarSelect(ciudades);
     let validarDirrecion = validacion.validarMinimo(dirrecion, 10);
-    let validarSector = validacion.validarSelect(sector);
+    let validarSector = validacion.validarSelect(sectores);
     let validarSectorNombre = validacion.validarMinimo(sectorNombre, 3);
     let validarTelefono = validacion.validarSiExiste(telefono, 3);
-    let validarCalidad = validacion.validarSelect(calidad);
+    let validarCalidad = validacion.validarSelect(calidadesVivienda);
 
     if (
       validarApellidos &&
@@ -136,10 +108,10 @@ export default async () => {
       const datosRegistro = {
         last_names: apellidos.value,
         address: dirrecion.value,
-        sector_id: sector.value,
+        sector_id: sectores.value,
         sector_name: sectorNombre.value,
         landline_phone: telefono.value,
-        housing_quality_id: calidad.value,
+        housing_quality_id: calidadesVivienda.value,
       };
 
       try {
@@ -154,13 +126,10 @@ export default async () => {
         alerta.alertaError(error.errors);
       }
     }
-    boton.disabled = false;
+    botonGuardar.disabled = false;
     window.procesoPeticion = false;
   });
-  apartamento.addEventListener("change", async () => {
-    await adjuntarOpc.adjuntarReseteoNoValida(
-      ciudad,
-      `cities/apartment/${apartamento.value}`,
-    );
+  departamentos.addEventListener("change", async () => {
+    await adjuntarOpc.adjuntarReseteoNoValida(ciudades,`cities/department/${departamentos.value}`);
   });
 };

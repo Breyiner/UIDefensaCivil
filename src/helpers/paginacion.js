@@ -1,5 +1,5 @@
 import * as api from "./api";
-export default async (peticion,mensajeVacio,carta,funcionBotones) => {
+export default async (peticion,mensajeVacio,carta) => {
     const container = document.querySelector(".container__paginas");
     const containerPaginador = document.querySelector(".container__paginador")
 
@@ -32,10 +32,6 @@ export default async (peticion,mensajeVacio,carta,funcionBotones) => {
             paginacion();
             cargarPagina();
         }});
-
-    container.addEventListener("click", async (e) => {
-        await funcionBotones(e);
-    })
   
     async function paginacion() {
         containerPaginador.innerHTML = "";

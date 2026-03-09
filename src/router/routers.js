@@ -9,14 +9,16 @@ import * as planDatos from "../views/voluntario/planDatos/index.js";
 import * as Planintegrante from "../views/voluntario/planIntegrante/index.js";
 import * as planMascota from "../views/voluntario/planMascota/index.js";
 import * as planRiesgo from "../views/voluntario/planRiesgo/index.js";
+import * as planRecurso from "../views/voluntario/planRecurso/index.js";
 import * as PlanEntorno from "../views/voluntario/planEntorno/index.js";
-import * as planRecurso from "../views/voluntario/planRecursos/index.js";
+import * as PlanGrafico from "../views/voluntario/planGrafico/index.js";
 import * as planAccion from "../views/voluntario/planAccion/index.js"
-import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
 
+import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
+import * as supervisorPlanFamiliar from "../views/supervisor/PlanFamiliar/index.js"
 import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
-import * as RevisionPlanSupervisor from "../views/supervisor/revisionPlan/revisionPlan.js"
+import * as usuario from "../views/usuario/index.js"
 
 export const routes = {
   login: {
@@ -63,7 +65,7 @@ export const routes = {
     },
     testVunerabilidad: {
       path: `voluntario/planFamiliar/testVulnerabilidad/index.html`,
-      controlador: planFamiliar.TestVulController,
+      controlador: planFamiliar.TestController,
       private: true,
       can: "family-plans.destroy",
     },
@@ -153,21 +155,21 @@ export const routes = {
       can: "family-plans.store",
     },
   },
-  "voluntario-planRecursos": {
+  "voluntario-planRecurso": {
     ver: {
-      path: `Voluntario/planRecursos/index.html`,
-      controlador: planRecurso.verPlanRecursos,
+      path: `voluntario/planRecurso/index.html`,
+      controlador: planRecurso.verController,
       private: true,
       can: "family-plans.show",
     },
     crear: {
-      path: `Voluntario/planRecursos/Crear/index.html`,
+      path: `voluntario/planRecurso/crear/index.html`,
       controlador: planRecurso.crearController,
       private: true,
       can: "family-plans.store",
     },
     editar: {
-      path: `Voluntario/planRecursos/Editar/index.html`,
+      path: `voluntario/planRecurso/Editar/index.html`,
       controlador: planRecurso.editarController,
       private: true,
       can: "family-plans.store",
@@ -177,6 +179,26 @@ export const routes = {
     editar: {
       path: `voluntario/planEntorno/editar/index.html`,
       controlador: PlanEntorno.EditarController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+  },
+  "voluntario-planGrafico": {
+    ver: {
+      path: `voluntario/planGrafico/index.html`,
+      controlador: PlanGrafico.verController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+    crear: {
+      path: `voluntario/planGrafico/crear/index.html`,
+      controlador: PlanGrafico.crearController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+    editar: {
+      path: `voluntario/planGrafico/editar/index.html`,
+      controlador: PlanGrafico.editarController,
       private: true,
       can: "home-frontend.voluntario",
     },
@@ -211,11 +233,22 @@ export const routes = {
 
   "supervisor-planFamiliar": {
     "/": {
+      path: `voluntario/verPlanFamiliar/index.html`,
+      controlador: verPlan.VerPlanFamiliar,
+      private: false
+    },
+    "revision": {
       path: `supervisor/revisionPlan/index.html`,
-      controlador:RevisionPlanSupervisor,
+      controlador:supervisorPlanFamiliar.RevisionPlanController,
+      private: false
+    },
+    "estadistica":{
+      path: `supervisor/PlanFamiliar/estadistica/index.html`,
+      controlador:supervisorPlanFamiliar.EstadisticaController,
       private: false
     }
   },
+
   "supervisor-usuarios": {
     "peticiones": {
       path: `supervisor/usuarios/peticiones/index.html`,
@@ -336,4 +369,16 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
   },
+  "usuarios":{
+    "perfil": {
+      path: `usuario/perfil/index.html`,
+      controlador: usuario.perfilController,
+      private:false
+    },
+    "notificaciones":{
+      path: `usuario/notificaciones/index.html`,
+      controlador: usuario.notificacionesController,
+      private:false
+    }
+  }
 };

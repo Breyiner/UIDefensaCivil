@@ -1,16 +1,13 @@
 import * as api from "../../../../helpers/api";
 import * as alerta from "../../../../helpers/alertas";
 import * as validacion from "../../../../helpers/validacionInputs";
-import * as cargarDatos from "../../../../helpers/cargarDatos";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
-  const boton = document.querySelector(".form__boton");
+  const botonBack = document.getElementById("botonBack");
+  const botonCrear = document.getElementById("botonCrear");
   const form = document.querySelector(".form");
   const id = location.hash.split("=")[1];
-  const planId = id.split(",")[0];
-  const recursoId = id.split(",")[1];
 
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
@@ -19,7 +16,11 @@ export default async () => {
 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario-planRecursos/ver/id=${planId}`;
+    const confirmacion = await alerta.alertaQuest(
+      "¿Seguro que quieres volver? perderás tu progreso",
+    );
+    if (confirmacion.isConfirmed)
+      location.href = `#/voluntario-planRecurso/ver/id=${id}`;
   };
 
   // Inputs de texto
@@ -27,11 +28,10 @@ export default async () => {
   const descripcion = document.getElementById("descripcion");
   const distancia = document.getElementById("distancia");
   const ubicacion = document.getElementById("ubicacion");
-  const recurso = document.querySelector(".selector--recursos");
+  const recurso = document.getElementById("recursos");
   const servicio = document.getElementById("servicio");
   await adjuntarOpc.adjuntarDouble(recurso, "resources",servicio,'service');
-  await cargarDatos.cargarDatos(`availableResources/${recursoId}`,[telefono,descripcion,distancia,ubicacion,recurso,servicio,],["phone","description","distance","location","resource_id","resource_service","resource_name"],);
-  
+
   telefono.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 10);
     validacion.soloNumeros(e);
@@ -66,12 +66,12 @@ export default async () => {
   });
 
   window.procesoPeticion = false;
-  boton.disabled = false;
+  botonCrear.disabled = false;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     window.procesoPeticion = true;
-    boton.disabled = true;
+    botonCrear.disabled = true;
 
     let validarDescripcion = validacion.validarMinimo(descripcion, 15);
     let validarUbicacion = validacion.validarMinimo(ubicacion, 5);
@@ -93,18 +93,19 @@ export default async () => {
         location: ubicacion.value,
         distance: distancia.value,
         phone: telefono.value,
+        family_plan_id: id,
       };
       try {
-        const data = await api.patch(`availableResources/${recursoId}`, datosRegistro);
+        const data = await api.post(`availableResources`, datosRegistro);
         if (data.success) {
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario-planRecursos/ver/id=${planId}`;
+          window.location.href = `#/voluntario-planRecurso/ver/id=${id}`;
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors);
       }
     }
-    boton.disabled = false;
+    botonCrear.disabled = false;
     window.procesoPeticion = false;
   });
 };

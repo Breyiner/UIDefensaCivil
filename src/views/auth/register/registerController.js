@@ -13,13 +13,13 @@ export default async () => {
 
   const nombres = document.getElementById("nombres");
   const apellidos = document.getElementById("apellidos");
-  const tipoDocumento = document.querySelector(".selector--tipoDocumento");
+  const tipoDocumento = document.getElementById("tiposDocumento");
   const numDocumento = document.getElementById("numeroDocumento");
-  const genero = document.querySelector(".selector--genero");
+  const genero = document.getElementById("generos");
   const nacimiento = document.getElementById("nacimiento");
   const telefono = document.getElementById("telefono");
-  const seccional = document.querySelector(".selector--seccional");
-  const organizacion = document.querySelector(".selector--organizacion");
+  const seccional = document.getElementById("seccionales");
+  const organizacion = document.getElementById("organizaciones");
   const corrElectronico = document.getElementById("correoElectronico");
   const contrasena = document.getElementById("contrasena");
   const confContrasena = document.getElementById("confirmarContrasena");
@@ -96,6 +96,8 @@ export default async () => {
   form.addEventListener("submit", async (e) => {
     window.procesoPeticion = true;
     e.preventDefault();
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres enviar tu peticion?");
+    if (!confirmacion.isConfirmed) return;
 
     let validarNombres = validacion.validarMinimo(nombres, 3);
     let validarApellidos = validacion.validarMinimo(apellidos, 3);

@@ -1,0 +1,6 @@
+<div class="container">
+    <div class="explicacion">
+        <p class="explicacion__titulo">Notificaciones</p>
+        <p class="explicacion__subtitulo">Vista dedicada a las notificaciones</p>
+    </div>
+</div>

@@ -16,6 +16,6 @@
     "choices.js": "^11.1.0",
     "remixicon": "^4.9.1",
     "sweetalert2": "^11.26.17",
-    "tom-select": "^2.5.1"
+    "tom-select": "^2.5.2"
   }
 }

@@ -3,7 +3,7 @@ import * as alerta from "../../../../helpers/alertas";
 import * as seccional from "../../../../helpers/modales/seccional";
 
 export default async () => {
-    const botonBack = document.getElementById("boton-back");
+    const botonBack = document.getElementById("botonBack");
     if (window.procesoPeticion === undefined) {
         window.procesoPeticion = false;
     }

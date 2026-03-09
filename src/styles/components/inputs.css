@@ -1,17 +1,45 @@
 input{
   font-size: var(--tamano-mediano);
 }
+
+input::placeholder {
+  color: var(--color-grisOscuro);
+}
+
+input:focus {
+  outline: none;
+}
+
+textarea{
+  font-size: var(--tamano-mediano);
+}
+textarea::placeholder {
+  color: var(--color-grisOscuro);
+}
+
+textarea:focus {
+  outline: none;
+}
 .input{
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.form__input--naranja {
+.input--naranja {
   padding: 10px;
   border: #ff6600 solid 1px;
   border-radius: var(--border-radius-botones);
   text-align: start;
+  width: 100%;
+}
+
+.input--gris{
+  padding: 6px 10px;
+  background-color: var(--color-fondogristranslucido);
+  border: 1px solid var(--color-grisMedio);
+  border-radius: var(--border-radius-botones);
+  flex: 1 1 auto;
   width: 100%;
 }
 
@@ -23,7 +51,7 @@ input{
 
 .form__inputBox {
   display: flex;
-  border: var(--color-grisOscuro) solid 2px;
+  border: var(--color-grisMedio) solid 2px;
   border-radius: var(--border-radius-botones);
   width: 100%;
   background-color: var(--color-palido);
@@ -57,29 +85,29 @@ input{
   width: 50%;
 }
 
-.form__inputBox > .form__input {
-  border: none;
+.form__input{
   width: 100%;
 }
+.form__inputBox > input,.form__inputBox > select{
+  border: none;
+  width: 100%;
+  padding: 8px 12px 8px 0px;
+}
 
+.form__inputBox > textarea{
+  border: none;
+  width: 100%;
+  height: 160px;
+}
 .form__inputBox > i {
   text-align: center;
   color: var(--color-oscuro);
   font-size: var(--tamano-medio-grande);
+  margin: auto;
 }
-
-i.form__inputBox--iconoGrande{
-  font-size: var(--tamano-titulo);
+.form__inputBox:has(textarea) > i {
+  margin: 0;
 }
-
-input::placeholder {
-  color: var(--color-grisOscuro);
-}
-
-input:focus {
-  outline: none;
-}
-
 .SubirImagen input[type="file"] {
   position: absolute;
   left: 0;

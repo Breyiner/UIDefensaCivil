@@ -7,7 +7,7 @@
 }
 
 .paginado__numero {
-  background-color: var(--color-grisLogin);
+  background-color: var(--color-grisMedio);
   color: var(--color-oscuro);
   font-weight: bolder;
   padding: 10px;

@@ -7,13 +7,11 @@ export default async () => {
   const form = document.querySelector(".form");
   const correo = document.getElementById("correo");
   const contrasena = document.getElementById("contrasena");
-  const boton = document.querySelector(".form__boton");
+  const botonLogin = document.getElementById("login");
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = false;
   }
   window.procesoPeticion = false;
-
-  console.log(form)
 
   correo.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 40)
@@ -39,7 +37,7 @@ export default async () => {
         email: correo.value,
         password: contrasena.value,
       };
-      boton.disabled = true;
+      botonLogin.disabled = true;
       window.procesoPeticion = true;
       const data = await api.post("login", datosUsuario);
       if (data.success) {
@@ -58,7 +56,7 @@ export default async () => {
       } else {
         await alerta.alertaError(data.message);
       }
-      boton.disabled = false;
+      botonLogin.disabled = false;
       window.procesoPeticion = false;
     }
   });

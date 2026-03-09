@@ -4,12 +4,13 @@ import * as modalFactorRiesgo from "../../../helpers/modales/factorRiesgo";
 import paginacion from "../../../helpers/paginacion";
 
 export default async () => {
-    ;
-    const crear = document.getElementById("crear");
-    const botonBack = document.getElementById("boton-back");
-    const id = location.hash.split("=")[1];
 
-    if (window.procesoPeticion === undefined) { window.procesoPeticion = true; }
+    const crear = document.getElementById("crear");
+    const botonBack = document.getElementById("botonBack");
+    const id = location.hash.split("=")[1];
+    const contenedor = document.querySelector(".container__paginas");
+
+    if (window.procesoPeticion === undefined) window.procesoPeticion = true;
     window.procesoPeticion = true;
 
     botonBack.onclick = () => {
@@ -17,20 +18,27 @@ export default async () => {
         location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
     };
 
-    crear.addEventListener("click", async () => { location.href = `#/voluntario-planRiesgo/crear/id=${id}`; });
+    crear.addEventListener("click", () => {
+        location.href = `#/voluntario-planRiesgo/crear/id=${id}`;
+    });
 
-    let mensajeVacio = "No tienes ningun factor de riesgo registrado en la familia...";
+    const mensajeVacio = "No tienes ningun factor de riesgo registrado en la familia...";
 
     const carta = async (info) => {
-        let cartaInfo = document.createElement('div');
-        cartaInfo.classList.add("verRiesgos");
-        cartaInfo.innerHTML = `
+
+        const div = document.createElement("div");
+        div.classList.add("verRiesgos");
+
+        div.innerHTML = `
             <div class="verRiesgos__tipoRiesgo">
-                <i class="ri-error-warning-line"></i>${info.threat_type_name}</div>
+                <i class="ri-error-warning-line"></i>${info.threat_type_name}
+            </div>
             <div class="verRiesgos__ubicacion">
-                <i class="ri-map-2-line"></i>${info.ubication}</div>
+                <i class="ri-map-2-line"></i>${info.ubication}
+            </div>
             <div class="verRiesgos__distancia">
-                <i class="ri-map-pin-line"></i>${info.distance} m</div>
+                <i class="ri-map-pin-line"></i>${info.distance} m
+            </div>
             <div class="verRiesgos__descripcion">
                 <p>Descripción:</p>${info.description}
             </div>
@@ -38,31 +46,48 @@ export default async () => {
             <button class="boton boton--azul verRiesgos__boton--eliminar" data-id="${info.id}">Eliminar</button>
             <button class="boton verRiesgos__boton--verMas" data-id="${info.id}">Ver más</button>
         `;
-        return cartaInfo;
-    }
 
-    const funcionBotones = async (e) => {
-        if (e.target.classList.contains("verRiesgos__boton--editar")) {
-            window.location.href = `#/voluntario-planRiesgo/editar/id=${id},${e.target.dataset.id}`;
+        return div;
+    };
+
+    const recargarContainer = async () => {
+        contenedor.innerHTML = "";
+        await paginacion(`riskFactors/familyPlan/${id}`, mensajeVacio, carta);
+    };
+
+    contenedor.addEventListener("click", async (e) => {
+
+        const boton = e.target.closest("button");
+        if (!boton) return;
+
+        const riskId = boton.dataset.id;
+
+        if (boton.classList.contains("verRiesgos__boton--editar")) {
+            location.href = `#/voluntario-planRiesgo/editar/id=${id},${riskId}`;
         }
 
-        if (e.target.classList.contains("verRiesgos__boton--eliminar")) {
-            const id = e.target.dataset.id;
-            const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar este factor de riesgo?",);
+        if (boton.classList.contains("verRiesgos__boton--eliminar")) {
+
+            const confirmacion = await alerta.alertaQuest(
+                "¿Seguro que deseas eliminar este factor de riesgo?"
+            );
+
             if (!confirmacion.isConfirmed) return;
-            const eliminado = await api.delet(`threats/${id}`);
+
+            const eliminado = await api.delet(`threats/${riskId}`);
+
             if (eliminado.success) {
                 await alerta.alertaOK(eliminado.message);
-                location.reload();
+                await recargarContainer();
+            } else {
+                alerta.alertaError(eliminado.message);
             }
-            else alerta.alertaError(eliminado.message);
         }
 
-        if (e.target.classList.contains("verRiesgos__boton--verMas")) {
-            const id = e.target.dataset.id;
-            modalFactorRiesgo.ver(id);
+        if (boton.classList.contains("verRiesgos__boton--verMas")) {
+            modalFactorRiesgo.ver(riskId);
         }
-    }
+    });
 
-    await paginacion(`riskFactors/familyPlan/${id}`, mensajeVacio, carta, funcionBotones);
-}
+    await recargarContainer();
+};
