@@ -9,6 +9,26 @@
   font-family: var(--fuente-contenido);
 }
 
+.form--alineacion {
+  align-items: stretch;
+}
+
+.form--grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 30px;
+}
+
+.form__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form__label {
+  font-size: var(--tamano-pequeno);
+}
+
 .form__titulo {
   text-align: center;
   font-family: var(--fuente-titulos);
@@ -46,6 +66,7 @@
   justify-content: space-between;
   width: 100%;
 }
+
 .form__botonGeo {
   background-color: var(--color-primario);
   border: none;
@@ -56,6 +77,7 @@
   border: 2px var(--color-palido) solid;
   transition: 0.2s;
 }
+
 .form__botonGeo:active {
   background-color: var(--color-palido);
   color: var(--color-primario);

@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estilos - UIDefensaCivil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.9.1/remixicon.min.css">
+    <style>
+        :root {
+            --color-primario: #FF6600;
+            --color-secundario: #0770CC;
+            --color-lila: #7575FC;
+            --color-lila-50: #E8E8FF;
+            --color-rosa: #EA3FB8;
+            --color-rojizo: #FF0000;
+            --color-rojizo-25: rgb(255, 0, 0, 0.10);
+            --color-vino: #AD1010;
+            --color-verdoso: #36BD36;
+            --color-verdoso-25: rgba(54, 189, 54, 0.25);
+            --color-amarillo: #D2B511;
+            --color-oscuro: #2b2a29;
+            --color-naranjado-50: rgb(255, 102, 0, 0.25);
+            --color-azulado-50: rgb(7, 112, 204, 0.25);
+            --color-palido: #ffffff;
+            --color-grisFondo: #f8f8f8;
+            --color-grisSombra: #e3e3e3;
+            --color-grisLogin: #DBDBDB;
+            --color-grisOscuro: #787878;
+            --color-transparencia: rgba(0, 0, 0, 0);
+            --color-sombra: rgba(0, 0, 0, 0.250);
+            --fuente-titulos: Roboto;
+            --fuente-contenido: Noto Sans;
+            --tamano-pequeno: 0.7rem;
+            --tamano-mediano: 1rem;
+            --tamano-medio-grande: 1.25rem;
+            --tamano-grande: 1.5rem;
+            --tamano-titulo: 2rem;
+            --border-radius-tarjetas: 12px;
+            --border-radius-botones: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--fuente-contenido);
+            background-color: var(--color-grisFondo);
+            color: var(--color-oscuro);
+            padding: 40px 20px;
+        }
+
+        .guide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: var(--fuente-titulos);
+            font-size: var(--tamano-titulo);
+            margin-bottom: 10px;
+            color: var(--color-primario);
+        }
+
+        .subtitle {
+            font-size: var(--tamano-grande);
+            color: var(--color-grisOscuro);
+            margin-bottom: 40px;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: var(--border-radius-tarjetas);
+            box-shadow: 0 0 10px var(--color-sombra);
+        }
+
+        .section h2 {
+            font-family: var(--fuente-titulos);
+            font-size: var(--tamano-grande);
+            color: var(--color-secundario);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--color-primario);
+        }
+
+        .section h3 {
+            font-family: var(--fuente-titulos);
+            font-size: var(--tamano-medio-grande);
+            color: var(--color-oscuro);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .color-box {
+            padding: 20px;
+            border-radius: var(--border-radius-tarjetas);
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .color-label {
+            font-size: var(--tamano-pequeno);
+            opacity: 0.9;
+        }
+
+        .component-demo {
+            padding: 20px;
+            background: var(--color-grisFondo);
+            border-radius: var(--border-radius-botones);
+            margin-bottom: 15px;
+        }
+
+        .code-label {
+            background: var(--color-oscuro);
+            color: var(--color-palido);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+
+        /* Componentes */
+        .boton {
+            width: 200px;
+            padding: 10px;
+            border-radius: var(--border-radius-botones);
+            background-color: var(--color-primario);
+            color: var(--color-palido);
+            font-weight: bolder;
+            font-size: var(--tamano-mediano);
+            transition: 0.3s;
+            border: 3px solid var(--color-transparencia);
+            font-family: var(--fuente-titulos);
+            cursor: pointer;
+        }
+
+        .boton-width {
+            width: 100%;
+            padding: 15px;
+        }
+
+        .boton--sinfondo {
+            background-color: transparent;
+            border: 1px solid var(--color-primario);
+            color: var(--color-primario);
+        }
+
+        .boton:active {
+            background-color: var(--color-palido);
+            color: var(--color-primario);
+            border: 3px solid var(--color-primario);
+        }
+
+        .boton:disabled {
+            border: 3px solid var(--color-grisOscuro);
+            color: var(--color-grisOscuro);
+            background-color: var(--color-grisSombra);
+        }
+
+        .boton--azul {
+            background-color: var(--color-secundario);
+        }
+
+        .boton--rojo {
+            background-color: var(--color-vino);
+        }
+
+        .boton--azul:active {
+            background-color: var(--color-palido);
+            color: var(--color-secundario);
+            border: 3px solid var(--color-secundario);
+        }
+
+        .boton--rojo:active {
+            background-color: var(--color-palido);
+            color: var(--color-rojizo);
+            border: 3px solid var(--color-rojizo);
+        }
+
+        .boton-demo {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .form__inputBox {
+            display: flex;
+            border: var(--color-grisOscuro) solid 2px;
+            border-radius: var(--border-radius-botones);
+            width: 100%;
+            background-color: var(--color-palido);
+            padding: 10px;
+            gap: 10px;
+            font-family: var(--fuente-contenido);
+        }
+
+        .form__inputBox > input {
+            border: none;
+            width: 100%;
+            font-size: var(--tamano-mediano);
+            outline: none;
+        }
+
+        .form__inputBox > i {
+            color: var(--color-oscuro);
+            font-size: var(--tamano-medio-grande);
+        }
+
+        input::placeholder {
+            color: var(--color-grisOscuro);
+        }
+
+        .tarjeta {
+            padding: 20px;
+            box-shadow: 0 0 10px var(--color-sombra);
+            border-radius: var(--border-radius-tarjetas);
+            background: white;
+        }
+
+        .tarjeta--completa {
+            width: 100%;
+        }
+
+        .tarjeta__titulo {
+            font-size: var(--tamano-grande);
+            font-weight: bolder;
+            font-family: var(--fuente-titulos);
+            margin-bottom: 10px;
+        }
+
+        .tarjeta__icono {
+            font-size: var(--tamano-grande);
+            color: var(--color-secundario);
+        }
+
+        .modalVer {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+            font-weight: bolder;
+            font-size: var(--tamano-mediano);
+        }
+
+        .modalVer__dato {
+            width: 50%;
+            display: grid;
+            grid-template-columns: 1fr 4fr;
+            margin-bottom: 10px;
+        }
+
+        .modalVer__icono {
+            color: var(--color-grisOscuro);
+            font-size: var(--tamano-medio-grande);
+        }
+
+        .modalVer__titulo {
+            color: var(--color-grisOscuro);
+            font-weight: 600;
+        }
+
+        .modalVer__texto {
+            color: var(--color-oscuro);
+            font-weight: normal;
+        }
+
+        .modalVer__dato--largo {
+            width: 100%;
+            grid-template-columns: 1fr 9fr;
+        }
+
+        .accordion-demo {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .acordeon {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 50px auto;
+            grid-template-areas:
+                "titulo"
+                "contenido";
+        }
+
+        .acordeon__nombre {
+            grid-area: titulo;
+            font-size: var(--tamano-grande);
+            font-weight: bolder;
+            padding: 10px;
+            color: var(--color-palido);
+            width: 100%;
+            background-color: var(--color-primario);
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            display: grid;
+            grid-template-columns: 5fr 1fr;
+            transition: 0.3s;
+        }
+
+        .acordeon__nombre:active {
+            background-color: var(--color-palido);
+            color: var(--color-primario);
+        }
+
+        .acordeon__contenido {
+            grid-area: contenido;
+            min-height: 50px;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .acordeon__contenido--oculto {
+            display: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .botonOK {
+            background-color: var(--color-verdoso);
+            color: white;
+        }
+
+        .botonCancelar {
+            background-color: var(--color-rojizo);
+            color: white;
+        }
+
+        .botonEditar {
+            background-color: var(--color-secundario);
+            color: white;
+        }
+
+        .botonEliminar {
+            background-color: var(--color-rojizo);
+            color: white;
+        }
+
+        .table-clases {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .table-clases th,
+        .table-clases td {
+            border: 1px solid var(--color-grisSombra);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table-clases th {
+            background-color: var(--color-azulado-50);
+            font-weight: bold;
+            color: var(--color-oscuro);
+        }
+
+        .table-clases tr:nth-child(even) {
+            background-color: var(--color-grisFondo);
+        }
+
+        .class-name {
+            font-family: monospace;
+            background: var(--color-oscuro);
+            color: var(--color-primario);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .modifier {
+            color: var(--color-secundario);
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid var(--color-primario);
+            color: var(--color-grisOscuro);
+            font-size: var(--tamano-pequeno);
+        }
+
+        .copy-btn {
+            background: var(--color-oscuro);
+            color: var(--color-palido);
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        .copy-btn:hover {
+            background: var(--color-grisOscuro);
+        }
+
+        /* Estilos para componentes nuevos */
+        .listaDatos {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .listaDatos__valor {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--tamano-mediano);
+            border: 2px solid var(--color-secundario);
+            color: var(--color-secundario);
+            padding: 10px;
+            border-radius: 10px;
+            margin-left: 5px;
+            transition: 0.3s;
+            background: white;
+            cursor: pointer;
+        }
+
+        .listaDatos__valor:active {
+            background-color: var(--color-secundario);
+            color: var(--color-palido);
+        }
+
+        .listaDatos__nombre {
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+            text-align: start;
+            gap: 10px;
+        }
+
+        .listaDatos_Inactivo {
+            color: var(--color-rojizo);
+            border-color: var(--color-rojizo);
+            background-color: var(--color-rojizo-25);
+        }
+
+        .paginador__numero {
+            border: none;
+            width: 100%;
+            padding: 10px;
+            background-color: var(--color-grisFondo);
+            color: var(--color-secundario);
+            font-weight: bolder;
+            transition: 0.3s;
+            border-radius: var(--border-radius-tarjetas);
+            cursor: pointer;
+        }
+
+        .paginador__numero:active {
+            background-color: var(--color-secundario);
+            color: var(--color-palido);
+        }
+
+        .paginador__numero--activo {
+            background-color: var(--color-secundario);
+            color: var(--color-palido);
+        }
+
+        .seccion {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .seccion__tarjeta {
+            width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: var(--border-radius-tarjetas);
+            font-family: var(--fuente-titulos);
+            color: var(--color-palido);
+            font-size: var(--tamano-pequeno);
+            font-weight: 400;
+            gap: 5px;
+        }
+
+        .seccion__tarjeta--azul {
+            background-color: var(--color-secundario);
+        }
+
+        .seccion__tarjeta--amarillo {
+            background-color: var(--color-amarillo);
+            color: #000;
+        }
+
+        .seccion__tarjeta--verde {
+            background-color: var(--color-verdoso);
+        }
+
+        .seccion__tarjeta--rojo {
+            background-color: var(--color-vino);
+        }
+
+        .seccion__tarjeta--naranja {
+            background-color: var(--color-primario);
+        }
+
+        .error {
+            width: 100%;
+            color: var(--color-rojizo);
+            font-size: var(--tamano-mediano);
+            text-align: end;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .explicacion {
+            width: 100%;
+            color: var(--color-oscuro);
+            font-family: var(--fuente-titulos);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--color-grisOscuro);
+        }
+
+        .explicacion__titulo {
+            font-size: var(--tamano-medio-grande);
+            font-weight: bolder;
+            margin-bottom: 5px;
+        }
+
+        .explicacion__subtitulo {
+            font-size: var(--tamano-mediano);
+            color: var(--color-grisOscuro);
+        }
+
+        .SubirImagen {
+            position: relative;
+            display: inline-block;
+        }
+
+        .ventanaHistorial {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .ventanaHistorial__titulo {
+            font-size: var(--tamano-pequeno);
+            text-align: start;
+            font-weight: bolder;
+            padding: 10px;
+            color: var(--color-grisOscuro);
+            width: 100%;
+            border-radius: 10px 10px 0px 0px;
+        }
+
+        .ventanaHistorial__contenido {
+            font-size: var(--tamano-pequeno);
+            color: var(--color-grisOscuro);
+            border-top: 2px solid var(--color-grisOscuro);
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: var(--color-palido);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .gestioarAfecciones {
+            border: var(--color-grisOscuro) solid 2px;
+            width: 100%;
+            padding: 10px;
+            border-radius: var(--border-radius-tarjetas);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gestionarAfecciones__header {
+            display: flex;
+            font-size: var(--tamano-mediano);
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+
+        .gestionarAfecciones__titulo {
+            display: flex;
+            color: var(--color-grisOscuro);
+            width: 100%;
+            align-items: center;
+            gap: 10px;
+            font-size: var(--tamano-mediano);
+        }
+
+        .gestionarAfecciones__boton {
+            padding: 0px 10px;
+            border-radius: 5px;
+        }
+
+        .gestionarAfecciones__lista {
+            display: flex;
+            flex-direction: column;
+            width: 95%;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .gestionarAfecciones__afeccion {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--tamano-mediano);
+            border: 2px solid var(--color-lila);
+            color: var(--color-lila);
+            padding: 5px;
+            border-radius: 10px;
+            margin-left: 5px;
+            transition: 0.3s;
+        }
+
+        .gestionarAfecciones__tipoNombre {
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .form__geo {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+
+        .form__botonGeo {
+            background-color: var(--color-primario);
+            border: none;
+            color: var(--color-palido);
+            font-weight: bolder;
+            border-radius: var(--border-radius-botones);
+            padding: 4px 10px;
+            border: 2px var(--color-palido) solid;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .form__botonGeo:active {
+            background-color: var(--color-palido);
+            color: var(--color-primario);
+        }
+
+        .form_autorizacion {
+            display: flex;
+            gap: 10px;
+            font-size: var(--tamano-pequeno);
+            align-items: center;
+        }
+
+        .form__link {
+            border: none;
+            text-decoration: underline;
+            color: var(--color-grisOscuro);
+            font-size: var(--tamano-mediano);
+            background: none;
+            transition: 0.3s;
+            font-family: var(--fuente-contenido);
+            cursor: pointer;
+        }
+
+        .form__link:active {
+            color: var(--color-secundario);
+        }
+    </style>
+</head>
+<body>
+    <div class="guide-container">
+        <h1>UIDefensaCivil - Guía de Estilos</h1>
+        <p class="subtitle">Referencia completa de clases CSS y componentes reutilizables</p>
+
+        <!-- COLORES -->
+        <div class="section">
+            <h2>Colores</h2>
+            <div class="grid-3">
+                <div class="color-box" style="background-color: var(--color-primario);">
+                    <span>Primario</span>
+                    <span class="color-label">#FF6600</span>
+                </div>
+                <div class="color-box" style="background-color: var(--color-secundario);">
+                    <span>Secundario</span>
+                    <span class="color-label">#0770CC</span>
+                </div>
+                <div class="color-box" style="background-color: #2b2a29;">
+                    <span>Oscuro</span>
+                    <span class="color-label">#2b2a29</span>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="color-box" style="background-color: var(--color-verdoso);">
+                    <span>Éxito/Verde</span>
+                    <span class="color-label">#36BD36</span>
+                </div>
+                <div class="color-box" style="background-color: var(--color-rojizo);">
+                    <span>Error/Rojo</span>
+                    <span class="color-label">#FF0000</span>
+                </div>
+                <div class="color-box" style="background-color: var(--color-vino);">
+                    <span>Vino (Serio)</span>
+                    <span class="color-label">#AD1010</span>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="color-box" style="background-color: var(--color-lila);">
+                    <span>Lila</span>
+                    <span class="color-label">#7575FC</span>
+                </div>
+                <div class="color-box" style="background-color: var(--color-amarillo); color: #000;">
+                    <span>Amarillo</span>
+                    <span class="color-label">#D2B511</span>
+                </div>
+                <div class="color-box" style="background-color: var(--color-rosa);">
+                    <span>Rosa</span>
+                    <span class="color-label">#EA3FB8</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIPOGRAFÍA -->
+        <div class="section">
+            <h2>Tipografía</h2>
+            <h3>Títulos - Roboto</h3>
+            <div style="font-family: var(--fuente-titulos); margin: 15px 0;">
+                <div style="font-size: var(--tamano-titulo); margin: 10px 0;">Tamaño Título (2rem)</div>
+                <div style="font-size: var(--tamano-grande); margin: 10px 0;">Tamaño Grande (1.5rem)</div>
+                <div style="font-size: var(--tamano-medio-grande); margin: 10px 0;">Tamaño Medio Grande (1.25rem)</div>
+            </div>
+
+            <h3>Contenido - Noto Sans</h3>
+            <div style="font-family: var(--fuente-contenido); margin: 15px 0;">
+                <div style="font-size: var(--tamano-mediano); margin: 10px 0;">Tamaño Mediano (1rem)</div>
+                <div style="font-size: var(--tamano-pequeno); margin: 10px 0;">Tamaño Pequeño (0.7rem)</div>
+            </div>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="section">
+            <h2>Botones</h2>
+
+            <h3>Botón Principal (Primario)</h3>
+            <div class="component-demo">
+                <div class="button-group">
+                    <button class="boton">Botón Base</button>
+                    <button class="boton" style="width: 100%;">Botón Ancho</button>
+                </div>
+                <div class="code-label">class="boton"</div>
+            </div>
+
+            <h3>Variantes de Botón</h3>
+            <div class="component-demo">
+                <div class="button-group">
+                    <button class="boton boton--sinfondo">Sin Fondo</button>
+                    <button class="boton boton--azul">Azul</button>
+                    <button class="boton boton--rojo">Rojo</button>
+                    <button class="boton" disabled>Deshabilitado</button>
+                </div>
+                <span class="code-label">boton--sinfondo</span>
+                <span class="code-label">boton--azul</span>
+                <span class="code-label">boton--rojo</span>
+            </div>
+
+            <h3>Botones Específicos de Modales</h3>
+            <div class="component-demo">
+                <div class="button-group">
+                    <button class="boton botonOK">Aceptar</button>
+                    <button class="boton botonEditar">Editar</button>
+                    <button class="boton botonEliminar">Eliminar</button>
+                    <button class="boton botonCancelar">Cancelar</button>
+                </div>
+                <span class="code-label">botonOK</span>
+                <span class="code-label">botonEditar</span>
+                <span class="code-label">botonEliminar</span>
+                <span class="code-label">botonCancelar</span>
+            </div>
+        </div>
+
+        <!-- FORMULARIOS -->
+        <div class="section">
+            <h2>Formularios e Inputs</h2>
+
+            <h3>Input con Icono</h3>
+            <div class="component-demo">
+                <div class="form__inputBox">
+                    <i class="ri-user-line"></i>
+                    <input type="text" placeholder="Tu nombre">
+                </div>
+                <div class="code-label">form__inputBox</div>
+            </div>
+
+            <h3>Input con Email</h3>
+            <div class="component-demo">
+                <div class="form__inputBox">
+                    <i class="ri-mail-line"></i>
+                    <input type="email" placeholder="tu@email.com">
+                </div>
+            </div>
+
+            <h3>Input con Teléfono</h3>
+            <div class="component-demo">
+                <div class="form__inputBox">
+                    <i class="ri-phone-line"></i>
+                    <input type="tel" placeholder="317 123 4567">
+                </div>
+            </div>
+        </div>
+
+        <!-- TARJETAS -->
+        <div class="section">
+            <h2>Tarjetas (Cards)</h2>
+
+            <h3>Tarjeta Básica</h3>
+            <div class="component-demo">
+                <div class="tarjeta">
+                    <div class="tarjeta__titulo">Título de Tarjeta</div>
+                    <p>Este es contenido de ejemplo dentro de una tarjeta. Puedes usar para mostrar información importante.</p>
+                </div>
+                <div class="code-label">tarjeta</div>
+            </div>
+
+            <h3>Tarjeta con Icono</h3>
+            <div class="component-demo">
+                <div class="tarjeta">
+                    <i class="ri-home-line" style="font-size: 40px; color: var(--color-secundario);"></i>
+                    <div class="tarjeta__titulo">Casa</div>
+                    <p>Información sobre la vivienda del usuario.</p>
+                </div>
+                <div class="code-label">tarjeta tarjeta__titulo</div>
+            </div>
+
+            <h3>Tarjeta Completa (Width 100%)</h3>
+            <div class="component-demo">
+                <div class="tarjeta tarjeta--completa">
+                    <div class="tarjeta__titulo">Tarjeta de Ancho Completo</div>
+                    <p>Esta tarjeta ocupa todo el ancho disponible.</p>
+                </div>
+                <div class="code-label">tarjeta tarjeta--completa</div>
+            </div>
+        </div>
+
+        <!-- MODALES -->
+        <div class="section">
+            <h2>Visualización de Datos (Modal Ver)</h2>
+
+            <h3>Estructura de Modal</h3>
+            <div class="component-demo">
+                <div class="modalVer">
+                    <div class="modalVer__dato">
+                        <i class="ri-user-line modalVer__icono"></i>
+                        <div class="modalVer__titulo">Nombre</div>
+                        <div class="modalVer__texto">Juan Carlos</div>
+                    </div>
+                    <div class="modalVer__dato">
+                        <i class="ri-mail-line modalVer__icono"></i>
+                        <div class="modalVer__titulo">Email</div>
+                        <div class="modalVer__texto">juan@example.com</div>
+                    </div>
+                    <div class="modalVer__dato modalVer__dato--largo">
+                        <i class="ri-home-line modalVer__icono"></i>
+                        <div class="modalVer__titulo">Dirección</div>
+                        <div class="modalVer__texto">Calle Principal 123, Apartamento 4B</div>
+                    </div>
+                </div>
+                <div class="code-label">modalVer</div>
+                <div class="code-label">modalVer__dato</div>
+                <div class="code-label">modalVer__dato--largo</div>
+            </div>
+        </div>
+
+        <!-- ACORDEONES -->
+        <div class="section">
+            <h2>Acordeones</h2>
+
+            <div class="accordion-demo">
+                <div class="acordeon">
+                    <button class="acordeon__nombre" onclick="this.parentElement.querySelector('.acordeon__contenido').classList.toggle('acordeon__contenido--oculto')">
+                        <span>Sección 1 - Haz click aquí</span>
+                        <i class="ri-arrow-down-s-line" style="text-align: right;"></i>
+                    </button>
+                    <div class="acordeon__contenido">
+                        <p>Este es el contenido de la sección 1. Se muestra cuando la sección está expandida.</p>
+                    </div>
+                </div>
+                <div class="code-label">acordeon</div>
+                <div class="code-label">acordeon__nombre</div>
+                <div class="code-label">acordeon__contenido</div>
+            </div>
+        </div>
+
+        <!-- LISTAS DE DATOS -->
+        <div class="section">
+            <h2>Listas de Datos</h2>
+
+            <h3>Lista de Datos - Activos</h3>
+            <div class="component-demo">
+                <div style="width: 100%; max-width: 400px;">
+                    <div class="listaDatos">
+                        <button class="listaDatos__valor" style="cursor: pointer;">
+                            <span class="listaDatos__nombre">
+                                <i class="ri-user-line"></i>
+                                <span>Juan Carlos García</span>
+                            </span>
+                        </button>
+                        <button class="listaDatos__valor" style="cursor: pointer;">
+                            <span class="listaDatos__nombre">
+                                <i class="ri-user-line"></i>
+                                <span>María López Rodríguez</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="code-label">listaDatos</div>
+                <div class="code-label">listaDatos__valor</div>
+                <div class="code-label">listaDatos__nombre</div>
+            </div>
+
+            <h3>Lista de Datos - Inactivos</h3>
+            <div class="component-demo">
+                <div style="width: 100%; max-width: 400px;">
+                    <div class="listaDatos">
+                        <button class="listaDatos__valor listaDatos_Inactivo" style="cursor: pointer;">
+                            <span class="listaDatos__nombre">
+                                <i class="ri-user-line"></i>
+                                <span>Usuario Inactivo</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="code-label">listaDatos_Inactivo</div>
+            </div>
+        </div>
+
+        <!-- PAGINADOR -->
+        <div class="section">
+            <h2>Paginador</h2>
+
+            <h3>Controles de Paginación</h3>
+            <div class="component-demo">
+                <div style="display: flex; gap: 10px; align-items: center; justify-content: center;">
+                    <button class="paginador__numero" style="width: 40px;">
+                        <i class="ri-arrow-left-s-line"></i>
+                    </button>
+                    <button class="paginador__numero" style="width: 40px;">1</button>
+                    <button class="paginador__numero paginador__numero--activo" style="width: 40px;">2</button>
+                    <button class="paginador__numero" style="width: 40px;">3</button>
+                    <button class="paginador__numero" style="width: 40px;">
+                        <i class="ri-arrow-right-s-line"></i>
+                    </button>
+                </div>
+                <div class="code-label">paginador__numero</div>
+                <div class="code-label">paginador__numero--activo</div>
+            </div>
+        </div>
+
+        <!-- SECCIONES -->
+        <div class="section">
+            <h2>Secciones (Mini Tarjetas Coloreadas)</h2>
+
+            <h3>Tarjetas de Sección Diversos Colores</h3>
+            <div class="component-demo">
+                <div class="seccion">
+                    <div class="seccion__tarjeta seccion__tarjeta--azul">
+                        <i class="ri-user-line" style="font-size: 25px;"></i>
+                        <span>Usuarios</span>
+                    </div>
+                    <div class="seccion__tarjeta seccion__tarjeta--verde">
+                        <i class="ri-check-line" style="font-size: 25px;"></i>
+                        <span>Activos</span>
+                    </div>
+                    <div class="seccion__tarjeta seccion__tarjeta--amarillo">
+                        <i class="ri-alert-line" style="font-size: 25px;"></i>
+                        <span>Pendiente</span>
+                    </div>
+                    <div class="seccion__tarjeta seccion__tarjeta--rojo">
+                        <i class="ri-close-line" style="font-size: 25px;"></i>
+                        <span>Inactivo</span>
+                    </div>
+                    <div class="seccion__tarjeta seccion__tarjeta--naranja">
+                        <i class="ri-home-line" style="font-size: 25px;"></i>
+                        <span>Hogar</span>
+                    </div>
+                </div>
+                <div class="code-label">seccion__tarjeta seccion__tarjeta--azul</div>
+                <div class="code-label">seccion__tarjeta--verde</div>
+                <div class="code-label">seccion__tarjeta--amarillo</div>
+                <div class="code-label">seccion__tarjeta--rojo</div>
+                <div class="code-label">seccion__tarjeta--naranja</div>
+            </div>
+        </div>
+
+        <!-- MENSAJES DE ERROR Y EXPLICACIÓN -->
+        <div class="section">
+            <h2>Mensajes y Texto Descriptivo</h2>
+
+            <h3>Mensaje de Error</h3>
+            <div class="component-demo">
+                <span class="error">Este campo es obligatorio *</span>
+                <div style="margin-top: 10px;">
+                    <span class="error">El email no es válido</span>
+                </div>
+                <div class="code-label">error</div>
+            </div>
+
+            <h3>Explicación/Descripción</h3>
+            <div class="component-demo">
+                <div class="explicacion">
+                    <div class="explicacion__titulo">Información Importante</div>
+                    <div class="explicacion__subtitulo">Esta es una sección de instrucciones o información relevante que debe ser visible al usuario</div>
+                </div>
+                <div class="code-label">explicacion</div>
+                <div class="code-label">explicacion__titulo</div>
+                <div class="code-label">explicacion__subtitulo</div>
+            </div>
+        </div>
+
+        <!-- SUBIR IMAGEN -->
+        <div class="section">
+            <h2>Subir Imagen</h2>
+
+            <h3>Componente de Carga de Imagen</h3>
+            <div class="component-demo">
+                <div class="SubirImagen">
+                    <button class="boton">Subir Imagen</button>
+                    <input type="file" accept="image/*" style="display: none;">
+                </div>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--color-grisOscuro);">La imagen se mostrará con clase <code>#preview</code> (300x300px)</p>
+                <div class="code-label">SubirImagen</div>
+            </div>
+        </div>
+
+        <!-- GESTIONAR AFECCIONES / COMPONENTE ESPECÍFICO -->
+        <div class="section">
+            <h2>Gestionar Afecciones (Especializado)</h2>
+
+            <h3>Estructura de Gestión de Elementos</h3>
+            <div class="component-demo">
+                <div class="gestioarAfecciones">
+                    <div class="gestionarAfecciones__header">
+                        <div class="gestionarAfecciones__titulo">
+                            <i class="ri-heart-pulse-line"></i>
+                            <span>Condiciones de Salud</span>
+                        </div>
+                        <button class="boton gestionarAfecciones__boton" style="width: 50px; padding: 5px;">
+                            <i class="ri-add-line"></i>
+                        </button>
+                    </div>
+                    <div class="gestionarAfecciones__lista">
+                        <div class="gestionarAfecciones__afeccion">
+                            <div class="gestionarAfecciones__tipoNombre">Diabetes Tipo 2</div>
+                            <button style="border: none; background: none; cursor: pointer; color: inherit;">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </div>
+                        <div class="gestionarAfecciones__afeccion">
+                            <div class="gestionarAfecciones__tipoNombre">Hipertensión</div>
+                            <button style="border: none; background: none; cursor: pointer; color: inherit;">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-label">gestioarAfecciones</div>
+                <div class="code-label">gestionarAfecciones__afeccion</div>
+            </div>
+        </div>
+
+        <!-- HISTORIAL -->
+        <div class="section">
+            <h2>Ventana de Historial</h2>
+
+            <h3>Vista de Historial</h3>
+            <div class="component-demo">
+                <div class="ventanaHistorial" style="border: 1px solid var(--color-grisSombra);">
+                    <div class="ventanaHistorial__titulo">Historial de Cambios</div>
+                    <div class="ventanaHistorial__contenido">
+                        <div><strong>02/03/2026</strong> - Usuario creó plan de acción</div>
+                        <div><strong>01/03/2026</strong> - Se actualizó información familiar</div>
+                        <div><strong>28/02/2026</strong> - Nuevo integrante agregado</div>
+                        <div><strong>25/02/2026</strong> - Se modificó riesgo</div>
+                    </div>
+                </div>
+                <div class="code-label">ventanaHistorial</div>
+                <div class="code-label">ventanaHistorial__contenido</div>
+            </div>
+        </div>
+
+        <!-- FORMULARIOS AVANZADO -->
+        <div class="section">
+            <h2>Formularios Avanzados</h2>
+
+            <h3>Estructura Base de Formulario</h3>
+            <div class="component-demo">
+                <div class="form">
+                    <h2 class="form__titulo">Crear Nuevo Registro</h2>
+                    <p class="form__texto">Complete el formulario debajo</p>
+                    
+                    <div class="form__inputBox">
+                        <i class="ri-user-line"></i>
+                        <input type="text" placeholder="Nombres">
+                    </div>
+                    
+                    <div class="form__inputBox">
+                        <i class="ri-mail-line"></i>
+                        <input type="email" placeholder="Correo electrónico">
+                    </div>
+
+                    <button class="boton boton--azul">Enviar</button>
+                    <button class="form__link">¿Necesitas ayuda?</button>
+                </div>
+                <div class="code-label">form</div>
+                <div class="code-label">form__titulo</div>
+                <div class="code-label">form__texto</div>
+                <div class="code-label">form__link</div>
+            </div>
+
+            <h3>Secciones Geo y Autorización</h3>
+            <div class="component-demo">
+                <div class="form__geo">
+                    <span>Selecciona ubicación</span>
+                    <button class="form__botonGeo">📍 Geo</button>
+                </div>
+                <div style="margin-top: 15px;">
+                    <div class="form_autorizacion">
+                        <input type="checkbox" id="auth">
+                        <label for="auth">Doy consentimiento para el uso de datos personales</label>
+                    </div>
+                </div>
+                <div class="code-label">form__geo</div>
+                <div class="code-label">form__botonGeo</div>
+                <div class="code-label">form_autorizacion</div>
+            </div>
+        </div>
+
+        <!-- CÓMO APROVECHAR FLEX Y GRID -->
+        <div class="section">
+            <h2>Cómo Aprovechar Flex y Grid en tus Views</h2>
+            <p style="margin-bottom: 20px; color: var(--color-grisOscuro);">El proyecto ya tiene patrones de flex/grid que puedes reutilizar. Aquí te muestro cómo aprovecharlos:</p>
+
+            <h3>Patrón 1: Layout Flex Vertical (Columnas) - Como .form</h3>
+            <div class="component-demo">
+                <pre style="background: var(--color-oscuro); color: var(--color-palido); padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.85rem;"><code>&lt;div style="display: flex; flex-direction: column; gap: 15px; align-items: center;"&gt;
+  &lt;h2&gt;Título&lt;/h2&gt;
+  &lt;input type="text" placeholder="Campo 1"&gt;
+  &lt;input type="text" placeholder="Campo 2"&gt;
+  &lt;button class="boton"&gt;Enviar&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--color-grisOscuro);">✅ <strong>Dónde usas esto:</strong> Formularios, secciones de contenido vertical, formularios de login</p>
+            </div>
+
+            <h3>Patrón 2: Layout Flex Horizontal (Filas) - Como .tarjeta--fila</h3>
+            <div class="component-demo">
+                <pre style="background: var(--color-oscuro); color: var(--color-palido); padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.85rem;"><code>&lt;div style="display: flex; align-items: center; gap: 10px;"&gt;
+  &lt;img src="foto.jpg" style="width:50px; border-radius: 50%;"&gt;
+  &lt;div&gt;
+    &lt;h3&gt;Nombre Usuario&lt;/h3&gt;
+    &lt;p&gt;Información&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button style="margin-left: auto;"&gt;Acción&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--color-grisOscuro);">✅ <strong>Dónde usas esto:</strong> Listas de usuarios, items de historial, filas de datos</p>
+            </div>
+
+            <h3>Patrón 3: Layout Flex Centrado - Como .flex--center (implícito)</h3>
+            <div class="component-demo">
+                <pre style="background: var(--color-oscuro); color: var(--color-palido); padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.85rem;"><code>&lt;div style="display: flex; justify-content: center; align-items: center; height: 200px;"&gt;
+  &lt;div style="text-align: center;"&gt;
+    &lt;i class="ri-check-line" style="font-size: 40px; color: var(--color-verdoso);"&gt;&lt;/i&gt;
+    &lt;h2&gt;¡Proceso Completado!&lt;/h2&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--color-grisOscuro);">✅ <strong>Dónde usas esto:</strong> Mensajes de éxito, pantallas vacías, contenido centrado</p>
+            </div>
+
+            <h3>Patrón 4: Layout Flex Space-Between - Como .gestionarAfecciones__header</h3>
+            <div class="component-demo">
+                <pre style="background: var(--color-oscuro); color: var(--color-palido); padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.85rem;"><code>&lt;div style="display: flex; justify-content: space-between; align-items: center; width: 100%;"&gt;
+  &lt;h3&gt;Título Sección&lt;/h3&gt;
+  &lt;button class="boton" style="width: auto;"&gt;&lt;i class="ri-add-line"&gt;&lt;/i&gt;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--color-grisOscuro);">✅ <strong>Dónde usas esto:</strong> Headers de secciones, encabezados con botones, navegación</p>
+            </div>
+
+            <h3>Patrón 5: Layout Grid 2 Columnas - Como tarjeta-introduccion</h3>
+            <div class="component-demo">
+                <pre style="background: var(--color-oscuro); color: var(--color-palido); padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.85rem;"><code>&lt;div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: center;"&gt;
+  &lt;input type="text" placeholder="Nombre"&gt;
+  &lt;input type="text" placeholder="Apellido"&gt;
+  &lt;input type="email" placeholder="Email"&gt;
+  &lt;input type="tel" placeholder="Teléfono"&gt;
+&lt;/div&gt;</code></pre>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--color-grisOscuro);">✅ <strong>Dónde usas esto:</strong> Formularios con múltiples campos, grillas de datos, layouts responsivos</p>
+            </div>
+
+            <h3>Patrón 6: Layout Flex Wrap - Para Listas Flexibles</h3>
+            <div class="component-demo">
+                <pre style="background: var(--color-oscuro); color: var(--color-palido); padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.85rem;"><code>&lt;div style="display: flex; flex-wrap: wrap; gap: 10px;"&gt;
+  &lt;span class="seccion__tarjeta seccion__tarjeta--azul"&gt;
+    &lt;i class="ri-user-line"&gt;&lt;/i&gt;
+    &lt;span&gt;Usuario&lt;/span&gt;
+  &lt;/span&gt;
+  &lt;span class="seccion__tarjeta seccion__tarjeta--verde"&gt;
+    &lt;i class="ri-check-line"&gt;&lt;/i&gt;
+    &lt;span&gt;Activo&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--color-grisOscuro);">✅ <strong>Dónde usas esto:</strong> Tags/etiquetas, badges, secciones que se adapten</p>
+            </div>
+
+            <h3>Patrón 7: Flex con Grow para Espacios Dinámicos</h3>
+            <div class="component-demo">
+                <pre style="background: var(--color-oscuro); color: var(--color-palido); padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.85rem;"><code>&lt;div style="display: flex; gap: 10px; align-items: center;"&gt;
+  &lt;span&gt;Nombre:&lt;/span&gt;
+  &lt;input style="flex-grow: 1;"&gt;  &lt;!-- Ocupa todo el espacio --&gt;
+  &lt;button class="boton" style="width: auto;"&gt;Guardar&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--color-grisOscuro);">✅ <strong>Dónde usas esto:</strong> Campos con botones, inputs que ocupan espacio disponible</p>
+            </div>
+
+            <h3>Patrón 8: Grid Auto-Responsive - Como dashboard</h3>
+            <div class="component-demo">
+                <pre style="background: var(--color-oscuro); color: var(--color-palido); padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.85rem;"><code>&lt;div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;"&gt;
+  &lt;div class="tarjeta"&gt;Card 1&lt;/div&gt;
+  &lt;div class="tarjeta"&gt;Card 2&lt;/div&gt;
+  &lt;div class="tarjeta"&gt;Card 3&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--color-grisOscuro);">✅ <strong>Dónde usas esto:</strong> Dashboards, galerías, layouts que se adaptan automáticamente</p>
+            </div>
+
+            <h3>💡 Resumen Rápido de Propiedades que Necesitas</h3>
+            <table class="table-clases">
+                <thead>
+                    <tr>
+                        <th>Propiedad</th>
+                        <th>Propósito</th>
+                        <th>Valores Comunes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="class-name">display: flex</span></td>
+                        <td>Activa flexbox</td>
+                        <td>flex | grid | block</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">flex-direction</span></td>
+                        <td>Dirección de items</td>
+                        <td>row | column</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">justify-content</span></td>
+                        <td>Alineación horizontal</td>
+                        <td>center | space-between | flex-start | flex-end</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">align-items</span></td>
+                        <td>Alineación vertical</td>
+                        <td>center | flex-start | flex-end | stretch</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">gap</span></td>
+                        <td>Espacio entre items</td>
+                        <td>5px | 10px | 15px | 20px</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">flex-grow</span></td>
+                        <td>Crece si hay espacio</td>
+                        <td>0 | 1</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">flex-wrap</span></td>
+                        <td>Items pasan a siguiente línea</td>
+                        <td>wrap | nowrap</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">grid-template-columns</span></td>
+                        <td>Define columnas del grid</td>
+                        <td>1fr 1fr | repeat(auto-fit, minmax(250px, 1fr))</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>📚 Referencia Completa de Clases</h3>
+            <p>Esta tabla recoge cada clase CSS usada en el proyecto junto con su propósito (extraída de los archivos en <code>src/styles/components</code>).</p>
+            <table class="table-clases">
+                <thead>
+                    <tr>
+                        <th>Clase</th>
+                        <th>Descripción</th>
+                        <th>Archivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>boton</code></td><td>Estilo base para botones</td><td>boton.css</td></tr>
+                    <tr><td><code>boton--azul</code></td><td>Variante azul de botón</td><td>boton.css</td></tr>
+                    <tr><td><code>boton--rojo</code></td><td>Variante roja</td><td>boton.css</td></tr>
+                    <tr><td><code>boton--sinfondo</code></td><td>Botón transparente con borde</td><td>boton.css</td></tr>
+                    <tr><td><code>form</code></td><td>Contenedor flex column centrado para formularios</td><td>form.css</td></tr>
+                    <tr><td><code>form__inputBox</code></td><td>Input con icono y borde</td><td>inputs.css</td></tr>
+                    <tr><td><code>form__titulo</code></td><td>Título centrado de formulario</td><td>form.css</td></tr>
+                    <tr><td><code>form__texto</code></td><td>Texto descriptivo dentro de form</td><td>form.css</td></tr>
+                    <tr><td><code>form__link</code></td><td>Link estilizado en form</td><td>form.css</td></tr>
+                    <tr><td><code>form__geo</code></td><td>Contenedor para botones geo/ubicación</td><td>form.css</td></tr>
+                    <tr><td><code>form__botonGeo</code></td><td>Botón de geolocalización</td><td>form.css</td></tr>
+                    <tr><td><code>form_autorizacion</code></td><td>Checkbox de autorización</td><td>form.css</td></tr>
+                    <tr><td><code>tarjeta</code></td><td>Card con sombra y padding</td><td>tarjeta.css</td></tr>
+                    <tr><td><code>tarjeta--completa</code></td><td>Card ancho completo</td><td>tarjeta.css</td></tr>
+                    <tr><td><code>tarjeta--fila</code></td><td>Card en fila horizontal</td><td>tarjeta.css</td></tr>
+                    <tr><td><code>tarjeta__titulo</code></td><td>Título dentro de tarjeta</td><td>tarjeta.css</td></tr>
+                    <tr><td><code>seccion__tarjeta</code></td><td>Mini tarjeta para indicadores</td><td>seccion.css</td></tr>
+                    <tr><td><code>seccion__tarjeta--azul</code></td><td>Indicador azul</td><td>seccion.css</td></tr>
+                    <tr><td><code>seccion__tarjeta--verde</code></td><td>Indicador verde</td><td>seccion.css</td></tr>
+                    <tr><td><code>seccion__tarjeta--amarillo</code></td><td>Indicador amarillo</td><td>seccion.css</td></tr>
+                    <tr><td><code>seccion__tarjeta--rojo</code></td><td>Indicador rojo</td><td>seccion.css</td></tr>
+                    <tr><td><code>seccion__tarjeta--naranja</code></td><td>Indicador naranja</td><td>seccion.css</td></tr>
+                    <tr><td><code>acordeon</code></td><td>Contenedor de acordeón</td><td>acordeon.css</td></tr>
+                    <tr><td><code>acordeon__nombre</code></td><td>Botón título del acordeón</td><td>acordeon.css</td></tr>
+                    <tr><td><code>acordeon__contenido</code></td><td>Sección expandible</td><td>acordeon.css</td></tr>
+                    <tr><td><code>modalVer</code></td><td>Estilos para modal ver datos</td><td>modal.css</td></tr>
+                    <tr><td><code>modalVer__dato</code></td><td>Elemento dentro de modal ver</td><td>modal.css</td></tr>
+                    <tr><td><code>modalVer__dato--largo</code></td><td>Dato ancho completo en modal</td><td>modal.css</td></tr>
+                    <tr><td><code>botonOK</code></td><td>Botón verde para confirmar</td><td>modal.css</td></tr>
+                    <tr><td><code>botonCancelar</code></td><td>Botón rojo cancelar</td><td>modal.css</td></tr>
+                    <tr><td><code>botonEditar</code></td><td>Botón azul editar</td><td>modal.css</td></tr>
+                    <tr><td><code>botonEliminar</code></td><td>Botón rojo eliminar</td><td>modal.css</td></tr>
+                    <tr><td><code>listaDatos</code></td><td>Contenedor para listas con datos</td><td>listaDatos.css</td></tr>
+                    <tr><td><code>listaDatos__valor</code></td><td>Elemento clickable de lista</td><td>listaDatos.css</td></tr>
+                    <tr><td><code>listaDatos_Inactivo</code></td><td>Estado inactivo de valor</td><td>listaDatos.css</td></tr>
+                    <tr><td><code>paginador__numero</code></td><td>Botón de paginación</td><td>paginador.css</td></tr>
+                    <tr><td><code>paginador__numero--activo</code></td><td>Botón de página activa</td><td>paginador.css</td></tr>
+                    <tr><td><code>explicacion</code></td><td>Caja para explicaciones</td><td>explicacion.css</td></tr>
+                    <tr><td><code>error</code></td><td>Texto de error rojo</td><td>error.css</td></tr>
+                    <tr><td><code>SubirImagen</code></td><td>Componente carga de imagen</td><td>subirImagen.css</td></tr>
+                    <tr><td><code>ventanaHistorial</code></td><td>Contenedor histórico scroll</td><td>ventanaHistorial.css</td></tr>
+                    <tr><td><code>gestioarAfecciones</code></td><td>Contenedor para gestionar afecciones</td><td>gestionar.css</td></tr>
+                    <tr><td><code>perfil</code></td><td>Bloque de perfil de usuario</td><td>perfil.css</td></tr>
+                    <tr><td><code>perfil__avatar</code></td><td>Avatar circular del perfil</td><td>perfil.css</td></tr>
+                    <tr><td><code>perfil__nombre</code></td><td>Nombre dentro del perfil</td><td>perfil.css</td></tr>
+                    <tr><td><code>perfil__rol</code></td><td>Etiqueta rol/subtítulo</td><td>perfil.css</td></tr>
+                    <!-- clases adicionales añadidas -->
+                    <tr><td><code>section</code></td><td>Contenedor genérico de sección</td><td>section.css</td></tr>
+                    <tr><td><code>section--azul</code></td><td>Sección con fondo azul</td><td>section.css</td></tr>
+                    <tr><td><code>section__titulo</code></td><td>Título interno de sección</td><td>section.css</td></tr>
+                    <tr><td><code>section__span</code></td><td>Texto dentro de sección</td><td>section.css</td></tr>
+                    <tr><td><code>container</code></td><td>Contenedor flex principal</td><td>container.css</td></tr>
+                    <tr><td><code>container__imagen</code></td><td>Imagen dentro de contenedor</td><td>container.css</td></tr>
+                    <tr><td><code>container__gap</code></td><td>Contenedor con gap vertical</td><td>container.css</td></tr>
+                    <tr><td><code>container__paginas</code></td><td>Contenedor para páginas</td><td>container.css</td></tr>
+                    <tr><td><code>container__paginador</code></td><td>Contenedor para paginador</td><td>container.css</td></tr>
+                    <tr><td><code>input</code></td><td>Selector general de inputs</td><td>inputs.css</td></tr>
+                    <tr><td><code>form__input--naranja</code></td><td>Input con borde naranja</td><td>inputs.css</td></tr>
+                    <tr><td><code>header</code></td><td>Barra superior/header</td><td>header.css</td></tr>
+                    <tr><td><code>header__contenedor</code></td><td>Grupo de elementos en header</td><td>header.css</td></tr>
+                    <tr><td><code>header__boton</code></td><td>Botón del header</td><td>header.css</td></tr>
+                    <tr><td><code>header__boton--padding</code></td><td>Botón header con padding extra</td><td>header.css</td></tr>
+                    <tr><td><code>header__boton--oscuro</code></td><td>Botón header grisáceo</td><td>header.css</td></tr>
+                    <tr><td><code>header__boton--logo</code></td><td>Botón para logo en header</td><td>header.css</td></tr>
+                    <tr><td><code>header__icono</code></td><td>Icono dentro del header</td><td>header.css</td></tr>
+                    <tr><td><code>header__imagen-logo</code></td><td>Contenedor de imagen logo</td><td>header.css</td></tr>
+                    <tr><td><code>header__texto</code></td><td>Texto del header</td><td>header.css</td></tr>
+                    <tr><td><code>header__subtitulo</code></td><td>Subtítulo en header</td><td>header.css</td></tr>
+                    <tr><td><code>header__titulo</code></td><td>Título principal en header</td><td>header.css</td></tr>
+                    <tr><td><code>header__boton--notificacion</code></td><td>Botón de notificaciones</td><td>header.css</td></tr>
+                    <tr><td><code>header__indicador</code></td><td>Indicador numérico en header</td><td>header.css</td></tr>
+                    <tr><td><code>boton--menu</code></td><td>Botón estilo menú</td><td>buttons.css</td></tr>
+                    <tr><td><code>boton--grande</code></td><td>Botón ancho completo</td><td>buttons.css</td></tr>
+                    <tr><td><code>input::placeholder</code></td><td>Placeholder de input (global)</td><td>inputs.css</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TABLA DE CLASES -->
+        <div class="section">
+            <h2>Referencia Rápida - Clases Principales</h2>
+
+            <h3>Componentes Base</h3>
+            <table class="table-clases">
+                <thead>
+                    <tr>
+                        <th>Clase</th>
+                        <th>Uso</th>
+                        <th>Modificadores</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="class-name">boton</span></td>
+                        <td>Botón principal</td>
+                        <td>
+                            <span class="modifier">--azul</span>
+                            <span class="modifier">--rojo</span>
+                            <span class="modifier">--sinfondo</span>
+                            <span class="modifier">--menu</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">form__inputBox</span></td>
+                        <td>Input con icono</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">tarjeta</span></td>
+                        <td>Card/Contenedor</td>
+                        <td>
+                            <span class="modifier">--completa</span>
+                            <span class="modifier">--fila</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">acordeon</span></td>
+                        <td>Sección expandible</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">modalVer</span></td>
+                        <td>Visor de datos</td>
+                        <td>
+                            <span class="modifier">__dato--largo</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">container</span></td>
+                        <td>Contenedor principal</td>
+                        <td>
+                            <span class="modifier">__gap</span>
+                            <span class="modifier">__imagen</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">listaDatos</span></td>
+                        <td>Lista de elementos con estados</td>
+                        <td>
+                            <span class="modifier">__valor</span>
+                            <span class="modifier">_Inactivo</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">paginador__numero</span></td>
+                        <td>Botones de paginación</td>
+                        <td>
+                            <span class="modifier">--activo</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">seccion__tarjeta</span></td>
+                        <td>Mini tarjeta coloreada</td>
+                        <td>
+                            <span class="modifier">--azul</span>
+                            <span class="modifier">--verde</span>
+                            <span class="modifier">--amarillo</span>
+                            <span class="modifier">--rojo</span>
+                            <span class="modifier">--naranja</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Clases de Botones Específicos</h3>
+            <table class="table-clases">
+                <thead>
+                    <tr>
+                        <th>Clase</th>
+                        <th>Color</th>
+                        <th>Uso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="class-name">botonOK</span></td>
+                        <td><span style="color: var(--color-verdoso);">Verde</span></td>
+                        <td>Confirmar/Aceptar</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">botonEditar</span></td>
+                        <td><span style="color: var(--color-secundario);">Azul</span></td>
+                        <td>Editar/Modificar</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">botonEliminar</span></td>
+                        <td><span style="color: var(--color-rojizo);">Rojo</span></td>
+                        <td>Eliminar/Cancelar</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">botonCancelar</span></td>
+                        <td><span style="color: var(--color-rojizo);">Rojo</span></td>
+                        <td>Cancelar operación</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">botonHistorial</span></td>
+                        <td><span style="color: #6c757d;">Gris</span></td>
+                        <td>Botón neutro/Historicoal</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Clases de Formularios</h3>
+            <table class="table-clases">
+                <thead>
+                    <tr>
+                        <th>Clase</th>
+                        <th>Propósito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="class-name">form</span></td>
+                        <td>Contenedor de formulario</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">form__titulo</span></td>
+                        <td>Título del formulario (centrado)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">form__texto</span></td>
+                        <td>Texto descriptivo</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">form__link</span></td>
+                        <td>Link interior con estilo (sin fondo)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">form__geo</span></td>
+                        <td>Contenedor para geolocalización</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">form__botonGeo</span></td>
+                        <td>Botón de geolocalización</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">form_autorizacion</span></td>
+                        <td>Checkbox de consentimiento</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Clases Especializado</h3>
+            <table class="table-clases">
+                <thead>
+                    <tr>
+                        <th>Clase</th>
+                        <th>Propósito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="class-name">explicacion</span></td>
+                        <td>Sección informativa con borde inferior</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">error</span></td>
+                        <td>Texto de error (rojo, alineado a la derecha)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">SubirImagen</span></td>
+                        <td>Contenedor para carga de imágenes</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">ventanaHistorial</span></td>
+                        <td>Visor de historial con scroll</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">gestioarAfecciones</span></td>
+                        <td>Gestor de elementos con agregar/eliminar</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">invisible</span></td>
+                        <td>Oculta elemento (display:none)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="class-name">modal</span></td>
+                        <td>Contenedor de modal</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TIPS -->
+        <div class="section">
+            <h2>💡 Tips para Usar Correctamente</h2>
+            <div class="accordion-demo">
+                <div class="acordeon">
+                    <button class="acordeon__nombre" onclick="this.parentElement.querySelector('.acordeon__contenido').classList.toggle('acordeon__contenido--oculto')">
+                        <span>✅ Qué SÍ hacer</span>
+                        <i class="ri-arrow-down-s-line"></i>
+                    </button>
+                    <div class="acordeon__contenido">
+                        <ul style="margin-left: 20px;">
+                            <li>Reutiliza <span class="class-name">boton</span> + modificador en lugar de crear clases nuevas</li>
+                            <li>Usa <span class="class-name">tarjeta</span> para todos los contenedores con sombra</li>
+                            <li>Combina clases: <span class="class-name">boton boton--azul</span></li>
+                            <li>Usa variables CSS para colores: <code>var(--color-primario)</code></li>
+                            <li>Mantén los nombres cortos pero descriptivos (BEM)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="acordeon" style="margin-top: 15px;">
+                    <button class="acordeon__nombre" onclick="this.parentElement.querySelector('.acordeon__contenido').classList.toggle('acordeon__contenido--oculto')">
+                        <span>❌ Qué NO hacer</span>
+                        <i class="ri-arrow-down-s-line"></i>
+                    </button>
+                    <div class="acordeon__contenido">
+                        <ul style="margin-left: 20px;">
+                            <li>No crees clases como <span class="class-name">boton-verde</span>, usa <span class="class-name">boton boton--azul</span></li>
+                            <li>Evita estilos inline</li>
+                            <li>No duplicates CSS, reutiliza componentes</li>
+                            <li>No uses nombres en otros idiomas mixtos</li>
+                            <li>No hagas clases muy específicas (ej: <span class="class-name">boton-usuario-home-crear</span>)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EJEMPLOS -->
+        <div class="section">
+            <h2>Ejemplo de Uso en HTML</h2>
+            <div style="background: var(--color-oscuro); color: var(--color-palido); padding: 15px; border-radius: var(--border-radius-botones); overflow-x: auto;">
+                <pre style="margin: 0; font-family: monospace; font-size: 0.9rem;"><code>&lt;!-- Formulario con input --&gt;
+&lt;div class="form"&gt;
+  &lt;h2 class="form__titulo"&gt;Mi Formulario&lt;/h2&gt;
+  &lt;div class="form__inputBox"&gt;
+    &lt;i class="ri-user-line"&gt;&lt;/i&gt;
+    &lt;input type="text" placeholder="Nombre completo"&gt;
+  &lt;/div&gt;
+  &lt;button class="boton boton--azul"&gt;Enviar&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Tarjeta con contenido --&gt;
+&lt;div class="tarjeta tarjeta--completa"&gt;
+  &lt;div class="tarjeta__titulo"&gt;Información&lt;/div&gt;
+  &lt;p&gt;Contenido de la tarjeta...&lt;/p&gt;
+  &lt;button class="boton botonEditar"&gt;Editar&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Modal de visualización --&gt;
+&lt;div class="modalVer"&gt;
+  &lt;div class="modalVer__dato"&gt;
+    &lt;i class="ri-user-line modalVer__icono"&gt;&lt;/i&gt;
+    &lt;div class="modalVer__titulo"&gt;Usuario&lt;/div&gt;
+    &lt;div class="modalVer__texto"&gt;Juan Carlos&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+        </div>
+
+        <footer>
+            <p>📚 Guía de Estilos - UIDefensaCivil | Metodología BEM | Última actualización: Marzo 2026</p>
+            <p>Esta guía debe estar siempre actualizada cuando se agreguen nuevos componentes</p>
+        </footer>
+    </div>
+</body>
+</html>
