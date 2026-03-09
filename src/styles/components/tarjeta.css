@@ -28,7 +28,7 @@
 
 .tarjeta__header {
     color: var(--color-secundario);
-
+    font-size: var(--tamano-pequeno);
 }
 
 .tarjeta__titulo {
