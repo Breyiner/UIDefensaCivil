@@ -2,7 +2,7 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
+  const botonBack = document.getElementById("botonBack");
   const id = location.hash.split("=")[1];
   const form = document.querySelector(".form");
   const boton = document.querySelector(".form__boton");

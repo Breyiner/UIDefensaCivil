@@ -65,7 +65,7 @@ export const routes = {
     },
     testVunerabilidad: {
       path: `voluntario/planFamiliar/testVulnerabilidad/index.html`,
-      controlador: planFamiliar.TestVulController,
+      controlador: planFamiliar.TestController,
       private: true,
       can: "family-plans.destroy",
     },

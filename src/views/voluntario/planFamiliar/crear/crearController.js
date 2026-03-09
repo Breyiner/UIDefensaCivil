@@ -3,15 +3,14 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import * as validacion from "../../../../helpers/validacionInputs";
 export default async () => {
-  
-  const botonBack = document.getElementById("boton-back");
+  const botonBack = document.getElementById("botonBack");
   const form = document.querySelector(".form");
 
   const apellidos = document.getElementById("apellidos");
-  const zona = document.querySelector(".selector--zona");
-  const apartamento = document.querySelector(".selector--apartamento");
-  const ciudad = document.querySelector(".selector--ciudad");
-  const boton = document.querySelector(".form__boton");
+  const zona = document.getElementById("zonas");
+  const apartamento = document.getElementById("departamentos");
+  const ciudad = document.getElementById("ciudades");
+  const botonSiguiente = document.getElementById("boton_siguiente");
 
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
@@ -20,16 +19,14 @@ export default async () => {
 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    const confirmacion = await alerta.alertaQuest(
-      "¿Seguro que quieres volver? perderás tu progreso",
-    );
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso",);
     if (confirmacion.isConfirmed) location.href = "#/voluntario-home";
   };
 
   await adjuntarOpc.adjuntarNoValida(zona, "zones");
   await adjuntarOpc.adjuntarNoValida(apartamento, "departments");
   window.procesoPeticion = false;
-  boton.disabled = false;
+  botonSiguiente.disabled = false;
   
   apellidos.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 75);
@@ -51,7 +48,7 @@ export default async () => {
   form.addEventListener("submit", async (e) => {
     window.procesoPeticion = true;
     e.preventDefault();
-    boton.disabled = true;
+    botonSiguiente.disabled = true;
 
     let validarApellidos = validacion.validarMinimo(apellidos, 3);
     let validarZona = validacion.validarSelect(zona);
@@ -85,14 +82,11 @@ export default async () => {
         }
       }
     }
-    boton.disabled = false;
+    botonSiguiente.disabled = false;
     window.procesoPeticion = false;
   });
 
   apartamento.addEventListener("change", async () => {
-    await adjuntarOpc.adjuntarReseteoNoValida(
-      ciudad,
-      `cities/department/${apartamento.value}`,
-    );
+    await adjuntarOpc.adjuntarReseteoNoValida(ciudad,`cities/department/${apartamento.value}`,);
   });
 };

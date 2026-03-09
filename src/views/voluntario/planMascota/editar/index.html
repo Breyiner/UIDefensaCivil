@@ -3,6 +3,7 @@
         <p class="explicacion__titulo">Mascotas o Animales</p>
         <p class="explicacion__subtitulo">Editar informacion y añadir vacunas</p>
     </div>
+
     <div class="acordeon">
         <button class="acordeon__nombre">
             <div class="acordeon__iconoTitulo">
@@ -13,39 +14,63 @@
                 <i class="ri-arrow-down-s-line"></i>
             </div>
         </button>
+
         <div class="acordeon__contenido--oculto" id="acordeon__container">
+
             <form method="POST" class="form">
-                <div class="form__inputBox form__inputBox--selector">
-                    <i class="ri-bell-fill" id="selector__icono"></i>
-                    <select class="form__input input__especie" id="selector">
-                        <option value="" hidden>Seleccione un tipo de especie...</option>
-                    </select>
+
+                <div class="input">
+                    <div class="form__inputBox form__inputBox--selector">
+                        <i class="ri-bell-line" id="selector__icono"></i>
+                        <select class="selector" id="especies">
+                            <option value="" hidden>Seleccione un tipo de especie...</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form__inputBox">
-                    <i class="ri-coupon-fill"></i>
-                    <input type="text" class="form__input input__nombre" placeholder="nombre" autocomplete="off">
+
+                <div class="input">
+                    <div class="form__inputBox">
+                        <i class="ri-coupon-line"></i>
+                        <input type="text" id="nombre" placeholder="nombre" autocomplete="off">
+                    </div>
                 </div>
+
                 <div class="form__inputBox--double">
-                    <div class="form__inputBox">
-                        <i class="ri-dna-fill"></i>
-                        <input type="text" class="form__input input__raza" placeholder="raza" autocomplete="off">
+
+                    <div class="input">
+                        <div class="form__inputBox">
+                            <i class="ri-dna-line"></i>
+                            <input type="text" id="raza" placeholder="raza" autocomplete="off">
+                        </div>
                     </div>
-                    <div class="form__inputBox">
-                        <i class="ri-cake-2-fill"></i>
-                        <input type="text" class="form__input input__edad" placeholder="edad" autocomplete="off">
+
+                    <div class="input">
+                        <div class="form__inputBox">
+                            <i class="ri-cake-2-line"></i>
+                            <input type="text" id="edad" placeholder="edad" autocomplete="off">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="input">
+                    <div class="form__inputBox form__inputBox--selector">
+                        <i class="ri-user-line" id="selector__icono"></i>
+                        <select class="selector" id="generos">
+                            <option value="" hidden>Seleccione Macho/Hembra...</option>
+                        </select>
                     </div>
                 </div>
-                <div class="form__inputBox form__inputBox--selector">
-                    <i class="ri-bell-fill" id="selector__icono"></i>
-                    <select class="form__input input__genero" id="selector">
-                        <option value="" hidden>Seleccione Macho/Hembra...</option>
-                    </select>
-                </div>
-                <button class="form__boton boton" disabled>Guardar</button>
+
+                <button class="boton" id="botonGuardar" disabled>Guardar</button>
+
             </form>
+
         </div>
     </div>
+
     <div class="acordeon">
+
         <button class="acordeon__nombre">
             <div class="acordeon__iconoTitulo">
                 <i class="ri-medicine-bottle-line acordeon__icono"></i>
@@ -55,18 +80,25 @@
                 <i class="ri-arrow-down-s-line"></i>
             </div>
         </button>
+
         <div class="acordeon__contenido--oculto" id="acordeon__container">
+
             <div class="gestioarAfecciones">
+
                 <div class="gestionarAfecciones__header">
                     <div class="gestionarAfecciones__titulo">
-                        <i class="ri-capsule-fill"></i>
+                        <i class="ri-capsule-line"></i>
                         <p>Lista de Vacunas</p>
                     </div>
+
                     <button class="gestionarAfecciones__boton boton">Agregar nueva</button>
                 </div>
-                <div class="gestionarAfecciones__lista">
-                </div>
+
+                <div class="gestionarAfecciones__lista"></div>
+
             </div>
+
         </div>
     </div>
+
 </div>

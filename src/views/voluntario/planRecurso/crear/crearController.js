@@ -4,8 +4,8 @@ import * as validacion from "../../../../helpers/validacionInputs";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
-  const boton = document.querySelector(".form__boton");
+  const botonBack = document.getElementById("botonBack");
+  const botonCrear = document.getElementById("botonCrear");
   const form = document.querySelector(".form");
   const id = location.hash.split("=")[1];
 
@@ -28,7 +28,7 @@ export default async () => {
   const descripcion = document.getElementById("descripcion");
   const distancia = document.getElementById("distancia");
   const ubicacion = document.getElementById("ubicacion");
-  const recurso = document.querySelector(".selector--recursos");
+  const recurso = document.getElementById("recursos");
   const servicio = document.getElementById("servicio");
   await adjuntarOpc.adjuntarDouble(recurso, "resources",servicio,'service');
 
@@ -66,12 +66,12 @@ export default async () => {
   });
 
   window.procesoPeticion = false;
-  boton.disabled = false;
+  botonCrear.disabled = false;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     window.procesoPeticion = true;
-    boton.disabled = true;
+    botonCrear.disabled = true;
 
     let validarDescripcion = validacion.validarMinimo(descripcion, 15);
     let validarUbicacion = validacion.validarMinimo(ubicacion, 5);
@@ -99,13 +99,13 @@ export default async () => {
         const data = await api.post(`availableResources`, datosRegistro);
         if (data.success) {
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario-planRecursos/ver/id=${id}`;
+          window.location.href = `#/voluntario-planRecurso/ver/id=${id}`;
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors);
       }
     }
-    boton.disabled = false;
+    botonCrear.disabled = false;
     window.procesoPeticion = false;
   });
 };

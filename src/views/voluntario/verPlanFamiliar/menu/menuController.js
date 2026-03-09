@@ -3,7 +3,7 @@ import * as alerta from "../../../../helpers/alertas";
 import AccesoPlan from "../../../../helpers/accesoPlan";
 
 export default async () => {
-  const botonBack = document.getElementById("boton-back");
+  const botonBack = document.getElementById("botonBack");
   const nombreFamilia = document.querySelector(".informacion__nombreFamiliar");
   const datosPrincipales = document.getElementById("datosPrincipales");
   const integrante = document.getElementById("integrantes");

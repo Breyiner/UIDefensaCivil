@@ -3,8 +3,8 @@ import * as alerta from "../../../../helpers/alertas";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
-    const botonBack = document.getElementById("boton-back");
-    const boton = document.querySelector('.form__boton');
+    const botonBack = document.getElementById("botonBack");
+    const botonGuardar = document.getElementById('botonGuardar');
     const form = document.querySelector('.form');
     const id = location.hash.split("=")[1];
 
@@ -16,20 +16,18 @@ export default async () => {
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
     if (confirmacion.isConfirmed) location.href = `#/voluntario-planIntegrante/ver/id=${id}`;};
     
-    // Inputs de texto
-    const nombres = document.querySelector('.input__nombres');
-    const apellidos = document.querySelector('.input__apellidos');
-    const numDocumento     = document.querySelector('.input__numDocumento');
-    const eps              = document.querySelector('.input__eps');
-    const celular          = document.querySelector('.input__celular');
-    const nacimiento       = document.querySelector('.input__nacimiento');
+    const nombres = document.getElementById('nombres');
+    const apellidos = document.getElementById('apellidos');
+    const numDocumento = document.getElementById('numeroDocumento');
+    const eps = document.getElementById('eps');
+    const celularPersonal = document.getElementById('celularPersonal');
+    const nacimiento = document.getElementById('nacimiento');
 
-    // Selects
-    const tipoDocumento   = document.querySelector('.input__tipoDocumento');
-    const genero          = document.querySelector('.input__genero');
-    const parentesco      = document.querySelector('.input__parentesco');
-    const grupoSanguineo  = document.querySelector('.input__grupoSanguineo');
-    const nacionalidad    = document.querySelector('.input__nacionalidad');
+    const tipoDocumento = document.getElementById('tiposDocumento');
+    const genero = document.getElementById('generos');
+    const parentesco = document.getElementById('parentescos');
+    const grupoSanguineo = document.getElementById('grupoSanguineos');
+    const nacionalidad = document.getElementById('nacionalidades');
     
     await adjuntarOpc.adjuntar(tipoDocumento,"documentTypes");
     await adjuntarOpc.adjuntarNoValida(genero,"genders");
@@ -38,12 +36,12 @@ export default async () => {
     await adjuntarOpc.adjuntarNoValida(nacionalidad,"nationalities");
 
     window.procesoPeticion = false;
-    boton.disabled = false;
+    botonGuardar.disabled = false;
     
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         window.procesoPeticion = true
-        boton.disabled = true;
+        botonGuardar.disabled = true;
     
         const datosRegistro = {
             names: nombres.value,
@@ -56,7 +54,7 @@ export default async () => {
             gender_id: genero.value,
             kinship_id: parentesco.value,
             eps: eps.value,
-            phone: celular.value,
+            phone: celularPersonal.value,
         };
         try {
             const data = await api.post(`members/${id}`,datosRegistro);
@@ -71,7 +69,7 @@ export default async () => {
             alerta.alertaError(error.errors);
         }
     
-        boton.disabled = false;
+        botonGuardar.disabled = false;
         window.procesoPeticion = false;
     });
 }
