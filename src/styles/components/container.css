@@ -20,6 +20,10 @@
   border-radius: 10px;
 }
 
+.container--noPadding{
+  padding: 0px;
+}
+
 .container__gap {
   width: 100%;
   display: flex;
