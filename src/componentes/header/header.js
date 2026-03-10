@@ -2,9 +2,10 @@ const listSinBack = ['voluntario-home', 'administrador-home', 'supervisor-home']
 
 export const componenteHeader = () => {
     const indicador = document.querySelector(".header__indicador");
-    const botonAtras = document.querySelector(".header__boton");
-    const botonHome = document.getElementById("boton-home");
-    const botonPerfil = document.getElementById("boton-perfil");
+    const botonAtras = document.getElementById("botonBack");
+    const botonHome = document.getElementById("botonHome");
+    const botonNoti = document.getElementById("botonNotificaciones")
+    const botonPerfil = document.getElementById("botonPerfil");
     const rolId = localStorage.getItem("role_id");
     const hash = location.hash.slice(2);
 
@@ -35,6 +36,11 @@ export const componenteHeader = () => {
     botonPerfil.addEventListener("click", () => {
         if (hash == 'usuarios/perfil') return
         location.hash = "#/usuarios/perfil";
+    });
+
+    botonNoti.addEventListener("click", () => {
+        if (hash == 'usuarios/notificaciones') return
+        location.hash = "#/usuarios/notificaciones";
     });
 
 };

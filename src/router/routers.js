@@ -36,7 +36,18 @@ export const routes = {
     controlador: auth.forgotPasswordController,
     private: false,
   },
-
+  "usuarios":{
+    "perfil": {
+      path: `usuario/perfil/index.html`,
+      controlador: usuario.perfilController,
+      private:false
+    },
+    "notificaciones":{
+      path: `usuario/notificaciones/index.html`,
+      controlador: usuario.notificacionesController,
+      private:false
+    }
+  },
   'voluntario-home': {
     path: `voluntario/home/index.html`,
     controlador: VoluntarioHomeController,
@@ -369,16 +380,4 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
   },
-  "usuarios":{
-    "perfil": {
-      path: `usuario/perfil/index.html`,
-      controlador: usuario.perfilController,
-      private:false
-    },
-    "notificaciones":{
-      path: `usuario/notificaciones/index.html`,
-      controlador: usuario.notificacionesController,
-      private:false
-    }
-  }
 };

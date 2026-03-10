@@ -44,13 +44,16 @@ export default async () => {
     form.addEventListener('submit', async (e) => {
 
         e.preventDefault();
-
-        
-        
         window.procesoPeticion = true
         botonGuardar.disabled = true;
         
-        validacion.validadorAutomatico.validarTodo(form);
+        const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
+        if (!booleanValidacion)
+        {
+            window.procesoPeticion = false
+            botonGuardar.disabled = false;
+            return
+        }
         
         const datosRegistro = {
             names: nombres.value,

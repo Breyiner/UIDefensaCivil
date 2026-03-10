@@ -1,42 +1,35 @@
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
-// import * as local from "../../../helpers/localStorage";
 import * as validacion from "../../../helpers/validacionInputs";
 
 export default async () => {
   const form = document.querySelector(".form");
   const correo = document.getElementById("correo");
   const contrasena = document.getElementById("contrasena");
-  const botonLogin = document.getElementById("login");
+  const botonLogin = document.getElementById("botonLogin");
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = false;
   }
   window.procesoPeticion = false;
 
-  correo.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 40)
-  });
-
-  contrasena.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 40)
-  });
-  correo.addEventListener("blur", (e) => {
-    validacion.limpiarError(correo);
-  });
-  contrasena.addEventListener("blur", (e) => {
-    validacion.limpiarError(contrasena);
-  });
+  validacion.validadorAutomatico.init(form);
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    let validarCorreo = validacion.validarCorreo(correo);
-    let validarContrasena = validacion.validarMinimo(contrasena,8);
-    
-    if (validarCorreo && validarContrasena){
+
+      const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
+      if (!booleanValidacion)
+      {
+          window.procesoPeticion = false
+          botonLogin.disabled = false;
+          return
+      }
+
       const datosUsuario = {
         email: correo.value,
         password: contrasena.value,
       };
+
       botonLogin.disabled = true;
       window.procesoPeticion = true;
       const data = await api.post("login", datosUsuario);
@@ -59,7 +52,7 @@ export default async () => {
       botonLogin.disabled = false;
       window.procesoPeticion = false;
     }
-  });
+  );
   
   window.addEventListener("click", async (e) => {
     if (e.target.matches("#crearCuenta") && !window.procesoPeticion)

@@ -2,6 +2,8 @@
 // CONFIGURACIÓN BASE
 // =====================================================
 
+import { log10 } from "chart.js/helpers";
+
 export const TECLAS_ESPECIALES = [
   "Backspace",
   "Tab",
@@ -54,20 +56,20 @@ const permitirTecla = (event, regex) => {
 };
 
 
-export const soloNumeros = (event) =>
+export const keyboard_numero = (event) =>
   permitirTecla(event, /^\d$/);
 
-export const soloTexto = (event) =>
+export const keyboard_texto = (event) =>
   permitirTecla(event, /^[A-Za-zÁÉÍÓÚáéíóúÑñ]$/);
 
-export const textoConEspacios = (event) =>
+export const keyboard_textoEspacio = (event) =>
   permitirTecla(event, /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]$/);
 
 
 // =====================================================
 // LIMITE DE CARACTERES
 // =====================================================
-export const limiteCaracteres = (event, limite) => {
+export const keyboard_limite = (event, limite) => {
   const input = event.target;
 
   if (
@@ -81,7 +83,7 @@ export const limiteCaracteres = (event, limite) => {
 // VALIDAR CORREO
 // =====================================================
 
-export const validarCorreo = (input) => {
+export const validar_correo = (input) => {
   const value = input.value.trim();
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
 
@@ -100,7 +102,7 @@ export const validarCorreo = (input) => {
 // VALIDAR CONTRASEÑA
 // =====================================================
 
-export const validarPassword = (input) => {
+export const validar_password = (input) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -129,7 +131,7 @@ export const validarPassword = (input) => {
   return true;
 };
 
-export const validarVacio = (input) => {
+export const validar_vacio = (input) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -140,7 +142,7 @@ export const validarVacio = (input) => {
   return true;
 };
 
-export const validarMinimo = (input, minimo) => {
+export const validar_minimo = (input, minimo) => {
 
   const value = input.value.trim();
 
@@ -158,7 +160,7 @@ export const validarMinimo = (input, minimo) => {
   return true;
 };
 
-export const validarMaximo = (input, maximo) => {
+export const validar_maximo = (input, maximo) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -175,9 +177,9 @@ export const validarMaximo = (input, maximo) => {
   return true;
 };
 
-export const validarSelect = (select) => {
+export const validar_select = (select) => {
   const value = select.value;
-
+  
   limpiarError(select);
 
   if (!value || value === "")
@@ -186,10 +188,8 @@ export const validarSelect = (select) => {
   return true;
 };
 
-export const validarMinimoMaximo = (input, minimo, maximo) => {
+export const validar_minimoMaximo = (input, minimo, maximo) => {
   const value = input.value.trim();
-
-  limpiarError(input);
 
   if (!value)
     return error(input, "No puede estar vacío.");
@@ -213,7 +213,7 @@ export const validarMinimoMaximo = (input, minimo, maximo) => {
 // VALIDAR IGUALDAD DE CAMPOS
 // =====================================================
 
-export const validarIgualdad = (input, inputComparar) => {
+export const validar_igualdad = (input, inputComparar) => {
   const value = input.value.trim();
   const valueComparar = inputComparar.value.trim();
 
@@ -232,39 +232,34 @@ export const validarIgualdad = (input, inputComparar) => {
 // VALIDAR MAYOR DE EDAD
 // =====================================================
 
-export const validarMayorDeEdad = (input, edadMinima = 18) => {
+export const validar_mayoriaEdad = (input) => {
   const value = input.value;
-
+  
   limpiarError(input);
 
   if (!value)
     return error(input, "La fecha es obligatoria.");
 
-  const fechaNacimiento = new Date(value);   
-  console.log(fechaNacimiento.getDate()) 
+  const fechaNacimiento = new Date(value);
   const hoy = new Date();
 
   let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
   const mes = hoy.getMonth() - fechaNacimiento.getMonth();
 
-  if (
-    mes < 0 ||
-    (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())
-  ) {
+  if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())){
     edad--;
   }
 
-  if (edad < edadMinima)
+  if (edad < 18)
     return error(
       input,
-      `Debe ser mayor de ${edadMinima} años.`
-    );
+      `Debe ser mayor de 18 años.`
+  );
 
   return true;
 };
 
-
-export const  validarSiExiste = (input, minimo) => {
+export const  validar_siExiste = (input, minimo) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -276,19 +271,37 @@ export const  validarSiExiste = (input, minimo) => {
   return validarMinimo(input,minimo);
 };
 
-
-
-
-
 // objeto encargado de establecer un esquema para validar los inputs
 // cada propiedad de este objeto indica un DATA ATTRIBUTE que debe tener cada input para que este sea validado
 // faltan mas por agregar
-const inputTipos = {
-  nombre: {validacion: (e) => textoConEspacios(e), min: 3, max: 50},
-  telefono: {validacion: (e) => soloNumeros(e), min: 7, max: 10, opcional: true},
-  documento: {validacion: (e) => soloNumeros(e), min: 10, max: 20},
-  mayorDeEdad: {validacion: (input) => validarMayorDeEdad(input,18)}
-}
+
+const inputTipos={
+  textoCorto: { keyboard:keyboard_textoEspacio,min:3,max:50},
+
+  textoLargo: { keyboard:keyboard_textoEspacio,min:8,max:255},
+
+  textoNombres: { keyboard:keyboard_textoEspacio,min:3,max:70},
+
+  textoCortoOpcional: { keyboard:keyboard_textoEspacio,min:3,max:50,opcional: true},
+
+  textoLargoOpcional: { keyboard:keyboard_textoEspacio,min:8,max:255,opcional: true},
+
+  numerico: { keyboard: keyboard_numero,min:1,max: 50},
+
+  numericoOpcional: { keyboard: keyboard_numero,min:1,max: 50,opcional: true},
+
+  telefono:{keyboard: keyboard_numero ,min:7,max:15},
+
+  telefonoOpcional:{keyboard: keyboard_numero ,min:7,max:15,opcional: true},
+  
+  documento:{keyboard: keyboard_numero ,min:7,max:15},
+
+  correo:{validacion:(input)=>validar_correo(input)},
+
+  password:{validacion:(input)=>validar_password(input),max:40},
+
+  mayorDeEdad:{validacion:(input)=>validar_minimoMaximo(input)}
+};
 
 
 // validarTodo (formulario) para que valide TODOS los inputs una vez que se oprima "submit" en el formulario.
@@ -301,27 +314,25 @@ export const validadorAutomatico = {
     const inputs = formulario.querySelectorAll("input")
     const selects = formulario.querySelectorAll("select");
     
-    
     inputs.forEach(input => {
-      
-      const tipo = input.dataset.validacion
+      const tipo = input.dataset.tipo
       
       // A cada input se le añade la validacion para escribir solo los caracteres permitidos por input y el evento para borrar el error una vez corregido
 
       if (tipo in inputTipos){
-        input.addEventListener("keydown", e=> {
-          inputTipos[tipo].validacion(e);
+        input.addEventListener("keydown", e => {
+          if (inputTipos[tipo].max) keyboard_limite(e,inputTipos[tipo].max)
         })
         input.addEventListener("blur", e => {
           limpiarError(input)
         })
       }
     })
-  
-        selects.forEach(select => {
-          select.addEventListener("blur", e => {
+
+    selects.forEach(select => {
+          select.addEventListener("change", e => {
             limpiarError(select)
-          })
+        })
     })
   },
   
@@ -330,47 +341,39 @@ export const validadorAutomatico = {
 
     const inputs = formulario.querySelectorAll("input");
     const selects = formulario.querySelectorAll("select");
-
-    
+  
     inputs.forEach(input => {
-      
-      const tipo = input.dataset.validacion
+      const tipo = input.dataset.tipo
 
-      if (tipo in inputTipos){
-
+      if (tipo in inputTipos){        
         // NOTA: en minimo, poner el valor minimo de todos modos
-        if (inputTipos[tipo].opcional){
-          validarSiExiste(input, Number(inputTipos[tipo].min))
+        if (inputTipos[tipo].opcional){     
+          validar_siExiste(input, Number(inputTipos[tipo].min))
           return
         }
         if (inputTipos[tipo].min && inputTipos[tipo].max){
-          validarMinimoMaximo(input,inputTipos[tipo].min,inputTipos[tipo].max)
+          validar_minimoMaximo(input,inputTipos[tipo].min,inputTipos[tipo].max);
         }
-    
-        if (inputTipos[tipo].min){
-          validarMinimo(input,Number(inputTipos[tipo].min))
+        else if (inputTipos[tipo].min){
+          validar_minimo(input,Number(inputTipos[tipo].min));
         }
-        if (inputTipos[tipo].max){
-          validarMaximo(input,Number(inputTipos[tipo].max))
+        else if (inputTipos[tipo].max){
+          validar_maximo(input,Number(inputTipos[tipo].max));
         }
-
-        if (tipo == "mayorDeEdad"){
-          inputTipos[tipo].validacion(input)
-        }
-        
-
+        if(inputTipos[tipo].validacion) inputTipos[tipo].validacion(input);
       }
     })
 
     selects.forEach(select => {
-      validarSelect(select);
+      validar_select(select);
     })
     //IMPORTANTE:
     // Esta funcion valida cada input de acuerdo a los DATA ATTRIBUTES del <input> (data-atributo) que se escriben en el HTML
     // Los data attributes que se validan son:
     // data-validacion: El tipo de dato que maneja el input (nombre, telefono)
     // Los <select> no requieren data attributes ya que estos se validan al hacer submit en el form y verificar si estan o no seleccionados
+    const buscarError = document.querySelectorAll('.error');
+    if (buscarError.length > 0) return false;
+    else return true
   }
-
-
 }
