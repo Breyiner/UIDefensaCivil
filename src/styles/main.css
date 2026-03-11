@@ -29,6 +29,7 @@
 @import "./components/dashboard.css";
 @import "./components/error.css";
 @import "./components/section.css";
+@import "./components/introduccion.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";

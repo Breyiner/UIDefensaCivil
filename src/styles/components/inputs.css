@@ -137,3 +137,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none; /* por si acaso */
 }
+
+@media (min-width: 768px) {
+  .input--naranja{
+    padding: 15px;
+    font-size: var(--tamano-medio-grande);
+  }
+}

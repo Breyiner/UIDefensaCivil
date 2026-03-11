@@ -83,3 +83,18 @@
   color: var(--color-primario);
   border: 2px var(--color-primario) solid;
 }
+
+@media (min-width: 768px) {
+  .form{
+    gap: 30px;
+  }
+  .form__titulo{
+    font-size: var(--tamano-enorme);
+  }
+  .form__subtitulo{
+    font-size: var(--tamano-grande);
+  }
+  .form__link{
+    font-size: var(--tamano-medio-grande);
+  }
+}
