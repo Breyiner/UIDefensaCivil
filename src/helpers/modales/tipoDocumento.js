@@ -1,13 +1,21 @@
+/**
+ * Helper de Modales CRUD: Tipo de Documento (tipoDocumento.js)
+ * Interfaz Pop-Up prefabricada (SweetAlert) para administrar el 
+ * catálogo de identificadores gubernamentales válidos o Acrónimos (Ej: CC, TI, CE).
+ */
 import * as api from "../api";
 import * as alerta from "../alertas";
 
 /* =====================================================
-   VER
-===================================================== */
+   VER Y ALTERAR ESTADO LÓGICO
+==================================================== */
+// Consulta individual de un Documento con posiblidad de alternar su disponibilidad en selectores
 export const ver = async (id, recargarContainer) => {
 
+    // Absorbe el documento referenciado desde Servidor local
     const datos = await api.get(`documentTypes/${id}`);
     
+    // Cuadros asimétricos con remociones visuales en icono/texto
     const htmlModal = `
         <div class="modalVer modal-50">
             <div class="modalVer__dato">
@@ -23,34 +31,38 @@ export const ver = async (id, recargarContainer) => {
         </div>
     `;
 
+    // Conmuta funciones globales de Alert usando patrón VerEstado
     alerta.VerEstado(
         htmlModal,
-        true,
-        datos.is_active,
+        true, // Edición concedida
+        datos.is_active, // Checkmark natural
 
-        // EDITAR
+        // EDITAR (Evento enganchado inyectado por Callback)
         async () => editar(id, recargarContainer),
 
-        // ACTIVAR
+        // ACTIVAR (Regresa elemento al ecosistema vivo)
         async () => {
+            // PATCH a switch backend directo
             const resp = await api.patch(`documentTypes/status/${id}`, { is_active: 1 });
             if (resp.success) {
                 await alerta.alertaOK(resp.message);
-                await recargarContainer();
+                await recargarContainer(); // Carga de fondo
             } else {
-                alerta.alertaWarning(resp.message);}
+                alerta.alertaWarning(resp.message);
+            }
         },
 
-        // DESACTIVAR
+        // DESACTIVAR (Invalida elemento para ocultarlo en las UIs select forms)
         async () => {
             const resp = await api.patch(`documentTypes/status/${id}`, { is_active: 0 });
             if (resp.success) {
                 await alerta.alertaOK(resp.message);
                 await recargarContainer();
             } else {
-                alerta.alertaWarning(resp.message);}
+                alerta.alertaWarning(resp.message);
+            }
         },
-        'documentTypes',
+        'documentTypes', // Alias para peticiones o trackers
         id
     );
 };
@@ -58,9 +70,11 @@ export const ver = async (id, recargarContainer) => {
 
 /* =====================================================
    CREAR
-===================================================== */
+==================================================== */
+// Despliega ventanilla pidiendo nombre completo y su Abreviatura Oficial
 export const crear = async (recargarContainer) => {
 
+    // HTML del formulario de adición
     const htmlModal = `
         <div class="explicacion modal">
             <p class="explicacion__titulo">Crear Tipo de Documento</p>
@@ -86,17 +100,20 @@ export const crear = async (recargarContainer) => {
         </div>
     `;
 
+    // Empalma promesa OK botón de sweet alert con peticiones REST
     alerta.Crear(htmlModal, async () => {
 
+        // Recolectores
         const nombre = document.querySelector(".form__nombre").value;
-
         const acronimo = document.querySelector(".form__acronimo").value;
 
+        // Tránsito de ida POST, pasandole nombre y acrónimo literal (Ej: Pasaporte, PA)
         const data = await api.post("documentTypes", { name: nombre, acronym: acronimo });
 
+        // Valuar promesas con escapes correspondientes
         if (data.success) {
             await alerta.alertaOK(data.message);
-            await recargarContainer();
+            await recargarContainer(); // Actualizar parent view
         } else {
             alerta.alertaWarning(data.message, data.errors);
         }
@@ -107,11 +124,14 @@ export const crear = async (recargarContainer) => {
 
 /* =====================================================
    EDITAR
-===================================================== */
+==================================================== */
+// Clona ventana creación y le inserta los atributos que le corresponden en ese instante
 export const editar = async (id, recargarContainer) => {
 
+    // Dispara GET para refrescar memoria
     const info = await api.get(`documentTypes/${id}`);
 
+    // Modal con valores auto-rellenados, idéntico visualmente al de crear
     const htmlModal = `
         <div class="explicacion modal">
             <p class="explicacion__titulo">Editar Tipo de Documento</p>
@@ -136,14 +156,17 @@ export const editar = async (id, recargarContainer) => {
         </div>
     `;
 
+    // Ejecutor del Aceptar
     alerta.Crear(htmlModal, async () => {
 
+        // Extracción simple de las 2 cajas
         const nombre = document.querySelector(".form__nombre").value;
-
         const acronimo = document.querySelector(".form__acronimo").value;
 
+        // Sobreescritura asomándose a la URL del identificador
         const data = await api.patch(`documentTypes/${id}`, { name: nombre,acronym: acronimo});
 
+        // Interprete de logicas success o warning
         if (data.success) {
             await alerta.alertaOK(data.message);
             await recargarContainer();

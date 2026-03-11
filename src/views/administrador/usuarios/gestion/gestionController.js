@@ -1,3 +1,9 @@
+/**
+ * Controlador: Gestión Global de Usuarios (gestionController.js)
+ * Permite al perfil Administrador listar, buscar y visualizar a todos los
+ * usuarios del sistema (exceptuando pendientes). Se apoya en el helper de
+ * paginación y despliega el modal interactivo de usuario.
+ */
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import paginacion from "../../../../helpers/paginacion";

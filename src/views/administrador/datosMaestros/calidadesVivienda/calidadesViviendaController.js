@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Calidades de Vivienda (calidadesViviendaController.js)
+ * Conecta la Vista HTML con los Helpers (crearLista) y los endpoints del API 
+ * para renderizar y administrar dinámicamente los registros de Calidad de Vivienda.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as calidadVivienda from "../../../../helpers/modales/calidadVivienda";

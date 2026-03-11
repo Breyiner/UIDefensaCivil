@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Recursos (recursosController.js)
+ * Administra el catálogo de recursos disponibles para gestión de riesgos.
+ * Permite visualizar el listado completo y abrir modales de edición/creación.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as recurso from "../../../../helpers/modales/recurso";

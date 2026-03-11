@@ -1,8 +1,16 @@
+/**
+ * Controlador: Perfil de Usuario (perfilController.js)
+ * Gestiona la interfaz Mi Perfil, cargando los datos personales del usuario activo 
+ * desde la API, y habilitando la edición controlada (con contraseñas de confirmación) 
+ * de datos sensibles como Teléfono, Correo y Contraseña. 
+ * También maneja el cierre de sesión seguro.
+ */
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 import * as cargarDatos from "../../../helpers/cargarDatos";
 
 export default async () => {
+    // Referencias al DOM (Campos de Muestra)
     const nombres = document.getElementById("nombres");
     const apellidos = document.getElementById("apellidos");
     const tipoDocumento = document.getElementById("tipoDocumento");

@@ -1,3 +1,9 @@
+/**
+ * Controlador de Menú Principal: Datos Maestros (verController.js)
+ * Maneja la navegación y renderizado visual del contenedor principal.
+ * Escucha los clics en las diferentes tarjetas ("cards") y redirige
+ * a la vista específica del catálogo seleccionado (ej. Seccionales, Sectores).
+ */
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 

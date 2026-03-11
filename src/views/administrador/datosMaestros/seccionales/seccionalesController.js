@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Seccionales (seccionalesController.js)
+ * Gestiona la entidad principal geográfica (Seccional) a la que pertenecen
+ * diferentes organizaciones de voluntarios. Renderiza su lista y formulario modal.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as seccional from "../../../../helpers/modales/seccional";

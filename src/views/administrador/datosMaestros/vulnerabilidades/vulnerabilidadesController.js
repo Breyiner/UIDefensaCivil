@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Vulnerabilidades Físicas/Estructurales (vulnerabilidadesController.js)
+ * Maneja el catálogo de vulnerabilidades con las que se puede asociar una evaluación
+ * de Riesgo. Utiliza los helpers básicos de lista paginada y modal.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as vulnerabilidad from "../../../../helpers/modales/vulnerabilidad";

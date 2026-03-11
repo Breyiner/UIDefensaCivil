@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Tipos de Documentos (tiposDocumentoController.js)
+ * Renderiza la lista paramétrica de Tipos de Documento de Identidad (CC, TI, CE, etc.).
+ * Muestra las siglas (acronym) e incluye la funcionalidad de crear o editar mediante modales.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as tipoDocumento from "../../../../helpers/modales/tipoDocumento";

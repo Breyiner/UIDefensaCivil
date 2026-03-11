@@ -1,60 +1,84 @@
+/**
+ * Controlador: Insertar Nueva Mascota (planMascota/crear/crearController.js)
+ * Formulario simple para crear el animalito. Notar que:
+ * El requerimiento original del usuario no incluyó validadorOmnipotente aquí?
+ * Se manda el Payload directo sin front-validators mas duros.
+ */
 import * as api from "../../../../helpers/api";
 import * as alerta from "../../../../helpers/alertas";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
+    // Selectores Main 
     const botonBack = document.getElementById("botonBack");
     const botonGuardar = document.querySelector('.form__boton');
     const form = document.querySelector('.form');
-    const id = location.hash.split("=")[1];
+    const id = location.hash.split("=")[1]; // PlanFamiliar FK Root ID
 
     if (window.procesoPeticion === undefined) { window.procesoPeticion = true; }
     window.procesoPeticion = true;
 
+    // Regresar Atrás y Abortar Inserción
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
         const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
         if (confirmacion.isConfirmed) location.href = `#/voluntario-planMascota/ver/id=${id}`;
     };
 
-    // Inputs de texto
+    // Inputs de texto Básicos HTML DOM IDs
     const nombre = document.getElementById('nombre');
     const raza = document.getElementById('raza');
-    const edad = document.getElementById('edad');
-    // Selects
+    const edad = document.getElementById('edad'); // Numero integer
+    
+    // Selects Diccionarios Nativos
     const especies = document.getElementById('especies');
     const generos = document.getElementById('generos');
+    
+    // Inyección Auto Options Helper <option value=1>Perro</option>
     await adjuntarOpc.adjuntar(especies, "species");
     await adjuntarOpc.adjuntarNoValida(generos, "animalGenders");
 
+    // Libera Submit Start Check
     window.procesoPeticion = false;
     botonGuardar.disabled = false;
 
+    // Submit Core Listener POST Create
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        window.procesoPeticion = true
+        window.procesoPeticion = true // Lock doble clicker
         botonGuardar.disabled = true;
 
+        // Mapper JSON DTO -> Pets Laravel Model Backend Schema
         const datosRegistro = {
             name: nombre.value,
             breed: raza.value,
             age: edad.value,
             species_id: especies.value,
             animal_gender_id: generos.value,
-            family_plan_id: id
+            family_plan_id: id // Relaciona el Animal Conectando a la Familia Creadora Actual
         };
+        
         try {
-            const data = await api.post(`pets`, datosRegistro);
+            // Push Insercion SQL
+            const data = await api.post(`pets`, datosRegistro); // Resource Api /Pets
+            
             if (data.success) {
                 await alerta.alertaOK(data.message)
+                
+                // IGUAL QUE INTEGRANTES: Al ser exitoso PREGUNTA PROACTIVAMENTE si anexas las "VACUNAS"!
                 const pregunta = await alerta.alertaQuest("Deseas agregar las vacunas de esta mascota?")
+                // Flujo Condicionado de Ahorro de clics al Voluntario Evaluador
+                // SI: Te lleva al Módulo Editar de esa mascota recién creada que es el único que tiene el Popup Acordeon Inferior Añadir Vacunas.
+                // NO: Muro normal Volver
                 pregunta.isConfirmed ? window.location.href = `#/voluntario-planMascota/editar/id=${id},${data.data.id}` : location.href = `#/voluntario-planMascota/ver/id=${id}`;
             }
+            // Error Reglas Negocio Backend 
             else alerta.alertaWarning(data.message, data.errors)
         } catch (error) {
-            alerta.alertaError(error.errors);
+            alerta.alertaError(error.errors); // Network Failure
         }
 
+        // Release All Finally state
         botonGuardar.disabled = false;
         window.procesoPeticion = false;
     });
