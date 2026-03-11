@@ -27,6 +27,7 @@ export default async () => {
   await adjuntarOpc.adjuntarInfo(tipoDocumento,"documentTypesPublic","acronym",);
   await adjuntarOpc.adjuntar(genero, "gendersPublic");
   await adjuntarOpc.adjuntar(seccional, "sectionalsPublic");
+
   boton.disabled = false;
 
   validacion.validadorAutomatico.init(form);
@@ -34,13 +35,13 @@ export default async () => {
   form.addEventListener("submit", async (e) => {
     window.procesoPeticion = true;
     e.preventDefault();
-    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres enviar tu peticion?");
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres crear la cuenta?");
     if (!confirmacion.isConfirmed) return;
 
     const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
     const validacionContrasena = validacion.validar_igualdad(confContrasena,confContrasena);
     
-    if (!booleanValidacion && validacionContrasena)
+    if (!booleanValidacion || !validacionContrasena)
     {
       window.procesoPeticion = false
       boton.disabled = false;

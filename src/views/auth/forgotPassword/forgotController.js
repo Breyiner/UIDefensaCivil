@@ -8,25 +8,31 @@ export default async () => {
   const boton = document.querySelector(".form__boton");
   let procesoPeticion = false;
 
-  corrElectronico.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 100);
-  });
+  validacion.validadorAutomatico.init(form);
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    let validarCorreoElectronico = validacion.validarCorreo(corrElectronico);
 
-    if (validarCorreoElectronico) {
-      const datosUsuario = {
-        email: corrElectronico.value,
-      };
-      boton.disabled = true;
-      procesoPeticion = true;
-      await alerta.alertaWarning(
-        "Recuperar Contraseña",
-        "Metodo no realizado en el backend",
-      );
+    const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
+    
+    if (!booleanValidacion)
+    {
+      window.procesoPeticion = false
+      boton.disabled = false;
+      return
     }
+
+    const datosUsuario = {
+      email: corrElectronico.value,
+    };
+    console.log(datosUsuario);
+    boton.disabled = true;
+    procesoPeticion = true;
+    await alerta.alertaWarning(
+      "Recuperar Contraseña",
+      "Metodo no realizado en el backend",
+    );
+
     boton.disabled = false;
     procesoPeticion = false;
   });

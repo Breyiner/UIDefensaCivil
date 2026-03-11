@@ -290,7 +290,7 @@ const inputTipos={
 
   numericoOpcional: { keyboard: keyboard_numero,min:1,max: 50,opcional: true},
 
-  telefono:{keyboard: keyboard_numero ,min:7,max:15},
+  telefono:{keyboard: keyboard_numero ,min:7,max:10},
 
   telefonoOpcional:{keyboard: keyboard_numero ,min:7,max:15,opcional: true},
   
