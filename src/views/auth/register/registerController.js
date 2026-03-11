@@ -29,69 +29,7 @@ export default async () => {
   await adjuntarOpc.adjuntar(seccional, "sectionalsPublic");
   boton.disabled = false;
 
-  nombres.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 50);
-    validacion.textoConEspacios(e);
-  });
-
-  apellidos.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 50);
-    validacion.textoConEspacios(e);
-  });
-  numDocumento.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 20);
-    validacion.soloNumeros(e);
-  });
-  telefono.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 10);
-    validacion.soloNumeros(e);
-  });
-  corrElectronico.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 100);
-  });
-  contrasena.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 20);
-  });
-  confContrasena.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 20);
-  });
-
-  nombres.addEventListener("blur", (e) => {
-    validacion.limpiarError(nombres);
-  });
-  apellidos.addEventListener("blur", (e) => {
-    validacion.limpiarError(apellidos);
-  });
-  tipoDocumento.addEventListener("change", (e) => {
-    validacion.limpiarError(tipoDocumento);
-  });
-  numDocumento.addEventListener("blur", (e) => {
-    validacion.limpiarError(numDocumento);
-  });
-  genero.addEventListener("change", (e) => {
-    validacion.limpiarError(genero);
-  });
-  nacimiento.addEventListener("blur", (e) => {
-    validacion.limpiarError(nacimiento);
-  });
-  telefono.addEventListener("blur", (e) => {
-    validacion.limpiarError(telefono);
-  });
-  seccional.addEventListener("change", (e) => {
-    validacion.limpiarError(seccional);
-  });
-  organizacion.addEventListener("change", (e) => {
-    validacion.limpiarError(organizacion);
-  });
-  corrElectronico.addEventListener("blur", (e) => {
-    validacion.limpiarError(corrElectronico);
-  });
-  contrasena.addEventListener("blur", (e) => {
-    validacion.limpiarError(contrasena);
-  });
-  confContrasena.addEventListener("blur", (e) => {
-    validacion.limpiarError(confContrasena);
-  });
+  validacion.validadorAutomatico.init(form);
 
   form.addEventListener("submit", async (e) => {
     window.procesoPeticion = true;
@@ -99,31 +37,15 @@ export default async () => {
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres enviar tu peticion?");
     if (!confirmacion.isConfirmed) return;
 
-    let validarNombres = validacion.validarMinimo(nombres, 3);
-    let validarApellidos = validacion.validarMinimo(apellidos, 3);
-    let validarTipoDocumento = validacion.validarSelect(tipoDocumento);
-    let validarNumeroDocumento = validacion.validarMinimo(numDocumento,5);
-    let validarGenero = validacion.validarSelect(genero);
-    let validarNacimiento = validacion.validarMayorDeEdad(nacimiento);
-    let validarTelefono = validacion.validarMinimo(telefono, 7);
-    let validarSeccional = validacion.validarSelect(seccional);
-    let validarOrganizacion = validacion.validarSelect(organizacion);
-    let validarCorreoElectronico = validacion.validarCorreo(corrElectronico);
-    let validarContrasena = validacion.validarPassword(contrasena);
-    let validarConfContrasena = validacion.validarIgualdad(confContrasena,contrasena,);
+    const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
+    const validacionContrasena = validacion.validar_igualdad(confContrasena,confContrasena);
     
-    if (validarNombres && 
-      validarApellidos && 
-      validarTipoDocumento && 
-      validarNumeroDocumento && 
-      validarGenero && 
-      validarNacimiento &&
-      validarTelefono &&
-      validarSeccional &&
-      validarOrganizacion &&
-      validarCorreoElectronico &&
-      validarContrasena &&
-      validarConfContrasena) {
+    if (!booleanValidacion && validacionContrasena)
+    {
+      window.procesoPeticion = false
+      boton.disabled = false;
+      return
+    }
       const datosRegistro = {
         names: nombres.value,
         last_names: apellidos.value,
@@ -145,7 +67,7 @@ export default async () => {
       } catch (error) {
         alerta.alertaError(error);
       }
-    }
+    
     boton.disabled = false;
     window.procesoPeticion = false;
   });

@@ -35,6 +35,9 @@
     font-weight: bolder;
     font-family: var(--fuente-titulos);
 }
+.tarjeta__titulo--centrado{
+    text-align: center;
+}
 
 .tarjeta__titulo--left {
     align-self: flex-start;

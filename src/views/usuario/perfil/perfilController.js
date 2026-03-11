@@ -48,6 +48,13 @@ export default async () => {
     const id = localStorage.getItem("id");
     await cargarDatos.cargarDatos(`users/${id}`,[nombres, apellidos,tipoDocumento,numeroDocumento,fechaNacimiento,genero,seccional,organizacion,telefono,correo], ["names", "last_names","document_type","document_number","birth_date","gender","sectional","organization","phone","email"],);
 
+    const iniciales = document.getElementById('iniciales');
+    const nombreCompleto = document.getElementById('nombreCompleto');
+    const rangoDefensa = document.getElementById('rangoDefensa');
+    iniciales.textContent = nombres.value[0]+apellidos.value[0];
+    nombreCompleto.textContent = `${nombres.value} ${apellidos.value}`;
+    rangoDefensa.textContent = `${seccional.value} •${organizacion.value}`;
+
     botonCerrarSesion.addEventListener("click", async () => {
         const pregunta = await alerta.alertaQuest(
             "¿Seguro que quieres cerrar sesion?",
