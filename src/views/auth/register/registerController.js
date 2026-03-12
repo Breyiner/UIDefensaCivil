@@ -46,6 +46,9 @@ export default async () => {
 
   // Arranque del listener in-line de input validation por clases regex
   validacion.validadorAutomatico.init(form);
+  confContrasena.addEventListener("blur", (e) => {
+    validacion.limpiarError(e.target);
+  });
 
   // Escuchando inyección intencionada "Enter/Click submit"
   form.addEventListener("submit", async (e) => {

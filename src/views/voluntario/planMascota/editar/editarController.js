@@ -43,7 +43,7 @@ export default async () => {
   const edad = document.getElementById('edad');
   const especies = document.getElementById('especies');
   const generos = document.getElementById('generos');
-  
+
   // Auto-llenado Diccionarios Select <option> Frontend
   await adjuntarOpc.adjuntar(especies, "species");
   await adjuntarOpc.adjuntarNoValida(generos, "animalGenders");
@@ -56,6 +56,7 @@ export default async () => {
    * Rutina Hija Aslida Fetching Vacunas Actuales
    * Pinta la Lista debajo del Formulario Base para mostrar "Rabia, ParvoVirus" del mes.
    */
+  
   const cargarAfecciones = async () => {
     const afecciones = await api.get(`petVaccines/pet/${mascotaId}`); // Api Call Relacional /petVaccines
     contenedorAfecciones.innerHTML = ""; // Clear Layout

@@ -8,6 +8,7 @@ import * as api from "../api";
 import * as alerta from "../alertas";
 import * as validacion from "../validacionInputs"
 import { initTomSelectPortatil } from "../tomSelectPortatil";
+import * as adjuntarOpc from "../adjuntarOpciones";
 
 // Función para ver los detalles globales del integrante de una sola vez
 export const ver = async (id) => {
@@ -126,16 +127,14 @@ export const ver = async (id) => {
 
 
 // Agrega una nueva enfermedad o condición
-export const crear = async (id, recargarContainer) => {
+export const afeccionCrear = async (id, recargarContainer) => {
   // Solicita la tabla tipoAfecciones (ej: "Alergia", "Enfermedad Crónica") para el dropdwon select
   const tiposAfeccionesPeticion = await api.get(`conditionTypes`);
-  
   let tiposAfecciones = "";
-  // Genera opciones html interactivas
   for (let i = 0; i < tiposAfeccionesPeticion.length; i++) {
     tiposAfecciones += `<option value="${tiposAfeccionesPeticion[i].id}">${tiposAfeccionesPeticion[i].name}</option>`;
   }
-
+  
   // HTML que usa el componente TomSelect a través de clase "selector-portatil"
   const htmlModal = `
     <div class="explicacion modal">
@@ -154,31 +153,28 @@ export const crear = async (id, recargarContainer) => {
       <div class="input">
         <div class="form__inputBox">
           <i class="ri-syringe-line"></i>
-          <input type="text" placeholder="Nombre de la afección" id="nombreAfeccion" autocomplete="off">
+          <input type="text" placeholder="Nombre de la afección" id="nombreAfeccion" autocomplete="off" data-tipo="textoCorto">
         </div>
       </div>
       <div class="input">
         <div class="form__inputBox">
           <i class="ri-calendar-line"></i>
-          <textarea placeholder="Descripción de dosis" id="descripcion" autocomplete="off"></textarea>
+          <textarea placeholder="Descripción de dosis" id="descripcion" autocomplete="off" data-tipo="textoLargoOpcional"></textarea>
         </div>
       </div>
     </div>`;
 
   // CALLBACK principal (click en Guardar en SweetAlert)
   const funcionModal = async () => {
-    // Identificar DOM del Pop-up
+    const contenedor = document.querySelector(".container__gap");
     const afeccion = document.getElementById("afecciones");
     const nombreAfeccion = document.getElementById("nombreAfeccion")
     const descripcion = document.getElementById("descripcion");
 
-    // Ejecuta capa de validación personalizada de inputs en JavaScript para prevenir errores antes del backend
-    let validarAfeccion = validacion.validarSelect(afeccion);
-    let validarNombreAfeccion = validacion.validarMinimo(nombreAfeccion, 3);
-    let validarDescripcion = validacion.validarSiExiste(descripcion, 10); // opcional, pero si existe evalúa mínima longitud
-
+    const booleanValidacion = validacion.validadorAutomatico.validarTodo(contenedor);
     // Solo si aprueba validaciones prosigue la petición
-    if (validarAfeccion && validarNombreAfeccion && validarDescripcion) {
+    if (!booleanValidacion) return false
+     
       // Objeto JSON asociativo para este miembro
       const datos = {
         member_id: id,
@@ -188,7 +184,7 @@ export const crear = async (id, recargarContainer) => {
       };
 
       try {
-        const data = await api.post("conditionMembers", datos);
+        const data = await api.post("conditionMembers", datos);    
         if (data.success) {
           await alerta.alertaOK(data.message); // Notifica confirmación
           await recargarContainer(); // Carga de nuevo toda la información de pantalla
@@ -203,36 +199,12 @@ export const crear = async (id, recargarContainer) => {
         alerta.alertaError(error.errors);
         return false
       }
-    } return false
   };
   
   // LOGICA SECUNDARIA: Funciones de evento inyectadas cuando Swal TERMINA DE ABRIRSE (Para TomSelect y detectores KeyDown en caliente)
   const funcionAlAbrir = async () => {
-    const afeccion = document.getElementById("afecciones");
-    const nombreAfeccion = document.getElementById("nombreAfeccion")
-    const descripcion = document.getElementById("descripcion");
-
-    // Previene más de 30 carácteres o espacios raros mientras el usuario va digitando (key down hook)
-    nombreAfeccion.addEventListener("keydown", (e) => {
-      validacion.limiteCaracteres(e, 30);
-      validacion.textoConEspacios(e);
-    });
-    
-    // Al texto dosis se le da un margen de 200 de escritura
-    descripcion.addEventListener("keydown", (e) => {
-      validacion.limiteCaracteres(e, 200);
-    });
-
-    // Remueven los estilos rojos de Error cuando el usuario empieza a corregir las casillas
-    afeccion.addEventListener("change", (e) => {
-      validacion.limpiarError(e.target);
-    });
-    nombreAfeccion.addEventListener("blur", (e) => {
-      validacion.limpiarError(e.target);
-    });
-    descripcion.addEventListener("blur", (e) => {
-      validacion.limpiarError(e.target);
-    });
+    const contenedor = document.querySelector(".container__gap");
+    validacion.validadorAutomatico.init(contenedor);
   }
   
   // Ejecuta Sweet alert pasando modal visual y funciones reactivas para el on-click y on-open

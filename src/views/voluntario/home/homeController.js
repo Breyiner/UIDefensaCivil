@@ -27,6 +27,7 @@ export default () => {
     // Si toca el botón con el identificador 'nuevoPlan'
     if (e.target.matches("#nuevoPlan")) {
       window.location.href = '#/voluntario-planFamiliar/crear'; // Redirige a la pantalla para crear un nuevo plan familiar
+      // alerta.alertaSuscripcionPremium();
     }
     // Si toca el botón con el identificador 'verPlan'
     if (e.target.matches("#verPlan")) {

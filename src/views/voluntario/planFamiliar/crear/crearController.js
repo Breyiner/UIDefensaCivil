@@ -44,45 +44,11 @@ export default async () => {
   window.procesoPeticion = false;
   botonSiguiente.disabled = false;
   
-  // Limita lo que el usuario puede escribir en vivo
-  apellidos.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 75); // Restringir a máximo 75 caracteres
-    validacion.textoConEspacios(e); // Solo permitir letras, bloqueando números
-  });
-  
-  // Eventos para quitar el color rojo (Error) una vez el usuario ha escrito o seleccionado algo correcto
-  apellidos.addEventListener("blur", (e) => {
-    validacion.limpiarError(apellidos);
-  });
-  zona.addEventListener("change", async () =>{ 
-    validacion.limpiarError(zona)
-  });
-  apartamento.addEventListener("change", async () => {
-    validacion.limpiarError(apartamento)
-  });
-  ciudad.addEventListener("change", async () => {
-    validacion.limpiarError(ciudad)
-  });
-  
   // Evento que se dispara al oprimir "Guardar" y enviar el formulario principal
   form.addEventListener("submit", async (e) => {
     window.procesoPeticion = true;
     e.preventDefault();
     botonSiguiente.disabled = true;
-
-    // Herramienta que revisa que cada cuadro esté en orden (como longitud mínima, selección válida)
-    let validarApellidos = validacion.validarMinimo(apellidos, 3);
-    let validarZona = validacion.validarSelect(zona);
-    let validarApartamento = validacion.validarSelect(apartamento);
-    let validarCiudad = validacion.validarSelect(ciudad);
-
-    // Condición estricta: Si TODAS las validaciones pasan limpiamente
-    if (
-      validarApellidos &&
-      validarZona &&
-      validarApartamento &&
-      validarCiudad
-    ) {
       
       // Armar el paquete de datos que viajará e ingresará a la base central de planes familiares
       const datosRegistro = {
@@ -109,7 +75,7 @@ export default async () => {
           alerta.alertaError(error.errors); // Mostrar que hubo un fallo grande en el servidor
         }
       }
-    }
+    
     botonSiguiente.disabled = false;
     window.procesoPeticion = false;
   });

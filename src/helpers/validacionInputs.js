@@ -303,7 +303,7 @@ export const  validar_siExiste = (input, minimo) => {
   if (!value) return true;
 
   // Si tiene contenido, ejecuta la validación que le pases (actualmente tiene harcodeado 'validarMinimo' que podría fallar si min es undefined)
-  return validarMinimo(input,minimo);
+  return validar_minimo(input,minimo);
 };
 
 // =====================================================
@@ -314,7 +314,7 @@ export const  validar_siExiste = (input, minimo) => {
 // Cada propiedad indica el valor del "data-tipo" que se pone al input en HTML (ej: <input data-tipo="textoCorto">).
 // Contiene las reglas a atar, longitud de caracteres, y si exige llenado optativo.
 const inputTipos={
-  textoCorto: { keyboard:keyboard_textoEspacio,min:3,max:50},
+  textoCorto: { keyboard:(input)=>keyboard_textoEspacio(input),min:3,max:50},
 
   textoLargo: { keyboard:keyboard_textoEspacio,min:8,max:255},
 
@@ -340,6 +340,8 @@ const inputTipos={
 
   password:{validacion:(input)=>validar_password(input),max:40},
 
+  passwordSinValdacion: {validacion:(input)=>validar_maximo(input),max:40},
+
   mayorDeEdad:{validacion:(input)=>validar_minimoMaximo(input)}
 };
 
@@ -354,16 +356,35 @@ export const validadorAutomatico = {
     // Escanea todo el formulario atrapando hijos "input" y "select"
     const inputs = formulario.querySelectorAll("input")
     const selects = formulario.querySelectorAll("select");
-    
+    const textArea = formulario.querySelectorAll("textArea");
+
     inputs.forEach(input => {
       // Extrae la etiqueta `<input data-tipo="nombre_tipo">`
       const tipo = input.dataset.tipo 
-      
       // Chequea si existe una regla bautizada con ese nombre en nuestro Diccionario arriba `inputTipos`
       if (tipo in inputTipos){
         // Si detecta la regla, ata un evento para vetar que sigan teclando más alla de la regla `max` del dic.
         input.addEventListener("keydown", e => {
           if (inputTipos[tipo].max) keyboard_limite(e,inputTipos[tipo].max)
+          if(inputTipos[tipo].keyboard) inputTipos[tipo].keyboard(e);
+        })
+
+        // Ata evento para borrar visualmente el error rojo automático cuando descliquean la caja (blur) asumiendo ya lo corrigieron
+        input.addEventListener("blur", e => {
+          limpiarError(input)
+        })
+      }
+    })
+    
+    textArea.forEach(input => {
+      // Extrae la etiqueta `<input data-tipo="nombre_tipo">`
+      const tipo = input.dataset.tipo 
+      // Chequea si existe una regla bautizada con ese nombre en nuestro Diccionario arriba `inputTipos`
+      if (tipo in inputTipos){
+        // Si detecta la regla, ata un evento para vetar que sigan teclando más alla de la regla `max` del dic.
+        input.addEventListener("keydown", e => {
+          if (inputTipos[tipo].max) keyboard_limite(e,inputTipos[tipo].max)
+          if(inputTipos[tipo].keyboard) inputTipos[tipo].keyboard(e);
         })
         // Ata evento para borrar visualmente el error rojo automático cuando descliquean la caja (blur) asumiendo ya lo corrigieron
         input.addEventListener("blur", e => {
@@ -385,9 +406,36 @@ export const validadorAutomatico = {
 
     const inputs = formulario.querySelectorAll("input");
     const selects = formulario.querySelectorAll("select");
-  
+    const textArea = formulario.querySelectorAll("textArea");
+
     // Pasada 1: Revisa todos los inputs de texto/numéricos 
     inputs.forEach(input => {
+      const tipo = input.dataset.tipo
+
+      if (tipo in inputTipos){        
+        // Si la regla dice que es optativo y el input lo es, realiza evaluación de puente "validar_siExiste"
+        if (inputTipos[tipo].opcional){     
+          validar_siExiste(input, Number(inputTipos[tipo].min))
+          return // Salta la iteración en seco
+        }
+        // Si la regla posee ambos minino y máximo configurado en JSON, ejecuta la test combinada de tamaños
+        if (inputTipos[tipo].min && inputTipos[tipo].max){
+          validar_minimoMaximo(input,inputTipos[tipo].min,inputTipos[tipo].max);
+        }
+        // Sino comprueba si solo pide mínimo y lanza esa prueba
+        else if (inputTipos[tipo].min){
+          validar_minimo(input,Number(inputTipos[tipo].min));
+        }
+        // Sino prueba si solo pidió máximo a secas
+        else if (inputTipos[tipo].max){
+          validar_maximo(input,Number(inputTipos[tipo].max));
+        }
+        // Independientemente de la longitud, si tiene atada una función de validación compleja (ej: `correo`), la evalúa
+        if(inputTipos[tipo].validacion) inputTipos[tipo].validacion(input);
+      }
+    })
+
+    textArea.forEach(input => {
       const tipo = input.dataset.tipo
 
       if (tipo in inputTipos){        

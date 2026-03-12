@@ -99,7 +99,7 @@ export default async () => {
   // Escuchador Afeccion: Al presionar 'Añadir Discapac/Enfer', Inicia Popup (Modal Complex SweetAlert Custom HTML Injection!)
   botonAñadir.addEventListener("click", async () => {
     // Le manda por referencia quien es el 'Dueño', y la funcion delegada a ejecutar para autorefrescarse la pantalla cuando termine.
-    modalIntegrante.crear(integranteId, cargarAfecciones);
+    modalIntegrante.afeccionCrear(integranteId, cargarAfecciones);
   });
 
   // Escuchador Burbujeante Lista Afecciones Muro List : Ver/Modificar/Borrar Enfermedad Especifica

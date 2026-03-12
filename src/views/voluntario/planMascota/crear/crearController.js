@@ -7,6 +7,7 @@
 import * as api from "../../../../helpers/api";
 import * as alerta from "../../../../helpers/alertas";
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
+import * as validacion from "../../../../helpers/validacionInputs";
 
 export default async () => {
     // Selectores Main 
@@ -29,8 +30,6 @@ export default async () => {
     const nombre = document.getElementById('nombre');
     const raza = document.getElementById('raza');
     const edad = document.getElementById('edad'); // Numero integer
-    
-    // Selects Diccionarios Nativos
     const especies = document.getElementById('especies');
     const generos = document.getElementById('generos');
     
@@ -42,12 +41,23 @@ export default async () => {
     window.procesoPeticion = false;
     botonGuardar.disabled = false;
 
+    validacion.validadorAutomatico.init(form);
+
     // Submit Core Listener POST Create
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         window.procesoPeticion = true // Lock doble clicker
         botonGuardar.disabled = true;
 
+        const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
+        if (!booleanValidacion)
+        {
+            // Falla UI. Cortocitcuit exit.
+            window.procesoPeticion = false
+            botonGuardar.disabled = false;
+            return
+        }
+        
         // Mapper JSON DTO -> Pets Laravel Model Backend Schema
         const datosRegistro = {
             name: nombre.value,

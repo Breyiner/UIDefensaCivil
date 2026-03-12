@@ -20,7 +20,7 @@ export default async () => {
 
   // Botones y contenedores clave de la interfaz
   const form = document.querySelector(".form");
-  const botonSiguiente = document.getElementById("boton_siguiente");
+  const botonSiguiente = document.getElementById("botonSiguiente");
   const botonGeo = document.querySelector(".form__botonGeo"); // Botón que Salta a la pestaña Foto
 
   // Elementos individuales del formulario de la vivienda
@@ -66,68 +66,26 @@ export default async () => {
   botonGeo.disabled = false;
   window.procesoPeticion = false;
 
-  // Lógica activa contra escritura indeseada (Números donde van apellidos, textos inmensos, etc)
-  apellidos.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 75);
-    validacion.textoConEspacios(e);
-  });
-  dirrecion.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 100);
-  });
-  sectorNombre.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 50);
-  });
-  telefono.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 15);
-    validacion.soloNumeros(e);
-  });
+  validacion.validadorAutomatico.init(form);
 
-  // Eventos que limpian las líneas rojas de error una vez el usuario repara su escritura
-  apellidos.addEventListener("blur", (e) => {
-    validacion.limpiarError(apellidos);
-  });
-  dirrecion.addEventListener("blur", (e) => {
-    validacion.limpiarError(dirrecion);
-  });
-  sector.addEventListener("change", async () =>{ 
-    validacion.limpiarError(sector)
-  });
-  sectorNombre.addEventListener("blur", (e) => {
-    validacion.limpiarError(sectorNombre);
-  });
-  telefono.addEventListener("blur", (e) => {
-    validacion.limpiarError(telefono);
-  });
-  calidad.addEventListener("change", async () => {
-    validacion.limpiarError(calidad)
-  });
-  
   // Lógica principal de actualización hacia el servidor permanente
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     
+    const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
+    
+    // Si algún proceso falló (Regex o Identidad)
+    if (!booleanValidacion)
+    {
+      window.procesoPeticion = false // Abre exclusa de bugs
+      botonSiguiente.disabled = false; // Suelta boton
+      return // Corta
+    }
+
     // Bloquear Interfaz
     botonSiguiente.disabled = true;
     botonGeo.disabled = true;
     window.procesoPeticion = true;
-
-    // Ejecuta las pruebas correspondientes, revisando si hay algo vació o incorrecto
-    let validarApellidos = validacion.validarMinimo(apellidos, 3);
-    let validarDirrecion = validacion.validarMinimo(dirrecion, 10);
-    let validarSector = validacion.validarSelect(sector);
-    let validarSectorNombre = validacion.validarMinimo(sectorNombre, 3);
-    let validarTelefono = validacion.validarSiExiste(telefono,7); // Exige un número tradicional al menos
-    let validarCalidad = validacion.validarSelect(calidad);
-
-    // Si todo logró el estándar impuesto:
-    if (
-      validarApellidos &&
-      validarDirrecion &&
-      validarSector &&
-      validarSectorNombre &&
-      validarTelefono &&
-      validarCalidad
-    ) {
       
       // Colección exacta de elementos a viajar al servidor
       const datosRegistro = {
@@ -163,7 +121,6 @@ export default async () => {
       } catch (error) {
         alerta.alertaError(error.errors); // Muestra falla rotunda de red
       }
-    }
     
     // Al finalizar vuelve a habilitar su uso por si ocurrio algún rechazo de datos
     botonSiguiente.disabled = false;
