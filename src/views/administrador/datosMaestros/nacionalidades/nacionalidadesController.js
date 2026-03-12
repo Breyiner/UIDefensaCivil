@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Nacionalidades (nacionalidadesController.js)
+ * Administra la vista de lista de nacionalidades, permitiendo crear, 
+ * editar o alterar el estado (activo/inactivo) usando componentes reutilizables.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as nacionalidad from "../../../../helpers/modales/nacionalidad";

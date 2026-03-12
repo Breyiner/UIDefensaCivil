@@ -1,8 +1,23 @@
+/**
+ * Módulo de Configuración de Rutas (routers.js)
+ * Define el diccionario principal de rutas accesibles en la aplicación.
+ * Asocia cada segmento de URL con su respectiva vista HTML, su controlador 
+ * JavaScript y sus permisos de acceso (Roles/Privilegios).
+ */
+
+// ==========================================
+// IMPORTACIÓN DE CONTROLADORES
+// ==========================================
+
+// Importa controladores del módulo de Autenticación (Login, Registro, Recuperar Contraseña)
 import * as auth from "../views/auth/index.js"
+
+// Importa controladores de los paneles principales (Dashboards) según el rol
 import VoluntarioHomeController from "../views/voluntario/home/homeController.js";
 import AdministradorHomeController from "../views/administrador/home/homeController.js"
 import SupervisorHomeController from "../views/supervisor/home/homeController.js"
 
+// Importa los sub-módulos pertenecientes al flujo del "Plan Familiar" (Rol Voluntario)
 import * as planFamiliar from "../views/voluntario/planFamiliar/index.js";
 import * as verPlan from "../views/voluntario/verPlanFamiliar/index.js";
 import * as planDatos from "../views/voluntario/planDatos/index.js";
@@ -14,17 +29,29 @@ import * as PlanEntorno from "../views/voluntario/planEntorno/index.js";
 import * as PlanGrafico from "../views/voluntario/planGrafico/index.js";
 import * as planAccion from "../views/voluntario/planAccion/index.js"
 
+// Importa módulos administrativos y de supervisión de Usuarios y Planes
 import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
 import * as supervisorPlanFamiliar from "../views/supervisor/PlanFamiliar/index.js"
 import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
 import * as usuario from "../views/usuario/index.js"
 
+// ==========================================
+// DICCIONARIO DE RUTAS (routes)
+// ==========================================
+// Estructura: 
+// "segmento-url": { 
+//    path: "ruta/al/html", 
+//    controlador: funcionJS, 
+//    private: true/false (Requiere login), 
+//    can: "permiso" (Opcional, requiere este rol/permiso) 
+// }
 export const routes = {
+  // === Rutas Públicas (Autenticación) ===
   login: {
     path: `auth/login/index.html`,
     controlador: auth.loginController,
-    private: false,
+    private: false, // Accesible sin sesión
   },
   register: {
     path: `auth/register/index.html`,
@@ -36,11 +63,13 @@ export const routes = {
     controlador: auth.forgotPasswordController,
     private: false,
   },
+
+  // === Rutas de Perfil (Comunes) ===
   "usuarios":{
     "perfil": {
       path: `usuario/perfil/index.html`,
       controlador: usuario.perfilController,
-      private:false
+      private:false // Debería revisarse (suele ser true en producción)
     },
     "notificaciones":{
       path: `usuario/notificaciones/index.html`,
@@ -48,13 +77,18 @@ export const routes = {
       private:false
     }
   },
+
+  // =========================================================
+  // === RUTAS DEL ROL: VOLUNTARIO ===
+  // =========================================================
   'voluntario-home': {
     path: `voluntario/home/index.html`,
     controlador: VoluntarioHomeController,
-    private: true,
-    can: "home-frontend.voluntario",
+    private: true, // Requiere sesión
+    can: "home-frontend.voluntario", // Requiere este permiso exacto en localStorage
   },
 
+  // --- Módulo: Creación de Plan Familiar ---
   "voluntario-planFamiliar": {
     crear: {
       path: `voluntario/planFamiliar/crear/index.html`,
@@ -72,7 +106,7 @@ export const routes = {
       path: `voluntario/planFamiliar/georeferenciacion/index.html`,
       controlador: planFamiliar.GeoreController,
       private: true,
-      can: "family-plans.destroy",
+      can: "family-plans.destroy", // Nota: Revisa si el permiso destroy es el correcto aquí
     },
     testVunerabilidad: {
       path: `voluntario/planFamiliar/testVulnerabilidad/index.html`,
@@ -82,8 +116,9 @@ export const routes = {
     },
   },
 
+  // --- Módulos: Detalles y Componentes de un Plan Existente ---
   "voluntario-verPlanFamiliar": {
-    "/": {
+    "/": { // Ruta base del módulo
       path: `voluntario/verPlanFamiliar/index.html`,
       controlador: verPlan.VerPlanFamiliar,
       private: true,
@@ -234,11 +269,15 @@ export const routes = {
       can: "home-frontend.voluntario",
     }
   },
+
+  // =========================================================
+  // === RUTAS DEL ROL: SUPERVISOR ===
+  // =========================================================
   "supervisor-home": {
     "/": {
       path: `supervisor/home/index.html`,
       controlador: SupervisorHomeController,
-      private: false,
+      private: false, // Nota: Revisa si esto debería ser privado
     },
   },
 
@@ -246,7 +285,7 @@ export const routes = {
     "/": {
       path: `voluntario/verPlanFamiliar/index.html`,
       controlador: verPlan.VerPlanFamiliar,
-      private: false
+      private: false 
     },
     "revision": {
       path: `supervisor/revisionPlan/index.html`,
@@ -274,13 +313,18 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
   },
-    "administrador-home": {
+
+  // =========================================================
+  // === RUTAS DEL ROL: ADMINISTRADOR ===
+  // =========================================================
+  "administrador-home": {
     path: `administrador/home/index.html`,
     controlador: AdministradorHomeController,
     private: true,
-    can: "home-frontend.voluntario",
+    can: "home-frontend.voluntario", // Nota: Revisa si este rol no debería ser .administrador
   },
 
+  // --- Módulo: Tablas Maestras / Diccionarios de Datos ---
   "administrador-datosMaestros": {
     "/": {
       path: `administrador/datosMaestros/index.html`,
@@ -366,6 +410,7 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
   },
+  // --- Módulo: Gestión de Usuarios del Administrador ---
   "administrador-usuarios": {
     "peticiones": {
       path: `administrador/usuarios/peticiones/index.html`,

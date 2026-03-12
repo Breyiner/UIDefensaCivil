@@ -1,18 +1,33 @@
+/**
+ * Helper de Paginación de Registros (paginacion.js)
+ * Controlador central para manejar listas largas de datos traídos del backend.
+ * Genera dinámicamente los botones de página (1, 2, 3... Siguiente) y renderiza
+ * las tarjetas (cards) de datos a medida que el usuario navega, evitando sobrecargar la RAM.
+ */
 import * as api from "./api";
+
+// Recibe la URL de la api, el texto a mostrar si hay 0 resultados, y la función 'carta' que construye el HTML visual.
 export default async (peticion,mensajeVacio,carta) => {
+    // Contenedor mayor donde van las tarjetas (cards)
     const container = document.querySelector(".container__paginas");
+    // Barra inferior donde van los numeritos de página
     const containerPaginador = document.querySelector(".container__paginador")
 
     let paginaActual = 1;
 
+    // 1. Averigua el tamaño de la metadata preguntando al endpoint
     const paginas = await api.getPaginacion(peticion);
-    const cantidad = paginas.paginate.last_page;
+    const cantidad = paginas.paginate.last_page; // Total de hojas/páginas
     
+    // 2. Comprueba si hay al menos 1 registro
     const evaluacion = await evaluarDatos();    
     if (!evaluacion)
     {
+        // 3. Renderiza números y la página default (1)
         await paginacion();
         await cargarPagina();
+        
+        // 4. Si sobran números para llenar 1 página base, oculta la barra de paginación por innecesaria
         if (paginas.paginate.total <= paginas.paginate.per_page)
         {
             containerPaginador.classList.add("invisible");
@@ -20,44 +35,59 @@ export default async (peticion,mensajeVacio,carta) => {
         window.procesoPeticion = false
     }
     else{
+        // Alternativa: Si hay cero, imprime el warning de vacío inyectando el msj
         container.innerHTML = `<div class="noCantidad">${mensajeVacio}</div>`
         window.procesoPeticion = false;
     }
 
+    // 5. Escucha activa (Event Delegation). Espera clicks en los numeritos inferiores.
     containerPaginador.addEventListener("click", async (e) => {   
+        // Si hace click en un botón de clase válido y no estamos a medio descargar 
         if (e.target.classList.contains("paginador__numero") && !window.procesoPeticion)
         {
-            if (paginaActual == e.target.id) return;
+            if (paginaActual == e.target.id) return; // Evita re-cargar la misma pestaña en la que ya está
             paginaActual = e.target.id;
-            paginacion();
-            cargarPagina();
+            paginacion(); // Re-dibuja cintillo numerado
+            cargarPagina(); // Re-descarga JSON de registros
         }});
   
+    // ==========================================
+    // LOGICA QUE PINTA LOS BOTONES NUMÉRICOS INFERIORES
+    // ==========================================
     async function paginacion() {
-        containerPaginador.innerHTML = "";
+        containerPaginador.innerHTML = ""; // Limpia la barra numerada 
+        
+        // Caso simple: Menos de 10 hojas de datos totales
         if (cantidad <= 10)
         {
             for (let cont = 1; cont <= cantidad; cont++){
                 const contenedor = document.createElement("button");
                 contenedor.classList.add("paginador__numero");
+                // Selecciona en CSS el botón actual para iluminarlo
                 cont == paginaActual ? contenedor.classList.add("paginador__numero--activo") : "";
                 contenedor.id = cont;
                 contenedor.textContent = cont;
                 containerPaginador.appendChild(contenedor);
             }
         }
-        else{
+        else{ // Caso Complejo: Mas de 10 páginas (Se achica mostrando '<<' ATRÁS y ADELANTE '>>')
+            
+            // Construye Botón 'Atrás'
             const botonAtras = document.createElement("button");
             botonAtras.classList.add("paginador__numero");
             botonAtras.id = paginaActual != 1 ? Number(paginaActual)-1 : paginaActual;
             botonAtras.innerHTML = `<i class="ri-arrow-left-wide-line"></i>`
             containerPaginador.appendChild(botonAtras);
+            
             let numeroCasillas = 0;
-            let numeroEmpieza = 0
+            let numeroEmpieza = 0;
+            
             if (paginaActual != 1)
             {
-                numeroEmpieza = paginaActual;
+                numeroEmpieza = paginaActual; // Corre el cursor para la derecha
                 numeroCasillas = Number(numeroEmpieza) + 9;
+                
+                // Limite truncado si se acerca al final del último bloque de 10
                 if (numeroCasillas > cantidad)
                 {
                     numeroCasillas = cantidad;
@@ -68,6 +98,8 @@ export default async (peticion,mensajeVacio,carta) => {
                 numeroCasillas = 10;
                 numeroEmpieza = 1;
             }
+            
+            // Dibuja los números del bloque actual
             for (numeroEmpieza; numeroEmpieza <= numeroCasillas; numeroEmpieza++){
                 const contenedor = document.createElement("button");
                 contenedor.classList.add("paginador__numero");
@@ -76,6 +108,8 @@ export default async (peticion,mensajeVacio,carta) => {
                 contenedor.textContent = numeroEmpieza;
                 containerPaginador.appendChild(contenedor);
             }
+            
+            // Construye Botón 'Adelante'
             const botonSiguiente = document.createElement("button");
             botonSiguiente.classList.add("paginador__numero");
             botonSiguiente.id = (Number(paginaActual)+1) > cantidad ? cantidad : Number(paginaActual)+1;
@@ -84,17 +118,25 @@ export default async (peticion,mensajeVacio,carta) => {
         }
     }
 
+    // ==========================================
+    // LOGICA QUE DESCARGA LA INFO Y LLAMA EL MOLDE
+    // ==========================================
     async function cargarPagina() {
-        container.innerHTML = "";
+        container.innerHTML = ""; // Limpia la parrilla vieja de datos
+        // Vuelve a pegarle a la API anexando explícitamente el parámetro ?page=XX que manda Laravel
         const datos = await api.get(`${peticion}?page=${paginaActual}`);
+        
+        // Ejecuta el Inversor de Control sobre cada record, delegando al archivo Controlador 
+        // original (VoluntarioController por ej.) el como dibujar y mutar su `cartaInfo` específica.
         for (const dat in datos)
         {
                 let info = datos[dat];
                 const cartaInfo = await carta(info);
-                container.appendChild(cartaInfo);
+                container.appendChild(cartaInfo); // Ensambla pieza
         }
     }
 
+    // Auxiliar para veredicto vacío
     async function evaluarDatos()
     {
         if (paginas.paginate.total == 0)

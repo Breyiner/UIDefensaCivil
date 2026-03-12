@@ -1,3 +1,8 @@
+/**
+ * Controlador: Peticiones Globales de Usuario (peticionesController.js)
+ * Vista exclusiva de Administrador para evaluar TODAS las solicitudes de nuevos
+ * perfiles. Muestra las cartas paginadas y levanta el modal de Aprobación/Rechazo.
+ */
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import paginacion from "../../../../helpers/paginacion";

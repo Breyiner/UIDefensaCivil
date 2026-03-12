@@ -1,31 +1,45 @@
+/**
+ * Helper de Modales Complejos: Factores de Riesgo (factorRiesgo.js)
+ * Contiene un mini-ecosistema de modales entrelazados. Permite no solo Ver el factor en sí,
+ * sino levantar pop-ups hijos para Crear, Editar y Eliminar tareas de reducción y 
+ * debilidades (Vulnerabilidades) colgadas de dicho Riesgo.
+ */
 import * as api from "../api";
 import * as alerta from "../alertas";
 
+// Ventana General Informativa del Factor de Riesgo particular
 export const ver = async (id) => {
 
+    // 1. Invoca llamadas GET para centralizar info relacionada
     const datos = await api.get(`riskFactors/${id}`);
     const acciones = await api.get(`riskReductionActions/riskFactor/${id}`);
     const vulnerabilidades = await api.get(`vulnerabilityFactors/riskFactor/${id}`);
+    
+    // Contenedores textuales iterables
     let todasAcciones = "";
     let todasVulnerabilidades = "";
     let contadorAcciones = 0;
     let contadorVulnerabilidades = 0;
+
+    // Procesamiento y agrupación de Strings p/acciones
     acciones.forEach((accion) => {
     contadorAcciones > 0 ? 
     (todasAcciones += `, ${accion.action} - Encargado: ${accion.member.names} ${accion.member.last_names} - Fecha finalización: ${accion.end_date}`) :
     (todasAcciones += `${accion.action} - Encargado: ${accion.member.names} ${accion.member.last_names} - Fecha finalización: ${accion.end_date}`);
     contadorAcciones++;});
-    if (acciones.length == 0) {
-      todasAcciones = "ninguna";
-    }
+    
+    if (acciones.length == 0) todasAcciones = "ninguna";
+    
+    // Procesamiento y agrupación de Strings p/vulnerabilidades
     vulnerabilidades.forEach((vulnerabilidad) => {
     contadorVulnerabilidades > 0 ?
     (todasVulnerabilidades += `, ${vulnerabilidad.vulnerability.name} - Grado: ${vulnerabilidad.vulnerability_grade.name}`) :
       todasVulnerabilidades += `${vulnerabilidad.vulnerability.name} - Grado: ${vulnerabilidad.vulnerability_grade.name}`;
     });
-    if (vulnerabilidades.length == 0) {
-      todasVulnerabilidades = "ninguna";
-    }
+    
+    if (vulnerabilidades.length == 0) todasVulnerabilidades = "ninguna";
+
+    // 2. Definición del cuerpo visual usando template literals dinámicos
     const htmlModal = `
     <div class="modalVer modal">
 
@@ -67,17 +81,22 @@ export const ver = async (id) => {
     </div>
   `;
 
+    // 3. Renderiza en pantalla sin botones CRUD
     alerta.Ver(htmlModal, false, false, null, null);
 };
 
+
+// Lanza formulario para crear una nueva "Acción de Reducción" asociada al Factor Riesgo
 export const crearAccion = async (riskFactorId, familyPlanId, recargarContainer) => {
 
+    // Extrae los familiares registrados en el plan para listarlos en el Input Encargado
     const members = await api.get(`members/familyPlan/select/${familyPlanId}`);
     let options = "";
     members.forEach(member => {
         options += `<option value="${member.id}">${member.full_name}</option>`;
     });
 
+    // Marco del SweetAlert
     const htmlModal = `
     <div class="explicacion modal">
       <p class="explicacion__titulo">Agregar Acción de Reducción</p>
@@ -109,18 +128,22 @@ export const crearAccion = async (riskFactorId, familyPlanId, recargarContainer)
     </div>
   `;
 
+    // Hook: se activa con el Ok confirmatorio
     const funcionModal = async () => {
 
+        // Cosecha los value
         const datos = {
             action: document.querySelector(".form__action").value,
             member_id: document.querySelector(".form__member").value,
-            risk_factor_id: riskFactorId,
+            risk_factor_id: riskFactorId, // Amarre foreign key vital
             end_date: document.querySelector(".form__date").value
         };
 
         try {
+            // Emite por POST
             const data = await api.post("riskReductionActions", datos);
 
+            // Validaciones API (success flag)
             if (data.success) {
                 await alerta.alertaOK(data.message);
                 await recargarContainer();
@@ -135,13 +158,16 @@ export const crearAccion = async (riskFactorId, familyPlanId, recargarContainer)
 
     };
 
+    // Abre el creador
     alerta.Crear(htmlModal, funcionModal);
 };
 
+// Sub-Controlador: Lee en modal una acción de riesgo, pero con habilitación CRUD (Edita y Borra hijo)
 export const verEditarEliminarAccion = async (id, familyPlanId, recargarContainer) => {
 
     const datos = await api.get(`riskReductionActions/${id}`);
     
+    // Estructura de vista default (lectura)
     const htmlModal = `
     <div class="modalVer modal">
 
@@ -166,9 +192,10 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
     </div>
   `;
 
-    // ✏ EDITAR
+    // ✏ ALGORITMO DE EDICIÓN
     const funcionModalEditar = async () => {
 
+        // Recarga catálogo delegados
         const members = await api.get(`members/familyPlan/select/${familyPlanId}`);
         
         let options = "";
@@ -180,6 +207,7 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
         </option>`;
         });
 
+        // Pantalla de Form Editar rellena
         const htmlEditar = `
       <div class="explicacion modal">
         <p class="explicacion__titulo">Editar Acción</p>
@@ -220,6 +248,7 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
             };
 
             try {
+                // Notese el uso de "PATCH" para edición parcial
                 const response = await api.patch(`riskReductionActions/${id}`, dataUpdate);
 
                 if (response.success) {
@@ -239,15 +268,17 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
         alerta.Crear(htmlEditar, funcionModal);
     };
 
-    // 🗑 ELIMINAR
+    // 🗑 ALGORITMO BORRADOR
     const funcionModalEliminar = async () => {
 
+        // Prevención accidentes
         const confirmacion = await alerta.alertaQuest(
             "¿Seguro que deseas eliminar esta acción?"
         );
 
-        if (!confirmacion.isConfirmed) return;
+        if (!confirmacion.isConfirmed) return; // Rompe si "Cancelar"
 
+        // Eliminación física
         const eliminado = await api.delet(`riskReductionActions/${id}`);
 
         if (eliminado.success) {
@@ -256,12 +287,15 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
         }
     };
 
+    // Renderiza modal incial de vista habilitando edición y tachado
     alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar);
 };
 
+
+// Agregador de debilidades de un Factor de Riesgo. Mismo mecanismo de creación que arriba
 export const crearVulnerabilidad = async (riskFactorId, recargarContainer) => {
 
-    // 🔹 Traer selects
+    // 🔹 Traer selects dependientes para llenar el dropdown
     const vulnerabilityGrades = await api.get("vulnerabilityGrades");
     const vulnerabilities = await api.get("vulnerabilities");
 
@@ -313,7 +347,7 @@ export const crearVulnerabilidad = async (riskFactorId, recargarContainer) => {
 
             if (response.success) {
                 await alerta.alertaOK(response.message);
-                await recargarContainer();
+                await recargarContainer(); // Carga de nuevo la visual
             } else {
                 alerta.alertaWarning(response.message, response.errors);
             }
@@ -327,6 +361,7 @@ export const crearVulnerabilidad = async (riskFactorId, recargarContainer) => {
     alerta.Crear(htmlModal, funcionModal);
 };
 
+// Modal de lectura simple pero equiparado con la capacidad de borrado de dicha vulnerabilidad detectada
 export const verEditarEliminarVulnerabilidad = async (id, recargarContainer) => {
 
     const datos = await api.get(`vulnerabilityFactors/${id}`);
@@ -349,7 +384,7 @@ export const verEditarEliminarVulnerabilidad = async (id, recargarContainer) => 
     </div>
   `;
 
-    // ✏ EDITAR
+    // ✏ EDITAR (Nuevos Selects pre-seleccionados)
     const funcionModalEditar = async () => {
 
         const vulnerabilityGrades = await api.get("vulnerabilityGrades");
@@ -405,6 +440,7 @@ export const verEditarEliminarVulnerabilidad = async (id, recargarContainer) => 
             };
 
             try {
+                // Pide actualización en el backend (PATCH)
                 const response = await api.patch(`vulnerabilityFactors/${id}`, dataUpdate);
 
                 if (response.success) {
@@ -420,10 +456,11 @@ export const verEditarEliminarVulnerabilidad = async (id, recargarContainer) => 
             }
         };
 
+        // Levanta cuadro editable
         alerta.Crear(htmlEditar, funcionModal);
     };
 
-    // 🗑 ELIMINAR
+    // 🗑 ELIMINAR VULNERABILIDAD SUBORDINADA
     const funcionModalEliminar = async () => {
 
         const confirmacion = await alerta.alertaQuest(
@@ -440,5 +477,6 @@ export const verEditarEliminarVulnerabilidad = async (id, recargarContainer) => 
         }
     };
 
+    // Abre el modal inicial inyectando las lógicas CRUD completas
     alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar);
 };

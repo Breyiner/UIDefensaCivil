@@ -1,9 +1,13 @@
+/**
+ * Índice de Controladores de Inicialización del Plan Familiar (Voluntario)
+ * Archivo central que empaca y exporta los módulos necesarios para CREAR un plan 
+ * desde cero. Incluye el registro inicial de la familia, su foto georeferenciada, 
+ * los datos de contacto y la ejecución de la prueba final de vulnerabilidad.
+ */
 import CrearController from "./crear/crearController";
-
 import GeoreController from "./georeferenciacion/georeferenciacionController";
-
 import IdentiController from "./identificacion/identificacionController";
-
 import TestController from "./testVulnerabilidad/testController";
 
+// Agrupación de los módulos para enviarlos al archivo principal
 export { CrearController, GeoreController, IdentiController, TestController};

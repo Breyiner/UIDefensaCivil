@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Preguntas de Vulnerabilidad (preguntasVulnerabilidadController.js)
+ * Maneja el listado y la creación de preguntas empleadas para calcular 
+ * los índices de vulnerabilidad de un Plan Familiar.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as vulnerabilidad from "../../../../helpers/modales/preguntaVulnerabilidad";

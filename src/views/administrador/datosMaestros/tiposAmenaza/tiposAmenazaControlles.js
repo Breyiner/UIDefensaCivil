@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Tipos de Amenaza (tiposAmenazaControlles.js)
+ * Administra el catálogo de amenazas reconocidas para uso en Planes Familiares.
+ * Maneja el renderizado de la lista y la apertura del modal para su edición.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as tipoAmenaza from "../../../../helpers/modales/tipoAmenaza";

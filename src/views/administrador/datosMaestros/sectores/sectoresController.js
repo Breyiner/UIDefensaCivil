@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Sectores (sectoresController.js)
+ * Listado paramétrico de los sectores demográficos/geográficos. 
+ * Conecta el endpoint 'sectors' con la fábrica de listas de la vista.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as sector from "../../../../helpers/modales/sector";
