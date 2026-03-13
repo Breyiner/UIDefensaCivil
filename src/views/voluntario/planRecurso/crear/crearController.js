@@ -1,19 +1,27 @@
+/**
+ * Controlador: Creador de Nuevo Recurso Disponible (planRecurso/crear/crearController.js)
+ * Formulario manual para agregar Hospitales/Bomberos cercanos a la casa.
+ * Usa Validadores Individuales (NO el validador automático universal) anclados a eventos del teclado (DOM).
+ */
 import * as api from "../../../../helpers/api";
 import * as alerta from "../../../../helpers/alertas";
-import * as validacion from "../../../../helpers/validacionInputs";
+import * as validacion from "../../../../helpers/validacionInputs"; // Suite Validacion Explicita
 import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
 
 export default async () => {
+  // Manejo de Interfaz Nodos Actioners
   const botonBack = document.getElementById("botonBack");
-  const botonCrear = document.getElementById("botonCrear");
+  const botonCrear = document.getElementById("botonCrear"); // Disparador POST Server
   const form = document.querySelector(".form");
-  const id = location.hash.split("=")[1];
+  const id = location.hash.split("=")[1]; // PK Family Plan ID url 
 
+  // Lock Inicial Peticion Unica Frontend
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
   }
   window.procesoPeticion = true;
 
+  // Lógica Abortar Form
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
     const confirmacion = await alerta.alertaQuest(
@@ -23,18 +31,27 @@ export default async () => {
       location.href = `#/voluntario-planRecurso/ver/id=${id}`;
   };
 
-  // Inputs de texto
+  // Nodos Inputs Fisicos HTML (Lectura Textos y Numeros)
   const telefono = document.getElementById("telefono");
   const descripcion = document.getElementById("descripcion");
-  const distancia = document.getElementById("distancia");
-  const ubicacion = document.getElementById("ubicacion");
-  const recurso = document.getElementById("recursos");
-  const servicio = document.getElementById("servicio");
+  const distancia = document.getElementById("distancia"); // En Metros
+  const ubicacion = document.getElementById("ubicacion"); // Direccion String
+  
+  // Selects Diccionarios Categóricos App
+  const recurso = document.getElementById("recursos"); // Select Type "Bomberos, Cruz Roja.."
+  const servicio = document.getElementById("servicio"); // Select Subtype
+
+  // Magic Helper Doble Lista Enlazada Dinámica! (Actualiza selects hijos segun el padre)
   await adjuntarOpc.adjuntarDouble(recurso, "resources",servicio,'service');
 
+  /**
+   * --- SECCIÓN LISTENER VALIDACIONES MANUALES EVENT DRIVEN "EN VIVO" ---
+   * Escucha cada pulsación KeyDown y previene inyección o escritura de caracteres ilegales 
+   * en los Input antes de hacer Submit.
+   */
   telefono.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 10);
-    validacion.soloNumeros(e);
+    validacion.soloNumeros(e); // Aborta Teclado Letras string
   });
   descripcion.addEventListener("keydown", (e) => {
     validacion.limiteCaracteres(e, 200);
@@ -43,9 +60,11 @@ export default async () => {
     validacion.limiteCaracteres(e, 100);
   });
   distancia.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 5);
+    validacion.limiteCaracteres(e, 5); // Maximo 5 caracteres numéricos ej: 99999 mts
     validacion.soloNumeros(e);
   });
+  
+  // Handlers Blur Focus Out (Limpia clases Error Roja UI si el user corrigió)
   telefono.addEventListener("blur", () => {
     validacion.limpiarError(telefono);
   });
@@ -68,17 +87,22 @@ export default async () => {
   window.procesoPeticion = false;
   botonCrear.disabled = false;
 
+  // Listener Master Envio HTTP Api Creador
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     window.procesoPeticion = true;
     botonCrear.disabled = true;
 
+    // --- RECHEQUEO VALIDACIÓN STRICTA FINAL ANTES DE ENVIAR AL SERVIDOR ---
+    // Verifica logitudes minimas Ej: Descripcion > 15 letras si no rechaza.
     let validarDescripcion = validacion.validarMinimo(descripcion, 15);
     let validarUbicacion = validacion.validarMinimo(ubicacion, 5);
     let validarDistancia = validacion.validarMinimo(distancia, 1);
     let validarTelefono = validacion.validarMinimo(telefono, 5);
-    let validarRecurso = validacion.validarSelect(recurso);
+    let validarRecurso = validacion.validarSelect(recurso); // Verifica q no sea "Select default.."
     let validarServicio = validacion.validarVacio(servicio);
+    
+    // Check Multi AND Logic Gate Result
     if (
       validarDescripcion &&
       validarUbicacion &&
@@ -87,24 +111,30 @@ export default async () => {
       validarRecurso &&
       validarServicio
     ) {
+      // Contrato DB Endpoint Mapper Data To Object
       const datosRegistro = {
         resource_id: recurso.value,
         description: descripcion.value,
         location: ubicacion.value,
-        distance: distancia.value,
+        distance: distancia.value, // (Metros num)
         phone: telefono.value,
-        family_plan_id: id,
+        family_plan_id: id, // Attach to Family Plan Tree Head
       };
+      
       try {
-        const data = await api.post(`availableResources`, datosRegistro);
+        // Ejecutor Core PUSH DB Action (resource table inserts)
+        const data = await api.post(`availableResources`, datosRegistro); // URL Backend Action
+        
         if (data.success) {
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario-planRecurso/ver/id=${id}`;
+          window.location.href = `#/voluntario-planRecurso/ver/id=${id}`; // Return Success Layout Padre
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors);
       }
     }
+    
+    // Unlock and Catch Fallbacks 
     botonCrear.disabled = false;
     window.procesoPeticion = false;
   });

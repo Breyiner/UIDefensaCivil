@@ -1,54 +1,71 @@
+/**
+ * Controlador: Fase Inicial Geo Referencia (georeferenciacionController.js)
+ * Controlador Idéntico a PlanEntorno/editar, pero utilizado durante el primer flujo
+ * secuencial lineal paso-a-paso en la ruta "#/voluntario-planFamiliar/georeferenciacion/..."
+ * en vez de en el modo edicion general por menús.
+ */
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 
 export default async () => {
-  const botonBack = document.getElementById("botonBack");
-  const id = location.hash.split("=")[1];
+  // Selectores Identidad
+  const botonBack = document.getElementById("botonBack"); // Flecha Atrás Layout
+  const id = location.hash.split("=")[1]; // PK/FK 
+  
   const form = document.querySelector(".form");
-  const boton = document.querySelector(".form__boton");
-
-  const input = document.getElementById("imagenInput");
-  const preview = document.getElementById("preview");
-  const imagenTitulo = document.querySelector(".imagen__titulo");
-  const TAMANO_MAX_MB = 2; // Tamaño máximo en MB
+  const boton = document.querySelector(".form__boton"); // Acción Insert Imagen
+  
+  // Elementos HTML para vista y file input
+  const input = document.getElementById("imagenInput"); // Native File Browser
+  const preview = document.getElementById("preview"); // Container Target Render Blob HTML Image
+  const imagenTitulo = document.querySelector(".imagen__titulo"); // Status Texto Imagen (Info Caption)
+  
+  // Especificaciones técnicas restrictoras de Archivo (Magic Numbers limiters)
+  const TAMANO_MAX_MB = 2; // Tamaño máximo en MB limit Server Config Nginx 
   const TAMANO_MAX_BYTES = TAMANO_MAX_MB * 1024 * 1024;
   const TIPOS_PERMITIDOS = ["image/jpeg", "image/png", "image/webp"];
 
+  // Barrera concurrencia inicial
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
   }
   window.procesoPeticion = true;
 
+  // Lógica Botón Atrás (Flujo lineal Wizard - vuelve a la Identificación)
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
     location.href = `#/voluntario-planFamiliar/identificacion/id=${id}`;
   };
 
+  // Comprueba si durante este proceso el voluntario cerró y volvió, para no borrar imagen existente
   const existe = await api.getExiste(`housingInfo/${id}`);
   if (existe) {
+    // Restauración visual estado UI File Upload
     const url = await api.getImagen(`housingInfo/${id}`);
     preview.src = await url;
-    preview.style.display = "block";
+    preview.style.display = "block"; // Asegura block CSS layout display
     imagenTitulo.textContent = "Vista previa de la imagen actual";
   }
 
+  // Release UX lock
   window.procesoPeticion = false;
   boton.disabled = false;
 
+  // Manejador del Input nativo Windows/Android 'Se eligió archivo local' -> change listener
   input.addEventListener("change", async () => {
     const file = input.files[0];
     if (!file) return;
 
-    // Validar tipo
+    // Rejectors por MimeType Error (Pre-Envío)
     if (!TIPOS_PERMITIDOS.includes(file.type)) {
-      input.value = "";
+      input.value = ""; // Vacia y aborta
       preview.style.display = "none";
       return alerta.alertaWarning(
         "Formato no permitido. Solo JPG, PNG o WEBP.",
       );
     }
 
-    // Validar tamaño
+    // Rejector Peso Excedido Límite (Pre-Envío ahorra banda Ancha)
     if (file.size > TAMANO_MAX_BYTES) {
       input.value = "";
       preview.style.display = "none";
@@ -57,21 +74,27 @@ export default async () => {
       );
     }
     
+    // Virtualización in-ram HTML render de Imagen para UX Visual Response
     preview.src = URL.createObjectURL(file);
     preview.style.display = "block";
     imagenTitulo.textContent = "Vista previa de la imagen seleccionada";
   });
 
+  // Listener Submit Confirmación Final Backend
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     window.procesoPeticion = true;
     boton.disabled = true;
+    
+    // Archivo de nuevo por safety
     const file = input.files[0];
+    
     if (!file) {
       boton.disabled = false;
       window.procesoPeticion = false;
       return alerta.alertaWarning("Selecciona un archivo primero");
     }
+    // Recheck By-pass 
     if (file.size > TAMANO_MAX_BYTES) {
       boton.disabled = false;
       window.procesoPeticion = false;
@@ -79,24 +102,32 @@ export default async () => {
         `La imagen no puede superar los ${TAMANO_MAX_MB}MB`,
       );
     }
+    
+    // Armando el Constructor especial de Formato Web multipart para subir bytes a PHP API Larvavel
     const formData = new FormData();
-    formData.append("path", file);
-    formData.append("family_plan_id", id);
+    formData.append("path", file); 
+    formData.append("family_plan_id", id); // ID Referencial
 
     try {
+      // Método Reemplazo Parcial manual (Borra el viejo foto y pon la nueva) para ahorrar Storage
       if (existe) await api.delet(`housingInfo/${id}`);
 
+      // Exec API Inserciónd
       const data = await api.postImagen(`housingInfo`, formData);
       if (data.success) {
+        // Exito
         await alerta.alertaOK(data.message);
+        
+        // Enrutamiento Forzado (Al ser Helper Linear de Georeferencia, Retorna al Módulo Identificación Avanzada)
         location.href = `#/voluntario-planFamiliar/identificacion/id=${id}`;
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }
     } catch (error) {
-      alerta.alertaError(error.errors);
+      alerta.alertaError(error.errors); // Connection DB Failure Server Down
     }
 
+    // Restaurar bloqueo Petición General en failure fallback
     boton.disabled = false;
     window.procesoPeticion = false;
   });

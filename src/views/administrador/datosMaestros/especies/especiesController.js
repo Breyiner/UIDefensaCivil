@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Especies (especiesController.js)
+ * Renderiza la lista completa de especies animales soportadas por el sistema.
+ * Configura los botones de crear nuevo registro y los inyecta en el DOM interactivo.
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as especie from "../../../../helpers/modales/especie";

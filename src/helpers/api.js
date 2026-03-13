@@ -1,21 +1,43 @@
+/**
+ * Módulo de API (api.js)
+ * Archivo central que gestiona todas las peticiones HTTP (GET, POST, PUT, DELETE, etc.) 
+ * hacia el backend. Incluye la lógica global de inyección de Tokens de Autenticación 
+ * y la recarga automática del token (Refresh Token) si la sesión ha expirado (Error 401).
+ */
+
 import * as alerta from "./alertas";
 import * as cookie from "./cookies";
 
+// URL base para las peticiones a la API del backend
 const url = "http://localhost:8000/api";
+// URL base donde se alojan los archivos estáticos en el backend (imágenes, documentos, etc.)
 export const urlStorage = "http://localhost:8000/storage";
 
+// ==========================================
+// FUNCIONES DE PETICIÓN (HTTP FETCH)
+// ==========================================
+
+/**
+ * GET (Boleano): Hace una petición para confirmar si existe o no un registro.
+ * Retorna true si el arreglo "data" tiene elementos, de lo contrario false.
+ */
 export const getExiste = async (endpoint) => {
   try {
+    // 1. Ejecuta la petición GET estándar con el token actual
     let response = await fetch(`${url}/${endpoint}`, {
       method: "GET",
-      credentials: "include",
+      credentials: "include", // Permite envío de cookies entre dominios si aplica
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
     });
+    
+    // 2. Si el backend responde 401 (No Autorizado / Token Vencido)
     if (response.status === 401) {
+      // 3. Intenta pedir un nuevo token usando el "refresh_token"
       await refreshToken();
+      // 4. Repite la petición original pero con el token recién renovado en la cookie
       response = await fetch(`${url}/${endpoint}`, {
         method: "GET",
         credentials: "include",
@@ -25,15 +47,19 @@ export const getExiste = async (endpoint) => {
         },
       });
 
+      // 5. Si de nuevo falla con 401, significa que la sesión caducó por completo
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
-        localStorage.clear();
+        window.location.href = "#/login"; // Expulsa al login
+        localStorage.clear(); // Limpia datos locales de sesión
         return null;
       }
     }
+    
+    // Procesa el cuerpo de la respuesta exitosa
     const obtenciones = await response.json();
     const info = obtenciones.data;
+    // Evalúa si vino relleno o vacío
     if (info.length > 0) return true;
     else return false;
   } catch (error) {
@@ -42,6 +68,10 @@ export const getExiste = async (endpoint) => {
   }
 };
 
+/**
+ * POST (Archivos): Especial para enviar FormData (archivos multimedia o documentos).
+ * NO lleva el header "Content-Type" porque el navegador lo asigna automáticamente al detectar FormData.
+ */
 export const postImagen = async (endpoint, datos) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
@@ -50,9 +80,10 @@ export const postImagen = async (endpoint, datos) => {
       headers: {
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
-      body: datos,
+      body: datos, // Payload en formato bruto o FormData
     });
 
+    // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
@@ -79,6 +110,10 @@ export const postImagen = async (endpoint, datos) => {
   }
 };
 
+/**
+ * GET (Imagen URL): Obtiene la ruta física o nombre de archivo en el servidor 
+ * y concatena la variable 'urlStorage' para retornar el link listo para usar en un <img src="">
+ */
 export const getImagen = async (endpoint) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
@@ -90,6 +125,7 @@ export const getImagen = async (endpoint) => {
       },
     });
 
+    // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
@@ -108,9 +144,11 @@ export const getImagen = async (endpoint) => {
         return null;
       }
     }
+    
+    // Extrae la respuesta del JSon
     const obtenciones = await response.json();
-    const imagenNombre = obtenciones.data[0].path;
-    const imagen = `${urlStorage}/${imagenNombre}`;
+    const imagenNombre = obtenciones.data[0].path; // Toma de asunción que la API retorna base en la prop path
+    const imagen = `${urlStorage}/${imagenNombre}`; // Arma la url completa de la foto
     return imagen;
   } catch (error) {
     console.error("Error en GET:", error);
@@ -118,6 +156,10 @@ export const getImagen = async (endpoint) => {
   }
 };
 
+/**
+ * GET (Genérico): Trae una lista o un solo objeto de información desde la base de datos.
+ * Retorna siempre la llave reservada "data" definida por la convención de la API.
+ */
 export const get = async (endpoint) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
@@ -129,6 +171,7 @@ export const get = async (endpoint) => {
       },
     });
 
+    // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
@@ -147,14 +190,19 @@ export const get = async (endpoint) => {
         return null;
       }
     }
+    
     const obtenciones = await response.json();
-    return obtenciones.data;
+    return obtenciones.data; // Devuelve solo el payload interno 
   } catch (error) {
     console.error("Error en GET:", error);
     return null;
   }
 };
 
+/**
+ * POST (JSON genérico): Crea un nuevo registro en la base de datos.
+ * Serializa los datos al estándar "JSON.stringify" para enviarlos por el body.
+ */
 export const post = async (endpoint, datos) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
@@ -164,9 +212,10 @@ export const post = async (endpoint, datos) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
-      body: JSON.stringify(datos),
+      body: JSON.stringify(datos), // Transformación de Obj Javascript a Texto JSON
     });
 
+    // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
@@ -194,6 +243,9 @@ export const post = async (endpoint, datos) => {
   }
 };
 
+/**
+ * PUT (Actualización Compleja): Actualiza/Sobrescribe los datos de un recurso ya existente.
+ */
 export const put = async (endpoint, datos) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
@@ -206,6 +258,7 @@ export const put = async (endpoint, datos) => {
       body: JSON.stringify(datos),
     });
 
+    // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
@@ -233,6 +286,10 @@ export const put = async (endpoint, datos) => {
   }
 };
 
+/**
+ * PATCH (Actualización Parcial): Actualiza de forma atómica uno o varios 
+ * datos sin tocar el resto (ej. Solo subir el estado o el nombre de alguien).
+ */
 export const patch = async (endpoint, datos) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
@@ -245,6 +302,7 @@ export const patch = async (endpoint, datos) => {
       body: JSON.stringify(datos),
     });
 
+    // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
@@ -265,9 +323,10 @@ export const patch = async (endpoint, datos) => {
       }
     }
 
+    // A diferencia de los demás métodos, comprueba estado "400" (Bad Request)
     if (response.status === 400) {
-      let error = await response.json()
-      alerta.alertaError(error.message);
+      let error = await response.json() // Extraiga lo que falló en validación API
+      alerta.alertaError(error.message); // Dispara toast error con el motivo
       return null;
     }
     return await response.json();
@@ -278,6 +337,10 @@ export const patch = async (endpoint, datos) => {
   }
 };
 
+/**
+ * DELETE (Borrar registro): Solicita a la API eliminar físicamente / de forma lógica el elemento especificado.
+ * No requiere Body, el identificador va implícito en la URL del endpoint.
+ */
 export const delet = async (endpoint) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
@@ -289,6 +352,7 @@ export const delet = async (endpoint) => {
       },
     });
 
+    // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
@@ -315,6 +379,11 @@ export const delet = async (endpoint) => {
   }
 };
 
+/**
+ * GET (Paginación estructurada): Especial para tablas y listas muy largas.
+ * Espera que la API mande no solo "data", sino también los metadatos numéricos 
+ * de la paginación (Página actual, total registros, links predeterminados).
+ */
 export const getPaginacion = async (endpoint) => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
@@ -326,6 +395,7 @@ export const getPaginacion = async (endpoint) => {
       },
     });
 
+    // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
@@ -344,7 +414,10 @@ export const getPaginacion = async (endpoint) => {
         return null;
       }
     }
+    
+    // Procesa el Request Json
     const obtenciones = await response.json();
+    // Retorna ambas raíces en un solo objeto consolidado
     return { data: obtenciones.data, paginate: obtenciones.paginate };
   } catch (error) {
     console.error("Error en GET:", error);
@@ -352,16 +425,22 @@ export const getPaginacion = async (endpoint) => {
   }
 };
 
+/**
+ * GET (Descarga de Reportes/PDF): Petición híbrida que descarga un Buffer biario (Blob)
+ * para forzar la ventana automática tipo "Descargar y Guardar Como" en el navegador de los reportes.
+ */
 export const getPdf = async (endpoint, filename = "archivo.pdf") => {
   try {
     let response = await fetch(`${url}/${endpoint}`, {
       method: "GET",
       credentials: "include",
+      // Ojo: No se especifica tipo JSON en Content-Type aquí para prevenir corromper el binario PDF
       headers: {
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
     });
 
+    // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
@@ -380,18 +459,18 @@ export const getPdf = async (endpoint, filename = "archivo.pdf") => {
       }
     }
 
-    // Convertir la respuesta en blob (PDF)
+    // Convierte en bruto la respuesta en un dato binario tipo (PDF / blob)
     const blob = await response.blob();
 
-    // Crear URL temporal para descargar
+    // Crear URL en memoria Cache temporal del navegador compatible para descargas
     const urlBlob = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = urlBlob;
-    a.download = filename; // nombre del PDF
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(urlBlob);
+    const a = document.createElement("a"); // Crea tag <a href> invisible
+    a.href = urlBlob; // Lo ata al binario en caché
+    a.download = filename; // Pone nombre del archivo al forzar evento guardar as
+    document.body.appendChild(a); 
+    a.click(); // Autoclick automático para lanzar el modal de descargas en Chrome/Firefox
+    a.remove(); // Borra la meta etiqueta basura después de usada
+    window.URL.revokeObjectURL(urlBlob); // Libera RAM cachada de la PC usada para el Blob
 
   } catch (error) {
     console.error("Error descargando PDF:", error);
@@ -399,17 +478,25 @@ export const getPdf = async (endpoint, filename = "archivo.pdf") => {
   }
 };
 
+/**
+ * REFRESH TOKEN (Renovación Silenciosa): Función pilar que contacta al endpoint seguro de "/refresh-token"
+ * enviando el token secundario. Su propósito es interceptar caídas 401, conseguir un nuevo token (access_token) válido,
+ * incrustarlo en las cookies, y dejarle continuar normalmente su petición a las funciones principales invisíblemente.
+ */
 export const refreshToken = async () => {
   try {
+    // Llama en POST silenciosamente pidiendo validación de su refresh tag
     await fetch(`${url}/refresh-token`, {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        // Envía explícitamente el refresh_token guardado apartemente
         Authorization: `Bearer ${cookie.obtener("refresh_token")}`,
       },
       body: JSON.stringify([]),
     });
+    // Nota: Se infiere que el Backend actualiza la cache / cookies directamente desde el header de respuesta
   } catch (error) {
     console.error("Error al refrescar token:", error);
   }

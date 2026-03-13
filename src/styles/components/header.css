@@ -53,8 +53,6 @@
 }
 
 .header__subtitulo {
-  letter-spacing: 10%;
-  font-size: 16px;
   color: white;
   font-size: var(--tamano-mediano);
   font-family: var(--fuente-contenido);
@@ -65,7 +63,7 @@
   font-weight: bold;
   font-family: var(--fuente-titulos);
   font-size: var(--tamano-medio-grande);
-  letter-spacing: 20%;
+  letter-spacing: 9%;
 }
 
 .header__boton--notificacion {

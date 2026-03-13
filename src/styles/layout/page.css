@@ -1,5 +1,5 @@
 /* body */
-.layout:has(.noHeader) .header {
+.layout:has(.container--noHeader) .header {
   display: none;
 }
 
@@ -9,7 +9,7 @@
   display: grid;
   grid-template-rows: 75px 1fr;
 }
-.layout:has(.noHeader){
+.layout:has(.container--noHeader){
   grid-template-rows: 1fr;
 }
 
@@ -23,3 +23,4 @@
 #app:has(.login) {
   background-color: var(--color-grisMedio);
 }
+

@@ -1,7 +1,18 @@
+/**
+ * Helper de Validación de Inputs (validacionInputs.js)
+ * Script global que provee utilidades para restringir teclas pulsadas en los inputs, 
+ * validar formatos (correo, contraseñas), y automatizar las validaciones de formularios completos 
+ * basándose en atributos de datos (`data-tipo`) en el HTML.
+ */
+
 // =====================================================
 // CONFIGURACIÓN BASE
 // =====================================================
 
+import { log10 } from "chart.js/helpers";
+
+// Arreglo de teclas funcionales del sistema que siempre deben permitirse
+// para no bloquear el borrado o navegación dentro del input
 export const TECLAS_ESPECIALES = [
   "Backspace",
   "Tab",
@@ -14,62 +25,71 @@ export const TECLAS_ESPECIALES = [
 ];
 
 // =====================================================
-// MANEJO DE ERRORES
+// MANEJO DE ERRORES EN EL DOM
 // =====================================================
 
+// Dibuja visualmente un mensaje de error rojo debajo o al lado del input
 const mostrarError = (input, mensaje) => {
+  limpiarError(input); // Borra cualquier error anterior para no apilarlos
 
-  limpiarError(input);
-
+  // Crea una nueva etiqueta <span> e inyecta la clase CSS ".error" y el texto descriptivo
   const span = document.createElement("span");
   span.className = "error";
   span.textContent = mensaje;
 
+  // Sube dos niveles en el DOM (doble parentElement) para inyectarlo en el contenedor del input
   input.parentElement.parentElement.append(span);
-
 };
 
+// Busca si hay un span ".error" colgando del contenedor del input y lo destruye
 export const limpiarError = (input) => {
   const error = input.parentElement.parentElement.querySelector(".error");
   if (error) error.remove();
 };
 
+// Función auxiliar envoltura: Invoca el dibujo del error y retorna automáticamente 'false' 
+// para cortar el flujo de validación avisando que falló
 const error = (input, mensaje) => {
   mostrarError(input, mensaje);
   return false;
 };
 
 // =====================================================
-// VALIDACIONES POR TECLA
+// VALIDACIONES POR TECLA (Eventos KeyDown/KeyPress)
 // =====================================================
 
-// Funcion permitir tecla, params: Evento y la regex para permitir la tecla
+// Intercepta cada pulsación de tecla. Si la tecla *NO* pasa la Expresión Regular
+// y *Tampoco* es una tecla especial de control, bloquea la acción evitando que se escriba en pantalla.
 const permitirTecla = (event, regex) => {
   if (
     !regex.test(event.key) &&
     !TECLAS_ESPECIALES.includes(event.key)
   ) {
-    event.preventDefault();
+    event.preventDefault(); // Anula silenciosamente el tecleo
   }
 };
 
-
-export const soloNumeros = (event) =>
+// Filtro: Solo deja pasar números del 0 al 9
+export const keyboard_numero = (event) =>
   permitirTecla(event, /^\d$/);
 
-export const soloTexto = (event) =>
+// Filtro: Solo deja pasar letras del alfabeto (incluyendo tildes y eñes), sin espacios
+export const keyboard_texto = (event) =>
   permitirTecla(event, /^[A-Za-zÁÉÍÓÚáéíóúÑñ]$/);
 
-export const textoConEspacios = (event) =>
+// Filtro: Deja pasar letras y también el carácter espacio en blanco
+export const keyboard_textoEspacio = (event) =>
   permitirTecla(event, /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]$/);
 
 
 // =====================================================
-// LIMITE DE CARACTERES
+// LÍMITE DE CARACTERES MÁXIMO
 // =====================================================
-export const limiteCaracteres = (event, limite) => {
+// Previene seguir escribiendo si la longitud del input ya alcanzó el límite marcado
+export const keyboard_limite = (event, limite) => {
   const input = event.target;
 
+  // Si no pulsa una tecla de borrado u orden, y ya superó o igualó el borde, bloquea.
   if (
     !TECLAS_ESPECIALES.includes(event.key) &&
     input.value.length >= limite
@@ -78,29 +98,30 @@ export const limiteCaracteres = (event, limite) => {
   }
 };
 // =====================================================
-// VALIDAR CORREO
+// VALIDAR CORREO (Regex E-Mail Válido)
 // =====================================================
 
-export const validarCorreo = (input) => {
-  const value = input.value.trim();
+export const validar_correo = (input) => {
+  const value = input.value.trim(); // Limpia espacios accidentales al inicio/final
+  // Expresión regular universal para validar estructura de correo (ej: nombre@dominio.com)
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
 
-  limpiarError(input);
+  limpiarError(input); // Reset pre-chequeo
 
-  if (!value)
+  if (!value) // Si lo dejó completamente en blanco
     return error(input, "El correo es obligatorio.");
 
-  if (!regex.test(value))
+  if (!regex.test(value)) // Si escribió algo, pero no cumple estructura de e-mail
     return error(input, "El formato del correo no es válido.");
 
-  return true;
+  return true; // Pasa la prueba satisfactoriamente
 };
 
 // =====================================================
-// VALIDAR CONTRASEÑA
+// VALIDAR CONTRASEÑA (Políticas Flexibles)
 // =====================================================
 
-export const validarPassword = (input) => {
+export const validar_password = (input) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -108,6 +129,7 @@ export const validarPassword = (input) => {
   if (!value)
     return error(input, "La contraseña es obligatoria.");
 
+  // Arreglo de reglas individuales a exigir en los passwords
   const reglas = [
     { test: /[A-Z]/, msg: "una mayúscula" },
     { test: /[a-z]/, msg: "una minúscula" },
@@ -116,10 +138,12 @@ export const validarPassword = (input) => {
     { test: /.{8,}/, msg: "mínimo 8 caracteres" }
   ];
 
+  // Ejecuta pruebas: Si la regla no aprueba, recolecta el mensaje del error correspondiente array `errores`
   const errores = reglas
     .filter(r => !r.test.test(value))
     .map(r => r.msg);
 
+  // Si detectó una o más fallas, junta por texto los mensajes y lanza el warning
   if (errores.length)
     return error(
       input,
@@ -129,7 +153,8 @@ export const validarPassword = (input) => {
   return true;
 };
 
-export const validarVacio = (input) => {
+// Valida únicamente que el target no esté completamente en blanco
+export const validar_vacio = (input) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -140,7 +165,8 @@ export const validarVacio = (input) => {
   return true;
 };
 
-export const validarMinimo = (input, minimo) => {
+// Comprueba que el valor string alcance un mínimo de longitud
+export const validar_minimo = (input, minimo) => {
 
   const value = input.value.trim();
 
@@ -158,7 +184,8 @@ export const validarMinimo = (input, minimo) => {
   return true;
 };
 
-export const validarMaximo = (input, maximo) => {
+// Comprueba que el valor no supere el máximo estipulado
+export const validar_maximo = (input, maximo) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -175,21 +202,22 @@ export const validarMaximo = (input, maximo) => {
   return true;
 };
 
-export const validarSelect = (select) => {
+// Valida listas de selección. Asume que la primera opción vacía tenga "value=''" en HTML.
+export const validar_select = (select) => {
   const value = select.value;
-
+  
   limpiarError(select);
 
+  // Si no seleccionó o seleccionó la viñeta predeterminada inválida
   if (!value || value === "")
     return error(select, "Debe seleccionar una opción.");
 
   return true;
 };
 
-export const validarMinimoMaximo = (input, minimo, maximo) => {
+// Combina función de mínimos y máximos simultáneamente
+export const validar_minimoMaximo = (input, minimo, maximo) => {
   const value = input.value.trim();
-
-  limpiarError(input);
 
   if (!value)
     return error(input, "No puede estar vacío.");
@@ -210,10 +238,10 @@ export const validarMinimoMaximo = (input, minimo, maximo) => {
 }; 
 
 // =====================================================
-// VALIDAR IGUALDAD DE CAMPOS
+// VALIDAR IGUALDAD DE CAMPOS (Ej: Confirmar Contraseña)
 // =====================================================
 
-export const validarIgualdad = (input, inputComparar) => {
+export const validar_igualdad = (input, inputComparar) => {
   const value = input.value.trim();
   const valueComparar = inputComparar.value.trim();
 
@@ -223,48 +251,50 @@ export const validarIgualdad = (input, inputComparar) => {
     return error(input, "No puede estar vacío.");
 
   if (value !== valueComparar)
-    return error(input, "Los campos no coinciden.");
+    return error(input, "Los campos no coinciden."); // Retorna error si no matchean string con string verbatim
 
   return true;
 };
 
 // =====================================================
-// VALIDAR MAYOR DE EDAD
+// VALIDAR MAYOR DE EDAD (Datepickers / Fecha de Nacimiento)
 // =====================================================
 
-export const validarMayorDeEdad = (input, edadMinima = 18) => {
-  const value = input.value;
-
+export const validar_mayoriaEdad = (input) => {
+  const value = input.value; // ej: "1994-05-20"
+  
   limpiarError(input);
 
   if (!value)
     return error(input, "La fecha es obligatoria.");
 
-  const fechaNacimiento = new Date(value);   
-  console.log(fechaNacimiento.getDate()) 
+  // Transforma los strings en objetos nativos de JS para operar
+  const fechaNacimiento = new Date(value);
   const hoy = new Date();
 
+  // Calcula una resta base sobre los años (2024 - 1994 = 30)
   let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+  // Calcula diferencia entre el mes actual y el mes nacido (-11 a 11)
   const mes = hoy.getMonth() - fechaNacimiento.getMonth();
 
-  if (
-    mes < 0 ||
-    (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())
-  ) {
+  // Si no ha llegado a su mes cumpleaños o está en él pero falta para el día exacto 
+  // resta un año al cálculo bruto asumiendo que sigue siendo de la edad anterior.
+  if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())){
     edad--;
   }
 
-  if (edad < edadMinima)
+  // Verifica el veredicto modificado
+  if (edad < 18)
     return error(
       input,
-      `Debe ser mayor de ${edadMinima} años.`
-    );
+      `Debe ser mayor de 18 años.`
+  );
 
   return true;
 };
 
-
-export const  validarSiExiste = (input, minimo) => {
+// Validador Puentecual: Se salta la validación permitiendo 'true' si el usuario lo dejó optativamente en blanco
+export const  validar_siExiste = (input, minimo) => {
   const value = input.value.trim();
 
   limpiarError(input);
@@ -272,105 +302,175 @@ export const  validarSiExiste = (input, minimo) => {
   // Si está vacío, no valida nada y devuelve true
   if (!value) return true;
 
-  // Si tiene contenido, ejecuta la validación que le pases
-  return validarMinimo(input,minimo);
+  // Si tiene contenido, ejecuta la validación que le pases (actualmente tiene harcodeado 'validarMinimo' que podría fallar si min es undefined)
+  return validar_minimo(input,minimo);
+};
+
+// =====================================================
+// DICCIONARIO DE PATRONES DE VALIDACIÓN HTML (`data-tipo`)
+// =====================================================
+
+// Objeto encargado de establecer un esquema para validar los inputs semi-automáticamente.
+// Cada propiedad indica el valor del "data-tipo" que se pone al input en HTML (ej: <input data-tipo="textoCorto">).
+// Contiene las reglas a atar, longitud de caracteres, y si exige llenado optativo.
+const inputTipos={
+  textoCorto: { keyboard:(input)=>keyboard_textoEspacio(input),min:3,max:50},
+
+  textoLargo: { keyboard:keyboard_textoEspacio,min:8,max:255},
+
+  textoNombres: { keyboard:keyboard_textoEspacio,min:3,max:70},
+
+  // Optativo significa que admite estar vacío, lo maneja distinto.
+  textoCortoOpcional: { keyboard:keyboard_textoEspacio,min:3,max:50,opcional: true},
+
+  textoLargoOpcional: { keyboard:keyboard_textoEspacio,min:8,max:255,opcional: true},
+
+  numerico: { keyboard: keyboard_numero,min:1,max: 50},
+
+  numericoOpcional: { keyboard: keyboard_numero,min:1,max: 50,opcional: true},
+
+  telefono:{keyboard: keyboard_numero ,min:7,max:10},
+
+  telefonoOpcional:{keyboard: keyboard_numero ,min:7,max:15,opcional: true},
+  
+  documento:{keyboard: keyboard_numero ,min:7,max:15},
+
+  // Reglas con métodos exóticos custom via inyección de funciones anónimas
+  correo:{validacion:(input)=>validar_correo(input)},
+
+  password:{validacion:(input)=>validar_password(input),max:40},
+
+  passwordSinValdacion: {validacion:(input)=>validar_maximo(input),max:40},
+
+  mayorDeEdad:{validacion:(input)=>validar_minimoMaximo(input)}
 };
 
 
-
-
-
-// objeto encargado de establecer un esquema para validar los inputs
-// cada propiedad de este objeto indica un DATA ATTRIBUTE que debe tener cada input para que este sea validado
-// faltan mas por agregar
-const inputTipos = {
-  nombre: {validacion: (e) => textoConEspacios(e), min: 3, max: 50},
-  telefono: {validacion: (e) => soloNumeros(e), min: 7, max: 10, opcional: true},
-  documento: {validacion: (e) => soloNumeros(e), min: 10, max: 20},
-  mayorDeEdad: {validacion: (input) => validarMayorDeEdad(input,18)}
-}
-
-
-// validarTodo (formulario) para que valide TODOS los inputs una vez que se oprima "submit" en el formulario.
-// Las funciones de este objeto 
-
+// =====================================================
+// EXPORTADOR DEL CONTROLADOR AUTOMÁTICO DE VALIDACIÓN 
+// =====================================================
 
 export const validadorAutomatico = {
-  // init se utiliza para incializar la validacion de un form (validacion.validadorAutomatico.init(formulario))
+  // .init(): Se utiliza para inicializar las restricciones en tiémpó de tecleé al cargar la página
   init: (formulario) => {
+    // Escanea todo el formulario atrapando hijos "input" y "select"
     const inputs = formulario.querySelectorAll("input")
     const selects = formulario.querySelectorAll("select");
-    
-    
-    inputs.forEach(input => {
-      
-      const tipo = input.dataset.validacion
-      
-      // A cada input se le añade la validacion para escribir solo los caracteres permitidos por input y el evento para borrar el error una vez corregido
+    const textArea = formulario.querySelectorAll("textArea");
 
+    inputs.forEach(input => {
+      // Extrae la etiqueta `<input data-tipo="nombre_tipo">`
+      const tipo = input.dataset.tipo 
+      // Chequea si existe una regla bautizada con ese nombre en nuestro Diccionario arriba `inputTipos`
       if (tipo in inputTipos){
-        input.addEventListener("keydown", e=> {
-          inputTipos[tipo].validacion(e);
+        // Si detecta la regla, ata un evento para vetar que sigan teclando más alla de la regla `max` del dic.
+        input.addEventListener("keydown", e => {
+          if (inputTipos[tipo].max) keyboard_limite(e,inputTipos[tipo].max)
+          if(inputTipos[tipo].keyboard) inputTipos[tipo].keyboard(e);
         })
+
+        // Ata evento para borrar visualmente el error rojo automático cuando descliquean la caja (blur) asumiendo ya lo corrigieron
         input.addEventListener("blur", e => {
           limpiarError(input)
         })
       }
     })
-  
-        selects.forEach(select => {
-          select.addEventListener("blur", e => {
+    
+    textArea.forEach(input => {
+      // Extrae la etiqueta `<input data-tipo="nombre_tipo">`
+      const tipo = input.dataset.tipo 
+      // Chequea si existe una regla bautizada con ese nombre en nuestro Diccionario arriba `inputTipos`
+      if (tipo in inputTipos){
+        // Si detecta la regla, ata un evento para vetar que sigan teclando más alla de la regla `max` del dic.
+        input.addEventListener("keydown", e => {
+          if (inputTipos[tipo].max) keyboard_limite(e,inputTipos[tipo].max)
+          if(inputTipos[tipo].keyboard) inputTipos[tipo].keyboard(e);
+        })
+        // Ata evento para borrar visualmente el error rojo automático cuando descliquean la caja (blur) asumiendo ya lo corrigieron
+        input.addEventListener("blur", e => {
+          limpiarError(input)
+        })
+      }
+    })
+
+    // Ata función de auto-limpieza térmica al menú select apenas cambie la opción.
+    selects.forEach(select => {
+          select.addEventListener("change", e => {
             limpiarError(select)
-          })
+        })
     })
   },
   
-  // validarTodo se usa para validar todo el form una vez se haya oprimido el boton de submit (validacion.validadorAutomatico.validarTodo(formulario))
+  // .validarTodo(): Se usa por el controlador antes de hacer fetch para validar en masa todo el formulario tras presionar Submit.
   validarTodo: (formulario) => {
 
     const inputs = formulario.querySelectorAll("input");
     const selects = formulario.querySelectorAll("select");
+    const textArea = formulario.querySelectorAll("textArea");
 
-    
+    // Pasada 1: Revisa todos los inputs de texto/numéricos 
     inputs.forEach(input => {
-      
-      const tipo = input.dataset.validacion
+      const tipo = input.dataset.tipo
 
-      if (tipo in inputTipos){
-
-        // NOTA: en minimo, poner el valor minimo de todos modos
-        if (inputTipos[tipo].opcional){
-          validarSiExiste(input, Number(inputTipos[tipo].min))
-          return
+      if (tipo in inputTipos){        
+        // Si la regla dice que es optativo y el input lo es, realiza evaluación de puente "validar_siExiste"
+        if (inputTipos[tipo].opcional){     
+          validar_siExiste(input, Number(inputTipos[tipo].min))
+          return // Salta la iteración en seco
         }
+        // Si la regla posee ambos minino y máximo configurado en JSON, ejecuta la test combinada de tamaños
         if (inputTipos[tipo].min && inputTipos[tipo].max){
-          validarMinimoMaximo(input,inputTipos[tipo].min,inputTipos[tipo].max)
+          validar_minimoMaximo(input,inputTipos[tipo].min,inputTipos[tipo].max);
         }
-    
-        if (inputTipos[tipo].min){
-          validarMinimo(input,Number(inputTipos[tipo].min))
+        // Sino comprueba si solo pide mínimo y lanza esa prueba
+        else if (inputTipos[tipo].min){
+          validar_minimo(input,Number(inputTipos[tipo].min));
         }
-        if (inputTipos[tipo].max){
-          validarMaximo(input,Number(inputTipos[tipo].max))
+        // Sino prueba si solo pidió máximo a secas
+        else if (inputTipos[tipo].max){
+          validar_maximo(input,Number(inputTipos[tipo].max));
         }
-
-        if (tipo == "mayorDeEdad"){
-          inputTipos[tipo].validacion(input)
-        }
-        
-
+        // Independientemente de la longitud, si tiene atada una función de validación compleja (ej: `correo`), la evalúa
+        if(inputTipos[tipo].validacion) inputTipos[tipo].validacion(input);
       }
     })
 
-    selects.forEach(select => {
-      validarSelect(select);
+    textArea.forEach(input => {
+      const tipo = input.dataset.tipo
+
+      if (tipo in inputTipos){        
+        // Si la regla dice que es optativo y el input lo es, realiza evaluación de puente "validar_siExiste"
+        if (inputTipos[tipo].opcional){     
+          validar_siExiste(input, Number(inputTipos[tipo].min))
+          return // Salta la iteración en seco
+        }
+        // Si la regla posee ambos minino y máximo configurado en JSON, ejecuta la test combinada de tamaños
+        if (inputTipos[tipo].min && inputTipos[tipo].max){
+          validar_minimoMaximo(input,inputTipos[tipo].min,inputTipos[tipo].max);
+        }
+        // Sino comprueba si solo pide mínimo y lanza esa prueba
+        else if (inputTipos[tipo].min){
+          validar_minimo(input,Number(inputTipos[tipo].min));
+        }
+        // Sino prueba si solo pidió máximo a secas
+        else if (inputTipos[tipo].max){
+          validar_maximo(input,Number(inputTipos[tipo].max));
+        }
+        // Independientemente de la longitud, si tiene atada una función de validación compleja (ej: `correo`), la evalúa
+        if(inputTipos[tipo].validacion) inputTipos[tipo].validacion(input);
+      }
     })
-    //IMPORTANTE:
-    // Esta funcion valida cada input de acuerdo a los DATA ATTRIBUTES del <input> (data-atributo) que se escriben en el HTML
-    // Los data attributes que se validan son:
-    // data-validacion: El tipo de dato que maneja el input (nombre, telefono)
-    // Los <select> no requieren data attributes ya que estos se validan al hacer submit en el form y verificar si estan o no seleccionados
+
+    // Pasada 2: Valida selects si quedó alguno atascado en predeterminado sin rellenar
+    selects.forEach(select => {
+      validar_select(select);
+    })
+
+    // IMPORTANTE:
+    // Esta función funciona contando cuántos "tags visuales" .error inyectó sobre el DOM
+    // El dom recoleta los span.error detectados. 
+    const buscarError = document.querySelectorAll('.error');
+    if (buscarError.length > 0) return false; // Si sobre el formulario dibujó un error (1 o más longitud), niega el submit
+    else return true // De lo contrario autoriza guardado 
   }
-
-
 }

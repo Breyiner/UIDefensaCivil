@@ -1,3 +1,8 @@
+/**
+ * Controlador Catálogo: Organizaciones (organizacionesController.js)
+ * Gestiona la interfaz del catálogo de organizaciones de la Cruz Roja,
+ * visualizando a su vez la relación foránea (Seccional a la que pertenece).
+ */
 import crearLista from "../../../../helpers/crearLista";
 import * as alerta from "../../../../helpers/alertas";
 import * as organizacion from "../../../../helpers/modales/organizacion";

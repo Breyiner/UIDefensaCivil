@@ -1,16 +1,27 @@
+/**
+ * Controlador: Registro de Usuario (registerController.js)
+ * Orquesta la creación de una cuenta nueva. Se encarga de cargar dinámicamente
+ * los catálogos públicos (Tipos de Documento, Géneros, Seccionales) y habilitar
+ * la selección dependiente de Organizaciones basadas en la Seccional elegida.
+ */
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 import * as adjuntarOpc from "../../../helpers/adjuntarOpciones";
 import * as validacion from "../../../helpers/validacionInputs";
 
 export default async () => {
-  const form = document.querySelector(".form");
-  const boton = document.querySelector(".form__boton");
+  // Referencias al DOM estáticas generales de la ventana SPA
+  const form = document.querySelector(".form"); // Form padre
+  const boton = document.querySelector(".form__boton"); // Acción 'Submit' Crear cuenta
+
+  // Banderas semafóricas para el interbloqueo del evento múltiple del Mouse 
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = false;
   }
+  // Libera si vengo navegando de atrás o cancelé algo en medio
   window.procesoPeticion = false;
 
+  // Colección de Inputs de Formularios Individuales que se transformarán post Rest
   const nombres = document.getElementById("nombres");
   const apellidos = document.getElementById("apellidos");
   const tipoDocumento = document.getElementById("tiposDocumento");
@@ -24,110 +35,52 @@ export default async () => {
   const contrasena = document.getElementById("contrasena");
   const confContrasena = document.getElementById("confirmarContrasena");
 
-  await adjuntarOpc.adjuntarInfo(tipoDocumento,"documentTypesPublic","acronym",);
+  // Inyección DOM: Solicita y llena los combos <select> vacíos usando el Helper general `adjuntarOpciones.js`
+  // Nota: Al cargarse piden de Endpoints 'Public' que no necesitan ser un User Valido LocalStorage
+  await adjuntarOpc.adjuntarInfo(tipoDocumento,"documentTypesPublic","acronym");
   await adjuntarOpc.adjuntar(genero, "gendersPublic");
   await adjuntarOpc.adjuntar(seccional, "sectionalsPublic");
+
+  // Libre pase visual
   boton.disabled = false;
 
-  nombres.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 50);
-    validacion.textoConEspacios(e);
-  });
-
-  apellidos.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 50);
-    validacion.textoConEspacios(e);
-  });
-  numDocumento.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 20);
-    validacion.soloNumeros(e);
-  });
-  telefono.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 10);
-    validacion.soloNumeros(e);
-  });
-  corrElectronico.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 100);
-  });
-  contrasena.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 20);
-  });
-  confContrasena.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 20);
-  });
-
-  nombres.addEventListener("blur", (e) => {
-    validacion.limpiarError(nombres);
-  });
-  apellidos.addEventListener("blur", (e) => {
-    validacion.limpiarError(apellidos);
-  });
-  tipoDocumento.addEventListener("change", (e) => {
-    validacion.limpiarError(tipoDocumento);
-  });
-  numDocumento.addEventListener("blur", (e) => {
-    validacion.limpiarError(numDocumento);
-  });
-  genero.addEventListener("change", (e) => {
-    validacion.limpiarError(genero);
-  });
-  nacimiento.addEventListener("blur", (e) => {
-    validacion.limpiarError(nacimiento);
-  });
-  telefono.addEventListener("blur", (e) => {
-    validacion.limpiarError(telefono);
-  });
-  seccional.addEventListener("change", (e) => {
-    validacion.limpiarError(seccional);
-  });
-  organizacion.addEventListener("change", (e) => {
-    validacion.limpiarError(organizacion);
-  });
-  corrElectronico.addEventListener("blur", (e) => {
-    validacion.limpiarError(corrElectronico);
-  });
-  contrasena.addEventListener("blur", (e) => {
-    validacion.limpiarError(contrasena);
-  });
+  // Arranque del listener in-line de input validation por clases regex
+  validacion.validadorAutomatico.init(form);
   confContrasena.addEventListener("blur", (e) => {
-    validacion.limpiarError(confContrasena);
+    validacion.limpiarError(e.target);
   });
 
+  // Escuchando inyección intencionada "Enter/Click submit"
   form.addEventListener("submit", async (e) => {
+    // Flag ON
     window.procesoPeticion = true;
-    e.preventDefault();
-    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres enviar tu peticion?");
-    if (!confirmacion.isConfirmed) return;
-
-    let validarNombres = validacion.validarMinimo(nombres, 3);
-    let validarApellidos = validacion.validarMinimo(apellidos, 3);
-    let validarTipoDocumento = validacion.validarSelect(tipoDocumento);
-    let validarNumeroDocumento = validacion.validarMinimo(numDocumento,5);
-    let validarGenero = validacion.validarSelect(genero);
-    let validarNacimiento = validacion.validarMayorDeEdad(nacimiento);
-    let validarTelefono = validacion.validarMinimo(telefono, 7);
-    let validarSeccional = validacion.validarSelect(seccional);
-    let validarOrganizacion = validacion.validarSelect(organizacion);
-    let validarCorreoElectronico = validacion.validarCorreo(corrElectronico);
-    let validarContrasena = validacion.validarPassword(contrasena);
-    let validarConfContrasena = validacion.validarIgualdad(confContrasena,contrasena,);
     
-    if (validarNombres && 
-      validarApellidos && 
-      validarTipoDocumento && 
-      validarNumeroDocumento && 
-      validarGenero && 
-      validarNacimiento &&
-      validarTelefono &&
-      validarSeccional &&
-      validarOrganizacion &&
-      validarCorreoElectronico &&
-      validarContrasena &&
-      validarConfContrasena) {
+    // Congela evento default
+    e.preventDefault();
+    
+    // Solicita confirmación verbal visual antes de mandar POST puro (Previniendo miss-clicks severos)
+    const confirmacion = await alerta.alertaQuest("¿Seguro que quieres crear la cuenta?");
+    if (!confirmacion.isConfirmed) return; // Si dice cancelar/afuera asume early return
+
+    // Validandos booleanos 
+    const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
+    
+    // Lógica especial que chequea los dos nodos de Password y que visualmente empate valor (Contraseñas idénticas)
+    const validacionContrasena = validacion.validar_igualdad(confContrasena,confContrasena);
+    
+    // Si algún proceso falló (Regex o Identidad)
+    if (!booleanValidacion || !validacionContrasena)
+    {
+      window.procesoPeticion = false // Abre exclusa de bugs
+      boton.disabled = false; // Suelta boton
+      return // Corta
+    }
+    
+      // Objeto JS armado meticulosamente referenciando los Models esperados Backend para Users
       const datosRegistro = {
         names: nombres.value,
         last_names: apellidos.value,
-        birth_date: nacimiento.value,
+        birth_date: nacimiento.value,  // ISO yyyy-mm-dd
         document_type_id: tipoDocumento.value,
         document_number: numDocumento.value,
         phone: telefono.value,
@@ -136,23 +89,33 @@ export default async () => {
         email: corrElectronico.value,
         password: contrasena.value,
       };
+      
+      // Llamada Network 
       try {
+        // Enlaza la ruta 'api/v1/register/' (Por omisión app)
         const data = await api.post("register", datosRegistro);
+        
+        // Verifica prop return success estándar en todo Service response de backend
         if (data.success) {
           await alerta.alertaOK(data.message);
-          window.location.href = "#/login";
-        } else alerta.alertaWarning(data.message, data.errors);
+          window.location.href = "#/login"; // Vuelve a la puerta Login esperando Confirmación Manual interna posterior
+        } else alerta.alertaWarning(data.message, data.errors); // Producir array validation
       } catch (error) {
-        alerta.alertaError(error);
+        alerta.alertaError(error); // Trágico 500 error o no red
       }
-    }
+    
+    // Vuelta al ruedo si no redirigio
     boton.disabled = false;
     window.procesoPeticion = false;
   });
 
+  // Listener importante DropDown "Dependiente": Cuando cambia Seccional debe re-pedir Organizaciones de esa rama
   seccional.addEventListener("change", async () => {
+    // Usa helper de "Reseteo" para limpiar el innerHTML viejo y repoblar mediante query public paramétrico url  
     await adjuntarOpc.adjuntarReseteo(organizacion, `organizationsPublic/sectional/${seccional.value}`);
   });
+  
+  // Delegador de clic secundario de ventana SPA (Botón o hipervínculo para volver si ya tengo cuenta real)
   window.addEventListener("click", async (e) => {
     if (e.target.matches("#tengoCuenta") && !window.procesoPeticion)
       window.location.href = "#/login";

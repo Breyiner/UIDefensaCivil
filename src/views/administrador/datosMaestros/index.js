@@ -1,5 +1,9 @@
+/**
+ * Índice de Controladores de Datos Maestros (Administrador)
+ * Actúa como un Hub (exportador centralizado) para todos los controladores
+ * encargados del mantenimiento (CRUD) de las tablas paramétricas del sistema.
+ */
 import verController from "./verController.js";
-
 import seccionalesController from "./seccionales/seccionalesController.js";
 import organizacionesController from "./organizaciones/organizacionesController.js";
 import tiposDocumentoController from "./tiposDocumento/tiposDocumentoController.js";

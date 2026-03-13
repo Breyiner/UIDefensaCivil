@@ -1,3 +1,9 @@
+/**
+ * Controlador: Home Administrador (homeController.js)
+ * Renderiza el panel principal o "Dashboard" exclusivo del rol Administrador.
+ * Gestiona múltiples métricas visuales: Historial de acciones (Auditoría),
+ * Gráficos de dona (Estados), barras (Roles) y líneas temporales (Tendencias).
+ */
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 import ventanaHistorial from "../../../helpers/ventanaHistorial";

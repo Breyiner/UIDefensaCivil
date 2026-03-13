@@ -1,11 +1,22 @@
+/**
+ * Helper de Modales Complejos: Integrante (integrante.js)
+ * Archivo encargado de gestionar los modales SweetAlert dedicados al sub-módulo Médico
+ * de un Integrante familiar. Permite visualizar, crear, editar y eliminar "Afecciones Médicas" 
+ * y sus regímenes de dosificación.
+ */
 import * as api from "../api";
 import * as alerta from "../alertas";
 import * as validacion from "../validacionInputs"
 import { initTomSelectPortatil } from "../tomSelectPortatil";
+import * as adjuntarOpc from "../adjuntarOpciones";
 
+// Función para ver los detalles globales del integrante de una sola vez
 export const ver = async (id) => {
 
+  // Descarga info personal del integrante
   const datos = await api.get(`members/${id}`);
+  
+  // Descarga el listado de afecciones que sufre el integrante
   const condiciones = await api.get(`conditionMembers/member/${id}`);
 
   let condicionNombre = "";
@@ -13,26 +24,34 @@ export const ver = async (id) => {
   let contadorCondicionNombre = 0;
   let contadorCondicionMedicina = 0;
 
+  // Itera sobre el array de afecciones uniendo todo en un string gigante separado por comas
   condiciones.forEach((condicion) => {
+    // Nombre de la afección
     contadorCondicionNombre > 0
-      ? (condicionNombre += "," + condicion.name)
+      ? (condicionNombre += ", " + condicion.name)
       : (condicionNombre += condicion.name);
     contadorCondicionNombre++;
+    
+    // Tratamiento o medicina especificados (si se ha documentado alguno)
     if (condicion.dose != null) {
       contadorCondicionMedicina > 0
-        ? (condicionMedicina += "," + condicion.dose)
+        ? (condicionMedicina += ", " + condicion.dose)
         : (condicionMedicina += condicion.dose);
       contadorCondicionMedicina++;
     }
+    
+    // Si quedan vacios
     contadorCondicionNombre == 0 ? (condicionNombre = "ninguno") : "";
     contadorCondicionMedicina == 0 ? (condicionNombre = "ninguno") : "";
   });
 
+  // Chequeo global por si no existe ni una sola condición
   if (condiciones.length == 0) {
     condicionNombre = "ninguno";
     condicionMedicina = "ninguno";
   }
 
+  // Interfaz de solo lectura con diseño grid
   const htmlModal = `
             <div class="modalVer modal">
                 <div class="modalVer__dato">
@@ -101,16 +120,22 @@ export const ver = async (id) => {
                     <div class="modalVer__texto">${condicionMedicina}</div>
                 </div>
             </div>`;
+            
+  // Abre ventana base sin botones extras
   alerta.Ver(htmlModal, false, false, null, null);
 };
 
-export const crear = async (id, recargarContainer) => {
+
+// Agrega una nueva enfermedad o condición
+export const afeccionCrear = async (id, recargarContainer) => {
+  // Solicita la tabla tipoAfecciones (ej: "Alergia", "Enfermedad Crónica") para el dropdwon select
   const tiposAfeccionesPeticion = await api.get(`conditionTypes`);
   let tiposAfecciones = "";
   for (let i = 0; i < tiposAfeccionesPeticion.length; i++) {
     tiposAfecciones += `<option value="${tiposAfeccionesPeticion[i].id}">${tiposAfeccionesPeticion[i].name}</option>`;
   }
-
+  
+  // HTML que usa el componente TomSelect a través de clase "selector-portatil"
   const htmlModal = `
     <div class="explicacion modal">
       <p class="explicacion__titulo">Agregar Afección</p>
@@ -128,29 +153,29 @@ export const crear = async (id, recargarContainer) => {
       <div class="input">
         <div class="form__inputBox">
           <i class="ri-syringe-line"></i>
-          <input type="text" placeholder="Nombre de la afección" id="nombreAfeccion" autocomplete="off">
+          <input type="text" placeholder="Nombre de la afección" id="nombreAfeccion" autocomplete="off" data-tipo="textoCorto">
         </div>
       </div>
       <div class="input">
         <div class="form__inputBox">
           <i class="ri-calendar-line"></i>
-          <textarea placeholder="Descripción de dosis" id="descripcion" autocomplete="off"></textarea>
+          <textarea placeholder="Descripción de dosis" id="descripcion" autocomplete="off" data-tipo="textoLargoOpcional"></textarea>
         </div>
       </div>
     </div>`;
 
+  // CALLBACK principal (click en Guardar en SweetAlert)
   const funcionModal = async () => {
+    const contenedor = document.querySelector(".container__gap");
     const afeccion = document.getElementById("afecciones");
     const nombreAfeccion = document.getElementById("nombreAfeccion")
     const descripcion = document.getElementById("descripcion");
 
-    let validarAfeccion = validacion.validarSelect(afeccion);
-    let validarNombreAfeccion = validacion.validarMinimo(nombreAfeccion, 3);
-    let validarDescripcion = validacion.validarSiExiste(descripcion, 10);
-
-    if (validarAfeccion &&
-      validarNombreAfeccion &&
-      validarDescripcion) {
+    const booleanValidacion = validacion.validadorAutomatico.validarTodo(contenedor);
+    // Solo si aprueba validaciones prosigue la petición
+    if (!booleanValidacion) return false
+     
+      // Objeto JSON asociativo para este miembro
       const datos = {
         member_id: id,
         condition_type_id: afeccion.value,
@@ -159,10 +184,10 @@ export const crear = async (id, recargarContainer) => {
       };
 
       try {
-        const data = await api.post("conditionMembers", datos);
+        const data = await api.post("conditionMembers", datos);    
         if (data.success) {
-          await alerta.alertaOK(data.message);
-          await recargarContainer();
+          await alerta.alertaOK(data.message); // Notifica confirmación
+          await recargarContainer(); // Carga de nuevo toda la información de pantalla
           return true
         }
         else {
@@ -174,37 +199,27 @@ export const crear = async (id, recargarContainer) => {
         alerta.alertaError(error.errors);
         return false
       }
-    } return false
   };
+  
+  // LOGICA SECUNDARIA: Funciones de evento inyectadas cuando Swal TERMINA DE ABRIRSE (Para TomSelect y detectores KeyDown en caliente)
   const funcionAlAbrir = async () => {
-    const afeccion = document.getElementById("afecciones");
-    const nombreAfeccion = document.getElementById("nombreAfeccion")
-    const descripcion = document.getElementById("descripcion");
-
-    nombreAfeccion.addEventListener("keydown", (e) => {
-      validacion.limiteCaracteres(e, 30);
-      validacion.textoConEspacios(e);
-    });
-    descripcion.addEventListener("keydown", (e) => {
-      validacion.limiteCaracteres(e, 200);
-    });
-
-    afeccion.addEventListener("change", (e) => {
-      validacion.limpiarError(e.target);
-    });
-    nombreAfeccion.addEventListener("blur", (e) => {
-      validacion.limpiarError(e.target);
-    });
-    descripcion.addEventListener("blur", (e) => {
-      validacion.limpiarError(e.target);
-    });
+    const contenedor = document.querySelector(".container__gap");
+    validacion.validadorAutomatico.init(contenedor);
   }
+  
+  // Ejecuta Sweet alert pasando modal visual y funciones reactivas para el on-click y on-open
   alerta.Crear(htmlModal, funcionModal, funcionAlAbrir);
+  // Inicializador del widget avanzado Tom Select adaptativo (en helper tomSelectPortatil.js)
   initTomSelectPortatil();
 }
 
+
+// Manejador anidado para inspeccionar una afección particular (de una posible lista en el plan)
 export const verEditarEliminar = async (id, integranteId, recargarContainer) => {
+  // Pide el contenido existente de esa receta o afección puntual
   const datos = await api.get(`conditionMembers/${id}`);
+  
+  // Vista resumida
   const htmlModal = `
             <div class="modalVer modal">
                 <div class="modalVer__dato">
@@ -226,20 +241,23 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer) => 
                 </div>
             </div>`;
 
+  // ✏ Lógica si el usuario oprime "Modificar" en el mini-modal de afección
   const funcionModalEditar = async () => {
+    // Es imperativo sacar tipos nuevamente para el listado de Select
     const tipos = await api.get("conditionTypes");
     const info = await api.get(`conditionMembers/${id}`);
 
     let opcionesTexto = "";
 
+    // Pinta la actual como pre-seleccionada o 'selected'
     for (let i = 0; i < tipos.length; i++) {
-
       opcionesTexto += `
       <option value="${tipos[i].id}" ${tipos[i].id == info.condition_type_id ? "selected" : ""}>
       ${tipos[i].name}
       </option>`;
-
     }
+    
+    // HTML de edición rellenado
     const htmlModal = `
       <div class="explicacion modal">
         <p class="explicacion__titulo">Editar Afección</p>
@@ -280,16 +298,19 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer) => 
 
       </div>`;
 
+    // Acción on-click Edit Confirm
     const funcionModal = async () => {
 
       const afeccion = document.getElementById("afecciones");
       const nombreAfeccion = document.getElementById("nombreAfeccion");
       const descripcion = document.getElementById("descripcion");
 
+      // Corre validaciones preventivas JS
       let validarAfeccion = validacion.validarSelect(afeccion);
       let validarNombre = validacion.validarMinimo(nombreAfeccion, 3);
       let validarDescripcion = validacion.validarSiExiste(descripcion, 10);
 
+      // Si todo aprueba
       if (validarAfeccion && validarNombre && validarDescripcion) {
 
         const datos = {
@@ -301,11 +322,12 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer) => 
 
         try {
 
+          // Opciones con PUT verbo REST para reemplazar recursos totales.
           const data = await api.put(`conditionMembers/${id}`, datos);
 
           if (data.success) {
 
-            await alerta.alertaOK(data.message);
+            await alerta.alertaOK(data.message); // Modificación completada
             await recargarContainer();
             return true;
 
@@ -330,6 +352,7 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer) => 
 
     };
 
+    // Reengancha detectores de escritura (restricciones de sintaxis dictadas) en el DOM recién abierto
     const funcionAlAbrir = () => {
 
       const afeccion = document.getElementById("afecciones");
@@ -351,19 +374,28 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer) => 
 
     };
 
+    // Abre modal de edición
     alerta.Crear(htmlModal, funcionModal, funcionAlAbrir);
+    // Aplica renderizado Tom Select
     initTomSelectPortatil();
 
   };
+  
+  // 🗑 Confirmación de purgado
   const funcionModalEliminar = async () => {
+    // Sweetalert modo cuestionario
     const confirmacion = await alerta.alertaQuest(
       "¿Seguro que deseas eliminar esta afeccion del integrante?",
     );
+    // Escape si pulsa botón negativo
     if (!confirmacion.isConfirmed) return;
+    
+    // Dispara borrado real a la nube
     const eliminado = await api.delet(`conditionMembers/${id}`);
+    
     if (eliminado.success) {
       await alerta.alertaOK(eliminado.message);
-      await recargarContainer();
+      await recargarContainer(); // Carga entorno padre
     }
   };
 
