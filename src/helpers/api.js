@@ -7,6 +7,7 @@
 
 import * as alerta from "./alertas";
 import * as cookie from "./cookies";
+import * as spinner from "./spinner"
 
 // URL base para las peticiones a la API del backend
 const url = "http://localhost:8000/api";
@@ -23,6 +24,7 @@ export const urlStorage = "http://localhost:8000/storage";
  */
 export const getExiste = async (endpoint) => {
   try {
+    spinner.abrirSpinner();
     // 1. Ejecuta la petición GET estándar con el token actual
     let response = await fetch(`${url}/${endpoint}`, {
       method: "GET",
@@ -60,6 +62,7 @@ export const getExiste = async (endpoint) => {
     const obtenciones = await response.json();
     const info = obtenciones.data;
     // Evalúa si vino relleno o vacío
+    spinner.cerrarSpinner();
     if (info.length > 0) return true;
     else return false;
   } catch (error) {
@@ -74,6 +77,7 @@ export const getExiste = async (endpoint) => {
  */
 export const postImagen = async (endpoint, datos) => {
   try {
+    spinner.abrirSpinner();
     let response = await fetch(`${url}/${endpoint}`, {
       method: "POST",
       credentials: "include",
@@ -103,6 +107,7 @@ export const postImagen = async (endpoint, datos) => {
       }
     }
 
+    spinner.cerrarSpinner();
     return await response.json();
   } catch (error) {
     console.error("Error en POST:", error);
@@ -116,6 +121,7 @@ export const postImagen = async (endpoint, datos) => {
  */
 export const getImagen = async (endpoint) => {
   try {
+    spinner.abrirSpinner();
     let response = await fetch(`${url}/${endpoint}`, {
       method: "GET",
       credentials: "include",
@@ -149,6 +155,7 @@ export const getImagen = async (endpoint) => {
     const obtenciones = await response.json();
     const imagenNombre = obtenciones.data[0].path; // Toma de asunción que la API retorna base en la prop path
     const imagen = `${urlStorage}/${imagenNombre}`; // Arma la url completa de la foto
+    spinner.cerrarSpinner();
     return imagen;
   } catch (error) {
     console.error("Error en GET:", error);
@@ -162,6 +169,7 @@ export const getImagen = async (endpoint) => {
  */
 export const get = async (endpoint) => {
   try {
+    spinner.abrirSpinner();
     let response = await fetch(`${url}/${endpoint}`, {
       method: "GET",
       credentials: "include",
@@ -192,6 +200,8 @@ export const get = async (endpoint) => {
     }
     
     const obtenciones = await response.json();
+
+    spinner.cerrarSpinner();
     return obtenciones.data; // Devuelve solo el payload interno 
   } catch (error) {
     console.error("Error en GET:", error);
@@ -205,6 +215,7 @@ export const get = async (endpoint) => {
  */
 export const post = async (endpoint, datos) => {
   try {
+    spinner.abrirSpinner();
     let response = await fetch(`${url}/${endpoint}`, {
       method: "POST",
       credentials: "include",
@@ -236,6 +247,7 @@ export const post = async (endpoint, datos) => {
       }
     }
 
+    spinner.cerrarSpinner();
     return await response.json();
   } catch (error) {
     console.error("Error en POST:", error);
@@ -248,6 +260,7 @@ export const post = async (endpoint, datos) => {
  */
 export const put = async (endpoint, datos) => {
   try {
+    spinner.abrirSpinner();
     let response = await fetch(`${url}/${endpoint}`, {
       method: "PUT",
       credentials: "include",
@@ -279,6 +292,7 @@ export const put = async (endpoint, datos) => {
       }
     }
 
+    spinner.cerrarSpinner();
     return await response.json();
   } catch (error) {
     console.error("Error en PUT:", error);
@@ -292,6 +306,7 @@ export const put = async (endpoint, datos) => {
  */
 export const patch = async (endpoint, datos) => {
   try {
+    spinner.abrirSpinner()
     let response = await fetch(`${url}/${endpoint}`, {
       method: "PATCH",
       credentials: "include",
@@ -329,6 +344,8 @@ export const patch = async (endpoint, datos) => {
       alerta.alertaError(error.message); // Dispara toast error con el motivo
       return null;
     }
+
+    spinner.cerrarSpinner()
     return await response.json();
 
   } catch (error) {
@@ -343,6 +360,7 @@ export const patch = async (endpoint, datos) => {
  */
 export const delet = async (endpoint) => {
   try {
+    spinner.abrirSpinner();
     let response = await fetch(`${url}/${endpoint}`, {
       method: "DELETE",
       credentials: "include",
@@ -372,6 +390,7 @@ export const delet = async (endpoint) => {
       }
     }
 
+    spinner.cerrarSpinner()
     return await response.json();
   } catch (error) {
     console.error("Error en DELETE:", error);
@@ -386,6 +405,9 @@ export const delet = async (endpoint) => {
  */
 export const getPaginacion = async (endpoint) => {
   try {
+
+    spinner.abrirSpinner()    
+
     let response = await fetch(`${url}/${endpoint}`, {
       method: "GET",
       credentials: "include",
@@ -394,9 +416,11 @@ export const getPaginacion = async (endpoint) => {
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
     });
+    
 
     // --- Mecanismo de Refresh Token ---
     if (response.status === 401) {
+
       await refreshToken();
       response = await fetch(`${url}/${endpoint}`, {
         method: "GET",
@@ -407,10 +431,12 @@ export const getPaginacion = async (endpoint) => {
         },
       });
 
+      
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
         window.location.href = "#/login";
         localStorage.clear();
+        spinner.cerrarSpinner()
         return null;
       }
     }
@@ -418,6 +444,7 @@ export const getPaginacion = async (endpoint) => {
     // Procesa el Request Json
     const obtenciones = await response.json();
     // Retorna ambas raíces en un solo objeto consolidado
+    spinner.cerrarSpinner()
     return { data: obtenciones.data, paginate: obtenciones.paginate };
   } catch (error) {
     console.error("Error en GET:", error);
@@ -431,6 +458,7 @@ export const getPaginacion = async (endpoint) => {
  */
 export const getPdf = async (endpoint, filename = "archivo.pdf") => {
   try {
+    spinner.abrirSpinner();
     let response = await fetch(`${url}/${endpoint}`, {
       method: "GET",
       credentials: "include",
@@ -471,6 +499,8 @@ export const getPdf = async (endpoint, filename = "archivo.pdf") => {
     a.click(); // Autoclick automático para lanzar el modal de descargas en Chrome/Firefox
     a.remove(); // Borra la meta etiqueta basura después de usada
     window.URL.revokeObjectURL(urlBlob); // Libera RAM cachada de la PC usada para el Blob
+    
+    spinner.cerrarSpinner()
 
   } catch (error) {
     console.error("Error descargando PDF:", error);
