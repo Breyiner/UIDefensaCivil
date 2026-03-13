@@ -48,21 +48,32 @@ import * as usuario from "../views/usuario/index.js"
 // }
 export const routes = {
   // === Rutas Públicas (Autenticación) ===
-  login: {
+  "login": {
     path: `auth/login/index.html`,
     controlador: auth.loginController,
     private: false, // Accesible sin sesión
   },
-  register: {
+  "register": {
     path: `auth/register/index.html`,
     controlador: auth.registerController,
     private: false,
   },
-  forgotPassword: {
+  "forgotPassword": {
     path: `auth/forgotPassword/index.html`,
     controlador: auth.forgotPasswordController,
     private: false,
   },
+  "verifyCode": {
+    path: `auth/verifyCode/index.html`,
+    controlador: auth.verifyCodeController,
+    private: false,
+  },
+  "changePassword": {
+    path: `auth/changePassword/index.html`,
+    controlador: auth.changePasswordController,
+    private: false,
+  },
+
 
   // === Rutas de Perfil (Comunes) ===
   "usuarios":{

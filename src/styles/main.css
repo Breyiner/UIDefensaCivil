@@ -8,7 +8,7 @@
 
 /* componentes */
 @import "./components/header.css";
-@import "./components/boton.css";
+@import "./components/buttons.css";
 @import "./components/container.css";
 @import "./components/inputs.css";
 @import "./components/form.css";

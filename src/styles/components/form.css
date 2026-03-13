@@ -1,6 +1,6 @@
 .form {
   color: var(--color-oscuro);
-  gap: 15px;
+  gap: 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,6 +38,11 @@
   font-family: var(--fuente-contenido);
   font-weight: 500;
   font-size: var(--tamano-mediano);
+}
+
+.form__texto--center {
+  text-align: center;
+  color: var(--color-grisOscuro);
 }
 
 .form__link {
@@ -88,13 +93,25 @@
   .form{
     gap: 30px;
   }
+  .form--contenedor{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(8, 70px);
+    background-color: var(--color-palido);
+    padding: 20px;
+    height: 95%;
+    gap: 5px;
+    border-radius: 0px 40px 40px 0px;
+    align-content: center; 
+    justify-items: stretch; 
+  }
   .form__titulo{
     font-size: var(--tamano-enorme);
   }
   .form__subtitulo{
     font-size: var(--tamano-grande);
   }
-  .form__link{
+  .form__link, .form__texto--center{
     font-size: var(--tamano-medio-grande);
   }
 }
