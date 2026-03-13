@@ -1,5 +1,5 @@
 .boton {
-  width: 200px;
+  width: 60%;
   padding: 10px;
   border-radius: var(--border-radius-botones);
   background-color: var(--color-primario);

@@ -36,7 +36,7 @@ textarea:focus {
 
 .input--naranja {
   padding: 10px;
-  border: #ff6600 solid 1px;
+  border: var(--color-naranja-claro) solid 1px;
   border-radius: var(--border-radius-botones);
   text-align: start;
   width: 100%;
