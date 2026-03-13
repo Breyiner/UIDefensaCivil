@@ -1,96 +1,107 @@
 <div class="container container--noHeader">
-    <div class="explicacion">
-        <p class="explicacion__titulo"> Registro de usuarios</p>
-        <p class="explicacion__subtitulo">Llene los datos solicitados para crear su cuenta en el sistema</p>
+    <div class="introduccion">
+        <img src="../../../../public/logo.png" alt="logo" class="introduccion__logo">
+        <h2 class="introduccion__titulo">Plan familiar de emergencia</h2>
+        <p class="introduccion__texto">Planificación familiar para la prevención y respuesta ante emergencias</p>
+        <img src="../../../../public/familiapng.png" alt="imagen" class="introduccion__imagen">
     </div>
-    <form method="POST" class="form">
-        <div class="form__inputBox--double">
-            <div class="input">
-                <div class="form__inputBox">
-                    <i class="ri-user-line"></i>
-                    <input type="text" placeholder="nombres" id="nombres" autocomplete="off" data-tipo="textoNombres">
-                </div>
-            </div>
-            <div class="input">
-                <div class="form__inputBox">
-                    <i class="ri-user-line"></i>
-                    <input type="text" placeholder="apellidos" id="apellidos" autocomplete="off" data-tipo="textoNombres">
-                </div>
-            </div>
+
+    <form class="form form--contenedor">
+        <div class="explicacion span--grid">
+            <p class="explicacion__titulo"> Registro de usuarios</p>
+            <p class="explicacion__subtitulo">Llene los datos solicitados para crear su cuenta en el sistema</p>
         </div>
-        <div class="input">
-            <div class="form__inputBox form__inputBox--selector">
-                <i class="ri-id-card-line" id="selector__icono"></i>
-                <select class="selector" id="tiposDocumento">
-                    <option value="" hidden>Seleccione un tipo de documento...</option>
-                </select>
-            </div>
-        </div>
-        <div class="input">
-            <div class="form__inputBox">
-                <i class="ri-info-card-line"></i>
-                <input type="text" id="numeroDocumento" placeholder="numero de documento" autocomplete="off" data-tipo="documento">
-            </div>
-        </div>
-        <div class="input">
-            <div class="form__inputBox form__inputBox--selector">
-                <i class="ri-men-line" id="selector__icono"></i>
-                <select class="selector" id="generos">
-                    <option value="" hidden>Seleccione un genero...</option>
-                </select>
-            </div>
-        </div>
-        <div class="input">
-            <div class="form__inputBox--double">
                 <div class="input">
                     <div class="form__inputBox">
-                        <i class="ri-cake-2-line"></i>
-                        <input type="date" placeholder="fecha de nacimiento" id="nacimiento" autocomplete="off" data-tipo="mayorDeEdad">
+                        <i class="ri-user-line"></i>
+                        <input type="text" placeholder="nombres" id="nombres" autocomplete="off"
+                            data-tipo="textoNombres">
                     </div>
                 </div>
                 <div class="input">
                     <div class="form__inputBox">
-                        <i class="ri-phone-line"></i>
-                        <input type="text" placeholder="celular" id="telefono" autocomplete="off" data-tipo="telefono">
+                        <i class="ri-user-line"></i>
+                        <input type="text" placeholder="apellidos" id="apellidos" autocomplete="off"
+                            data-tipo="textoNombres">
                     </div>
                 </div>
+            <div class="input">
+                <div class="form__inputBox form__inputBox--selector">
+                    <i class="ri-id-card-line" id="selector__icono"></i>
+                    <select class="selector" id="tiposDocumento">
+                        <option value="" hidden>Seleccione un tipo de documento...</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="input">
-            <div class="form__inputBox form__inputBox--selector">
-                <i class="ri-team-line" id="selector__icono"></i>
-                <select class="selector" id="seccionales">
-                    <option value="" hidden>Seleccione una seccional...</option>
-                </select>
+            <div class="input">
+                <div class="form__inputBox">
+                    <i class="ri-info-card-line"></i>
+                    <input type="text" id="numeroDocumento" placeholder="numero de documento" autocomplete="off"
+                        data-tipo="documento">
+                </div>
             </div>
-        </div>
-        <div class="input">
-            <div class="form__inputBox form__inputBox--selector">
-                <i class="ri-group-3-line" id="selector__icono"></i>
-                <select class="selector" id="organizaciones" disabled>
-                    <option value="" hidden>Seleccione una organizacion...</option>
-                </select>
+            <div class="input">
+                <div class="form__inputBox form__inputBox--selector">
+                    <i class="ri-men-line" id="selector__icono"></i>
+                    <select class="selector" id="generos">
+                        <option value="" hidden>Seleccione un genero...</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="input">
-            <div class="form__inputBox">
-                <i class="ri-mail-line"></i>
-                <input type="text" placeholder="correo eletronico" id="correoElectronico" autocomplete="off" data-tipo="correo">
+            <div class="input">
+                <div class="form__inputBox">
+                    <i class="ri-cake-2-line"></i>
+                    <input type="date" placeholder="fecha de nacimiento" id="nacimiento" autocomplete="off"
+                        data-tipo="mayorDeEdad">
+                </div>
             </div>
-        </div>
-        <div class="input">
-            <div class="form__inputBox">
-                <i class="ri-lock-2-line"></i>
-                <input type="password" placeholder="contraseña" id="contrasena" autocomplete="off" data-tipo="password">
+
+            <div class="input">
+                <div class="form__inputBox">
+                    <i class="ri-phone-line"></i>
+                    <input type="text" placeholder="celular" id="telefono" autocomplete="off" data-tipo="telefono">
+                </div>
             </div>
-        </div>
-        <div class="input">
-            <div class="form__inputBox">
-                <i class="ri-lock-unlock-line"></i>
-                <input type="password" placeholder="confirmar contraseña" id="confirmarContrasena" autocomplete="off">
+
+            <div class="input">
+                <div class="form__inputBox form__inputBox--selector">
+                    <i class="ri-team-line" id="selector__icono"></i>
+                    <select class="selector" id="seccionales">
+                        <option value="" hidden>Seleccione una seccional...</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <button class="form__boton boton" disabled>Crear cuenta</button>
-    </form>
-    <button class="form__link" id="tengoCuenta">Ya tengo cuenta</button>
+            <div class="input">
+                <div class="form__inputBox form__inputBox--selector">
+                    <i class="ri-group-3-line" id="selector__icono"></i>
+                    <select class="selector" id="organizaciones" disabled>
+                        <option value="" hidden>Seleccione una organizacion...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input">
+                <div class="form__inputBox">
+                    <i class="ri-mail-line"></i>
+                    <input type="text" placeholder="correo eletronico" id="correoElectronico" autocomplete="off"
+                        data-tipo="correo">
+                </div>
+            </div>
+            <div class="input">
+                <div class="form__inputBox">
+                    <i class="ri-lock-2-line"></i>
+                    <input type="password" placeholder="contraseña" id="contrasena" autocomplete="off"
+                        data-tipo="password">
+                </div>
+            </div>
+            <div class="input">
+                <div class="form__inputBox">
+                    <i class="ri-lock-unlock-line"></i>
+                    <input type="password" placeholder="confirmar contraseña" id="confirmarContrasena"
+                        autocomplete="off">
+                </div>
+            </div>
+            <button class="form__boton boton boton--align span--grid ">Crear cuenta</button>
+            <button class="form__link span--grid" id="tengoCuenta">Ya tengo cuenta</button>
+        </form>
+    </div>
 </div>

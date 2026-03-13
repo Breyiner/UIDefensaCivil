@@ -1,21 +1,28 @@
 <div class="container container--noHeader">
-    <form method="POST" class="form">
-        <div class="explicacion">
-            <p class="explicacion__titulo"> Recuperar Contraseña</p>
-            <p class="explicacion__subtitulo">Llene los datos solicitados para enviar codigo de recuperacion</p>
-        </div>
-        <div class="input">
-            <div>
-                <input type="text" class="input--naranja" placeholder="Correo Electronico" id="correoElectronico" autocomplete="off" data-tipo="correo">
-            </div>
-        </div>
-        <button class="boton">Confirmar Correo</button>
-    </form>
-    <div class="decoration">
-        <div class="decoration__linea"></div>
-        <p class="decoration__text">o</p>
-        <div class="decoration__linea"></div>
+    <div class="introduccion">
+        <img src="../../../../public/logo.png" alt="logo" class="introduccion__logo">
+        <h2 class="introduccion__titulo">Plan familiar de emergencia</h2>
+        <p class="introduccion__texto">Planificación familiar para la prevención y respuesta ante emergencias</p>
+        <img src="../../../../public/familiapng.png" alt="imagen" class="introduccion__imagen">
     </div>
-    <button id="volver" class="container__boton botonAzul boton" href="">Volver</button>
-</div>
+    <div class="login login--gap">
+        <img src="logo.png" alt="logoDefensaCivil" class="login__logo">
+        <form method="POST" class="form">
+            <h2 class="form__titulo">¿Olvidó su contraseña?</h2>
+            <div class="form__texto form__texto--center">Ingrese su direccion de correo electronico y le enviaremos un código de verificación para restablecer su contraseña.</div>
+            <div class="input">
+                <div>
+                    <input type="text" class="input--naranja" placeholder="Correo Electronico" id="correoElectronico"
+                        autocomplete="off" data-tipo="correo">
+                </div>
+            </div>
+            <button class="boton">Confirmar Correo</button>
+        </form>
+        <div class="decoration">
+            <div class="decoration__linea"></div>
+            <p class="decoration__text">o</p>
+            <div class="decoration__linea"></div>
+        </div>
+        <button id="volver" class=" boton boton--azul">Volver al inicio</button>
+    </div>
 </div>

@@ -8,6 +8,8 @@
 import loginController from "./login/loginController.js";
 import registerController from "./register/registerController.js";
 import forgotPasswordController from "./forgotPassword/forgotController.js";
+import changePasswordController from "./changePassword/changePasswordController.js";
+import verifyCodeController from "./verifyCode/verifyCodeController.js";
 
 // Exporta masivamente en objeto para destructurar luego 'import {loginController} from...'
-export { loginController, registerController, forgotPasswordController };
+export { loginController, registerController, forgotPasswordController, changePasswordController, verifyCodeController  };

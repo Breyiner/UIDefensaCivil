@@ -2,6 +2,19 @@ input{
   font-size: var(--tamano-mediano);
 }
 
+.input{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input--contenedor{
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
 input::placeholder {
   color: var(--color-grisOscuro);
 }
@@ -20,18 +33,18 @@ textarea::placeholder {
 textarea:focus {
   outline: none;
 }
-.input{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
 
 .input--naranja {
   padding: 10px;
-  border: #ff6600 solid 1px;
+  border: var(--color-naranja-claro) solid 1px;
   border-radius: var(--border-radius-botones);
   text-align: start;
   width: 100%;
+}
+
+.input--naranja-padding {
+  padding: 15px 0;
+  text-align: center;
 }
 
 .input--gris{
@@ -59,7 +72,7 @@ textarea:focus {
   border-radius: var(--border-radius-botones);
   width: 100%;
   background-color: var(--color-palido);
-  padding: 10px;
+  padding: 8px;
   gap: 10px;
   text-align: center;
   font-family: var(--fuente-contenido);
@@ -142,5 +155,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .input--naranja{
     padding: 15px;
     font-size: var(--tamano-medio-grande);
+  }
+  .form__inputBox{
+    padding: 10px;
+  }
+  .input--contenedor{
+    width: 75%;
+  }
+  .input--naranja-padding {
+    text-align: center;
+    padding: 24px 0;
   }
 }

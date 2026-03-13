@@ -8,7 +8,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: end;
-    gap: 35px;
+    gap: 30px;
     background-image: url(../../../public/fondo.png);
     height: 95%;
     width: 100%;

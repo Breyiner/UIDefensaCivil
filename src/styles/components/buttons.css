@@ -1,5 +1,5 @@
 .boton {
-  width: 200px;
+  width: 60%;
   padding: 10px;
   border-radius: var(--border-radius-botones);
   background-color: var(--color-primario);
@@ -9,7 +9,9 @@
   transition: 0.3s;
   border: 3px solid var(--color-transparencia);
   font-family: var(--fuente-titulos);
+  cursor: pointer;
 }
+
 .boton-width{
   width: 100%;
   padding: 15px;
@@ -33,7 +35,10 @@
 
 .boton--azul {
   background-color: var(--color-secundario);
+  width: fit-content;
+  padding: 8px 20px;
 }
+
 .boton--rojo {
   background-color: var(--color-vino);
 }
@@ -81,4 +86,39 @@
 .boton--height{
   height: 50px;
   width: 100%;
+}
+.container__botonCenter{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+
+.boton--containerStart {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+}
+
+.boton--containerEnd {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+.boton--containerStarEnd {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.boton--containerStarEnd>.boton {
+  width: 45%;
+}
+
+.boton--containerCenter {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0;
 }
