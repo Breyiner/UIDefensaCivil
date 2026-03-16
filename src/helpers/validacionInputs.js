@@ -335,6 +335,8 @@ const inputTipos={
   
   documento:{keyboard: keyboard_numero ,min:7,max:15},
 
+  direccion: {min: 3, max: 50},
+
   // Reglas con métodos exóticos custom via inyección de funciones anónimas
   correo:{validacion:(input)=>validar_correo(input)},
 
