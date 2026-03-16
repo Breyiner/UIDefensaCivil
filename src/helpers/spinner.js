@@ -11,15 +11,19 @@ const layout = document.querySelector(".layout")
 export const abrirSpinner = () => {
     requestActivas ++;
 
-    timer = setTimeout(() => {
+    if (requestActivas === 1) {
 
-        if (!spinnerDiv){
-            spinnerDiv = document.createElement("div");
-            spinnerDiv.className = "spinner-background"
-            spinnerDiv.innerHTML = `<div class="spinner-background__spinner"></div>`
-            layout.append(spinnerDiv)
-        }
-    }, 200);
+        timer = setTimeout(() => {
+    
+            if (!spinnerDiv){
+                spinnerDiv = document.createElement("div");
+                spinnerDiv.className = "spinner-background"
+                spinnerDiv.innerHTML = `<div class="spinner-background__spinner"></div>`
+                layout.append(spinnerDiv)
+            }
+        }, 200);
+    }
+
     
 }
 
