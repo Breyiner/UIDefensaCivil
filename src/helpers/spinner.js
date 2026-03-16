@@ -19,13 +19,17 @@ export const abrirSpinner = () => {
 
 export const cerrarSpinner = () => {
 
-    if (requestActivas > 0){
-        requestActivas --;
-    }
-    // validar que no haya ninguna request y que el div del spinner exista para removerlo
-    if (requestActivas === 0 && spinnerDiv){
-        spinnerDiv.remove();
-        spinnerDiv = null;
-    }
+    setTimeout(() => {
+        if (requestActivas > 0){
+            requestActivas --;
+        }
+        // validar que no haya ninguna request y que el div del spinner exista para removerlo
+        if (requestActivas === 0 && spinnerDiv){
+            spinnerDiv.remove();
+            spinnerDiv = null;
+        }
+
+    }, 1000)
+
 
 }
