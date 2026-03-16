@@ -9,5 +9,14 @@ export const abrirSpinner = () => {
 }
 
 export const cerrarSpinner = () => {
-    spinnerDiv.remove()
+
+    // obtener todos los spinners que se estén ejecutando en el momento y cerrarlos
+    const spinners = document.querySelectorAll(".spinner-background");
+
+    if (spinners) {
+        spinners.forEach(spinner => {
+            spinner.remove()
+        })
+    }
+
 }
