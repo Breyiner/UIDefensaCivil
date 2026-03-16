@@ -206,6 +206,8 @@ export const get = async (endpoint) => {
   } catch (error) {
     console.error("Error en GET:", error);
     return null;
+  } finally {
+    spinner.cerrarSpinner()
   }
 };
 
@@ -252,6 +254,8 @@ export const post = async (endpoint, datos) => {
   } catch (error) {
     console.error("Error en POST:", error);
     return null;
+  } finally {
+    spinner.cerrarSpinner();
   }
 };
 
@@ -297,6 +301,8 @@ export const put = async (endpoint, datos) => {
   } catch (error) {
     console.error("Error en PUT:", error);
     return null;
+  } finally {
+    spinner.cerrarSpinner()
   }
 };
 
@@ -351,6 +357,8 @@ export const patch = async (endpoint, datos) => {
   } catch (error) {
     console.error("Error en PATCH:", error);
     return null;
+  } finally {
+    spinner.cerrarSpinner()
   }
 };
 
@@ -395,6 +403,8 @@ export const delet = async (endpoint) => {
   } catch (error) {
     console.error("Error en DELETE:", error);
     return null;
+  } finally {
+    spinner.cerrarSpinner()
   }
 };
 
@@ -449,6 +459,8 @@ export const getPaginacion = async (endpoint) => {
   } catch (error) {
     console.error("Error en GET:", error);
     return null;
+  } finally {
+    spinner.cerrarSpinner()
   }
 };
 
@@ -505,6 +517,8 @@ export const getPdf = async (endpoint, filename = "archivo.pdf") => {
   } catch (error) {
     console.error("Error descargando PDF:", error);
     alerta.alertaError(error.message || error);
+  } finally {
+    spinner.cerrarSpinner()
   }
 };
 
