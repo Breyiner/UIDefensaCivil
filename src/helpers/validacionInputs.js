@@ -411,7 +411,8 @@ export const validadorAutomatico = {
     // Pasada 1: Revisa todos los inputs de texto/numéricos 
     inputs.forEach(input => {
       const tipo = input.dataset.tipo
-
+      console.log(input);
+      
       if (tipo in inputTipos){        
         // Si la regla dice que es optativo y el input lo es, realiza evaluación de puente "validar_siExiste"
         if (inputTipos[tipo].opcional){     
