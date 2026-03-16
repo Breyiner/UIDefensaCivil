@@ -37,6 +37,11 @@ export default async () => {
   // Inyección Custom Title en Top Bar UI (Ej: Familia "Perez Rodriguez")
   nombreFamilia.textContent += ` ${planFamiliar.last_names}`;
 
+  // Definir si existen miembros de la familia para realizar acciones en el menu -------------------------------------------------------------------------------...
+  const tieneMiembros = await api.get(`familyPlans/${id}/has-members`);
+  console.log(tieneMiembros);
+  
+
   // Router Volver al Muro General
   botonBack.onclick = () => {
     location.href = `#/voluntario-verPlanFamiliar`;
@@ -59,6 +64,13 @@ export default async () => {
   });
 
   factoresRiesgo.addEventListener("click", async () => {
+    
+    if(!tieneMiembros.has_members){
+      // console.log("No tiene miembros");
+      alerta.alertaWarning(`El Plan de la Familia ${planFamiliar.last_names} no posee ningun integrante`);
+      return;
+    }
+
     location.href = `#/voluntario-planRiesgo/ver/id=${id}`;
   });
 
