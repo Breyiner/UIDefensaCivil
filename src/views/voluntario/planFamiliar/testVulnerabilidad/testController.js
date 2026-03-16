@@ -27,6 +27,13 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
+  //Se crea un objeto que almacena los puntajes, repuestas y cuenta aquellas cuya opcion marque "SI" = true de forma temporal ----------------------------------------- Nuevo
+  const testRespuestas = {
+    respuesta:{},
+    puntaje:{},
+    contador:0
+  }
+
   // Lógica del Botón Volver (Flecha blanca superior)
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
@@ -95,11 +102,11 @@ export default async () => {
         <p class="test__texto">${opcion.description}</p>
         <div class="test__opciones">
           <input type="radio" class="invisible" name="opcion-${opcion.id}" id="si-${opcion.id}" value="true"
-            ${localStorage.getItem(`opcion-${opcion.id}`) === "true" ? "checked" : ""}>
+            ${testRespuestas.respuesta[`opcion-${opcion.id}`] === "true" ? "checked" : ""}>
           <label class="test__opcion test__opcion--si" for="si-${opcion.id}">SI</label>
 
           <input type="radio" class="invisible" name="opcion-${opcion.id}" id="no-${opcion.id}" value="false"
-            ${localStorage.getItem(`opcion-${opcion.id}`) === "false" ? "checked" : ""}>
+            ${testRespuestas.respuesta[`opcion-${opcion.id}`] === "false" ? "checked" : ""}>
           <label class="test__opcion test__opcion--no" for="no-${opcion.id}">NO</label>
         </div>
       `;
@@ -167,19 +174,31 @@ export default async () => {
     if (e.target.type !== "radio") return; // Impedimento para prevenir engaños del click.
 
     // Recordatorio instantáneo en Memoria RAM del teléfono/Móvil. Ejem ("Opcion pregunta 2, dijo: CIERTO/SI")
-    localStorage.setItem(e.target.name, e.target.value);
+    // localStorage.setItem(e.target.name, e.target.value);
+
+    testRespuestas.respuesta[e.target.name] = e.target.value; //Se integra la logica del objeto
 
     // Matemáticas dinámicas para dar puntaje interno.
     // Solo Otorga 1 Punto a su favor, SI NO posee peligrosidad extrema y al mismo tiempo SÍ contestó favorablemente con un TRUE / SI.
-    if (
-      !e.target.closest(".preguntas__contendor--precaucion") &&
-      e.target.value == "true"
-    ) {
-      localStorage.setItem(`puntaje-${e.target.name}`, e.target.value); // Crea token interno llamado Puntaje para rastreo  
+    if (!e.target.closest(".preguntas__contendor--precaucion") && e.target.value == "true") {
+
+      // localStorage.setItem(`puntaje-${e.target.name}`, e.target.value); // Crea token interno llamado Puntaje para rastreo
+
+      testRespuestas.puntaje[`puntaje-${e.target.name}`] = true;
+      console.log(`puntaje-${e.target.name}, ${e.target.value}`);
     } 
+
     // Por ende Restador Definitivo: Si antes pulsó que SÍ, pero ahora recapacitó por un trágico NO... Destruimos el puntaje y se lo restamos al global
-    else if (e.target.value == "false")
-      localStorage.removeItem(`puntaje-${e.target.name}`);
+    else if (e.target.value == "false") {
+      // localStorage.removeItem(`puntaje-${e.target.name}`);
+
+      delete testRespuestas.puntaje[`puntaje-${e.target.name}`]
+      console.log(`puntaje-${e.target.name}, ${e.target.value}`);
+    }
+
+    testRespuestas.contador = Object.keys(testRespuestas.puntaje).length; // El contador toma datos numericos del puntaje con .length, el puntaje solo tomara los datos existentes "= true", ya que los datos "= false" son eliminados
+    console.log(`Respuesta SI: ${testRespuestas.contador}`); // visualizar en consola cuantas respuestas "SI" fueron marcadas
+
   });
 
 
@@ -213,7 +232,9 @@ export default async () => {
       }
       total++; // +1 Pregunta legal y contable a calificar
       
-      const respuesta = localStorage.getItem(`opcion-${p.id}`); // Búsqueda de la solución en su memoria Móvil
+      // const respuesta = localStorage.getItem(`opcion-${p.id}`); // Búsqueda de la solución en su memoria Móvil
+
+      const respuesta = testRespuestas.respuesta[`opcion-${p.id}`];
       
       if (respuesta !== null) respondidas++; // Sumatoria informando de que al menos fue llena
       
@@ -221,10 +242,17 @@ export default async () => {
       // y sumado a eso, el servidor logra hallar que sí poseía el famoso Token guardador en RAM de "Puntaje"
       if (
         !p.question_caution &&
-        localStorage.getItem(`puntaje-opcion-${p.id}`)
+        // localStorage.getItem(`puntaje-opcion-${p.id}`)
+        testRespuestas.puntaje[`puntaje-opcion-${p.id}`]
+        
       ) {
+
         puntos++;
       }
+
+      // Todo aqui funciona correctamente, respuesta tienen como trabajo asegurarse de la cantidad de respuestas almacenadas en la propiedad respuesta lo que aumentara el contador de "respondidas"
+      // Los datos almacenados en la propiedad de puntaje en el objeto solo guarda respuestas = true, por lo que los puntos seran iguales a la cantidad de opciones = true que hayan
+      // Esto servira para la creacion de comparaciones y convalidaciones antes de enviar los puntos del test
     });
 
     // VEREDICTO DE TRAMPA/ERROR: El Voluntario no rellenó la cantidad adecuada (Se comió y saltó alguna pregunta)
@@ -244,21 +272,24 @@ export default async () => {
       if (!p.is_active) {
         window.procesoPeticion = false;
         siguiente.disabled = false;
-        return;
+        // return;
+        continue; // Si la pregunta no estaba activa, no la envía pero sigue con la siguiente sin abortar todo el proceso
       }
       // Trasteando el mapa relacional estricto con sus ID correspondientes 
       const datos = {
         vulnerable_question_id: p.id,
         family_plan_id: id,
-        answer: localStorage.getItem(`opcion-${p.id}`) === "true", // Conversión exacta de lenguaje
+        // answer: localStorage.getItem(`opcion-${p.id}`) === "true", // Conversión exacta de lenguaje
+        answer: testRespuestas.respuesta[`opcion-${p.id}`]==='true',
       }
       
       // Emitir este objeto directamente
       await api.post("vulnerableTest", datos);
 
       // Limpiador Apto: Acabar los archivos de chatarra que ya no sirven del dispositivo personal (RAM limpia en celular)
-      localStorage.removeItem(`opcion-${p.id}`);
-      localStorage.removeItem(`puntaje-opcion-${p.id}`);
+      // localStorage.removeItem(`opcion-${p.id}`);
+      // localStorage.removeItem(`puntaje-opcion-${p.id}`);
+      // No se necesita remover el localstorage si est ya no existe en una primera instancia, el objeto de borra por si solo una vez se cambia de vista
     }
 
     // Fin Proceso de limpieza y cierre
