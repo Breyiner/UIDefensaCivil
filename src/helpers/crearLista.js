@@ -24,11 +24,12 @@ export default async function crearLista({
 
         // Renderiza cada registro como un <button> interactivo de acción
         for (const item of datos) {
-
             // Botón envoltura base (Viñeta)
             const boton = document.createElement("button");
             // Apaga opacidad de la barra si el ítem esta marcado inactivo
             let clases = item.is_active ? "listaDatos__valor" : "listaDatos__valor listaDatos_Inactivo"
+            if (endpoint == "departments") clases = "listaDatos__valor"
+            //como los departamentos y ciudades no tienen is_active seran siempre activos
             boton.className = clases;
             boton.dataset.id = item.id; // Clava flag oculto local de su ID Backend referencial
 
