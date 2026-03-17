@@ -44,6 +44,7 @@ export const crear = async (recargarContainer) => {
         </div>
 
         <div class="form">
+        <div class="input">
             <div class="form__inputBox modal-50">
                 <i class="ri-map-2-line"></i>
                 <input type="text" class="form__input form__nombre" 
@@ -51,13 +52,13 @@ export const crear = async (recargarContainer) => {
                 data-tipo="textoCorto">
             </div>
         </div>
+        </div>
     `;
 
     alerta.Crear(htmlModal, async () => {
         const contenedor = document.querySelector(".form");
         const nombre = document.querySelector(".form__nombre").value;
         const booleanValidacion = validacion.validadorAutomatico.validarTodo(contenedor)
-        console.log(booleanValidacion);
         if (!booleanValidacion) return false
         const data = await api.post("departments", { name: nombre });
 
@@ -67,7 +68,12 @@ export const crear = async (recargarContainer) => {
         } else {
             alerta.alertaWarning(data.message, data.errors);
         }
-    });
+    },
+    async () => {
+        const contenedor = document.querySelector(".form");
+        validacion.validadorAutomatico.init(contenedor);
+    }
+    );
 };
 
 
@@ -84,21 +90,25 @@ export const editar = async (id, recargarContainer) => {
             <p class="explicacion__titulo">Editar Departamento</p>
         </div>
         <div class="form">
+        <div class="input">
             <div class="form__inputBox modal-50">
                 <i class="ri-map-2-line"></i>
                 <input 
                     type="text" 
                     class="form__input form__nombre"
                     value="${info.name}"
-                    autocomplete="off">
+                    placeholder="Nombre del departamento"autocomplete="off"
+                    data-tipo="textoCorto">
+            </div>
             </div>
         </div>
     `;
 
     alerta.Crear(htmlModal, async () => {
-
+        const contenedor = document.querySelector(".form");
         const nombre = document.querySelector(".form__nombre").value;
-
+        const booleanValidacion = validacion.validadorAutomatico.validarTodo(contenedor)
+        if (!booleanValidacion) return false
         const data = await api.put(`departments/${id}`, { name: nombre });
 
         if (data.success) {
@@ -107,6 +117,10 @@ export const editar = async (id, recargarContainer) => {
         } else {
             alerta.alertaWarning(data.message, data.errors);
         }
-
-    });
+    },
+    async () => {
+        const contenedor = document.querySelector(".form");
+        validacion.validadorAutomatico.init(contenedor);
+    }
+    );
 };
