@@ -8,6 +8,7 @@ import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 import * as adjuntarOpc from "../../../helpers/adjuntarOpciones";
 import * as validacion from "../../../helpers/validacionInputs";
+import * as fechas from "../../../helpers/fechas";
 
 export default async () => {
   // Referencias al DOM estáticas generales de la ventana SPA
@@ -40,7 +41,8 @@ export default async () => {
   await adjuntarOpc.adjuntarInfo(tipoDocumento,"documentTypesPublic","acronym");
   await adjuntarOpc.adjuntar(genero, "gendersPublic");
   await adjuntarOpc.adjuntar(seccional, "sectionalsPublic");
-
+  fechas.initFechas();
+  
   // Libre pase visual
   boton.disabled = false;
 
