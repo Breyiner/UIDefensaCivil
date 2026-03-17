@@ -8,4 +8,11 @@ import barra from "./canvas/barra.js";
 import dona from "./canvas/dona.js"
 import lineaTemporal from "./canvas/lineaTemporal.js";
 
+// Importa Chart.js para gráficos y sus componentes registrables
+import { Chart, registerables } from 'chart.js';
+// Registra todos los componentes necesarios para habilitar Chart.js
+Chart.register(...registerables);
+// Expone la instancia de Chart globalmente en el objeto window
+window.Chart = Chart;
+
 export {barra,dona,lineaTemporal};
