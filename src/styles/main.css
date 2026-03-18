@@ -31,6 +31,7 @@
 @import "./components/section.css";
 @import "./components/introduccion.css";
 @import "./components/filtros.css";
+@import "./components/badge.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";

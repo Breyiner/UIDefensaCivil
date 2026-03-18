@@ -29,6 +29,8 @@
   --color-blancotranslucido: rgba(255, 255, 255, 0.473); 
   --color-fondogristranslucido: #d9d9d95b;
   --color-fondoazultranslucido: #0770cc28;
+  --color-fondorojitranslucido: #ff000017;
+  --color-fondoverdetranslucido: #36BD3628;
   /* fuentes */
   --fuente-titulos: Roboto;
   --fuente-contenido: Noto Sans;
