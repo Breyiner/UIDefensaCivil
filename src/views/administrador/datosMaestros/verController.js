@@ -63,8 +63,8 @@ export default async () => {
       window.location.href = "#/administrador-datosMaestros/recursos";
     }
 
-    if (e.target.closest("#vulnerabilities")) {
-      window.location.href = "#/administrador-datosMaestros/vulnerabilidades";
+    if (e.target.closest("#departments")) {
+      window.location.href = "#/administrador-datosMaestros/departamentos";
     }
 
   });

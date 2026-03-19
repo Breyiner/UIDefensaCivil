@@ -335,6 +335,8 @@ const inputTipos={
   
   documento:{keyboard: keyboard_numero ,min:7,max:15},
 
+  direccion: {min: 3, max: 50},
+
   // Reglas con métodos exóticos custom via inyección de funciones anónimas
   correo:{validacion:(input)=>validar_correo(input)},
 
@@ -411,7 +413,7 @@ export const validadorAutomatico = {
     // Pasada 1: Revisa todos los inputs de texto/numéricos 
     inputs.forEach(input => {
       const tipo = input.dataset.tipo
-
+      
       if (tipo in inputTipos){        
         // Si la regla dice que es optativo y el input lo es, realiza evaluación de puente "validar_siExiste"
         if (inputTipos[tipo].opcional){     
