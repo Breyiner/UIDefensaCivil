@@ -30,6 +30,8 @@
 @import "./components/error.css";
 @import "./components/section.css";
 @import "./components/introduccion.css";
+@import "./components/filtros.css";
+@import "./components/badge.css";
 @import "./components/spinner.css";
 /* pages */
 @import "./pages/familiarcrear.css";

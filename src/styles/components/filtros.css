@@ -1,0 +1,11 @@
+.filtros {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.filtros--notificaciones {
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 20px;
+}
