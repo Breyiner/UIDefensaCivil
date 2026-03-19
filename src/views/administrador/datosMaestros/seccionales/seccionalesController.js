@@ -3,11 +3,13 @@
  * Gestiona la entidad principal geográfica (Seccional) a la que pertenecen
  * diferentes organizaciones de voluntarios. Renderiza su lista y formulario modal.
  */
-import crearLista from "../../../../helpers/crearLista";
-import * as alerta from "../../../../helpers/alertas";
 import * as seccional from "../../../../helpers/modales/seccional";
+import * as api from "../../../../helpers/api";
+import { verEstado_ventana } from "../../../../componentes/ver_Estado/verEstado_ventana";
 
 export default async () => {
+    // const datos = await api.get("sectionals/");
+
     const botonBack = document.getElementById("botonBack");
     if (window.procesoPeticion === undefined) {
         window.procesoPeticion = false;
@@ -21,22 +23,41 @@ export default async () => {
 
     const botonCrear = document.querySelector('#crearSeccional');
 
-    // Función para recargar la lista
+
     const recargar = async () => {
-        await crearLista({
-            contenedorSelector: ".listaDatos",
-            endpoint: "sectionals",
-            renderContenido: (span, item) => {
-                span.innerHTML = `
-                    <i class="ri-eye-line"></i>
-                    ${item.name} - ${item.is_active == 1 ? "Activo" : "Inactivo"}
-                `;
-            },
-            modal: seccional.ver
+        const datos = await api.get("sectionals/");
+    
+        const contenedor = document.querySelector(".listaDatos");
+        contenedor.innerHTML = ""; // limpiar antes de repintar
+
+        datos.forEach(dato => {
+
+            const boton = document.createElement("button");
+            boton.classList.add("listaDatos__valor");
+            if (!dato.is_active) boton.classList.add("listaDatos__Inactivo");
+            boton.dataset.id = dato.id;
+
+            const span = document.createElement("span");
+            span.classList.add("listaDatos__nombre");
+
+            const icono = document.createElement("i");
+            icono.classList.add("ri-eye-line");
+
+            const texto = document.createTextNode(
+                ` ${dato.name} - ${dato.is_active ? "Activo" : "Inactivo"}`
+            );
+
+            span.append(icono, texto);
+            boton.append(span);
+
+            boton.addEventListener("click", () => {
+                verEstado_ventana("Seccional",dato,"sectionals",recargar);
+            });
+
+            contenedor.append(boton);
         });
     };
 
-    // Cargar lista inicial
     await recargar();
 
     // BOTÓN CREAR  

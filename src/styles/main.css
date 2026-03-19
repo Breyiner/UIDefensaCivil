@@ -31,6 +31,7 @@
 @import "./components/section.css";
 @import "./components/introduccion.css";
 @import "./components/spinner.css";
+@import "./components/verEstadoVentana.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";
@@ -46,3 +47,4 @@
 @import "./pages/datosMaestros.css";
 @import "./pages/revisionplansupervisor";
 @import "./pages/perfil.css";
+@import "./pages/historial.css";

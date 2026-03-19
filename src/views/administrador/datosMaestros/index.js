@@ -15,6 +15,7 @@ import tiposAmenazaController from "./tiposAmenaza/tiposAmenazaControlles.js";
 import especiesController from "./especies/especiesController.js";
 import recursosController from "./recursos/recursosController.js";
 import vulnerabilidadesController from "./vulnerabilidades/vulnerabilidadesController.js";
+import historialController from "./seccionales/historial/historialController.js";
 
 export {
   verController,
@@ -28,5 +29,6 @@ export {
   tiposAmenazaController,
   especiesController,
   recursosController,
-  vulnerabilidadesController
+  vulnerabilidadesController,
+  historialController
 };
