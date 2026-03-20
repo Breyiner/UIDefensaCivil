@@ -15,6 +15,10 @@ export const router = async (elemento) => {
   // Extrae el hash actual descartando los dos primeros caracteres ("#/" quedando solo la ruta)
   const hash = location.hash.slice(2);
   // Separa la ruta en segmentos basándose en las diagonales "/" ignorando vacíos
+  let arregloHash = hash.split("/")
+
+  const [ruta,parametros] = recorrerRutas(routes,arregloHash)
+
   const segmentos = hash.split("/").filter((seg) => seg);
 
   // Si no hay segmentos (URL vacía o raíz directa), redirecciona a iniciar sesión
@@ -151,4 +155,58 @@ const puede = (ruta) => {
   // Checkea si en esa lista el ID o claim requerido de acceso (".can") de la vista actual existe y lo posee el user   
   const existe = permisos.includes(ruta.can);
   return existe; // True si pasa seguridad o False si rebota
+};
+
+const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva) => {
+  // Procesar parámetros solo en la primera llamada
+  if (!esLlamadaRecursiva && arregloHash.length > 0) {
+      const ultimoElemento = arregloHash[arregloHash.length - 1];
+      
+      // Verificar si el último elemento contiene parámetros (tiene =)
+      if (ultimoElemento && ultimoElemento.includes("=")) {
+          let parametrosSeparados = ultimoElemento.split("&");
+
+          parametrosSeparados.forEach((parametro) => {
+              let claveValor = parametro.split("=");
+              parametros[claveValor[0]] = claveValor[1];
+          });
+          
+          console.log("Parámetros procesados:", parametros);
+          arregloHash = [...arregloHash]; // Crear copia para no mutar el original
+          arregloHash.pop(); // Remover los parámetros del array
+          console.log("Array después de quitar parámetros:", arregloHash);
+      }
+  }
+
+  // Ruta raíz vacía (#/ o #)
+  if ((arregloHash.length == 1 && arregloHash[0] == "") || 
+      (arregloHash.length == 2 && arregloHash[0] == "" && arregloHash[1] == "") ||
+      arregloHash.length == 0) {
+      return [routes[""], parametros];
+  }
+
+
+  // Obtener la ruta real (ignorando el primer elemento vacío si existe)
+  const rutaActual = arregloHash[0] === "" ? arregloHash[1] : arregloHash[0];
+  const resto = arregloHash[0] === "" ? arregloHash.slice(2) : arregloHash.slice(1);
+
+  // Buscar ruta
+  for (const key in routes) {
+      if (key == rutaActual) { 
+          console.log("Encontré la clave:", key, "tipo:", typeof routes[key]);
+          // Si es una ruta con sub-rutas (contenedor)
+          if (typeof routes[key] === "object" && !routes[key].path && !routes[key].controller) {
+              console.log("Es un contenedor, llamando recursivamente");
+              // Llamada recursiva con el resto de segmentos
+              const [rutaRecursiva, parametrosRecursivos] = recorrerRutas(routes[key], resto, true);
+              // Combinar parámetros de ambas llamadas
+              return [rutaRecursiva, { ...parametros, ...parametrosRecursivos }];
+          }
+          // Ruta final encontrada
+          console.log("Ruta final encontrada");
+          return [routes[key], parametros];            
+      }
+  }
+  console.log("No se encontró la ruta");
+  return [null, parametros];
 };
