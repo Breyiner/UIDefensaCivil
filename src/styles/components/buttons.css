@@ -12,21 +12,25 @@
   cursor: pointer;
 }
 
-.boton-width{
+.boton-width {
   width: 100%;
   padding: 15px;
 }
 
-.boton--sinfondo{
+.boton--sinfondo {
   background-color: transparent;
   border: 1px solid var(--color-primario);
   color: var(--color-primario);
 }
+
+
+
 .boton:active {
   background-color: var(--color-palido);
   color: var(--color-primario);
   border: 3px solid var(--color-primario);
 }
+
 .boton:disabled {
   border: 3px solid var(--color-grisOscuro);
   color: var(--color-grisOscuro);
@@ -42,20 +46,24 @@
 .boton--rojo {
   background-color: var(--color-vino);
 }
+
 .boton--azul:active {
   background-color: var(--color-palido);
   color: var(--color-secundario);
   border: 3px solid var(--color-secundario);
 }
+
 .boton--rojo:active {
   background-color: var(--color-palido);
   color: var(--color-rojizo);
   border: 3px solid var(--color-rojizo);
 }
+
 .boton--grande {
   width: 100%;
 }
-.boton--menu{
+
+.boton--menu {
   display: flex;
   justify-content: start;
   align-items: center;
@@ -63,12 +71,14 @@
   font-size: var(--tamano-grande);
   border-radius: 20px;
 }
-.boton--menu > i{
+
+.boton--menu>i {
   margin-left: 20px;
   font-weight: normal;
   font-size: var(--tamano-titulo);
 }
-.boton--redondo{
+
+.boton--redondo {
   color: var(--color-palido);
   background-color: var(--color-primario);
   padding: 4px 12px;
@@ -77,17 +87,19 @@
   transition: 0.3s;
   font-weight: bold;
 }
-.boton--redondo:active{
+
+.boton--redondo:active {
   color: var(--color-primario);
   background-color: var(--color-palido);
   border: 2px solid var(--color-primario);
 }
 
-.boton--height{
+.boton--height {
   height: 50px;
   width: 100%;
 }
-.container__botonCenter{
+
+.container__botonCenter {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -121,4 +133,28 @@
   justify-content: center;
   width: 100%;
   margin: 20px 0;
+}
+
+.boton--filtro {
+  flex: 1;
+  background-color: var(--color-palido);
+  color: var(--color-oscuro);
+  border: 1px solid var(--color-grisMedio);
+  border-radius: var(--border-radius-botones);
+  padding: 10px 12px;
+  font-weight: normal;
+  font-size: var(--tamano-pequeno);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.boton--filtro-activo {
+  background-color: var(--color-secundario);
+  color: var(--color-palido);
+  border: 1px solid var(--color-secundario);
+  font-weight: bold;
+}
+
+.boton--filtro:hover:not(.boton--filtro-activo) {
+  background-color: var(--color-grisFondo);
 }

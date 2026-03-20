@@ -1,7 +1,7 @@
 /**
  * Módulo principal (main.js)
  * Punto de entrada de la aplicación. Se encarga de importar estilos, 
- * inicializar bibliotecas de terceros (Chart.js, TomSelect), 
+ * inicializar bibliotecas de terceros (TomSelect), 
  * montar el componente del header y arrancar el enrutador principal en el contenedor "#app".
  */
 
@@ -18,15 +18,8 @@ import { router } from "./router/router.js";
 import componenteHeader from "./componentes/header/index.html?raw";
 // Importa la lógica/función que controla el header
 import { componenteHeader as header } from "./componentes/header/header.js"
-// Importa Chart.js para gráficos y sus componentes registrables
-import { Chart, registerables } from 'chart.js';
 // Importa la biblioteca TomSelect para selects avanzados
 import TomSelect from 'tom-select';
-
-// Registra todos los componentes necesarios para habilitar Chart.js
-Chart.register(...registerables);
-// Expone la instancia de Chart globalmente en el objeto window
-window.Chart = Chart;
 
 // 1. Crea una función para inicializar listas desplegables avanzadas (TomSelect)
 const initTomSelect = () => {

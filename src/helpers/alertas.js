@@ -265,6 +265,31 @@ export const VerEstado = (
     });
 };
 
+export const verDepartCiudad = (
+    htmlModal,
+    funcionEditar,
+    nombre,
+    id
+) => {
+
+    Swal.fire({
+        html: htmlModal,
+        showCloseButton: true,
+        focusConfirm: false,
+
+        confirmButtonText: 'Editar',
+
+        customClass: {
+            confirmButton: 'botonEditar',
+        },
+
+        // Click en Editar
+        preConfirm: () => {
+            funcionEditar();
+        }
+    });
+};
+
 // ==========================================
 // MODALES FUNCIONALES ESPECÍFICOS DE LA LÍNEA DE NEGOCIO
 // ==========================================

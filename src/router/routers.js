@@ -437,6 +437,13 @@ export const routes = {
       private: true,
       can: "home-frontend.voluntario",
     },
+    
+    "departamentos": {
+      path: `administrador/datosMaestros/departamentos/index.html`,
+      controlador: datosMaestros.departamentoController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
   },
   // --- Módulo: Gestión de Usuarios del Administrador ---
   "administrador-usuarios": {
