@@ -17,8 +17,6 @@ export const router = async (elemento) => {
   // Separa la ruta en segmentos basándose en las diagonales "/" ignorando vacíos
   let arregloHash = hash.split("/")
 
-  const [ruta,parametros] = recorrerRutas(routes,arregloHash)
-
   const segmentos = hash.split("/").filter((seg) => seg);
 
   // Si no hay segmentos (URL vacía o raíz directa), redirecciona a iniciar sesión
@@ -28,7 +26,7 @@ export const router = async (elemento) => {
   }
 
   // Busca los datos de la ruta en la configuración a partir de los segmentos url
-  const resultadoRuta = encontrarRuta(routes, segmentos);
+  const resultadoRuta = recorrerRutas( routes,arregloHash, true );
 
   // Si no se logra encontrar la ruta solicitada en la lista de definidas
   if (!resultadoRuta) {
@@ -49,7 +47,7 @@ export const router = async (elemento) => {
     // Si la ruta es privada pero el navegador no tiene sesión ("permissions") guardados
     if (ruta.private && !localStorage.getItem("permissions")) {
       redirigirARuta("login"); // Obliga devolverlo al logueo
-      return;
+      return;resultadoRuta
     // Sino, si tiene sesión, pero no posee el rol necesario para cargar esta ruta en especial
     } else if (!puede(ruta) && ruta.private) {
       window.history.back(); // Anula el cambio de página empujándolo a la anterior
@@ -84,7 +82,7 @@ const encontrarRuta = (routes, segmentos) => {
     segmentos.pop(); // Retira el segmento query para que sólo se evalúen las rutas de navegación puras
   }
   
-  // Recorre en orden la lista de rutas segmentadas en URL ("ej: /mi/modulo/vista")
+  // Recorre en orden la lista de r utas segmentadas en URL ("ej: /mi/modulo/vista")
   segmentos.forEach((segmento) => {
 
     // Si encuentra la coincidencia de nombre exacto del segmento dentro de sus hijos
@@ -158,6 +156,8 @@ const puede = (ruta) => {
 };
 
 const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva) => {
+  let parametros = {}
+
   // Procesar parámetros solo en la primera llamada
   if (!esLlamadaRecursiva && arregloHash.length > 0) {
       const ultimoElemento = arregloHash[arregloHash.length - 1];
