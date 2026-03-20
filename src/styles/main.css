@@ -33,6 +33,7 @@
 @import "./components/filtros.css";
 @import "./components/badge.css";
 @import "./components/spinner.css";
+@import "./components/verEstadoVentana.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";
@@ -48,3 +49,4 @@
 @import "./pages/datosMaestros.css";
 @import "./pages/revisionplansupervisor";
 @import "./pages/perfil.css";
+@import "./components/historial.css";

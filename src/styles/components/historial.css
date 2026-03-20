@@ -1,0 +1,166 @@
+.container-historial {
+
+    padding: 30px 20px 20px 20px;
+}
+
+.container-historial .list-Historial {
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+    gap: 20px;
+}
+
+.container-historial .list-Historial .card-Cont {
+    background-color: var(--color-palido);
+    box-shadow: 0px 0px 5px var(--color-sombra);
+    border-radius: 5px;
+    padding: 20px 20px 60px 20px; /* padding top = 20px, padding bottom = 60px, padding left = 20px, padding right = 20px */
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    position: relative;
+}
+
+/* Contenido de Usuario ________________________________________________________________ */
+
+.container-historial .list-Historial .card-Cont .user-Cont {
+
+    display: flex;
+    /* align-items: center; */
+    gap: 10px;
+}
+
+.list-Historial .card-Cont .user-Cont .user-div {
+
+    width: 40px;
+    height: 40px;
+
+    /* forzar el alto y ancho */
+    min-width: 40px;
+    min-height: 40px;
+
+    border-radius: 100%;
+    background-color: var(--color-primario);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-Historial .card-Cont .user-Cont .user-div i {
+
+    color: var(--color-palido);
+    font-size: 20px;
+}
+
+.list-Historial .card-Cont .user-info {
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.list-Historial .card-Cont .user-info .user-name {
+
+    font-weight: bold;
+    font-size: 22px;
+}
+
+
+.list-Historial .card-Cont .user-info .user-rol {
+
+    color: var(--color-palido);
+    /* font-size: 20px; */
+    background: var(--color-secundario);
+    padding: 2px 10px;
+    border-radius: 50px;
+    width: fit-content;
+    /* text-wrap: nowrap; */
+}
+
+/* Contenido de Historial ________________________________________________________________ */
+
+.container-historial .list-Historial .card-Cont .historial-Cont {
+
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+    /* align-items: center; */
+    gap: 10px;
+}
+
+.list-Historial .card-Cont .historial-Cont .name-Historial {
+
+    font-weight: bold;
+    font-size: 30px;
+    position: relative;
+}
+
+.list-Historial .card-Cont .historial-Cont .name-Historial::before {
+
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: var(--color-primario);
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.container-historial .list-Historial .card-Cont .status-Cont {
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.list-Historial .card-Cont .status-Cont .status-color {
+
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    background-color: var(--color-primario);
+}
+
+.list-Historial .card-Cont .status-Cont .status-color.status-activo {
+
+    background: var(--color-verdoso);
+}
+
+.list-Historial .card-Cont .status-Cont .status-color.status-inactivo {
+
+    background: var(--color-rojizo);
+}
+
+.container-historial .list-Historial .card-Cont .action-Cont {
+
+    display: flex;
+    /* align-items: center; */
+    gap: 10px;
+    position: relative;
+}
+
+.list-Historial .card-Cont .action-Cont i {
+
+    font-size: 20px;
+    position: absolute;
+    left: -22px;
+    top: -3px;
+    color: black;
+}
+
+/* Contenido Fecha ____________________________________________________________________ */
+
+.container-historial .list-Historial .card-Cont .date-Cont {
+
+    display: flex;
+    /* align-items: center; */
+    gap: 10px;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+}
+
