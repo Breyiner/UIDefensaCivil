@@ -1,7 +1,7 @@
 import historial from "../../../../../componentes/historial/historial";
 import * as api from "../../../../../helpers/api";
 
-const historialController = async () => {
+const historialOrganizacion = async () => {
     
     const id = location.hash.split("=")[1];
 
@@ -11,8 +11,9 @@ const historialController = async () => {
     const datos = await api.get(`organizations/history/${id}`);
     console.log(datos);
 
+    
 
     historial(datos, dato_Nombre);
 };
 
-export default historialController;
+export default historialOrganizacion;

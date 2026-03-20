@@ -6,7 +6,6 @@
 
 import * as api from "../api";
 import * as alerta from "../alertas";
-import { verEstado_ventana } from "../../componentes/ver_Estado/verEstado_ventana";
 
 /* =====================================================
    CREAR
@@ -18,8 +17,7 @@ export const crear = async (recargarContainer) => {
     const htmlModal = `
         <div class="explicacion modal">
             <p class="explicacion__titulo">Crear Seccional</p>
-        </div>
-
+        </div> 
         <div class="form">
             <div class="form__inputBox modal-50">
                 <i class="ri-building-fill"></i>

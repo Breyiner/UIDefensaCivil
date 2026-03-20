@@ -3,9 +3,10 @@
  * Gestiona la interfaz del catálogo de organizaciones de la Cruz Roja,
  * visualizando a su vez la relación foránea (Seccional a la que pertenece).
  */
-import crearLista from "../../../../helpers/crearLista";
-import * as alerta from "../../../../helpers/alertas";
+// import crearLista from "../../../../helpers/crearLista";
 import * as organizacion from "../../../../helpers/modales/organizacion";
+import * as api from "../../../../helpers/api";
+import { verEstado_select } from "../../../../componentes/ver_Estado/verEstado_ventana";
 
 export default async () => {
 
@@ -25,16 +26,62 @@ export default async () => {
 
     // Función para recargar la lista
     const recargar = async () => {
-        await crearLista({
-            contenedorSelector: ".listaDatos",
-            endpoint: "organizations",
-            renderContenido: (span, item) => {
-                span.innerHTML = `
-                    <i class="ri-eye-line"></i>
-                    ${item.name}(${item.sectional.name}) - ${item.is_active == 1 ? "Activo" : "Inactivo"}
-                `;
-            },
-            modal: organizacion.ver
+        
+        const datosOrganizacion = await api.get("organizations/");
+
+        const datosSectional = await api.get("sectionals/");
+        
+        const contenedor = document.querySelector(".listaDatos");
+        contenedor.innerHTML = ""; // limpiar antes de repintar
+        
+        datosOrganizacion.forEach(dato => {
+
+            const sectional = datosSectional.find(sectionalOrg => {
+                return sectionalOrg.id === dato.sectional_id
+            }); 
+            
+            const urlHistorial = `#/administrador-datosMaestros/historial-organizacion/id=${dato.id}`;
+                    
+            const boton = document.createElement("button");
+            boton.classList.add("listaDatos__valor");
+            if (!dato.is_active) boton.classList.add("listaDatos__Inactivo");
+            boton.dataset.id = dato.id;
+        
+            const span = document.createElement("span");
+            span.classList.add("listaDatos__nombre");
+        
+            const icono = document.createElement("i");
+            icono.classList.add("ri-eye-line");
+        
+            const texto = document.createTextNode(
+                ` ${dato.name} (${sectional.name}) - ${dato.is_active ? "Activo" : "Inactivo"}`
+            );
+        
+            span.append(icono, texto);
+            boton.append(span);
+
+            const datoText = {
+
+                //Nombres en DB
+                nameDB:"name",
+                subnameDB: "name",
+
+                datoNombre: "Organización",
+                subDatoNombre: "Seccional",
+
+                urlDato: "organizations",
+                urlSubDato: "sectionals",
+
+                // campoDato: "sectional_id",
+                campoSubDato: "sectional_id"
+
+            }
+        
+            boton.addEventListener("click", () => {
+                verEstado_select(dato, sectional, recargar, urlHistorial, datoText);
+            });
+        
+            contenedor.append(boton);
         });
     };
 

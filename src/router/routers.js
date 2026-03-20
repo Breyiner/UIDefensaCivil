@@ -350,22 +350,12 @@ export const routes = {
       private: true,
       can: "home-frontend.voluntario",
     },
-
-    // "historial": {
-
-    //   "seccional": {
-    //     path: `administrador/datosMaestros/seccionales/historial/index.html`,
-    //     controlador: datosMaestros.historialController,
-    //     private: true,
-    //     can: "home-frontend.voluntario",
-    //   }
-    // },
     
 
     "historial-seccional": {
 
       path: `administrador/datosMaestros/seccionales/historial/index.html`,
-      controlador: datosMaestros.historialController,
+      controlador: datosMaestros.historialSeccional,
       private: true,
       can: "home-frontend.voluntario",
     },
@@ -373,6 +363,14 @@ export const routes = {
     "organizaciones": {
       path: `administrador/datosMaestros/organizaciones/index.html`,
       controlador: datosMaestros.organizacionesController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
+    "historial-organizacion": {
+
+      path: `administrador/datosMaestros/organizaciones/historial/index.html`,
+      controlador: datosMaestros.historialOrganizacion,
       private: true,
       can: "home-frontend.voluntario",
     },

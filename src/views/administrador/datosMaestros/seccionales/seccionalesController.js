@@ -5,33 +5,37 @@
  */
 import * as seccional from "../../../../helpers/modales/seccional";
 import * as api from "../../../../helpers/api";
-import { verEstado_ventana } from "../../../../componentes/ver_Estado/verEstado_ventana";
+import { verEstado_input } from "../../../../componentes/ver_Estado/verEstado_ventana";
 
 export default async () => {
     // const datos = await api.get("sectionals/");
 
+    
     const botonBack = document.getElementById("botonBack");
     if (window.procesoPeticion === undefined) {
         window.procesoPeticion = false;
     }
     window.procesoPeticion = false;
-
+    
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
         location.href = `#/administrador-datosMaestros/`;
     };
-
+    
     const botonCrear = document.querySelector('#crearSeccional');
-
-
+    
+    
     const recargar = async () => {
         const datos = await api.get("sectionals/");
-    
+
+        
         const contenedor = document.querySelector(".listaDatos");
         contenedor.innerHTML = ""; // limpiar antes de repintar
-
+        
         datos.forEach(dato => {
 
+            const urlHistorial = `#/administrador-datosMaestros/historial-seccional/id=${dato.id}`;
+            
             const boton = document.createElement("button");
             boton.classList.add("listaDatos__valor");
             if (!dato.is_active) boton.classList.add("listaDatos__Inactivo");
@@ -51,7 +55,7 @@ export default async () => {
             boton.append(span);
 
             boton.addEventListener("click", () => {
-                verEstado_ventana("Seccional",dato,"sectionals",recargar);
+                verEstado_input("Seccional", dato, "sectionals", recargar, urlHistorial, "name");
             });
 
             contenedor.append(boton);
