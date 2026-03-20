@@ -70,44 +70,6 @@ const redirigirARuta = (ruta) => {
   location.hash = `#/${ruta}`; // Sobrescribe el actual hash empujando uno nuevo
 };
 
-// Localiza el objeto concreto de registro de ruta analizando un array de "segmentos" url
-const encontrarRuta = (routes, segmentos) => {
-  let rutaActual = routes; // Puntero de navegación sobre el árbol de rutas
-  let rutaEncontrada = false; // Bandera booleana para saber si se topó con el registro exacto
-  let parametros = {}; // Objeto que guardará todos los "query string" analizados
-
-  // Si son 3 segmentos, y en el 3 (índice 2) halla un "=", lo procesa como segmento de parámetros url
-  if (segmentos.length === 3 && segmentos[2].includes("=")) {
-    parametros = extraerParametros(segmentos[2]); // Parsea esos querys a objeto json
-    segmentos.pop(); // Retira el segmento query para que sólo se evalúen las rutas de navegación puras
-  }
-  
-  // Recorre en orden la lista de r utas segmentadas en URL ("ej: /mi/modulo/vista")
-  segmentos.forEach((segmento) => {
-
-    // Si encuentra la coincidencia de nombre exacto del segmento dentro de sus hijos
-    if (rutaActual[segmento]) {
-      rutaActual = rutaActual[segmento]; // Actualiza el puntero sobre esa rama hija  
-      rutaEncontrada = true; // Activa bandera de hallazgo
-    } else {
-      rutaEncontrada = false; // El segmento no tiene correlación
-    }
-
-    // Si el nodo actual de la ruta contiene a su vez un listado subconjunto de rutas
-    if (esGrupoRutas(rutaActual)) {
-      // Si posee una ruta inicio por defecto "/" y el usuario la solicitó como único segmento 
-      if (rutaActual["/"] && segmentos.length == 1) {
-        rutaActual = rutaActual["/"]; // Desciende automáticamente al hijo index ("/") del grupo
-        rutaEncontrada = true; // Hallazgo validado
-      } else {
-        rutaEncontrada = false; // De lo contrario bloquea falso positivo
-      }
-    }
-  });
-
-  // Retorna un array con el bloque de ruta encontrado más los parámetros. Si no ubica nada, retorna nulo.
-  return rutaEncontrada ? [rutaActual, parametros] : null;
-};
 
 // Transforma una cadena de texto llaves y querys ("id=1&nom=ana") a un clásico Json para interactuar
 const extraerParametros = (parametros) => {
