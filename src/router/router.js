@@ -47,7 +47,7 @@ export const router = async (main) => {
   }
 
   if (ruta.path){
-    cargarVista(ruta.path,main);
+    await cargarVista(ruta.path,main);
   }
 
   await ruta.controlador(parametros);
