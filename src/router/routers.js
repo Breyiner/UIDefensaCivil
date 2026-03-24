@@ -36,6 +36,15 @@ import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
 import * as usuario from "../views/usuario/index.js"
 
+
+// Configuraciones predefinidas de permisos para cada ruta
+const publicRoute = { private: false, layout: false, permissions: [] };
+const userRoute = { private: true, layout: true, permissions: ['voluntario'] };
+const adminRoute = { private: true, layout: true, permissions: ['supervisor']  };
+const superAdminRoute = { private: true, layout: true, permissions: ['admin']};
+
+
+
 // ==========================================
 // DICCIONARIO DE RUTAS (routes)
 // ==========================================
@@ -48,15 +57,20 @@ import * as usuario from "../views/usuario/index.js"
 // }
 export const routes = {
   // === Rutas Públicas (Autenticación) ===
+  "": {
+    path: `auth/login/index.html`,
+    controlador: auth.loginController,
+    config: publicRoute,
+  },
   "login": {
     path: `auth/login/index.html`,
     controlador: auth.loginController,
-    private: false, // Accesible sin sesión
+    config: publicRoute
   },
   "register": {
     path: `auth/register/index.html`,
     controlador: auth.registerController,
-    private: false,
+    config: publicRoute,
   },
   "forgotPassword": {
     path: `auth/forgotPassword/index.html`,
