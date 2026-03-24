@@ -39,9 +39,9 @@ import * as usuario from "../views/usuario/index.js"
 
 // Configuraciones predefinidas de permisos para cada ruta
 const publicRoute = { private: false, layout: false, permissions: [] };
-const userRoute = { private: true, layout: true, permissions: ['voluntario'] };
-const adminRoute = { private: true, layout: true, permissions: ['supervisor']  };
-const superAdminRoute = { private: true, layout: true, permissions: ['admin']};
+const voluntarioRoute = { private: true, layout: true, permissions: ['voluntario'] };
+const supervisorRoute = { private: true, layout: true, permissions: ['supervisor']  };
+const adminRoute = { private: true, layout: true, permissions: ['admin']};
 
 
 

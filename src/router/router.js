@@ -9,6 +9,7 @@
 import { routes } from "./routers";
 // Importa utilidades gráficas para el display de alertas en pantalla
 import * as alerta from "../helpers/alertas";
+import { isAuth } from "../helpers/auth";
 
 
 export const router = async (main) => {
@@ -30,7 +31,58 @@ export const router = async (main) => {
     main.innerHTML = `<h2>Ruta no encontrada</h2>`;
     return;
   }
+
+  //deestructurar la configuracion (objeto config)
+  const { private: esPrivada, layout: tieneLayout, permissions} = ruta.config;
+
+  if (esPrivada && !isAuth()) {
+    console.log("papu")
+  }
+
+  // verificar que el usuario tenga permisos especificos
+  if (!tienePermisos(permissions)) {
+    limpiarLayout(main);
+    app.innerHTML = `<h2>No tienes permisos para acceder a esta sección</h2>`;
+    return;
+  }
+
+  if (ruta.path){
+    cargarVista(ruta.path,main);
+  }
+
+  await ruta.controlador(parametros);
+
 }
+
+// funcion encargada de limpiar toda la vista
+const limpiarLayout = (main) => {
+  main.innerHTML = "";
+}
+
+
+// funcion encargada de cargar una vista. params: la ruta de la vista y el elemento HTML donde se inyecta el contenido de la vista
+const cargarVista = async (path, elemento) => {
+    console.log(path, elemento);
+    const seccion = await fetch(`./src/views/${path}`);
+    if (!seccion.ok) throw new Error("No pudimos leer el archivo");
+    const html = await seccion.text();
+    elemento.innerHTML = html;
+};
+
+// función encargada de verificar si el usuario tiene uno o varios permisos.
+const tienePermisos = (permisosRequeridos) => {
+    if (!permisosRequeridos || permisosRequeridos.length === 0) {
+        return true; // Ruta pública
+    }
+    
+    // Si es un solo permiso, verificarlo directamente
+    if (permisosRequeridos.length === 1) {
+        return isAuthorize(permisosRequeridos[0]);
+    }
+    
+    // Si son múltiples permisos, verificar que tenga todos
+    return permisosRequeridos.every(permiso => isAuthorize(permiso));
+};
 
 // funcion encargada de recorrer todas las rutas y verificar si hay una coincidencia con la actual
 const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
