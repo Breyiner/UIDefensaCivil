@@ -3,11 +3,10 @@
  * Maneja el listado y la creación de preguntas empleadas para calcular 
  * los índices de vulnerabilidad de un Plan Familiar.
  */
-import crearLista from "../../../../helpers/crearLista";
-import * as alerta from "../../../../helpers/alertas";
-import * as vulnerabilidad from "../../../../helpers/modales/preguntaVulnerabilidad";
-import * as api from "../../../../helpers/api";
-import { verEstado_select } from "../../../../componentes/ver_Estado/verEstado_ventana";
+
+import * as vulnerabilidad from "../../../../helpers/modales/preguntaVulnerabilidad.js";
+import * as api from "../../../../helpers/api.js";
+import { verEstado_select } from "../../../../componentes/ver_Estado/varianteEstados.js";
 
 export default async () => {
 
@@ -64,7 +63,7 @@ export default async () => {
                 subnameDB:"name",
 
                 datoNombre: "Pregunta",
-                subDatoNombre: "Precaucion",
+                subDatoNombre: "Precaución",
 
                 urlDato: "vulnerableQuestions",
                 urlSubDato: null,

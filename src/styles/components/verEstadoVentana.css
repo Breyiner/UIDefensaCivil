@@ -17,7 +17,7 @@
     top: 50%;
     transform: translateY(-50%);
     background-color: var(--color-palido);
-    height: 400px;
+    min-height: 400px;
     width: 400px;
     border-radius: 30px;
     overflow: hidden;
@@ -26,13 +26,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 
 
 }
 
+.overlay_verEstado .ventana input {
 
-.overlay_verEstado .ventana .btn-cerrar-Estado {
+    width: 100%;
+}
+
+.overlay_verEstado .ventana .btn-cerrar-Cont {
+
+    width: 100%;
+    padding: 10px 0 0 10px;
+}
+
+.overlay_verEstado .ventana .btn-cerrar-Cont .btn-cerrar-Estado {
 
     background-color: var(--color-rojizo);
 
@@ -43,7 +53,7 @@
 
     border: none;
 
-    position: absolute;
+    /* position: absolute; */
 
     top: 30px;
     left: 30px;
@@ -65,6 +75,7 @@
     display: flex;
     gap: 10px;
     padding: 10px;
+    margin-top: 10px;
 }
 
 .overlay_verEstado .ventana .btnContEstado button {
@@ -75,15 +86,24 @@
     border: none;
     font-weight: bold;
     color: var(--color-palido);
+    transition: 0.2s;
 }
 
-.overlay_verEstado .ventana .nombre_Cont {
+.overlay_verEstado .ventana .btnContEstado button:hover {
+
+    scale: 1.1;
+}
+
+.overlay_verEstado .ventana .nombre_Cont,
+.overlay_verEstado .ventana .subNombre_Cont {
 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
     margin-bottom: 5px;
+    text-align: center;
+    width: 100%;
 }
 
 .overlay_verEstado .ventana .nombre_Cont .nombreDato_Estado {
@@ -97,6 +117,17 @@
     font-weight: bold;
 }
 
+.overlay_verEstado .ventana .nombre_Cont .esPregunta_Estado {
+
+    font-size: 20px;
+}
+
+.overlay_verEstado .ventana .subNombre_Cont .subNombre_Estado {
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
 .overlay_verEstado .ventana .btnContEstado .btn-editar {
 
     background-color: var(--color-primario);
@@ -107,12 +138,14 @@
     background-color: var(--color-secundario);
 }
 
-.overlay_verEstado .ventana .btnContEstado .btn-desactivar {
+.overlay_verEstado .ventana .btnContEstado .btn-desactivar,
+.overlay_verEstado .ventana .btnContEstado .btn-cancelar {
 
     background-color: var(--color-rojizo);
 }
 
-.overlay_verEstado .ventana .btnContEstado .btn-activar {
+.overlay_verEstado .ventana .btnContEstado .btn-activar,
+.overlay_verEstado .ventana .btnContEstado .btn-guardar {
 
     background-color: var(--color-verdoso);
 }

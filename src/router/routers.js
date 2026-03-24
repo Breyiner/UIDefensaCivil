@@ -403,6 +403,15 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
 
+    "historial-preguntas": {
+
+      path: `administrador/datosMaestros/preguntasVulnerabilidad/historial/index.html`,
+      controlador: datosMaestros.preguntasVulnerabilidadController, //Arreglar esta parte
+      private: true,
+      can: "home-frontend.voluntario",
+
+    },
+
     "nacionalidades": {
       path: `administrador/datosMaestros/nacionalidades/index.html`,
       controlador: datosMaestros.nacionalidadesController,

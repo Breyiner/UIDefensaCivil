@@ -6,7 +6,7 @@
 // import crearLista from "../../../../helpers/crearLista";
 import * as organizacion from "../../../../helpers/modales/organizacion";
 import * as api from "../../../../helpers/api";
-import { verEstado_select } from "../../../../componentes/ver_Estado/verEstado_ventana";
+import { verEstado_select } from "../../../../componentes/ver_Estado/verEstado_ventana_origen";
 
 export default async () => {
 
@@ -28,8 +28,11 @@ export default async () => {
     const recargar = async () => {
         
         const datosOrganizacion = await api.get("organizations/");
-
+        //console.log(datosOrganizacion);
+        
         const datosSectional = await api.get("sectionals/");
+        //console.log(datosSectional);
+        
         
         const contenedor = document.querySelector(".listaDatos");
         contenedor.innerHTML = ""; // limpiar antes de repintar
@@ -72,9 +75,7 @@ export default async () => {
                 urlDato: "organizations",
                 urlSubDato: "sectionals",
 
-                // campoDato: "sectional_id",
-                campoSubDato: "sectional_id"
-
+                campoDato: "sectional_id"
             }
         
             boton.addEventListener("click", () => {
