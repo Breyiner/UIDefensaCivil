@@ -126,7 +126,7 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
         if (key == rutaActual) { 
             console.log("Encontré la clave:", key, "tipo:", typeof routes[key]);
             // Si es una ruta con sub-rutas (contenedor)
-            if (typeof routes[key] === "object" && !routes[key].path && !routes[key].controller) {
+            if (typeof routes[key] === "object" && !routes[key].path && !routes[key].controlador) {
                 console.log("Es un contenedor, llamando recursivamente");
                 // Llamada recursiva con el resto de segmentos
                 const [rutaRecursiva, parametrosRecursivos] = recorrerRutas(routes[key], resto, true);
