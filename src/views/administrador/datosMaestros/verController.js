@@ -67,6 +67,10 @@ export default async () => {
       window.location.href = "#/administrador-datosMaestros/departamentos";
     }
 
+    if(e.target.closest("#vulnerabilities")) {
+      window.location.href = "#/administrador-datosMaestros/vulnerabilidades";
+    }
+
   });
 
 };

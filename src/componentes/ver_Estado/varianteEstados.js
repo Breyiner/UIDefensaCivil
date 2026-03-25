@@ -1,4 +1,7 @@
 import verEstadoVentana from "./verEstado_ventana";
+import * as api from "../../helpers/api";
+import * as alerta from "../../helpers/alertas";
+
 /* =====================================================
 VARIANTE: INPUT SIMPLE-------------------------------------------------------------------------------------------------------------------------------------------->
 ==================================================== */
@@ -27,6 +30,15 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
 
         let inputNombre = null;
         let inputBox = null;
+
+        if (datoText.urlDato === "departments") {
+
+            btnDesactivar.style.display = "none";
+            
+        } else {
+
+            btnDesactivar.style.display = "block";
+        }
 
         btnEditar.addEventListener("click", () => {
 
@@ -78,7 +90,11 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
             inputBox = null;
             inputNombre = null;
 
-            btnDesactivar.style.display = "block";
+            if (datoText.urlDato === "departments") {
+                btnDesactivar.style.display = "none";
+            } else {
+                btnDesactivar.style.display = "block";
+            }
             btnHistorial.style.display = "block";
             btnEditar.style.display = "block";
             btnGuardar.style.display = "none";

@@ -39,6 +39,11 @@ const verEstadoVentana = (datoMaestro, recargar, urlHistorial, datoText, configu
     const btnDesactivar = document.createElement("button");
     btnDesactivar.textContent = datoMaestro.is_active ? "Desactivar" : "Activar";
     btnDesactivar.classList.add(datoMaestro.is_active ? "btn-desactivar" : "btn-activar");
+
+    if (datoMaestro) {
+        
+    }
+    
     btnDesactivar.addEventListener("click", async () => {
 
         const nuevoEstado = datoMaestro.is_active ? 0 : 1;

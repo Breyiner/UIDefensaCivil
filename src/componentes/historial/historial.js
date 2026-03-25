@@ -1,4 +1,4 @@
-const historial = async (datos, dato_Nombre) => {
+const historial = async (datosHistorial, datoMaestro, nombreSubDato, nombreDB, subnombreDB) => {
 
     
     const container = document.querySelector('.container-historial');
@@ -7,7 +7,7 @@ const historial = async (datos, dato_Nombre) => {
     listHistorial.classList.add('list-Historial');
 
     
-    datos.forEach(dato => {
+    datosHistorial.forEach(dato => {
         
         //elementos creados
         // USER_________________________________________________________
@@ -42,75 +42,110 @@ const historial = async (datos, dato_Nombre) => {
 
     
         // HISTORIAL_________________________________________________________
-    
+
         const historialContainer = document.createElement('div');
         historialContainer.classList.add('historial-Cont');
-    
+
+        const sideHistorial = document.createElement('div');
+        sideHistorial.classList.add('historial-side');
+
+        const sidePunto = document.createElement('div');
+        sidePunto.classList.add('historial-sideElement');
+
+        const sideLine = document.createElement('div');
+        sideLine.classList.add('historial-sideElement');
+        
+        const historialNameAct = document.createElement('div');
+        historialNameAct.classList.add('historial-nameAction');
+        
         const name = document.createElement('p');
         name.classList.add('name-Historial');
-        name.textContent = dato_Nombre.name;
-    
+        name.textContent = datoMaestro[nombreDB];
+        
+        if(nombreDB=="description") {
+            
+            name.classList.add('name-Description');
+        };
+        
         const actionContainer = document.createElement('div');
         actionContainer.classList.add('action-Cont');
-
-        const actionIcon = document.createElement('i');
-        actionIcon.classList.add('ri-corner-down-right-line');
-
+        
         const action = document.createElement('p');
         action.classList.add('action-Historial');
         action.textContent = 'Acción: ' + dato.action_execute;
+        
+        sideHistorial.append(sidePunto, sideLine);
 
-        actionContainer.append(actionIcon, action);
+        historialNameAct.append(name);
 
-        historialContainer.append(name, actionContainer);
+        let subname = null;
 
+        if(subnombreDB!=null){
+
+            subname = document.createElement('p');
+            subname.classList.add('subname-Historial');
+            subname.textContent = `${nombreSubDato}: ${subnombreDB}`;
+
+            historialNameAct.append(subname);
+        }
+
+        historialNameAct.append(action);
+
+        historialContainer.append(sideHistorial, historialNameAct);
+
+        const statusContainer = document.createElement('div');
+        statusContainer.classList.add('status-Cont');
+        
         if (dato.status_new !== null) {
-
-            const statusContainer = document.createElement('div');
-            statusContainer.classList.add('status-Cont');
-
+            
+            const statusElement = document.createElement('div');
+            statusElement.classList.add('status-Element');
+            
             const statusColor = document.createElement('div');
             statusColor.classList.add('status-color');
-
+            
             if (dato.status_new === 'Activo') {
                 statusColor.classList.add('status-activo');
             }
             if (dato.status_new === 'Inactivo') {
                 statusColor.classList.add('status-inactivo');
             }
-
+            
             const status = document.createElement('p');
             status.classList.add('status-Historial');
             status.textContent = 'Estado nuevo: ' + dato.status_new;
-            statusContainer.append(statusColor, status);
 
-            historialContainer.append(statusContainer);
+            statusElement.append(statusColor, status);
+            
+            statusContainer.append(statusElement);
         }
-
+        
         if (dato.status_old !== null) {
-            const statusContainer = document.createElement('div');
-            statusContainer.classList.add('status-Cont');
-
+            const statusElement = document.createElement('div');
+            statusElement.classList.add('status-Element');
+            
             const statusColor = document.createElement('div');
             statusColor.classList.add('status-color');
-
+            
             if (dato.status_old === 'Activo') {
                 statusColor.classList.add('status-activo');
             }
             if (dato.status_old === 'Inactivo') {
                 statusColor.classList.add('status-inactivo');
             }
-
+            
             const status = document.createElement('p');
             status.classList.add('status-Historial');
             status.textContent = 'Estado anterior: ' + dato.status_old;
+            
+            statusElement.append(statusColor, status);
+            
+            statusContainer.append(statusElement);
+        }
 
-            statusContainer.append(statusColor, status);
-
-            historialContainer.append(statusContainer);
-        } 
-
-
+        historialContainer.append(statusContainer);
+        
+        
         // FECHA_________________________________________________________
     
         const dateContainer = document.createElement('div');

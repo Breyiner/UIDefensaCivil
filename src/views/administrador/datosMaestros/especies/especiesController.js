@@ -3,9 +3,9 @@
  * Renderiza la lista completa de especies animales soportadas por el sistema.
  * Configura los botones de crear nuevo registro y los inyecta en el DOM interactivo.
  */
-import crearLista from "../../../../helpers/crearLista";
-import * as alerta from "../../../../helpers/alertas";
 import * as especie from "../../../../helpers/modales/especie";
+import * as api from "../../../../helpers/api.js";
+import { verEstado_input } from "../../../../componentes/ver_Estado/varianteEstados.js";
 
 export default async () => {
 
@@ -25,16 +25,50 @@ export default async () => {
 
     // Función para recargar la lista
     const recargar = async () => {
-        await crearLista({
-            contenedorSelector: ".listaDatos",
-            endpoint: "species",
-            renderContenido: (span, item) => {
-                span.innerHTML = `
-                    <i class="ri-bear-smile-line"></i>
-                    ${item.name} - ${item.is_active == 1 ? "Activo" : "Inactivo"}
-                `;
-            },
-            modal: especie.ver
+        const datos = await api.get("species/");
+
+        
+        const contenedor = document.querySelector(".listaDatos");
+        contenedor.innerHTML = ""; // limpiar antes de repintar
+        
+        datos.forEach(dato => {
+
+            const urlHistorial = `#/administrador-datosMaestros/historial-especies/id=${dato.id}`;
+            
+            const boton = document.createElement("button");
+            boton.classList.add("listaDatos__valor");
+            if (!dato.is_active) boton.classList.add("listaDatos__Inactivo");
+            boton.dataset.id = dato.id;
+
+            const span = document.createElement("span");
+            span.classList.add("listaDatos__nombre");
+
+            const icono = document.createElement("i");
+            icono.classList.add("ri-eye-line");
+
+            const texto = document.createTextNode(
+                ` ${dato.name} - ${dato.is_active ? "Activo" : "Inactivo"}`
+            );
+
+            span.append(icono, texto);
+            boton.append(span);
+
+            const datoText = {
+
+                //Nombres en DB
+                nameDB:"name",
+
+                datoNombre: "Especie",
+
+                urlDato: "species",
+            }
+        
+
+            boton.addEventListener("click", () => {
+                verEstado_input(dato, recargar, urlHistorial, datoText);
+            });
+
+            contenedor.append(boton);
         });
     };
 

@@ -382,6 +382,13 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
 
+    "historial-tiposDocumento":{
+      path: `administrador/datosMaestros/tiposDocumento/historial/index.html`,
+      controlador: datosMaestros.historialDocumentos,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
     "calidadesVivienda": {
       path: `administrador/datosMaestros/calidadesVivienda/index.html`,
       controlador: datosMaestros.calidadesViviendaController,
@@ -389,9 +396,24 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
 
+    "historial-calidadesVivienda":{
+
+      path: `administrador/datosMaestros/calidadesVivienda/historial/index.html`,
+      controlador: datosMaestros.historialVivienda,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
     "sectores": {
       path: `administrador/datosMaestros/sectores/index.html`,
       controlador: datosMaestros.sectoresController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
+    "historial-sectores":{
+      path: `administrador/datosMaestros/sectores/historial/index.html`,
+      controlador: datosMaestros.historialSectores,
       private: true,
       can: "home-frontend.voluntario",
     },
@@ -404,17 +426,22 @@ export const routes = {
     },
 
     "historial-preguntas": {
-
       path: `administrador/datosMaestros/preguntasVulnerabilidad/historial/index.html`,
-      controlador: datosMaestros.preguntasVulnerabilidadController, //Arreglar esta parte
+      controlador: datosMaestros.historialPreguntas,
       private: true,
       can: "home-frontend.voluntario",
-
     },
 
     "nacionalidades": {
       path: `administrador/datosMaestros/nacionalidades/index.html`,
       controlador: datosMaestros.nacionalidadesController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
+    "historial-nacionalidades":{
+      path: `administrador/datosMaestros/nacionalidades/historial/index.html`,
+      controlador: datosMaestros.historialNacionalidades,
       private: true,
       can: "home-frontend.voluntario",
     },
@@ -426,9 +453,23 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
 
+    "historial-tiposAmenaza":{
+      path: `administrador/datosMaestros/tiposAmenaza/historial/index.html`,
+      controlador: datosMaestros.historialAmenaza,
+      private: true,
+      can: "home-frontend.voluntario",      
+    },
+
     "especies": {
       path: `administrador/datosMaestros/especies/index.html`,
       controlador: datosMaestros.especiesController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
+    "historial-especies":{
+      path: `administrador/datosMaestros/especies/historial/index.html`,
+      controlador: datosMaestros.historialEspecies,
       private: true,
       can: "home-frontend.voluntario",
     },
@@ -440,9 +481,23 @@ export const routes = {
       can: "home-frontend.voluntario",
     },
 
+    "historial-recursos":{
+      path: `administrador/datosMaestros/recursos/historial/index.html`,
+      controlador: datosMaestros.historialRecursos,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
     "vulnerabilidades": {
       path: `administrador/datosMaestros/vulnerabilidades/index.html`,
       controlador: datosMaestros.vulnerabilidadesController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
+    "historial-vulnerabilidades":{
+      path: `administrador/datosMaestros/vulnerabilidades/historial/index.html`,
+      controlador: datosMaestros.historialVulnerabilidades,
       private: true,
       can: "home-frontend.voluntario",
     },
@@ -450,6 +505,13 @@ export const routes = {
     "departamentos": {
       path: `administrador/datosMaestros/departamentos/index.html`,
       controlador: datosMaestros.departamentoController,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
+    "historial-departamento":{
+      path: `administrador/datosMaestros/departamentos/historial/index.html`,
+      controlador: datosMaestros.historialDepartamento,
       private: true,
       can: "home-frontend.voluntario",
     },

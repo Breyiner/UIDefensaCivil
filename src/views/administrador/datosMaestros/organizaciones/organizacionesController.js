@@ -6,7 +6,7 @@
 // import crearLista from "../../../../helpers/crearLista";
 import * as organizacion from "../../../../helpers/modales/organizacion";
 import * as api from "../../../../helpers/api";
-import { verEstado_select } from "../../../../componentes/ver_Estado/verEstado_ventana_origen";
+import { verEstado_select } from "../../../../componentes/ver_Estado/varianteEstados";
 
 export default async () => {
 

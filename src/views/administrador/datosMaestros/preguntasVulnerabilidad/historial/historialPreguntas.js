@@ -5,14 +5,25 @@ const historialPreguntas = async () => {
     
     const id = location.hash.split("=")[1];
 
-    const dato_Nombre = await api.get(`vulnerableQuestions/${id}`);
-    console.log(id + ". " + dato_Nombre.name);
+    const datoMaestro = await api.get(`vulnerableQuestions/${id}`);
+    console.log(id + ". " + datoMaestro.description);
 
-    const datos = await api.get(`vulnerableQuestions/history/${id}`);
-    console.log(datos);
+    const datosHistorial = await api.get(`vulnerableQuestions/history/${id}`);
+    console.log(datosHistorial);
+
+    let precaucion = null;
+
+    if (datoMaestro.question_caution==0) {
+
+        precaucion = "No";
+
+    } else {
+
+        precaucion = "Si";
+    }
 
 
-    historial(datos, dato_Nombre);
+    historial(datosHistorial, datoMaestro, "Precaución", "description", precaucion);
 };
 
 export default historialPreguntas;

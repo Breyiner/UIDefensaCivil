@@ -3,9 +3,9 @@
  * Administra el catálogo de recursos disponibles para gestión de riesgos.
  * Permite visualizar el listado completo y abrir modales de edición/creación.
  */
-import crearLista from "../../../../helpers/crearLista";
-import * as alerta from "../../../../helpers/alertas";
 import * as recurso from "../../../../helpers/modales/recurso";
+import * as api from "../../../../helpers/api.js";
+import { verEstado_doubleInput } from "../../../../componentes/ver_Estado/varianteEstados.js";
 
 export default async () => {
 
@@ -25,18 +25,58 @@ export default async () => {
 
     // Función para recargar la lista
     const recargar = async () => {
-        await crearLista({
-            contenedorSelector: ".listaDatos",
-            endpoint: "resources",
-            renderContenido: (span, item) => {
-                span.innerHTML = `
-                    <i class="ri-eye-line"></i>
-                    ${item.name} - ${item.is_active == 1 ? "Activo" : "Inactivo"}
-                `;
-            },
-            modal: recurso.ver
+
+        const datosDocumentos = await api.get("resources/");
+        console.log(datosDocumentos);
+        
+        const contenedor = document.querySelector(".listaDatos");
+        contenedor.innerHTML = "";
+
+        datosDocumentos.forEach(dato => {
+            
+            const urlHistorial = `#/administrador-datosMaestros/historial-tiposDocumento/id=${dato.id}`;
+
+            const boton = document.createElement("button");
+            boton.classList.add("listaDatos__valor");
+            if (!dato.is_active) boton.classList.add("listaDatos__Inactivo");
+            boton.dataset.id = dato.id;
+
+            const span = document.createElement("span");
+            span.classList.add("listaDatos__nombre");
+
+            const icono = document.createElement("i");
+            icono.classList.add("ri-eye-line");
+
+            const texto = document.createTextNode(
+                ` ${dato.name}(${dato.service}) - ${dato.is_active ? "Activo" : "Inactivo"}`
+            );
+
+            span.append(icono, texto);
+            boton.append(span);
+
+            const datoText = {
+
+                //Nombres en DB
+                nameDB:"name",
+
+                subnameDB: "service",
+
+                datoNombre: "Tipo de Amenaza",
+
+                subDatoNombre: "Servicio", 
+
+                urlDato: "resources",
+            }
+
+            
+            boton.addEventListener("click", () => {
+                verEstado_doubleInput(dato, recargar, urlHistorial, datoText);
+            });
+
+            contenedor.append(boton);
         });
     };
+
 
     // Cargar lista inicial
     await recargar();
