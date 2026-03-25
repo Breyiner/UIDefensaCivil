@@ -36,138 +36,125 @@ import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
 import * as usuario from "../views/usuario/index.js"
 
-// ==========================================
-// DICCIONARIO DE RUTAS (routes)
-// ==========================================
-// Estructura: 
-// "segmento-url": { 
-//    path: "ruta/al/html", 
-//    controlador: funcionJS, 
-//    private: true/false (Requiere login), 
-//    can: "permiso" (Opcional, requiere este rol/permiso) 
-// }
+
+// Configuraciones predefinidas de permisos para cada ruta
+const publicRoute = { private: false, permissions: [] };
+const voluntarioRoute = { private: true, permissions: ['voluntario'] };
+const supervisorRoute = { private: true, permissions: ['supervisor']  };
+const adminRoute = { private: true, permissions: ['admin']};
+
+
 export const routes = {
-  // === Rutas Públicas (Autenticación) ===
+  "": {
+    path: `auth/login/index.html`,
+    controlador: auth.loginController,
+    config: publicRoute,
+  },
   "login": {
     path: `auth/login/index.html`,
     controlador: auth.loginController,
-    private: false, // Accesible sin sesión
+    config: publicRoute
   },
   "register": {
     path: `auth/register/index.html`,
     controlador: auth.registerController,
-    private: false,
+    config: publicRoute,
   },
   "forgotPassword": {
     path: `auth/forgotPassword/index.html`,
     controlador: auth.forgotPasswordController,
-    private: false,
+    config: publicRoute
   },
   "verifyCode": {
     path: `auth/verifyCode/index.html`,
     controlador: auth.verifyCodeController,
-    private: false,
+    config: publicRoute
   },
   "changePassword": {
     path: `auth/changePassword/index.html`,
     controlador: auth.changePasswordController,
-    private: false,
+    config: publicRoute
   },
 
-
-  // === Rutas de Perfil (Comunes) ===
   "usuarios":{
     "perfil": {
       path: `usuario/perfil/index.html`,
       controlador: usuario.perfilController,
-      private:false // Debería revisarse (suele ser true en producción)
+      config: publicRoute
     },
     "notificaciones":{
       path: `usuario/notificaciones/index.html`,
       controlador: usuario.notificacionesController,
-      private:false
+      config: publicRoute
     }
   },
 
-  // =========================================================
-  // === RUTAS DEL ROL: VOLUNTARIO ===
-  // =========================================================
+  // ================= VOLUNTARIO =================
   'voluntario-home': {
     path: `voluntario/home/index.html`,
     controlador: VoluntarioHomeController,
-    private: true, // Requiere sesión
-    can: "home-frontend.voluntario", // Requiere este permiso exacto en localStorage
+    config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
   },
 
-  // --- Módulo: Creación de Plan Familiar ---
   "voluntario-planFamiliar": {
     crear: {
       path: `voluntario/planFamiliar/crear/index.html`,
       controlador: planFamiliar.CrearController,
-      private: true,
-      can: "family-plans.store",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     identificacion: {
       path: `voluntario/planFamiliar/identificacion/index.html`,
       controlador: planFamiliar.IdentiController,
-      private: true,
-      can: "family-plans.identify",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     georeferenciacion: {
       path: `voluntario/planFamiliar/georeferenciacion/index.html`,
       controlador: planFamiliar.GeoreController,
-      private: true,
-      can: "family-plans.destroy", // Nota: Revisa si el permiso destroy es el correcto aquí
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     testVunerabilidad: {
       path: `voluntario/planFamiliar/testVulnerabilidad/index.html`,
       controlador: planFamiliar.TestController,
-      private: true,
-      can: "family-plans.destroy",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
   },
 
-  // --- Módulos: Detalles y Componentes de un Plan Existente ---
   "voluntario-verPlanFamiliar": {
-    "/": { // Ruta base del módulo
+    "": {
       path: `voluntario/verPlanFamiliar/index.html`,
       controlador: verPlan.VerPlanFamiliar,
-      private: true,
-      can: "family-plans.show",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     menu: {
       path: `voluntario/verPlanFamiliar/menu/index.html`,
       controlador: verPlan.MenuController,
-      private: true,
-      can: "family-plans.show",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
   },
+
   "voluntario-planDatos": {
-    "ver": {
+    ver: {
       path: `voluntario/planDatos/editar/index.html`,
       controlador: planDatos.EditarController,
-      private: true,
-      can: "family-plans.show",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
   },
+
   "voluntario-planIntegrante": {
     ver: {
       path: `voluntario/planIntegrante/index.html`,
       controlador: Planintegrante.verPlanIntegrantes,
-      private: true,
-      can: "family-plans.show",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     crear: {
       path: `voluntario/planIntegrante/crear/index.html`,
       controlador: Planintegrante.crearController,
-      private: true,
-      can: "family-plans.store",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     editar: {
       path: `voluntario/planIntegrante/editar/index.html`,
       controlador: Planintegrante.editarController,
-      private: true,
-      can: "family-plans.store",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
   },
 
@@ -175,20 +162,17 @@ export const routes = {
     ver: {
       path: `voluntario/planMascota/index.html`,
       controlador: planMascota.verPlanMascota,
-      private: true,
-      can: "family-plans.show",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     crear: {
       path: `voluntario/planMascota/crear/index.html`,
       controlador: planMascota.crearController,
-      private: true,
-      can: "family-plans.store",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     editar: {
       path: `voluntario/planMascota/editar/index.html`,
       controlador: planMascota.editarController,
-      private: true,
-      can: "family-plans.store",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
   },
 
@@ -196,268 +180,150 @@ export const routes = {
     ver: {
       path: `voluntario/planRiesgo/index.html`,
       controlador: planRiesgo.verPlanRiesgo,
-      private: true,
-      can: "family-plans.show",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     crear: {
       path: `voluntario/planRiesgo/crear/index.html`,
       controlador: planRiesgo.crearController,
-      private: true,
-      can: "family-plans.store",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
     editar: {
       path: `voluntario/planRiesgo/editar/index.html`,
       controlador: planRiesgo.editarController,
-      private: true,
-      can: "family-plans.store",
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
-  },
-  "voluntario-planRecurso": {
-    ver: {
-      path: `voluntario/planRecurso/index.html`,
-      controlador: planRecurso.verController,
-      private: true,
-      can: "family-plans.show",
-    },
-    crear: {
-      path: `voluntario/planRecurso/crear/index.html`,
-      controlador: planRecurso.crearController,
-      private: true,
-      can: "family-plans.store",
-    },
-    editar: {
-      path: `voluntario/planRecurso/Editar/index.html`,
-      controlador: planRecurso.editarController,
-      private: true,
-      can: "family-plans.store",
-    },
-  },
-  "voluntario-planEntorno": {
-    editar: {
-      path: `voluntario/planEntorno/editar/index.html`,
-      controlador: PlanEntorno.EditarController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
-  },
-  "voluntario-planGrafico": {
-    ver: {
-      path: `voluntario/planGrafico/index.html`,
-      controlador: PlanGrafico.verController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
-    crear: {
-      path: `voluntario/planGrafico/crear/index.html`,
-      controlador: PlanGrafico.crearController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
-    editar: {
-      path: `voluntario/planGrafico/editar/index.html`,
-      controlador: PlanGrafico.editarController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
-  },
-  "voluntario-planAccion":{
-    antes: {
-      path: `Voluntario/planAccion/index.html`,
-      controlador: planAccion.antes,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
-    durante: {
-      path: `Voluntario/planAccion/index.html`,
-      controlador: planAccion.durante,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
-    despues: {
-      path: `Voluntario/planAccion/index.html`,
-      controlador: planAccion.despues,
-      private: true,
-      can: "home-frontend.voluntario",
-    }
   },
 
-  // =========================================================
-  // === RUTAS DEL ROL: SUPERVISOR ===
-  // =========================================================
+  // ================= SUPERVISOR =================
   "supervisor-home": {
-    "/": {
+    "": {
       path: `supervisor/home/index.html`,
       controlador: SupervisorHomeController,
-      private: false, // Nota: Revisa si esto debería ser privado
+      config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
     },
-  },
-
-  "supervisor-planFamiliar": {
-    "/": {
-      path: `voluntario/verPlanFamiliar/index.html`,
-      controlador: verPlan.VerPlanFamiliar,
-      private: false 
-    },
-    "revision": {
-      path: `supervisor/revisionPlan/index.html`,
-      controlador:supervisorPlanFamiliar.RevisionPlanController,
-      private: false
-    },
-    "estadistica":{
-      path: `supervisor/PlanFamiliar/estadistica/index.html`,
-      controlador:supervisorPlanFamiliar.EstadisticaController,
-      private: false
-    }
   },
 
   "supervisor-usuarios": {
-    "peticiones": {
+    peticiones: {
       path: `supervisor/usuarios/peticiones/index.html`,
       controlador: SupervisorUsuarios.PeticionesController,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
     },
-    "gestion": {
+    gestion: {
       path: `supervisor/usuarios/gestion/index.html`,
       controlador: SupervisorUsuarios.GestionController,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
     },
   },
 
-  // =========================================================
-  // === RUTAS DEL ROL: ADMINISTRADOR ===
-  // =========================================================
+  // ================= ADMIN =================
   "administrador-home": {
     path: `administrador/home/index.html`,
     controlador: AdministradorHomeController,
-    private: true,
-    can: "home-frontend.voluntario", // Nota: Revisa si este rol no debería ser .administrador
+    config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
   },
 
-  // --- Módulo: Tablas Maestras / Diccionarios de Datos ---
   "administrador-datosMaestros": {
-    "/": {
+    "": {
       path: `administrador/datosMaestros/index.html`,
       controlador: datosMaestros.verController,
-      private: false,
-      can: "home-frontend.voluntario",
-    },
-
-    "seccionales": {
-      path: `administrador/datosMaestros/seccionales/index.html`,
-      controlador: datosMaestros.seccionalesController,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
     
+    seccionales: {
+  path: `administrador/datosMaestros/seccionales/index.html`,
+  controlador: datosMaestros.seccionalesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "historial-seccional": {
+"historial-seccional": {
+  path: `administrador/datosMaestros/seccionales/historial/index.html`,
+  controlador: datosMaestros.historialSeccional,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-      path: `administrador/datosMaestros/seccionales/historial/index.html`,
-      controlador: datosMaestros.historialSeccional,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"organizaciones": {
+  path: `administrador/datosMaestros/organizaciones/index.html`,
+  controlador: datosMaestros.organizacionesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "organizaciones": {
-      path: `administrador/datosMaestros/organizaciones/index.html`,
-      controlador: datosMaestros.organizacionesController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"historial-organizacion": {
+  path: `administrador/datosMaestros/organizaciones/historial/index.html`,
+  controlador: datosMaestros.historialOrganizacion,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "historial-organizacion": {
+"tiposDocumento": {
+  path: `administrador/datosMaestros/tiposDocumento/index.html`,
+  controlador: datosMaestros.tiposDocumentoController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-      path: `administrador/datosMaestros/organizaciones/historial/index.html`,
-      controlador: datosMaestros.historialOrganizacion,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"calidadesVivienda": {
+  path: `administrador/datosMaestros/calidadesVivienda/index.html`,
+  controlador: datosMaestros.calidadesViviendaController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "tiposDocumento": {
-      path: `administrador/datosMaestros/tiposDocumento/index.html`,
-      controlador: datosMaestros.tiposDocumentoController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"sectores": {
+  path: `administrador/datosMaestros/sectores/index.html`,
+  controlador: datosMaestros.sectoresController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "calidadesVivienda": {
-      path: `administrador/datosMaestros/calidadesVivienda/index.html`,
-      controlador: datosMaestros.calidadesViviendaController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"preguntasVulnerabilidad": {
+  path: `administrador/datosMaestros/preguntasVulnerabilidad/index.html`,
+  controlador: datosMaestros.preguntasVulnerabilidadController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "sectores": {
-      path: `administrador/datosMaestros/sectores/index.html`,
-      controlador: datosMaestros.sectoresController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"nacionalidades": {
+  path: `administrador/datosMaestros/nacionalidades/index.html`,
+  controlador: datosMaestros.nacionalidadesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "preguntasVulnerabilidad": {
-      path: `administrador/datosMaestros/preguntasVulnerabilidad/index.html`,
-      controlador: datosMaestros.preguntasVulnerabilidadController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"tiposAmenaza": {
+  path: `administrador/datosMaestros/tiposAmenaza/index.html`,
+  controlador: datosMaestros.tiposAmenazaController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "nacionalidades": {
-      path: `administrador/datosMaestros/nacionalidades/index.html`,
-      controlador: datosMaestros.nacionalidadesController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"especies": {
+  path: `administrador/datosMaestros/especies/index.html`,
+  controlador: datosMaestros.especiesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "tiposAmenaza": {
-      path: `administrador/datosMaestros/tiposAmenaza/index.html`,
-      controlador: datosMaestros.tiposAmenazaController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"recursos": {
+  path: `administrador/datosMaestros/recursos/index.html`,
+  controlador: datosMaestros.recursosController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "especies": {
-      path: `administrador/datosMaestros/especies/index.html`,
-      controlador: datosMaestros.especiesController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"vulnerabilidades": {
+  path: `administrador/datosMaestros/vulnerabilidades/index.html`,
+  controlador: datosMaestros.vulnerabilidadesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "recursos": {
-      path: `administrador/datosMaestros/recursos/index.html`,
-      controlador: datosMaestros.recursosController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+"departamentos": {
+  path: `administrador/datosMaestros/departamentos/index.html`,
+  controlador: datosMaestros.departamentoController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
 
-    "vulnerabilidades": {
-      path: `administrador/datosMaestros/vulnerabilidades/index.html`,
-      controlador: datosMaestros.vulnerabilidadesController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
-    
-    "departamentos": {
-      path: `administrador/datosMaestros/departamentos/index.html`,
-      controlador: datosMaestros.departamentoController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+// ================= ADMIN USUARIOS =================
+"administrador-usuarios": {
+  peticiones: {
+    path: `administrador/usuarios/peticiones/index.html`,
+    controlador: AdministradorUsuarios.PeticionesController,
+    config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
   },
-  // --- Módulo: Gestión de Usuarios del Administrador ---
-  "administrador-usuarios": {
-    "peticiones": {
-      path: `administrador/usuarios/peticiones/index.html`,
-      controlador: AdministradorUsuarios.PeticionesController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
-    "gestion": {
-      path: `administrador/usuarios/gestion/index.html`,
-      controlador: AdministradorUsuarios.GestionController,
-      private: true,
-      can: "home-frontend.voluntario",
-    },
+  gestion: {
+    path: `administrador/usuarios/gestion/index.html`,
+    controlador: AdministradorUsuarios.GestionController,
+    config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
   },
-};
+},
