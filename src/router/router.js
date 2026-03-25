@@ -9,7 +9,7 @@
 import { routes } from "./routers";
 // Importa utilidades gráficas para el display de alertas en pantalla
 import * as alerta from "../helpers/alertas";
-import { isAuth } from "../helpers/auth";
+import { isAuth, isAuthorize } from "../helpers/auth";
 
 
 export const router = async (main) => {
@@ -22,8 +22,6 @@ export const router = async (main) => {
 
   // recorrer todas las rutas
   const [ruta, parametros] = recorrerRutas(routes, arregloHash);
-
-  console.log(ruta)
 
   // si la ruta no es encontrada:
 
@@ -125,6 +123,7 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
     for (const key in routes) {
         if (key == rutaActual) { 
             console.log("Encontré la clave:", key, "tipo:", typeof routes[key]);
+            console.log(routes[key])
             // Si es una ruta con sub-rutas (contenedor)
             if (typeof routes[key] === "object" && !routes[key].path && !routes[key].controlador) {
                 console.log("Es un contenedor, llamando recursivamente");

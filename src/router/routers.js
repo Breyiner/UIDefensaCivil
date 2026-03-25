@@ -135,7 +135,7 @@ export const routes = {
   },
 
   "voluntario-verPlanFamiliar": {
-    "/": {
+    "": {
       path: `voluntario/verPlanFamiliar/index.html`,
       controlador: verPlan.VerPlanFamiliar,
       config: { ...voluntarioRoute, permissions: ["family-plans.show"] },
@@ -291,7 +291,7 @@ export const routes = {
   },
 
   "administrador-datosMaestros": {
-    "/": {
+    "": {
       path: `administrador/datosMaestros/index.html`,
       controlador: datosMaestros.verController,
       config: { ...adminRoute, permissions: ["home-frontend.voluntario"] },
