@@ -229,10 +229,101 @@ export const routes = {
       controlador: datosMaestros.verController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
+    
     seccionales: {
-      path: `administrador/datosMaestros/seccionales/index.html`,
-      controlador: datosMaestros.seccionalesController,
-      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
-    },
+  path: `administrador/datosMaestros/seccionales/index.html`,
+  controlador: datosMaestros.seccionalesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"historial-seccional": {
+  path: `administrador/datosMaestros/seccionales/historial/index.html`,
+  controlador: datosMaestros.historialSeccional,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"organizaciones": {
+  path: `administrador/datosMaestros/organizaciones/index.html`,
+  controlador: datosMaestros.organizacionesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"historial-organizacion": {
+  path: `administrador/datosMaestros/organizaciones/historial/index.html`,
+  controlador: datosMaestros.historialOrganizacion,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"tiposDocumento": {
+  path: `administrador/datosMaestros/tiposDocumento/index.html`,
+  controlador: datosMaestros.tiposDocumentoController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"calidadesVivienda": {
+  path: `administrador/datosMaestros/calidadesVivienda/index.html`,
+  controlador: datosMaestros.calidadesViviendaController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"sectores": {
+  path: `administrador/datosMaestros/sectores/index.html`,
+  controlador: datosMaestros.sectoresController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"preguntasVulnerabilidad": {
+  path: `administrador/datosMaestros/preguntasVulnerabilidad/index.html`,
+  controlador: datosMaestros.preguntasVulnerabilidadController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"nacionalidades": {
+  path: `administrador/datosMaestros/nacionalidades/index.html`,
+  controlador: datosMaestros.nacionalidadesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"tiposAmenaza": {
+  path: `administrador/datosMaestros/tiposAmenaza/index.html`,
+  controlador: datosMaestros.tiposAmenazaController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"especies": {
+  path: `administrador/datosMaestros/especies/index.html`,
+  controlador: datosMaestros.especiesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"recursos": {
+  path: `administrador/datosMaestros/recursos/index.html`,
+  controlador: datosMaestros.recursosController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"vulnerabilidades": {
+  path: `administrador/datosMaestros/vulnerabilidades/index.html`,
+  controlador: datosMaestros.vulnerabilidadesController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+"departamentos": {
+  path: `administrador/datosMaestros/departamentos/index.html`,
+  controlador: datosMaestros.departamentoController,
+  config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+},
+
+// ================= ADMIN USUARIOS =================
+"administrador-usuarios": {
+  peticiones: {
+    path: `administrador/usuarios/peticiones/index.html`,
+    controlador: AdministradorUsuarios.PeticionesController,
+    config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
   },
-}
+  gestion: {
+    path: `administrador/usuarios/gestion/index.html`,
+    controlador: AdministradorUsuarios.GestionController,
+    config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+  },
+},

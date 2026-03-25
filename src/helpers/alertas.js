@@ -245,7 +245,8 @@ export const VerEstado = (
 
         // Click en Ver Historial
         if (result.isDenied) {
-            Historial(nombre, id); // Llama a la función global debajo
+          // Historial(nombre, id); // Llama a la función global debajo
+          window.location.href = `#/administrador-datosMaestros/historial-seccional/id=${id}`;
         }
 
         // Click en el botón de cambiar Estado (Activar/Desactivar)
