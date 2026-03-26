@@ -8,7 +8,7 @@ const historialVivienda = async () => {
     const datoMaestro = await api.get(`housingQualities/${id}`);
     // console.log(id + ". " + datoMaestro.name);
 
-    const datosHistorial = await api.get(`housingQualities/history/${id}`);
+    const datosHistorial = await api.get(`housingQualities/${id}/history/`);
     // console.log(datosHistorial);
 
 

@@ -262,8 +262,7 @@ export const routes = {
     "historial-tiposDocumento":{
       path: `administrador/datosMaestros/tiposDocumento/historial/index.html`,
       controlador: datosMaestros.historialDocumentos,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
   
     "calidadesVivienda": {
@@ -276,8 +275,7 @@ export const routes = {
 
       path: `administrador/datosMaestros/calidadesVivienda/historial/index.html`,
       controlador: datosMaestros.historialVivienda,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
 
     "sectores": {
@@ -289,8 +287,7 @@ export const routes = {
     "historial-sectores":{
       path: `administrador/datosMaestros/sectores/historial/index.html`,
       controlador: datosMaestros.historialSectores,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
 
   
@@ -303,8 +300,7 @@ export const routes = {
     "historial-preguntas": {
       path: `administrador/datosMaestros/preguntasVulnerabilidad/historial/index.html`,
       controlador: datosMaestros.historialPreguntas,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
 
   
@@ -317,8 +313,7 @@ export const routes = {
     "historial-nacionalidades":{
       path: `administrador/datosMaestros/nacionalidades/historial/index.html`,
       controlador: datosMaestros.historialNacionalidades,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
 
   
@@ -331,8 +326,7 @@ export const routes = {
     "historial-tiposAmenaza":{
       path: `administrador/datosMaestros/tiposAmenaza/historial/index.html`,
       controlador: datosMaestros.historialAmenaza,
-      private: true,
-      can: "home-frontend.voluntario",      
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
 
   
@@ -345,8 +339,7 @@ export const routes = {
     "historial-especies":{
       path: `administrador/datosMaestros/especies/historial/index.html`,
       controlador: datosMaestros.historialEspecies,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
 
   
@@ -359,8 +352,7 @@ export const routes = {
     "historial-recursos":{
       path: `administrador/datosMaestros/recursos/historial/index.html`,
       controlador: datosMaestros.historialRecursos,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
 
   
@@ -373,8 +365,7 @@ export const routes = {
     "historial-vulnerabilidades":{
       path: `administrador/datosMaestros/vulnerabilidades/historial/index.html`,
       controlador: datosMaestros.historialVulnerabilidades,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
     
   
@@ -387,8 +378,7 @@ export const routes = {
     "historial-departamento":{
       path: `administrador/datosMaestros/departamentos/historial/index.html`,
       controlador: datosMaestros.historialDepartamento,
-      private: true,
-      can: "home-frontend.voluntario",
+      config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
   },
 
