@@ -30,7 +30,7 @@ export default async () => {
 
     // Redirección Crear
     crear.addEventListener("click", () => {
-        location.href = `#/voluntario-planRecurso/crear/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/recursos/crear?familia_id=${id}`;
     });
 
     const mensajeVacio = "No tienes ningun recurso registrado en la familia...";

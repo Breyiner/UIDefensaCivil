@@ -74,7 +74,7 @@ export default async () => {
       else if (atributos.role_id == 2)
         window.location.href = "#/supervisor-home"; // Dashboard Supervisor (Tercero)
       else if (atributos.role_id == 3)
-        window.location.href = "#/voluntario-home"; // Dashboard Voluntario 
+        window.location.href = "#/voluntario/"; // Dashboard Voluntario 
       else window.location.href = "#/login"; // Contingencia en caso raro
     
     } else {

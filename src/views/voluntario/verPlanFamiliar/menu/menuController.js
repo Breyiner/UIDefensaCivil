@@ -75,7 +75,7 @@ export default async () => {
   });
 
   recursosDisponibles.addEventListener("click", async () => {
-    location.href = `#/voluntario-planRecurso/ver/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/recursos?familia_id=${id}`;
   });
 
   graficoEntorno.addEventListener("click", async () => {

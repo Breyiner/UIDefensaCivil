@@ -26,12 +26,12 @@ export default () => {
   window.addEventListener("click", async (e) => {
     // Si toca el botón con el identificador 'nuevoPlan'
     if (e.target.matches("#nuevoPlan")) {
-      window.location.href = '#/voluntario-planFamiliar/crear'; // Redirige a la pantalla para crear un nuevo plan familiar
+      window.location.href = '#/voluntario/plan_familiar/crear'; // Redirige a la pantalla para crear un nuevo plan familiar
       // alerta.alertaSuscripcionPremium();
     }
     // Si toca el botón con el identificador 'verPlan'
     if (e.target.matches("#verPlan")) {
-      window.location.href = '#/voluntario-verPlanFamiliar'; // Redirige a la pantalla para ver el listado de planes
+      window.location.href = '#/voluntario/plan_familiar'; // Redirige a la pantalla para ver el listado de planes
     }
 
   });
