@@ -5,15 +5,20 @@ const historialOrganizacion = async () => {
     
     const id = location.hash.split("=")[1];
 
-    const dato_Nombre = await api.get(`organizations/${id}`);
-    console.log(id + ". " + dato_Nombre.name);
+    const datoMaestro = await api.get(`organizations/${id}`);
+    console.log(id + ". " + datoMaestro.name);
 
-    const datos = await api.get(`organizations/history/${id}`);
-    console.log(datos);
+    const datosHistorial = await api.get(`organizations/history/${id}`);
+    // console.log(datos);
 
+    const SubDatos = await api.get(`sectionals`);
+
+    const seccional = SubDatos.find(s => s.id === datoMaestro.sectional_id);
+
+    console.log(seccional);
     
 
-    historial(datos, dato_Nombre);
+    historial(datosHistorial, datoMaestro, "Seccional", "name", seccional.name);
 };
 
 export default historialOrganizacion;

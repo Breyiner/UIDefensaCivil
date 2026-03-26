@@ -14,9 +14,22 @@ import nacionalidadesController from "./nacionalidades/nacionalidadesController.
 import tiposAmenazaController from "./tiposAmenaza/tiposAmenazaControlles.js";
 import especiesController from "./especies/especiesController.js";
 import recursosController from "./recursos/recursosController.js";
+import departamentoController from "./departamentos/departamentoController.js";
 import vulnerabilidadesController from "./vulnerabilidades/vulnerabilidadesController.js";
+
+
 import historialSeccional from "./seccionales/historial/historialSeccional.js";
 import historialOrganizacion from "./organizaciones/historial/historialOrganizacion.js";
+import historialPreguntas from "./preguntasVulnerabilidad/historial/historialPreguntas.js";
+import historialDocumentos from "./tiposDocumento/historial/historialDocumentos.js";
+import historialVivienda from "./calidadesVivienda/historial/historialVivienda.js";
+import historialSectores from "./sectores/historial/historialSectores.js";
+import historialNacionalidades from "./nacionalidades/historial/historialNacionalidades.js";
+import historialAmenaza from "./tiposAmenaza/historial/historialAmenaza.js";
+import historialEspecies from "./especies/historial/historialEspecies.js";
+import historialRecursos from "./recursos/historial/historialRecursos.js";
+import historialVulnerabilidades from "./vulnerabilidades/historial/historialVulnerabilidades.js";
+import historialDepartamento from "./departamentos/historial/historialDepartamento.js";
 
 export {
   verController,
@@ -30,7 +43,19 @@ export {
   tiposAmenazaController,
   especiesController,
   recursosController,
+  departamentoController,
   vulnerabilidadesController,
+  
   historialSeccional,
-  historialOrganizacion
+  historialOrganizacion,
+  historialPreguntas,
+  historialDocumentos,
+  historialVivienda,
+  historialSectores,
+  historialNacionalidades,
+  historialAmenaza,
+  historialEspecies,
+  historialRecursos,
+  historialVulnerabilidades,
+  historialDepartamento
 };

@@ -258,59 +258,137 @@ export const routes = {
       controlador: datosMaestros.tiposDocumentoController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
+
+    "historial-tiposDocumento":{
+      path: `administrador/datosMaestros/tiposDocumento/historial/index.html`,
+      controlador: datosMaestros.historialDocumentos,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
   
     "calidadesVivienda": {
       path: `administrador/datosMaestros/calidadesVivienda/index.html`,
       controlador: datosMaestros.calidadesViviendaController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
-  
+
+    "historial-calidadesVivienda":{
+
+      path: `administrador/datosMaestros/calidadesVivienda/historial/index.html`,
+      controlador: datosMaestros.historialVivienda,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
     "sectores": {
       path: `administrador/datosMaestros/sectores/index.html`,
       controlador: datosMaestros.sectoresController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
+
+    "historial-sectores":{
+      path: `administrador/datosMaestros/sectores/historial/index.html`,
+      controlador: datosMaestros.historialSectores,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
   
     "preguntasVulnerabilidad": {
       path: `administrador/datosMaestros/preguntasVulnerabilidad/index.html`,
       controlador: datosMaestros.preguntasVulnerabilidadController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
+
+    "historial-preguntas": {
+      path: `administrador/datosMaestros/preguntasVulnerabilidad/historial/index.html`,
+      controlador: datosMaestros.historialPreguntas,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
   
     "nacionalidades": {
       path: `administrador/datosMaestros/nacionalidades/index.html`,
       controlador: datosMaestros.nacionalidadesController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
+
+    "historial-nacionalidades":{
+      path: `administrador/datosMaestros/nacionalidades/historial/index.html`,
+      controlador: datosMaestros.historialNacionalidades,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
   
     "tiposAmenaza": {
       path: `administrador/datosMaestros/tiposAmenaza/index.html`,
       controlador: datosMaestros.tiposAmenazaController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
+
+    "historial-tiposAmenaza":{
+      path: `administrador/datosMaestros/tiposAmenaza/historial/index.html`,
+      controlador: datosMaestros.historialAmenaza,
+      private: true,
+      can: "home-frontend.voluntario",      
+    },
+
   
     "especies": {
       path: `administrador/datosMaestros/especies/index.html`,
       controlador: datosMaestros.especiesController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
+
+    "historial-especies":{
+      path: `administrador/datosMaestros/especies/historial/index.html`,
+      controlador: datosMaestros.historialEspecies,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
   
     "recursos": {
       path: `administrador/datosMaestros/recursos/index.html`,
       controlador: datosMaestros.recursosController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
+
+    "historial-recursos":{
+      path: `administrador/datosMaestros/recursos/historial/index.html`,
+      controlador: datosMaestros.historialRecursos,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+
   
     "vulnerabilidades": {
       path: `administrador/datosMaestros/vulnerabilidades/index.html`,
       controlador: datosMaestros.vulnerabilidadesController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
     },
+
+    "historial-vulnerabilidades":{
+      path: `administrador/datosMaestros/vulnerabilidades/historial/index.html`,
+      controlador: datosMaestros.historialVulnerabilidades,
+      private: true,
+      can: "home-frontend.voluntario",
+    },
+    
   
     "departamentos": {
       path: `administrador/datosMaestros/departamentos/index.html`,
       controlador: datosMaestros.departamentoController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+    },
+
+    "historial-departamento":{
+      path: `administrador/datosMaestros/departamentos/historial/index.html`,
+      controlador: datosMaestros.historialDepartamento,
+      private: true,
+      can: "home-frontend.voluntario",
     },
   },
 

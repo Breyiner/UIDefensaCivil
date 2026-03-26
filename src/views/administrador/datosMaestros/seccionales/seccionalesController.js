@@ -3,9 +3,10 @@
  * Gestiona la entidad principal geográfica (Seccional) a la que pertenecen
  * diferentes organizaciones de voluntarios. Renderiza su lista y formulario modal.
  */
-import * as seccional from "../../../../helpers/modales/seccional";
-import * as api from "../../../../helpers/api";
-import { verEstado_input } from "../../../../componentes/ver_Estado/verEstado_ventana";
+
+import * as seccional from "../../../../helpers/modales/seccional.js";
+import * as api from "../../../../helpers/api.js";
+import { verEstado_input } from "../../../../componentes/ver_Estado/varianteEstados.js";
 
 export default async () => {
     // const datos = await api.get("sectionals/");
@@ -54,8 +55,19 @@ export default async () => {
             span.append(icono, texto);
             boton.append(span);
 
+            const datoText = {
+
+                //Nombres en DB
+                nameDB:"name",
+
+                datoNombre: "Seccional",
+
+                urlDato: "sectionals",
+            }
+        
+
             boton.addEventListener("click", () => {
-                verEstado_input("Seccional", dato, "sectionals", recargar, urlHistorial, "name");
+                verEstado_input(dato, recargar, urlHistorial, datoText);
             });
 
             contenedor.append(boton);
