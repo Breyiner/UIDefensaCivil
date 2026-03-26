@@ -34,7 +34,7 @@ export default async () => {
 
         datosDocumentos.forEach(dato => {
             
-            const urlHistorial = `#/administrador-datosMaestros/historial-tiposDocumento/id=${dato.id}`;
+            const urlHistorial = `#/administrador-datosMaestros/historial-recursos/id=${dato.id}`;
 
             const boton = document.createElement("button");
             boton.classList.add("listaDatos__valor");

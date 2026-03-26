@@ -8,7 +8,7 @@ const historialVulnerabilidades = async () => {
     const datoMaestro = await api.get(`vulnerabilities/${id}`);
     console.log(id + ". " + datoMaestro.name);
 
-    const datosHistorial = await api.get(`vulnerabilities/history/${id}`);
+    const datosHistorial = await api.get(`vulnerabilities/${id}/history`);
     console.log(datosHistorial);
 
 

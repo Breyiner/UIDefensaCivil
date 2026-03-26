@@ -8,7 +8,7 @@ const historialSeccional = async () => {
     const datoMaestro = await api.get(`sectionals/${id}`);
     console.log(id + ". " + datoMaestro.name);
 
-    const datosHistorial = await api.get(`sectionals/history/${id}`);
+    const datosHistorial = await api.get(`sectionals/${id}/history/`);
     console.log(datosHistorial);
 
 

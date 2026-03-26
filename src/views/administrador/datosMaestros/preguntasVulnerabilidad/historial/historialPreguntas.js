@@ -8,7 +8,7 @@ const historialPreguntas = async () => {
     const datoMaestro = await api.get(`vulnerableQuestions/${id}`);
     console.log(id + ". " + datoMaestro.description);
 
-    const datosHistorial = await api.get(`vulnerableQuestions/history/${id}`);
+    const datosHistorial = await api.get(`vulnerableQuestions/${id}/history`);
     console.log(datosHistorial);
 
     let precaucion = null;
