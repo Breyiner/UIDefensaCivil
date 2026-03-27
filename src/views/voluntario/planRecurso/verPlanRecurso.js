@@ -25,7 +25,7 @@ export default async () => {
     // Retorno Dash FAmiliar
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
     };
 
     // Redirección Crear
@@ -84,7 +84,7 @@ export default async () => {
 
         // Branch Editar Recurso
         if (boton.classList.contains("verRiesgos__boton--editar")) {
-            location.href = `#/voluntario-planRecurso/editar/id=${id},${resourceId}`;
+            location.href = `#/voluntario/plan_familiar/recursos/editar?familia_id=${id}&recurso_id=${resourceId}`;
         }
 
         // Branch Eliminar Físicamente

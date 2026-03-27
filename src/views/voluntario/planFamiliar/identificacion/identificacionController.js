@@ -44,7 +44,7 @@ export default async () => {
     const confirmacion = await alerta.alertaQuest(
       "¿Seguro que quieres volver? perderás tu progreso",
     );
-    if (confirmacion.isConfirmed) location.href = "#/voluntario-home"; // Abandona devolviendo a la pantalla principal
+    if (confirmacion.isConfirmed) location.href = "#/voluntario"; // Abandona devolviendo a la pantalla principal
   };
 
   // Primera consulta: Traer la información básica que este mismo voluntario guardó en el Paso 1
@@ -116,7 +116,7 @@ export default async () => {
             : "";
             
           // Tras terminar esta fase, direcciona definitivamente al Voluntario al menú o escritorio principal de esta nueva familia
-          location.href= `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+          location.href= `#/voluntario/plan_familiar/familia?id=${id}`;
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors); // Muestra falla rotunda de red
@@ -143,6 +143,6 @@ export default async () => {
     ]);
     
     // Permite que la aplicación salte a la siguiente pantalla para subir su foto sin temor a perder la información tipeada
-    location.href = `#/voluntario-planFamiliar/georeferenciacion/id=${id}`;
+    location.href = `#/voluntario-planFamiliar/georeferenciacion?id=${id}`;
   });
 };

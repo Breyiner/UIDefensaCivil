@@ -54,7 +54,7 @@ export default async () => {
       }
     }
     if (e.target.matches("#datosMaestros")) {
-      window.location.href = '#/administrador-datosMaestros';
+      window.location.href = '#/administrador/datos_maestros';
     }
     if (e.target.matches("#peticiones")) {
       window.location.href = '#/administrador-usuarios/peticiones';

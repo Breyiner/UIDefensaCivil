@@ -36,7 +36,7 @@ export default async () => {
   // Acción del Botón 'Atrás' de la parte superior
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return; // Evita que funcione si todavía está cargando algo
-    location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`; // Regresa al menú general del plan familiar
+    location.href = `#/voluntario/plan_familiar/familia?id=${id}`; // Regresa al menú general del plan familiar
   };
 
   // Solicitar al servidor los listados de miembros y riesgos de esta familia para rellenar las opciones correspondientes
@@ -78,11 +78,13 @@ export default async () => {
     boton.disabled = true;
 
     // Verificar que el usuario no haya dejado las listas desplegables en blanco
-    let validarMiembro = validacion.validarSelect(miembro);
-    let validarFactorRiesgo = validacion.validarSelect(factorRiesgo);
+    // let validarMiembro = validacion.validar_Select(miembro);
+    // let validarFactorRiesgo = validacion.validar_Select(factorRiesgo);
+    validacion.validar_select(miembro);
+    validacion.validar_select(factorRiesgo);
     
     // Si toda la selección es correcta
-    if (validarMiembro && validarFactorRiesgo) {
+    if (validacion.validar_select) {
       
       // Empaquetar los datos básicos para ser guardados
       const datosRegistro = {
@@ -196,7 +198,7 @@ export default async () => {
     // Acción del botón inferior Siguiente (Pasa a la Fase Durante)
     botonSiguiente.addEventListener("click", async () => {
       if (window.procesoPeticion) return; // Protección temporal mientras carga
-      location.href = `#/voluntario-planAccion/durante/id=${id}`; // Lo lleva a la siguiente pantalla
+      location.href = `#/voluntario/plan_familiar/plan_de_accion/durante?id=${id}`; // Lo lleva a la siguiente pantalla
     });
   }
 };

@@ -38,7 +38,7 @@ export default async () => {
   // Comportamiento de botón que saca al usuario y lo lleva al menú
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return; // Si la app está cargando, bloquea la salida temporalmente
-    location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 
   // Trae de la base de datos a los integrantes y los factores de riego ya guardados para llenar las opciones a seleccionar
@@ -185,11 +185,11 @@ export default async () => {
     // Eventos a las pestañas de navegación (Llevar a pantalla anterior y pantalla siguiente)
     botonAtras.addEventListener("click", async () => {
       if (window.procesoPeticion) return;
-      location.href = `#/voluntario-planAccion/antes/id=${id}`;
+      location.href = `#/voluntario/plan_familiar/plan_de_accion/antes?id=${id}`;
     });
     botonSiguiente.addEventListener("click", async () => {
       if (window.procesoPeticion) return;
-      location.href = `#/voluntario-planAccion/despues/id=${id}`;
+      location.href = `#/voluntario/plan_familiar/plan_de_accion/despues?id=${id}`;
     });
   }
 };

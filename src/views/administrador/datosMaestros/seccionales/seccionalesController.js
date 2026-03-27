@@ -20,7 +20,7 @@ export default async () => {
     
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
-        location.href = `#/administrador-datosMaestros/`;
+        location.href = `#/administrador/datos_maestros/`;
     };
     
     const botonCrear = document.querySelector('#crearSeccional');
@@ -35,7 +35,7 @@ export default async () => {
         
         datos.forEach(dato => {
 
-            const urlHistorial = `#/administrador-datosMaestros/historial-seccional/id=${dato.id}`;
+            const urlHistorial = `#/administrador/datos_maestros/seccionales/historial?id=${dato.id}`;
             
             const boton = document.createElement("button");
             boton.classList.add("listaDatos__valor");

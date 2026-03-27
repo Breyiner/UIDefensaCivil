@@ -23,7 +23,7 @@ export default async () => {
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
         location.href = rolId == 3 
-            ? `#/voluntario-home` 
+            ? `#/voluntario` 
             : `#/supervisor-home`;
     };
 
@@ -115,10 +115,10 @@ export default async () => {
 
             // Si el estado es 1 (Nuevo/Recien creado), Obligale a pasar primero por el Test Psicológico de Vulnerabilidad.
             if (status == 1) {
-                location.href = `#/voluntario-planFamiliar/testVunerabilidad/id=${planId}`;
+                location.href = `#/voluntario/plan_familiar/testVunerabilidad?id=${planId}`;
             } else {
                 // Si ya pasó el test, llévalo al Menu Index Hub Modules 
-                location.href = `#/voluntario-verPlanFamiliar/menu/id=${planId}`;
+                location.href = `#/voluntario/plan_familiar/familia?id=${planId}`;
             }
 
         } else if (rolId == 2) { // Branch SUPERVISOR (Revisor)

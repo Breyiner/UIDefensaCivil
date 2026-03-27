@@ -35,7 +35,7 @@ export default async () => {
   // Lógica Botón Atrás (A diferencia flujo lineal, este va a la "Lista Cuadriculada", NO al menu home)
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario-planGrafico/ver/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/grafico_vivienda?id=${id}`;
   };
 
   // Liberar UI Post-carga
@@ -107,7 +107,7 @@ export default async () => {
       if (data.success) {
         // Redirige Inmediato a Cuadricula Listado para ver su Insercion Exitosa Visualmente
         await alerta.alertaOK(data.message);
-        location.href = `#/voluntario-planGrafico/ver/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/grafico_vivienda?id=${id}`;
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }

@@ -30,7 +30,7 @@ export default async () => {
   // Atrás Return listado fotos
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario-planGrafico/ver/id=${planId}`;
+    location.href = `#/voluntario/plan_familiar/grafico_vivienda?id=${planId}`;
   };
 
   // Releaser early 
@@ -66,7 +66,7 @@ export default async () => {
         await alerta.alertaOK(data.message);
         
         // Retorno Forzado Menu listado Layout padre General (Usando la PK padre family plan id que mantuvimos en la URL separada x Coma)
-        location.href = `#/voluntario-planGrafico/ver/id=${planId}`;
+        location.href = `#/voluntario/plan_familiar/grafico_vivienda?id=${planId}`;
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }

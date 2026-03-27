@@ -21,7 +21,7 @@ export default async () => {
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
         const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-        if (confirmacion.isConfirmed) location.href = `#/voluntario-planRiesgo/ver/id=${id}`;
+        if (confirmacion.isConfirmed) location.href = `#/voluntario/plan_familiar/factores_de_riesgo?id=${id}`;
     };
 
     // Selectores Dom Formularios

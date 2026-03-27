@@ -70,7 +70,7 @@ export default async () => {
       await alerta.alertaOK(data.message);
       
       // Enrutador cliente "Router" manual leyendo permisos o rol ID local
-      if (atributos.role_id == 1) window.location.href = "#/administrador-home"; // Dashboard Administrador Supremo
+      if (atributos.role_id == 1) window.location.href = "#/administrador"; // Dashboard Administrador Supremo
       else if (atributos.role_id == 2)
         window.location.href = "#/supervisor-home"; // Dashboard Supervisor (Tercero)
       else if (atributos.role_id == 3)

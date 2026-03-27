@@ -40,7 +40,7 @@ export default async () => {
     const confirmacion = await alerta.alertaQuest(
       "¿Seguro que quieres volver?, perderás tu progreso",
     );
-    if (confirmacion.isConfirmed) location.href = "#/voluntario-verPlanFamiliar";
+    if (confirmacion.isConfirmed) location.href = "#/voluntario/plan_familiar";
   };
 
   // Referencia interna sobre en que parte de la encuesta nos encontramos
@@ -333,6 +333,6 @@ export default async () => {
     // Alerta Verde Bonita Éxito
     await alerta.alertaOK("Test evaluado con éxito");
     // Dirige al Voluntario al ÚLTIMO paso legal y obligatorio, con el controlador que averigua la dirección exacta (Identificación final)
-    location.href = `#/voluntario-planFamiliar/identificacion/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
   }
 };

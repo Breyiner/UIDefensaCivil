@@ -28,7 +28,7 @@ export default async () => {
       "¿Seguro que quieres volver? perderás tu progreso",
     );
     if (confirmacion.isConfirmed)
-      location.href = `#/voluntario-planRecurso/ver/id=${id}`;
+      location.href = `#/voluntario/plan_familiar/recursos?familia_id=${id}`;
   };
 
   // Nodos Inputs Fisicos HTML (Lectura Textos y Numeros)
@@ -127,7 +127,7 @@ export default async () => {
         
         if (data.success) {
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario-planRecurso/ver/id=${id}`; // Return Success Layout Padre
+          window.location.href = `#/voluntario/plan_familiar/recursos?id=${id}`; // Return Success Layout Padre
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors);

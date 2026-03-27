@@ -36,7 +36,7 @@ export default async () => {
   // Acción al oprimir volver
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 
   // Trae las listas reales con información de la base de datos para los familiares y los riesgos
@@ -181,7 +181,7 @@ export default async () => {
     // Envío del usuario cuando retrocede
     botonAtras.addEventListener("click", async () => {
       if (window.procesoPeticion) return;
-      location.href = `#/voluntario-planAccion/durante/id=${id}`;
+      location.href = `#/voluntario/plan_familiar/plan_de_accion/despues?id=${id}`;
     });
   }
 };

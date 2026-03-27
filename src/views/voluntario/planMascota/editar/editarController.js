@@ -34,7 +34,7 @@ export default async () => {
   // Lógica Botón Atrás Muro listado Animalitos Familia
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario-planMascota/ver/id=${planId}`;
+    location.href = `#/voluntario/plan_familiar/familia?id=${planId}`;
   };
 
   // Inputs de texto Básicos Identidad Perro/Gato HTML

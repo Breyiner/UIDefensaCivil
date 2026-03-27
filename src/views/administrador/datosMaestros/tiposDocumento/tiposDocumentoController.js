@@ -19,7 +19,7 @@ export default async () => {
 
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
-        location.href = `#/administrador-datosMaestros/`;
+        location.href = `#/administrador/datos_maestros/`;
     };
 
     const botonCrear = document.querySelector('#crearTipoDocumento');
@@ -35,7 +35,7 @@ export default async () => {
 
         datosDocumentos.forEach(dato => {
             
-            const urlHistorial = `#/administrador-datosMaestros/historial-tiposDocumento/id=${dato.id}`;
+            const urlHistorial = `#/administrador/datos_maestros/tipos_documento/historial?id=${dato.id}`;
 
             const boton = document.createElement("button");
             boton.classList.add("listaDatos__valor");

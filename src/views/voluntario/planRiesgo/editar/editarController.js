@@ -38,7 +38,7 @@ export default async () => {
     // Accion Atras Muro General List Navigation 
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
-        location.href = `#/voluntario-planRiesgo/ver/id=${planId}`;
+        location.href = `#/voluntario/plan_familiar/factores_de_riesgo?id=${planId}`;
     };
 
     // Inputs Elementos Base Formularios DOM Reference HTML

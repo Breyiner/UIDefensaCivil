@@ -20,7 +20,7 @@ export default async () => {
   const graficosVivienda = document.getElementById("graficosVivienda");
   const planAccion = document.getElementById("planAccion");
   const graficoEntorno = document.getElementById("graficoEntorno");
-  
+
   // Nodos UI Actioners Finales
   const comentarios = document.getElementById("comentarios"); // Badge Peligro Si hubo un rechazo ("Lee por qué lo devolvieron")
   const botonEnviar = document.getElementById("enviar"); // Submit Todo el dossier al Jefe
@@ -44,7 +44,7 @@ export default async () => {
 
   // Router Volver al Muro General
   botonBack.onclick = () => {
-    location.href = `#/voluntario-verPlanFamiliar`;
+    location.href = `#/voluntario/plan_familiar`;
   };
 
   /**
@@ -52,15 +52,15 @@ export default async () => {
    * Asignan el HASH URL appending the Current Family Plan ID as argument passing.
    */
   datosPrincipales.addEventListener("click", async () => {
-    location.href = `#/voluntario-planDatos/ver/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/datos?id=${id}`;
   });
 
   integrante.addEventListener("click", async () => {
-    location.href = `#/voluntario-planIntegrante/ver/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/integrantes?id=${id}`;
   });
 
   mascotas.addEventListener("click", async () => {
-    location.href = `#/voluntario-planMascota/ver/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/mascotas?id=${id}`;
   });
 
   factoresRiesgo.addEventListener("click", async () => {
@@ -71,23 +71,23 @@ export default async () => {
       return;
     }
 
-    location.href = `#/voluntario-planRiesgo/ver/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/factores_de_riesgo?id=${id}`;
   });
 
   recursosDisponibles.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/recursos?familia_id=${id}`;
+    location.href = `#/voluntario/plan_familiar/recursos?id=${id}`;
   });
 
   graficoEntorno.addEventListener("click", async () => {
-    location.href = `#/voluntario-planEntorno/editar/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/grafico_del_entorno/editar?id=${id}`;
   });
 
   graficosVivienda.addEventListener("click", async () => {
-    location.href = `#/voluntario-planGrafico/ver/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/grafico_vivienda?id=${id}`;
   });
 
   planAccion.addEventListener("click", async () => {
-    location.href = `#/voluntario-planAccion/antes/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/plan_de_accion/antes?id=${id}`;
   });
 
   // BOTÓN MAESTRO: Entregar Trabajo (Cambio Flujo Vida Útil Status Id)

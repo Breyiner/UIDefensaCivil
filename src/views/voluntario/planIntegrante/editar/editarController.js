@@ -35,7 +35,7 @@ export default async () => {
   // Lógica de Atrás normal Muro View
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario-planIntegrante/ver/id=${planId}`;
+    location.href = `#/voluntario/plan_familiar/integrantes?id=${planId}`;
   };
 
   // Nodos Text Inputs Identidades Persona
