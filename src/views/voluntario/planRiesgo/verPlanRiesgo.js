@@ -25,12 +25,12 @@ export default async () => {
     // Acción Volver atrás
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
     };
 
     // Acción redirigir Crear factor de riesgo
     crear.addEventListener("click", () => {
-        location.href = `#/voluntario-planRiesgo/crear/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/factores_de_riesgo/crear?id=${id}`;
     });
 
     const mensajeVacio = "No tienes ningun factor de riesgo registrado en la familia...";
@@ -85,7 +85,7 @@ export default async () => {
         // Branch 1: Modificar/Anexar Elemento Riesgo
         if (boton.classList.contains("verRiesgos__boton--editar")) {
             // URL Mapeada con IDs csv (Plan y Riesgo Target)
-            location.href = `#/voluntario-planRiesgo/editar/id=${id},${riskId}`;
+            location.href = `#/voluntario/plan_familiar/factores_de_riesgo/editar?familia_id=${id}&riesgo_id${riskId}`;
         }
 
         // Branch 2: Borrar Riesgo Base (Backend ejecutará cascada con vulnerabilidades y acciones asociadas) 

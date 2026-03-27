@@ -25,12 +25,12 @@ export default async () => {
     // Regresar
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
     };
 
     // Redirección Insertar
     crear.addEventListener("click", async () => {
-        location.href = `#/voluntario-planMascota/crear/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/mascotas/crear?id=${id}`;
     });
 
     let mensajeVacio = "No tienes ninguna mascota registrada de la familia...";
@@ -94,7 +94,7 @@ export default async () => {
         // Branch 1: Modificar Raza/Nombre/Edad o Anexar Vacunas a Mascota
         if (e.target.classList.contains("verMascotas__boton--editar")) {
             // Router CSV args URL (Plan ID , Pet ID)
-            window.location.href = `#/voluntario-planMascota/editar/id=${id},${e.target.dataset.id}`;
+            window.location.href = `#/voluntario/plan_familiar/mascotas/crear?familia_id=${id}&mascota_id=${e.target.dataset.id}`;
         }
 
         // Branch 2: Borrar de Existencia Mascota (Cascade de vacunas Backend)

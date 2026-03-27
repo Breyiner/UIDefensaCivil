@@ -30,7 +30,7 @@ export default async () => {
   // Abort and Return 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario-planRecurso/ver/id=${planId}`;
+    location.href = `#/voluntario/plan_familiar/recursos?id=${planId}`;
   };
 
   // Nodos Inputs HTML Targets
@@ -132,7 +132,7 @@ export default async () => {
         if (data.success) {
           // Si DB Respondió Code 200.. OK Redirect..
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario-planRecursos/ver/id=${planId}`; // Bug detected in code here 'planRecursos' instead 'planRecurso'? Ignoring as its outside instruction 
+          window.location.href = `#/voluntario/plan_familiar/recursos?id=${planId}`; // Bug detected in code here 'planRecursos' instead 'planRecurso'? Ignoring as its outside instruction 
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors); // Connection DB loss Net Down Timeout Axios API Generic Wrapper Class 

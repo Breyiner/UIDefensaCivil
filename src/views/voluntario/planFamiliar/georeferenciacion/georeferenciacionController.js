@@ -34,7 +34,7 @@ export default async () => {
   // Lógica Botón Atrás (Flujo lineal Wizard - vuelve a la Identificación)
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario-planFamiliar/identificacion/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
   };
 
   // Comprueba si durante este proceso el voluntario cerró y volvió, para no borrar imagen existente
@@ -119,7 +119,7 @@ export default async () => {
         await alerta.alertaOK(data.message);
         
         // Enrutamiento Forzado (Al ser Helper Linear de Georeferencia, Retorna al Módulo Identificación Avanzada)
-        location.href = `#/voluntario-planFamiliar/identificacion/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }

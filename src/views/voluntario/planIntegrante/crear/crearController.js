@@ -24,7 +24,7 @@ export default async () => {
     botonBack.onclick = async() => {
     if(window.procesoPeticion) return;
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-    if (confirmacion.isConfirmed) location.href = `#/voluntario-planIntegrante/ver/id=${id}`;};
+    if (confirmacion.isConfirmed) location.href = `#/voluntario/plan_familiar/integrantes?id=${id}`;};
     
     // Nodos Físicos Campos Texto Formulario
     const nombres = document.getElementById('nombres');
@@ -100,7 +100,7 @@ export default async () => {
                     // Flujo Condicionado UX: 
                     // SI: Salta en automático al Modulo "Editar Integrante" donde abajo esta el modal "Añadir afecciones"
                     // NO: Vuelve normalito al Muro General Listado
-                    pregunta.isConfirmed ? window.location.href = `#/voluntario-planIntegrante/editar/id=${id},${data.data.id}` : location.href = `#/voluntario-planIntegrante/ver/id=${id}`;
+                    pregunta.isConfirmed ? window.location.href = `#/voluntario/plan_familiar/integrantes/editar?familia_id=${id}&integrante_id=${data.data.id}` : location.href = `#/voluntario/plan_familiar/integrantes?id=${id}`;
                 }
             else alerta.alertaWarning(data.message,data.errors)
         } catch (error) {

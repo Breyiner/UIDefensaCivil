@@ -69,7 +69,7 @@ export default async () => {
           if (data.success) {
             await alerta.alertaOK(data.message);
             // Salta al siguiente paso forzando el salto a la pantalla de la prueba, adjuntando la nueva identificación en el texto de arriba
-            window.location.href = `#/voluntario-planFamiliar/testVunerabilidad/id=${data.data.id}`;
+            window.location.href = `#/voluntario/plan_familiar/testVunerabilidad?id=${data.data.id}`;
           } else alerta.alertaWarning(data.message, data.errors);
         } catch (error) {
           alerta.alertaError(error.errors); // Mostrar que hubo un fallo grande en el servidor

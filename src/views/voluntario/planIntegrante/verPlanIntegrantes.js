@@ -26,12 +26,12 @@ export default async () => {
     // Regresar Atrás (Menu Principal Dashboard Casa)
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
     };
 
     // Redirección Crear nuevo miembro
     crear.addEventListener("click", async () => {
-        location.href = `#/voluntario-planIntegrante/crear/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/integrantes/crear?familia_id=${id}`;
     });
 
     let mensajeVacio = "No tienes ningun miembro de la familia...";
@@ -70,7 +70,7 @@ export default async () => {
         // ACTION: Editar Perfil Persona
         if (e.target.classList.contains("boton__editar")) {
             // Rutas Complejas CSV Parameters ID Plan , ID Miembro
-            window.location.href = `#/voluntario-planIntegrante/editar/id=${id},${e.target.dataset.id}`;
+            window.location.href = `#/voluntario/plan_familiar/integrantes/editar?familia_id=${id}&integrante_id=${e.target.dataset.id}`;
         }
 
         // ACTION: Borrar Físicamente al Miembro del DB Root 

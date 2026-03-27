@@ -33,7 +33,7 @@ export default async () => {
   // Lógica funcional al tocar la flecha superior de ir hacia atrás
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return; // Si algo está cargando de fondo, se interrumpe y previene la salida
-    location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 
   // Primera consulta: El sistema revisa si el usuario ya le había asignado una foto previa a esta vivienda
@@ -117,7 +117,7 @@ export default async () => {
       if (data.success) {
         await alerta.alertaOK(data.message);
         // Devolvemos al usuario a su menú particular forzando un redireccionamiento
-        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }

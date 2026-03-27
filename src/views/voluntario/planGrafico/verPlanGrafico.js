@@ -26,12 +26,12 @@ export default async () => {
     // Retorno al Main Dashboard familiar
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
     };
 
     // Redirección Pestaña Formulario Subida (Ver planGrafico/crear/crearController)
     crear.addEventListener("click", () => {
-        location.href = `#/voluntario-planGrafico/crear/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/grafico_vivienda/crear?id=${id}`;
     });
 
     const mensajeVacio = "No tienes ningun grafico de vivienda registrado en la familia...";
@@ -81,7 +81,7 @@ export default async () => {
 
         // Branch 1: El volunario quiere Editar el Texto 'Descripcion' de este Mapa
         if (boton.classList.contains("verGrafico__boton--editar")) {
-            location.href = `#/voluntario-planGrafico/editar/id=${id},${graficoId}`; // Pass multiple args CSV style
+            location.href = `#/voluntario/plan_familiar/grafico_vivienda/editar?familia_id=${id}&grafico_id=${graficoId}`; // Pass multiple args CSV style
         }
 
         // Branch 2: El voluntario quiere borrar la Foto del Sistema

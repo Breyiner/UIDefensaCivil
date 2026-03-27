@@ -25,12 +25,12 @@ export default async () => {
     // Retorno Dash FAmiliar
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
     };
 
     // Redirección Crear
     crear.addEventListener("click", () => {
-        location.href = `#/voluntario-planRecurso/crear/id=${id}`;
+        location.href = `#/voluntario/plan_familiar/recursos/crear?familia_id=${id}`;
     });
 
     const mensajeVacio = "No tienes ningun recurso registrado en la familia...";
@@ -84,7 +84,7 @@ export default async () => {
 
         // Branch Editar Recurso
         if (boton.classList.contains("verRiesgos__boton--editar")) {
-            location.href = `#/voluntario-planRecurso/editar/id=${id},${resourceId}`;
+            location.href = `#/voluntario/plan_familiar/recursos/editar?familia_id=${id}&recurso_id=${resourceId}`;
         }
 
         // Branch Eliminar Físicamente

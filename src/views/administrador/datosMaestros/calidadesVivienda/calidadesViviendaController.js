@@ -18,7 +18,7 @@ export default async () => {
 
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
-        location.href = `#/administrador-datosMaestros/`;
+        location.href = `#/administrador/datos_maestros/`;
     };
 
     const botonCrear = document.querySelector('#crearCalidadVivienda');
@@ -33,7 +33,7 @@ export default async () => {
         
         datos.forEach(dato => {
 
-            const urlHistorial = `#/administrador-datosMaestros/historial-calidadesVivienda/id=${dato.id}`;
+            const urlHistorial = `#/administrador/datos_maestros/calidades_vivienda/historial?id=${dato.id}`;
             
             const boton = document.createElement("button");
             boton.classList.add("listaDatos__valor");

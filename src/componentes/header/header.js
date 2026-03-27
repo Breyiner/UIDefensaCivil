@@ -1,4 +1,4 @@
-const listSinBack = ['voluntario-home', 'administrador-home', 'supervisor-home'];
+const listSinBack = ['voluntario', 'administrador', 'supervisor-home'];
 
 export const componenteHeader = () => {
     const indicador = document.querySelector(".header__indicador");
@@ -27,9 +27,9 @@ export const componenteHeader = () => {
 
     // botón HOME
     botonHome.addEventListener("click", () => {
-        if (rolId == 1) location.href = `#/administrador-home`
+        if (rolId == 1) location.href = `#/administrador`
         else if(rolId == 2) location.href = `#/supervisor-home`
-        else if(rolId == 3)location.href = `#/voluntario-home`
+        else if(rolId == 3)location.href = `#/voluntario`
     });
 
     // botón PERFIL
