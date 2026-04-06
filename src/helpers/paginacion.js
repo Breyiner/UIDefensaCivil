@@ -7,7 +7,7 @@
 import * as api from "./api";
 
 // Recibe la URL de la api, el texto a mostrar si hay 0 resultados, y la función 'carta' que construye el HTML visual.
-export default async (peticion,mensajeVacio,carta) => {
+const paginacion = async (peticion,mensajeVacio,carta) => {
     // Contenedor mayor donde van las tarjetas (cards)
     const container = document.querySelector(".container__paginas");
     // Barra inferior donde van los numeritos de página
@@ -50,11 +50,13 @@ export default async (peticion,mensajeVacio,carta) => {
             paginacion(); // Re-dibuja cintillo numerado
             cargarPagina(); // Re-descarga JSON de registros
         }});
-  
+
+
     // ==========================================
     // LOGICA QUE PINTA LOS BOTONES NUMÉRICOS INFERIORES
     // ==========================================
     async function paginacion() {
+
         containerPaginador.innerHTML = ""; // Limpia la barra numerada 
         
         // Caso simple: Menos de 10 hojas de datos totales
@@ -128,11 +130,11 @@ export default async (peticion,mensajeVacio,carta) => {
         
         // Ejecuta el Inversor de Control sobre cada record, delegando al archivo Controlador 
         // original (VoluntarioController por ej.) el como dibujar y mutar su `cartaInfo` específica.
-        for (const dat in datos)
-        {
-                let info = datos[dat];
-                const cartaInfo = await carta(info);
-                container.appendChild(cartaInfo); // Ensambla pieza
+        for (const dato in datos) {
+            
+            let info = datos[dato];
+            const cartaInfo = await carta(info);
+            container.appendChild(cartaInfo); // Ensambla pieza
         }
     }
 
@@ -147,3 +149,5 @@ export default async (peticion,mensajeVacio,carta) => {
         return false; 
     }
 }
+
+export default paginacion;

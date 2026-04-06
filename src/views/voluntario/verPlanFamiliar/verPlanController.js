@@ -5,7 +5,6 @@
  * Contiene lógica condicional de enrutamiento basada en el Rol del usuario (Voluntario vs Supervisor).
  */
 import * as api from "../../../helpers/api";
-import * as alerta from "../../../helpers/alertas";
 import paginacion from "../../../helpers/paginacion";
 
 export default async () => {
@@ -123,7 +122,7 @@ export default async () => {
 
         } else if (rolId == 2) { // Branch SUPERVISOR (Revisor)
             // Llévalo al módulo especializado de auditoría y revisión
-            location.href = `#/supervisor-planFamiliar/revision/id=${planId}`;
+            location.href = `#/supervisor/plan_familiar/revision?id=${planId}`;
         }
     });
 
