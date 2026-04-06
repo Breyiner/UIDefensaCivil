@@ -18,7 +18,7 @@ export default async () => {
 
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/administrador-home`;
+        location.href = `#/administrador/`;
     };
 
     const mensajeVacio = "No hay ninguna peticion de activacion";

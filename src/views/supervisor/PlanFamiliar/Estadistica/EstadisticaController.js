@@ -20,7 +20,7 @@ export default async () => {
     // Regla de escape o vuelta atrás segura
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return; // Cancela si hay carga a red
-        location.href = `#/supervisor-home`; // Redirección hash SPA
+        location.href = `#/supervisor/`; // Redirección hash SPA
     };
 
     // Petición temprana y directa al endpoint consolidador de métricas para Supervisores

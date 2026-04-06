@@ -23,7 +23,7 @@ export default async () => {
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
         const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-        if (confirmacion.isConfirmed) location.href = `#/voluntario/plan_familiar/mascotas?id=${id}`;
+        if (confirmacion.isConfirmed) location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${id}`;
     };
 
     // Inputs de texto Básicos HTML DOM IDs
@@ -62,7 +62,7 @@ export default async () => {
         const datosRegistro = {
             name: nombre.value,
             breed: raza.value,
-            age: edad.value,
+            birth_date: edad.value,
             species_id: especies.value,
             animal_gender_id: generos.value,
             family_plan_id: id // Relaciona el Animal Conectando a la Familia Creadora Actual
@@ -80,7 +80,7 @@ export default async () => {
                 // Flujo Condicionado de Ahorro de clics al Voluntario Evaluador
                 // SI: Te lleva al Módulo Editar de esa mascota recién creada que es el único que tiene el Popup Acordeon Inferior Añadir Vacunas.
                 // NO: Muro normal Volver
-                pregunta.isConfirmed ? window.location.href = `#/voluntario/plan_familiar/mascotas/crear?familia_id=${id}&mascota_id=${data.data.id}` : location.href = `#/voluntario/plan_familiar/mascotas?id=${id}`;
+                pregunta.isConfirmed ? window.location.href = `#/voluntario/plan_familiar/mascotas/crear?familia_id=${id}&mascota_id=${data.data.id}` : location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${id}`;
             }
             // Error Reglas Negocio Backend 
             else alerta.alertaWarning(data.message, data.errors)

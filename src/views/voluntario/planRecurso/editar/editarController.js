@@ -16,10 +16,12 @@ export default async () => {
   const botonGuardar = document.getElementById("botonGuardar"); // Action Patcher Update Method Trigger Handler Element 
   const form = document.querySelector(".form");
   
-  // PARSING DOBLE URL CSV
-  const id = location.hash.split("=")[1]; // Get 'id=PlanID,RecursoID' String Formater Style
-  const planId = id.split(",")[0]; // Target URL Regreso Plan Padre
-  const recursoId = id.split(",")[1]; // Target ID EndPoint Target
+  // PARSING DOBLE URL
+  const hashQuery = location.hash.split("?")[1] ?? ""; // Get 'id=PlanID,RecursoID' String Formater Style
+  const params = new URLSearchParams(hashQuery);
+
+  const planId = params.get("familia_id"); // Target URL Regreso Plan Padre
+  const recursoId = params.get("recurso_id"); // Target ID EndPoint Target
 
   // Lock Flow Concurrency
   if (window.procesoPeticion === undefined) {
@@ -30,7 +32,7 @@ export default async () => {
   // Abort and Return 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario/plan_familiar/recursos?id=${planId}`;
+    location.href = `#/voluntario/plan_familiar/recursos?familia_id=${planId}`;
   };
 
   // Nodos Inputs HTML Targets
@@ -55,18 +57,18 @@ export default async () => {
    * Si rompen las reglas (eg presionar 'a' en un telefono)
    */
   telefono.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 10);
-    validacion.soloNumeros(e); 
+    validacion.keyboard_limite(e, 10);
+    validacion.keyboard_numero(e); 
   });
   descripcion.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 200);
+    validacion.keyboard_limite(e, 200);
   });
   ubicacion.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 100);
+    validacion.keyboard_limite(e, 100);
   });
   distancia.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 5); // 5 digits maxmts
-    validacion.soloNumeros(e);
+    validacion.keyboard_limite(e, 5); // 5 digits maxmts
+    validacion.keyboard_numero(e);
   });
   
   // Blurs: Quitar Border Box Error CSS State on Out-Focus After Error Type 
@@ -100,12 +102,12 @@ export default async () => {
 
     // --- ASERCIONES Y RESTRICCIONES REQUERIMIENTOS MINIMOS ---
     // Fuerza longitud Minima caracteres. Si no, resalta rojo y aborta Front.
-    let validarDescripcion = validacion.validarMinimo(descripcion, 15); // Descripciones elaboradas, no "ok"
-    let validarUbicacion = validacion.validarMinimo(ubicacion, 5);
-    let validarDistancia = validacion.validarMinimo(distancia, 1);
-    let validarTelefono = validacion.validarMinimo(telefono, 5);
-    let validarRecurso = validacion.validarSelect(recurso);
-    let validarServicio = validacion.validarVacio(servicio);
+    let validarDescripcion = validacion.validar_minimo(descripcion, 15); // Descripciones elaboradas, no "ok"
+    let validarUbicacion = validacion.validar_minimo(ubicacion, 5);
+    let validarDistancia = validacion.validar_minimo(distancia, 1);
+    let validarTelefono = validacion.validar_minimo(telefono, 5);
+    let validarRecurso = validacion.validar_select(recurso);
+    let validarServicio = validacion.validar_vacio(servicio);
     
     // Check If all Truthy Assertions Valid Passed Through Array Check Values
     if (
@@ -132,7 +134,7 @@ export default async () => {
         if (data.success) {
           // Si DB Respondió Code 200.. OK Redirect..
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario/plan_familiar/recursos?id=${planId}`; // Bug detected in code here 'planRecursos' instead 'planRecurso'? Ignoring as its outside instruction 
+          window.location.href = `#/voluntario/plan_familiar/recursos?familia_id=${planId}`; // Bug detected in code here 'planRecursos' instead 'planRecurso'? Ignoring as its outside instruction 
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors); // Connection DB loss Net Down Timeout Axios API Generic Wrapper Class 

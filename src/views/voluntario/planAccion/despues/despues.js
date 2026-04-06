@@ -173,15 +173,17 @@ export default async () => {
 
     // Detecta cualquier pulsación a un objetivo perteneciente de la "Lista" visualizada de esta fase
     contenedorAfecciones.addEventListener("click", async (e) => {
-      const idAfeccion = e.target.closest(".gestionarAfecciones__afeccion")
-        .dataset.id;
+      const target = e.target.closest(".gestionarAfecciones__afeccion")
+      if (!target) return; // Si no hizo click en un objetivo, no hacer nada
+
+      const idAfeccion = target.dataset.id;
       modalPlanAccion.verEditarEliminar(idAfeccion, id, cargarAfecciones);
     });
 
     // Envío del usuario cuando retrocede
     botonAtras.addEventListener("click", async () => {
       if (window.procesoPeticion) return;
-      location.href = `#/voluntario/plan_familiar/plan_de_accion/despues?id=${id}`;
+      location.href = `#/voluntario/plan_familiar/plan_de_accion/durante?familia_id=${id}`;
     });
   }
 };

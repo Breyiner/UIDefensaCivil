@@ -61,15 +61,15 @@ export default async () => {
 
     // Declaración de enrutamientos de la botonera principal Dashboard
     botonVoluntarios.addEventListener("click", () => {
-        window.location.href = `#/supervisor-usuarios/gestion`; // Vista Gestor Users
+        window.location.href = `#/supervisor/usuarios/gestion`; // Vista Gestor Users
     });
     botonPeticiones.addEventListener("click", () => {
-        window.location.href = `#/supervisor-usuarios/peticiones`; // Vista Peticiones/Requests List
+        window.location.href = `#/supervisor/usuarios/peticiones`; // Vista Peticiones/Requests List
     });
     botonPlanFamiliar.addEventListener("click", () => {
-        window.location.href = `#/supervisor-planFamiliar/`; // Vista Planes List Main
+        window.location.href = `#/supervisor/plan_familiar/`; // Vista Planes List Main
     });
     botonEstadistica.addEventListener("click", () => {
-        window.location.href = `#/supervisor-planFamiliar/estadistica`; // La Dona Chart page
+        window.location.href = `#/supervisor/plan_familiar/estadistica`; // La Dona Chart page
     });
 };

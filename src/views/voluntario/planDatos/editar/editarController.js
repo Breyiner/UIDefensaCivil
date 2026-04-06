@@ -40,7 +40,7 @@ export default async () => {
   // Comportamiento del botón superior para ir de vuelta al menú central
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return; // Se previene si aún está procesando algo
-    location.href = `#/voluntario-verPlanFamiliar/menu/id=${id}`;
+    location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 
   // Rutina que solicita múltiples listas al servidor al mismo tiempo para llenar las opciones desplegables

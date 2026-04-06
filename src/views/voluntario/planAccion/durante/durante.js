@@ -176,8 +176,10 @@ export default async () => {
     // Detecta los toques a lo largo de cualquier parte donde están listadas las tarjetas de acción
     contenedorAfecciones.addEventListener("click", async (e) => {
       // Extrae la referencia única del clic sobre la tarjeta dibujada
-      const idAfeccion = e.target.closest(".gestionarAfecciones__afeccion")
-        .dataset.id;
+      const target = e.target.closest(".gestionarAfecciones__afeccion")
+      if (!target) return; // Si no hizo click en un objetivo, no hacer nada
+
+      const idAfeccion = target.dataset.id;
       // Ventana que pregunta si edita o elimina dicha opción
       modalPlanAccion.verEditarEliminar(idAfeccion, id, cargarAfecciones);
     });
@@ -185,11 +187,11 @@ export default async () => {
     // Eventos a las pestañas de navegación (Llevar a pantalla anterior y pantalla siguiente)
     botonAtras.addEventListener("click", async () => {
       if (window.procesoPeticion) return;
-      location.href = `#/voluntario/plan_familiar/plan_de_accion/antes?id=${id}`;
+      location.href = `#/voluntario/plan_familiar/plan_de_accion/antes?familia_id=${id}`;
     });
     botonSiguiente.addEventListener("click", async () => {
       if (window.procesoPeticion) return;
-      location.href = `#/voluntario/plan_familiar/plan_de_accion/despues?id=${id}`;
+      location.href = `#/voluntario/plan_familiar/plan_de_accion/despues?familia_id=${id}`;
     });
   }
 };

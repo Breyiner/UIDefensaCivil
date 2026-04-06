@@ -15,9 +15,11 @@ export default async () => {
   const preview = document.getElementById("preview"); // Nodo Imagen Layout para que sepa de que Croquis hablamos visualmente
   
   // PARSING DOBLE URL PARAMETER MAGIA COMMA SEPARATED !
-  const id = location.hash.split("=")[1]; // Ej: id=5,12 
-  const planId = id.split(",")[0]; // Array Id[0] is Family_Plan id Father
-  const graficoId = id.split(",")[1]; // Array Id[1] is Primary Key of the Housing_Graphic to be patched in specific
+  const hashQuery = location.hash.split("?")[1] ?? "";
+  const params = new URLSearchParams(hashQuery);
+
+  const planId = params.get("familia_id"); // Array Id[0] is Family_Plan id Father
+  const graficoId = params.get("grafico_id"); // Array Id[1] is Primary Key of the Housing_Graphic to be patched in specific
   
   const descripcion = document.getElementById("descripcion"); // TextArea Node Target
 
@@ -30,7 +32,7 @@ export default async () => {
   // Atrás Return listado fotos
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario/plan_familiar/grafico_vivienda?id=${planId}`;
+    location.href = `#/voluntario/plan_familiar/grafico_vivienda?familia_id=${planId}`;
   };
 
   // Releaser early 
@@ -66,7 +68,7 @@ export default async () => {
         await alerta.alertaOK(data.message);
         
         // Retorno Forzado Menu listado Layout padre General (Usando la PK padre family plan id que mantuvimos en la URL separada x Coma)
-        location.href = `#/voluntario/plan_familiar/grafico_vivienda?id=${planId}`;
+        location.href = `#/voluntario/plan_familiar/grafico_vivienda?familia_id=${planId}`;
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }

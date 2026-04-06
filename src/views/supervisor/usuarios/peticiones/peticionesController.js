@@ -23,7 +23,7 @@ export default async () => {
     // Enganche para volverse al dashboard menú general
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/supervisor-home`;
+        location.href = `#/supervisor/`;
     };
 
     // Leyenda mostrada cuando la cuenta se vacía de tareas por resolver

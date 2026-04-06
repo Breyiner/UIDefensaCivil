@@ -36,7 +36,6 @@ import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
 import * as usuario from "../views/usuario/index.js"
 
-
 // Configuraciones predefinidas de permisos para cada ruta
 const publicRoute = { private: false, permissions: [] };
 const voluntarioRoute = { private: true, permissions: ['voluntario'] };
@@ -229,16 +228,7 @@ export const routes = {
       },
 
       grafico_del_entorno: {
-        // "":{
-        //   path: `voluntario/planEntorno/index.html`,
-        //   controlador: PlanEntorno.verController,
-        //   config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        // },
-        // crear:{
-        //   path: `voluntario/planEntorno/crear/index.html`,
-        //   controlador: PlanEntorno.crearController,
-        //   config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        // },
+        
         editar:{
           path: `voluntario/planEntorno/editar/index.html`,
           controlador: PlanEntorno.EditarController,
@@ -290,27 +280,48 @@ export const routes = {
 
   // ================= SUPERVISOR =================
 
-  "supervisor-home": {
-    "": {
+  supervisor:{
+    "":{
       path: `supervisor/home/index.html`,
       controlador: SupervisorHomeController,
       config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
     },
+
+    usuarios: {
+
+      peticiones: {
+        path: `supervisor/usuarios/peticiones/index.html`,
+        controlador: SupervisorUsuarios.PeticionesController,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      },
+
+      gestion: {
+        path: `supervisor/usuarios/gestion/index.html`,
+        controlador: SupervisorUsuarios.GestionController,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      },
+
+    },
+    
+    plan_familiar: {
+      
+      "": {
+        
+        path: `supervisor/PlanFamiliar/RevisionPlan/index.html`,
+        controlador: supervisorPlanFamiliar.RevisionPlanController,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      },
+
+      estadistica: {
+        path: `supervisor/usuarios/Estadistica/index.html`,
+        controlador: supervisorPlanFamiliar.EstadisticaController,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      }
+    }
+
   },
 
-  "supervisor-usuarios": {
-    peticiones: {
-      path: `supervisor/usuarios/peticiones/index.html`,
-      controlador: SupervisorUsuarios.PeticionesController,
-      config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
-    },
-    gestion: {
-      path: `supervisor/usuarios/gestion/index.html`,
-      controlador: SupervisorUsuarios.GestionController,
-      config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
-    },
-  },
-
+  
   // ================= ADMIN =================
   administrador:{
 
@@ -501,18 +512,6 @@ export const routes = {
         config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
       }
     }
+  }
 
-  },
-
-// ================= ADMIN USUARIOS =================
-  "administrador-usuarios": {
-  peticiones: {
-    path: `administrador/usuarios/peticiones/index.html`,
-    controlador: AdministradorUsuarios.PeticionesController,
-    config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
-  },
-  gestion: {
-    path: `administrador/usuarios/gestion/index.html`,
-    controlador: AdministradorUsuarios.GestionController,
-    config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
-  },},}
+};

@@ -26,7 +26,7 @@ export default async () => {
       // Condominio de respuesta
       if (data.success) {
         await alerta.alertaOK(data.message); // Banner verde Confirmación
-        window.location.href = `#/supervisor-planFamiliar`; // Expulsa devuelta a la lista principal
+        window.location.href = `#/supervisor/plan_familiar`; // Expulsa devuelta a la lista principal
       } else alerta.alertaWarning(data.message, data.errors);
     } catch (error) {
       // Previene caídas totales
@@ -44,7 +44,7 @@ export default async () => {
       // Branching
       if (data.success) {
         await alerta.alertaOK(data.message);
-        window.location.href = `#/supervisor-planFamiliar`; // Retorno lista
+        window.location.href = `#/supervisor/plan_familiar`; // Retorno lista
       } else alerta.alertaWarning(data.message, data.errors);
     } catch (error) {
       alerta.alertaError(error.errors);
@@ -58,7 +58,7 @@ export default async () => {
     
     // Confirmación post-interacción con el popup de SweetAlert text
     if (cambios.isConfirmed) {
-        window.location.href = `#/supervisor-planFamiliar`; // Volver
+        window.location.href = `#/supervisor/plan_familiar`; // Volver
     }
   });
 
