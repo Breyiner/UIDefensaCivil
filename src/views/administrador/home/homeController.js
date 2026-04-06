@@ -57,10 +57,10 @@ export default async () => {
       window.location.href = '#/administrador/datos_maestros';
     }
     if (e.target.matches("#peticiones")) {
-      window.location.href = '#/administrador-usuarios/peticiones';
+      window.location.href = '#/administrador/usuarios/peticiones';
     }
     if (e.target.matches("#gestion")) {
-      window.location.href = '#/administrador-usuarios/gestion';
+      window.location.href = '#/administrador/usuarios/gestion';
     }
   });
 };

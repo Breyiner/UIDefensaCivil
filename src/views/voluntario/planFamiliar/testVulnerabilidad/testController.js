@@ -306,7 +306,7 @@ export default async () => {
         });
         
         if (data.success) {
-          window.location.href = `#/voluntario-home`; // Deportado inevitablemente a su Dashboard
+          window.location.href = `#/voluntario/`; // Deportado inevitablemente a su Dashboard
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors);

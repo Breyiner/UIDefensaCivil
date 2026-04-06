@@ -85,7 +85,7 @@ export default async () => {
         // Branch 1: Modificar/Anexar Elemento Riesgo
         if (boton.classList.contains("verRiesgos__boton--editar")) {
             // URL Mapeada con IDs csv (Plan y Riesgo Target)
-            location.href = `#/voluntario/plan_familiar/factores_de_riesgo/editar?familia_id=${id}&riesgo_id${riskId}`;
+            location.href = `#/voluntario/plan_familiar/factores_de_riesgo/editar?familia_id=${id}&riesgo_id=${riskId}`;
         }
 
         // Branch 2: Borrar Riesgo Base (Backend ejecutará cascada con vulnerabilidades y acciones asociadas) 

@@ -15,11 +15,12 @@ export default async () => {
   const botonBack = document.getElementById("botonBack");
   const botonGuardar = document.getElementById("botonGuardar"); // Submit update Base Form
   const form = document.querySelector(".form");
-  
-  // PARSER URL DUAL CSV
-  const id = location.hash.split("=")[1]; // id=12,50
-  const planId = id.split(",")[0]; // Target Return UI Familia General
-  const mascotaId = id.split(",")[1]; // Target API Update DB Endpoint Pet Entity ID
+
+  const hashQuery = location.hash.split("?")[1] ?? ""; // Si no hay query params, asigna string vacío para evitar errores al crear URLSearchParams
+  const params = new URLSearchParams(hashQuery); // Crea instancia URLSearchParams para extraer parámetros específicos de la URL despues del signo de interrogación
+
+  const planId = params.get("familia_id"); // ID de la familia a la que pertenece la mascota (para navegación posterior)
+  const mascotaId = params.get("mascota_id"); // ID específico de la mascota que se está editando, utilizado para cargar sus datos y gestionar sus vacunas
   
   // Selector Contenedores para Modulo Sub-Lista Vacunas Inferior (Relacion 1 -> N Mascotas a Vacunas)
   const contenedorAfecciones = document.querySelector(".gestionarAfecciones__lista"); 
@@ -34,7 +35,7 @@ export default async () => {
   // Lógica Botón Atrás Muro listado Animalitos Familia
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario/plan_familiar/familia?id=${planId}`;
+    location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${planId}`;
   };
 
   // Inputs de texto Básicos Identidad Perro/Gato HTML
@@ -50,7 +51,7 @@ export default async () => {
   
   // AUTO-BINDEO HELPER GLOBAL: Hace el GET /pets/$mascotaId y le inyecta solito la variable a cada HTML Input Text 
   // Ej: nombre.value = response.name de una !!. Sin codigos manuales.
-  await cargarDatos.cargarDatos(`pets/${mascotaId}`, [nombre, raza, edad, especies, generos,], ["name", "breed", "age", "species_id", "animal_gender_id",],);
+  await cargarDatos.cargarDatos(`pets/${mascotaId}`, [nombre, raza, edad, especies, generos,], ["name", "breed", "birth_date", "species_id", "animal_gender_id",],);
 
   /**
    * Rutina Hija Aslida Fetching Vacunas Actuales
@@ -108,7 +109,7 @@ export default async () => {
     const datosRegistro = {
       name: nombre.value,
       breed: raza.value,
-      age: edad.value,
+      birth_date: edad.value,
       species_id: especies.value,
       animal_gender_id: generos.value,
     };

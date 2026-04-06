@@ -21,7 +21,7 @@ export default async () => {
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
         const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-        if (confirmacion.isConfirmed) location.href = `#/voluntario/plan_familiar/factores_de_riesgo?id=${id}`;
+        if (confirmacion.isConfirmed) location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`;
     };
 
     // Selectores Dom Formularios
@@ -61,7 +61,7 @@ export default async () => {
                 // NOTA INGENÍERIA: Aquí NO pregunta si quiere ir a editar para añadir Vulnerabilidades! 
                 // A diferencia de Integrantes (Enfermedades) o Mascotas (Vacunas), aquí el usuario 
                 // debe presionar manualmente 'Editar' desde el Index Grid Principal si desea continuar anexando.
-                window.location.href = `#/voluntario-planRiesgo/ver/id=${id}`; // Return Dash Layout Default Front 
+                window.location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`; // Return Dash Layout Default Front 
             }
             else alerta.alertaWarning(data.message, data.errors) // Business Layer Error Catch From Server Backend Logic Validators Example 422 Required Fields Validation failed. Exception Format
         } catch (error) {

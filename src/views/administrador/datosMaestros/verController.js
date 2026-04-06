@@ -18,7 +18,7 @@ export default async () => {
 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/administrador-home`;
+    location.href = `#/administrador/`;
   };
 
   window.addEventListener("click", (e) => {

@@ -25,10 +25,12 @@ export default async () => {
     const botonAñadirAcciones = document.querySelector(".gestionarAcciones__boton");
     const botonAñadirVulnerabilidad = document.querySelector(".gestionarVulnerabilidades__boton");
     
-    // Router Args Parse Destructuring Split URL CSV Parameter "PlanFamiliar,RiskIdTarget" String 
-    const id = location.hash.split("=")[1];
-    const planId = id.split(",")[0];
-    const riesgoId = id.split(",")[1];
+    // PARSING DOBLE URL
+    const hashQuery = location.hash.split("?")[1] ?? ""; // Si no hay query params, asigna string vacío para evitar errores al crear URLSearchParams
+    const params = new URLSearchParams(hashQuery); // Crea instancia URLSearchParams para extraer parámetros específicos de la URL despues del signo de interrogación
+
+    const planId = params.get("familia_id"); // ID de la familia a la que pertenece el riesgo (para navegación posterior)
+    const riesgoId = params.get("riesgo_id"); // ID específico del factor de riesgo que se está editando, utilizado para cargar sus datos y gestionar sus relaciones (acciones y vulnerabilidades)
 
     if (window.procesoPeticion === undefined) {
         window.procesoPeticion = true;
@@ -38,7 +40,7 @@ export default async () => {
     // Accion Atras Muro General List Navigation 
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
-        location.href = `#/voluntario/plan_familiar/factores_de_riesgo?id=${planId}`;
+        location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${planId}`;
     };
 
     // Inputs Elementos Base Formularios DOM Reference HTML

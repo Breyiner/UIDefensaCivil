@@ -8,9 +8,11 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 
 export default async () => {
+  
   // Referencias a los contenedores y botones de la pantalla
   const botonBack = document.getElementById("botonBack"); // Botón superior de volver
   const id = location.hash.split("=")[1]; // Extracción del número interno del plan familiar
+
   const form = document.querySelector(".form"); // Zona o sección que agrupa la carga del archivo
   const boton = document.querySelector(".form__boton"); // Botón principal inferior para registrar la foto
 

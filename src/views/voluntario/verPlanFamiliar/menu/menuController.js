@@ -52,15 +52,15 @@ export default async () => {
    * Asignan el HASH URL appending the Current Family Plan ID as argument passing.
    */
   datosPrincipales.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/datos?id=${id}`;
+    location.href = `#/voluntario/plan_familiar/datos?familia_id=${id}`;
   });
 
   integrante.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/integrantes?id=${id}`;
+    location.href = `#/voluntario/plan_familiar/integrantes?familia_id=${id}`;
   });
 
   mascotas.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/mascotas?id=${id}`;
+    location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${id}`;
   });
 
   factoresRiesgo.addEventListener("click", async () => {
@@ -71,23 +71,23 @@ export default async () => {
       return;
     }
 
-    location.href = `#/voluntario/plan_familiar/factores_de_riesgo?id=${id}`;
+    location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`;
   });
 
   recursosDisponibles.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/recursos?id=${id}`;
+    location.href = `#/voluntario/plan_familiar/recursos?familia_id=${id}`;
   });
 
   graficoEntorno.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/grafico_del_entorno/editar?id=${id}`;
+    location.href = `#/voluntario/plan_familiar/grafico_del_entorno/editar?familia_id=${id}`;
   });
 
   graficosVivienda.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/grafico_vivienda?id=${id}`;
+    location.href = `#/voluntario/plan_familiar/grafico_vivienda?familia_id=${id}`;
   });
 
   planAccion.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/plan_de_accion/antes?id=${id}`;
+    location.href = `#/voluntario/plan_familiar/plan_de_accion/antes?familia_id=${id}`;
   });
 
   // BOTÓN MAESTRO: Entregar Trabajo (Cambio Flujo Vida Útil Status Id)
@@ -104,7 +104,7 @@ export default async () => {
         });
         if (data.success) {
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario-verPlanFamiliar`; // Lo echa pa fuera 
+          window.location.href = `#/voluntario/plan_familiar`; // Lo echa pa fuera 
         } else alerta.alertaWarning(data.message, data.errors); // Si intentó mandarlo sin completar algun modulo OBLIGATORIO backend lo frena aquí
       } catch (error) {
         alerta.alertaError(error.errors);

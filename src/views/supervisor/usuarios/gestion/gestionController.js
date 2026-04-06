@@ -26,7 +26,7 @@ export default async () => {
     // Regla global retroceder al hub Dashboard del supervisor
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/supervisor-home`;
+        location.href = `#/supervisor/`;
     };
 
     // Fallback string para el helper de paginación

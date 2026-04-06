@@ -50,18 +50,18 @@ export default async () => {
    * en los Input antes de hacer Submit.
    */
   telefono.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 10);
-    validacion.soloNumeros(e); // Aborta Teclado Letras string
+    validacion.keyboard_limite(e, 10);
+    validacion.keyboard_numero(e); // Aborta Teclado Letras string
   });
   descripcion.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 200);
+    validacion.keyboard_limite(e, 200);
   });
   ubicacion.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 100);
+    validacion.keyboard_limite(e, 100);
   });
   distancia.addEventListener("keydown", (e) => {
-    validacion.limiteCaracteres(e, 5); // Maximo 5 caracteres numéricos ej: 99999 mts
-    validacion.soloNumeros(e);
+    validacion.keyboard_limite(e, 5); // Maximo 5 caracteres numéricos ej: 99999 mts
+    validacion.keyboard_numero(e);
   });
   
   // Handlers Blur Focus Out (Limpia clases Error Roja UI si el user corrigió)
@@ -95,12 +95,12 @@ export default async () => {
 
     // --- RECHEQUEO VALIDACIÓN STRICTA FINAL ANTES DE ENVIAR AL SERVIDOR ---
     // Verifica logitudes minimas Ej: Descripcion > 15 letras si no rechaza.
-    let validarDescripcion = validacion.validarMinimo(descripcion, 15);
-    let validarUbicacion = validacion.validarMinimo(ubicacion, 5);
-    let validarDistancia = validacion.validarMinimo(distancia, 1);
-    let validarTelefono = validacion.validarMinimo(telefono, 5);
-    let validarRecurso = validacion.validarSelect(recurso); // Verifica q no sea "Select default.."
-    let validarServicio = validacion.validarVacio(servicio);
+    let validarDescripcion = validacion.validar_minimo(descripcion, 15);
+    let validarUbicacion = validacion.validar_minimo(ubicacion, 5);
+    let validarDistancia = validacion.validar_minimo(distancia, 1);
+    let validarTelefono = validacion.validar_minimo(telefono, 5);
+    let validarRecurso = validacion.validar_select(recurso); // Verifica q no sea "Select default.."
+    let validarServicio = validacion.validar_vacio(servicio);
     
     // Check Multi AND Logic Gate Result
     if (
@@ -127,7 +127,7 @@ export default async () => {
         
         if (data.success) {
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario/plan_familiar/recursos?id=${id}`; // Return Success Layout Padre
+          window.location.href = `#/voluntario/plan_familiar/recursos?familia_id=${id}`; // Return Success Layout Padre
         } else alerta.alertaWarning(data.message, data.errors);
       } catch (error) {
         alerta.alertaError(error.errors);

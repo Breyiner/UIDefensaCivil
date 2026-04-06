@@ -11,11 +11,16 @@ export const cargarDatos = async (endpoint, listaInputs, nombreValores) => {
   
   // Recorre el arreglo de nodos por índice sincronizando JSON llave -> HTML Input
   for (let cont = 0; cont < listaInputs.length; cont++) {
-    listaInputs[cont].value = valores[nombreValores[cont]];
-    
-    // Si la propiedad JSON es defectuosa o ni existe, sanitiza blanqueando la caja
-    if (valores[nombreValores[cont]] == undefined) {
-      listaInputs[cont].value = "";
+
+    // listaInputs[cont].value = valores[nombreValores[cont]];
+
+    let valor = valores[nombreValores[cont]];
+
+    // Normaliza ISO datetime a yyyy-MM-dd para <input type="date">
+    if (listaInputs[cont].type === "date" && valor) {
+      valor = valor.split("T")[0]; // "2023-02-22T00:00:00.000000Z" → "2023-02-22"
     }
+    
+    listaInputs[cont].value = valor ?? "";
   }
 };

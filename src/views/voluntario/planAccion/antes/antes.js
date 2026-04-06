@@ -188,9 +188,10 @@ export default async () => {
     // Acción para capturar cuando el usuario hace clic sobre cualquiera de las tarjetas creadas
     contenedorAfecciones.addEventListener("click", async (e) => {
       // Averigua el código interno de la tarjeta que el usuario ha tocado
-      const idAfeccion = e.target.closest(".gestionarAfecciones__afeccion")
-        .dataset.id;
-      
+      const target = e.target.closest(".gestionarAfecciones__afeccion")
+      if (!target) return; // Si no hizo click en un objetivo, no hacer nada
+
+      const idAfeccion = target.dataset.id;
       // Abre una ventana emergente para que pueda modificar o borrar esta tarjeta específica
       modalPlanAccion.verEditarEliminar(idAfeccion, id, cargarAfecciones);
     });
@@ -198,7 +199,7 @@ export default async () => {
     // Acción del botón inferior Siguiente (Pasa a la Fase Durante)
     botonSiguiente.addEventListener("click", async () => {
       if (window.procesoPeticion) return; // Protección temporal mientras carga
-      location.href = `#/voluntario/plan_familiar/plan_de_accion/durante?id=${id}`; // Lo lleva a la siguiente pantalla
+      location.href = `#/voluntario/plan_familiar/plan_de_accion/durante?familia_id=${id}`; // Lo lleva a la siguiente pantalla
     });
   }
 };

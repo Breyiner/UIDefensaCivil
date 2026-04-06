@@ -24,7 +24,7 @@ export default async () => {
         if (window.procesoPeticion) return;
         location.href = rolId == 3 
             ? `#/voluntario` 
-            : `#/supervisor-home`;
+            : `#/supervisor`;
     };
 
     const mensajeVacio = "No tienes ningun plan familiar realizado.";

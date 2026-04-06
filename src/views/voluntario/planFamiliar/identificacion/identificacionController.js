@@ -143,6 +143,6 @@ export default async () => {
     ]);
     
     // Permite que la aplicación salte a la siguiente pantalla para subir su foto sin temor a perder la información tipeada
-    location.href = `#/voluntario-planFamiliar/georeferenciacion?id=${id}`;
+    location.href = `#/voluntario/plan_familiar/identificacion/georeferenciacion?id=${id}`;
   });
 };

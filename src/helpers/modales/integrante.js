@@ -237,7 +237,7 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer) => 
                 <div class="modalVer__dato modalVer__dato--largo">
                     <i class="ri-calendar-line modalVer__icono"></i>
                     <div class="modalVer__titulo">Descripcion</div>
-                    <div class="modalVer__texto">${!datos.dose == null ? datos.dose : "-"}</div>
+                    <div class="modalVer__texto">${datos.dose != null ? datos.dose : "-"}</div>
                 </div>
             </div>`;
 
@@ -306,9 +306,9 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer) => 
       const descripcion = document.getElementById("descripcion");
 
       // Corre validaciones preventivas JS
-      let validarAfeccion = validacion.validarSelect(afeccion);
-      let validarNombre = validacion.validarMinimo(nombreAfeccion, 3);
-      let validarDescripcion = validacion.validarSiExiste(descripcion, 10);
+      let validarAfeccion = validacion.validar_select(afeccion);
+      let validarNombre = validacion.validar_minimo(nombreAfeccion, 3);
+      let validarDescripcion = validacion.validar_siExiste(descripcion, 10);
 
       // Si todo aprueba
       if (validarAfeccion && validarNombre && validarDescripcion) {
@@ -360,12 +360,12 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer) => 
       const descripcion = document.getElementById("descripcion");
 
       nombreAfeccion.addEventListener("keydown", (e) => {
-        validacion.limiteCaracteres(e, 30);
-        validacion.textoConEspacios(e);
+        validacion.keyboard_limite(e, 30);
+        validacion.keyboard_textoEspacio(e);
       });
 
       descripcion.addEventListener("keydown", (e) => {
-        validacion.limiteCaracteres(e, 200);
+        validacion.keyboard_limite(e, 200);
       });
 
       afeccion.addEventListener("change", (e) => {
