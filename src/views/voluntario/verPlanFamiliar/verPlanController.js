@@ -95,7 +95,7 @@ export default async () => {
      */
     const recargarContainer = async () => {
         contenedor.innerHTML = "";
-        await paginacion("familyPlans/byUser", mensajeVacio, carta);
+        await paginacion("familyPlans", mensajeVacio, carta);
     };
 
     // Delegación Eventos de Click Muro Principal "Mis Planes"
