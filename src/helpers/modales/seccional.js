@@ -1,8 +1,4 @@
-// /**
-//  * Helper de Modales CRUD: Seccional (seccional.js)
-//  * Interfaz Pop-Up prefabricada (SweetAlert) para administrar el 
-//  * maestro de seccionales institucionales de la Cruz Roja mediante Formularios.
-//  */
+
 
 import * as api from "../api";
 import * as alerta from "../alertas";
@@ -10,7 +6,8 @@ import * as alerta from "../alertas";
 /* =====================================================
    CREAR
 ==================================================== */
-// Lanzador del popup para añadir seccionales nuevas a la base de datos
+// La nueva vista en html se puede visualizar en: src/componentes/modales/modalGeneralEdicion.html
+
 export const crear = async (recargarContainer) => {
 
     // Markup modal estandar para solicitar info inicial

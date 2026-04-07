@@ -1,0 +1,114 @@
+.modal-edicion {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+
+    padding: 0;
+    border: none;
+    border-radius: var(--border-radius-tarjetas, 12px);
+    background-color: var(--color-palido, #ffffff);
+    box-shadow: 0 4px 15px var(--color-sombra, rgba(0, 0, 0, 0.25));
+    width: 90%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-edicion::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.modal-edicion__cabecera {
+    background-color: var(--color-secundario, #0770CC);
+    padding: 20px;
+    border-radius: var(--border-radius-tarjetas, 12px) var(--border-radius-tarjetas, 12px) 0 0;
+    text-align: center;
+}
+
+.modal-edicion__titulo {
+    color: var(--color-palido, #ffffff);
+    font-family: var(--fuente-titulos, sans-serif);
+    font-size: var(--tamano-grande, 1.5rem);
+    font-weight: bold;
+    margin: 0;
+}
+
+.modal-edicion__content {
+    padding: 30px 40px;
+}
+
+.modal-edicion__formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal-edicion__grupo {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-grisFondo, #f8f8f8);
+    border: 1px solid var(--color-grisMedio, #DBDBDB);
+    border-radius: var(--border-radius-botones, 8px);
+    padding: 10px 15px;
+    transition: border-color 0.3s;
+}
+
+.modal-edicion__grupo:focus-within {
+    border-color: var(--color-primario, #FF6600);
+}
+
+.modal-edicion__icono {
+    font-size: 24px;
+    color: var(--color-grisOscuro, #787878);
+    margin-right: 15px;
+}
+
+.modal-edicion__input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: var(--tamano-mediano, 1rem);
+    color: var(--color-oscuro, #2b2a29);
+    outline: none;
+    font-family: var(--fuente-contenido, sans-serif);
+}
+
+.modal-edicion__input::placeholder {
+    color: var(--color-grisOscuro, #787878);
+}
+
+.modal-edicion__pie {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding: 20px 40px;
+    border-top: 1px solid var(--color-grisMedio, #DBDBDB);
+}
+
+.modal-edicion__btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: var(--border-radius-botones, 8px);
+    font-size: var(--tamano-mediano, 1rem);
+    font-weight: bold;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.modal-edicion__btn:hover {
+    filter: brightness(0.9);
+}
+
+.modal-edicion__btn--secundario {
+    background-color: transparent;
+    border: 2px solid var(--color-grisOscuro, #787878);
+    color: var(--color-grisOscuro, #787878);
+}
+
+.modal-edicion__btn--primario {
+    background-color: var(--color-primario, #FF6600);
+    color: var(--color-palido, #ffffff);
+}
