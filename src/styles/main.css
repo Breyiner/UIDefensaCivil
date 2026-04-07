@@ -34,6 +34,7 @@
 @import "./components/badge.css";
 @import "./components/spinner.css";
 @import "./components/verEstadoVentana.css";
+@import "./components/toggle.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";

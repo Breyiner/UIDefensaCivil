@@ -13,6 +13,8 @@ const paginacion = async (peticion,mensajeVacio,carta) => {
     // Barra inferior donde van los numeritos de página
     const containerPaginador = document.querySelector(".container__paginador")
 
+    const esSupervisor = location.hash.includes("/supervisor/");
+
     let paginaActual = 1;
 
     // 1. Averigua el tamaño de la metadata preguntando al endpoint
@@ -133,6 +135,11 @@ const paginacion = async (peticion,mensajeVacio,carta) => {
         for (const dato in datos) {
             
             let info = datos[dato];
+
+            if (esSupervisor && (info.status_id == 3 || info.status_id == 2 || info.status_id == 1)) {
+                continue;
+            }
+            
             const cartaInfo = await carta(info);
             container.appendChild(cartaInfo); // Ensambla pieza
         }

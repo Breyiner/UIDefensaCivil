@@ -9,35 +9,31 @@ import paginacion from "../../../../helpers/paginacion";
 
 const RevisionPlanController = async () => {
 
-  const id = location.hash.split("=")[1];
+    const id = location.hash.split("=")[1];
 
-  const familyMembers = await api.get(`familyMembers/`);
+    const info = await api.get(`familyPlans/${id}`);
 
-  const pets = await api.get(`pets/`);
+    const familyMembers = await api.get(`familyMembers/`);
 
-  const riskFactors = await api.get(`riskFactors/`);
+    const pets = await api.get(`pets/`);
 
-  const resources = await api.get(`resources/`);
+    const riskFactors = await api.get(`riskFactors/`);
 
-  console.log(pets);
-  
-  const botonBack = document.getElementById("botonBack");
-  const contenedor = document.querySelector(".container__paginas");
+    const Resources = await api.get(`availableResources/`);
 
-  const mensajeVacio = "No tienes ningun plan familiar realizado.";
-
-  const carta = async (info) => {
+    // const botonBack = document.getElementById("botonBack");
+    const contenedor = document.querySelector(".container__revision");
 
     const div = document.createElement("div");
     div.classList.add( "tarjeta");
 
-    console.log(info.id);
-    
+    console.log("members", familyMembers);
+
 
     //INTRODUCCION DE LA TARJETA _____________________________________________________________________________________
 
     const tarjetaIntroduccion = document.createElement("div");
-    tarjetaIntroduccion.classList.add("tarjeta--introduccion");
+    tarjetaIntroduccion.classList.add("tarjeta--introduccion_supervisor");
 
     const introduccionCont = document.createElement("div");
     introduccionCont.classList.add("tarjeta-contenido");
@@ -63,85 +59,90 @@ const RevisionPlanController = async () => {
     calendarioIcono.classList.add("icono--pequeno", "ri-calendar-line");
     fechaRecibido.append(calendarioIcono, " Recibido: " + info.date_create);
 
-    tarjetaIntroduccion.append(imagenIcono, apellidoFamilia, departamento, fechaRecibido);
-    
+    const introduccionDiv = document.createElement("div");
+    introduccionDiv.classList.add("introduccionDiv");
+
+    introduccionCont.append(apellidoFamilia, departamento, fechaRecibido);
+
+    introduccionDiv.append(imagenIcono, introduccionCont);
+
     const botonVerPDF = document.createElement("button");
     botonVerPDF.classList.add("boton", "boton--height");
     botonVerPDF.id = "verPDF";
     botonVerPDF.textContent = "Ver PDF";
 
-    introduccionCont.append(tarjetaIntroduccion, botonVerPDF);
+    tarjetaIntroduccion.append(introduccionDiv, botonVerPDF);
 
     // Enganche Visor pasivo
     botonVerPDF.addEventListener("click", () => {
-      // Abre el PDF en otra pestaña consumiendo un binario mediante helper subyacente dedicado PDF
-      api.getPdf(`familyPlans/pdf/${id}`, `plan_${id}.pdf`);
+        // Abre el PDF en otra pestaña consumiendo un binario mediante helper subyacente dedicado PDF
+        api.getPdf(`familyPlans/pdf/${id}`, `plan_${id}.pdf`);
     });
 
     //CONTENIDO DE LA TARJETA _____________________________________________________________________________________
-    
+
     const tarjetaContenido = document.createElement("div");
     tarjetaContenido.classList.add("tarjeta--contenido");
 
     //Integrantes
     const integrantesCont = document.createElement("div");
-    integrantesCont.classList.add("tarjeta-contenido");
+    integrantesCont.classList.add("tarjeta-contenido_flex");
 
     const integrantesHumanos = document.createElement("div");
     integrantesHumanos.classList.add("tarjeta-contenido");
 
     const subtituloIntegrantes = document.createElement("div");
-    subtituloIntegrantes.classList.add("form_autorizacion");
+    subtituloIntegrantes.classList.add("form__texto");
     const teamIcono = document.createElement("i");
     teamIcono.classList.add("icono--pequeno", "ri-team-line");
     subtituloIntegrantes.append(teamIcono, " Integrantes");
-    
+
     integrantesHumanos.append(subtituloIntegrantes);
 
     const miembrosFamilia = familyMembers.filter(miembros => { 
-      return miembros.family_plan_id == info.id
+        return miembros.family_plan_id == info.id
     });
 
     console.log(miembrosFamilia);
 
-    miembrosFamilia.forEach(async integrante => {
-      
-      const miembro = await api.get(`members/${integrante.member_id}`);
+    miembrosFamilia.forEach(async (integrante) => {
 
-      const relacion = await api.get(`kinships/${miembro.kinship_id}`);
+        const miembro = await api.get(`members/${integrante.member_id}`);
 
-      const integrante_p= document.createElement("p");
-      integrante_p.classList.add("form__texto");
-      integrante_p.textContent =`${miembro.names} ${miembro.last_names} - ${relacion.name}`;
-      integrantesHumanos.append(integrante_p);
-      console.log(miembro.names);
-      
+        const relacion = await api.get(`kinships/${miembro.kinship_id}`);
+
+        const integrante_p= document.createElement("p");
+        integrante_p.classList.add("form_autorizacion");
+        integrante_p.textContent =`• ${miembro.names} ${miembro.last_names} `;
+        integrantesHumanos.append(integrante_p);
+        console.log(miembro.names);
+        
     });
 
     const integrantesMascotas = document.createElement("div");
     integrantesMascotas.classList.add("tarjeta-contenido");
 
     const subtituloMascotas = document.createElement("div");
-    subtituloMascotas.classList.add("form_autorizacion");
+    subtituloMascotas.classList.add("form__texto");
     const mascotaIcono = document.createElement("i");
     mascotaIcono.classList.add("icono--pequeno", "ri-team-line");
     subtituloMascotas.append(mascotaIcono, " Mascotas");
-    
+
     integrantesMascotas.append(subtituloMascotas);
 
     const mascotasFamilia = pets.filter(mascota => {
-      return mascota.family_plan_id == info.id
+        return mascota.family_plan_id == info.id
     });
 
 
     mascotasFamilia.forEach(async mascota => {
 
-      const especie = await api.get(`species/${mascota.species_id}`);
+        const especie = await api.get(`species/${mascota.species_id}`);
 
-      const mascota_p = document.createElement("p");
-      mascota_p.classList.add("form__texto");
-      mascota_p.textContent = `${mascota.name} - ${especie.name}`;
-      integrantesMascotas.append(mascota_p);
+        const mascota_p = document.createElement("p");
+        mascota_p.classList.add("form_autorizacion");
+        mascota_p.textContent = `• ${mascota.name} - ${especie.name}`;
+        integrantesMascotas.append(mascota_p);
 
     });
 
@@ -153,7 +154,7 @@ const RevisionPlanController = async () => {
     FactoresRiesgoCont.classList.add("tarjeta-contenido");
 
     const subtituloRiesgo = document.createElement("div");
-    subtituloRiesgo.classList.add("form_autorizacion");
+    subtituloRiesgo.classList.add("form__texto");
     const riesgoIcono = document.createElement("i");
     riesgoIcono.classList.add("icono--pequeno", "ri-alert-line");
     subtituloRiesgo.append(riesgoIcono, " Factores de Riesgo");
@@ -161,21 +162,21 @@ const RevisionPlanController = async () => {
     FactoresRiesgoCont.append(subtituloRiesgo);
 
     const factoresRiesgo = riskFactors.filter(factor => {
-      return factor.family_plan_id == info.id
+        return factor.family_plan_id == info.id
     });
 
-    let contador = 0;
+    let contadorRiesgos = 0;
 
     factoresRiesgo.forEach(async factor => {
 
-      contador++;
+        contadorRiesgos++;
 
-      const tiposRiesgo = await api.get(`threatTypes/${factor.threat_type_id}`);
+        const tiposRiesgo = await api.get(`threatTypes/${factor.threat_type_id}`);
 
-      const factor_p = document.createElement("p");
-      factor_p.classList.add("form__texto");
-      factor_p.textContent = `${contador}. ${tiposRiesgo.name}`;
-      FactoresRiesgoCont.append(factor_p);
+        const factor_p = document.createElement("p");
+        factor_p.classList.add("form_autorizacion");
+        factor_p.textContent = `${contadorRiesgos}. ${tiposRiesgo.name}`;
+        FactoresRiesgoCont.append(factor_p);
     });
 
     tarjetaContenido.append(integrantesCont, FactoresRiesgoCont);
@@ -186,29 +187,39 @@ const RevisionPlanController = async () => {
     recursosCont.classList.add("tarjeta-contenido");
 
     const subtituloRecursos = document.createElement("div");
-    subtituloRecursos.classList.add("form_autorizacion");
+    subtituloRecursos.classList.add("form__texto");
     const recursoIcono = document.createElement("i");
     recursoIcono.classList.add("icono--pequeno", "ri-hand-coin-line");
     subtituloRecursos.append(recursoIcono, " Recursos Disponibles");
 
     recursosCont.append(subtituloRecursos);
 
-    const recursosFamilia = info.resources || [];
 
-    recursosFamilia.forEach(recurso => {
-      const recurso_p = document.createElement("p");
-      recurso_p.classList.add("form__texto");
-      recurso_p.textContent = recurso.name;
-      recursosCont.append(recurso_p);
+    const Recursos = Resources.filter(recurso => {
+        return recurso.family_plan_id == info.id
+    });
+
+    let contadorRecursos = 0;
+
+    Recursos.forEach(async (recurso) => {
+
+        contadorRecursos++;
+
+        const tiposRecursos = await api.get(`resources/${recurso.family_plan_id}`);
+
+        const recurso_p = document.createElement("p");
+        recurso_p.classList.add("form_autorizacion");
+        recurso_p.textContent = `${contadorRecursos}. ${tiposRecursos.name} - ${recurso.distance} m`;
+        recursosCont.append(recurso_p);
     });
 
     tarjetaContenido.append(recursosCont);
 
-
     //BOTONES DE ACCION _____________________________________________________________________________________
+
     const editar = document.createElement("button");
     editar.classList.add("boton", "boton--height");
-    editar.textContent = "Editar Plan";
+    editar.textContent = "Editar y Revisar";
 
     const aprobar = document.createElement("button");
     aprobar.classList.add("boton", "boton--height", "boton--verde");
@@ -224,66 +235,62 @@ const RevisionPlanController = async () => {
 
     const botonesContenedor = document.createElement("div");
     botonesContenedor.classList.add("tarjeta--botones");
-    botonesContenedor.append(editar, aprobar, rechazarCambios, rechazarDefinitivo);
+    botonesContenedor.append( editar, aprobar, rechazarCambios, rechazarDefinitivo);
 
-    div.append(introduccionCont, tarjetaContenido, botonesContenedor);
+    div.append(tarjetaIntroduccion, tarjetaContenido, botonesContenedor);
+
+
+    editar.addEventListener("click", () => {
+        location.href = `#/supervisor/plan_familiar/familia?id=${info.id}`;
+    });
 
     // Callback del botón 'Aprobar'
     aprobar.addEventListener("click", async () => {
-      try {
-        // Impacta directamente al ID de estado del Plan 7 (Probablemente "Aprobado")
-        const data = await api.patch(`familyPlans/status/${id}`, {
-          status_plan_id: 7,
-        });
-        // Condominio de respuesta
-        if (data.success) {
-          await alerta.alertaOK(data.message); // Banner verde Confirmación
-          window.location.href = `#/supervisor/plan_familiar`; // Expulsa devuelta a la lista principal
-        } else alerta.alertaWarning(data.message, data.errors);
-      } catch (error) {
-        // Previene caídas totales
-        alerta.alertaError(error.errors);
-      }
+        try {
+            // Impacta directamente al ID de estado del Plan 7 (Probablemente "Aprobado")
+            const data = await api.patch(`familyPlans/status/${info.id}`, {
+                status_plan_id: 7,
+            });
+            // Condominio de respuesta
+            if (data.success) {
+              await alerta.alertaOK(data.message); // Banner verde Confirmación
+              window.location.href = `#/supervisor/plan_familiar`; // Expulsa devuelta a la lista principal
+            } else alerta.alertaWarning(data.message, data.errors);
+        } catch (error) {
+            // Previene caídas totales
+            alerta.alertaError(error.errors);
+        }
     });
-    
+
     // Callback del botón de negación y cierre
     rechazarDefinitivo.addEventListener("click", async () => {
-      try {
-        // Estado 6 (Rechazo absoluto o sin posibilidad de appeal momentáneo)
-        const data = await api.patch(`familyPlans/status/${id}`, {
-          status_plan_id: 6,
-        });
-        // Branching
-        if (data.success) {
-          await alerta.alertaOK(data.message);
-          window.location.href = `#/supervisor/plan_familiar`; // Retorno lista
-        } else alerta.alertaWarning(data.message, data.errors);
-      } catch (error) {
-        alerta.alertaError(error.errors);
-      }
+        try {
+            // Estado 6 (Rechazo absoluto o sin posibilidad de appeal momentáneo)
+            const data = await api.patch(`familyPlans/status/${info.id}`, {
+                status_plan_id: 6,
+            });
+            // Branching
+            if (data.success) {
+                await alerta.alertaOK(data.message);
+              window.location.href = `#/supervisor/plan_familiar`; // Retorno lista
+            } else alerta.alertaWarning(data.message, data.errors);
+        } catch (error) {
+            alerta.alertaError(error.errors);
+        }
     });
-    
+
     // Callback del botón de Requiere Observaciones (Feedback workflow)
     rechazarCambios.addEventListener("click", async () => {
-      // Delega el flujo visual y de API a un helper complejo en alertas.js que pide la razón del rechazo
-      const cambios = await alerta.rechazarCambios(id);
-      
-      // Confirmación post-interacción con el popup de SweetAlert text
-      if (cambios.isConfirmed) {
-          window.location.href = `#/supervisor/plan_familiar`; // Volver
-      }
+          // Delega el flujo visual y de API a un helper complejo en alertas.js que pide la razón del rechazo
+            const cambios = await alerta.rechazarCambios(info.id);
+    
+          // Confirmación post-interacción con el popup de SweetAlert text
+        if (cambios.isConfirmed) {
+            window.location.href = `#/supervisor/plan_familiar`; // Volver
+        }
     });
 
-    return div;
-  }
-
-  const recargarContainer = async () => {
-    contenedor.innerHTML = "";
-    await paginacion("familyPlans", mensajeVacio, carta);
-  };
-
-
-  await recargarContainer();
+    contenedor.append(div);
 
 };
 

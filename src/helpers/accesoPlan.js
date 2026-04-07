@@ -15,6 +15,9 @@ export default async (id) => {
     if (!accesoBolean)
     {
         alerta.alertaMensaje("No tienes acceso a este plan familiar."); // Lanza toast de error
-        location.replace(`#/voluntario-verPlanFamiliar`); // Obliga al agente a regresar al listado 
+        location.replace(`#/voluntario/plan_familiar`); // Obliga al agente a regresar al listado
+        if (window.href=`#/supervisor/`) {
+            location.replace(`#/supervisor/plan_familiar`); // Si el usuario es supervisor, lo devuelve a su listado
+        }
     }
 }

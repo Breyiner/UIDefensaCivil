@@ -26,16 +26,23 @@ export default async () => {
   const botonEnviar = document.getElementById("enviar"); // Submit Todo el dossier al Jefe
   const verPDF = document.getElementById("verPDF"); // Export Maker
 
+
   const id = location.hash.split("=")[1]; // Family ID Current Focus
   
   // Guardián Frontend: ¿El usuario que intenta entrar por URL es el dueño de este plan? ¿Tiene el estado correcto para modificarlo? Si no, lo patea.
   await AccesoPlan(id); 
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
+  const base = esSupervisor ? "supervisor" : "voluntario";
+  
   // Fetch Cabecera Datos Básicos Flia 
   const planFamiliar = await api.get(`familyPlans/${id}`);
 
   // Inyección Custom Title en Top Bar UI (Ej: Familia "Perez Rodriguez")
-  nombreFamilia.textContent += ` ${planFamiliar.last_names}`;
+  nombreFamilia.textContent += `${planFamiliar.last_names}`;
+
+  
 
   // Definir si existen miembros de la familia para realizar acciones en el menu -------------------------------------------------------------------------------...
   const tieneMiembros = await api.get(`familyPlans/${id}/has-members`);
@@ -44,7 +51,8 @@ export default async () => {
 
   // Router Volver al Muro General
   botonBack.onclick = () => {
-    location.href = `#/voluntario/plan_familiar`;
+
+    location.href = `#/${base}/plan_familiar`;
   };
 
   /**
@@ -52,15 +60,18 @@ export default async () => {
    * Asignan el HASH URL appending the Current Family Plan ID as argument passing.
    */
   datosPrincipales.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/datos?familia_id=${id}`;
+
+    location.href = `#/${base}/plan_familiar/datos?familia_id=${id}`;
   });
 
   integrante.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/integrantes?familia_id=${id}`;
+
+    location.href = `#/${base}/plan_familiar/integrantes?familia_id=${id}`;
   });
 
   mascotas.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${id}`;
+
+    location.href = `#/${base}/plan_familiar/mascotas?familia_id=${id}`;
   });
 
   factoresRiesgo.addEventListener("click", async () => {
@@ -71,30 +82,49 @@ export default async () => {
       return;
     }
 
-    location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`;
+    location.href = `#/${base}/plan_familiar/factores_de_riesgo?familia_id=${id}`;
   });
 
   recursosDisponibles.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/recursos?familia_id=${id}`;
+
+    location.href = `#/${base}/plan_familiar/recursos?familia_id=${id}`;
   });
 
   graficoEntorno.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/grafico_del_entorno/editar?familia_id=${id}`;
+
+    location.href = `#/${base}/plan_familiar/grafico_del_entorno/editar?familia_id=${id}`;
   });
 
   graficosVivienda.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/grafico_vivienda?familia_id=${id}`;
+
+    location.href = `#/${base}/plan_familiar/grafico_vivienda?familia_id=${id}`;
   });
 
   planAccion.addEventListener("click", async () => {
-    location.href = `#/voluntario/plan_familiar/plan_de_accion/antes?familia_id=${id}`;
+
+    location.href = `#/${base}/plan_familiar/plan_de_accion/antes?familia_id=${id}`;
   });
 
   // BOTÓN MAESTRO: Entregar Trabajo (Cambio Flujo Vida Útil Status Id)
   botonEnviar.addEventListener("click", async () => {
-    const confirmacion = await alerta.alertaQuest(
-      "¿Seguro que ya deseas enviar tu plan familiar?",
-    );
+
+    let confirmacion = "";
+
+    if(esSupervisor) {
+      
+      botonEnviar.textContent = "Actualizar";
+
+      confirmacion = await alerta.alertaQuest(
+        "¿Seguro que deseas actualizar el estado de este plan familiar? Esta acción es irreversible.",
+      );
+
+    } else {
+
+      confirmacion = await alerta.alertaQuest(
+        "¿Seguro que ya deseas enviar tu plan familiar?",
+      );
+    }
+
     if (confirmacion.isConfirmed) {
       try {
         // Envio Endpoint Workflow. 
@@ -104,7 +134,13 @@ export default async () => {
         });
         if (data.success) {
           await alerta.alertaOK(data.message);
-          window.location.href = `#/voluntario/plan_familiar`; // Lo echa pa fuera 
+
+          if(esSupervisor) {
+            window.location.href = `#/supervisor/plan_familiar`; // Lo devuelve al listado de planes del supervisor
+            return;
+          }
+
+          window.location.href = `#/voluntario/plan_familiar`; // Lo devuelve al listado de planes del voluntario
         } else alerta.alertaWarning(data.message, data.errors); // Si intentó mandarlo sin completar algun modulo OBLIGATORIO backend lo frena aquí
       } catch (error) {
         alerta.alertaError(error.errors);
