@@ -74,7 +74,6 @@ export const routes = {
     controlador: auth.changePasswordController,
     config: publicRoute
   },
-
   "usuarios":{
     "perfil": {
       path: `usuario/perfil/index.html`,

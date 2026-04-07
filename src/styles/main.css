@@ -13,6 +13,8 @@
 @import "./components/inputs.css";
 @import "./components/form.css";
 @import "./components/modal.css";
+@import "./components/modalGeneral.css";
+@import "./components/modalGeneralEdicion.css";
 @import "./components/select.css";
 @import "./components/paginador.css";
 @import "./components/explicacion.css";
