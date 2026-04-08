@@ -9,19 +9,63 @@ import paginacion from "../../../../helpers/paginacion";
 
 const ListadoPlanController = async () => {
 
-    const id = location.hash.split("=")[1];
-
     const statusPlans = await api.get(`statusPlans/`);
-
-    const profiles = await api.get(`profiles/`);
-
-    console.log(profiles);
-    
     
     const botonBack = document.getElementById("botonBack");
+
     const contenedor = document.querySelector(".container__paginas");
+    
+    const selectStatusCont = document.createElement("div");
+    selectStatusCont.classList.add("selector--estado__cont");
+
+    let estadoActivo = 0;
+
+    const estados = [
+
+        {
+            "nombre": "Todos",
+            "num": 0
+        },
+        {
+            "nombre": "Enviados",
+            "num": 4
+        },
+        {
+            "nombre": "Rechazados/Devueltos",
+            "num": [5,6]
+        },
+        {
+            "nombre": "Aprobados",
+            "num": 7
+        }
+    ]
+
+    for (let i = 0; i < estados.length; i++) {
+        const estado = estados[i];
+        
+        const botonEstado = document.createElement("button")
+        botonEstado.classList.add("selector--estado");
+
+        if (estado.num === estadoActivo) botonEstado.classList.add("selector--estado__activo");
+        botonEstado.textContent = estado.nombre;
+
+        botonEstado.addEventListener("click", () => {
+            document.querySelectorAll(".selector--estado").forEach(b => {
+                b.classList.remove("selector--estado__activo");
+            });
+            botonEstado.classList.add("selector--estado__activo");
+            estadoActivo = estado.num;
+            recargarContainer();
+        });
+
+    selectStatusCont.append(botonEstado);
+
+    }
+
+    contenedor.before(selectStatusCont);
 
     const mensajeVacio = "No tienes ningun plan familiar realizado.";
+
 
     const carta = async (info) => {
 
@@ -66,12 +110,10 @@ const ListadoPlanController = async () => {
         nombreVoluntario.classList.add("form_autorizacion");
         const voluntarioIcono = document.createElement("i");
         voluntarioIcono.classList.add("icono--pequeno", "ri-user-line");
-
+        nombreVoluntario.append(voluntarioIcono, "Voluntario: ", info.responsable);
         
 
-        nombreVoluntario.append(voluntarioIcono, " Voluntario: " + info.volunteer_name);
-
-        introduccionCont.append(apellidoFamilia, departamento, fechaRecibido);
+        introduccionCont.append(apellidoFamilia, departamento, fechaRecibido, nombreVoluntario);
 
         introduccionDiv.append(imagenIcono, introduccionCont);
 
@@ -79,24 +121,27 @@ const ListadoPlanController = async () => {
         const EstadoPlan = statusPlans.filter(status => {
             return status.id == info.status_id;
         });
-
-        
         
         tarjetaIntroduccion.append(introduccionDiv);
         
         EstadoPlan.forEach(estado => {
 
             const verEstado = document.createElement("p");
+            verEstado.classList.add("tarjeta__estado--introduccion");
+
+            if(estado.id === 4){
+                verEstado.classList.add("estado-enviado");
+            } else if(estado.id === 7){
+                verEstado.classList.add("estado-aprobado");
+            } else if(estado.id === 6){
+                verEstado.classList.add("estado-rechazado");
+            } else if(estado.id === 5){
+                verEstado.classList.add("estado-cambios");
+            }
+            
             verEstado.textContent = estado.name;
             tarjetaIntroduccion.append(verEstado);
         });
-        
-        // console.log("info completo: ", info);
-        // console.log("ID: " +info.id);
-        // console.log("info: ", info.status_id);
-        // console.log("estado: " , statusPlans);
-        // console.log("ESTADO: " , EstadoPlan);
-        
 
     //CONTENIDO DE LA TARJETA _____________________________________________________________________________________
 
@@ -147,6 +192,22 @@ const ListadoPlanController = async () => {
         resvisarPlan.addEventListener("click", () => {
             location.href = `#/supervisor/plan_familiar/revision?familia_id=${info.id}`;
         });
+
+        //Filtrado por estado
+        switch (true) {
+
+            case estadoActivo === 0:
+                div.style.display = "";
+                break;
+
+            // case Array.isArray(estadoActivo):
+            //     div.style.display = estadoActivo.includes(info.status_id) ? "" : "none";
+            //     break;
+
+            default:
+                div.style.display = info.status_id === estadoActivo ? "" : "none";
+                break;
+        }
 
         return div; // Retorna la carta completa para ser inyectada en el DOM por el helper de paginación
     }

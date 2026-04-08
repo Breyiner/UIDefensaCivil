@@ -5,13 +5,14 @@
  */
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
-import paginacion from "../../../../helpers/paginacion";
 
 const RevisionPlanController = async () => {
 
     const id = location.hash.split("=")[1];
 
     const info = await api.get(`familyPlans/${id}`);
+    console.log(info);
+    
 
     const familyMembers = await api.get(`familyMembers/`);
 
@@ -57,7 +58,7 @@ const RevisionPlanController = async () => {
     fechaRecibido.classList.add("form_autorizacion");
     const calendarioIcono = document.createElement("i");
     calendarioIcono.classList.add("icono--pequeno", "ri-calendar-line");
-    fechaRecibido.append(calendarioIcono, " Recibido: " + info.date_create);
+    fechaRecibido.append(calendarioIcono, " Recibido: " + info.created_at);
 
     const introduccionDiv = document.createElement("div");
     introduccionDiv.classList.add("introduccionDiv");
@@ -218,7 +219,7 @@ const RevisionPlanController = async () => {
     //BOTONES DE ACCION _____________________________________________________________________________________
 
     const editar = document.createElement("button");
-    editar.classList.add("boton", "boton--height");
+    editar.classList.add("boton", "boton--height", "boton--naranja");
     editar.textContent = "Editar y Revisar";
 
     const aprobar = document.createElement("button");
@@ -226,7 +227,7 @@ const RevisionPlanController = async () => {
     aprobar.textContent = "Aprobar Plan";
 
     const rechazarCambios = document.createElement("button");
-    rechazarCambios.classList.add("boton", "boton--height", "boton--naranja");
+    rechazarCambios.classList.add("boton", "boton--height", "boton--amarillo");
     rechazarCambios.textContent = "Requiere Cambios";
 
     const rechazarDefinitivo = document.createElement("button");
@@ -237,7 +238,7 @@ const RevisionPlanController = async () => {
     botonesContenedor.classList.add("tarjeta--botones");
     botonesContenedor.append( editar, aprobar, rechazarCambios, rechazarDefinitivo);
 
-    div.append(tarjetaIntroduccion, tarjetaContenido, botonesContenedor);
+    div.append(tarjetaIntroduccion, tarjetaContenido);
 
 
     editar.addEventListener("click", () => {
@@ -290,7 +291,7 @@ const RevisionPlanController = async () => {
         }
     });
 
-    contenedor.append(div);
+    contenedor.append(div, botonesContenedor);
 
 };
 
