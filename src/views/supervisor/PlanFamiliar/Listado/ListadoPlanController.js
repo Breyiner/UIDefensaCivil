@@ -18,6 +18,11 @@ const ListadoPlanController = async () => {
     const selectStatusCont = document.createElement("div");
     selectStatusCont.classList.add("selector--estado__cont");
 
+    botonBack.onclick = () => {
+        if (window.procesoPeticion) return;
+        location.href = `#/supervisor/`;
+    };
+
     let estadoActivo = 0;
 
     const estados = [
@@ -143,51 +148,18 @@ const ListadoPlanController = async () => {
             tarjetaIntroduccion.append(verEstado);
         });
 
-    //CONTENIDO DE LA TARJETA _____________________________________________________________________________________
-
-        //Abrir y cerrar botonera toggle
-        // const checkboxContainer = document.createElement("div");
-        // checkboxContainer.classList.add("checkbox-container_botones");
-
-        // const checkboxLabel = document.createElement("label");
-        // checkboxLabel.classList.add("toggle__label");
-        // checkboxLabel.setAttribute("for", `toggleBotones${info.id}`);
-
-        // const labelText = document.createElement("p");
-        // labelText.classList.add("form_autorizacion--checkbox");
-        // labelText.textContent = "Acciones del Supervisor";
-
-        // const toggleIconCont = document.createElement("div");
-        // toggleIconCont.classList.add("toggle--cont__icon");
-
-        // const iconDown = document.createElement("i");
-        // iconDown.classList.add("ri-arrow-down-s-line", "toggle--icon");
-
-        // const iconUp = document.createElement("i");
-        // iconUp.classList.add("ri-arrow-up-s-line", "toggle--icon");
-
-        // toggleIconCont.append(iconDown, iconUp);
-
-        // checkboxLabel.append(labelText, toggleIconCont);
-
-        // const checkbox = document.createElement("input");
-        // checkbox.type = "checkbox";
-        // checkbox.id = `toggleBotones${info.id}`;
-        // checkbox.classList.add("toggle--hidden");
-
-        // checkboxContainer.append(checkboxLabel, checkbox);
-
+        div.append(tarjetaIntroduccion);
 
         //BOTONES DE ACCION _____________________________________________________________________________________
         const resvisarPlan = document.createElement("button");
         resvisarPlan.classList.add("boton", "boton--height");
         resvisarPlan.textContent = "Revisar Plan";
+        
+        div.append(resvisarPlan);
 
-        const botonesContenedor = document.createElement("div");
-        botonesContenedor.classList.add("tarjeta--botones");
-        botonesContenedor.append(resvisarPlan);
-
-        div.append(tarjetaIntroduccion, botonesContenedor);
+        if (info.status_id !== 4) {
+            // resvisarPlan.style.display = "none";
+        }
 
         resvisarPlan.addEventListener("click", () => {
             location.href = `#/supervisor/plan_familiar/revision?familia_id=${info.id}`;

@@ -289,10 +289,20 @@
 
 .tarjeta--botones {
     padding: 10px;
+    width: 100%;
+    align-items: center;
     overflow: hidden;
     flex-direction: column;
     display: flex;
     gap: 10px;
     justify-content: flex-start;
     transition: ease-in-out 0.3s;
+}
+
+.container__revision .tarjeta--botones button {
+    width: 250px;
+}
+
+.container__revision .tarjeta--botones button:hover {
+    scale: 1.05;
 }

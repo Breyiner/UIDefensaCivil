@@ -1,0 +1,24 @@
+.selector--estado__cont {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    /* gap: 2px; */
+}
+.selector--estado__cont button {
+
+    height: 100%;
+    padding: 0 12px;
+    background: var(--color-grisMedio);
+    border: none;
+    transition: ease 0.3s;
+}
+
+.selector--estado__cont button.selector--estado__activo {
+    background: var(--color-primario);
+    color: var(--color-palido);
+    font-weight: bold;
+    font-size: 1.05rem;
+}

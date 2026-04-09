@@ -52,7 +52,7 @@ export default async () => {
   // Router Volver al Muro General
   botonBack.onclick = () => {
 
-    location.href = `#/${base}/plan_familiar`;
+    location.href = `#/${base}/plan_familiar/revision?familia_id=${id}`;
   };
 
   /**

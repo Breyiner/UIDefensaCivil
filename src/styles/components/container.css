@@ -94,3 +94,11 @@
     box-shadow: -4px 0 10px rgba(0, 0, 0, 0.05);
   }
 }
+
+.container__revision {
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}

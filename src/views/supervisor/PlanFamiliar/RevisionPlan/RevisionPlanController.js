@@ -12,9 +12,10 @@ const RevisionPlanController = async () => {
 
     const info = await api.get(`familyPlans/${id}`);
     console.log(info);
-    
 
     const familyMembers = await api.get(`familyMembers/`);
+
+    const sectors = await api.get(`sectors/`);
 
     const pets = await api.get(`pets/`);
 
@@ -25,10 +26,17 @@ const RevisionPlanController = async () => {
     // const botonBack = document.getElementById("botonBack");
     const contenedor = document.querySelector(".container__revision");
 
+    const botonBack = document.getElementById("botonBack");
+
     const div = document.createElement("div");
     div.classList.add( "tarjeta");
 
     console.log("members", familyMembers);
+
+    botonBack.onclick = () => {
+        if (window.procesoPeticion) return;
+        location.href = `#/supervisor/plan_familiar`;
+    };
 
 
     //INTRODUCCION DE LA TARJETA _____________________________________________________________________________________
@@ -47,12 +55,26 @@ const RevisionPlanController = async () => {
     const apellidoFamilia = document.createElement("div");
     apellidoFamilia.classList.add("tarjeta__titulo");
     apellidoFamilia.textContent = "Familia " + info.last_names;
+    
+    const tiposSector = sectors.find(sector => sector.id == info.sector_id);
 
     const departamento = document.createElement("div");
     departamento.classList.add("form_autorizacion");
     const ubicacionIcono = document.createElement("i");
     ubicacionIcono.classList.add("icono--pequeno", "ri-map-pin-2-line");
-    departamento.append(ubicacionIcono, " " + info.department);
+    departamento.append(ubicacionIcono,  " "+ info.address + ", " + tiposSector.name + " " + info.sector_name + ", " + info.city + ", " + info.department );
+
+    const telfonoFamilia = document.createElement("div");
+    telfonoFamilia.classList.add("form_autorizacion");
+    const telefonoIcono = document.createElement("i");
+    telefonoIcono.classList.add("icono--pequeno", "ri-phone-line");
+    telfonoFamilia.append(telefonoIcono, " +57 " + info.landline_phone);
+
+    const calidadVivienda = document.createElement("div");
+    calidadVivienda.classList.add("form_autorizacion");
+    const viviendaIcono = document.createElement("i");
+    viviendaIcono.classList.add("icono--pequeno", "ri-home-2-line");
+    calidadVivienda.append(viviendaIcono, " Calidad Vivienda: " + info.housing_quality);
 
     const fechaRecibido = document.createElement("div");
     fechaRecibido.classList.add("form_autorizacion");
@@ -63,7 +85,7 @@ const RevisionPlanController = async () => {
     const introduccionDiv = document.createElement("div");
     introduccionDiv.classList.add("introduccionDiv");
 
-    introduccionCont.append(apellidoFamilia, departamento, fechaRecibido);
+    introduccionCont.append(apellidoFamilia, departamento, telfonoFamilia, calidadVivienda, fechaRecibido);
 
     introduccionDiv.append(imagenIcono, introduccionCont);
 
@@ -104,20 +126,106 @@ const RevisionPlanController = async () => {
         return miembros.family_plan_id == info.id
     });
 
-    console.log(miembrosFamilia);
-
     miembrosFamilia.forEach(async (integrante) => {
 
         const miembro = await api.get(`members/${integrante.member_id}`);
 
+        console.log("miembro", miembro);
+
         const relacion = await api.get(`kinships/${miembro.kinship_id}`);
 
-        const integrante_p= document.createElement("p");
-        integrante_p.classList.add("form_autorizacion");
-        integrante_p.textContent =`• ${miembro.names} ${miembro.last_names} `;
-        integrantesHumanos.append(integrante_p);
-        console.log(miembro.names);
+        const integranteCont = document.createElement("div");
+        integranteCont.classList.add("integrante__container");
+
+        const nombreCont= document.createElement("div");
+        nombreCont.classList.add("form_autorizacion");
+
+        const IntegranteNombre = document.createElement("p");
+        IntegranteNombre.classList.add("form_autorizacion", "integrante--nombre");
+        IntegranteNombre.textContent = `${miembro.names} ${miembro.last_names}`;
+
+        const integranteRelacion = document.createElement("p");
+        integranteRelacion.classList.add("form_autorizacion", "integrante--relacion");
+        integranteRelacion.textContent = `Relación: ${relacion.name}`;
+
+        nombreCont.append(IntegranteNombre, integranteRelacion);
+
+        integranteCont.append(nombreCont);
+
         
+        integrantesHumanos.append(integranteCont);
+
+        integranteCont.addEventListener("click", () => {
+            
+            const verDatoPlanVentana = async () =>{
+
+                const overlay = document.createElement("div");
+                overlay.classList.add("overlay_verEstado");
+
+                const ventana = document.createElement("div");
+                ventana.classList.add("ventana_verDatoPlan");
+
+                const btnCerrarCont = document.createElement("div");
+                btnCerrarCont.classList.add("btn-cerrar-Cont");
+
+                const btnEditar = document.createElement("button");
+                btnEditar.classList.add("btn-editar");
+                btnEditar.textContent = "Editar";
+
+                const nombreCont= document.createElement("div");
+                nombreCont.classList.add("form_autorizacion");
+
+                const nombreIntegrante = document.createElement("p");
+                nombreIntegrante.classList.add("form_autorizacion", "integrante--nombre");
+                nombreIntegrante.textContent = `${miembro.names} ${miembro.last_names}`;
+
+                const relacionIntegrante = document.createElement("p");
+                relacionIntegrante.classList.add("form_autorizacion", "integrante--relacion");
+                relacionIntegrante.textContent = `Relación: ${relacion.name}`;
+
+                nombreCont.append(nombreIntegrante, relacionIntegrante);
+
+                const documentosCont = document.createElement("div");
+                documentosCont.classList.add("form_autorizacion");
+
+                const documentosTitulo = document.createElement("p");
+                documentosTitulo.classList.add("form__texto");
+                const documentoIcono = document.createElement("i");
+                documentoIcono.classList.add("icono--pequeno", "ri-file-paper-line");
+                documentosTitulo.append(documentoIcono, " Documentos");
+
+                const documentoIdentidad = document.createElement("p");
+                documentoIdentidad.classList.add("form_autorizacion");
+                documentoIdentidad.textContent = `${miembro.document_type.acronym} ${miembro.document_number}`;
+
+                documentosCont.append(documentosTitulo, documentoIdentidad);
+
+                const fechaNacimientoCont = document.createElement("div");
+                fechaNacimientoCont.classList.add("form_autorizacion");
+
+                const fechaTitulo = document.createElement("p");
+                fechaTitulo.classList.add("form__texto");
+                const fechaIcono = document.createElement("i");
+                fechaIcono.classList.add("icono--pequeno", "ri-calendar-line");
+                fechaTitulo.append(fechaIcono, " Fecha de Nacimiento");
+
+                const fechaNacimiento = document.createElement("p");
+                fechaNacimiento.classList.add("form_autorizacion");
+                fechaNacimiento.textContent = miembro.birth_date;
+
+                fechaNacimientoCont.append(fechaTitulo, fechaNacimiento);
+
+                ventana.append(btnEditar, nombreCont, documentosCont, fechaNacimientoCont);
+
+                overlay.append(ventana);
+
+                document.body.appendChild(overlay);
+            }
+
+            verDatoPlanVentana();
+
+
+        });
     });
 
     const integrantesMascotas = document.createElement("div");
