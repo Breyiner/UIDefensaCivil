@@ -293,7 +293,7 @@ export const verDepartCiudad = (
 
 // Pide mediante la API el historial de auditoria de un registro ({tabla}/history/{id}) y lo formatea en una lista
 export const Historial = async (nombre, id) => {
-    const data = await api.get(`${nombre}/history/${id}`);
+    const data = await api.get(`${nombre}/${id}/history`);
 
     // Construye la bitácora con Array.map() iterando cada acción guardada en la BD
     let contenido = `

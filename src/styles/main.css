@@ -30,7 +30,7 @@
 @import "./components/seccion.css";
 @import "./components/dashboard.css";
 @import "./components/error.css";
-@import "./components/section.css";
+@import "./components/banner.css";
 @import "./components/introduccion.css";
 @import "./components/filtros.css";
 @import "./components/badge.css";
@@ -51,4 +51,5 @@
 @import "./pages/datosMaestros.css";
 @import "./pages/revisionplansupervisor";
 @import "./pages/perfil.css";
+@import "./pages/lista.css";
 @import "./components/historial.css";

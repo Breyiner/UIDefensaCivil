@@ -3,6 +3,7 @@
 :root {
   /* colores principales */
   --color-primario: #FF6600;
+  --color-primario--fondo: #ff660038;
   --color-secundario: #0770CC;
 
   /* colores complementarios */

@@ -1,71 +1,93 @@
 <div class="container">
-    <div class="explicacion">
+    <section class="explicacion">
         <p class="explicacion__titulo">Hola, Supervisor</p>
         <p class="explicacion__subtitulo">Bienvenido al panel de Control</p>
-    </div>
-    <h3 class="tarjeta__titulo tarjeta__titulo--left"> Estado General</h3>
-    <section class="seccion">
-        <div class="seccion__tarjeta seccion__tarjeta--azul">
-            <i class="ri-file-2-line icono__tarjeta"></i>
-            <p class="form__titulo">Planes Recibidos</p>
-            <span id="planesRecibidos">0</span>
-        </div>
-        <div class="seccion__tarjeta seccion__tarjeta--amarillo">
-            <i class="ri-time-line icono__tarjeta"></i>
-            <p class="form__titulo">Tiempo Aproximado</p>
-            <span id="tiempoAproximado">0m</span>
-        </div>
-        <div class="seccion__tarjeta seccion__tarjeta--verde">
-            <i class="ri-checkbox-circle-line icono__tarjeta"></i>
-            <p class="form__titulo">Planes Aprobados</p>
-            <span id="planesAprobados">0</span>
-        </div>
-        <div class="seccion__tarjeta seccion__tarjeta--rojo">
-            <i class="ri-close-circle-line icono__tarjeta"></i>
-            <p class="form__titulo">Planes Rechazados</p>
-            <span id="planesRechazados">0</span>
-        </div>
     </section>
-    <h3 class="tarjeta__titulo tarjeta__titulo--left"> Ultimos planes Recibidos</h3>
-    <div class="tarjeta tarjeta--fila">
-        <i class="ri-team-line icono__tarjeta"></i>
-        <div class="tarjeta__contenido">
-            <p class="tarjeta__titulo tarjeta__titulo--pequeno">Familia Kennedy</p>
-            <p class="form__texto form__texto--secundario">Bucaramanga | Recibido: 30/10/25</p>
-            <p class="form__texto form__texto--secundario">Voluntario: Juan Gomez</p>
-            <button class="boton--redondo boton--verde tarjeta__boton">Revisar plan</button>
-        </div>
-    </div>
 
-    <h3 class="tarjeta__titulo tarjeta__titulo--left">Notificaciones</h3>
-    <div class="tarjeta tarjeta--completa">
-        <div class="tarjeta--fila">
-            <i class="ri-message-2-line tarjeta__icono tarjeta__icono--azul"></i>
-            <p class="form__texto form__texto--secundario">Nuevo plan recibido del voluntario L.Gomez</p>
-        </div>
-        <div class="tarjeta--fila">
-            <i class="ri-checkbox-circle-line tarjeta__icono tarjeta__icono--verde"></i>
-            <p class="form__texto form__texto--secundario">El voluntario S.Diaz fue Activado con exito</p>
-        </div>
-    </div>
+    <h3 class="tarjeta__titulo tarjeta__titulo--left">Estado General</h3>
+    <section class="seccion seccion--estado">
+        <article class="seccion__tarjeta seccion__tarjeta--azul">
+            <i class="ri-file-2-line icono__tarjeta"></i>
+            <div class="seccion__tarjeta-contenido">
+                <p class="tarjeta__header-texto">Planes Recibidos</p>
+                <span id="planesRecibidos" class="seccion__valor">0</span>
+                <p class="seccion__detalle">Nuevos</p>
+            </div>
+        </article>
+        <article class="seccion__tarjeta seccion__tarjeta--amarillo">
+            <i class="ri-time-line icono__tarjeta"></i>
+            <div class="seccion__tarjeta-contenido">
+                <p class="tarjeta__header-texto">Planes Recibidos</p>
+                <span class="seccion__valor">0</span>
+                <p class="seccion__detalle">En revisión</p>
+            </div>
+        </article>
+        <article class="seccion__tarjeta seccion__tarjeta--verde">
+            <i class="ri-checkbox-circle-line icono__tarjeta"></i>
+            <div class="seccion__tarjeta-contenido">
+                <p class="tarjeta__header-texto">Planes Recibidos</p>
+                <span id="planesAprobados" class="seccion__valor">0</span>
+                <p class="seccion__detalle">Aprobados</p>
+            </div>
+        </article>
+        <article class="seccion__tarjeta seccion__tarjeta--rojo">
+            <i class="ri-close-circle-line icono__tarjeta"></i>
+            <div class="seccion__tarjeta-contenido">
+                <p class="tarjeta__header-texto">Planes Recibidos</p>
+                <span id="planesRechazados" class="seccion__valor">0</span>
+                <p class="seccion__detalle">Rechazados</p>
+            </div>
+        </article>
+    </section>
 
-    <h3 class="tarjeta__titulo tarjeta__titulo--left">Accesos Rapidos</h3>
-    <section class="seccion">
-        <div class="seccion__tarjeta seccion__tarjeta--azul" id="planFamiliar">
+    <h3 class="tarjeta__titulo tarjeta__titulo--left">Últimos planes recibidos</h3>
+    <section class="lista lista--planes">
+        <article class="tarjeta tarjeta--fila tarjeta--plan">
+            <i class="ri-team-line icono__tarjeta tarjeta__icono tarjeta__icono--azul"></i>
+            <div class="tarjeta__contenido tarjeta__contenido--linea">
+                <p class="tarjeta__titulo tarjeta__titulo--pequeno">Familia Kennedy</p>
+                <p class="form__texto form__texto--secundario">Bucaramanga · 30/10/25</p>
+                <p class="form__texto form__texto--secundario">Voluntario: Juan Gomez</p>
+            </div>
+            <span class="tarjeta__estado tarjeta__estado--naranja">Pendiente</span>
+        </article>
+        <article class="tarjeta tarjeta--fila tarjeta--plan">
+            <i class="ri-team-line icono__tarjeta tarjeta__icono tarjeta__icono--azul"></i>
+            <div class="tarjeta__contenido tarjeta__contenido--linea">
+                <p class="tarjeta__titulo tarjeta__titulo--pequeno">Familia Rodríguez</p>
+                <p class="form__texto form__texto--secundario">Bucaramanga · 10/02/26</p>
+                <p class="form__texto form__texto--secundario">Voluntario: S. Díaz</p>
+            </div>
+            <span class="tarjeta__estado tarjeta__estado--naranja">Pendiente</span>
+        </article>
+        <article class="tarjeta tarjeta--fila tarjeta--plan">
+            <i class="ri-team-line icono__tarjeta tarjeta__icono tarjeta__icono--azul"></i>
+            <div class="tarjeta__contenido tarjeta__contenido--linea">
+                <p class="tarjeta__titulo tarjeta__titulo--pequeno">Familia Rodríguez</p>
+                <p class="form__texto form__texto--secundario">Bucaramanga · 10/02/26</p>
+                <p class="form__texto form__texto--secundario">Voluntario: S. Díaz</p>
+            </div>
+            <span class="tarjeta__estado tarjeta__estado--naranja">Pendiente</span>
+        </article>
+    </section>
+
+    <h3 class="tarjeta__titulo tarjeta__titulo--left">Accesos Rápidos</h3>
+    <section class="seccion seccion--accesos">
+        <article class="seccion__tarjeta seccion__tarjeta--azul" id="planFamiliar">
             <i class="ri-file-list-3-line icono__tarjeta"></i>
             <p class="form__titulo">Planes Familiares</p>
-        </div>
-        <div class="seccion__tarjeta seccion__tarjeta--verde" id="voluntarios">
+        </article>
+        <article class="seccion__tarjeta seccion__tarjeta--verde" id="voluntarios">
             <i class="ri-team-line icono__tarjeta"></i>
             <p class="form__titulo">Voluntarios</p>
-        </div>
-        <div class="seccion__tarjeta seccion__tarjeta--naranja" id="estadisticas">
+        </article>
+        <article class="seccion__tarjeta seccion__tarjeta--naranja" id="estadisticas">
             <i class="ri-bar-chart-box-line icono__tarjeta"></i>
-            <p class="form__titulo">Estadisticas</p>
-        </div>
-        <div class="seccion__tarjeta seccion__tarjeta--naranja" id="peticiones">
+            <p class="form__titulo">Estadísticas</p>
+        </article>
+        <article class="seccion__tarjeta seccion__tarjeta--naranja" id="peticiones">
             <i class="ri-git-pull-request-line icono__tarjeta"></i>
             <p class="form__titulo">Peticiones</p>
-        </div>
+        </article>
     </section>
 </div>
