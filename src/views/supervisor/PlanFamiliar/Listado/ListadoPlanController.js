@@ -63,7 +63,7 @@ const ListadoPlanController = async () => {
             recargarContainer();
         });
 
-    selectStatusCont.append(botonEstado);
+        selectStatusCont.append(botonEstado);
 
     }
 
@@ -171,10 +171,6 @@ const ListadoPlanController = async () => {
             case estadoActivo === 0:
                 div.style.display = "";
                 break;
-
-            // case Array.isArray(estadoActivo):
-            //     div.style.display = estadoActivo.includes(info.status_id) ? "" : "none";
-            //     break;
 
             default:
                 div.style.display = info.status_id === estadoActivo ? "" : "none";

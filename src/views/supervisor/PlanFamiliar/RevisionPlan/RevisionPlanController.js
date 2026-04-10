@@ -3,6 +3,10 @@
  * Facilita las acciones críticas para un Supervisor al evaluar un Plan Familiar.
  * Gestiona botones asíncronos para Aprobar, Rechazar (Definitivo/Cambios) y Ver PDF.
  */
+import factorRiesgoVentana from "../../../../componentes/ver_EstadoSupervisor/factorRiesgoVentana";
+import integranteVentana from "../../../../componentes/ver_EstadoSupervisor/integranteVentana";
+import MascotaVentana from "../../../../componentes/ver_EstadoSupervisor/mascotaVentana";
+import recursosVentana from "../../../../componentes/ver_EstadoSupervisor/recursosVentana";
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 
@@ -11,7 +15,6 @@ const RevisionPlanController = async () => {
     const id = location.hash.split("=")[1];
 
     const info = await api.get(`familyPlans/${id}`);
-    console.log(info);
 
     const familyMembers = await api.get(`familyMembers/`);
 
@@ -22,16 +25,15 @@ const RevisionPlanController = async () => {
     const riskFactors = await api.get(`riskFactors/`);
 
     const Resources = await api.get(`availableResources/`);
+    console.log("recursos",Resources);
+    
 
-    // const botonBack = document.getElementById("botonBack");
     const contenedor = document.querySelector(".container__revision");
 
     const botonBack = document.getElementById("botonBack");
 
     const div = document.createElement("div");
     div.classList.add( "tarjeta");
-
-    console.log("members", familyMembers);
 
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
@@ -52,9 +54,16 @@ const RevisionPlanController = async () => {
     imagenIcono.alt = "iconofamilia";
     imagenIcono.classList.add("imagen--icono");
 
+    const btnEditarDatos = document.createElement("div");
+    btnEditarDatos.classList.add("ri-edit-fill");
+
     const apellidoFamilia = document.createElement("div");
-    apellidoFamilia.classList.add("tarjeta__titulo");
-    apellidoFamilia.textContent = "Familia " + info.last_names;
+    apellidoFamilia.classList.add("tarjeta__titulo", );
+    apellidoFamilia.append("Familia ", info.last_names, btnEditarDatos);
+    
+    btnEditarDatos.addEventListener("click", () => {
+        location.href = `#/supervisor/plan_familiar/datos/familia_id=${info.id}`;
+    });
     
     const tiposSector = sectors.find(sector => sector.id == info.sector_id);
 
@@ -68,7 +77,7 @@ const RevisionPlanController = async () => {
     telfonoFamilia.classList.add("form_autorizacion");
     const telefonoIcono = document.createElement("i");
     telefonoIcono.classList.add("icono--pequeno", "ri-phone-line");
-    telfonoFamilia.append(telefonoIcono, " +57 " + info.landline_phone);
+    telfonoFamilia.append(telefonoIcono, info.landline_phone);
 
     const calidadVivienda = document.createElement("div");
     calidadVivienda.classList.add("form_autorizacion");
@@ -142,88 +151,24 @@ const RevisionPlanController = async () => {
 
         const IntegranteNombre = document.createElement("p");
         IntegranteNombre.classList.add("form_autorizacion", "integrante--nombre");
-        IntegranteNombre.textContent = `${miembro.names} ${miembro.last_names}`;
+        IntegranteNombre.textContent = `• ${miembro.names} ${miembro.last_names}`;
 
         const integranteRelacion = document.createElement("p");
         integranteRelacion.classList.add("form_autorizacion", "integrante--relacion");
-        integranteRelacion.textContent = `Relación: ${relacion.name}`;
+        integranteRelacion.textContent = relacion.name;
 
-        nombreCont.append(IntegranteNombre, integranteRelacion);
+        const btnVisualizar = document.createElement("button");
+        btnVisualizar.classList.add("ri-eye-line");
+
+        nombreCont.append(IntegranteNombre, integranteRelacion, btnVisualizar);
 
         integranteCont.append(nombreCont);
-
         
         integrantesHumanos.append(integranteCont);
 
-        integranteCont.addEventListener("click", () => {
-            
-            const verDatoPlanVentana = async () =>{
+        btnVisualizar.addEventListener("click", () => {
 
-                const overlay = document.createElement("div");
-                overlay.classList.add("overlay_verEstado");
-
-                const ventana = document.createElement("div");
-                ventana.classList.add("ventana_verDatoPlan");
-
-                const btnCerrarCont = document.createElement("div");
-                btnCerrarCont.classList.add("btn-cerrar-Cont");
-
-                const btnEditar = document.createElement("button");
-                btnEditar.classList.add("btn-editar");
-                btnEditar.textContent = "Editar";
-
-                const nombreCont= document.createElement("div");
-                nombreCont.classList.add("form_autorizacion");
-
-                const nombreIntegrante = document.createElement("p");
-                nombreIntegrante.classList.add("form_autorizacion", "integrante--nombre");
-                nombreIntegrante.textContent = `${miembro.names} ${miembro.last_names}`;
-
-                const relacionIntegrante = document.createElement("p");
-                relacionIntegrante.classList.add("form_autorizacion", "integrante--relacion");
-                relacionIntegrante.textContent = `Relación: ${relacion.name}`;
-
-                nombreCont.append(nombreIntegrante, relacionIntegrante);
-
-                const documentosCont = document.createElement("div");
-                documentosCont.classList.add("form_autorizacion");
-
-                const documentosTitulo = document.createElement("p");
-                documentosTitulo.classList.add("form__texto");
-                const documentoIcono = document.createElement("i");
-                documentoIcono.classList.add("icono--pequeno", "ri-file-paper-line");
-                documentosTitulo.append(documentoIcono, " Documentos");
-
-                const documentoIdentidad = document.createElement("p");
-                documentoIdentidad.classList.add("form_autorizacion");
-                documentoIdentidad.textContent = `${miembro.document_type.acronym} ${miembro.document_number}`;
-
-                documentosCont.append(documentosTitulo, documentoIdentidad);
-
-                const fechaNacimientoCont = document.createElement("div");
-                fechaNacimientoCont.classList.add("form_autorizacion");
-
-                const fechaTitulo = document.createElement("p");
-                fechaTitulo.classList.add("form__texto");
-                const fechaIcono = document.createElement("i");
-                fechaIcono.classList.add("icono--pequeno", "ri-calendar-line");
-                fechaTitulo.append(fechaIcono, " Fecha de Nacimiento");
-
-                const fechaNacimiento = document.createElement("p");
-                fechaNacimiento.classList.add("form_autorizacion");
-                fechaNacimiento.textContent = miembro.birth_date;
-
-                fechaNacimientoCont.append(fechaTitulo, fechaNacimiento);
-
-                ventana.append(btnEditar, nombreCont, documentosCont, fechaNacimientoCont);
-
-                overlay.append(ventana);
-
-                document.body.appendChild(overlay);
-            }
-
-            verDatoPlanVentana();
-
+            integranteVentana(miembro, relacion, info);
 
         });
     });
@@ -248,11 +193,24 @@ const RevisionPlanController = async () => {
 
         const especie = await api.get(`species/${mascota.species_id}`);
 
+        const mascotaCont = document.createElement("div");
+        mascotaCont.classList.add("form_autorizacion");
+
         const mascota_p = document.createElement("p");
         mascota_p.classList.add("form_autorizacion");
         mascota_p.textContent = `• ${mascota.name} - ${especie.name}`;
-        integrantesMascotas.append(mascota_p);
+        
+        const btnVisualizar = document.createElement("button");
+        btnVisualizar.classList.add("ri-eye-line");
 
+        mascotaCont.append(mascota_p, btnVisualizar);
+        
+        integrantesMascotas.append(mascotaCont);
+        
+        btnVisualizar.addEventListener("click", () => {
+
+            MascotaVentana(mascota, info);
+        });
     });
 
     integrantesCont.append(integrantesHumanos, integrantesMascotas);
@@ -282,10 +240,24 @@ const RevisionPlanController = async () => {
 
         const tiposRiesgo = await api.get(`threatTypes/${factor.threat_type_id}`);
 
+        const factorCont = document.createElement("div");
+        factorCont.classList.add("form_autorizacion");
+
         const factor_p = document.createElement("p");
         factor_p.classList.add("form_autorizacion");
         factor_p.textContent = `${contadorRiesgos}. ${tiposRiesgo.name}`;
-        FactoresRiesgoCont.append(factor_p);
+        
+        const btnVisualizar = document.createElement("button");
+        btnVisualizar.classList.add("ri-eye-line");
+
+        factorCont.append(factor_p, btnVisualizar);
+
+        FactoresRiesgoCont.append(factorCont);
+        
+        btnVisualizar.addEventListener("click", () => {
+
+            factorRiesgoVentana(factor, miembrosFamilia, info);
+        });
     });
 
     tarjetaContenido.append(integrantesCont, FactoresRiesgoCont);
@@ -316,19 +288,29 @@ const RevisionPlanController = async () => {
 
         const tiposRecursos = await api.get(`resources/${recurso.family_plan_id}`);
 
+        const recursoCont = document.createElement("div");
+        recursoCont.classList.add("form_autorizacion");
+
         const recurso_p = document.createElement("p");
         recurso_p.classList.add("form_autorizacion");
         recurso_p.textContent = `${contadorRecursos}. ${tiposRecursos.name} - ${recurso.distance} m`;
-        recursosCont.append(recurso_p);
+        
+        const btnVisualizar = document.createElement("button");
+        btnVisualizar.classList.add("ri-eye-line");
+
+        recursoCont.append(recurso_p, btnVisualizar);
+        
+        recursosCont.append(recursoCont);
+
+        btnVisualizar.addEventListener("click", () => {
+
+            recursosVentana(recurso, info);
+        });
     });
 
     tarjetaContenido.append(recursosCont);
 
     //BOTONES DE ACCION _____________________________________________________________________________________
-
-    const editar = document.createElement("button");
-    editar.classList.add("boton", "boton--height", "boton--naranja");
-    editar.textContent = "Editar y Revisar";
 
     const aprobar = document.createElement("button");
     aprobar.classList.add("boton", "boton--height", "boton--verde");
@@ -344,14 +326,9 @@ const RevisionPlanController = async () => {
 
     const botonesContenedor = document.createElement("div");
     botonesContenedor.classList.add("tarjeta--botones");
-    botonesContenedor.append( editar, aprobar, rechazarCambios, rechazarDefinitivo);
+    botonesContenedor.append(aprobar, rechazarCambios, rechazarDefinitivo);
 
     div.append(tarjetaIntroduccion, tarjetaContenido);
-
-
-    editar.addEventListener("click", () => {
-        location.href = `#/supervisor/plan_familiar/familia?id=${info.id}`;
-    });
 
     // Callback del botón 'Aprobar'
     aprobar.addEventListener("click", async () => {
