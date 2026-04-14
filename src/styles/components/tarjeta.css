@@ -299,10 +299,21 @@
     transition: ease-in-out 0.3s;
 }
 
+.targeta-botones-extra {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .container__revision .tarjeta--botones button {
     width: 250px;
 }
 
 .container__revision .tarjeta--botones button:hover {
     scale: 1.05;
+}
+
+.container__revision .targeta-botones-extra button:hover {
+    scale: 1.02;
 }

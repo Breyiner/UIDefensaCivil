@@ -35,10 +35,18 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
-  // Comportamiento de botón que saca al usuario y lo lleva al menú
-  botonBack.onclick = async () => {
-    if (window.procesoPeticion) return; // Si la app está cargando, bloquea la salida temporalmente
-    location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
+    const esSupervisor = location.hash.includes("/supervisor/");
+
+    // Comportamiento de botón que saca al usuario y lo lleva al menú
+    botonBack.onclick = async () => {
+      if (window.procesoPeticion) return; // Si la app está cargando, bloquea la salida temporalmente
+      
+      if (esSupervisor) {
+        location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+        return;
+      }
+
+      location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 
   // Trae de la base de datos a los integrantes y los factores de riego ya guardados para llenar las opciones a seleccionar

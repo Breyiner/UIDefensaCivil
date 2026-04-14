@@ -25,15 +25,15 @@ const RevisionPlanController = async () => {
     const riskFactors = await api.get(`riskFactors/`);
 
     const Resources = await api.get(`availableResources/`);
-    console.log("recursos",Resources);
-    
+    console.log("recursos", Resources);
+
 
     const contenedor = document.querySelector(".container__revision");
 
     const botonBack = document.getElementById("botonBack");
 
     const div = document.createElement("div");
-    div.classList.add( "tarjeta");
+    div.classList.add("tarjeta");
 
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
@@ -54,24 +54,29 @@ const RevisionPlanController = async () => {
     imagenIcono.alt = "iconofamilia";
     imagenIcono.classList.add("imagen--icono");
 
-    const btnEditarDatos = document.createElement("div");
+    const btnEditarDatos = document.createElement("button");
     btnEditarDatos.classList.add("ri-edit-fill");
 
     const apellidoFamilia = document.createElement("div");
-    apellidoFamilia.classList.add("tarjeta__titulo", );
-    apellidoFamilia.append("Familia ", info.last_names, btnEditarDatos);
-    
+    apellidoFamilia.classList.add("tarjeta__titulo",);
+    apellidoFamilia.textContent = "Familia "+ info.last_names;
+
+    const familiaCont = document.createElement ("div");
+    familiaCont.classList.add("form_autorizacion");
+
+    familiaCont.append(apellidoFamilia, btnEditarDatos);
+
     btnEditarDatos.addEventListener("click", () => {
         location.href = `#/supervisor/plan_familiar/datos/familia_id=${info.id}`;
     });
-    
+
     const tiposSector = sectors.find(sector => sector.id == info.sector_id);
 
     const departamento = document.createElement("div");
     departamento.classList.add("form_autorizacion");
     const ubicacionIcono = document.createElement("i");
     ubicacionIcono.classList.add("icono--pequeno", "ri-map-pin-2-line");
-    departamento.append(ubicacionIcono,  " "+ info.address + ", " + tiposSector.name + " " + info.sector_name + ", " + info.city + ", " + info.department );
+    departamento.append(ubicacionIcono, " " + info.address + ", " + tiposSector.name + " " + info.sector_name + ", " + info.city + ", " + info.department);
 
     const telfonoFamilia = document.createElement("div");
     telfonoFamilia.classList.add("form_autorizacion");
@@ -94,7 +99,7 @@ const RevisionPlanController = async () => {
     const introduccionDiv = document.createElement("div");
     introduccionDiv.classList.add("introduccionDiv");
 
-    introduccionCont.append(apellidoFamilia, departamento, telfonoFamilia, calidadVivienda, fechaRecibido);
+    introduccionCont.append(familiaCont, departamento, telfonoFamilia, calidadVivienda, fechaRecibido);
 
     introduccionDiv.append(imagenIcono, introduccionCont);
 
@@ -131,7 +136,7 @@ const RevisionPlanController = async () => {
 
     integrantesHumanos.append(subtituloIntegrantes);
 
-    const miembrosFamilia = familyMembers.filter(miembros => { 
+    const miembrosFamilia = familyMembers.filter(miembros => {
         return miembros.family_plan_id == info.id
     });
 
@@ -146,24 +151,21 @@ const RevisionPlanController = async () => {
         const integranteCont = document.createElement("div");
         integranteCont.classList.add("integrante__container");
 
-        const nombreCont= document.createElement("div");
+        const nombreCont = document.createElement("div");
         nombreCont.classList.add("form_autorizacion");
 
-        const IntegranteNombre = document.createElement("p");
-        IntegranteNombre.classList.add("form_autorizacion", "integrante--nombre");
-        IntegranteNombre.textContent = `• ${miembro.names} ${miembro.last_names}`;
+        const Integrante = document.createElement("div");
+        Integrante.classList.add("form_autorizacion", "integrante--nombre");
 
-        const integranteRelacion = document.createElement("p");
-        integranteRelacion.classList.add("form_autorizacion", "integrante--relacion");
-        integranteRelacion.textContent = relacion.name;
+        Integrante.textContent = `• ${miembro.names} ${miembro.last_names} - ${relacion.name}`;
 
         const btnVisualizar = document.createElement("button");
         btnVisualizar.classList.add("ri-eye-line");
 
-        nombreCont.append(IntegranteNombre, integranteRelacion, btnVisualizar);
+        nombreCont.append(Integrante, btnVisualizar);
 
         integranteCont.append(nombreCont);
-        
+
         integrantesHumanos.append(integranteCont);
 
         btnVisualizar.addEventListener("click", () => {
@@ -199,14 +201,14 @@ const RevisionPlanController = async () => {
         const mascota_p = document.createElement("p");
         mascota_p.classList.add("form_autorizacion");
         mascota_p.textContent = `• ${mascota.name} - ${especie.name}`;
-        
+
         const btnVisualizar = document.createElement("button");
         btnVisualizar.classList.add("ri-eye-line");
 
         mascotaCont.append(mascota_p, btnVisualizar);
-        
+
         integrantesMascotas.append(mascotaCont);
-        
+
         btnVisualizar.addEventListener("click", () => {
 
             MascotaVentana(mascota, info);
@@ -246,14 +248,14 @@ const RevisionPlanController = async () => {
         const factor_p = document.createElement("p");
         factor_p.classList.add("form_autorizacion");
         factor_p.textContent = `${contadorRiesgos}. ${tiposRiesgo.name}`;
-        
+
         const btnVisualizar = document.createElement("button");
         btnVisualizar.classList.add("ri-eye-line");
 
         factorCont.append(factor_p, btnVisualizar);
 
         FactoresRiesgoCont.append(factorCont);
-        
+
         btnVisualizar.addEventListener("click", () => {
 
             factorRiesgoVentana(factor, miembrosFamilia, info);
@@ -286,7 +288,7 @@ const RevisionPlanController = async () => {
 
         contadorRecursos++;
 
-        const tiposRecursos = await api.get(`resources/${recurso.family_plan_id}`);
+        const tiposRecursos = await api.get(`resources/${recurso.resource_id}`);
 
         const recursoCont = document.createElement("div");
         recursoCont.classList.add("form_autorizacion");
@@ -294,12 +296,12 @@ const RevisionPlanController = async () => {
         const recurso_p = document.createElement("p");
         recurso_p.classList.add("form_autorizacion");
         recurso_p.textContent = `${contadorRecursos}. ${tiposRecursos.name} - ${recurso.distance} m`;
-        
+
         const btnVisualizar = document.createElement("button");
         btnVisualizar.classList.add("ri-eye-line");
 
         recursoCont.append(recurso_p, btnVisualizar);
-        
+
         recursosCont.append(recursoCont);
 
         btnVisualizar.addEventListener("click", () => {
@@ -309,6 +311,43 @@ const RevisionPlanController = async () => {
     });
 
     tarjetaContenido.append(recursosCont);
+
+    const contenedorBotonesExtra = document.createElement("div");
+    contenedorBotonesExtra.classList.add("targeta-botones-extra");
+
+    // 📍 Georreferenciación
+    const btnGeo = document.createElement("button");
+    btnGeo.classList.add("boton", "boton--height");
+    btnGeo.textContent = "Georreferenciación";
+
+    // 🏠 Gráficos de vivienda
+    const btnGraficos = document.createElement("button");
+    btnGraficos.classList.add("boton", "boton--height");
+    btnGraficos.textContent = "Gráficos Vivienda";
+
+    // 📋 Plan de acción
+    const btnPlanAccion = document.createElement("button");
+    btnPlanAccion.classList.add("boton", "boton--height");
+    btnPlanAccion.textContent = "Plan de Acción";
+
+    contenedorBotonesExtra.append(btnGeo, btnGraficos, btnPlanAccion);
+
+    // 📍 Georreferenciación
+    btnGeo.addEventListener("click", () => {
+        location.hash = `#/supervisor/plan_familiar/grafico_del_entorno/editar?familia_id=${info.id}`;
+    });
+
+    // 🏠 Gráficos de vivienda
+    btnGraficos.addEventListener("click", () => {
+        location.hash = `#/supervisor/plan_familiar/grafico_vivienda?familia_id=${id}`;
+    });
+
+    // 📋 Plan de acción
+    btnPlanAccion.addEventListener("click", () => {
+        location.hash = `#/supervisor/plan_familiar/plan_de_accion/antes?familia_id=${id}`;
+    });
+
+    tarjetaContenido.append(contenedorBotonesExtra);
 
     //BOTONES DE ACCION _____________________________________________________________________________________
 
@@ -339,8 +378,8 @@ const RevisionPlanController = async () => {
             });
             // Condominio de respuesta
             if (data.success) {
-              await alerta.alertaOK(data.message); // Banner verde Confirmación
-              window.location.href = `#/supervisor/plan_familiar`; // Expulsa devuelta a la lista principal
+                await alerta.alertaOK(data.message); // Banner verde Confirmación
+                window.location.href = `#/supervisor/plan_familiar`; // Expulsa devuelta a la lista principal
             } else alerta.alertaWarning(data.message, data.errors);
         } catch (error) {
             // Previene caídas totales
@@ -358,7 +397,7 @@ const RevisionPlanController = async () => {
             // Branching
             if (data.success) {
                 await alerta.alertaOK(data.message);
-              window.location.href = `#/supervisor/plan_familiar`; // Retorno lista
+                window.location.href = `#/supervisor/plan_familiar`; // Retorno lista
             } else alerta.alertaWarning(data.message, data.errors);
         } catch (error) {
             alerta.alertaError(error.errors);
@@ -367,10 +406,10 @@ const RevisionPlanController = async () => {
 
     // Callback del botón de Requiere Observaciones (Feedback workflow)
     rechazarCambios.addEventListener("click", async () => {
-          // Delega el flujo visual y de API a un helper complejo en alertas.js que pide la razón del rechazo
-            const cambios = await alerta.rechazarCambios(info.id);
-    
-          // Confirmación post-interacción con el popup de SweetAlert text
+        // Delega el flujo visual y de API a un helper complejo en alertas.js que pide la razón del rechazo
+        const cambios = await alerta.rechazarCambios(info.id);
+
+        // Confirmación post-interacción con el popup de SweetAlert text
         if (cambios.isConfirmed) {
             window.location.href = `#/supervisor/plan_familiar`; // Volver
         }

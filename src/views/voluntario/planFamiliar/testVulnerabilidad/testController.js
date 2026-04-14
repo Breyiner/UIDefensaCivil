@@ -320,7 +320,7 @@ export default async () => {
     // VEREDICTO FINAL DE APROBACIÓN (Mayor O Igual a 5 puntos pasables)
     try {
       // Emite una orden cambiando el estado para que deje la familia de ser borrador y pase a En Desarrollo.
-      const data = await api.patch(`familyPlans/status/${id}`, {
+      const data = await api.patch(`familyPlans/${id}/change-status`, {
         status_plan_id: 3, // 3 = EN DESARROLLO / APROBADO BÁSICO
       });
       if (data.success) {

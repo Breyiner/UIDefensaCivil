@@ -80,7 +80,7 @@ export default async () => {
                 // Flujo Condicionado de Ahorro de clics al Voluntario Evaluador
                 // SI: Te lleva al Módulo Editar de esa mascota recién creada que es el único que tiene el Popup Acordeon Inferior Añadir Vacunas.
                 // NO: Muro normal Volver
-                pregunta.isConfirmed ? window.location.href = `#/voluntario/plan_familiar/mascotas/crear?familia_id=${id}&mascota_id=${data.data.id}` : location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${id}`;
+                pregunta.isConfirmed ? window.location.href = `#/voluntario/plan_familiar/mascotas/editar?familia_id=${id}&mascota_id=${data.data.id}` : location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${id}`;
             }
             // Error Reglas Negocio Backend 
             else alerta.alertaWarning(data.message, data.errors)

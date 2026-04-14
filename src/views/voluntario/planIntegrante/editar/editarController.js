@@ -16,7 +16,7 @@ export default async () => {
   const botonBack = document.getElementById("botonBack");
   const botonGuardar = document.getElementById("botonGuardar"); // Activa Patch Member Data
   const form = document.querySelector(".form");
-  
+
   // PARSING DOBLE URL
   //Teniendo en las nuevas rutas el formato de URL con query params cambia.
   const hashQuery = location.hash.split("?")[1] ?? ""; // Si no hay query params, asigna string vacío para evitar errores al crear URLSearchParams
@@ -24,20 +24,28 @@ export default async () => {
 
   const planId = params.get("familia_id"); // Extrae el valor del parámetro "familia_id" de la URL, que identifica a qué familia pertenece el integrante que se está editando. Este ID es crucial para las operaciones de carga y actualización de datos específicas de ese integrante dentro de su familia.
   const integranteId = params.get("integrante_id"); // Extrae el valor del parámetro "integrante_id" de la URL, que identifica al miembro específico que se está editando. Este ID se utiliza para cargar los datos actuales del integrante en el formulario y para enviar las actualizaciones correctas al backend cuando se guarden los cambios.
-  
+
   // Nodos UI Submódulo Enfermedades (Afecciones Acordeon Pestaña Inferior)
   const contenedorAfecciones = document.querySelector(".gestionarAfecciones__lista",);
   const botonAñadir = document.querySelector(".gestionarAfecciones__boton"); // Trigger Modal
-  
+
   // Bloqueo Concurrencia
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
   }
   window.procesoPeticion = true;
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   // Lógica de Atrás normal Muro View
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
+
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${planId}`;
+      return;
+    }
+
     location.href = `#/voluntario/plan_familiar/integrantes?familia_id=${planId}`;
   };
 
@@ -62,7 +70,7 @@ export default async () => {
   await adjuntarOpc.adjuntarNoValida(parentesco, "kinships");
   await adjuntarOpc.adjuntarNoValida(grupoSanguineo, "bloodGroups");
   await adjuntarOpc.adjuntarNoValida(nacionalidad, "nationalities");
-  
+
   // MAGIA HELPER -> Dispara 1 Get a member/$id, y mapéa automáticamente cada Propiedad JSON a su Nodo Input HTML Vainilla 
   await cargarDatos.cargarDatos(`members/${integranteId}`,
     [nombres, apellidos, numDocumento, eps, celularPersonal, nacimiento, tipoDocumento, genero, parentesco, grupoSanguineo, nacionalidad,], // Array Doms
@@ -80,7 +88,7 @@ export default async () => {
       const boton = document.createElement("button"); // Mini badge list view clickeable !
       boton.className = "gestionarAfecciones__afeccion";
       boton.dataset.id = item.id; // PK Afeccion para Borrar/Editar luego
-      
+
       // Render text y cruzCategoria
       boton.innerHTML = `
         <span class="gestionarAfecciones__tipoNombre">
@@ -92,7 +100,7 @@ export default async () => {
 
   // Inicializador Vanilla Helper Plegar/Desplegar Menus de Abajo
   acordeon()
-  
+
   // Ejecutar carga de Enfermedades inicial
   cargarAfecciones();
 
@@ -131,20 +139,20 @@ export default async () => {
       kinship_id: parentesco.value,
       eps: eps.value,
       // Bug here en codigo Base: Se esta llamando celular.value cuando Node de arriba es celularPersonal (Posible NullPtr Reference!). Dejado intacto por politica.
-      phone: celularPersonal.value, 
+      phone: celularPersonal.value,
     };
-    
+
     try {
       // API Full update row 
       const data = await api.put(`members/${integranteId}`, datosRegistro);
-      
+
       if (data.success) {
         await alerta.alertaOK(data.message); // Notificar exito en pantalla. NO redirige adrede para dejarlos editar enfermedades. Mantiene state UI vivo.
       } else alerta.alertaWarning(data.message, data.errors);
     } catch (error) {
       alerta.alertaError(error.errors);
     }
-    
+
     // Recovery Fallbacks
     botonGuardar.disabled = false;
     window.procesoPeticion = false;

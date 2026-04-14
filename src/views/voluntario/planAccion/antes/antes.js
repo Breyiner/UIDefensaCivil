@@ -11,6 +11,7 @@ import * as cargarDatos from "../../../../helpers/cargarDatos";
 import * as validacion from "../../../../helpers/validacionInputs";
 import * as modalPlanAccion from "../../../../helpers/modales/planAccion";
 
+
 export default async () => {
   // Referencias a los elementos de la pantalla
   const botonBack = document.getElementById("botonBack"); // Botón para regresar al menú principal del Plan
@@ -26,17 +27,25 @@ export default async () => {
   const containerTipoAccion = document.querySelector(".container__gap"); // Contenedor que aloja la lista de acciones (permanece oculto al inicio)
   const botonSiguiente = document.getElementById("siguiente"); // Botón para avanzar a la fase 'Durante'
   const botonAtras = document.getElementById("atras"); // Botón para retroceder (Deshabilitado en esta primera fase)
-
+  
   // Bandera o mecanismo lógico para prevenir que el usuario haga múltiples clics y envíe peticiones duplicadas
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true; // Se bloquea temporalmente mientras se cargan los datos de las listas
   }
   window.procesoPeticion = true;
 
-  // Acción del Botón 'Atrás' de la parte superior
-  botonBack.onclick = async () => {
-    if (window.procesoPeticion) return; // Evita que funcione si todavía está cargando algo
-    location.href = `#/voluntario/plan_familiar/familia?id=${id}`; // Regresa al menú general del plan familiar
+  const esSupervisor = location.hash.includes("/supervisor/");
+  
+    // Acción del Botón 'Atrás' de la parte superior
+    botonBack.onclick = async () => {
+      if (window.procesoPeticion) return; // Evita que funcione si todavía está cargando algo
+
+      if (esSupervisor) {
+        location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+        return;
+      }
+
+      location.href = `#/voluntario/plan_familiar/familia?id=${id}`; // Regresa al menú general del plan familiar
   };
 
   // Solicitar al servidor los listados de miembros y riesgos de esta familia para rellenar las opciones correspondientes

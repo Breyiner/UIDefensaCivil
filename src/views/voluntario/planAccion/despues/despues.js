@@ -32,10 +32,16 @@ export default async () => {
     window.procesoPeticion = true;
   }
   window.procesoPeticion = true;
+  
+  const esSupervisor = location.hash.includes("/supervisor/");
 
   // Acción al oprimir volver
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+      return;
+    }
     location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 

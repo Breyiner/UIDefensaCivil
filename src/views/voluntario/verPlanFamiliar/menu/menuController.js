@@ -45,7 +45,7 @@ export default async () => {
   
 
   // Definir si existen miembros de la familia para realizar acciones en el menu -------------------------------------------------------------------------------...
-  const tieneMiembros = await api.get(`familyPlans/${id}/has-members`);
+  const tieneMiembros = await api.get(`familyPlans/has-members/${id}`);
   console.log(tieneMiembros);
   
 
@@ -129,7 +129,7 @@ export default async () => {
       try {
         // Envio Endpoint Workflow. 
         // 4 -> 'Enviado a Revisión (Ficha Completa)'. El supervisor ahora lo verá en su bandeja y al autor se le bloquea la app en modo Read-only a nivel backend.
-        const data = await api.patch(`familyPlans/status/${id}`, {
+        const data = await api.patch(`familyPlans/${id}/change-status`, {
           status_plan_id: 4, 
         });
         if (data.success) {
