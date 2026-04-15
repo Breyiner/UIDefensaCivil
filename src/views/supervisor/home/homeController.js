@@ -29,13 +29,14 @@ export default async () => {
     const planesRecibidos = document.getElementById('planesRecibidos');
     const planesAprobados = document.getElementById('planesAprobados');
     const planesRechazados = document.getElementById('planesRechazados');
-    const tiempoAproximado = document.getElementById('tiempoAproximado');
+    // const tiempoAproximado = document.getElementById('tiempoAproximado');
 
     // Accesos directos / Botonera secundaria
     const botonVoluntarios = document.getElementById("voluntarios");
     const botonPeticiones = document.getElementById("peticiones");
     const botonPlanFamiliar = document.getElementById("planFamiliar");
     const botonEstadistica = document.getElementById("estadisticas");
+
 
     // Llenado estático de los contadores con las claves recuperadas del objeto 'dashboard' json
     planesRecibidos.textContent = dashBoard.pending_plans;
@@ -57,7 +58,7 @@ export default async () => {
     else tiempoValidado = tiempo + "m"
     
     // Aplica el string formateado final
-    tiempoAproximado.textContent = tiempoValidado
+    // tiempoAproximado.textContent = tiempoValidado
 
     // Declaración de enrutamientos de la botonera principal Dashboard
     botonVoluntarios.addEventListener("click", () => {
