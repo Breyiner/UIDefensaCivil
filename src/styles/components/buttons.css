@@ -12,6 +12,26 @@
   cursor: pointer;
 }
 
+.boton--pequenio {
+
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  min-height: 22px;
+  text-align: center;
+  border-radius: 100%;
+  background-color: var(--color-primario);
+  color: var(--color-palido);
+  border: none;
+  cursor: pointer;
+  transition: ease 0.3s;
+}
+
+.boton--pequenio:hover {
+
+  scale: 1.15;
+}
+
 .boton-width {
   width: 100%;
   padding: 15px;
@@ -22,7 +42,6 @@
   border: 1px solid var(--color-primario);
   color: var(--color-primario);
 }
-
 
 
 .boton:active {

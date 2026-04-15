@@ -7,14 +7,18 @@ const MascotaVentana = async (mascota, info) => {
     overlay.classList.add("overlay_verEstado");
 
     const ventana = document.createElement("div");
-    ventana.classList.add("ventana");
+    ventana.classList.add("ventana", "ventana__supervisor");
 
     const btnEditar = document.createElement("button");
-    btnEditar.classList.add("btn-editar");
+    btnEditar.classList.add("btn-editar", "boton");
     btnEditar.textContent = "Editar";
 
     const btnCerrar = document.createElement("button");
     btnCerrar.classList.add("ri-close-line", "btn-cerrar-Estado");
+
+    const btnCerrarCont = document.createElement("div");
+    btnCerrarCont.classList.add("btn-cerrar-Cont");
+    btnCerrarCont.append(btnCerrar);
     
     const userIcono = document.createElement("i");
     userIcono.classList.add("icono--pequeno", "ri-user-line");
@@ -27,7 +31,7 @@ const MascotaVentana = async (mascota, info) => {
     nombreMascota.textContent = mascota.name;
 
     const nombreCont = document.createElement("div");
-    nombreCont.classList.add("form_autorizacion");
+    nombreCont.classList.add("form_autorizacion", "form-column_autorization");
 
     nombreCont.append(nombreTitulo, nombreMascota);
 
@@ -37,7 +41,7 @@ const MascotaVentana = async (mascota, info) => {
     especieRazaCont.classList.add("form_autorizacion");
 
     const EspecieCont = document.createElement("div");
-    EspecieCont.classList.add("form_autorizacion");
+    EspecieCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const especieTitulo = document.createElement("p");
     especieTitulo.classList.add("form__texto");
@@ -52,7 +56,7 @@ const MascotaVentana = async (mascota, info) => {
     EspecieCont.append(especieTitulo, especie);
 
     const razaCont = document.createElement("div");
-    razaCont.classList.add("form_autorizacion");
+    razaCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const razaTitulo = document.createElement("p");
     razaTitulo.classList.add("form__texto");
@@ -67,10 +71,10 @@ const MascotaVentana = async (mascota, info) => {
 
     especieRazaCont.append(EspecieCont, razaCont);
 
-    const petGender = await api.get(`animalGenders/${mascota.id}`);
+    const petGender = await api.get(`animalGenders/pet/${mascota.id}`);
 
     const generoCont = document.createElement("div");
-    generoCont.classList.add("form_autorizacion");
+    generoCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const generoTitulo = document.createElement("p");
     generoTitulo.classList.add("form__texto");
@@ -88,7 +92,7 @@ const MascotaVentana = async (mascota, info) => {
     console.log("vacunas: ", petsVaccines);
 
     const vacunasCont = document.createElement("div");
-    vacunasCont.classList.add("form_autorizacion");
+    vacunasCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const vacunasTitulo = document.createElement("p");
     vacunasTitulo.classList.add("form__texto");
@@ -112,7 +116,12 @@ const MascotaVentana = async (mascota, info) => {
         vacunasCont.append(vacuna_p);
     });
 
-    ventana.append(nombreCont, especieRazaCont, generoCont, vacunasCont, btnEditar, btnCerrar);
+    const contenidoVentana = document.createElement("div");
+    contenidoVentana.classList.add("contenido-ventana")
+
+    contenidoVentana.append(nombreCont, especieRazaCont, generoCont, vacunasCont)
+
+    ventana.append(btnCerrarCont, contenidoVentana, btnEditar);
 
     overlay.append(ventana);
 

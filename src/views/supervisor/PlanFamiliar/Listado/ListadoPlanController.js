@@ -157,9 +157,9 @@ const ListadoPlanController = async () => {
         
         div.append(resvisarPlan);
 
-        if (info.status_id !== 4) {
-            // resvisarPlan.style.display = "none";
-        }
+        // if (info.status_id !== 4) {
+        //     // resvisarPlan.style.display = "none";
+        // }
 
         resvisarPlan.addEventListener("click", () => {
             location.href = `#/supervisor/plan_familiar/revision?familia_id=${info.id}`;

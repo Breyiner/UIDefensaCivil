@@ -55,14 +55,14 @@ const RevisionPlanController = async () => {
     imagenIcono.classList.add("imagen--icono");
 
     const btnEditarDatos = document.createElement("button");
-    btnEditarDatos.classList.add("ri-edit-fill");
+    btnEditarDatos.classList.add("ri-edit-fill", "boton--pequenio");
 
     const apellidoFamilia = document.createElement("div");
     apellidoFamilia.classList.add("tarjeta__titulo",);
     apellidoFamilia.textContent = "Familia "+ info.last_names;
 
     const familiaCont = document.createElement ("div");
-    familiaCont.classList.add("form_autorizacion");
+    familiaCont.classList.add("form_autorizacion", "form-top_autorization");
 
     familiaCont.append(apellidoFamilia, btnEditarDatos);
 
@@ -160,7 +160,7 @@ const RevisionPlanController = async () => {
         Integrante.textContent = `• ${miembro.names} ${miembro.last_names} - ${relacion.name}`;
 
         const btnVisualizar = document.createElement("button");
-        btnVisualizar.classList.add("ri-eye-line");
+        btnVisualizar.classList.add("ri-eye-line", "boton--pequenio");
 
         nombreCont.append(Integrante, btnVisualizar);
 
@@ -203,7 +203,7 @@ const RevisionPlanController = async () => {
         mascota_p.textContent = `• ${mascota.name} - ${especie.name}`;
 
         const btnVisualizar = document.createElement("button");
-        btnVisualizar.classList.add("ri-eye-line");
+        btnVisualizar.classList.add("ri-eye-line", "boton--pequenio");
 
         mascotaCont.append(mascota_p, btnVisualizar);
 
@@ -236,7 +236,8 @@ const RevisionPlanController = async () => {
 
     let contadorRiesgos = 0;
 
-    factoresRiesgo.forEach(async factor => {
+    // factoresRiesgo.forEach(async factor => 
+    for (const factor of factoresRiesgo) {
 
         contadorRiesgos++;
 
@@ -250,7 +251,7 @@ const RevisionPlanController = async () => {
         factor_p.textContent = `${contadorRiesgos}. ${tiposRiesgo.name}`;
 
         const btnVisualizar = document.createElement("button");
-        btnVisualizar.classList.add("ri-eye-line");
+        btnVisualizar.classList.add("ri-eye-line", "boton--pequenio");
 
         factorCont.append(factor_p, btnVisualizar);
 
@@ -260,7 +261,7 @@ const RevisionPlanController = async () => {
 
             factorRiesgoVentana(factor, miembrosFamilia, info);
         });
-    });
+    };
 
     tarjetaContenido.append(integrantesCont, FactoresRiesgoCont);
 
@@ -284,7 +285,7 @@ const RevisionPlanController = async () => {
 
     let contadorRecursos = 0;
 
-    Recursos.forEach(async (recurso) => {
+    for (const recurso of Recursos) {
 
         contadorRecursos++;
 
@@ -298,7 +299,7 @@ const RevisionPlanController = async () => {
         recurso_p.textContent = `${contadorRecursos}. ${tiposRecursos.name} - ${recurso.distance} m`;
 
         const btnVisualizar = document.createElement("button");
-        btnVisualizar.classList.add("ri-eye-line");
+        btnVisualizar.classList.add("ri-eye-line", "boton--pequenio");
 
         recursoCont.append(recurso_p, btnVisualizar);
 
@@ -308,7 +309,7 @@ const RevisionPlanController = async () => {
 
             recursosVentana(recurso, info);
         });
-    });
+    };
 
     tarjetaContenido.append(recursosCont);
 

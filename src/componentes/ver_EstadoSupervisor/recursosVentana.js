@@ -8,7 +8,7 @@ const recursosVentana = async (recurso, info) => {
     overlay.classList.add("overlay_verEstado");
 
     const ventana = document.createElement("div");
-    ventana.classList.add("ventana");
+    ventana.classList.add("ventana", "ventana__supervisor");
 
     const btnEditar = document.createElement("button");
     btnEditar.classList.add("btn-editar");

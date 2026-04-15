@@ -67,6 +67,16 @@
   font-size: var(--tamano-pequeno);
 }
 
+.form-column_autorization{
+  flex-direction: column;
+  gap: 5px;
+  align-items: start;
+}
+
+.form-top_autorization {
+  align-items:flex-start;
+}
+
 .form__geo {
   display: flex;
   justify-content: space-between;

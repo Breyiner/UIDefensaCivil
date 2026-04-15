@@ -7,23 +7,27 @@ const integranteVentana = async (miembro, relacion, info) =>{
     overlay.classList.add("overlay_verEstado");
 
     const ventana = document.createElement("div");
-    ventana.classList.add("ventana");
+    ventana.classList.add("ventana", "ventana__supervisor");
 
     const btnCerrar = document.createElement("button");
     btnCerrar.classList.add("ri-close-line", "btn-cerrar-Estado");
 
+    const btnCerrarCont = document.createElement("div");
+    btnCerrarCont.classList.add("btn-cerrar-Cont");
+    btnCerrarCont.append(btnCerrar)
+
     const btnEditar = document.createElement("button");
-    btnEditar.classList.add("btn-editar");
+    btnEditar.classList.add("btn-editar", "boton");
     btnEditar.textContent = "Editar";
 
     const nombreIntegranteCont = document.createElement("div");
-    nombreIntegranteCont.classList.add("form_autorizacion", "integrante--nombre");
+    nombreIntegranteCont.classList.add("form_autorizacion", "integrante--nombre", "form-column_autorization");
 
     const nombreApellidoCont = document.createElement("div");
     nombreApellidoCont.classList.add("form_autorizacion");
 
     const nombreCont= document.createElement("div");
-    nombreCont.classList.add("form_autorizacion");
+    nombreCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const nombreTitulo = document.createElement("p");
     nombreTitulo.classList.add("form__texto");
@@ -37,7 +41,8 @@ const integranteVentana = async (miembro, relacion, info) =>{
     nombreCont.append(nombreTitulo, nombreIntegrante);
 
     const apellidoCont = document.createElement("div");
-    apellidoCont.classList.add("form_autorizacion");
+    apellidoCont.classList.add("form_autorizacion", "form-column_autorization");
+
     const apellidoTitulo = document.createElement("p");
     apellidoTitulo.classList.add("form__texto");
     const apellidoIcono = document.createElement("i");
@@ -58,7 +63,7 @@ const integranteVentana = async (miembro, relacion, info) =>{
     nombreIntegranteCont.append(nombreApellidoCont, relacionIntegrante);
 
     const documentosCont = document.createElement("div");
-    documentosCont.classList.add("form_autorizacion");
+    documentosCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const documentosTitulo = document.createElement("p");
     documentosTitulo.classList.add("form__texto");
@@ -73,7 +78,7 @@ const integranteVentana = async (miembro, relacion, info) =>{
     documentosCont.append(documentosTitulo, documentoIdentidad);
 
     const fechaNacimientoCont = document.createElement("div");
-    fechaNacimientoCont.classList.add("form_autorizacion");
+    fechaNacimientoCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const fechaTitulo = document.createElement("p");
     fechaTitulo.classList.add("form__texto");
@@ -88,7 +93,8 @@ const integranteVentana = async (miembro, relacion, info) =>{
     fechaNacimientoCont.append(fechaTitulo, fechaNacimiento);
 
     const numeroTelefonoCont = document.createElement("div");
-    numeroTelefonoCont.classList.add("form_autorizacion");
+    numeroTelefonoCont.classList.add("form_autorizacion", "form-column_autorization");
+
     const telefonoTitulo = document.createElement("p");
     telefonoTitulo.classList.add("form__texto");
     const telefonoIcono = document.createElement("i");
@@ -103,7 +109,7 @@ const integranteVentana = async (miembro, relacion, info) =>{
     numeroTelefonoCont.append(telefonoTitulo, numeroTelefono);
 
     const generoCont = document.createElement("div");
-    generoCont.classList.add("form_autorizacion");
+    generoCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const generoTitulo = document.createElement("p");
     generoTitulo.classList.add("form__texto");
@@ -117,7 +123,7 @@ const integranteVentana = async (miembro, relacion, info) =>{
     generoCont.append(generoTitulo, genero);
 
     const nacionalidadCont = document.createElement("div");
-    nacionalidadCont.classList.add("form_autorizacion");
+    nacionalidadCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const nacionalidadTitulo = document.createElement("p");
     nacionalidadTitulo.classList.add("form__texto");
@@ -131,7 +137,7 @@ const integranteVentana = async (miembro, relacion, info) =>{
     nacionalidadCont.append(nacionalidadTitulo, nacionalidad);
 
     const epsCont = document.createElement("div");
-    epsCont.classList.add("form_autorizacion");
+    epsCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const epsTitulo = document.createElement("p");
     epsTitulo.classList.add("form__texto");
@@ -146,7 +152,7 @@ const integranteVentana = async (miembro, relacion, info) =>{
 
 
     const afeccionesCont = document.createElement("div");
-    afeccionesCont.classList.add("form_autorizacion");
+    afeccionesCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const afeccionesTitulo = document.createElement("p");
     afeccionesTitulo.classList.add("form__texto");
@@ -182,7 +188,7 @@ const integranteVentana = async (miembro, relacion, info) =>{
     }
 
     const tipoSangreCont = document.createElement("div");
-    tipoSangreCont.classList.add("form_autorizacion");
+    tipoSangreCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const tipoSangreTitulo = document.createElement("p");
     tipoSangreTitulo.classList.add("form__texto");
@@ -194,9 +200,13 @@ const integranteVentana = async (miembro, relacion, info) =>{
     tipoSangre.textContent = miembro.blood_group.name;
     tipoSangreCont.append(tipoSangreTitulo, tipoSangre);
 
+    const contenidoVentana = document.createElement("div");
+    contenidoVentana.classList.add("contenido-ventana")
     
-    ventana.append(nombreIntegranteCont, documentosCont, fechaNacimientoCont, generoCont, nacionalidadCont, numeroTelefonoCont, epsCont, afeccionesCont, tipoSangreCont, btnEditar, btnCerrar);
+    contenidoVentana.append(nombreIntegranteCont, documentosCont, fechaNacimientoCont, generoCont, nacionalidadCont, numeroTelefonoCont, epsCont, afeccionesCont, tipoSangreCont);
     
+    ventana.append(btnCerrarCont, contenidoVentana, btnEditar)
+
     overlay.append(ventana);
 
     btnCerrar.onclick = () => overlay.remove();

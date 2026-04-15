@@ -10,18 +10,21 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
     overlay.classList.add("overlay_verEstado");
 
     const ventana = document.createElement("div");
-    ventana.classList.add("ventana");
+    ventana.classList.add("ventana", "ventana__supervisor");
 
     const btnEditar = document.createElement("button");
-    btnEditar.classList.add("btn-editar");
+    btnEditar.classList.add("btn-editar", "boton");
     btnEditar.textContent = "Editar";
 
     const btnCerrar = document.createElement("button");
     btnCerrar.classList.add("ri-close-line", "btn-cerrar-Estado");
 
+    const btnCerrarCont = document.createElement("div");
+    btnCerrarCont.classList.add("btn-cerrar-Cont");
+    btnCerrarCont.append(btnCerrar);
 
     const tipoAmenazaCont = document.createElement("div");
-    tipoAmenazaCont.classList.add("form_autorizacion");
+    tipoAmenazaCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const tipoAmenazaTitulo = document.createElement("p");
     tipoAmenazaTitulo.classList.add("form__texto");
@@ -36,7 +39,7 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
     tipoAmenazaCont.append(tipoAmenazaTitulo, tipoAmenaza);
 
     const descripcionCont = document.createElement("div");
-    descripcionCont.classList.add("form_autorizacion");
+    descripcionCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const descripcionTitulo = document.createElement("p");
     descripcionTitulo.classList.add("form__texto");
@@ -53,8 +56,8 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
     const ubicacionDistanciaCont = document.createElement("div");
     ubicacionDistanciaCont.classList.add("form_autorizacion");
 
-    const ubicacionConst = document.createElement("div");
-    ubicacionConst.classList.add("form_autorizacion");
+    const ubicacionCont = document.createElement("div");
+    ubicacionCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const ubicacionTitulo = document.createElement("p");
     ubicacionTitulo.classList.add("form__texto");
@@ -66,12 +69,12 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
     ubicacion.classList.add("form_autorizacion");
     ubicacion.textContent = factor.ubication;
 
-    ubicacionConst.append(ubicacionTitulo, ubicacion);
+    ubicacionCont.append(ubicacionTitulo, ubicacion);
 
     // const distanciaIcono = document.createElement("i");
     // distanciaIcono.classList.add("icono--pequeno", "ri-roadster-line");
     const distanciaCont = document.createElement("p");
-    distanciaCont.classList.add("form_autorizacion");
+    distanciaCont.classList.add("form_autorizacion", "form-column_autorization");
 
 
     const distanciaTitulo = document.createElement("p");
@@ -83,10 +86,10 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
 
     distanciaCont.append(distanciaTitulo, distancia);
 
-    ubicacionDistanciaCont.append(ubicacionConst, distanciaCont);
+    ubicacionDistanciaCont.append(ubicacionCont, distanciaCont);
 
     const accionesReduccionCont = document.createElement("div");
-    accionesReduccionCont.classList.add("form_autorizacion");
+    accionesReduccionCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const accionesReduccionTitulo = document.createElement("p");
     accionesReduccionTitulo.classList.add("form__texto");
@@ -106,7 +109,7 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
         riskReduction.forEach(async accion => {
 
             const accionCont = document.createElement("div");
-            accionCont.classList.add("form_autorizacion");
+            accionCont.classList.add("form_autorizacion", "form-column_autorization");
 
             const accionRealizada = document.createElement("p");
             accionRealizada.classList.add("form_autorizacion");
@@ -120,23 +123,27 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
             });
 
             const miembro = await api.get(`members/${nombreEncargado.member_id}`);
-            encargado.textContent = `• Encargado: ${miembro.names} ${miembro.last_names}`;
+            encargado.textContent = `Encargado: ${miembro.names} ${miembro.last_names}`;
 
             const fechaInicio = document.createElement("p");
             fechaInicio.classList.add("form_autorizacion");
-            fechaInicio.textContent = `• Fecha inicio: ${accion.created_at.split("T")[0]}`;
+            fechaInicio.textContent = `Fecha inicio: ${accion.created_at.split("T")[0]}`;
 
             const fechaFinal = document.createElement("p");
             fechaFinal.classList.add("form_autorizacion");
-            fechaFinal.textContent = `• Fecha final: ${accion.end_date}`;
+            fechaFinal.textContent = `Fecha final: ${accion.end_date}`;
 
             accionCont.append(accionRealizada, encargado, fechaInicio, fechaFinal);
             accionesReduccionCont.append(accionCont);
         });
     }
 
+    const contenidoVentana = document.createElement("div");
+    contenidoVentana.classList.add("contenido-ventana")
+    
+    contenidoVentana.append(tipoAmenazaCont, descripcionCont, ubicacionDistanciaCont, accionesReduccionCont);
 
-    ventana.append(btnCerrar, tipoAmenazaCont, descripcionCont, ubicacionDistanciaCont, accionesReduccionCont, btnEditar);
+    ventana.append(btnCerrarCont, contenidoVentana, btnEditar);
 
     overlay.appendChild(ventana);
 
