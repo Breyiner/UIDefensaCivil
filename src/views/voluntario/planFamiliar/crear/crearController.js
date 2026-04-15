@@ -33,7 +33,7 @@ export default async () => {
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
     const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver?, perderás tu progreso",);
-    if (confirmacion.isConfirmed) location.href = "#/voluntario/"; // Romper el proceso y regresar al inicio
+    if (confirmacion.isConfirmed) location.href = "#/voluntario"; // Romper el proceso y regresar al inicio
   };
 
   // Traer las opciones del gobierno (Zona Urbana, Rural / Departamentos macro) desde la base de datos
