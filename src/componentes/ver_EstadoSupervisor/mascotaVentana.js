@@ -121,7 +121,11 @@ const MascotaVentana = async (mascota, info) => {
 
     contenidoVentana.append(nombreCont, especieRazaCont, generoCont, vacunasCont)
 
-    ventana.append(btnCerrarCont, contenidoVentana, btnEditar);
+    if (info.status_plan_id !== 6 && info.status_plan_id !== 7) {
+        ventana.append(btnCerrarCont, contenidoVentana, btnEditar);
+    } else {
+        ventana.append(btnCerrarCont, contenidoVentana);
+    }
 
     overlay.append(ventana);
 

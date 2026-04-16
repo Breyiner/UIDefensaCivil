@@ -25,8 +25,6 @@ const RevisionPlanController = async () => {
     const riskFactors = await api.get(`riskFactors/`);
 
     const Resources = await api.get(`availableResources/`);
-    console.log("recursos", Resources);
-
 
     const contenedor = document.querySelector(".container__revision");
 
@@ -59,12 +57,16 @@ const RevisionPlanController = async () => {
 
     const apellidoFamilia = document.createElement("div");
     apellidoFamilia.classList.add("tarjeta__titulo",);
-    apellidoFamilia.textContent = "Familia "+ info.last_names;
+    apellidoFamilia.textContent = "Familia " + info.last_names;
 
-    const familiaCont = document.createElement ("div");
+    const familiaCont = document.createElement("div");
     familiaCont.classList.add("form_autorizacion", "form-top_autorization");
 
-    familiaCont.append(apellidoFamilia, btnEditarDatos);
+    if (info.status_plan_id !== 6 && info.status_plan_id !== 7) {
+        familiaCont.append(apellidoFamilia, btnEditarDatos);
+    } else {
+        familiaCont.append(apellidoFamilia);
+    }
 
     btnEditarDatos.addEventListener("click", () => {
         location.href = `#/supervisor/plan_familiar/datos/familia_id=${info.id}`;
@@ -368,13 +370,17 @@ const RevisionPlanController = async () => {
     botonesContenedor.classList.add("tarjeta--botones");
     botonesContenedor.append(aprobar, rechazarCambios, rechazarDefinitivo);
 
+    if (info.status_plan_id == 7 || info.status_plan_id == 6) {
+        botonesContenedor.classList.add("oculto");
+    }
+
     div.append(tarjetaIntroduccion, tarjetaContenido);
 
     // Callback del botón 'Aprobar'
     aprobar.addEventListener("click", async () => {
         try {
             // Impacta directamente al ID de estado del Plan 7 (Probablemente "Aprobado")
-            const data = await api.patch(`familyPlans/status/${info.id}`, {
+            const data = await api.patch(`familyPlans/${info.id}/change-status`, {
                 status_plan_id: 7,
             });
             // Condominio de respuesta

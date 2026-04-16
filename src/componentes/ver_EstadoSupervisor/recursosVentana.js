@@ -11,16 +11,19 @@ const recursosVentana = async (recurso, info) => {
     ventana.classList.add("ventana", "ventana__supervisor");
 
     const btnEditar = document.createElement("button");
-    btnEditar.classList.add("btn-editar");
+    btnEditar.classList.add("btn-editar", "boton");
     btnEditar.textContent = "Editar";
 
     const btnCerrar = document.createElement("button");
     btnCerrar.classList.add("ri-close-line", "btn-cerrar-Estado");
     btnCerrar.onclick = () => overlay.remove();
 
+    const btnCerrarCont = document.createElement("div");
+    btnCerrarCont.classList.add("btn-cerrar-Cont");
+    btnCerrarCont.append(btnCerrar);
 
     const nombreCont = document.createElement("div");
-    nombreCont.classList.add("form_autorizacion");
+    nombreCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const nombreTitulo = document.createElement("p");
     nombreTitulo.classList.add("form__texto");
@@ -36,7 +39,7 @@ const recursosVentana = async (recurso, info) => {
 
 
     const servicioCont = document.createElement("div");
-    servicioCont.classList.add("form_autorizacion");
+    servicioCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const servicioTitulo = document.createElement("p");
     servicioTitulo.classList.add("form__texto");
@@ -52,7 +55,7 @@ const recursosVentana = async (recurso, info) => {
 
 
     const telefonoCont = document.createElement("div");
-    telefonoCont.classList.add("form_autorizacion");
+    telefonoCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const telefonoTitulo = document.createElement("p");
     telefonoTitulo.classList.add("form__texto");
@@ -68,7 +71,7 @@ const recursosVentana = async (recurso, info) => {
 
 
     const descripcionCont = document.createElement("div");
-    descripcionCont.classList.add("form_autorizacion");
+    descripcionCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const descripcionTitulo = document.createElement("p");
     descripcionTitulo.classList.add("form__texto");
@@ -84,7 +87,7 @@ const recursosVentana = async (recurso, info) => {
 
 
     const distanciaCont = document.createElement("div");
-    distanciaCont.classList.add("form_autorizacion");
+    distanciaCont.classList.add("form_autorizacion", "form-column_autorization");
 
     const distanciaTitulo = document.createElement("p");
     distanciaTitulo.classList.add("form__texto");
@@ -98,7 +101,16 @@ const recursosVentana = async (recurso, info) => {
 
     distanciaCont.append(distanciaTitulo, distancia);
 
-    ventana.append(btnCerrar, nombreCont, servicioCont, telefonoCont, descripcionCont, distanciaCont, btnEditar);
+    const contenidoVentana = document.createElement("div");
+    contenidoVentana.classList.add("contenido-ventana")
+
+    contenidoVentana.append(nombreCont, servicioCont, telefonoCont, descripcionCont, distanciaCont)
+
+    if (info.status_plan_id !== 6 && info.status_plan_id !== 7) {
+        ventana.append(btnCerrarCont, contenidoVentana, btnEditar);
+    } else {
+        ventana.append(btnCerrarCont, contenidoVentana);
+    }
 
     overlay.append(ventana);
 

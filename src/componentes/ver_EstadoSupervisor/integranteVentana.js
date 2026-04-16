@@ -205,7 +205,11 @@ const integranteVentana = async (miembro, relacion, info) =>{
     
     contenidoVentana.append(nombreIntegranteCont, documentosCont, fechaNacimientoCont, generoCont, nacionalidadCont, numeroTelefonoCont, epsCont, afeccionesCont, tipoSangreCont);
     
-    ventana.append(btnCerrarCont, contenidoVentana, btnEditar)
+    if (info.status_plan_id !== 6 && info.status_plan_id !== 7) {
+        ventana.append(btnCerrarCont, contenidoVentana, btnEditar);
+    } else {
+        ventana.append(btnCerrarCont, contenidoVentana);
+    }
 
     overlay.append(ventana);
 

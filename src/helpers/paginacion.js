@@ -134,10 +134,10 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
 
             const cartaInfo = await carta(info);
 
-            if (esSupervisor && (info.status_id == 3 || info.status_id == 2 || info.status_id == 1)) {
+            if (esSupervisor && (info.status_id == 5 || info.status_id == 3 || info.status_id == 2 || info.status_id == 1)) {
                 cartaInfo.querySelectorAll("button").forEach(btn => btn.style.display = "none");
 
-            } else if (esVoluntario && (info.status_id == 4 || info.status_id == 5 || info.status_id == 6 || info.status_id == 7)) {
+            } else if (esVoluntario && (info.status_id == 4 || info.status_id == 6 || info.status_id == 7)) {
                 cartaInfo.querySelectorAll("button").forEach(btn => btn.style.display = "none");
             }
 

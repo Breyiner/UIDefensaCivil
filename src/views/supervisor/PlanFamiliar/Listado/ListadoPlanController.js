@@ -45,8 +45,9 @@ const ListadoPlanController = async () => {
         }
     ]
 
-    for (let i = 0; i < estados.length; i++) {
-        const estado = estados[i];
+    // for (let i = 0; i < estados.length; i++)
+    for (const estado of estados) {
+        // const estado = estados[i];
         
         const botonEstado = document.createElement("button")
         botonEstado.classList.add("selector--estado");

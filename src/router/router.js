@@ -11,52 +11,126 @@ import { routes } from "./routers";
 import * as alerta from "../helpers/alertas";
 import { isAuth, isAuthorize } from "../helpers/auth";
 
+import * as api from "../helpers/api";
 
 export const router = async (main) => {
-  // Encontrar la ruta desde el hash (#)
-  const hash = location.hash.slice(1);
-  let arregloHash = hash.split("/");
-  let residuo = arregloHash.pop();
-  // Separar la ruta URL de los queryParams
-  arregloHash = [ ...arregloHash, ...residuo.split("?")];
+    // Encontrar la ruta desde el hash (#)
+    const hash = location.hash.slice(1);
+    let arregloHash = hash.split("/");
+    let residuo = arregloHash.pop();
+    // Separar la ruta URL de los queryParams
+    arregloHash = [...arregloHash, ...residuo.split("?")];
 
-  // recorrer todas las rutas
-  const [ruta, parametros] = recorrerRutas(routes, arregloHash);
+    // recorrer todas las rutas
+    const [ruta, parametros] = recorrerRutas(routes, arregloHash);
 
-  // si la ruta no es encontrada:
+    // si la ruta no es encontrada:
 
-  if (!ruta) {
-    main.innerHTML = `<h2>Ruta no encontrada</h2>`;
-    return;
-  }
+    if (!ruta) {
+        main.innerHTML = `<h2>Ruta no encontrada</h2>`;
+        return;
+    }
 
-  //deestructurar la configuracion (objeto config)
-  const { private: esPrivada, layout: tieneLayout, permissions} = ruta.config;
+    //deestructurar la configuracion (objeto config)
+    const { private: esPrivada, layout: tieneLayout, permissions } = ruta.config;
 
-  if (esPrivada && !isAuth()) {
-    console.log("papu")
-  }
+    if (esPrivada && !isAuth()) {
+        console.log("papu")
+    }
 
-  // verificar que el usuario tenga permisos especificos
-  if (!tienePermisos(permissions)) {
-    limpiarLayout(main);
-    app.innerHTML = `<h2>No tienes permisos para acceder a esta sección</h2>`;
-    return;
-  }
+    // verificar que el usuario tenga permisos especificos
+    if (!tienePermisos(permissions)) {
+        limpiarLayout(main);
+        app.innerHTML = `<h2>No tienes permisos para acceder a esta sección</h2>`;
+        return;
+    }
 
-  if (ruta.path){
-    await cargarVista(ruta.path,main);
-  }
+    validarRol(hash);
 
-  await ruta.controlador(parametros);
+    ocultarEditarUrl(hash);
+
+
+    if (ruta.path) {
+        await cargarVista(ruta.path, main);
+    }
+
+    await ruta.controlador(parametros);
 
 }
 
 // funcion encargada de limpiar toda la vista
 const limpiarLayout = (main) => {
-  main.innerHTML = "";
+    main.innerHTML = "";
 }
 
+const ocultarEditarUrl = async (hash) => {
+
+    const esSupervisor = hash.includes("supervisor/");
+    const esVoluntario = hash.includes("voluntario/");
+    const segmentos = hash.split("/");
+    const tieneEditar = segmentos.some(segmento => segmento.split("?")[0] === 'editar');
+    const estaEnPlan = hash.includes("plan_familiar/");
+
+    if (estaEnPlan && tieneEditar) {
+
+        const queryString = hash.split("?")[1] || "";
+
+        const params = new URLSearchParams(queryString);
+
+        const familia_id = params.get("familia_id");
+
+        if (familia_id) {
+            const plan = await api.get(`familyPlans/${familia_id}`);
+
+            if (plan.status_plan_id === 6 || plan.status_plan_id === 7) {
+
+                if (esSupervisor) {
+
+                    window.location.hash = "#/supervisor/plan_familiar";
+                    alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente
+                        no se puede editar, te redirigiremos al listado de planes familiares`);
+                    return;
+
+                } else if (esVoluntario) {
+
+                    window.location.hash = "#/voluntario/plan_familiar";
+                    alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente
+                        no se puede editar, te redirigiremos al listado de planes familiares`);
+                    return;
+                }
+            }
+        }
+    };
+}
+
+const validarRol = async (hash) => {
+
+    const roleId = parseInt(localStorage.getItem('role_id'));
+
+    const homes = {
+        1: "#/administrador",
+        2: "#/supervisor",
+        3: "#/voluntario"
+    };
+
+    const rolEnURL = [
+        { segmento: "voluntario", roleId: 3 },
+        { segmento: "supervisor", roleId: 2 },
+        { segmento: "administrador", roleId: 1 },
+    ];
+
+    const rolEncontrado = rolEnURL.find (rol=>{
+        return hash.includes(rol.segmento);
+    });
+
+    if (rolEncontrado && rolEncontrado.roleId !== roleId) {
+
+        window.location.hash = homes[roleId];
+        return false;
+    }
+
+    return true;
+};
 
 // funcion encargada de cargar una vista. params: la ruta de la vista y el elemento HTML donde se inyecta el contenido de la vista
 const cargarVista = async (path, elemento) => {
@@ -72,12 +146,12 @@ const tienePermisos = (permisosRequeridos) => {
     if (!permisosRequeridos || permisosRequeridos.length === 0) {
         return true; // Ruta pública
     }
-    
+
     // Si es un solo permiso, verificarlo directamente
     if (permisosRequeridos.length === 1) {
         return isAuthorize(permisosRequeridos[0]);
     }
-    
+
     // Si son múltiples permisos, verificar que tenga todos
     return permisosRequeridos.every(permiso => isAuthorize(permiso));
 };
@@ -89,7 +163,7 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
     // Procesar parámetros solo en la primera llamada
     if (!esLlamadaRecursiva && arregloHash.length > 0) {
         const ultimoElemento = arregloHash[arregloHash.length - 1];
-        
+
         // Verificar si el último elemento contiene parámetros (tiene =)
         if (ultimoElemento && ultimoElemento.includes("=")) {
             let parametrosSeparados = ultimoElemento.split("&");
@@ -98,7 +172,7 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
                 let claveValor = parametro.split("=");
                 parametros[claveValor[0]] = claveValor[1];
             });
-            
+
             console.log("Parámetros procesados:", parametros);
             arregloHash = [...arregloHash]; // Crear copia para no mutar el original
             arregloHash.pop(); // Remover los parámetros del array
@@ -107,7 +181,7 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
     }
 
     // Ruta raíz vacía (#/ o #)
-    if ((arregloHash.length == 1 && arregloHash[0] == "") || 
+    if ((arregloHash.length == 1 && arregloHash[0] == "") ||
         (arregloHash.length == 2 && arregloHash[0] == "" && arregloHash[1] == "") ||
         arregloHash.length == 0) {
         return [routes[""], parametros];
@@ -121,7 +195,7 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
 
     // Buscar ruta
     for (const key in routes) {
-        if (key == rutaActual) { 
+        if (key == rutaActual) {
             console.log("Encontré la clave:", key, "tipo:", typeof routes[key]);
             console.log(routes[key])
             // Si es una ruta con sub-rutas (contenedor)
@@ -134,7 +208,7 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
             }
             // Ruta final encontrada
             console.log("Ruta final encontrada");
-            return [routes[key], parametros];            
+            return [routes[key], parametros];
         }
     }
     console.log("No se encontró la ruta");

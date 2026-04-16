@@ -143,7 +143,11 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
     
     contenidoVentana.append(tipoAmenazaCont, descripcionCont, ubicacionDistanciaCont, accionesReduccionCont);
 
-    ventana.append(btnCerrarCont, contenidoVentana, btnEditar);
+    if (info.status_plan_id !== 6 && info.status_plan_id !== 7) {
+        ventana.append(btnCerrarCont, contenidoVentana, btnEditar);
+    } else {
+        ventana.append(btnCerrarCont, contenidoVentana);
+    }
 
     overlay.appendChild(ventana);
 

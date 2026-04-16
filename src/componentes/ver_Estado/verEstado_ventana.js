@@ -66,12 +66,12 @@ const verEstadoVentana = (datoMaestro, recargar, urlHistorial, datoText, configu
     const btnCancelar = document.createElement("button");
     btnCancelar.textContent = "Cancelar";
     btnCancelar.classList.add("btn-cancelar");
-    btnCancelar.style.display = "none";
+    btnCancelar.classList.add("oculto");
 
     const btnGuardar = document.createElement("button");
     btnGuardar.textContent = "Guardar";
     btnGuardar.classList.add("btn-guardar");
-    btnGuardar.style.display = "none";
+    btnGuardar.classList.add("oculto");
 
     btnContEstado.append(btnEditar, btnHistorial, btnDesactivar, btnCancelar, btnGuardar);
 

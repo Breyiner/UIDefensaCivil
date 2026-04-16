@@ -11,11 +11,13 @@ import * as modalGraficoVivienda from "../../../helpers/modales/graficoVivienda"
 
 export default async () => {
 
+
     // Nodos Interfaz Header Layout
     const crear = document.getElementById("crear"); // Botón Añadir Croquis Nuevo
     const botonBack = document.getElementById("botonBack");
     const id = location.hash.split("=")[1]; // PK Family_Plan_Id
-    
+
+
     // Contenedor Target del Helper 'Listador Paginador'
     const contenedor = document.querySelector(".container__paginas");
 
@@ -23,9 +25,14 @@ export default async () => {
     if (window.procesoPeticion === undefined) window.procesoPeticion = true;
     window.procesoPeticion = true;
 
-    // Retorno al Main Dashboard familiar
+    const esSupervisor = location.hash.includes("/supervisor/");
+
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
+        if (esSupervisor) {
+            location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+            return;
+        }
         location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
     };
 
@@ -43,11 +50,11 @@ export default async () => {
     const carta = async (info) => {
         const div = document.createElement("div");
         div.classList.add("verGraficos"); // Wrapper CSS layout Grid/Flex
-        
+
         // Render Image URL (Bucket AWS S3 Public Host API) + Botonera de Acción ID-Inyectado
         div.innerHTML = `
             <div class="verGraficos__imagenTexto">
-                <img class="verGraficos__imagen" src="${api.urlStorage+'/'+info.path}">
+                <img class="verGraficos__imagen" src="${api.urlStorage + '/' + info.path}">
                 <div class="verGraficos__texto">${info.description}</div>
             </div>
             <div class="verGraficos__botones">
@@ -81,6 +88,7 @@ export default async () => {
 
         // Branch 1: El volunario quiere Editar el Texto 'Descripcion' de este Mapa
         if (boton.classList.contains("verGrafico__boton--editar")) {
+
             location.href = `#/voluntario/plan_familiar/grafico_vivienda/editar?familia_id=${id}&grafico_id=${graficoId}`; // Pass multiple args CSV style
         }
 
@@ -106,10 +114,22 @@ export default async () => {
 
         // Branch 3: Vista Amplificada Detallada Zoom (+ Modals)
         if (boton.classList.contains("verGrafico__boton--verMas")) {
-            modalGraficoVivienda.ver(graficoId); 
+            modalGraficoVivienda.ver(graficoId);
         }
     });
 
     // Run Auto-Boot On start 
     await recargarContainer();
+
+    //Temporal hasta que se refactorice
+    const familyPlan = await api.get(`familyPlans/${id}`);
+
+    if (familyPlan.status_plan_id === 6 || familyPlan.status_plan_id === 7) {
+        contenedor.querySelectorAll(".verGrafico__boton--editar").forEach(btn => {
+            btn.classList.add("oculto");
+        });
+        contenedor.querySelectorAll(".verGrafico__boton--eliminar").forEach(btn => {
+            btn.classList.add("oculto");
+        });
+    }
 };
