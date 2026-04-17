@@ -1,20 +1,24 @@
 .seccion {
-  display: flex;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
 }
 
 .seccion__tarjeta {
-  width: 80px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  min-width: 120px;
   align-items: center;
-  padding: 10px;
+  justify-content: center;
+  padding: 20px;
   border-radius: var(--border-radius-tarjetas);
   font-family: var(--fuente-titulos);
   color: var(--color-palido);
   font-size: var(--tamano-pequeno);
   font-weight: 400;
-  gap: 5px;
+  gap: 20px;
+  text-align: center;
 }
 
 .seccion__tarjeta--azul {
@@ -35,4 +39,14 @@
 
 .seccion__tarjeta--naranja {
   background-color: var(--color-primario);
+}
+
+.seccion__valor{
+  font-size: var(--tamano-grande);
+  font-weight: bold;
+}
+
+.seccion__detalle{
+  font-size: var(--tamano-mediano);
+  font-weight: 500;
 }

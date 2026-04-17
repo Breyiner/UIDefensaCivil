@@ -55,7 +55,7 @@ export default async () => {
             </div>
 
             <div class="verUsuario__rol ${rolClase}">
-                <span>${info.rol} - ${info.state_user}</span>
+                <span>${info.rol} - ${info.status}</span>
             </div>
 
             <div class="verUsuario__nombre">
@@ -92,7 +92,7 @@ export default async () => {
         
         // Petición al endpoint "userForSupervisor" encargada de los filtros, emitiendo objeto Paginated JSON 
         // Pasando el esqueleto constructor `carta`
-        await paginacion(`users/userForSupervisor`, mensajeVacio, carta);
+        await paginacion(`users`, mensajeVacio, carta);
     };
 
     // Escucha pasiva delegada al contenedor padre (Técnica Event Delegation optimizada RAM)

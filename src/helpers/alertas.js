@@ -1,9 +1,4 @@
-/**
- * Helper de Alertas (alertas.js)
- * Funciona como un Wrapper (Envoltorio) sobre la biblioteca de notificaciones "SweetAlert2".
- * Estandariza el diseño, los colores de los botones y los íconos de todas las ventanas 
- * emergentes de la aplicación para que se vean iguales en todos los módulos.
- */
+
 
 import Swal from "sweetalert2";
 import * as api from "./api.js";
@@ -11,6 +6,8 @@ import * as api from "./api.js";
 // ==========================================
 // ALERTAS BÁSICAS DE INFORMACIÓN
 // ==========================================
+// Las siguientes construcciones de alertaError, alertaOK y alertaWarning
+// están siendo reemplazadas por la vista nativa: src/componentes/modales/modalGeneral.html
 
 // Muestra un modal de Error clásico (Icono X rojo) con un solo botón de "Ok"
 export const alertaError = (mensaje) => {
@@ -296,7 +293,7 @@ export const verDepartCiudad = (
 
 // Pide mediante la API el historial de auditoria de un registro ({tabla}/history/{id}) y lo formatea en una lista
 export const Historial = async (nombre, id) => {
-    const data = await api.get(`${nombre}/history/${id}`);
+    const data = await api.get(`${nombre}/${id}/history`);
 
     // Construye la bitácora con Array.map() iterando cada acción guardada en la BD
     let contenido = `

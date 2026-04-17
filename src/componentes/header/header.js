@@ -28,7 +28,7 @@ export const componenteHeader = () => {
     // botón HOME
     botonHome.addEventListener("click", () => {
         if (rolId == 1) location.href = `#/administrador`
-        else if(rolId == 2) location.href = `#/supervisor-home`
+        else if(rolId == 2) location.href = `#/supervisor`
         else if(rolId == 3)location.href = `#/voluntario`
     });
 

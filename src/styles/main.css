@@ -13,6 +13,8 @@
 @import "./components/inputs.css";
 @import "./components/form.css";
 @import "./components/modal.css";
+@import "./components/modalGeneral.css";
+@import "./components/modalGeneralEdicion.css";
 @import "./components/select.css";
 @import "./components/paginador.css";
 @import "./components/explicacion.css";
@@ -28,7 +30,7 @@
 @import "./components/seccion.css";
 @import "./components/dashboard.css";
 @import "./components/error.css";
-@import "./components/section.css";
+@import "./components/banner.css";
 @import "./components/introduccion.css";
 @import "./components/filtros.css";
 @import "./components/badge.css";
@@ -51,4 +53,5 @@
 @import "./pages/datosMaestros.css";
 @import "./pages/revisionplansupervisor";
 @import "./pages/perfil.css";
+@import "./pages/lista.css";
 @import "./components/historial.css";

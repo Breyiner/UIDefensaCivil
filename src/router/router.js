@@ -206,6 +206,7 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
                 // Combinar parámetros de ambas llamadas
                 return [rutaRecursiva, { ...parametros, ...parametrosRecursivos }];
             }
+            
             // Ruta final encontrada
             console.log("Ruta final encontrada");
             return [routes[key], parametros];
@@ -215,5 +216,19 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
     return [null, parametros];
 };
 
+// funcion que remueve el boton de regreso del header si la ruta coincide con alguna homepage o ruta raiz
+const removerBotonHeader = (arregloHash) => {
+    const botonBack = document.getElementById("botonBack");
 
+    if (!botonBack) {
+        return 
+    }
+    console.log(arregloHash)
+    
+    if (arregloHash.length <= 2) {
+        botonBack.style.display = "none";
+    } else {
+        botonBack.style.display = "block";
+    }
+}
 

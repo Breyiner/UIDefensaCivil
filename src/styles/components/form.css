@@ -37,7 +37,7 @@
 .form__texto {
   font-family: var(--fuente-contenido);
   font-weight: 500;
-  font-size: var(--tamano-mediano);
+  font-size: var(--tamano-pequeno);
 }
 
 .form__texto--center {
