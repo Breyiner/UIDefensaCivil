@@ -29,7 +29,8 @@ export default async () => {
     const planesRecibidos = document.getElementById('planesRecibidos');
     const planesAprobados = document.getElementById('planesAprobados');
     const planesRechazados = document.getElementById('planesRechazados');
-    const tiempoAproximado = document.getElementById('tiempoAproximado');
+    const planesEnRevision = document.getElementById('planesEnRevision');
+    /* const tiempoAproximado = document.getElementById('tiempoAproximado'); */
 
     // Accesos directos / Botonera secundaria
     const botonVoluntarios = document.getElementById("voluntarios");
@@ -41,7 +42,7 @@ export default async () => {
     planesRecibidos.textContent = dashBoard.pending_plans;
     planesAprobados.textContent = dashBoard.approved_plans;
     planesRechazados.textContent = dashBoard.rejected_plans;
-    
+ /*    
     // Algoritmo de formateo simple para presentar el Promedio de Tiempo en forma legible (Mins o Horas)
     const tiempo = dashBoard.time_validation;
     let tiempoValidado;
@@ -57,11 +58,11 @@ export default async () => {
     else tiempoValidado = tiempo + "m"
     
     // Aplica el string formateado final
-    tiempoAproximado.textContent = tiempoValidado
+    tiempoAproximado.textContent = tiempoValidado */
 
     // Declaración de enrutamientos de la botonera principal Dashboard
     botonVoluntarios.addEventListener("click", () => {
-        window.location.href = `#/supervisor/usuarios/gestion`; // Vista Gestor Users
+        window.location.href = `#/supervisor/usuarios/gestion/`; // Vista Gestor Users
     });
     botonPeticiones.addEventListener("click", () => {
         window.location.href = `#/supervisor/usuarios/peticiones`; // Vista Peticiones/Requests List

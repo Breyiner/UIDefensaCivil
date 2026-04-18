@@ -36,6 +36,8 @@
 @import "./components/badge.css";
 @import "./components/spinner.css";
 @import "./components/verEstadoVentana.css";
+@import "./components/tablas.css";
+@import "./components/sidebar.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";
