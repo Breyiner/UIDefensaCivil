@@ -13,17 +13,24 @@ import acordeon from "../../../../helpers/acordeon";
 
 export default async () => {
     // Nav Actioners DOM Reference Buttons Nodos Master Layout Target Selectors Elements  
+    const esSupervisor = location.hash.includes("/supervisor/");
+    
     const botonBack = document.getElementById("botonBack");
     const botonGuardar = document.getElementById("botonGuardar"); // Base Patch Target Submission API Method Patch Only Main Parent "Risk" Trigger Save Actions Request. Does not touch relationships.
     const form = document.querySelector(".form");
-
+    
     // Contenedores Arrays Acordeon Desplegable Inferior para la lógica Relacional N UI (1 a Muchos DB).
     const contenedorAcciones = document.querySelector(".gestionarAcciones__lista");
     const contenedorVulnerabilidades = document.querySelector(".gestionarVulnerabilidades__lista");
-
+    
     // Botones Triggers (Añadir Nuevo "Hijo") 
     const botonAñadirAcciones = document.querySelector(".gestionarAcciones__boton");
     const botonAñadirVulnerabilidad = document.querySelector(".gestionarVulnerabilidades__boton");
+
+    if (esSupervisor){
+        botonAñadirAcciones.classList.add("oculto");
+        botonAñadirVulnerabilidad.classList.add("oculto");
+    }
 
     // PARSING DOBLE URL
     const hashQuery = location.hash.split("?")[1] ?? ""; // Si no hay query params, asigna string vacío para evitar errores al crear URLSearchParams
@@ -37,7 +44,6 @@ export default async () => {
     }
     window.procesoPeticion = true;
 
-    const esSupervisor = location.hash.includes("/supervisor/");
 
     // Accion Atras Muro General List Navigation 
     botonBack.onclick = async () => {
@@ -124,13 +130,13 @@ export default async () => {
     // Delegador Bubbling Evento para Click en items específicos de Sub-listas (Abrir vista detalle modal sweetalert para Modificar/Borrar un Hijo Individual de la relación)
     contenedorAcciones.addEventListener("click", async (e) => {
         const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id;
-        modalFactorRiesgo.verEditarEliminarAccion(id, planId, cargarAcciones);
+        modalFactorRiesgo.verEditarEliminarAccion(id, planId, cargarAcciones, esSupervisor);
     });
 
     // Delegador Vulnerabilidad Info Action Request Delete Edit Detail View Detail Popup Data Trigger Handler Execute Callback Refresh Re-Load Method Render List Pattern Application State Synced Application Client Server API Local Function Implementation Tool Usage Guide Flow Function Execution Runtime Interaction Behavior Case 
     contenedorVulnerabilidades.addEventListener("click", async (e) => {
         const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id;
-        modalFactorRiesgo.verEditarEliminarVulnerabilidad(id, cargarVulnerabilidades);
+        modalFactorRiesgo.verEditarEliminarVulnerabilidad(id, cargarVulnerabilidades, esSupervisor);
     });
 
 
@@ -164,4 +170,5 @@ export default async () => {
         botonGuardar.disabled = false;
         window.procesoPeticion = false;
     });
+
 };

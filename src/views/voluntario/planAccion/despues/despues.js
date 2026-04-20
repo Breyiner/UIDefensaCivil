@@ -172,6 +172,11 @@ export default async () => {
 
     // Llamado para la ventana interactiva superior buscando crear algo nuevo (ícono (+))
     const botonAñadir = document.querySelector(".gestionarAfecciones__boton");
+
+    if (esSupervisor) {
+      botonAñadir.classList.add("oculto");
+    }
+
     botonAñadir.addEventListener("click", async () => {
       // Construye la ventana aportando identificadores y aclarando a cuál fase se dirige (El 3)
       modalPlanAccion.crear(id, tipoEstado, cargarAfecciones, idPlanAccion.id);
@@ -180,14 +185,14 @@ export default async () => {
     // Detecta cualquier pulsación a un objetivo perteneciente de la "Lista" visualizada de esta fase
     contenedorAfecciones.addEventListener("click", async (e) => {
       const target = e.target.closest(".gestionarAfecciones__afeccion")
+
       if (!target) return; // Si no hizo click en un objetivo, no hacer nada
 
       const idAfeccion = target.dataset.id;
-      modalPlanAccion.verEditarEliminar(idAfeccion, id, cargarAfecciones);
+      modalPlanAccion.verEditarEliminar(idAfeccion, id, cargarAfecciones, esSupervisor);
     });
 
     // Envío del usuario cuando retrocede
-    const esSupervisor = location.hash.includes("/supervisor/");
     
     botonAtras.addEventListener("click", async () => {
       if (window.procesoPeticion) return;

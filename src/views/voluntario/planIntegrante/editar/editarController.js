@@ -13,6 +13,8 @@ import acordeon from "../../../../helpers/acordeon"; // Script Inyector Eventos 
 
 export default async () => {
   // Selectores UI Básicos Control
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   const botonBack = document.getElementById("botonBack");
   const botonGuardar = document.getElementById("botonGuardar"); // Activa Patch Member Data
   const form = document.querySelector(".form");
@@ -28,6 +30,11 @@ export default async () => {
   // Nodos UI Submódulo Enfermedades (Afecciones Acordeon Pestaña Inferior)
   const contenedorAfecciones = document.querySelector(".gestionarAfecciones__lista",);
   const botonAñadir = document.querySelector(".gestionarAfecciones__boton"); // Trigger Modal
+  
+
+  if (esSupervisor) {
+    botonAñadir.classList.add("oculto");
+  }
 
   // Bloqueo Concurrencia
   if (window.procesoPeticion === undefined) {
@@ -35,7 +42,6 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
-  const esSupervisor = location.hash.includes("/supervisor/");
 
   // Lógica de Atrás normal Muro View
   botonBack.onclick = async () => {
@@ -117,7 +123,7 @@ export default async () => {
   contenedorAfecciones.addEventListener("click", async (e) => {
     const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id; // Target Target UUID Item
     // Activa Popup Modal Custom Especial Version Action Compleja.
-    modalIntegrante.verEditarEliminar(id, integranteId, cargarAfecciones);
+    modalIntegrante.verEditarEliminar(id, integranteId, cargarAfecciones, esSupervisor);
   });
 
   // Listener Submit Core Form Data Personales 'PUT Update Completo'

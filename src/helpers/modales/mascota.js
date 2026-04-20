@@ -123,7 +123,7 @@
   };
 
   // Muestra una vacuna individual permitiendo su eventual edición o eliminación
-  export const verEditarEliminar = async (id,mascotaId,recargarContainer) => {
+  export const verEditarEliminar = async (id, mascotaId, recargarContainer, esSupervisor) => {
       // Trae los detalles de la vacuna
       const datos = await api.get(`petVaccines/${id}`);
       
@@ -211,6 +211,6 @@
       };
 
       // Construye el modal inicial de solo vista con los callbacks activados (true)
-      alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar);
+      alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 
   }

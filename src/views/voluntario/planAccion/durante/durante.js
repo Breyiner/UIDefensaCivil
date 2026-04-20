@@ -176,6 +176,11 @@ export default async () => {
 
     // Evento sobre el botón con símbolo de "+" para agregar más acciones a esta fase
     const botonAñadir = document.querySelector(".gestionarAfecciones__boton");
+    
+    if (esSupervisor) {
+      botonAñadir.classList.add("oculto");
+    }
+
     botonAñadir.addEventListener("click", async () => {
       // Usa el elemento global para abrir una ventana emergente de creación, dictando la fase 2 ('Durante')
       modalPlanAccion.crear(id, tipoEstado, cargarAfecciones, idPlanAccion.id);
@@ -189,12 +194,11 @@ export default async () => {
 
       const idAfeccion = target.dataset.id;
       // Ventana que pregunta si edita o elimina dicha opción
-      modalPlanAccion.verEditarEliminar(idAfeccion, id, cargarAfecciones);
+      modalPlanAccion.verEditarEliminar(idAfeccion, id, cargarAfecciones, esSupervisor);
     });
 
 
     // Eventos a las pestañas de navegación (Llevar a pantalla anterior y pantalla siguiente)
-    const esSupervisor = location.hash.includes("/supervisor/");
 
     botonAtras.addEventListener("click", async () => {
       if (window.procesoPeticion) return;

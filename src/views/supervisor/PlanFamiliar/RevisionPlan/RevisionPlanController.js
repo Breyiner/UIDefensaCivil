@@ -337,7 +337,7 @@ const RevisionPlanController = async () => {
 
     // 📍 Georreferenciación
     btnGeo.addEventListener("click", () => {
-        location.hash = `#/supervisor/plan_familiar/grafico_del_entorno/editar?familia_id=${info.id}`;
+        location.hash = `#/supervisor/plan_familiar/grafico_del_entorno?familia_id=${info.id}`;
     });
 
     // 🏠 Gráficos de vivienda

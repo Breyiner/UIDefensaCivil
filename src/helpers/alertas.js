@@ -155,7 +155,7 @@ export const Crear = async (htmlModal, funcionModal, funcionAlAbrir) => {
 };
 
 // Modal visor: Muestra información de un registro y provee botones de control (Editar / Eliminar) 
-export const Ver = (htmlModal,mostrarEditar,mostrarEliminar,funcionEditar,funcionEliminar) => {
+export const Ver = (htmlModal, mostrarEditar, mostrarEliminar, funcionEditar, funcionEliminar, esSupervisor) => {
     Swal.fire({
         html: htmlModal,
         showCloseButton: true,
@@ -167,7 +167,7 @@ export const Ver = (htmlModal,mostrarEditar,mostrarEliminar,funcionEditar,funcio
         confirmButtonText: 'Editar',
 
         // BOTÓN ELIMINAR
-        showCancelButton: mostrarEliminar,
+        showCancelButton: mostrarEliminar && !esSupervisor,
         cancelButtonText: 'Eliminar',
 
         customClass: {

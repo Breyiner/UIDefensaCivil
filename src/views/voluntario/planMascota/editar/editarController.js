@@ -12,6 +12,8 @@ import acordeon from "../../../../helpers/acordeon"; // UI Expander JS
 
 export default async () => {
   // UI Nav elements
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   const botonBack = document.getElementById("botonBack");
   const botonGuardar = document.getElementById("botonGuardar"); // Submit update Base Form
   const form = document.querySelector(".form");
@@ -26,13 +28,16 @@ export default async () => {
   const contenedorAfecciones = document.querySelector(".gestionarAfecciones__lista");
   const botonAñadir = document.querySelector(".gestionarAfecciones__boton"); // Lanzador Modal de Vacuna
 
+  if(esSupervisor) {
+    botonAñadir.classList.add("oculto");
+  }
+
   // Bloqueo Inicial Interfaz pre-cargas
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
   }
   window.procesoPeticion = true;
 
-  const esSupervisor = location.hash.includes("/supervisor/");
 
   // Lógica Botón Atrás Muro listado Animalitos Familia
   botonBack.onclick = async () => {
@@ -102,7 +107,7 @@ export default async () => {
   contenedorAfecciones.addEventListener("click", async (e) => {
     const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id; // Extractor UUID PK
     // Manda al helper a Pop-Up Vista Resumen Vacuna especifica
-    modalMascota.verEditarEliminar(id, mascotaId, cargarAfecciones);
+    modalMascota.verEditarEliminar(id, mascotaId, cargarAfecciones, esSupervisor);
   });
 
   // Listener Submit Form Maestro Superior (Atributos Basicos Raza/Edad/Nombre) PATCH!

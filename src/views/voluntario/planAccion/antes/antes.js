@@ -189,6 +189,11 @@ export default async () => {
 
     // Acción al tocar el botón con el ícono (+) para Añadir una nueva acción
     const botonAñadir = document.querySelector(".gestionarAfecciones__boton");
+
+    if (esSupervisor) {
+      botonAñadir.classList.add("oculto");
+    }
+
     botonAñadir.addEventListener("click", async () => {
       // Usa una herramienta central para abrir una ventana y crear la acción (especifica que es fase 1 'Antes')
       modalPlanAccion.crear(id, tipoEstado, cargarAfecciones, idPlanAccion.id);
@@ -202,11 +207,10 @@ export default async () => {
 
       const idAfeccion = target.dataset.id;
       // Abre una ventana emergente para que pueda modificar o borrar esta tarjeta específica
-      modalPlanAccion.verEditarEliminar(idAfeccion, id, cargarAfecciones);
+      modalPlanAccion.verEditarEliminar(idAfeccion, id, cargarAfecciones, esSupervisor);
     });
 
     // Acción del botón inferior Siguiente (Pasa a la Fase Durante)
-    const esSupervisor = location.hash.includes("/supervisor/");
 
     botonSiguiente.addEventListener("click", async () => {
       if (window.procesoPeticion) return; // Protección temporal mientras carga

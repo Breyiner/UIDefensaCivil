@@ -13,7 +13,7 @@ import * as validacion from "../../../../helpers/validacionInputs";
 export default async () => {
   // Extraer el código único o número identificador del plan desde la dirección del navegador web
   const id = location.hash.split("=")[1];
-
+  
   // Elementos principales de la pantalla
   const botonBack = document.getElementById("botonBack"); // Botón para regresar
   const form = document.querySelector(".form"); // El formulario que agrupa todo

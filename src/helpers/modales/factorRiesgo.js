@@ -82,7 +82,7 @@ export const ver = async (id) => {
   `;
 
     // 3. Renderiza en pantalla sin botones CRUD
-    alerta.Ver(htmlModal, false, false, null, null);
+    alerta.Ver(htmlModal, false, false, null, null, null);
 };
 
 
@@ -163,7 +163,7 @@ export const crearAccion = async (riskFactorId, familyPlanId, recargarContainer)
 };
 
 // Sub-Controlador: Lee en modal una acción de riesgo, pero con habilitación CRUD (Edita y Borra hijo)
-export const verEditarEliminarAccion = async (id, familyPlanId, recargarContainer) => {
+export const verEditarEliminarAccion = async (id, familyPlanId, recargarContainer, esSupervisor) => {
 
     const datos = await api.get(`riskReductionActions/${id}`);
     
@@ -288,7 +288,7 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
     };
 
     // Renderiza modal incial de vista habilitando edición y tachado
-    alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar);
+    alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 };
 
 
@@ -362,7 +362,7 @@ export const crearVulnerabilidad = async (riskFactorId, recargarContainer) => {
 };
 
 // Modal de lectura simple pero equiparado con la capacidad de borrado de dicha vulnerabilidad detectada
-export const verEditarEliminarVulnerabilidad = async (id, recargarContainer) => {
+export const verEditarEliminarVulnerabilidad = async (id, recargarContainer, esSupervisor) => {
 
     const datos = await api.get(`vulnerabilityFactors/${id}`);
 
@@ -478,5 +478,5 @@ export const verEditarEliminarVulnerabilidad = async (id, recargarContainer) => 
     };
 
     // Abre el modal inicial inyectando las lógicas CRUD completas
-    alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar);
+    alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 };

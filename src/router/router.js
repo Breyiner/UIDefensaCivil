@@ -27,7 +27,8 @@ export const router = async (main) => {
     // si la ruta no es encontrada:
 
     if (!ruta) {
-        main.innerHTML = `<h2>Ruta no encontrada</h2>`;
+        volverHome(hash);
+        alerta.alertaMensaje(`Error 404: Página no encontrada. Serás redirigido a tu página de inicio.`)
         return;
     }
 
@@ -35,7 +36,7 @@ export const router = async (main) => {
     const { private: esPrivada, layout: tieneLayout, permissions } = ruta.config;
 
     if (esPrivada && !isAuth()) {
-        console.log("papu")
+        console.log("Error")
     }
 
     // verificar que el usuario tenga permisos especificos
@@ -87,21 +88,31 @@ const ocultarEditarUrl = async (hash) => {
                 if (esSupervisor) {
 
                     window.location.hash = "#/supervisor/plan_familiar";
-                    alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente
-                        no se puede editar, te redirigiremos al listado de planes familiares`);
+                    alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente y no se puede editar, te redirigiremos al listado de planes familiares`);
                     return;
 
                 } else if (esVoluntario) {
 
                     window.location.hash = "#/voluntario/plan_familiar";
-                    alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente
-                        no se puede editar, te redirigiremos al listado de planes familiares`);
+                    alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente y no se puede editar, te redirigiremos al listado de planes familiares`);
                     return;
                 }
             }
         }
     };
 }
+
+const volverHome = async (hash) => {
+    const roleId = parseInt(localStorage.getItem('role_id'));
+
+    const homes = {
+        1: "#/administrador",
+        2: "#/supervisor",
+        3: "#/voluntario"
+    };
+
+    if (homes[roleId]) window.location.hash = homes[roleId];
+};
 
 const validarRol = async (hash) => {
 
@@ -126,6 +137,7 @@ const validarRol = async (hash) => {
     if (rolEncontrado && rolEncontrado.roleId !== roleId) {
 
         window.location.hash = homes[roleId];
+        alerta.alertaMensaje(`Esta página no está disponible para tu perfil. Te redirigimos a tu página de inicio.`)
         return false;
     }
 
@@ -206,7 +218,6 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
                 // Combinar parámetros de ambas llamadas
                 return [rutaRecursiva, { ...parametros, ...parametrosRecursivos }];
             }
-            
             // Ruta final encontrada
             console.log("Ruta final encontrada");
             return [routes[key], parametros];
@@ -216,19 +227,5 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
     return [null, parametros];
 };
 
-// funcion que remueve el boton de regreso del header si la ruta coincide con alguna homepage o ruta raiz
-const removerBotonHeader = (arregloHash) => {
-    const botonBack = document.getElementById("botonBack");
 
-    if (!botonBack) {
-        return 
-    }
-    console.log(arregloHash)
-    
-    if (arregloHash.length <= 2) {
-        botonBack.style.display = "none";
-    } else {
-        botonBack.style.display = "block";
-    }
-}
 
