@@ -18,6 +18,8 @@ export default async () => {
     // Contenedor Inyección Grilla Dom
     const contenedor = document.querySelector(".container__paginas");
 
+    const esSupervisor = location.hash.includes("/supervisor/");
+
     // Concurrency Lock Avoid Double clicks
     if (window.procesoPeticion === undefined) window.procesoPeticion = true;
     window.procesoPeticion = true;
@@ -25,6 +27,9 @@ export default async () => {
     // Acción Volver atrás
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
+        if (esSupervisor) {
+            location.href = `#/supervisor/plan_familiar/familia?id=${id}`;
+        }
         location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
     };
 
@@ -85,6 +90,9 @@ export default async () => {
         // Branch 1: Modificar/Anexar Elemento Riesgo
         if (boton.classList.contains("verRiesgos__boton--editar")) {
             // URL Mapeada con IDs csv (Plan y Riesgo Target)
+            if(esSupervisor){
+                location.href = `#/supervisor/plan_familiar/factores_de_riesgo/editar?familia_id=${id}&riesgo_id=${riskId}`;
+            }
             location.href = `#/voluntario/plan_familiar/factores_de_riesgo/editar?familia_id=${id}&riesgo_id=${riskId}`;
         }
 

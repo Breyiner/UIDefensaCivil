@@ -14,7 +14,7 @@ export const crear = async (familyPlanId, actionTypeId, recargarContainer, idPla
 
   // Inicia la variable del desplegable HTML con opción nula
   let options = `<option value="">Seleccione un miembro</option>`;
-  
+
   // Recorre el array agregando opciones interactivas con el nombre completo y id de validación
   members.forEach(member => {
     options += `<option value="${member.id}">${member.full_name}</option>`;
@@ -79,7 +79,7 @@ export const crear = async (familyPlanId, actionTypeId, recargarContainer, idPla
 };
 
 // Detalle completo y gestión de la acción registrada de un integrante (Editar/Eliminar)
-export const verEditarEliminar = async (id, familyPlanId, recargarContainer) => {
+export const verEditarEliminar = async (id, familyPlanId, recargarContainer, esSupervisor) => {
   // Pide al servidor detalles exactos de esa tarea "Acción" específica
   const datos = await api.get(`actionPlanActions/${id}`);
 
@@ -191,5 +191,5 @@ export const verEditarEliminar = async (id, familyPlanId, recargarContainer) => 
   };
 
   // Levanta sweetalert "ModalVer" nativo permitiendo las operaciones de editar true/eliminar true inyectadas en los parámetros
-  alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar);
+  alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 };

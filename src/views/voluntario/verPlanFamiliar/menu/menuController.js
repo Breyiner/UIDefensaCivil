@@ -92,7 +92,7 @@ export default async () => {
 
   graficoEntorno.addEventListener("click", async () => {
 
-    location.href = `#/${base}/plan_familiar/grafico_del_entorno/editar?familia_id=${id}`;
+    location.href = `#/${base}/plan_familiar/grafico_del_entorno?familia_id=${id}`;
   });
 
   graficosVivienda.addEventListener("click", async () => {

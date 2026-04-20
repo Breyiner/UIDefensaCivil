@@ -36,6 +36,10 @@ export default async () => {
         location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
     };
 
+    if (esSupervisor) {
+        crear.classList.add("oculto")
+    }
+
     // Redirección Pestaña Formulario Subida (Ver planGrafico/crear/crearController)
     crear.addEventListener("click", () => {
         location.href = `#/voluntario/plan_familiar/grafico_vivienda/crear?id=${id}`;
@@ -89,6 +93,11 @@ export default async () => {
         // Branch 1: El volunario quiere Editar el Texto 'Descripcion' de este Mapa
         if (boton.classList.contains("verGrafico__boton--editar")) {
 
+            if (esSupervisor) {
+                location.href = `#/supervisor/plan_familiar/grafico_vivienda/editar?familia_id=${id}&grafico_id=${graficoId}`;
+                return;
+            }
+
             location.href = `#/voluntario/plan_familiar/grafico_vivienda/editar?familia_id=${id}&grafico_id=${graficoId}`; // Pass multiple args CSV style
         }
 
@@ -114,7 +123,7 @@ export default async () => {
 
         // Branch 3: Vista Amplificada Detallada Zoom (+ Modals)
         if (boton.classList.contains("verGrafico__boton--verMas")) {
-            modalGraficoVivienda.ver(graficoId);
+            modalGraficoVivienda.ver(graficoId, esSupervisor);
         }
     });
 
@@ -128,6 +137,12 @@ export default async () => {
         contenedor.querySelectorAll(".verGrafico__boton--editar").forEach(btn => {
             btn.classList.add("oculto");
         });
+        contenedor.querySelectorAll(".verGrafico__boton--eliminar").forEach(btn => {
+            btn.classList.add("oculto");
+        });
+    }
+
+    if (esSupervisor){
         contenedor.querySelectorAll(".verGrafico__boton--eliminar").forEach(btn => {
             btn.classList.add("oculto");
         });

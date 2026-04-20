@@ -8,19 +8,29 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 
 export default async () => {
-  
+
   // Referencias a los contenedores y botones de la pantalla
   const botonBack = document.getElementById("botonBack"); // Botón superior de volver
   const id = location.hash.split("=")[1]; // Extracción del número interno del plan familiar
 
+  const btnSubir = document.querySelector(".subir_btn");
   const form = document.querySelector(".form"); // Zona o sección que agrupa la carga del archivo
   const boton = document.querySelector(".form__boton"); // Botón principal inferior para registrar la foto
+
+  const familyPlan = await api.get(`familyPlans/${id}`);
+
+  if (familyPlan.status_plan_id === 6 || familyPlan.status_plan_id === 7) {
+
+    boton.classList.add("oculto");
+
+    btnSubir.classList.add("oculto");
+  }
 
   // Elementos individuales centrados en manipular la imagen
   const input = document.getElementById("imagenInput"); // El cajón invisible original donde se seleccionan archivos
   const preview = document.getElementById("preview"); // Área reservada para pintar una vista previa de la foto seleccionada
   const imagenTitulo = document.querySelector(".imagen__titulo"); // Letrero explicativo posicionado encima de la foto
-  
+
   // Reglas fijas y constantes permitidas para no congestionar el sistema con imágenes extra peadas
   const TAMANO_MAX_MB = 2; // Límite máximo establecido en Megabytes
   const TAMANO_MAX_BYTES = TAMANO_MAX_MB * 1024 * 1024; // Conversión matemática estricta a Bytes exactos (medida digital básica)
@@ -37,7 +47,7 @@ export default async () => {
   // Lógica funcional al tocar la flecha superior de ir hacia atrás
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return; // Si algo está cargando de fondo, se interrumpe y previene la salida
-  
+
     if (esSupervisor) {
       location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
       return;
@@ -47,7 +57,7 @@ export default async () => {
 
   // Primera consulta: El sistema revisa si el usuario ya le había asignado una foto previa a esta vivienda
   const existe = await api.getExiste(`housingInfo/${id}`);
-  
+
   if (existe) {
     // Si la respuesta fue cierta, solicitamos al servidor la dirección de dicha imagen y la dibujamos
     const url = await api.getImagen(`housingInfo/${id}`);
@@ -81,7 +91,7 @@ export default async () => {
         `La imagen no puede superar los ${TAMANO_MAX_MB}MB`,
       );
     }
-    
+
     // Si el archivo pasa los escrutinios: Se pinta provisionalmente un adelanto usando funciones locales en el explorador
     preview.src = URL.createObjectURL(file);
     preview.style.display = "block"; // Habilita su visibilidad
@@ -93,9 +103,9 @@ export default async () => {
     e.preventDefault();
     window.procesoPeticion = true;
     boton.disabled = true; // Bloquea momentáneamente el uso del botón para no accionar envíos paralelos
-    
+
     const file = input.files[0];
-    
+
     // Verificación final del archivo, en dado caso que un astuto haya borrado o ignorado lo anterior
     if (!file) {
       boton.disabled = false;
@@ -109,7 +119,7 @@ export default async () => {
         `La imagen no puede superar los ${TAMANO_MAX_MB}MB`,
       );
     }
-    
+
     // Estructura envolvente requerida tecnicamente para trasladar la fotografía pesada desde la pantalla hacia el servidor web
     const formData = new FormData();
     formData.append("path", file); // Asignando como valor de ruta el archivo real pesado
@@ -121,7 +131,7 @@ export default async () => {
 
       // Subida forjada usando el conducto especializado para información multimedia
       const data = await api.postImagen(`housingInfo`, formData);
-      
+
       // Retroalimentación visual evaluando éxito
       if (data.success) {
         await alerta.alertaOK(data.message);
@@ -138,4 +148,6 @@ export default async () => {
     boton.disabled = false;
     window.procesoPeticion = false;
   });
+
+
 };

@@ -67,14 +67,14 @@ export default async () => {
 
     try {
       // API PATCH METHOD! Partial Resource update specific Description String Overrider
-      const data = await api.patch(`housingGraphics/description/${graficoId}`, datosRegistro);
+      const data = await api.patch(`housingGraphics/${graficoId}/description`, datosRegistro);
       if (data.success) {
         
         // Exito
         await alerta.alertaOK(data.message);
         
         // Retorno Forzado Menu listado Layout padre General (Usando la PK padre family plan id que mantuvimos en la URL separada x Coma)
-        location.href = `#/voluntario/plan_familiar/grafico_vivienda?familia_id=${planId}`;
+        // location.href = `#/voluntario/plan_familiar/grafico_vivienda?familia_id=${planId}`;
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }

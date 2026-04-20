@@ -228,11 +228,10 @@ export const routes = {
 
       grafico_del_entorno: {
 
-        editar: {
-          path: `voluntario/planEntorno/editar/index.html`,
-          controlador: PlanEntorno.EditarController,
-          config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        }
+        path: `voluntario/planEntorno/editar/index.html`,
+        controlador: PlanEntorno.EditarController,
+        config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
+
       },
 
       grafico_vivienda: {
@@ -420,12 +419,10 @@ export const routes = {
       },
 
       grafico_del_entorno: {
-        
-        editar:{
-          path: `voluntario/planEntorno/editar/index.html`,
-          controlador: PlanEntorno.EditarController,
-          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
-        }
+
+        path: `voluntario/planEntorno/editar/index.html`,
+        controlador: PlanEntorno.EditarController,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
       },
 
       grafico_vivienda:{

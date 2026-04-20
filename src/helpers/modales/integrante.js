@@ -215,7 +215,7 @@ export const afeccionCrear = async (id, recargarContainer) => {
 
 
 // Manejador anidado para inspeccionar una afección particular (de una posible lista en el plan)
-export const verEditarEliminar = async (id, integranteId, recargarContainer) => {
+export const verEditarEliminar = async (id, integranteId, recargarContainer, esSupervisor) => {
   // Pide el contenido existente de esa receta o afección puntual
   const datos = await api.get(`conditionMembers/${id}`);
   
@@ -399,5 +399,5 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer) => 
     }
   };
 
-  alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar);
+  alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 }
