@@ -18,7 +18,7 @@
             <i class="ri-time-line icono__tarjeta"></i>
             <div class="seccion__tarjeta-contenido">
                 <p class="tarjeta__header-texto">Planes Recibidos</p>
-                <span class="seccion__valor">0</span>
+                <span id="planesEnRevision" class="seccion__valor">0</span>
                 <p class="seccion__detalle">En revisión</p>
             </div>
         </article>
@@ -70,24 +70,63 @@
             <span class="tarjeta__estado tarjeta__estado--naranja">Pendiente</span>
         </article>
     </section>
+    <table class="tabla tabla--supervisor">
+        <thead class="tabla__header">
+            <tr class="tabla__fila tabla__fila--header">
+                <th class="tabla__celda tabla__celda--titulo">Familia</th>
+                <th class="tabla__celda tabla__celda--titulo">Organización</th>
+                <th class="tabla__celda tabla__celda--titulo">Fecha</th>
+                <th class="tabla__celda tabla__celda--titulo">Voluntario</th>
+            </tr>
+        </thead>
+        <tbody class="tabla__contenido">
+            <tr class="tabla__fila">
+                <td class="tabla__celda">
+                        <i class="ri-team-line tabla__icono"></i>
+                        <span>Quintero Díaz</span>
+                </td>
+                <td class="tabla__celda">Bucaramanga</td>
+                <td class="tabla__celda">20/04/2026</td>
+                <td class="tabla__celda">Jhon Díaz</td>
+            </tr>
+            <tr class="tabla__fila">
+                <td class="tabla__celda">
+                        <i class="ri-team-line tabla__icono"></i>
+                        <span>Quintero Díaz</span>
+                </td>
+                <td class="tabla__celda">Bucaramanga</td>
+                <td class="tabla__celda">20/04/2026</td>
+                <td class="tabla__celda">Jhon Díaz</td>
+            </tr>
+            <tr class="tabla__fila">
+                <td class="tabla__celda">
+                        <i class="ri-team-line tabla__icono"></i>
+                        <span>Quintero Díaz</span>
+                </td>
+                <td class="tabla__celda">Bucaramanga</td>
+                <td class="tabla__celda">20/04/2026</td>
+                <td class="tabla__celda">Jhon Díaz</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <h3 class="tarjeta__titulo tarjeta__titulo--left">Accesos Rápidos</h3>
+    <h3 class="tarjeta__titulo tarjeta__titulo--left tarjeta__titulo--dissapear">Accesos Rápidos</h3>
     <section class="seccion seccion--accesos">
         <article class="seccion__tarjeta seccion__tarjeta--azul" id="planFamiliar">
             <i class="ri-file-list-3-line icono__tarjeta"></i>
-            <p class="form__titulo">Planes Familiares</p>
+            <p class="seccion__detalle">Planes Familiares</p>
         </article>
         <article class="seccion__tarjeta seccion__tarjeta--verde" id="voluntarios">
             <i class="ri-team-line icono__tarjeta"></i>
-            <p class="form__titulo">Voluntarios</p>
+            <p class="seccion__detalle">Voluntarios</p>
         </article>
         <article class="seccion__tarjeta seccion__tarjeta--naranja" id="estadisticas">
             <i class="ri-bar-chart-box-line icono__tarjeta"></i>
-            <p class="form__titulo">Estadísticas</p>
+            <p class="seccion__detalle">Estadísticas</p>
         </article>
         <article class="seccion__tarjeta seccion__tarjeta--naranja" id="peticiones">
             <i class="ri-git-pull-request-line icono__tarjeta"></i>
-            <p class="form__titulo">Peticiones</p>
+            <p class="seccion__detalle">Peticiones</p>
         </article>
     </section>
 </div>

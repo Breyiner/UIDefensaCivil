@@ -1,0 +1,59 @@
+.tabla--supervisor {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .tabla--supervisor {
+    width: 100%;
+    table-layout: fixed;
+    margin-top: 20px;
+    display: table;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    border: 1px solid var(--color-grisOscuro);
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+  }
+
+  .tabla__header {
+    background-color: var(--color-grisMedio);
+  }
+
+  .tabla__fila--header {
+    text-align: left;
+  }
+
+  .tabla__celda {
+    padding: 18px 18px;
+    border-bottom: 1px solid var(--color-grisOscuro);
+    color: var(--color-oscuro);
+    font-size: var(--tamano-mediano);
+    white-space: nowrap;
+  }
+
+  .tabla__celda--titulo {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-grisOscuro);
+    font-weight: 700;
+    font-size: var(--tamano-pequeno);
+  }
+
+  .tabla__fila:nth-child(even) .tabla__celda {
+    background-color: var(--color-palido);
+  }
+
+  .tabla__icono {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: var(--color-secundario);
+    color: var(--color-palido);
+    font-size: var(--tamano-medio);
+  }
+
+}

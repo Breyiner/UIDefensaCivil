@@ -17,3 +17,8 @@
   background-color: var(--color-fondoverdetranslucido);
   color: var(--color-verdoso);
 }
+
+.badge--pendiente{
+  color: var(--color-primario);
+  background-color: var(--color-fononaranjatranslucido);
+}

@@ -80,11 +80,6 @@ export const routes = {
       controlador: usuario.perfilController,
       config: publicRoute
     },
-    "notificaciones": {
-      path: `usuario/notificaciones/index.html`,
-      controlador: usuario.notificacionesController,
-      config: publicRoute
-    }
   },
 
   // ================= VOLUNTARIO =================

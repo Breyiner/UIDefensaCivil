@@ -50,3 +50,12 @@
   font-size: var(--tamano-mediano);
   font-weight: 500;
 }
+
+@media (min-width: 768px) {
+  .seccion{
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .tarjeta__titulo--dissapear, .lista--planes, .seccion--accesos{
+    display: none
+  }
+}
