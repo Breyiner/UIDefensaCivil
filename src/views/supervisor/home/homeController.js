@@ -29,7 +29,6 @@ export default async () => {
     const planesRecibidos = document.getElementById('planesRecibidos');
     const planesAprobados = document.getElementById('planesAprobados');
     const planesRechazados = document.getElementById('planesRechazados');
-    const tiempoAproximado = document.getElementById('tiempoAproximado');
 
     // Accesos directos / Botonera secundaria
     const botonVoluntarios = document.getElementById("voluntarios");
@@ -37,27 +36,11 @@ export default async () => {
     const botonPlanFamiliar = document.getElementById("planFamiliar");
     const botonEstadistica = document.getElementById("estadisticas");
 
+
     // Llenado estático de los contadores con las claves recuperadas del objeto 'dashboard' json
     planesRecibidos.textContent = dashBoard.pending_plans;
     planesAprobados.textContent = dashBoard.approved_plans;
     planesRechazados.textContent = dashBoard.rejected_plans;
-    
-    // Algoritmo de formateo simple para presentar el Promedio de Tiempo en forma legible (Mins o Horas)
-    const tiempo = dashBoard.time_validation;
-    let tiempoValidado;
-    
-    // Si sobrepasa la métrica en Minutos (Ej: 90) -> Lo reduce a factor Horas ej: 1h
-    // TODO: Bug potencial - solo extrae horas pisando minutos. (Ej 90 -> 1h, perdiendo los 30 min)
-    if (tiempo > 60)
-    {
-        tiempoValidado = Math.floor(tiempo / 60);
-        tiempoValidado += "h" 
-    }
-    // Presentación en minutos puros si es lapso corto
-    else tiempoValidado = tiempo + "m"
-    
-    // Aplica el string formateado final
-    tiempoAproximado.textContent = tiempoValidado
 
     // Declaración de enrutamientos de la botonera principal Dashboard
     botonVoluntarios.addEventListener("click", () => {
