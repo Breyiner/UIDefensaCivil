@@ -16,12 +16,12 @@ export default async () => {
   const botonBack = document.getElementById("botonBack"); // Botón superior para 'Volver'
   const boton = document.getElementById("botonGuardar"); // Botón 'Guardar' ubicado en la parte de arriba
   const form = document.querySelector(".form"); // Contenedor que agrupa el formulario general
-  
+
   // Extraer el identificador del plan desde la dirección escrita en el navegador
   const id = location.hash.split("=")[1];
-  
+
   // Elementos donde el usuario interactúa
-  const miembro = document.getElementById("miembro"); 
+  const miembro = document.getElementById("miembro");
   const factorRiesgo = document.getElementById("factorRiesgo"); // Opciones de tipos de riego
   const containerTipoAccion = document.querySelector(".container__gap"); // Recuadro que esconde / muestra la lista de abajo
   const botonSiguiente = document.getElementById("siguiente"); // Botón de 'Siguiente' que estará apagado pues es el final
@@ -33,15 +33,21 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   // Acción al oprimir volver
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+      return;
+    }
     location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 
   // Trae las listas reales con información de la base de datos para los familiares y los riesgos
-  await adjuntarOpc.adjuntarMiembros(miembro,`members/familyPlan/select/${id}`,);
-  await adjuntarOpc.adjuntarFactorRiesgo(factorRiesgo,`riskFactors/familyPlan/select/${id}`);
+  await adjuntarOpc.adjuntarMiembros(miembro, `members/familyPlan/select/${id}`,);
+  await adjuntarOpc.adjuntarFactorRiesgo(factorRiesgo, `riskFactors/familyPlan/select/${id}`);
 
   // Eventos que quitan las alertas visuales en rojo del error de validación cuando se corrige un valor
   miembro.addEventListener("change", () => {
@@ -50,7 +56,7 @@ export default async () => {
   factorRiesgo.addEventListener("change", () => {
     validacion.limpiarError(factorRiesgo);
   });
-  
+
   // Desbloqueo inicial para el usuario
   window.procesoPeticion = false;
   boton.disabled = false;
@@ -59,7 +65,7 @@ export default async () => {
   const existePlanAccion = await api.get(
     `actionPlans/familyPlan/boolean/${id}`,
   );
-  
+
   // Si existe ese avance, autocompleta las opciones para restaurar la sesión donde la dejó
   if (existePlanAccion.boolean) {
     await cargarDatos.cargarDatos(
@@ -78,7 +84,7 @@ export default async () => {
     // Herramienta que revisa que las listas sí tienen valores correctos y no en blanco
     let validarMiembro = validacion.validarSelect(miembro);
     let validarFactorRiesgo = validacion.validarSelect(factorRiesgo);
-    
+
     // Si cumple la revisión
     if (validarMiembro && validarFactorRiesgo) {
       // Ordenamiento de los datos de envío
@@ -86,7 +92,7 @@ export default async () => {
         member_id: miembro.value,
         risk_factor_id: factorRiesgo.value,
       };
-      
+
       try {
         let data;
         // Estrategia del sistema:
@@ -95,7 +101,7 @@ export default async () => {
           const idPlanAccion = await api.get(`actionPlans/familyPlan/${id}`);
           data = await api.put(`actionPlans/${idPlanAccion.id}`, datosRegistro);
         } else data = await api.post(`actionPlans`, datosRegistro); // O Creación limpia en caso de no existir
-        
+
         // Mensaje de éxito del servidor
         if (data.success) {
           await alerta.alertaOK(data.message);
@@ -113,27 +119,27 @@ export default async () => {
   // -------------- MÓDULO INFERIOR: ACCIONES CORTAS SEGMENTADAS (Fase: DESPUÉS) --------------
   if (existePlanAccion.boolean) {
     // Apaga el botón de 'Siguiente' ya que esta es la última etapa
-    botonSiguiente.disabled = true; 
+    botonSiguiente.disabled = true;
     botonAtras.disabled = false; // Libre de volver a la fase interior
-    
+
     // Título visible mostrando que estamos en el la etapa correcta
     const planAccionTitulo = document.getElementById('planAccion__titulo');
     planAccionTitulo.textContent = 'Despues';
-    
+
     // Quita la instrucción visual que esconde la zona inferior
     containerTipoAccion.classList.remove("invisible");
-    
+
     // Solicita la información correspondiente para rastrear al plan original
     const idPlanAccion = await api.get(`actionPlans/familyPlan/${id}`);
-    
+
     // Es el recuadro blanco genérico donde caen las nuevas tareas sumadas
     const contenedorAfecciones = document.querySelector(
       ".gestionarAfecciones__lista",
     );
-    
+
     // Regla de Negocio del Sistema: La Fase 3 (Después) está representada por el número 3
     const tipoEstado = 3;
-    
+
     // Tarea automática de buscar los datos repetitivos (cartas de acción) e insertarlos uno a uno
     const cargarAfecciones = async () => {
       // Pide al origen todo el bloque integro de tareas
@@ -141,7 +147,7 @@ export default async () => {
         `actionPlanActions/actionPlan/${idPlanAccion.id}`,
       );
       contenedorAfecciones.innerHTML = ""; // Vacía el recuadro antes de pintar nada
-      
+
       // Ciclo repetitivo para ordenar y graficar lo del servidor
       afecciones.forEach((item) => {
         // Un filtro crucial para evitar dibujar tarjetas del 'Antes' o 'Durante'. Solo importa lo de esta vista
@@ -157,13 +163,13 @@ export default async () => {
         }
       });
     };
-    
+
     // Ejecutar al principio de cargar página
     cargarAfecciones();
 
     window.procesoPeticion = false;
     boton.disabled = false;
-    
+
     // Llamado para la ventana interactiva superior buscando crear algo nuevo (ícono (+))
     const botonAñadir = document.querySelector(".gestionarAfecciones__boton");
     botonAñadir.addEventListener("click", async () => {
@@ -181,9 +187,33 @@ export default async () => {
     });
 
     // Envío del usuario cuando retrocede
+    const esSupervisor = location.hash.includes("/supervisor/");
+    
     botonAtras.addEventListener("click", async () => {
       if (window.procesoPeticion) return;
+      if (esSupervisor) {
+          location.href = `#/supervisor/plan_familiar/plan_de_accion/durante?familia_id=${id}`;
+          return;
+      }
       location.href = `#/voluntario/plan_familiar/plan_de_accion/durante?familia_id=${id}`;
+    });
+  }
+
+  //Temporal hasta que se refactorice-----------------------------------------------------------
+  const familyPlan = await api.get(`familyPlans/${id}`);
+
+  if (familyPlan.status_plan_id === 6 || familyPlan.status_plan_id === 7) {
+    containerTipoAccion.querySelectorAll(".gestionarAfecciones__afeccion").forEach(btn => {
+      btn.disabled = true;
+    });
+    containerTipoAccion.querySelectorAll(".gestionarAfecciones__boton").forEach(btn => {
+      btn.classList.add("oculto");
+    });
+    form.querySelectorAll(".boton").forEach(btn => {
+      btn.classList.add("oculto");
+    });
+    form.querySelectorAll(".selector").forEach(select => {
+      select.disabled = true;
     });
   }
 };

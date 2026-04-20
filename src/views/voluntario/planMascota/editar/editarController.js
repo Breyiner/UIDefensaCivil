@@ -21,20 +21,26 @@ export default async () => {
 
   const planId = params.get("familia_id"); // ID de la familia a la que pertenece la mascota (para navegación posterior)
   const mascotaId = params.get("mascota_id"); // ID específico de la mascota que se está editando, utilizado para cargar sus datos y gestionar sus vacunas
-  
+
   // Selector Contenedores para Modulo Sub-Lista Vacunas Inferior (Relacion 1 -> N Mascotas a Vacunas)
-  const contenedorAfecciones = document.querySelector(".gestionarAfecciones__lista"); 
+  const contenedorAfecciones = document.querySelector(".gestionarAfecciones__lista");
   const botonAñadir = document.querySelector(".gestionarAfecciones__boton"); // Lanzador Modal de Vacuna
-  
+
   // Bloqueo Inicial Interfaz pre-cargas
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
   }
   window.procesoPeticion = true;
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   // Lógica Botón Atrás Muro listado Animalitos Familia
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${planId}`;
+      return;
+    }
     location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${planId}`;
   };
 
@@ -48,7 +54,7 @@ export default async () => {
   // Auto-llenado Diccionarios Select <option> Frontend
   await adjuntarOpc.adjuntar(especies, "species");
   await adjuntarOpc.adjuntarNoValida(generos, "animalGenders");
-  
+
   // AUTO-BINDEO HELPER GLOBAL: Hace el GET /pets/$mascotaId y le inyecta solito la variable a cada HTML Input Text 
   // Ej: nombre.value = response.name de una !!. Sin codigos manuales.
   await cargarDatos.cargarDatos(`pets/${mascotaId}`, [nombre, raza, edad, especies, generos,], ["name", "breed", "birth_date", "species_id", "animal_gender_id",],);
@@ -57,17 +63,17 @@ export default async () => {
    * Rutina Hija Aslida Fetching Vacunas Actuales
    * Pinta la Lista debajo del Formulario Base para mostrar "Rabia, ParvoVirus" del mes.
    */
-  
+
   const cargarAfecciones = async () => {
     const afecciones = await api.get(`petVaccines/pet/${mascotaId}`); // Api Call Relacional /petVaccines
     contenedorAfecciones.innerHTML = ""; // Clear Layout
-    
+
     // Bucle Rende Botones Rectangulares Custom list View
     afecciones.forEach((item) => {
       const boton = document.createElement("button");
       boton.className = "gestionarAfecciones__afeccion"; // Design Helper "Afeccion" reciclado (Mismo CSS Layout q Integrante Condiciones Medicas en Front!)
       boton.dataset.id = item.id; // PK_petVaccine Id for Update/Delete
-      
+
       // Label "Nombre Vacuna - Fecha Aplicacion!"
       boton.innerHTML = `
                 <span class="gestionarAfecciones__tipoNombre">
@@ -79,7 +85,7 @@ export default async () => {
 
   // Bind CSS Toggle Display Height 0-100 Menu Oculto
   acordeon()
-  
+
   // Primer Trigger Load Data List Views Vaccine
   cargarAfecciones();
 
@@ -113,7 +119,7 @@ export default async () => {
       species_id: especies.value,
       animal_gender_id: generos.value,
     };
-    
+
     try {
       // API Partial Resource Update (no toca relacion family plan ni vacunas)
       const data = await api.patch(`pets/${mascotaId}`, datosRegistro);
@@ -123,7 +129,7 @@ export default async () => {
     } catch (error) {
       alerta.alertaError(error.errors);
     }
-    
+
     // Unblock Catch
     botonGuardar.disabled = false;
     window.procesoPeticion = false;

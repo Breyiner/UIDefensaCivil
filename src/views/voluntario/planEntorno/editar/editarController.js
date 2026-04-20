@@ -32,9 +32,16 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   // Lógica funcional al tocar la flecha superior de ir hacia atrás
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return; // Si algo está cargando de fondo, se interrumpe y previene la salida
+  
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+      return;
+    }
     location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 

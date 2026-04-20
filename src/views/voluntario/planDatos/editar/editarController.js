@@ -37,9 +37,18 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   // Comportamiento del botón superior para ir de vuelta al menú central
   botonBack.onclick = async () => {
+
     if (window.procesoPeticion) return; // Se previene si aún está procesando algo
+
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+      return;
+    }
+
     location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 
@@ -107,7 +116,7 @@ export default async () => {
 
     try {
       // Ejecutar la comunicación con el servidor enviando solo las partes que necesitan actualización
-      const data = await api.patch(`familyPlans/identify/${id}`, datosRegistro);
+      const data = await api.patch(`familyPlans/${id}/identify`, datosRegistro);
       if (data.success) {
         await alerta.alertaOK(data.message); // Muestra barra verde confirmando que los datos se guardaron
       } else alerta.alertaWarning(data.message, data.errors);

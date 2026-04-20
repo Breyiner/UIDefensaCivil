@@ -29,9 +29,15 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   // Atrás Return listado fotos
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${planId}`;
+      return;
+    }
     location.href = `#/voluntario/plan_familiar/grafico_vivienda?familia_id=${planId}`;
   };
 

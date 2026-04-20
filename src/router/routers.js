@@ -305,9 +305,9 @@ export const routes = {
     plan_familiar: {
 
       "": {
-
-        path: `supervisor/PlanFamiliar/RevisionPlan/index.html`,
-        controlador: supervisorPlanFamiliar.RevisionPlanController,
+        
+        path: `supervisor/PlanFamiliar/Listado/index.html`,
+        controlador: supervisorPlanFamiliar.ListadoPlanController,
         config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
       },
 
@@ -315,9 +315,157 @@ export const routes = {
         path: `supervisor/usuarios/Estadistica/index.html`,
         controlador: supervisorPlanFamiliar.EstadisticaController,
         config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      },
+
+      revision: {
+
+        path: `supervisor/PlanFamiliar/RevisionPlan/index.html`,
+        controlador: supervisorPlanFamiliar.RevisionPlanController,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      },
+      
+      // FAMILIA MENU: Se presentan en forma de listado las opciones de edicion del plan familiar como: datos, integrantes, mascotas, recursos, etc...
+      familia: {
+        path: `voluntario/verPlanFamiliar/menu/index.html`,
+        controlador: verPlan.MenuController,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      },
+
+      // 1. DATOS
+      datos: {
+        path: `voluntario/planDatos/editar/index.html`,
+        controlador: planDatos.EditarController,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      },
+
+      // 2. INTEGRANTES
+      integrantes: {
+
+        "":{
+          path: `voluntario/planIntegrante/index.html`,
+          controlador: Planintegrante.verPlanIntegrantes,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+
+        crear:{
+          path: `voluntario/planIntegrante/crear/index.html`,
+          controlador: Planintegrante.crearController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+
+        editar: {
+          path: `voluntario/planIntegrante/editar/index.html`,
+          controlador: Planintegrante.editarController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        }
+      },
+
+      // 3. Mascotas y animales
+      mascotas: {
+        "":{
+          path: `voluntario/planMascota/index.html`,
+          controlador: planMascota.verPlanMascota,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        crear:{
+          path: `voluntario/planMascota/crear/index.html`,
+          controlador: planMascota.crearController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        editar:{
+          path: `voluntario/planMascota/editar/index.html`,
+          controlador: planMascota.editarController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        }
+      },
+
+      // 4. Factores de Riesgo
+
+      factores_de_riesgo: {
+        "":{
+          path: `voluntario/planRiesgo/index.html`,
+          controlador: planRiesgo.verPlanRiesgo,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        crear:{
+          path: `voluntario/planRiesgo/crear/index.html`,
+          controlador: planRiesgo.crearController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        editar:{
+          path: `voluntario/planRiesgo/editar/index.html`,
+          controlador: planRiesgo.editarController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        }
+      },
+      
+      // 5. Recursos Disponibles
+
+      recursos: {
+        "":{
+          path: `voluntario/planRecurso/index.html`,
+          controlador: planRecurso.verController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        crear:{
+          path: `voluntario/planRecurso/crear/index.html`,
+          controlador: planRecurso.crearController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        editar:{
+          path: `voluntario/planRecurso/editar/index.html`,
+          controlador: planRecurso.editarController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        }
+      },
+
+      grafico_del_entorno: {
+        
+        editar:{
+          path: `voluntario/planEntorno/editar/index.html`,
+          controlador: PlanEntorno.EditarController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        }
+      },
+
+      grafico_vivienda:{
+
+        "":{
+          path: `voluntario/planGrafico/index.html`,
+          controlador: PlanGrafico.verController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        crear:{
+          path: `voluntario/planGrafico/crear/index.html`,
+          controlador: PlanGrafico.crearController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        editar:{
+          path: `voluntario/planGrafico/editar/index.html`,
+          controlador: PlanGrafico.editarController,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        }
+      },
+
+      plan_de_accion:{
+
+        antes:{
+          path: `voluntario/planAccion/index.html`,
+          controlador: planAccion.antes,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        durante:{
+          path: `voluntario/planAccion/index.html`,
+          controlador: planAccion.durante,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        },
+        despues:{
+          path: `voluntario/planAccion/index.html`,
+          controlador: planAccion.despues,
+          config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+        }
       }
     }
-
   },
 
 

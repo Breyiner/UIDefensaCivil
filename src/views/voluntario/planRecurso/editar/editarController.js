@@ -15,7 +15,7 @@ export default async () => {
   const botonBack = document.getElementById("botonBack");
   const botonGuardar = document.getElementById("botonGuardar"); // Action Patcher Update Method Trigger Handler Element 
   const form = document.querySelector(".form");
-  
+
   // PARSING DOBLE URL
   const hashQuery = location.hash.split("?")[1] ?? ""; // Get 'id=PlanID,RecursoID' String Formater Style
   const params = new URLSearchParams(hashQuery);
@@ -29,9 +29,15 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   // Abort and Return 
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${planId}`;
+      return;
+    }
     location.href = `#/voluntario/plan_familiar/recursos?familia_id=${planId}`;
   };
 
@@ -40,17 +46,17 @@ export default async () => {
   const descripcion = document.getElementById("descripcion");
   const distancia = document.getElementById("distancia"); // En Metros!
   const ubicacion = document.getElementById("ubicacion"); // Addr
-  
+
   // Nodos Data Selectors Linked 
   const recurso = document.getElementById("recursos");
   const servicio = document.getElementById("servicio");
-  
+
   // Carga Lista Selectora Cascading Dependencies Array Map Function Helper (e.g. Si escoges Hospital, abajo sale Sub-list Servicio: Urgencias, Sangre, Etc)
-  await adjuntarOpc.adjuntarDouble(recurso, "resources",servicio,'service');
-  
+  await adjuntarOpc.adjuntarDouble(recurso, "resources", servicio, 'service');
+
   // Auto-Fill Form from Server Response API GET Model By ID
-  await cargarDatos.cargarDatos(`availableResources/${recursoId}`,[telefono,descripcion,distancia,ubicacion,recurso,servicio],["phone","description","distance","location","resource_id","resource_name"]);
-  
+  await cargarDatos.cargarDatos(`availableResources/${recursoId}`, [telefono, descripcion, distancia, ubicacion, recurso, servicio], ["phone", "description", "distance", "location", "resource_id", "resource_name"]);
+
   /**
    * --- VALIDATORS NATIVE LISTENERS EN TIEMPO REAL EVENT-DRIVEN ---
    * Escucha "KeyDown" y detiene la propagacion (e.preventDefault interno en helper)
@@ -58,7 +64,7 @@ export default async () => {
    */
   telefono.addEventListener("keydown", (e) => {
     validacion.keyboard_limite(e, 10);
-    validacion.keyboard_numero(e); 
+    validacion.keyboard_numero(e);
   });
   descripcion.addEventListener("keydown", (e) => {
     validacion.keyboard_limite(e, 200);
@@ -70,7 +76,7 @@ export default async () => {
     validacion.keyboard_limite(e, 5); // 5 digits maxmts
     validacion.keyboard_numero(e);
   });
-  
+
   // Blurs: Quitar Border Box Error CSS State on Out-Focus After Error Type 
   telefono.addEventListener("blur", () => {
     validacion.limpiarError(telefono);
@@ -108,7 +114,7 @@ export default async () => {
     let validarTelefono = validacion.validar_minimo(telefono, 5);
     let validarRecurso = validacion.validar_select(recurso);
     let validarServicio = validacion.validar_vacio(servicio);
-    
+
     // Check If all Truthy Assertions Valid Passed Through Array Check Values
     if (
       validarDescripcion &&
@@ -126,11 +132,11 @@ export default async () => {
         distance: distancia.value, // number Format Metters Wait Db Type Casting Numeric Cast
         phone: telefono.value,
       };
-      
+
       try {
         // Ejecución Real del Query Patch / Update Controller Method Route Endpoints Application
         const data = await api.patch(`availableResources/${recursoId}`, datosRegistro);
-        
+
         if (data.success) {
           // Si DB Respondió Code 200.. OK Redirect..
           await alerta.alertaOK(data.message);
@@ -140,7 +146,7 @@ export default async () => {
         alerta.alertaError(error.errors); // Connection DB loss Net Down Timeout Axios API Generic Wrapper Class 
       }
     }
-    
+
     // Free the form interaction UI States Recovery Error Release Finally Loop Method Scope Exit Points And Event Resets 
     botonGuardar.disabled = false;
     window.procesoPeticion = false;
