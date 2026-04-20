@@ -118,6 +118,8 @@ export const adjuntarReseteo = async (combox, endpoint) => {
 export const adjuntarReseteoNoValida = async (combox, endpoint) => {
   const datos = await api.get(endpoint);
 
+  // if(!datos) return;
+
   // 🔥 Si tiene la API de TomSelect corriendo allí adentro
   if (combox.tomselect) {
     const tom = combox.tomselect;

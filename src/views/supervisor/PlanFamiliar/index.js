@@ -7,6 +7,11 @@
 // Importa los controladores secundarios desde sus respectivas carpetas internas
 import EstadisticaController from "./Estadistica/EstadisticaController";
 import RevisionPlanController from "./RevisionPlan/RevisionPlanController"
+import ListadoPlanController from "./Listado/ListadoPlanController";
 
 // Re-exporta como un módulo consolidado permitiendo destructuración más limpia en el enrutador
-export {EstadisticaController,RevisionPlanController};
+export {
+    EstadisticaController,
+    RevisionPlanController,
+    ListadoPlanController
+};

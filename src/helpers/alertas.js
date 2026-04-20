@@ -711,7 +711,7 @@ export const rechazarCambios = (id) => {
       try {
 
         // Endpoint de Supervisor rechazando Plan del Voluntario
-        const response = await api.patch(`familyPlans/status/${id}`, {
+        const response = await api.patch(`familyPlans/${id}/change-status`, {
           status_plan_id: 5,
           comentary: comentarios
         });

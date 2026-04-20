@@ -100,7 +100,7 @@ export default async () => {
       try {
         // Enviar esta porción de información indicándole al servidor que solo actualice estos campos específicos 
         const data = await api.patch(
-          `familyPlans/identify/${id}`,
+          `familyPlans/${id}/identify`,
           datosRegistro,
         );
         if (data.success) {

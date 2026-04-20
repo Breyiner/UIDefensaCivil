@@ -36,6 +36,10 @@
 }
 
 .container__paginas {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
 }
 
@@ -89,4 +93,17 @@
     border-left: 1px solid var(--color-grisMedio);
     box-shadow: -4px 0 10px rgba(0, 0, 0, 0.05);
   }
+}
+
+.container__revision {
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.container .oculto {
+
+  display: none;
 }

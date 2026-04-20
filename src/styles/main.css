@@ -38,6 +38,8 @@
 @import "./components/verEstadoVentana.css";
 @import "./components/tablas.css";
 @import "./components/sidebar.css";
+@import "./components/toggle.css";
+@import "./components/filters.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";

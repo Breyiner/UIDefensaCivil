@@ -38,6 +38,7 @@ export default async () => {
     const botonPlanFamiliar = document.getElementById("planFamiliar");
     const botonEstadistica = document.getElementById("estadisticas");
 
+
     // Llenado estático de los contadores con las claves recuperadas del objeto 'dashboard' json
     planesRecibidos.textContent = dashBoard.pending_plans;
     planesAprobados.textContent = dashBoard.approved_plans;

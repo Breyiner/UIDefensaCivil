@@ -33,11 +33,11 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
 
         if (datoText.urlDato === "departments") {
 
-            btnDesactivar.style.display = "none";
+            btnDesactivar.classList.add("oculto");
             
         } else {
 
-            btnDesactivar.style.display = "block";
+            btnDesactivar.classList.remove("oculto");
         }
 
         btnEditar.addEventListener("click", () => {
@@ -55,11 +55,11 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
             inputBox.append(icon, inputNombre);
             nombre.replaceWith(inputBox);
 
-            btnDesactivar.style.display = "none";
-            btnHistorial.style.display = "none";
-            btnEditar.style.display = "none";
-            btnGuardar.style.display = "block";
-            btnCancelar.style.display = "block";
+            btnDesactivar.classList.add("oculto");;
+            btnHistorial.classList.add("oculto");;
+            btnEditar.classList.add("oculto");;
+            btnGuardar.classList.remove("oculto");;
+            btnCancelar.classList.remove("oculto");;
         });
 
         btnGuardar.addEventListener("click", async () => {
@@ -91,14 +91,14 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
             inputNombre = null;
 
             if (datoText.urlDato === "departments") {
-                btnDesactivar.style.display = "none";
+                btnDesactivar.classList.add("oculto");
             } else {
-                btnDesactivar.style.display = "block";
+                btnDesactivar.classList.remove("oculto");
             }
-            btnHistorial.style.display = "block";
-            btnEditar.style.display = "block";
-            btnGuardar.style.display = "none";
-            btnCancelar.style.display = "none";
+            btnHistorial.classList.remove("oculto");
+            btnEditar.classList.remove("oculto");
+            btnGuardar.classList.add("oculto");
+            btnCancelar.classList.add("oculto");
         });
     });
 };
@@ -170,11 +170,11 @@ export const verEstado_doubleInput = (datoMaestro, recargar, urlHistorial, datoT
             subInputBox.append(subIcon, inputSubDato);
             subNombre.replaceWith(subInputBox);
 
-            btnDesactivar.style.display = "none";
-            btnHistorial.style.display = "none";
-            btnEditar.style.display = "none";
-            btnGuardar.style.display = "block";
-            btnCancelar.style.display = "block";
+            btnDesactivar.classList.add("oculto");
+            btnHistorial.classList.add("oculto");
+            btnEditar.classList.add("oculto");
+            btnGuardar.classList.remove("oculto");
+            btnCancelar.classList.remove("oculto");
         });
 
         btnGuardar.addEventListener("click", async () => {
@@ -209,11 +209,11 @@ export const verEstado_doubleInput = (datoMaestro, recargar, urlHistorial, datoT
             subInputBox = null;
             inputSubDato = null;
 
-            btnDesactivar.style.display = "block";
-            btnHistorial.style.display = "block";
-            btnEditar.style.display = "block";
-            btnGuardar.style.display = "none";
-            btnCancelar.style.display = "none";
+            btnDesactivar.classList.remove("oculto");
+            btnHistorial.classList.remove("oculto");
+            btnEditar.classList.remove("oculto");
+            btnGuardar.classList.add("oculto");
+            btnCancelar.classList.add("oculto");
         });
     });
 };
@@ -326,11 +326,11 @@ export const verEstado_select = (datoMaestro, subDatoMaestro, recargar, urlHisto
             subInputBox.append(subIcon, inputSubDato);
             subNombre.replaceWith(subInputBox);
 
-            btnDesactivar.style.display = "none";
-            btnHistorial.style.display = "none";
-            btnEditar.style.display = "none";
-            btnGuardar.style.display = "block";
-            btnCancelar.style.display = "block";
+            btnDesactivar.classList.add("oculto");
+            btnHistorial.classList.add("oculto");
+            btnEditar.classList.add("oculto");
+            btnGuardar.classList.remove("oculto");
+            btnCancelar.classList.remove("oculto");
         });
 
         btnGuardar.addEventListener("click", async () => {
@@ -366,11 +366,11 @@ export const verEstado_select = (datoMaestro, subDatoMaestro, recargar, urlHisto
             subInputBox = null;
             inputSubDato = null;
 
-            btnDesactivar.style.display = "block";
-            btnHistorial.style.display = "block";
-            btnEditar.style.display = "block";
-            btnGuardar.style.display = "none";
-            btnCancelar.style.display = "none";
+            btnDesactivar.classList.remove("oculto");
+            btnHistorial.classList.remove("oculto");
+            btnEditar.classList.remove("oculto");
+            btnGuardar.classList.add("oculto");
+            btnCancelar.classList.add("oculto");
         });
     });
 };
