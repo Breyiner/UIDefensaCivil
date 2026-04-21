@@ -18,8 +18,8 @@
     transform: translateY(-50%);
     background-color: var(--color-palido);
     min-height: 400px;
-    width: 400px;
-    border-radius: 30px;
+    width: 420px;
+    border-radius: 20px;
     overflow: hidden;
     padding: 10px;
 
@@ -45,7 +45,10 @@
 
 .overlay_verEstado .btn-cerrar-Estado {
 
-    background-color: var(--color-rojizo);
+    /* background-color: var(--color-rojizo); */
+
+    color: var(--color-sombra);
+    background-color: transparent;
 
     height: 30px;
     width: 30px;
@@ -54,21 +57,20 @@
 
     border: none;
 
-    /* position: absolute; */
+    cursor: pointer;
 
     top: 30px;
     left: 30px;
 
     text-align: center;
     font-size: 20px;
-    color: var(--color-palido);
 
     transition: 0.2s;
 }
 
 .overlay_verEstado .btn-cerrar-Estado:hover {
 
-    scale: 1.1;
+    scale: 1.15;
 }
 
 .overlay_verEstado .ventana .btnContEstado {
@@ -142,13 +144,20 @@
 .overlay_verEstado .ventana .btnContEstado .btn-desactivar,
 .overlay_verEstado .ventana .btnContEstado .btn-cancelar {
 
-    background-color: var(--color-rojizo);
+    background-color: var(--color-amarillo);
 }
 
 .overlay_verEstado .ventana .btnContEstado .btn-activar,
 .overlay_verEstado .ventana .btnContEstado .btn-guardar {
 
     background-color: var(--color-verdoso);
+}
+
+.overlay_verEstado .ventana .btnContEstado .btn-eliminar {
+
+    width: 50px;
+    background-color: var(--color-rojizo);
+    font-size: 20px;
 }
 
 .overlay_verEstado .ventana.ventana__supervisor {
@@ -194,4 +203,9 @@
 .overlay_verEstado .ventana.ventana__supervisor .form_autorizacion {
 
     width: 100%;
+}
+
+.overlay_verEstado .ventana .oculto {
+
+  display: none;
 }

@@ -9,9 +9,9 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
 
     verEstadoVentana(datoMaestro, recargar, urlHistorial, datoText, ({
 
-        ventana, overlay, btnCerrarCont, 
+        ventana, overlay, btnCerrarCont,
         btnContEstado, btnEditar, btnGuardar,
-        btnCancelar, btnDesactivar, btnHistorial
+        btnCancelar, btnDesactivar, btnHistorial, btnEliminar
     }) => {
 
         const nombreCont = document.createElement("div");
@@ -34,7 +34,7 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
         if (datoText.urlDato === "departments") {
 
             btnDesactivar.classList.add("oculto");
-            
+
         } else {
 
             btnDesactivar.classList.remove("oculto");
@@ -86,9 +86,11 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
         });
 
         btnCancelar.addEventListener("click", () => {
-            inputBox.replaceWith(nombre);
-            inputBox = null;
-            inputNombre = null;
+            if (inputBox) {                          // ← agrega esta validación
+                inputBox.replaceWith(nombre);
+                inputBox = null;
+                inputNombre = null;
+            }
 
             if (datoText.urlDato === "departments") {
                 btnDesactivar.classList.add("oculto");
@@ -99,6 +101,11 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
             btnEditar.classList.remove("oculto");
             btnGuardar.classList.add("oculto");
             btnCancelar.classList.add("oculto");
+        });
+
+        btnEliminar.addEventListener("click", () => {
+
+            eliminarDato(datoMaestro, datoText, overlay, recargar);
         });
     });
 };
@@ -113,7 +120,7 @@ export const verEstado_doubleInput = (datoMaestro, recargar, urlHistorial, datoT
 
         ventana, overlay, btnCerrarCont,
         btnContEstado, btnEditar, btnGuardar,
-        btnCancelar, btnDesactivar, btnHistorial,
+        btnCancelar, btnDesactivar, btnHistorial, btnEliminar
     }) => {
 
         const nombreCont = document.createElement("div");
@@ -215,6 +222,11 @@ export const verEstado_doubleInput = (datoMaestro, recargar, urlHistorial, datoT
             btnGuardar.classList.add("oculto");
             btnCancelar.classList.add("oculto");
         });
+
+        btnEliminar.addEventListener("click", () => {
+
+            eliminarDato(datoMaestro, datoText, overlay, recargar);
+        });
     });
 };
 
@@ -227,8 +239,8 @@ export const verEstado_select = (datoMaestro, subDatoMaestro, recargar, urlHisto
     verEstadoVentana(datoMaestro, recargar, urlHistorial, datoText, ({
 
         ventana, overlay, btnCerrarCont,
-        btnContEstado, btnEditar, btnGuardar, 
-        btnCancelar, btnDesactivar, btnHistorial,
+        btnContEstado, btnEditar, btnGuardar,
+        btnCancelar, btnDesactivar, btnHistorial, btnEliminar
     }) => {
 
         const nombreCont = document.createElement("div");
@@ -318,7 +330,7 @@ export const verEstado_select = (datoMaestro, subDatoMaestro, recargar, urlHisto
                     option.textContent = opcion[datoText.nameDB];
 
                     if (opcion.id === subDatoMaestro.id) option.selected = true;
-                    
+
                     inputSubDato.append(option);
                 });
             }
@@ -372,5 +384,31 @@ export const verEstado_select = (datoMaestro, subDatoMaestro, recargar, urlHisto
             btnGuardar.classList.add("oculto");
             btnCancelar.classList.add("oculto");
         });
+
+        btnEliminar.addEventListener("click", () => {
+
+            eliminarDato(datoMaestro, datoText, overlay, recargar);
+        });
     });
 };
+
+const eliminarDato = async (datoMaestro, datoText, overlay, recargar) => {
+
+    const confirmacion = await alerta.alertaQuest(
+        `¿Seguro que deseas eliminar la seccional ${datoMaestro[datoText.nameDB]}?`
+    );
+
+    if (!confirmacion.isConfirmed) return;
+
+    const eliminado = await api.delet(`${datoText.urlDato}/${datoMaestro.id}`);
+
+    if (!eliminado.success) {
+        await alerta.alertaError(eliminado.message); // ← muestra el mensaje del backend
+        return;
+    }
+
+    await alerta.alertaOK(eliminado.message);
+    overlay.remove();
+    recargar();
+
+}

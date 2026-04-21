@@ -17,9 +17,14 @@ const verEstadoVentana = (datoMaestro, recargar, urlHistorial, datoText, configu
     btnCerrarCont.classList.add("btn-cerrar-Cont");
 
     const btnCerrar = document.createElement("button");
-    btnCerrar.classList.add("ri-close-line", "btn-cerrar-Estado");
+    btnCerrar.classList.add("ri-close-large-line", "btn-cerrar-Estado");
     btnCerrar.onclick = () => overlay.remove();
+
+    const btnEliminar = document.createElement("button");
+    btnEliminar.classList.add("ri-delete-bin-2-fill","btn-eliminar")
+
     btnCerrarCont.append(btnCerrar);
+
 
     const btnContEstado = document.createElement("div");
     btnContEstado.classList.add("btnContEstado");
@@ -73,13 +78,13 @@ const verEstadoVentana = (datoMaestro, recargar, urlHistorial, datoText, configu
     btnGuardar.classList.add("btn-guardar");
     btnGuardar.classList.add("oculto");
 
-    btnContEstado.append(btnEditar, btnHistorial, btnDesactivar, btnCancelar, btnGuardar);
+    btnContEstado.append(btnEditar, btnHistorial, btnDesactivar, btnCancelar, btnGuardar, btnEliminar);
 
     // la lógica específica construye el contenido y lo monta en ventana
     configurarEdicion({
         ventana, overlay, btnCerrarCont, btnContEstado,
         btnEditar, btnGuardar, btnCancelar,
-        btnDesactivar, btnHistorial
+        btnDesactivar, btnHistorial, btnEliminar
     });
 
     overlay.appendChild(ventana);
