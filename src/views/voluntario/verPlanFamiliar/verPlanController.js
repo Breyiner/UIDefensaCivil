@@ -18,8 +18,8 @@ export default async () => {
     const contenedorFiltro = document.querySelector(".container__filtro");
     
     // agregar campos de filtro
-    contenedorFiltro.append(searchBar())
-    contenedorFiltro.append(dropdownFiltro())
+    contenedorFiltro.append(await searchBar())
+    contenedorFiltro.append(await dropdownFiltro())
 
 
     if (window.procesoPeticion === undefined) window.procesoPeticion = false;
