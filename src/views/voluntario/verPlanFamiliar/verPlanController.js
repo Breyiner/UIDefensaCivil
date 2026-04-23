@@ -4,16 +4,28 @@
  * Muestra el estado de cada plan (En Progreso, Aprobado, Rechazado) con colores distintivos.
  * Contiene lógica condicional de enrutamiento basada en el Rol del usuario (Voluntario vs Supervisor).
  */
+import { dropdownFiltro } from "../../../componentes/filter/dropdown";
+import { searchBar } from "../../../componentes/filter/searchBar";
 import * as api from "../../../helpers/api";
 import paginacion from "../../../helpers/paginacion";
 
 export default async () => {
     // Referencias DOM
     const botonBack = document.getElementById("botonBack");
-    const contenedor = document.querySelector(".container__paginas"); // Grid Wrapper Main
+    const contenedor = document.querySelector(".container__paginas"); // Grid Wrapper Main  
+
+    // encontrar contenedor donde van los filtros
+    const contenedorFiltro = document.querySelector(".container__filtro");
+    
+    // agregar campos de filtro
+    contenedorFiltro.append(searchBar())
+    contenedorFiltro.append(dropdownFiltro())
+
 
     if (window.procesoPeticion === undefined) window.procesoPeticion = false;
     window.procesoPeticion = false;
+
+    //
 
     // Extracción de Token de Autorización LocalStorage (1 Admin, 2 Supervisor, 3 Voluntario)
     const rolId = localStorage.getItem("role_id");
