@@ -55,6 +55,8 @@ export const router = async (main) => {
         await cargarVista(ruta.path, main);
     }
 
+    removerBotonHeader(arregloHash)
+
     await ruta.controlador(parametros);
 
 }
@@ -226,6 +228,21 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
     console.log("No se encontró la ruta");
     return [null, parametros];
 };
+
+const removerBotonHeader = (arregloHash) => {
+    const botonBack = document.getElementById("botonBack");
+
+    if (!botonBack) {
+        return 
+    }
+    console.log(arregloHash)
+    
+    if (arregloHash.length <= 2) {
+        botonBack.classList.add("invisible")
+    } else {
+        botonBack.classList.remove("invisible")
+    }
+}
 
 
 

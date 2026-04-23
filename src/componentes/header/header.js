@@ -1,5 +1,3 @@
-const listSinBack = ['voluntario', 'administrador', 'supervisor-home'];
-
 export const componenteHeader = () => {
     const indicador = document.querySelector(".header__indicador");
     const botonAtras = document.getElementById("botonBack");
@@ -10,7 +8,6 @@ export const componenteHeader = () => {
     const hash = location.hash.slice(2);
 
     indicador.classList.remove('invisible');
-    botonAtras.classList.remove('invisible');
 
     const indicadorNumero = Number(indicador.textContent);
 
@@ -19,10 +16,6 @@ export const componenteHeader = () => {
     }
     else if (indicadorNumero >= 10) {
         indicador.textContent = '9+';
-    }
-
-    if (listSinBack.includes(hash)) {
-        botonAtras.classList.add('invisible');
     }
 
     // botón HOME
