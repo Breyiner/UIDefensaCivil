@@ -75,8 +75,9 @@ const ocultarEditarUrl = async (hash) => {
     if (estaEnPlan && tieneEditar) {
 
         const queryString = hash.split("?")[1] || "";
-
+        // console.log("QueryString: ", queryString);
         const params = new URLSearchParams(queryString);
+        // console.log("PARAMS: ", params);
 
         const familia_id = params.get("familia_id");
 
@@ -130,7 +131,7 @@ const validarRol = async (hash) => {
         { segmento: "administrador", roleId: 1 },
     ];
 
-    const rolEncontrado = rolEnURL.find (rol=>{
+    const rolEncontrado = rolEnURL.find(rol => {
         return hash.includes(rol.segmento);
     });
 
