@@ -4,8 +4,8 @@
  * secuencial lineal paso-a-paso en la ruta "#/voluntario-planFamiliar/georeferenciacion/..."
  * en vez de en el modo edicion general por menús.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
+import * as alerta from "../../../helpers/alertas";
+import * as api from "../../../helpers/api";
 
 export default async () => {
   // Selectores Identidad
@@ -33,22 +33,27 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   // Lógica Botón Atrás (Flujo lineal Wizard - vuelve a la Identificación)
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+      return;
+    }
+    location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 
   // Comprueba si durante este proceso el voluntario cerró y volvió, para no borrar imagen existente
   const existeData = await api.get(`housingInfo/${id}/type/${id_HousingInfoType}`);
   const existe = existeData !== null && existeData !== undefined;
   if (existe) {
-    // Restauración visual estado UI File Upload
-    const imagenData = await api.get(`housingInfo/${id}/type/${id_HousingInfoType}`);
-    const url = `${api.urlStorage}/${imagenData.path}`;
-    preview.src = await url;
-    preview.style.display = "block"; // Asegura block CSS layout display
+    preview.src = `${api.urlStorage}/${existeData.path}`;
+    preview.style.display = "block";
     imagenTitulo.textContent = "Vista previa de la imagen actual";
+  } else {
+    imagenTitulo.textContent = "No se ha agregado una imagen aún";
   }
 
   // Release UX lock
@@ -127,7 +132,7 @@ export default async () => {
         await alerta.alertaOK(data.message);
         
         // Enrutamiento Forzado (Al ser Helper Linear de Georeferencia, Retorna al Módulo Identificación Avanzada)
-        location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
+        // location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }

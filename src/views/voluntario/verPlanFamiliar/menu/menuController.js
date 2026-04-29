@@ -20,6 +20,7 @@ export default async () => {
   const graficosVivienda = document.getElementById("graficosVivienda");
   const planAccion = document.getElementById("planAccion");
   const graficoEntorno = document.getElementById("graficoEntorno");
+  const georeferenciacion = document.getElementById("georeferenciacion");
 
   // Nodos UI Actioners Finales
   const comentarios = document.getElementById("comentarios"); // Badge Peligro Si hubo un rechazo ("Lee por qué lo devolvieron")
@@ -95,6 +96,11 @@ export default async () => {
     location.href = `#/${base}/plan_familiar/grafico_del_entorno?familia_id=${id}`;
   });
 
+  georeferenciacion.addEventListener("click", async () => {
+
+    location.href = `#/${base}/plan_familiar/georeferenciacion?familia_id=${id}`;
+  });
+
   graficosVivienda.addEventListener("click", async () => {
 
     location.href = `#/${base}/plan_familiar/grafico_vivienda?familia_id=${id}`;
@@ -150,8 +156,8 @@ export default async () => {
 
   // Accion Boton Exportar Visor PDF (Axios Request Arraybuffer Helper Native Window open)
   verPDF.addEventListener("click", () => {
-    // Abre el PDF en otra pestaña usando un helper API modificado para files/blobs Mime Types PDF Headers Stream Support 
-    api.getPdf(`familyPlans/pdf/${id}`, `plan_${id}.pdf`);
+
+      api.getPdf(`pdf/${id}`);
   });
 
   /**

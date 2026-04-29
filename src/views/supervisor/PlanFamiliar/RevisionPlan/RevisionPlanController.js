@@ -24,7 +24,7 @@ const RevisionPlanController = async () => {
 
     const riskFactors = await api.get(`riskFactors/`);
 
-    const Resources = await api.get(`availableResources/`);
+    const Resources = await api.get(`availableResources/familyPlan/${id}`) ?? [];
 
     const contenedor = document.querySelector(".container__revision");
 
@@ -115,7 +115,7 @@ const RevisionPlanController = async () => {
     // Enganche Visor pasivo
     botonVerPDF.addEventListener("click", () => {
         // Abre el PDF en otra pestaña consumiendo un binario mediante helper subyacente dedicado PDF
-        api.getPdf(`familyPlans/pdf/${id}`, `plan_${id}.pdf`);
+        api.getPdf(`pdf/${id}`);
     });
 
     //CONTENIDO DE LA TARJETA _____________________________________________________________________________________
@@ -323,6 +323,11 @@ const RevisionPlanController = async () => {
     btnGeo.classList.add("boton", "boton--height");
     btnGeo.textContent = "Georreferenciación";
 
+    // Grafico Entorno
+    const btnEntorno = document.createElement("button");
+    btnEntorno.classList.add("boton", "boton--height");
+    btnEntorno.textContent = "Gráfico Entorno";
+
     // 🏠 Gráficos de vivienda
     const btnGraficos = document.createElement("button");
     btnGraficos.classList.add("boton", "boton--height");
@@ -333,16 +338,21 @@ const RevisionPlanController = async () => {
     btnPlanAccion.classList.add("boton", "boton--height");
     btnPlanAccion.textContent = "Plan de Acción";
 
-    contenedorBotonesExtra.append(btnGeo, btnGraficos, btnPlanAccion);
+    contenedorBotonesExtra.append(btnGeo, btnEntorno, btnGraficos, btnPlanAccion);
 
     // 📍 Georreferenciación
     btnGeo.addEventListener("click", () => {
-        location.hash = `#/supervisor/plan_familiar/grafico_del_entorno?familia_id=${info.id}`;
+        location.hash = `#/supervisor/plan_familiar/georeferenciacion?familia_id=${info.id}`;
     });
 
     // 🏠 Gráficos de vivienda
     btnGraficos.addEventListener("click", () => {
-        location.hash = `#/supervisor/plan_familiar/grafico_vivienda?familia_id=${id}`;
+        location.hash = `#/supervisor/plan_familiar/grafico_vivienda?familia_id=${info.id}`;
+    });
+
+    // Grafico Entorno
+    btnEntorno.addEventListener("click", () => {
+        location.hash = `#/supervisor/plan_familiar/grafico_del_entorno?familia_id=${info.id}`;
     });
 
     // 📋 Plan de acción
