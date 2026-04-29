@@ -33,39 +33,30 @@ export default async () => {
     // Orquestador encapsulado para Refresh / Update Table sin refresco general de la pag SPA web
     const recargarContainer = async () => {
         contenedor.innerHTML = ""; // Hard reset
-        const datosFalsos = {
-            id: 1,
-            document_number: 1095787508,
-            full_name: "Valentina Serrano ",
-            email: "valentinaserrano120@gmail.com",
-            sectional: "Santander",
-            organization: "Giron",
-            rol: "Voluntario"
-        }
-        const mostrar = await tarjetaPeticion(datosFalsos);
-        contenedor.appendChild(mostrar);
-        return;
+
         // El script helpers Paginador consume un endpoint exclusivo 'requestsSupervisors' 
         // Pasando su propia lógica de Fetch Pages + el template `carta`
-        await paginacion(`users/requestsSupervisors`, mensajeVacio, tarjetaPeticion);
+        await paginacion(`users/requests/supervisors`, mensajeVacio, tarjetaPeticion);
     };
 
     //evento para que al dar click en la tarjeta aparezca el modal, en cualquier lado de la tarjeta
     contenedor.addEventListener("click", async (e) => {
-        // creamos una variable para referenciar al elemento con clase tarjeta
+
+        // 2. Buscamos la tarjeta más cercana al lugar donde se hizo clic.
+        // .closest() asegura que si tocas un texto o icono dentro, igual encuentre la tarjeta.
         const tarjetaEscogida = e.target.closest(".tarjeta");
-        // si tarjeta esocgida no fue encontrada, la funcion se rompe sin que se rompa el resto del codigo
+
+        // 3. Si no se tocó una tarjeta (ej. se tocó el espacio entre ellas), no hacemos nada.
         if (!tarjetaEscogida) return;
 
-        // Fija precisión en la clase específica tarjeta
-        if (!tarjetaEscogida.classList.contains(".tarjeta")) return;
-
-        // Se adhiere al Atributo data-* custom que agregamos en el componente
+        // 4. "Pescamos" el ID que guardamos en el componente tarjetaPeticion.
         const userId = tarjetaEscogida.dataset.id;
 
-        // Pasamos la función de recarga al modal
-        // Lanza Pop-Up (usuario.js). (Modo 'Ver Peticion' == True) 
-        modalUsuario.ver(userId, recargarContainer, true, true);
+        // 5. Si tenemos el ID, lanzamos el modal.
+        if (userId) {
+            // modalUsuario.ver(ID_DEL_USUARIO, CALLBACK_RECARGAR, MODO_PETICION, EDITABLE)
+            modalUsuario.ver(userId, recargarContainer, true, true);
+        }
     });
 
     // Llenado automático primera carga en memoria SPA

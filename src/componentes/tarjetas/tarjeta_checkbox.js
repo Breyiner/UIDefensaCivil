@@ -16,10 +16,6 @@ export const tarjetaPeticion = async (info) => {
     const tarjetaHeader = document.createElement('div');
     tarjetaHeader.classList.add('tarjeta__header');
 
-    // Hijo 1: Checkbox
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-
     // Hijo 2: Contenedor del icono de perfil
     const tarjetaIconoCont = document.createElement('div');
     tarjetaIconoCont.classList.add('tarjeta__icono-contenedor', 'tarjeta__icono-contenedor--azul');
@@ -42,7 +38,7 @@ export const tarjetaPeticion = async (info) => {
     iconoRol.classList.add('ri-user-line');
     const textoRol = document.createElement('p');
     textoRol.classList.add('valor__rol');
-    textoRol.textContent = `Rol: ${info.rol}`;
+    textoRol.textContent = `Rol: Voluntario`;
     itemRol.append(iconoRol, textoRol);
 
     // Sub-hijo: Seccional
@@ -91,7 +87,7 @@ export const tarjetaPeticion = async (info) => {
 
 
     // Unir elementos al header
-    tarjetaHeader.append(checkbox, tarjetaIconoCont, tarjetaInfo, tarjetaEstado);
+    tarjetaHeader.append(tarjetaIconoCont, tarjetaInfo, tarjetaEstado);
     // Unir el header al contenedor principal
     tarjeta.append(tarjetaHeader);
 
