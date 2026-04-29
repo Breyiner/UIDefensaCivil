@@ -34,7 +34,7 @@ export const ver = async (id, recargarContainer,esPeticion,esAdmin) => {
           <div class="modalVer__dato modalVer__dato--largo">
               <i class="ri-user-line"></i>
               <div class="modalVer__titulo">Usuario</div>
-              <div class="modalVer__texto">${perfil.names} ${perfil.last_names ?? ""}</div>
+              <div class="modalVer__texto">${datos.names} ${datos.last_names ?? ""}</div>
           </div>
 
           <div class="modalVer__dato modalVer__dato--largo">
@@ -46,50 +46,50 @@ export const ver = async (id, recargarContainer,esPeticion,esAdmin) => {
           <div class="modalVer__dato">
               <i class="ri-info-card-line"></i>
               <div class="modalVer__titulo">Tip.Documento</div>
-              <div class="modalVer__texto">${documentType.name}</div>
+              <div class="modalVer__texto">${datos.document_type}</div>
           </div>
 
           <div class="modalVer__dato">
               <i class="ri-id-card-line"></i>
               <div class="modalVer__titulo">Num.Documento</div>
-              <div class="modalVer__texto">${perfil.document_number}</div>
+              <div class="modalVer__texto">${datos.document_number}</div>
           </div>
 
           <div class="modalVer__dato">
               <i class="ri-calendar-line"></i>
               <div class="modalVer__titulo">Fecha Nacimiento</div>
-              <div class="modalVer__texto">${perfil.birth_date}</div>
+              <div class="modalVer__texto">${datos.birth_date}</div>
           </div>
         
           <div class="modalVer__dato">
               <i class="ri-men-line"></i>
               <div class="modalVer__titulo">Género</div>
-              <div class="modalVer__texto">${gender.name}</div>
+              <div class="modalVer__texto">${datos.gender}</div>
           </div>
 
           <div class="modalVer__dato modalVer__dato--largo">
               <i class="ri-phone-line"></i>
               <div class="modalVer__titulo">Teléfono</div>
-              <div class="modalVer__texto">${perfil.phone}</div>
+              <div class="modalVer__texto">${datos.phone}</div>
           </div>
 
           <div class="modalVer__dato">
               <i class="ri-map-pin-line"></i>
               <div class="modalVer__titulo">Seccional</div>
-              <div class="modalVer__texto">${sectional.name}</div>
+              <div class="modalVer__texto">${datos.sectional}</div>
           </div>
 
           <div class="modalVer__dato">
               <i class="ri-building-line"></i>
               <div class="modalVer__titulo">Organización</div>
-              <div class="modalVer__texto">${organization.name}</div>
+              <div class="modalVer__texto">${datos.organization}</div>
           </div>
           ${!esPeticion ? 
             // Si NO es una solicitud de ingreso virgen (Ya está adentro), renderiza su estatus general visible y Rol
             `<div class="modalVer__dato">
             <i class="ri-admin-line"></i>
               <div class="modalVer__titulo">Rol</div>
-              <div class="modalVer__texto">`+datos.rol.name+`</div>
+              <div class="modalVer__texto">${datos.rol?.name ? datos.rol.name : 'Voluntario'}</div>
             </div>
             <div class="modalVer__dato">
             <i class="ri-lock-line"></i>
@@ -104,7 +104,7 @@ export const ver = async (id, recargarContainer,esPeticion,esAdmin) => {
     // 👇 AQUÍ USAMOS TU ALERTA NUEVA
     // Redireccionadora lógica basada en la procedencia de quien abre el Modal
     if (esPeticion) alerta.VerAprobarEliminarUsuarios(htmlModal, recargarContainer, id);
-    else alerta.VerCambiarEstadoRolUsuarios(htmlModal, recargarContainer, id,estado,rol,esAdmin);
+    else alerta.VerCambiarEstadoRolUsuarios(htmlModal, recargarContainer, id);
     
 
   } catch (error) {

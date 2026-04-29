@@ -68,7 +68,7 @@ export default async () => {
     const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
     
     // Lógica especial que chequea los dos nodos de Password y que visualmente empate valor (Contraseñas idénticas)
-    const validacionContrasena = validacion.validar_igualdad(confContrasena,confContrasena);
+    const validacionContrasena = validacion.validar_igualdad(contrasena, confContrasena);
     
     // Si algún proceso falló (Regex o Identidad)
     if (!booleanValidacion || !validacionContrasena)

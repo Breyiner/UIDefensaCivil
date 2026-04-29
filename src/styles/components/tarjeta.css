@@ -141,7 +141,6 @@
 }
 
 .introduccionDiv {
-
     display: flex;
     /* align-items: center; */
     gap: 12px;
@@ -229,7 +228,7 @@
     margin: 0;
 }
 
-.tarjeta__ubicacion {
+.tarjeta__iconoItem {
     display: flex;
     align-items: center;
     gap: 4px;

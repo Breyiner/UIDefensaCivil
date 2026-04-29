@@ -327,7 +327,8 @@ export const Historial = async (nombre, id) => {
 // Modal enfocado 100% en la gestión de Peticiones de Usuario: "Se inscribe alguien, ¿Se le aprueba el acceso o se le borra?"
 export const VerAprobarEliminarUsuarios = (
   htmlModal,
-  recargarContainer,id
+  recargarContainer,
+  id
 ) => {
 
   Swal.fire({
@@ -368,7 +369,8 @@ export const VerAprobarEliminarUsuarios = (
 
       // Invoca el endpoint API modificando el `state_user_id` a 1 (aprobado formal)
       try {
-        const response = await api.patch(`users/status/${id}`,{ state_user_id: 1});
+        const response = await api.patch(`users/${id}/change-status`,{user_ids: [id], state_user_id: 1, async: false});
+        //asycn opcional para que la respuesta sea inmediata y no por cola (opcional)
 
         if (response.success) {
           await alertaOK(response.message);
