@@ -55,6 +55,8 @@ export const router = async (main) => {
         await cargarVista(ruta.path, main);
     }
 
+    removerBotonHeader(arregloHash)
+
     await ruta.controlador(parametros);
 
 }
@@ -75,8 +77,9 @@ const ocultarEditarUrl = async (hash) => {
     if (estaEnPlan && tieneEditar) {
 
         const queryString = hash.split("?")[1] || "";
-
+        // console.log("QueryString: ", queryString);
         const params = new URLSearchParams(queryString);
+        // console.log("PARAMS: ", params);
 
         const familia_id = params.get("familia_id");
 
@@ -130,7 +133,7 @@ const validarRol = async (hash) => {
         { segmento: "administrador", roleId: 1 },
     ];
 
-    const rolEncontrado = rolEnURL.find (rol=>{
+    const rolEncontrado = rolEnURL.find(rol => {
         return hash.includes(rol.segmento);
     });
 
@@ -226,6 +229,21 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
     console.log("No se encontró la ruta");
     return [null, parametros];
 };
+
+const removerBotonHeader = (arregloHash) => {
+    const botonBack = document.getElementById("botonBack");
+
+    if (!botonBack) {
+        return 
+    }
+    console.log(arregloHash)
+    
+    if (arregloHash.length <= 2) {
+        botonBack.classList.add("invisible")
+    } else {
+        botonBack.classList.remove("invisible")
+    }
+}
 
 
 
