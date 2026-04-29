@@ -19,6 +19,7 @@ import SupervisorHomeController from "../views/supervisor/home/homeController.js
 
 // Importa los sub-módulos pertenecientes al flujo del "Plan Familiar" (Rol Voluntario)
 import * as planFamiliar from "../views/voluntario/planFamiliar/index.js";
+import * as GeoreController from "../views/voluntario/georeferenciacion/index.js";
 import * as verPlan from "../views/voluntario/verPlanFamiliar/index.js";
 import * as planDatos from "../views/voluntario/planDatos/index.js";
 import * as Planintegrante from "../views/voluntario/planIntegrante/index.js";
@@ -118,12 +119,12 @@ export const routes = {
           controlador: planFamiliar.IdentiController,
           config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
         },
+      },
 
-        georeferenciacion: {
-          path: `voluntario/planFamiliar/georeferenciacion/index.html`,
-          controlador: planFamiliar.GeoreController,
-          config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        },
+      georeferenciacion: {
+        path: `voluntario/georeferenciacion/index.html`,
+        controlador: GeoreController.GeoreController,
+        config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
       },
 
       // FAMILIA MENU: Se presentan en forma de listado las opciones de edicion del plan familiar como: datos, integrantes, mascotas, recursos, etc...
@@ -418,6 +419,12 @@ export const routes = {
         path: `voluntario/planEntorno/editar/index.html`,
         controlador: PlanEntorno.EditarController,
         config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      },
+
+      georeferenciacion: {
+        path: `voluntario/georeferenciacion/index.html`,
+        controlador: GeoreController.GeoreController,
+        config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
       },
 
       grafico_vivienda:{

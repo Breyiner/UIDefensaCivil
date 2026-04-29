@@ -65,6 +65,8 @@ export default async () => {
     preview.src = `${api.urlStorage}/${existeData.path}`;
     preview.style.display = "block";
     imagenTitulo.textContent = "Vista previa de la imagen actual";
+  } else {
+    imagenTitulo.textContent = "No se ha agregado una imagen aún";
   }
 
   window.procesoPeticion = false;
