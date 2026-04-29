@@ -19,6 +19,8 @@ export default async () => {
   const input = document.getElementById("imagenInput"); // Native File Browser
   const preview = document.getElementById("preview"); // Container Target Render Blob HTML Image
   const imagenTitulo = document.querySelector(".imagen__titulo"); // Status Texto Imagen (Info Caption)
+
+  const id_HousingInfoType = 1; //1 = georeferencia
   
   // Especificaciones técnicas restrictoras de Archivo (Magic Numbers limiters)
   const TAMANO_MAX_MB = 2; // Tamaño máximo en MB limit Server Config Nginx 
@@ -38,10 +40,12 @@ export default async () => {
   };
 
   // Comprueba si durante este proceso el voluntario cerró y volvió, para no borrar imagen existente
-  const existe = await api.getExiste(`housingInfo/${id}`);
+  const existeData = await api.get(`housingInfo/${id}/type/${id_HousingInfoType}`);
+  const existe = existeData !== null && existeData !== undefined;
   if (existe) {
     // Restauración visual estado UI File Upload
-    const url = await api.getImagen(`housingInfo/${id}`);
+    const imagenData = await api.get(`housingInfo/${id}/type/${id_HousingInfoType}`);
+    const url = `${api.urlStorage}/${imagenData.path}`;
     preview.src = await url;
     preview.style.display = "block"; // Asegura block CSS layout display
     imagenTitulo.textContent = "Vista previa de la imagen actual";
@@ -107,13 +111,17 @@ export default async () => {
     const formData = new FormData();
     formData.append("path", file); 
     formData.append("family_plan_id", id); // ID Referencial
+    formData.append("housing_info_type_id", id_HousingInfoType);
 
     try {
       // Método Reemplazo Parcial manual (Borra el viejo foto y pon la nueva) para ahorrar Storage
-      if (existe) await api.delet(`housingInfo/${id}`);
+      const existeAhoraData = await api.get(`housingInfo/${id}/type/${id_HousingInfoType}`);
+      const existeAhora = existeAhoraData !== null && existeAhoraData !== undefined;
+
+      const data = existeAhora ? await api.postImagen(`housingInfo/${id}/type/${id_HousingInfoType}`, formData) : await api.postImagen(`housingInfo`, formData);
 
       // Exec API Inserciónd
-      const data = await api.postImagen(`housingInfo`, formData);
+      // const data = await api.postImagen(`housingInfo`, formData);
       if (data.success) {
         // Exito
         await alerta.alertaOK(data.message);
