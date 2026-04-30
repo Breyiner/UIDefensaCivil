@@ -17,6 +17,8 @@ export default async () => {
   const form = document.querySelector(".form"); // Zona o sección que agrupa la carga del archivo
   const boton = document.querySelector(".form__boton"); // Botón principal inferior para registrar la foto
 
+  const id_HousingInfoType = 2; //2 = grafico Entorno
+
   const familyPlan = await api.get(`familyPlans/${id}`);
 
   if (familyPlan.status_plan_id === 6 || familyPlan.status_plan_id === 7) {
@@ -56,14 +58,15 @@ export default async () => {
   };
 
   // Primera consulta: El sistema revisa si el usuario ya le había asignado una foto previa a esta vivienda
-  const existe = await api.getExiste(`housingInfo/${id}`);
+  const existeData = await api.get(`housingInfo/${id}/type/${id_HousingInfoType}`);
+  const existe = existeData !== null && existeData !== undefined;
 
   if (existe) {
-    // Si la respuesta fue cierta, solicitamos al servidor la dirección de dicha imagen y la dibujamos
-    const url = await api.getImagen(`housingInfo/${id}`);
-    preview.src = await url; // Le asiganamos al área de vista previa la ruta recién encontrada
-    preview.style.display = "block"; // Asegura forzosamente que el cuadro que contiene la foto no sea invisible
-    imagenTitulo.textContent = "Vista previa de la imagen actual"; // Texto de aviso mostrando que así luce el registro actual
+    preview.src = `${api.urlStorage}/${existeData.path}`;
+    preview.style.display = "block";
+    imagenTitulo.textContent = "Vista previa de la imagen actual";
+  } else {
+    imagenTitulo.textContent = "No se ha agregado una imagen aún";
   }
 
   window.procesoPeticion = false;
@@ -124,13 +127,19 @@ export default async () => {
     const formData = new FormData();
     formData.append("path", file); // Asignando como valor de ruta el archivo real pesado
     formData.append("family_plan_id", id); // Integrando secretamente el código numérico de identificación
+    formData.append("housing_info_type_id", id_HousingInfoType);
 
     try {
       // Regla de reemplazo: Si anteriormente dedujimos que existía una foto, la eliminaremos del servidor 
-      if (existe) await api.delet(`housingInfo/${id}`);
+      const existeAhoraData = await api.get(`housingInfo/${id}/type/${id_HousingInfoType}`);
+      const existeAhora = existeAhoraData !== null && existeAhoraData !== undefined;
+
+      const data = existeAhora
+        ? await api.postImagen(`housingInfo/${id}/type/${id_HousingInfoType}`, formData)
+        : await api.postImagen(`housingInfo`, formData);
 
       // Subida forjada usando el conducto especializado para información multimedia
-      const data = await api.postImagen(`housingInfo`, formData);
+      // const data = await api.postImagen(`housingInfo`, formData);
 
       // Retroalimentación visual evaluando éxito
       if (data.success) {
@@ -148,6 +157,5 @@ export default async () => {
     boton.disabled = false;
     window.procesoPeticion = false;
   });
-
 
 };

@@ -4,8 +4,8 @@
  * secuencial lineal paso-a-paso en la ruta "#/voluntario-planFamiliar/georeferenciacion/..."
  * en vez de en el modo edicion general por menús.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
+import * as alerta from "../../../helpers/alertas";
+import * as api from "../../../helpers/api";
 
 export default async () => {
   // Selectores Identidad
@@ -19,6 +19,8 @@ export default async () => {
   const input = document.getElementById("imagenInput"); // Native File Browser
   const preview = document.getElementById("preview"); // Container Target Render Blob HTML Image
   const imagenTitulo = document.querySelector(".imagen__titulo"); // Status Texto Imagen (Info Caption)
+
+  const id_HousingInfoType = 1; //1 = georeferencia
   
   // Especificaciones técnicas restrictoras de Archivo (Magic Numbers limiters)
   const TAMANO_MAX_MB = 2; // Tamaño máximo en MB limit Server Config Nginx 
@@ -31,20 +33,27 @@ export default async () => {
   }
   window.procesoPeticion = true;
 
+  const esSupervisor = location.hash.includes("/supervisor/");
+
   // Lógica Botón Atrás (Flujo lineal Wizard - vuelve a la Identificación)
   botonBack.onclick = async () => {
     if (window.procesoPeticion) return;
-    location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
+    if (esSupervisor) {
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+      return;
+    }
+    location.href = `#/voluntario/plan_familiar/familia?id=${id}`;
   };
 
   // Comprueba si durante este proceso el voluntario cerró y volvió, para no borrar imagen existente
-  const existe = await api.getExiste(`housingInfo/${id}`);
+  const existeData = await api.get(`housingInfo/${id}/type/${id_HousingInfoType}`);
+  const existe = existeData !== null && existeData !== undefined;
   if (existe) {
-    // Restauración visual estado UI File Upload
-    const url = await api.getImagen(`housingInfo/${id}`);
-    preview.src = await url;
-    preview.style.display = "block"; // Asegura block CSS layout display
+    preview.src = `${api.urlStorage}/${existeData.path}`;
+    preview.style.display = "block";
     imagenTitulo.textContent = "Vista previa de la imagen actual";
+  } else {
+    imagenTitulo.textContent = "No se ha agregado una imagen aún";
   }
 
   // Release UX lock
@@ -107,19 +116,23 @@ export default async () => {
     const formData = new FormData();
     formData.append("path", file); 
     formData.append("family_plan_id", id); // ID Referencial
+    formData.append("housing_info_type_id", id_HousingInfoType);
 
     try {
       // Método Reemplazo Parcial manual (Borra el viejo foto y pon la nueva) para ahorrar Storage
-      if (existe) await api.delet(`housingInfo/${id}`);
+      const existeAhoraData = await api.get(`housingInfo/${id}/type/${id_HousingInfoType}`);
+      const existeAhora = existeAhoraData !== null && existeAhoraData !== undefined;
+
+      const data = existeAhora ? await api.postImagen(`housingInfo/${id}/type/${id_HousingInfoType}`, formData) : await api.postImagen(`housingInfo`, formData);
 
       // Exec API Inserciónd
-      const data = await api.postImagen(`housingInfo`, formData);
+      // const data = await api.postImagen(`housingInfo`, formData);
       if (data.success) {
         // Exito
         await alerta.alertaOK(data.message);
         
         // Enrutamiento Forzado (Al ser Helper Linear de Georeferencia, Retorna al Módulo Identificación Avanzada)
-        location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
+        // location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
       } else {
         alerta.alertaWarning(data.message, data.errors);
       }

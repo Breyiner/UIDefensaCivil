@@ -200,12 +200,13 @@
     border-radius: 100px;
 }
 
-.overlay_verEstado .ventana.ventana__supervisor .form_autorizacion {
+.overlay_verEstado .ventana.ventana__supervisor .form_autorizacion,
+.tarjeta-contenido .form_autorizacion {
 
     width: 100%;
 }
 
 .overlay_verEstado .ventana .oculto {
 
-  display: none;
+    display: none;
 }

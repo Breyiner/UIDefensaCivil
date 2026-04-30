@@ -38,9 +38,9 @@ export default async () => {
 
   // Inyección DOM: Solicita y llena los combos <select> vacíos usando el Helper general `adjuntarOpciones.js`
   // Nota: Al cargarse piden de Endpoints 'Public' que no necesitan ser un User Valido LocalStorage
-  await adjuntarOpc.adjuntarInfo(tipoDocumento,"documentTypesPublic","acronym");
-  await adjuntarOpc.adjuntar(genero, "gendersPublic");
-  await adjuntarOpc.adjuntar(seccional, "sectionalsPublic");
+  await adjuntarOpc.adjuntarInfo(tipoDocumento,"public/document-types","acronym");
+  await adjuntarOpc.adjuntar(genero, "public/genders");
+  await adjuntarOpc.adjuntar(seccional, "public/sectionals");
   fechas.initFechas();
   
   // Libre pase visual
@@ -68,7 +68,7 @@ export default async () => {
     const booleanValidacion = validacion.validadorAutomatico.validarTodo(form);
     
     // Lógica especial que chequea los dos nodos de Password y que visualmente empate valor (Contraseñas idénticas)
-    const validacionContrasena = validacion.validar_igualdad(confContrasena,confContrasena);
+    const validacionContrasena = validacion.validar_igualdad(contrasena, confContrasena);
     
     // Si algún proceso falló (Regex o Identidad)
     if (!booleanValidacion || !validacionContrasena)
@@ -114,7 +114,7 @@ export default async () => {
   // Listener importante DropDown "Dependiente": Cuando cambia Seccional debe re-pedir Organizaciones de esa rama
   seccional.addEventListener("change", async () => {
     // Usa helper de "Reseteo" para limpiar el innerHTML viejo y repoblar mediante query public paramétrico url  
-    await adjuntarOpc.adjuntarReseteo(organizacion, `organizationsPublic/sectional/${seccional.value}`);
+    await adjuntarOpc.adjuntarReseteo(organizacion, `public/organizations/sectional/${seccional.value}`);
   });
   
   // Delegador de clic secundario de ventana SPA (Botón o hipervínculo para volver si ya tengo cuenta real)

@@ -21,7 +21,6 @@ export default async () => {
   // Botones y contenedores clave de la interfaz
   const form = document.querySelector(".form");
   const botonSiguiente = document.getElementById("botonSiguiente");
-  const botonGeo = document.querySelector(".form__botonGeo"); // Botón que Salta a la pestaña Foto
 
   // Elementos individuales del formulario de la vivienda
   const familia = document.getElementById("familiaId");
@@ -63,7 +62,6 @@ export default async () => {
 
   // Habilitar la interacción general una vez que la pantalla termina de cargar lo básico
   botonSiguiente.disabled = false;
-  botonGeo.disabled = false;
   window.procesoPeticion = false;
 
   validacion.validadorAutomatico.init(form);
@@ -84,7 +82,6 @@ export default async () => {
 
     // Bloquear Interfaz
     botonSiguiente.disabled = true;
-    botonGeo.disabled = true;
     window.procesoPeticion = true;
       
       // Colección exacta de elementos a viajar al servidor
@@ -108,12 +105,9 @@ export default async () => {
           await alerta.alertaOK(data.message);
           
           // Verificar al final, a modo de advertencia, si el Voluntario se le olvidó adjuntar la foto!
-          const geo = await api.getExiste(`housingInfo/${id}`);
-          !geo
-            ? await alerta.alertaWarning(
-                "Se puede agregar la Georeferenciacion despues...",
-              )
-            : "";
+          // const geo = await api.getExiste(`housingInfo/${id}`);
+          // !geo
+          //   ? await alerta.alertaWarning("Se puede agregar la Georeferenciacion despues...",: "";
             
           // Tras terminar esta fase, direcciona definitivamente al Voluntario al menú o escritorio principal de esta nueva familia
           location.href= `#/voluntario/plan_familiar/familia?id=${id}`;
@@ -124,25 +118,24 @@ export default async () => {
     
     // Al finalizar vuelve a habilitar su uso por si ocurrio algún rechazo de datos
     botonSiguiente.disabled = false;
-    botonGeo.disabled = false;
     window.procesoPeticion = false;
   });
 
   // MAGIA TEMPORAL: Evento generado al tocar el botón de "Agregar Fotografía / Geoferencia"
-  botonGeo.addEventListener("click", (e) => {
-    if (window.procesoPeticion) return;
-    e.preventDefault();
+  // botonGeo.addEventListener("click", (e) => {
+  //   if (window.procesoPeticion) return;
+  //   e.preventDefault();
     
-    // Almacena de manera invisible o temporal los datos en la Memoria RAM del navegador de todo lo escrito
-    localStorage.envioLocalStorage([
-      dirrecion,
-      sector,
-      sectorNombre,
-      telefono,
-      calidad,
-    ]);
+  //   // Almacena de manera invisible o temporal los datos en la Memoria RAM del navegador de todo lo escrito
+  //   localStorage.envioLocalStorage([
+  //     dirrecion,
+  //     sector,
+  //     sectorNombre,
+  //     telefono,
+  //     calidad,
+  //   ]);
     
-    // Permite que la aplicación salte a la siguiente pantalla para subir su foto sin temor a perder la información tipeada
-    location.href = `#/voluntario/plan_familiar/identificacion/georeferenciacion?id=${id}`;
-  });
+  //   // Permite que la aplicación salte a la siguiente pantalla para subir su foto sin temor a perder la información tipeada
+  //   location.href = `#/voluntario/plan_familiar/identificacion/georeferenciacion?id=${id}`;
+  // });
 };
