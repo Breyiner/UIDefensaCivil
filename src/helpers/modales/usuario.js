@@ -24,8 +24,9 @@ export const ver = async (id, recargarContainer,esPeticion,esAdmin) => {
     const gender = perfil.gender ?? {};
     const organization = perfil.organization ?? {};
     const sectional = organization.sectional ?? {};
-    const estado = datos.status.id
-    const rol = datos.rol.id
+    // Extraemos de forma segura el ID del estado y rol por si el backend lo manda plano, anidado o en otra propiedad
+    const estado = datos.state_user_id ?? datos.status?.id ?? (datos.status === 'Activo' ? 1 : 2);
+    const rol = datos.rol_id ?? datos.rol?.id ?? (datos.rol === 'Supervisor' ? 3 : 2);
     
     // Maqueta base Grid con remisiones masivas a ri-icons y datos cruzados
     const htmlModal = `
@@ -94,18 +95,16 @@ export const ver = async (id, recargarContainer,esPeticion,esAdmin) => {
             <div class="modalVer__dato">
             <i class="ri-lock-line"></i>
               <div class="modalVer__titulo">Estado</div>
-              <div class="modalVer__texto">`+datos.status.name+`</div>
+              <div class="modalVer__texto">${datos.status}</div>
             </div>`
           :"" // Queda vacío si es petición pura sin evaluar
         }
       </div>
     `;
 
-    // 👇 AQUÍ USAMOS TU ALERTA NUEVA
     // Redireccionadora lógica basada en la procedencia de quien abre el Modal
     if (esPeticion) alerta.VerAprobarEliminarUsuarios(htmlModal, recargarContainer, id);
-    else alerta.VerCambiarEstadoRolUsuarios(htmlModal, recargarContainer, id);
-    
+    else alerta.VerCambiarEstadoRolUsuarios(htmlModal, recargarContainer, id, estado, rol, esAdmin);
 
   } catch (error) {
     console.error(error);
