@@ -6,6 +6,8 @@
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import paginacion from "../../../../helpers/paginacion";
+import {dropdownFiltro} from "../../../../componentes/filter/dropdown"
+import {searchBar} from "../../../../componentes/filter/searchBar"
 
 const ListadoPlanController = async () => {
 
@@ -18,55 +20,55 @@ const ListadoPlanController = async () => {
     const selectStatusCont = document.createElement("div");
     selectStatusCont.classList.add("selector--estado__cont");
 
+
+    // encontrar contenedor donde van los filtros
+    const contenedorFiltro = document.querySelector(".container__filtro");
+    
+
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
         location.href = `#/supervisor/`;
     };
 
-    let estadoActivo = 0;
-
-    const estados = [
-
-        {
-            "nombre": "Todos",
-            "num": 0
-        },
-        {
-            "nombre": "Enviados",
-            "num": 4
-        },
-        {
-            "nombre": "Rechazados/Devueltos",
-            "num": [5,6]
-        },
-        {
-            "nombre": "Aprobados",
-            "num": 7
-        }
-    ]
-
-    // for (let i = 0; i < estados.length; i++)
-    for (const estado of estados) {
-        // const estado = estados[i];
         
-        const botonEstado = document.createElement("button")
-        botonEstado.classList.add("selector--estado");
+    // agregar campos de filtro
 
-        if (estado.num === estadoActivo) botonEstado.classList.add("selector--estado__activo");
-        botonEstado.textContent = estado.nombre;
+    const searchbar = await searchBar(searchBarFiltro)
+    const dropdown = await dropdownFiltro()
 
-        botonEstado.addEventListener("click", () => {
-            document.querySelectorAll(".selector--estado").forEach(b => {
-                b.classList.remove("selector--estado__activo");
-            });
-            botonEstado.classList.add("selector--estado__activo");
-            estadoActivo = estado.num;
-            recargarContainer();
-        });
+    contenedorFiltro.append(searchbar)
+    contenedorFiltro.append(dropdown)
 
-        selectStatusCont.append(botonEstado);
 
-    }
+        let filtroEstado = 0;
+    let filtroBusqueda = "";
+    let todosLosPlanes = [];
+
+
+    const cargarPlanes = async (endpoint = "familyPlans") => {
+        const paginado = await api.getPaginacion(endpoint);
+        todosLosPlanes = paginado.data;
+        renderPlanes(); // aplica los filtros actuales (vacíos al inicio)
+    };
+
+    const renderPlanes = () => {
+        contenedor.innerHTML = "";
+
+     const planesFiltrados = todosLosPlanes.filter(plan => {
+    const pasaEstado  = filtroEstado === 0 || plan.status_id == filtroEstado;
+    const pasaBusqueda = filtroBusqueda === "" ||
+      plan.last_names.toLowerCase().includes(filtroBusqueda.toLowerCase());
+
+    return pasaEstado && pasaBusqueda; // deben cumplirse los dos
+  });
+
+      planesFiltrados.forEach(async(plan) => {
+    contenedor.append(await carta(plan));
+  });
+};
+
+
+    let estadoActivo = 0;
 
     contenedor.before(selectStatusCont);
 
@@ -187,7 +189,17 @@ const ListadoPlanController = async () => {
     };
 
 
-    await recargarContainer();
+    dropdown.addEventListener("change", e => {
+        filtroEstado = Number(e.target.value); 
+        renderPlanes(); 
+    })
+    function searchBarFiltro (event) {
+        filtroBusqueda = event.target.value.trim();
+        renderPlanes();
+    }
+
+
+    await cargarPlanes();
 
 };
 
