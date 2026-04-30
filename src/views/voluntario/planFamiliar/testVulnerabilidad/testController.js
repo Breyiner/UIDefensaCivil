@@ -256,7 +256,7 @@ export default async () => {
     });
 
     // VEREDICTO DE TRAMPA/ERROR: El Voluntario no rellenó la cantidad adecuada (Se comió y saltó alguna pregunta)
-    if (respondidas < total) {
+    if (respondidas < total || puntos === 0) {
       // Advertencia en color Rojo/Amarillo
       await alerta.alertaWarning(`No ha respondido todas (${respondidas}/${total})`);
       window.procesoPeticion = false
@@ -296,12 +296,12 @@ export default async () => {
     alerta.alertaLoadingCerrar();
     
     // RESULTADO CUALITATIVO REPROBADO: MÍNIMO INCLUYENTE PUNTOS < 5!
-    if (puntos < 5) {
+    if (puntos < 5 && respondidas === total) {
       // Advertencia: La familia tiene grandes grietas y no rige bajo ciertos planes deseados.
       await alerta.alertaWarning("El plan familiar presentado no cumple con los requisitos y lineamientos establecidos para su aprobación, se redigira a la vista home",);
       try {
         // Enlaza por detrás al status base con la palabra del rechazo numérico absoluto tipo 2.
-        const data = await api.patch(`familyPlans/status/${id}`, {
+        const data = await api.patch(`familyPlans/${id}/change-status`, {
           status_plan_id: 2, // 2 = RECHAZADO
         });
         
