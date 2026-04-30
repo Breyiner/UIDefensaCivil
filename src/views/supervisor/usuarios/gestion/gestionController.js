@@ -9,6 +9,7 @@ import * as api from "../../../../helpers/api";
 import paginacion from "../../../../helpers/paginacion";
 import * as modalUsuario from "../../../../helpers/modales/usuario";
 import { tarjetaEstados } from "../../../../componentes/tarjetas/tarjeta_gestionSupervisor";
+
 export default async () => {
 
     // Extrae apuntadores a los botones de navegación generales
@@ -51,6 +52,9 @@ export default async () => {
 
         // Recuperar Meta-ID guardado en tiempo de inyección (data-id)
         const userId = tarjetaClickeada.dataset.id;
+
+        console.log("USER ID", userId);
+        
 
         // Lanza función "Ver" contenida en "modales/usuario.js" pasando 
         // la ID identificadora, el refresco padre y el modo de usuario supervisor.
