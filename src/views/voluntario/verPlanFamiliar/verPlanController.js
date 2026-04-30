@@ -20,7 +20,7 @@ export default async () => {
     
     // agregar campos de filtro
 
-    const searchbar = await searchBar()
+    const searchbar = await searchBar(searchBarFiltro)
     const dropdown = await dropdownFiltro()
 
     contenedorFiltro.append(searchbar)
@@ -45,35 +45,32 @@ export default async () => {
 
     const mensajeVacio = "No tienes ningun plan familiar realizado.";
 
-    /**
-     * Componente Tarjeta Resumen Plan Familiar
-     * Fabrica las cajas grandes que se ven al entrar al sistema.
-     */
+    let filtroEstado = 0;
+    let filtroBusqueda = "";
+    let todosLosPlanes = [];
 
 
-    /**
-     * Enganche Global Paginador Backend-Frontend
-     * Trae exclusivamente los planes amarrados al ID del Usuario Logueado (Token JWT implícito en Helper).
-     */
-
-    // SE DEBE RECONSTRUIR LA FUNCION DE PAGINACION, NO ESTÁ MODULADA!
-    const recargarContainer = async (endpoint="familyPlans", status = 0) => {
-        contenedor.innerHTML = "";
+    const cargarPlanes = async (endpoint = "familyPlans") => {
         const paginado = await api.getPaginacion(endpoint);
-        const planes = paginado.data;
-
-        planes.forEach(async(plan) => {
-
-            if (status == 0){
-                const tarjeta = cardPlanFamiliar(plan)
-                contenedor.append(tarjeta)
-            }
-            else if (plan.status_id == status){
-                const tarjeta = cardPlanFamiliar(plan)
-                contenedor.append(tarjeta)
-            }
-        });
+        todosLosPlanes = paginado.data;
+        renderPlanes(); // aplica los filtros actuales (vacíos al inicio)
     };
+
+    const renderPlanes = () => {
+        contenedor.innerHTML = "";
+
+     const planesFiltrados = todosLosPlanes.filter(plan => {
+    const pasaEstado  = filtroEstado === 0 || plan.status_id == filtroEstado;
+    const pasaBusqueda = filtroBusqueda === "" ||
+      plan.last_names.toLowerCase().includes(filtroBusqueda.toLowerCase());
+
+    return pasaEstado && pasaBusqueda; // deben cumplirse los dos
+  });
+
+    planesFiltrados.forEach(plan => {
+    contenedor.append(cardPlanFamiliar(plan));
+  });
+};
 
     // Delegación Eventos de Click Muro Principal "Mis Planes"
     contenedor.addEventListener("click", async (e) => {
@@ -104,14 +101,16 @@ export default async () => {
         }
     });
 
-    // Run Engine
-    await recargarContainer();
 
     dropdown.addEventListener("change", e => {
-        const option = e.target
-        if (option.matches(".dropdown-filtro__item")){
-            return;
-        }
-        recargarContainer("familyPlans",option.value)
+        filtroEstado = Number(e.target.value); 
+        renderPlanes(); 
     })
+    function searchBarFiltro (event) {
+        filtroBusqueda = event.target.value.trim();
+        renderPlanes();
+    }
+
+    cargarPlanes()
+
 };
