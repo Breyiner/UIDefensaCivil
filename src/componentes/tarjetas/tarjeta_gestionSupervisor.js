@@ -2,10 +2,9 @@ import * as api from "../../helpers/api";
 
 
 export const tarjetaEstados = async (info) => {
-    const users = await api.get("users/by-status");
+    // const users = await api.get(`users/${info.id}/change-status`);
 
-    console.log(users);
-
+    
     // Contenedor principal de la tarjeta
     const tarjeta = document.createElement('div');
     // Guardamos el ID aquí para que sea accesible desde cualquier parte de la tarjeta, ya que se espera que al hacer click nos muestre el modal de rechazar o aceptar el acceso

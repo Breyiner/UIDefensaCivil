@@ -529,8 +529,10 @@ export const VerCambiarEstadoRolUsuarios = (
 
       try {
         // Ejecución invirtiendo el id referencial (Si era 1[Activo] lo vuelve 2[Inactivo])
-        const response = await api.patch(`users/status/${id}`, {
+        const response = await api.patch(`users/${id}/change-status`, {
+          user_ids: [Number(id)], 
           state_user_id: estado == 1 ? 2 : 1,
+          async: false,
         });
 
         if (response.success) {
