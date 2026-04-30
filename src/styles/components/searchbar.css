@@ -1,0 +1,7 @@
+.searchbar{
+    border: none;
+    border: 1px solid var(--color-fondogristranslucido);
+    border-radius: 10px;
+    padding: 0.5rem;
+    width: 15rem;
+}

@@ -1,0 +1,5 @@
+.container__filtro{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
