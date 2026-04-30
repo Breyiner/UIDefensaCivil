@@ -39,8 +39,8 @@ const ListadoPlanController = async () => {
     contenedorFiltro.append(searchbar)
     contenedorFiltro.append(dropdown)
 
-
-        let filtroEstado = 0;
+    
+    let filtroEstado = 0;
     let filtroBusqueda = "";
     let todosLosPlanes = [];
 
@@ -70,7 +70,6 @@ const ListadoPlanController = async () => {
 
     let estadoActivo = 0;
 
-    contenedor.before(selectStatusCont);
 
     const mensajeVacio = "No tienes ningun plan familiar realizado.";
 
