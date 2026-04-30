@@ -4,6 +4,7 @@
  * Muestra el estado de cada plan (En Progreso, Aprobado, Rechazado) con colores distintivos.
  * Contiene lógica condicional de enrutamiento basada en el Rol del usuario (Voluntario vs Supervisor).
  */
+import { cardPlanFamiliar } from "../../../componentes/cards/planFamiliarCard";
 import { dropdownFiltro } from "../../../componentes/filter/dropdown";
 import { searchBar } from "../../../componentes/filter/searchBar";
 import * as api from "../../../helpers/api";
@@ -48,66 +49,14 @@ export default async () => {
      * Componente Tarjeta Resumen Plan Familiar
      * Fabrica las cajas grandes que se ven al entrar al sistema.
      */
-    const carta = async (info) => {
 
-        const div = document.createElement("div");
-        div.classList.add("verPlan", "tarjeta");
-
-        // Lógica de Semáforo UI basado en el Código de Estado (Status_id) del Flujo de Aprobación
-        // 3: Enviado a Revisión (Azul)
-        // 4, 7: Aprobados / Certificados (Verde)
-        // 5, 6: Rechazos temporales o definitivos (Rojo)
-        const estadoClase =
-            info.status_id == 3 ? "verPlan__estado--azul" :
-            info.status_id == 4 || info.status_id == 7 ? "verPlan__estado--verde" :
-            info.status_id == 5 || info.status_id == 6 ? "verPlan__estado--rojo" :
-            ""; // Vacio por default (Asume estado 1 o 2 'En Progreso')
-
-        // Override Label Texto para Rechazos (El backend tal vez manda textos largos, front los recorta)
-        const estadoTexto =
-            info.status_id == 5 ? "Rechz.Cambios" :
-            info.status_id == 6 ? "Rechz.Definitivo" :
-            info.status;
-
-        // Maquetación DOM de la Carta
-        div.innerHTML = `
-            <div class="verPlan__icono">
-                <i class="ri-parent-fill"></i>
-            </div>
-            <div class="verPlan__apellidos">${info.last_names}</div>
-            <div class="verPlan__estado ${estadoClase}">
-                ${estadoTexto}
-            </div>
-            <div class="verPlan__detalles--ubicacion">
-                <i class="ri-map-pin-line"></i>
-                ${info.department} - ${info.city}
-            </div>
-            <div class="verPlan__detalles--fecha">
-                <i class="ri-calendar-event-fill"></i>
-                Ultima Edicion: ${info.date_create}
-            </div>
-            ${
-                // Restricción de Botón "Revisar":
-                // Desaparece si el plan está: (2) Enviado a certificar, (6) Rechazo Mortal, (7) Terminado
-                info.status_id == 2 || 
-                info.status_id == 6 || 
-                info.status_id == 7
-                    ? ""
-                    : `<button class="verPlan__boton boton" 
-                              data-id="${info.id}" 
-                              data-status="${info.status_id}">
-                          Revisar Plan
-                       </button>`
-            }
-        `;
-
-        return div;
-    };
 
     /**
      * Enganche Global Paginador Backend-Frontend
      * Trae exclusivamente los planes amarrados al ID del Usuario Logueado (Token JWT implícito en Helper).
      */
+
+    // SE DEBE RECONSTRUIR LA FUNCION DE PAGINACION, NO ESTÁ MODULADA!
     const recargarContainer = async (endpoint="familyPlans", status = 0) => {
         contenedor.innerHTML = "";
         const paginado = await api.getPaginacion(endpoint);
@@ -115,13 +64,14 @@ export default async () => {
 
         planes.forEach(async(plan) => {
 
-            if (plan.status__id == 0)
-                await paginacion("familyPlans", mensajeVacio, carta)
-            if (plan.status_id == status){
-                
+            if (status == 0){
+                const tarjeta = cardPlanFamiliar(plan)
+                contenedor.append(tarjeta)
             }
-
-
+            else if (plan.status_id == status){
+                const tarjeta = cardPlanFamiliar(plan)
+                contenedor.append(tarjeta)
+            }
         });
     };
 
