@@ -18,8 +18,12 @@ export default async () => {
     const contenedorFiltro = document.querySelector(".container__filtro");
     
     // agregar campos de filtro
-    contenedorFiltro.append(await searchBar())
-    contenedorFiltro.append(await dropdownFiltro())
+
+    const searchbar = await searchBar()
+    const dropdown = await dropdownFiltro()
+
+    contenedorFiltro.append(searchbar)
+    contenedorFiltro.append(dropdown)
 
 
     if (window.procesoPeticion === undefined) window.procesoPeticion = false;
@@ -104,9 +108,21 @@ export default async () => {
      * Enganche Global Paginador Backend-Frontend
      * Trae exclusivamente los planes amarrados al ID del Usuario Logueado (Token JWT implícito en Helper).
      */
-    const recargarContainer = async () => {
+    const recargarContainer = async (endpoint="familyPlans", status = 0) => {
         contenedor.innerHTML = "";
-        await paginacion("familyPlans", mensajeVacio, carta);
+        const paginado = await api.getPaginacion(endpoint);
+        const planes = paginado.data;
+
+        planes.forEach(async(plan) => {
+
+            if (plan.status__id == 0)
+                await paginacion("familyPlans", mensajeVacio, carta)
+            if (plan.status_id == status){
+                
+            }
+
+
+        });
     };
 
     // Delegación Eventos de Click Muro Principal "Mis Planes"
@@ -140,4 +156,12 @@ export default async () => {
 
     // Run Engine
     await recargarContainer();
+
+    dropdown.addEventListener("change", e => {
+        const option = e.target
+        if (option.matches(".dropdown-filtro__item")){
+            return;
+        }
+        recargarContainer("familyPlans",option.value)
+    })
 };
