@@ -8,6 +8,7 @@ export const dropdownFiltro = async() => {
     // crear una opción para mostrar independientemente del estado
     const todos = document.createElement("option");
     todos.textContent = "Todos"
+    todos.value = 0;
 
     dropdown.append(todos);
 
