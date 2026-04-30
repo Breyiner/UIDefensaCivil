@@ -1,5 +1,4 @@
 import * as api from "../../helpers/api";
-
 // crear un dropdown para filtrar
 
 export const dropdownFiltro = async() => {
@@ -19,13 +18,9 @@ export const dropdownFiltro = async() => {
         const option = document.createElement("option");
         option.textContent = estado.name;
         option.value = estado.id
+        option.classList.add("dropdown-filtro__item")
         dropdown.append(option)
     })
-
-    dropdown.addEventListener("change", () => {
-        onChange(dropdown.value);
-    });
-
 
     console.log(estados)
 
