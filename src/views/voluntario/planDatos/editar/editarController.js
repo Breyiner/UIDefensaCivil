@@ -24,6 +24,7 @@ export default async () => {
   const departamentos = document.getElementById("departamentos"); // Lista desplegable de departamentos del país
   const ciudades = document.getElementById("ciudades"); // Lista desplegable de municipios
   const familia = document.getElementById("familiaId"); // Cuadro de texto de solo lectura con el número del plan
+  const tipoFamilia = document.getElementById("tipoFamilia"); // cuadro texo que muestra el tipo de familia (Ej. Vulnerable, no Vulnerable o Por Definir)
   const apellidos = document.getElementById("apellidos"); // Cuadro de texto para los apellidos (Paterno y Materno)
   const dirrecion = document.getElementById("dirrecion"); // Cuadro de texto para escribir la dirección exacta
   const sectores = document.getElementById("sectores"); // Lista desplegable con localidades o tipos de recintos
@@ -65,6 +66,7 @@ export default async () => {
     `familyPlans/${id}`,
     [
       familia,
+      tipoFamilia,
       apellidos,
       zonas,
       departamentos,
@@ -77,7 +79,9 @@ export default async () => {
     ],
     [
       "id",
+      "family_type",
       "last_names",
+      "family_type",
       "zone_id",
       "department_id",
       "city_id",
@@ -91,6 +95,8 @@ export default async () => {
 
   // Modificación cosmética del cuadro número de familia para que siempre diga "Familia segura N. [numero]"
   familia.value = `Familia segura N.${familia.value}`;
+
+  tipoFamilia.value = `Tipo de familia: ${tipoFamilia.value}`;
 
   // Termina el proceso de cargar información inicial y desbloquea el botón de guardar
   botonGuardar.disabled = false;

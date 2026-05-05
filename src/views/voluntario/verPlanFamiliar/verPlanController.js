@@ -32,12 +32,16 @@ export default async () => {
   //
 
   // Extracción de Token de Autorización LocalStorage (1 Admin, 2 Supervisor, 3 Voluntario)
-  const rolId = localStorage.getItem("role_id");
+  // const rolId = localStorage.getItem("role_id");
+
+  const esSupervisor = location.hash.includes("supervisor");
+  const base = esSupervisor ? "supervisor" : "voluntario";
 
   // Lógica dinámica Botón Atrás (Si entra un supervisor a mironear, que lo devuelva a su casa)
   botonBack.onclick = () => {
     if (window.procesoPeticion) return;
-    location.href = rolId == 3 ? `#/voluntario` : `#/supervisor`;
+    // location.href = rolId == 3 ? `#/voluntario` : `#/supervisor`;
+    location.href = `#/${base}`;
   };
 
   const mensajeVacio = "No tienes ningun plan familiar realizado.";

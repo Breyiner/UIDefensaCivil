@@ -16,6 +16,9 @@ const RevisionPlanController = async () => {
 
     const info = await api.get(`familyPlans/${id}`);
 
+    // console.log(info);
+    
+
     const familyMembers = await api.get(`familyMembers/`);
 
     const sectors = await api.get(`sectors/`);
@@ -69,7 +72,7 @@ const RevisionPlanController = async () => {
     }
 
     btnEditarDatos.addEventListener("click", () => {
-        location.href = `#/supervisor/plan_familiar/datos/familia_id=${info.id}`;
+        location.href = `#/supervisor/plan_familiar/datos?familia_id=${info.id}`;
     });
 
     const tiposSector = sectors.find(sector => sector.id == info.sector_id);
@@ -78,7 +81,8 @@ const RevisionPlanController = async () => {
     departamento.classList.add("form_autorizacion");
     const ubicacionIcono = document.createElement("i");
     ubicacionIcono.classList.add("icono--pequeno", "ri-map-pin-2-line");
-    departamento.append(ubicacionIcono, " " + info.address + ", " + tiposSector.name + " " + info.sector_name + ", " + info.city + ", " + info.department);
+
+    departamento.append(ubicacionIcono, " " + info.address + ", " + (tiposSector?.name || "") + " " + info.sector_name + ", " + info.city + ", " + info.department);
 
     const telfonoFamilia = document.createElement("div");
     telfonoFamilia.classList.add("form_autorizacion");
@@ -92,6 +96,12 @@ const RevisionPlanController = async () => {
     viviendaIcono.classList.add("icono--pequeno", "ri-home-2-line");
     calidadVivienda.append(viviendaIcono, " Calidad Vivienda: " + info.housing_quality);
 
+    const tipoFamilia = document.createElement("div");
+    tipoFamilia.classList.add("form_autorizacion");
+    const tipoIcono = document.createElement("i");
+    tipoIcono.classList.add("icono--pequeno", "ri-error-warning-line");
+    tipoFamilia.append(tipoIcono, " Tipo Familia: " + info.family_type);
+
     const fechaRecibido = document.createElement("div");
     fechaRecibido.classList.add("form_autorizacion");
     const calendarioIcono = document.createElement("i");
@@ -101,7 +111,7 @@ const RevisionPlanController = async () => {
     const introduccionDiv = document.createElement("div");
     introduccionDiv.classList.add("introduccionDiv");
 
-    introduccionCont.append(familiaCont, departamento, telfonoFamilia, calidadVivienda, fechaRecibido);
+    introduccionCont.append(familiaCont, departamento, telfonoFamilia, calidadVivienda, tipoFamilia, fechaRecibido);
 
     introduccionDiv.append(imagenIcono, introduccionCont);
 

@@ -4,13 +4,15 @@
   margin-bottom: 20px;
   display: grid;
   grid-template-columns: 2fr 15fr 7fr;
-  grid-template-rows: repeat(4,30px);
+  grid-template-rows: 1fr 30px 30px auto;
   grid-template-areas:
     "iconoApellido apellido estado"
     ". detalleUbicacion detalleUbicacion"
     ". detalleFecha detalleFecha"
     "boton boton boton";
-  font-family: var(--fuente-contenido);
+
+  gap: 10px;
+  /* font-family: var(--fuente-contenido); */
 }
 .verPlan__icono{
   text-align: center;
@@ -33,25 +35,49 @@
   background-color: var(--color-naranjado-50);
   color: var(--color-primario);
   font-size: var(--tamano-mediano);
-  border-radius: 10px;
+  padding: 5px 10px;
+  border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   
 }
+
+.verPlan__tipo{
+  font-size: var(--tamano-mediano);
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 100px;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
 .verPlan__estado--azul{
   background-color: var(--color-azulado-50);
   color: var(--color-secundario);
 }
-.verPlan__estado--rojo{
+.verPlan__estado--rojo,
+.verPlan__tipo--rojo{
   background-color: var(--color-rojizo-25);
   color: var(--color-rojizo);
 }
-.verPlan__estado--verde{
+.verPlan__estado--verde,
+.verPlan__tipo--verde{
   background-color: var(--color-verdoso-25);
   color: var(--color-verdoso);
 }
 
+.verPlan__tipo--gris {
+  background-color: var(--color-gris-25);
+  color: var(--grisMedio);
+}
+
+.verPlan__tipo--estado {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 
 .verPlan__detalles--fecha{
   grid-area: detalleFecha;
@@ -75,4 +101,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.verPlan__mensaje--estado {
+
+  padding: 10px;
+  border-radius: 100px;
+  background-color: var(--color-azulado-50);
+  text-align: center;
 }
