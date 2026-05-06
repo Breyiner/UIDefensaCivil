@@ -1,6 +1,16 @@
 
+// El parametro enlaces de crearAside() es un objeto que debe contener los datos de cada item del aside. Ejemplo:
+const ejemplo = [
+    { icono: 'ri-gallery-view-2',      texto: 'Inicio',           info: null,         perfil: false, href: '#/supervisor' },
+    { icono: 'ri-file-user-line',      texto: 'Planes Familiares',info: null,         perfil: false, href: '#/supervisor/plan_familiar' },
+    { icono: 'ri-group-line',          texto: 'Voluntarios',      info: null,         perfil: false, href: '#/supervisor/usuarios/gestion' },
+    { icono: 'ri-bar-chart-2-line',    texto: 'Estadisticas',     info: null,         perfil: false, href: '#/supervisor/plan_familiar/estadistica' },
+    { icono: 'ri-arrow-left-right-line',texto: 'Peticiones',      info: null,         perfil: false, href: '#/supervisor/usuarios/peticiones' },
+    { icono: 'ri-user-line',           texto: 'Nombre',           info: 'Supervisor', perfil: true , href: '#/usuarios/perfil' },
+];
 
-export const crearAside = () => {
+
+export const crearAside = (enlaces) => {
   // Crear el aside principal
   
   const aside = document.createElement('aside');
@@ -9,16 +19,6 @@ export const crearAside = () => {
   // Crear el contenedor de la lista
   const divLista = document.createElement('div');
   divLista.classList.add('sidebar__lista');
-  
-  // Datos de los enlaces
-  const enlaces = [
-    { icono: 'ri-gallery-view-2',      texto: 'Inicio',           info: null,         perfil: false },
-    { icono: 'ri-file-user-line',      texto: 'Planes Familiares',info: null,         perfil: false },
-    { icono: 'ri-group-line',          texto: 'Voluntarios',      info: null,         perfil: false },
-    { icono: 'ri-bar-chart-2-line',    texto: 'Estadisticas',     info: null,         perfil: false },
-    { icono: 'ri-arrow-left-right-line',texto: 'Peticiones',      info: null,         perfil: false },
-    { icono: 'ri-user-line',           texto: 'Nombre',           info: 'Supervisor', perfil: true  },
-  ];
   
   // Construir y montar el sidebar
   enlaces.forEach(enlace => divLista.appendChild(crearEnlace(enlace)));
@@ -29,9 +29,9 @@ export const crearAside = () => {
 
 
 // Función para crear cada enlace
-function crearEnlace({ icono, texto, info, perfil }) {
+function crearEnlace({ icono, texto, info, perfil, href }) {
   const a = document.createElement('a');
-  a.href = '#';
+  a.href = href
   a.classList.add('sidebar__link');
   if (perfil) a.classList.add('sidebar__link--perfil');
 
