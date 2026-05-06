@@ -24,6 +24,7 @@ export default async () => {
 
   // Elementos individuales del formulario de la vivienda
   const familia = document.getElementById("familiaId");
+  const tipoFamilia = document.getElementById("tipoFamilia");
   const apellidos = document.getElementById("apellidos");
   const dirrecion = document.getElementById("dirrecion"); // Calle / Carrera
   const sector = document.getElementById("sectores");
@@ -47,7 +48,7 @@ export default async () => {
   };
 
   // Primera consulta: Traer la información básica que este mismo voluntario guardó en el Paso 1
-  cargarDatos(`familyPlans/${id}`, [familia, apellidos], ["id", "last_names"]);
+  cargarDatos(`familyPlans/${id}`, [familia, apellidos, tipoFamilia], ["id", "last_names", "family_type"]);
   
   // Llenar las listas desplegables utilizando datos concretos del servidor
   await adjuntarOpc.adjuntarNoValida(sector, "sectors");
@@ -55,6 +56,8 @@ export default async () => {
   
   // Adornar el título de la familia para el deleite visual 
   familia.value = `Familia segura N.${familia.value}`;
+
+  tipoFamilia.value = `Tipo de familia: ${tipoFamilia.value}`;
   
   // TRUCO TEMPORAL: Si el usuario había abandonado esta pantalla para ir a subir la fotografía,
   // el sistema automáticamente recupera todo lo que este hubiese escrito para no obligarlo a digitar nuevamente

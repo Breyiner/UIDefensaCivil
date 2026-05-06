@@ -46,10 +46,17 @@ export const router = async (main) => {
         return;
     }
 
+    // VALIDACIONES DE RUTAS ESPECIFICAS Y SEGURIDAD ADICIONAL
+
+    corregirQueryParams(hash);
+
     validarRol(hash);
 
     ocultarEditarUrl(hash);
 
+    ocultarUrlFamilia(hash);
+
+    // --------------------------------------------------------
 
     if (ruta.path) {
         await cargarVista(ruta.path, main);
@@ -66,6 +73,28 @@ const limpiarLayout = (main) => {
     main.innerHTML = "";
 }
 
+const corregirQueryParams = (hash) => {
+
+    const segmentos = hash.split("/"); // Divide el hash en segmentos por "/" Ej: "/plan_familiar/datos/familia_id=1" → ["/plan_familiar", "datos", "familia_id=1"]
+
+    const indice = segmentos.findIndex(segmento => segmento.includes("=") && !segmento.includes("?")); // Busca el índice del primer segmento que tenga "=" pero no tenga "?" Ej: "familia_id=1" tiene "=" y no tiene "?" → es un param mal formado
+
+    if (indice !== -1) {
+
+        const ruta = segmentos.slice(0, indice).join("/"); // Toma todos los segmentos antes del índice y los une como la ruta Ej: ["/plan_familiar", "datos"] → "/plan_familiar/datos"
+
+        const params = segmentos.slice(indice).join("&");  // Toma todos los segmentos desde el índice y los une con "&" como query params Ej: ["familia_id=1", "otro_id=2"] → "familia_id=1&otro_id=2"
+
+        const corregido = `${ruta}?${params}`;  // Une la ruta y los params con "?" para formar la URL corregida Ej: "/plan_familiar/datos?familia_id=1&otro_id=2"
+
+        window.location.hash = `#${corregido}`; // Actualiza el hash con la URL corregida
+
+        return true; // Retorna true para indicar que hubo corrección y detener la ejecución del router
+    }
+
+    return false;
+}
+
 const ocultarEditarUrl = async (hash) => {
 
     const esSupervisor = hash.includes("supervisor/");
@@ -74,35 +103,63 @@ const ocultarEditarUrl = async (hash) => {
     const tieneEditar = segmentos.some(segmento => segmento.split("?")[0] === 'editar');
     const estaEnPlan = hash.includes("plan_familiar/");
 
-    if (estaEnPlan && tieneEditar) {
+    if (!estaEnPlan || !tieneEditar) return;
 
-        const queryString = hash.split("?")[1] || "";
-        // console.log("QueryString: ", queryString);
-        const params = new URLSearchParams(queryString);
-        // console.log("PARAMS: ", params);
+    const queryString = hash.split("?")[1] || "";
+    const params = new URLSearchParams(queryString);
+    const familia_id = params.get("familia_id");
 
-        const familia_id = params.get("familia_id");
+    if (!familia_id) return;
 
-        if (familia_id) {
-            const plan = await api.get(`familyPlans/${familia_id}`);
+    const plan = await api.get(`familyPlans/${familia_id}`);
 
-            if (plan.status_plan_id === 6 || plan.status_plan_id === 7) {
+    if (plan.status_plan_id === 6 || plan.status_plan_id === 7) {
 
-                if (esSupervisor) {
-
-                    window.location.hash = "#/supervisor/plan_familiar";
-                    alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente y no se puede editar, te redirigiremos al listado de planes familiares`);
-                    return;
-
-                } else if (esVoluntario) {
-
-                    window.location.hash = "#/voluntario/plan_familiar";
-                    alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente y no se puede editar, te redirigiremos al listado de planes familiares`);
-                    return;
-                }
-            }
+        if (esSupervisor) {
+            window.location.hash = "#/supervisor/plan_familiar";
+            alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente y no se puede editar, te redirigiremos al listado de planes familiares`);
+            return;
         }
-    };
+        
+        if (esVoluntario) {
+            window.location.hash = "#/voluntario/plan_familiar";
+            alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente y no se puede editar, te redirigiremos al listado de planes familiares`);
+            return;
+        }
+    }
+}
+
+const ocultarUrlFamilia = async (hash) => {
+
+    const esSupervisor = hash.includes("supervisor/");
+    const esVoluntario = hash.includes("voluntario/");
+
+    if (!hash.includes("familia_id") && !hash.includes("plan_familiar/")) return;
+
+    const queryString = hash.includes("?") ? hash.split("?")[1] : "";
+    const params = new URLSearchParams(queryString);
+    // const familiaId = params.get("familia_id");
+    const familiaId = params.get("familia_id");
+
+    if (!familiaId) return;
+
+    const plan = await api.get(`familyPlans/${familiaId}`);
+
+    if (esVoluntario) {
+        if (plan.status_plan_id === 4 || plan.status_plan_id === 5 || plan.status_plan_id === 6 || plan.status_plan_id === 7) {
+            window.location.hash = "#/voluntario/plan_familiar";
+            alerta.alertaMensaje(`Este plan familiar ya fue enviado por voluntario y no se puede acceder directamente`);
+            return;
+        }
+    }
+
+    if (esSupervisor) {
+        if (plan.status_plan_id === 1 || plan.status_plan_id === 2 || plan.status_plan_id === 3) {
+            window.location.hash = "#/supervisor/plan_familiar";
+            alerta.alertaMensaje(`Este plan familiar aún no ha sido enviado por el voluntario, no se puede acceder directamente hasta que el voluntario lo envíe para revisión`);
+            return;
+        }
+    }
 }
 
 const volverHome = async (hash) => {
@@ -244,6 +301,3 @@ const removerBotonHeader = (arregloHash) => {
         botonBack.classList.remove("invisible")
     }
 }
-
-
-

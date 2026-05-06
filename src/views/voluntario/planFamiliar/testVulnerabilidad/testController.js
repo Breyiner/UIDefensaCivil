@@ -1,9 +1,9 @@
 /**
  * Controlador: Evaluador Test de Vulnerabilidad (testController.js)
- * El corazón del módulo. Genera dinámicamente cuadros de preguntas 
+ * El corazón del módulo. Genera dinámicamente cuadros de preguntas
  * informales o formales (con botones SI/NO) pidiéndoselas al servidor.
  * Aprovecha la memoria temporal del navegador para llevar el conteo
- * de puntos ganados y perdidos en el mismo teléfono, sin depender 
+ * de puntos ganados y perdidos en el mismo teléfono, sin depender
  * de una conexión lenta.
  * Al concluír, califica la encuesta y decide si el Plan Familiar se aprueba o se expulsa.
  */
@@ -29,10 +29,10 @@ export default async () => {
 
   //Se crea un objeto que almacena los puntajes, repuestas y cuenta aquellas cuya opcion marque "SI" = true de forma temporal ----------------------------------------- Nuevo
   const testRespuestas = {
-    respuesta:{},
-    puntaje:{},
-    contador:0
-  }
+    respuesta: {},
+    puntaje: {},
+    contador: 0,
+  };
 
   // Lógica del Botón Volver (Flecha blanca superior)
   botonBack.onclick = async () => {
@@ -46,7 +46,7 @@ export default async () => {
   // Referencia interna sobre en que parte de la encuesta nos encontramos
   let paginaActual = 1;
 
-  // Acción Silenciosa 1: Avisa al servidor e indaga cuántas preguntas existen. 
+  // Acción Silenciosa 1: Avisa al servidor e indaga cuántas preguntas existen.
   // (Si hay 20 preguntas y por pantalla caen 3, nos reporta que habrán 7 páginas).
   const paginas = await api.getPaginacion("vulnerableQuestions/paginate");
   const cantidad = paginas.paginate.last_page; // Retorna esa exactitud
@@ -77,15 +77,15 @@ export default async () => {
     window.procesoPeticion = true; // Bloquea clicks desesperados durante este suceso
     preguntas.innerHTML = ""; // Limpia el pizarrón actual para traer textos limpios
 
-    // Solicita verdaderamente el texto explicativo de cada pregunta de ESTA etapa específica 
+    // Solicita verdaderamente el texto explicativo de cada pregunta de ESTA etapa específica
     const pagina = await api.get(
       `vulnerableQuestions/paginate?page=${paginaActual}`,
     );
-    
+
     // Truco visual para que la enumeración total tenga lógica.
     // Ej: Página 2 -> Empieza en la pregunta #4. Página 3 -> Pregunta #7.
     let cont = paginaActual === 1 ? 1 : (paginaActual - 1) * 3 + 1;
-    
+
     // Insertar en la pantalla pregunta por pregunta usando un modelo repetitivo
     pagina.forEach((opcion) => {
       const contenedor = document.createElement("div");
@@ -133,12 +133,12 @@ export default async () => {
   function cambiarPagina(nuevaPagina) {
     if (nuevaPagina === paginaActual) return; // Si la oprime 2 veces nada pasa
 
-    // Apaga estéticamente el brillo del tab pasado 
+    // Apaga estéticamente el brillo del tab pasado
     document
       .querySelector(`[data-page="${paginaActual}"]`)
       ?.classList.remove("paginado__numero--activo");
 
-    paginaActual = Number(nuevaPagina); // Lo pasa a número real 
+    paginaActual = Number(nuevaPagina); // Lo pasa a número real
 
     // Otorga el brillo especial de "lugar activo" sobre el númerito recientemente oprimido o activado.
     document
@@ -180,40 +180,41 @@ export default async () => {
 
     // Matemáticas dinámicas para dar puntaje interno.
     // Solo Otorga 1 Punto a su favor, SI NO posee peligrosidad extrema y al mismo tiempo SÍ contestó favorablemente con un TRUE / SI.
-    if (!e.target.closest(".preguntas__contendor--precaucion") && e.target.value == "true") {
-
+    if (
+      !e.target.closest(".preguntas__contendor--precaucion") &&
+      e.target.value == "true"
+    ) {
       // localStorage.setItem(`puntaje-${e.target.name}`, e.target.value); // Crea token interno llamado Puntaje para rastreo
 
       testRespuestas.puntaje[`puntaje-${e.target.name}`] = true;
       console.log(`puntaje-${e.target.name}, ${e.target.value}`);
-    } 
+    }
 
     // Por ende Restador Definitivo: Si antes pulsó que SÍ, pero ahora recapacitó por un trágico NO... Destruimos el puntaje y se lo restamos al global
     else if (e.target.value == "false") {
       // localStorage.removeItem(`puntaje-${e.target.name}`);
 
-      delete testRespuestas.puntaje[`puntaje-${e.target.name}`]
+      delete testRespuestas.puntaje[`puntaje-${e.target.name}`];
       console.log(`puntaje-${e.target.name}, ${e.target.value}`);
     }
 
     testRespuestas.contador = Object.keys(testRespuestas.puntaje).length; // El contador toma datos numericos del puntaje con .length, el puntaje solo tomara los datos existentes "= true", ya que los datos "= false" son eliminados
     console.log(`Respuesta SI: ${testRespuestas.contador}`); // visualizar en consola cuantas respuestas "SI" fueron marcadas
-
   });
-
 
   /**
    * Evaluador Final: Culmina recogiendo uno por uno cada Token respondido de la RAM y revisando los "SI/NO",
    * luego los comunica 1 por 1 al Servidor y emite una condena de Si esta o no Aptada para ingresar a la plataforma.
    */
-  async function evaluarTest()
-   {
-    const preguntaContinuar = await alerta.alertaQuest("¿Seguro que deseas enviar el test de vulnerabilidad?",);
-    if (!preguntaContinuar.isConfirmed) return // Anular si la respuesta fue un simple No de cancelación
-    
+  async function evaluarTest() {
+    const preguntaContinuar = await alerta.alertaQuest(
+      "¿Seguro que deseas enviar el test de vulnerabilidad?",
+    );
+    if (!preguntaContinuar.isConfirmed) return; // Anular si la respuesta fue un simple No de cancelación
+
     siguiente.disabled = true;
-    window.procesoPeticion = true
-    
+    window.procesoPeticion = true;
+
     // Chequeo Masivo Exigido a Servidor: Lista de nuevo TODA la biblia de preguntas inamovibles
     const verPreguntas = await api.get("vulnerableQuestions");
 
@@ -226,27 +227,25 @@ export default async () => {
     verPreguntas.forEach((p) => {
       // Ignora posibles preguntas Basura que el Director allá decidió "Apagar o Esconder", evitando colapsar al que llenó la planilla
       if (!p.is_active) {
-        window.procesoPeticion = false
+        window.procesoPeticion = false;
         siguiente.disabled = false;
         return;
       }
       total++; // +1 Pregunta legal y contable a calificar
-      
+
       // const respuesta = localStorage.getItem(`opcion-${p.id}`); // Búsqueda de la solución en su memoria Móvil
 
       const respuesta = testRespuestas.respuesta[`opcion-${p.id}`];
-      
+
       if (respuesta !== null) respondidas++; // Sumatoria informando de que al menos fue llena
-      
-      // Regla Contable: Solo se gana el punto deseado sí no es una advertencia mortal (Caution) 
+
+      // Regla Contable: Solo se gana el punto deseado sí no es una advertencia mortal (Caution)
       // y sumado a eso, el servidor logra hallar que sí poseía el famoso Token guardador en RAM de "Puntaje"
       if (
         !p.question_caution &&
         // localStorage.getItem(`puntaje-opcion-${p.id}`)
         testRespuestas.puntaje[`puntaje-opcion-${p.id}`]
-        
       ) {
-
         puntos++;
       }
 
@@ -258,15 +257,17 @@ export default async () => {
     // VEREDICTO DE TRAMPA/ERROR: El Voluntario no rellenó la cantidad adecuada (Se comió y saltó alguna pregunta)
     if (respondidas < total || puntos === 0) {
       // Advertencia en color Rojo/Amarillo
-      await alerta.alertaWarning(`No ha respondido todas (${respondidas}/${total})`);
-      window.procesoPeticion = false
+      await alerta.alertaWarning(
+        `No ha respondido todas (${respondidas}/${total})`,
+      );
+      window.procesoPeticion = false;
       siguiente.disabled = false;
-      return;  // Se aborta y no se envía nada
+      return; // Se aborta y no se envía nada
     }
 
     // Animación Circular pesada de Espera pues está al lado de confirmarse todo
     alerta.alertaLoading();
-    
+
     // Serie Síncrona pesada de Guardado. Envía paquete de información de cada respueta 1 x 1 de regreso al origen general
     for (const p of verPreguntas) {
       if (!p.is_active) {
@@ -275,14 +276,14 @@ export default async () => {
         // return;
         continue; // Si la pregunta no estaba activa, no la envía pero sigue con la siguiente sin abortar todo el proceso
       }
-      // Trasteando el mapa relacional estricto con sus ID correspondientes 
+      // Trasteando el mapa relacional estricto con sus ID correspondientes
       const datos = {
         vulnerable_question_id: p.id,
         family_plan_id: id,
         // answer: localStorage.getItem(`opcion-${p.id}`) === "true", // Conversión exacta de lenguaje
-        answer: testRespuestas.respuesta[`opcion-${p.id}`]==='true',
-      }
-      
+        answer: testRespuestas.respuesta[`opcion-${p.id}`] === "true",
+      };
+
       // Emitir este objeto directamente
       await api.post("vulnerableTest", datos);
 
@@ -294,27 +295,35 @@ export default async () => {
 
     // Fin Proceso de limpieza y cierre
     alerta.alertaLoadingCerrar();
-    
+
     // RESULTADO CUALITATIVO REPROBADO: MÍNIMO INCLUYENTE PUNTOS < 5!
     if (puntos < 5 && respondidas === total) {
       // Advertencia: La familia tiene grandes grietas y no rige bajo ciertos planes deseados.
-      await alerta.alertaWarning("El plan familiar presentado no cumple con los requisitos y lineamientos establecidos para su aprobación, se redigira a la vista home",);
+
       try {
-        // Enlaza por detrás al status base con la palabra del rechazo numérico absoluto tipo 2.
-        const data = await api.patch(`familyPlans/${id}/change-status`, {
-          status_plan_id: 2, // 2 = RECHAZADO
-        });
         
-        if (data.success) {
-          window.location.href = `#/voluntario/`; // Deportado inevitablemente a su Dashboard
-        } else alerta.alertaWarning(data.message, data.errors);
+        const data = await api.patch(`familyPlans/${id}/change-status`, {
+          status_plan_id: 3, // 3 = EN DESARROLLO / APROBADO BÁSICO
+        });
+
+        const dataFamilyType = await api.patch(`familyPlans/${id}/change-family-type`, {
+          family_type_id: 2, // 2 = FAMILIA NO VULNERABLE
+        });
+
+        if (data.success && dataFamilyType.success) {
+
+        } else alerta.alertaWarning(data.message, data.errors || dataFamilyType.message, data.errors || dataFamilyType.errors);
       } catch (error) {
         alerta.alertaError(error.errors);
       }
-      
-      window.procesoPeticion = false;
-      siguiente.disabled = false;
-      return; // SE CORTA EL BLOQUE COMPLETO
+
+      await alerta.alertaOK( "La familia en base al test sera catalogada como NO VULNERABLE",);
+
+      location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
+
+      // window.procesoPeticion = false;
+      // siguiente.disabled = false;
+      return; // SE CORTA EL BLOQUE COMPLETO y no se ejecuta nada de lo que sigue debajo, pues el resultado ya fue emitido y la familia fue catalogada como No Vulnerable
     }
 
     // VEREDICTO FINAL DE APROBACIÓN (Mayor O Igual a 5 puntos pasables)
@@ -323,15 +332,20 @@ export default async () => {
       const data = await api.patch(`familyPlans/${id}/change-status`, {
         status_plan_id: 3, // 3 = EN DESARROLLO / APROBADO BÁSICO
       });
-      if (data.success) {
+
+      const dataFamilyType = await api.patch(`familyPlans/${id}/change-family-type`, {
+        family_type_id: 1, // 1 = FAMILIA VULNERABLE
+      });
+
+      if (data.success && dataFamilyType.success) {
         // Ejecución Completada sin hacer mucho ruido.
-      } else alerta.alertaWarning(data.message, data.errors);
+      } else alerta.alertaWarning(data.message, data.errors || dataFamilyType.message, data.errors || dataFamilyType.errors);
     } catch (error) {
       alerta.alertaError(error.errors);
     }
-    
+
     // Alerta Verde Bonita Éxito
-    await alerta.alertaOK("Test evaluado con éxito");
+    await alerta.alertaOK("La familia en base al test sera catalogada como VULNERABLE",);
     // Dirige al Voluntario al ÚLTIMO paso legal y obligatorio, con el controlador que averigua la dirección exacta (Identificación final)
     location.href = `#/voluntario/plan_familiar/identificacion?id=${id}`;
   }

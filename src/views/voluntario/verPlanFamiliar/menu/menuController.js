@@ -33,9 +33,7 @@ export default async () => {
   // Guardián Frontend: ¿El usuario que intenta entrar por URL es el dueño de este plan? ¿Tiene el estado correcto para modificarlo? Si no, lo patea.
   await AccesoPlan(id); 
 
-  const esSupervisor = location.hash.includes("/supervisor/");
-
-  const base = esSupervisor ? "supervisor" : "voluntario";
+  const esSupervisor = location.hash.includes("supervisor/");
   
   // Fetch Cabecera Datos Básicos Flia 
   const planFamiliar = await api.get(`familyPlans/${id}`);
@@ -53,7 +51,14 @@ export default async () => {
   // Router Volver al Muro General
   botonBack.onclick = () => {
 
-    location.href = `#/${base}/plan_familiar/revision?familia_id=${id}`;
+    if (window.procesoPeticion) return;
+    if(esSupervisor) {
+      
+      location.href = `#/supervisor/plan_familiar/revision?familia_id=${id}`;
+    }
+
+    location.href = `#/voluntario/plan_familiar`;
+
   };
 
   /**

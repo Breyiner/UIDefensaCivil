@@ -55,6 +55,7 @@ export default async () => {
         last_names: apellidos.value,
         zone_id: zona.value,
         city_id: ciudad.value,
+        family_type_id: 3, // 3 = Por Definir
         // Cruces críticos extrayendo el perfil del voluntario que está usando la aplicación
         sectional_id: localStorage.getItem("sectional_id"), // Hereda la base de mando (Ej. Seccional Meta) 
         user_id: localStorage.getItem("id"), // Creador Legal del formato (El Voluntario logueado)

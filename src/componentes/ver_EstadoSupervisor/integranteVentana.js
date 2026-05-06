@@ -20,9 +20,8 @@ const integranteVentana = async (miembro, relacion, info) =>{
     btnEditar.classList.add("btn-editar", "boton");
     btnEditar.textContent = "Editar";
 
-    const nombreIntegranteCont = document.createElement("div");
-    nombreIntegranteCont.classList.add("form_autorizacion", "integrante--nombre", "form-column_autorization");
-
+    
+    // NOMBRE Y APELLIDO _____________________________________________________________________________________________
     const nombreApellidoCont = document.createElement("div");
     nombreApellidoCont.classList.add("form_autorizacion");
 
@@ -47,7 +46,9 @@ const integranteVentana = async (miembro, relacion, info) =>{
     apellidoTitulo.classList.add("form__texto");
     const apellidoIcono = document.createElement("i");
     apellidoIcono.classList.add("icono--pequeno", "ri-user-line");
+
     apellidoTitulo.append(apellidoIcono, " Apellidos");
+
     const apellidoIntegrante = document.createElement("p");
     apellidoIntegrante.classList.add("form_autorizacion", "integrante--nombre");
     apellidoIntegrante.textContent = miembro.last_names;
@@ -56,12 +57,29 @@ const integranteVentana = async (miembro, relacion, info) =>{
 
     nombreApellidoCont.append(nombreCont, apellidoCont);
 
+    //
+
+
+    // RELACION FAMILIAR _____________________________________________________________________________________________
+    const relacionCont = document.createElement("div");
+    relacionCont.classList.add("form_autorizacion", "form-column_autorization");
+
+    const relacionTitulo = document.createElement("p");
+    relacionTitulo.classList.add("form__texto");
+    const relacionIcono = document.createElement("i");
+    relacionIcono.classList.add("icono--pequeno", "ri-user-community-line");
+
+    relacionTitulo.append(relacionIcono, " Relación Familiar");
+
     const relacionIntegrante = document.createElement("p");
-    relacionIntegrante.classList.add("form_autorizacion", "integrante--relacion");
-    relacionIntegrante.textContent = `Relación: ${relacion.name}`;
+    relacionIntegrante.classList.add("form_autorizacion");
+    relacionIntegrante.textContent = relacion.name;
 
-    nombreIntegranteCont.append(nombreApellidoCont, relacionIntegrante);
+    relacionCont.append(relacionTitulo, relacionIntegrante);
+    //
 
+
+    // DOCUMENTOS _______________________________________________________________________________________________________
     const documentosCont = document.createElement("div");
     documentosCont.classList.add("form_autorizacion", "form-column_autorization");
 
@@ -76,7 +94,10 @@ const integranteVentana = async (miembro, relacion, info) =>{
     documentoIdentidad.textContent = `${miembro.document_type.acronym} ${miembro.document_number}`;
 
     documentosCont.append(documentosTitulo, documentoIdentidad);
+    //
 
+
+    // FECHA DE NACIMIENTO ______________________________________________________________________________________________
     const fechaNacimientoCont = document.createElement("div");
     fechaNacimientoCont.classList.add("form_autorizacion", "form-column_autorization");
 
@@ -91,7 +112,10 @@ const integranteVentana = async (miembro, relacion, info) =>{
     fechaNacimiento.textContent = miembro.birth_date;
 
     fechaNacimientoCont.append(fechaTitulo, fechaNacimiento);
+    //
 
+
+    // NÚMERO DE TELÉFONO _____________________________________________________________________________________________
     const numeroTelefonoCont = document.createElement("div");
     numeroTelefonoCont.classList.add("form_autorizacion", "form-column_autorization");
 
@@ -107,7 +131,10 @@ const integranteVentana = async (miembro, relacion, info) =>{
     numeroTelefono.textContent = miembro.phone;
 
     numeroTelefonoCont.append(telefonoTitulo, numeroTelefono);
+    //
 
+
+    // GÉNERO _________________________________________________________________________________________________________________
     const generoCont = document.createElement("div");
     generoCont.classList.add("form_autorizacion", "form-column_autorization");
 
@@ -121,7 +148,10 @@ const integranteVentana = async (miembro, relacion, info) =>{
     genero.textContent = miembro.gender.name;
 
     generoCont.append(generoTitulo, genero);
+    //
 
+
+    // NACIONALIDAD _____________________________________________________________________________________________________________
     const nacionalidadCont = document.createElement("div");
     nacionalidadCont.classList.add("form_autorizacion", "form-column_autorization");
 
@@ -135,7 +165,10 @@ const integranteVentana = async (miembro, relacion, info) =>{
     nacionalidad.textContent = miembro.nationality.name;
 
     nacionalidadCont.append(nacionalidadTitulo, nacionalidad);
+    //
 
+
+    // EPS _____________________________________________________________________________________________________________
     const epsCont = document.createElement("div");
     epsCont.classList.add("form_autorizacion", "form-column_autorization");
 
@@ -149,8 +182,10 @@ const integranteVentana = async (miembro, relacion, info) =>{
     eps.textContent = miembro.eps;
 
     epsCont.append(epsTitulo, eps);
+    //
 
 
+    // AFECCIONES _____________________________________________________________________________________________________________
     const afeccionesCont = document.createElement("div");
     afeccionesCont.classList.add("form_autorizacion", "form-column_autorization");
 
@@ -163,7 +198,6 @@ const integranteVentana = async (miembro, relacion, info) =>{
     const conditions = await api.get(`conditionMembers/member/${miembro.id}`);
         
     afeccionesCont.append(afeccionesTitulo);
-
 
     if (conditions.length === 0) {
 
@@ -186,7 +220,10 @@ const integranteVentana = async (miembro, relacion, info) =>{
             afeccionesCont.append(afeccion, tratamiento);
         });
     }
+    //
 
+    
+    // TIPO DE SANGRE _____________________________________________________________________________________________________________
     const tipoSangreCont = document.createElement("div");
     tipoSangreCont.classList.add("form_autorizacion", "form-column_autorization");
 
@@ -199,11 +236,14 @@ const integranteVentana = async (miembro, relacion, info) =>{
     tipoSangre.classList.add("form_autorizacion");
     tipoSangre.textContent = miembro.blood_group.name;
     tipoSangreCont.append(tipoSangreTitulo, tipoSangre);
+    //
 
+
+    // Estructura Final DOM de la Ventana Modal de Información del Integrante ------------------------------------------------------ : >
     const contenidoVentana = document.createElement("div");
     contenidoVentana.classList.add("contenido-ventana")
     
-    contenidoVentana.append(nombreIntegranteCont, documentosCont, fechaNacimientoCont, generoCont, nacionalidadCont, numeroTelefonoCont, epsCont, afeccionesCont, tipoSangreCont);
+    contenidoVentana.append(nombreApellidoCont, relacionCont, documentosCont, fechaNacimientoCont, generoCont, nacionalidadCont, numeroTelefonoCont, epsCont, afeccionesCont, tipoSangreCont);
     
     if (info.status_plan_id !== 6 && info.status_plan_id !== 7) {
         ventana.append(btnCerrarCont, contenidoVentana, btnEditar);

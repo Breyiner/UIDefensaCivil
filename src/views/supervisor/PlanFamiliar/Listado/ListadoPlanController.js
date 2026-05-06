@@ -8,6 +8,8 @@ import * as api from "../../../../helpers/api";
 import paginacion from "../../../../helpers/paginacion";
 import {dropdownFiltro} from "../../../../componentes/filter/dropdown"
 import {searchBar} from "../../../../componentes/filter/searchBar"
+import { ver } from "../../../../helpers/modales/integrante";
+import { color } from "chart.js/helpers";
 
 const ListadoPlanController = async () => {
 
@@ -123,32 +125,38 @@ const ListadoPlanController = async () => {
         introduccionCont.append(apellidoFamilia, departamento, fechaRecibido, nombreVoluntario);
 
         introduccionDiv.append(imagenIcono, introduccionCont);
-
-        
-        const EstadoPlan = statusPlans.filter(status => {
-            return status.id == info.status_id;
-        });
         
         tarjetaIntroduccion.append(introduccionDiv);
-        
-        EstadoPlan.forEach(estado => {
 
-            const verEstado = document.createElement("p");
-            verEstado.classList.add("tarjeta__estado--introduccion");
+        const estadoTipoCont = document.createElement("div");
+        estadoTipoCont.classList.add("verPlan__tipo--estado");
 
-            if(estado.id === 4){
-                verEstado.classList.add("estado-enviado");
-            } else if(estado.id === 7){
-                verEstado.classList.add("estado-aprobado");
-            } else if(estado.id === 6){
-                verEstado.classList.add("estado-rechazado");
-            } else if(estado.id === 5){
-                verEstado.classList.add("estado-cambios");
-            }
-            
-            verEstado.textContent = estado.name;
-            tarjetaIntroduccion.append(verEstado);
-        });
+        const estadoClase = 
+        info.status_id == 3 ? "verPlan__estado--azul"
+        : info.status_id == 4 || info.status_id == 7
+        ? "verPlan__estado--verde"
+        : info.status_id == 5 || info.status_id == 6
+        ? "verPlan__estado--rojo"
+        : ""; // Vacio por default (Asume estado 1 o 2 'En Progreso')
+
+        const verEstado = document.createElement("p");
+        verEstado.classList.add("verPlan__estado", estadoClase);
+
+        verEstado.textContent = info.status;
+
+        tarjetaIntroduccion.append(verEstado);
+
+        const tipoClase = info.family_type_id == 1 ? "verPlan__tipo--rojo" 
+        : info.family_type_id == 2 ? "verPlan__tipo--verde" 
+        : "verPlan__tipo--gris";
+
+        const tipoFamilia = document.createElement("p");
+        tipoFamilia.classList.add("verPlan__tipo", tipoClase);
+        tipoFamilia.textContent = `Familia ${info.family_type}`;
+
+        estadoTipoCont.append(verEstado, tipoFamilia);
+
+        tarjetaIntroduccion.append(estadoTipoCont);
 
         div.append(tarjetaIntroduccion);
 
@@ -159,9 +167,22 @@ const ListadoPlanController = async () => {
         
         div.append(resvisarPlan);
 
-        // if (info.status_id !== 4) {
-        //     // resvisarPlan.style.display = "none";
-        // }
+
+        if (info.status_id === 1 || info.status_id === 2 || info.status_id === 3) {
+            resvisarPlan.classList.add("oculto");
+
+            const mensajeEstado = document.createElement("div");
+
+            mensajeEstado.classList.add("verPlan__mensaje--estado");
+
+            if (info.status_id === 1 || info.status_id === 2) {
+                mensajeEstado.textContent = "El plan está en proceso de revisión inicial.";
+            } else if (info.status_id === 3) {
+                mensajeEstado.textContent = "El plan está siendo creado en este momento por el voluntario.";
+            }
+
+            div.append(mensajeEstado);
+        }
 
         resvisarPlan.addEventListener("click", () => {
             location.href = `#/supervisor/plan_familiar/revision?familia_id=${info.id}`;

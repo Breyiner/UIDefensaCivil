@@ -2,8 +2,6 @@ import * as api from "../../helpers/api";
 
 const recursosVentana = async (recurso, info) => {
 
-    const typeResource = await api.get(`resources/${recurso.resource_id}`);
-
     const overlay = document.createElement("div");
     overlay.classList.add("overlay_verEstado");
 
@@ -33,7 +31,7 @@ const recursosVentana = async (recurso, info) => {
 
     const nombre = document.createElement("p");
     nombre.classList.add("form_autorizacion");
-    nombre.textContent = typeResource.name;
+    nombre.textContent = recurso.resource_name;
 
     nombreCont.append(nombreTitulo, nombre);
 
@@ -49,7 +47,7 @@ const recursosVentana = async (recurso, info) => {
 
     const servicio = document.createElement("p");
     servicio.classList.add("form_autorizacion");
-    servicio.textContent = typeResource.service;
+    servicio.textContent = recurso.service;
 
     servicioCont.append(servicioTitulo, servicio);
 
