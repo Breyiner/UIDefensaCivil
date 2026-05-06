@@ -50,7 +50,7 @@ export default async () => {
     // Rejector Format Mime Filter
     if (!TIPOS_PERMITIDOS.includes(file.type)) {
       input.value = ""; // Vacia target input de HTML
-      preview.classList.add("oculto");
+      // preview.classList.add("oculto");
       return alerta.alertaWarning(
         "Formato no permitido. Solo JPG, PNG o WEBP.",
       );
@@ -59,7 +59,7 @@ export default async () => {
     // Rejector de Sobrepeso Payload Filtro
     if (file.size > TAMANO_MAX_BYTES) {
       input.value = ""; // Purga variable Binaria
-      preview.classList.add("oculto");
+      // preview.classList.add("oculto");
       return alerta.alertaWarning(
         `El grafico no puede superar los ${TAMANO_MAX_MB}MB`,
       );

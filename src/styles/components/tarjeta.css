@@ -149,8 +149,9 @@
 .tarjeta-contenido {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     margin-bottom: 20px;
+    width: fit-content;
 }
 
 .tarjeta-contenido_flex {

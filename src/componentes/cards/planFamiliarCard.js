@@ -56,7 +56,9 @@ export const cardPlanFamiliar = (planFamiliar) => {
           // Desaparece si el plan está: (2) Enviado a certificar, (6) Rechazo Mortal, (7) Terminado
         planFamiliar.status_id == 2 ||
         planFamiliar.status_id == 6 ||
-        planFamiliar.status_id == 7
+        planFamiliar.status_id == 7 ||
+        planFamiliar.status_id == 5 ||
+        planFamiliar.status_id == 4
             ? ""
             : `<button class="verPlan__boton boton" 
                             data-id="${planFamiliar.id}" 

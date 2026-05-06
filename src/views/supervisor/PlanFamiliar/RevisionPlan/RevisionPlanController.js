@@ -291,24 +291,22 @@ const RevisionPlanController = async () => {
     recursosCont.append(subtituloRecursos);
 
 
-    const Recursos = Resources.filter(recurso => {
-        return recurso.family_plan_id == info.id
-    });
+    console.log("recursos", Resources);
 
     let contadorRecursos = 0;
 
-    for (const recurso of Recursos) {
+    for (const recurso of Resources) {
 
         contadorRecursos++;
 
-        const tiposRecursos = await api.get(`resources/${recurso.resource_id}`);
+        console.log("recurso", recurso);
 
         const recursoCont = document.createElement("div");
         recursoCont.classList.add("form_autorizacion");
 
         const recurso_p = document.createElement("p");
         recurso_p.classList.add("form_autorizacion");
-        recurso_p.textContent = `${contadorRecursos}. ${tiposRecursos.name} - ${recurso.distance} m`;
+        recurso_p.textContent = `${contadorRecursos}. ${recurso.resource_name} - ${recurso.distance} m`;
 
         const btnVisualizar = document.createElement("button");
         btnVisualizar.classList.add("ri-eye-line", "boton--pequenio");
