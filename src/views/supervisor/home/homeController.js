@@ -4,6 +4,7 @@
  * Muestra métricas rápidas (Planes Recibidos, Aprobados, Rechazados, Tiempos) 
  * y provee navegación rápida a los sub-módulos clave.
  */
+import { crearAside } from "../../../componentes/navegacionSupervisor/aside";
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 
@@ -17,6 +18,12 @@ export default async () => {
     // Absorbe de localStorage (Sesión actual) el identity
     const nombre = localStorage.getItem("full_name");
     const genero = localStorage.getItem("gender_id");
+
+    // renderizar componente de aside
+    const aside = crearAside();
+    const app = document.querySelector("#app"); 
+    app.prepend(aside)
+
 
     // Lógica boba inclusiva para el saludo ('Bienvenido' vs 'Bienvenida') según catálogos previos (1=Masc, 2=Fem)
     if (genero == 2) {

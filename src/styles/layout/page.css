@@ -18,6 +18,7 @@
   height: 100%;
   background-color: var(--color-grisFondo);
   color: var(--color-oscuro);
+  display: flex;
 }
 
 #app:has(.login) {
