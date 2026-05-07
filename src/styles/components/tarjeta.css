@@ -149,8 +149,9 @@
 .tarjeta-contenido {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     margin-bottom: 20px;
+    width: fit-content;
 }
 
 .tarjeta-contenido_flex {
@@ -234,42 +235,6 @@
     gap: 4px;
     color: var(--color-grisOscuro);
     font-size: var(--tamano-pequeno);
-}
-
-.tarjeta__estado {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-}
-
-.tarjeta__estado--introduccion {
-    text-align: center;
-    background-color: var(--color-grisOscuro);
-    color: white;
-    padding: 6px 8px;
-    height: 30px;
-    border-radius: var(--border-radius-botones);
-}
-
-.tarjeta__estado--introduccion.estado-enviado,
-.boton--naranja {
-    background-color: var(--color-primario);
-}
-
-.tarjeta__estado--introduccion.estado-aprobado,
-.boton--verde {
-    background-color: var(--color-verdoso);
-}
-
-.tarjeta__estado--introduccion.estado-rechazado,
-.boton--rojo {
-    background-color: var(--color-rojizo);
-}
-
-.tarjeta__estado--introduccion.estado-cambios,
-.boton--amarillo {
-    background-color: var(--color-amarillo);
 }
 
 .tarjeta__tiempo {

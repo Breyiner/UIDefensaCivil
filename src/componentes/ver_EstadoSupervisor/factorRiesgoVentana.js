@@ -125,15 +125,15 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
             const miembro = await api.get(`members/${nombreEncargado.member_id}`);
             encargado.textContent = `Encargado: ${miembro.names} ${miembro.last_names}`;
 
-            const fechaInicio = document.createElement("p");
-            fechaInicio.classList.add("form_autorizacion");
-            fechaInicio.textContent = `Fecha inicio: ${accion.created_at.split("T")[0]}`;
+            const fechas = document.createElement("p");
+            fechas.classList.add("form_autorizacion");
+            fechas.textContent = `Fecha inicio: ${accion.created_at.split("T")[0]} - Fecha final: ${accion.end_date}`;
 
-            const fechaFinal = document.createElement("p");
-            fechaFinal.classList.add("form_autorizacion");
-            fechaFinal.textContent = `Fecha final: ${accion.end_date}`;
+            const espacio = document.createElement("p");
+            espacio.classList.add("form_autorizacion");
+            espacio.textContent = " ";
 
-            accionCont.append(accionRealizada, encargado, fechaInicio, fechaFinal);
+            accionCont.append(accionRealizada, encargado, fechas, espacio);
             accionesReduccionCont.append(accionCont);
         });
     }
