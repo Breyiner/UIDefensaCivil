@@ -1,7 +1,7 @@
 import * as api from "../../helpers/api";
 
 
-export const tarjetaEstados = async (info) => {
+export const tarjetaEstados = (info) => {
     // const users = await api.get(`users/${info.id}/change-status`);
 
     
@@ -47,7 +47,7 @@ export const tarjetaEstados = async (info) => {
     iconoSeccional.classList.add('ri-map-pin-fill');
     const textoSeccional = document.createElement('p');
     textoSeccional.classList.add('valor__seccional');
-    textoSeccional.textContent = info.sectional;
+    textoSeccional.textContent = `Seccional: ${info.sectional}`;
     itemSeccional.append(iconoSeccional, textoSeccional);
 
     // Sub-hijo: Organización
@@ -57,7 +57,7 @@ export const tarjetaEstados = async (info) => {
     iconoOrg.classList.add('ri-map-pin-fill');
     const textoOrg = document.createElement('p');
     textoOrg.classList.add('valor__organizacion');
-    textoOrg.textContent = info.organization;
+    textoOrg.textContent = `Organizacion: ${info.organization}`;
     itemOrg.append(iconoOrg, textoOrg);
 
     // Sub-hijo: Correo
@@ -67,7 +67,7 @@ export const tarjetaEstados = async (info) => {
     iconoCorreo.classList.add('ri-mail-line');
     const textoCorreo = document.createElement('p');
     textoCorreo.classList.add('valor__correo');
-    textoCorreo.textContent = info.email;
+    textoCorreo.textContent = `Correo: ${info.email}`;
     itemCorreo.append(iconoCorreo, textoCorreo);
 
     // Unir hijos al contenedor de información

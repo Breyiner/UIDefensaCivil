@@ -22,3 +22,9 @@
   color: var(--color-primario);
   background-color: var(--color-fononaranjatranslucido);
 }
+
+@media (min-width: 768px) {
+    .badge{
+      font-size: var(--tamano-mediano);
+    }
+}
