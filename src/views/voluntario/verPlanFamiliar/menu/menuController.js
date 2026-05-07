@@ -34,6 +34,7 @@ export default async () => {
   await AccesoPlan(id); 
 
   const esSupervisor = location.hash.includes("supervisor/");
+  const base = esSupervisor ? "supervisor" : "voluntario";
   
   // Fetch Cabecera Datos Básicos Flia 
   const planFamiliar = await api.get(`familyPlans/${id}`);
