@@ -4,7 +4,7 @@
  * Muestra métricas rápidas (Planes Recibidos, Aprobados, Rechazados, Tiempos) 
  * y provee navegación rápida a los sub-módulos clave.
  */
-import { crearAside } from "../../../componentes/navegacionSupervisor/aside";
+import { crearAside } from "../../../componentes/navegacion/aside";
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 
