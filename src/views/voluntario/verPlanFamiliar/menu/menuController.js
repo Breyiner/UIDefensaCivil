@@ -139,6 +139,29 @@ export default async () => {
 
     if (confirmacion.isConfirmed) {
       try {
+
+        const validate = await api.get(`familyPlans/validate-requirements/${id}`);
+
+        if (!validate || !validate.is_valid) {
+            const detalles = validate ? `
+                ${!validate.has_min_members ? '❌ Mínimo 2 integrantes\n' : ''} ${!validate.has_min_members ? ' | ' : ''}
+                ${!validate.has_risk_factors ? '❌ Al menos 1 factor de riesgo\n' : ''} ${!validate.has_risk_factors ? ' | ' : ''}
+                ${!validate.has_resources ? '❌ Al menos 1 recurso disponible\n' : ''} ${!validate.has_resources ? ' | ' : ''}
+                ${!validate.has_photos ? '❌ Al menos 1 foto del entorno\n' : ''} ${!validate.has_photos ? ' | ' : ''}
+                ${!validate.has_graphics ? '❌ Al menos 1 gráfico de vivienda\n' : ''} ${!validate.has_graphics ? ' | ' : ''}
+                ${!validate.has_action_before ? '❌ Plan de acción: falta Antes\n' : ''} ${!validate.has_action_before ? ' | ' : ''} 
+                ${!validate.has_action_during ? '❌ Plan de acción: falta Durante\n' : ''} ${!validate.has_action_during ? ' | ' : ''}
+                ${!validate.has_action_after ? '❌ Plan de acción: falta Después\n' : ''}
+            ` : 'No se pudo verificar el plan';
+
+            alerta.alertaWarning('Plan incompleto', detalles);
+            return;
+        }
+                // const isValid = validate?.is_valid ?? false;
+        // const message = validate?.message ?? "Por favor completa el plan familiar";
+        // if (!isValid) {
+        //   alerta.alertaWarning("Validación fallida", message);
+
         // Envio Endpoint Workflow. 
         // 4 -> 'Enviado a Revisión (Ficha Completa)'. El supervisor ahora lo verá en su bandeja y al autor se le bloquea la app en modo Read-only a nivel backend.
         const data = await api.patch(`familyPlans/${id}/change-status`, {
