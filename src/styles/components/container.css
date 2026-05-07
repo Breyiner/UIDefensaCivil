@@ -60,6 +60,10 @@
     gap: 0px;
     padding: 70px 100px;
   }
+  .container--grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 
