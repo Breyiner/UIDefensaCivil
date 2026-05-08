@@ -7,7 +7,7 @@
   width: 100%;
   min-height: 100vh;
   display: grid;
-  grid-template-rows: 75px 1fr;
+  grid-template-rows: var(--altura-header) 1fr;
 }
 .layout:has(.container--noHeader){
   grid-template-rows: 1fr;
