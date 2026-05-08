@@ -225,7 +225,7 @@
 .tarjeta__titulo-notificacion {
     font-family: var(--fuente-titulos);
     font-weight: bold;
-    font-size: var(--tamano-mediano);
+    font-size: var(--tamano-grande);
     color: var(--color-oscuro);
     margin: 0;
 }

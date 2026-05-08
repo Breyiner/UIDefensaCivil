@@ -21,7 +21,7 @@ export default async () => {
   // agregar campos de filtro
 
   const searchbar = await searchBar(searchBarFiltro);
-  const dropdown = await dropdownFiltro();
+  const dropdown = await dropdownFiltro("statusPlans", filtrarPlanes);
 
   contenedorFiltro.append(searchbar);
   contenedorFiltro.append(dropdown);
@@ -102,10 +102,13 @@ export default async () => {
     }
   });
 
-  dropdown.addEventListener("change", (e) => {
+  function filtrarPlanes(e){
     filtroEstado = Number(e.target.value);
-    renderPlanes();
-  });
+      renderPlanes();
+  }
+
+
+
   function searchBarFiltro(event) {
     filtroBusqueda = event.target.value.trim();
     renderPlanes();

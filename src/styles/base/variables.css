@@ -47,4 +47,7 @@
   /* bordes */
   --border-radius-tarjetas:12px;
   --border-radius-botones:8px;
+
+  /* Medidas especifcias */
+  --altura-header: 5rem;
 }
