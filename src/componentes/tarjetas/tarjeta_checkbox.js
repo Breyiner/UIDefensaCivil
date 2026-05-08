@@ -1,10 +1,8 @@
-import * as api from "../../helpers/api";
+import { obtenerTiempoTranscurrido } from "../../helpers/obtenerTiempoTranscurrido";
 
+export const tarjetaPeticion = (info) => {
 
-export const tarjetaPeticion = async (info) => {
-    const users = await api.get("users/requests/supervisors");
-
-    console.log(users);
+    console.log("Datos del usuario:", info);
 
     // Contenedor principal de la tarjeta
     const tarjeta = document.createElement('div');
@@ -77,9 +75,13 @@ export const tarjetaPeticion = async (info) => {
     // Hijo 4: Contenedor de estado
     const tarjetaEstado = document.createElement('div');
     tarjetaEstado.classList.add('tarjeta__estado');
+
     const tarjetaTiempo = document.createElement('span');
     tarjetaTiempo.classList.add('tarjeta__tiempo');
-    tarjetaTiempo.textContent = 'Hace 10 min';
+    //Se agrega al contenido la funcion ya que primero tiene que hacer el procesamiento de la misma y luego si muestra el resultado, si no se hiciera con la funcion saldria la hora en el formato de mySQL
+    tarjetaTiempo.textContent = obtenerTiempoTranscurrido(info.created_at);
+    
+
     const tarjetaBadge = document.createElement('span');
     tarjetaBadge.classList.add('badge', 'badge--pendiente');
     tarjetaBadge.textContent = 'Pendiente';

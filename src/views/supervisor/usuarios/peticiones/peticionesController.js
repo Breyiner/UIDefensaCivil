@@ -27,7 +27,7 @@ export default async () => {
         location.href = `#/supervisor/`;
     };
 
-    // Leyenda mostrada cuando la cuenta se vacía de tareas por resolver
+    // Mensaje que se muestra si no hay peticiones por aceptar/rechazar
     const mensajeVacio = "No hay ninguna peticion de activacion";
 
     // Orquestador encapsulado para Refresh / Update Table sin refresco general de la pag SPA web
@@ -35,7 +35,7 @@ export default async () => {
         contenedor.innerHTML = ""; // Hard reset
 
         // El script helpers Paginador consume un endpoint exclusivo 'requestsSupervisors' 
-        // Pasando su propia lógica de Fetch Pages + el template `carta`
+        // Pasando su propia lógica de Fetch Pages + el template tarjeta
         await paginacion(`users/requests/supervisors`, mensajeVacio, tarjetaPeticion);
     };
 
