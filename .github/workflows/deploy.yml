@@ -1,0 +1,24 @@
+name: Despliegue de Frontend (Defensa)
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener código del repositorio
+        uses: actions/checkout@v3
+
+      - name: Desplegar archivos al VPS via SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "./*"       # Copia todo el contenido del proyecto
+          target: "/var/www/defensa.johnbecerra.dev" # Carpeta destino
+          strip_components: 0
