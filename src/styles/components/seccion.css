@@ -6,18 +6,19 @@
 }
 
 .seccion__tarjeta {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 140px;
   min-width: 120px;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 1rem;
   border-radius: var(--border-radius-tarjetas);
   font-family: var(--fuente-titulos);
   color: var(--color-palido);
   font-size: var(--tamano-pequeno);
   font-weight: 400;
-  gap: 20px;
+  gap: 1rem;
   text-align: center;
 }
 
@@ -55,7 +56,17 @@
   .seccion{
     grid-template-columns: repeat(4, 1fr);
   }
+  .seccion__tarjeta{
+    display: flex;
+    padding: 1.2rem;
+  }
   .tarjeta__titulo--dissapear, .lista--planes, .seccion--accesos{
     display: none
+  }
+  .tarjeta__header-texto{
+    font-size: var(--tamano-mediano);
+  }
+  .seccion__detalle{
+    font-size: var(--tamano-grande);
   }
 }

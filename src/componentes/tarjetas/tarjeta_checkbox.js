@@ -37,7 +37,7 @@ export const tarjetaPeticion = async (info) => {
     const iconoRol = document.createElement('i');
     iconoRol.classList.add('ri-user-line');
     const textoRol = document.createElement('p');
-    textoRol.classList.add('valor__rol');
+    textoRol.classList.add('tarjeta__valor');
     textoRol.textContent = `Rol: Voluntario`;
     itemRol.append(iconoRol, textoRol);
 
@@ -47,8 +47,8 @@ export const tarjetaPeticion = async (info) => {
     const iconoSeccional = document.createElement('i');
     iconoSeccional.classList.add('ri-map-pin-fill');
     const textoSeccional = document.createElement('p');
-    textoSeccional.classList.add('valor__seccional');
-    textoSeccional.textContent = info.sectional;
+    textoSeccional.classList.add('tarjeta__valor');
+    textoSeccional.textContent = `Seccional: ${info.sectional}`;
     itemSeccional.append(iconoSeccional, textoSeccional);
 
     // Sub-hijo: Organización
@@ -57,8 +57,8 @@ export const tarjetaPeticion = async (info) => {
     const iconoOrg = document.createElement('i');
     iconoOrg.classList.add('ri-map-pin-fill');
     const textoOrg = document.createElement('p');
-    textoOrg.classList.add('valor__organizacion');
-    textoOrg.textContent = info.organization;
+    textoOrg.classList.add('tarjeta__valor');
+    textoOrg.textContent = `Organizacion: ${info.organization}`;
     itemOrg.append(iconoOrg, textoOrg);
 
     // Sub-hijo: Correo
@@ -67,8 +67,8 @@ export const tarjetaPeticion = async (info) => {
     const iconoCorreo = document.createElement('i');
     iconoCorreo.classList.add('ri-mail-line');
     const textoCorreo = document.createElement('p');
-    textoCorreo.classList.add('valor__correo');
-    textoCorreo.textContent = info.email;
+    textoCorreo.classList.add('tarjeta__valor');
+    textoCorreo.textContent = `Correo: ${info.email}`;
     itemCorreo.append(iconoCorreo, textoCorreo);
 
     // Unir hijos al contenedor de información
