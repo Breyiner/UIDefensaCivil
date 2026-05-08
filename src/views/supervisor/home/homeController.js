@@ -4,7 +4,7 @@
  * Muestra métricas rápidas (Planes Recibidos, Aprobados, Rechazados, Tiempos) 
  * y provee navegación rápida a los sub-módulos clave.
  */
-import { crearAside } from "../../../componentes/navegacion/aside";
+import { crearAside, crearAsideSupervisor } from "../../../componentes/navegacion/aside";
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 
@@ -19,18 +19,8 @@ export default async () => {
     const nombre = localStorage.getItem("full_name");
     const genero = localStorage.getItem("gender_id");
 
-    // elementos de cada item del aside
-    const enlaces = [
-        { icono: 'ri-gallery-view-2',      texto: 'Inicio',           info: null,         perfil: false, href: '#/supervisor' },
-        { icono: 'ri-file-user-line',      texto: 'Planes Familiares',info: null,         perfil: false, href: '#/supervisor/plan_familiar' },
-        { icono: 'ri-group-line',          texto: 'Voluntarios',      info: null,         perfil: false, href: '#/supervisor/usuarios/gestion' },
-        { icono: 'ri-bar-chart-2-line',    texto: 'Estadisticas',     info: null,         perfil: false, href: '#/supervisor/plan_familiar/estadistica' },
-        { icono: 'ri-arrow-left-right-line',texto: 'Peticiones',      info: null,         perfil: false, href: '#/supervisor/usuarios/peticiones' },
-        { icono: 'ri-user-line',           texto: 'Nombre',           info: 'Supervisor', perfil: true , href: '#/usuarios/perfil' },
-    ];
-
     // renderizar componente de aside
-    const aside = crearAside(enlaces);
+    const aside = crearAsideSupervisor();
     const app = document.querySelector("#app"); 
     app.prepend(aside)
 
