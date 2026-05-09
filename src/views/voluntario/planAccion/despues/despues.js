@@ -82,8 +82,8 @@ export default async () => {
     boton.disabled = true; // Apagar botón
 
     // Herramienta que revisa que las listas sí tienen valores correctos y no en blanco
-    let validarMiembro = validacion.validarSelect(miembro);
-    let validarFactorRiesgo = validacion.validarSelect(factorRiesgo);
+    let validarMiembro = validacion.validar_select(miembro);
+    let validarFactorRiesgo = validacion.validar_select(factorRiesgo);
 
     // Si cumple la revisión
     if (validarMiembro && validarFactorRiesgo) {

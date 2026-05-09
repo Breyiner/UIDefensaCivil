@@ -85,8 +85,8 @@ export default async () => {
     boton.disabled = true;
 
     // Validación para asegurar que se escogieron valores de ambas listas
-    let validarMiembro = validacion.validarSelect(miembro);
-    let validarFactorRiesgo = validacion.validarSelect(factorRiesgo);
+    let validarMiembro = validacion.validar_select(miembro);
+    let validarFactorRiesgo = validacion.validar_select(factorRiesgo);
     if (validarMiembro && validarFactorRiesgo) {
 
       // Estructurar toda la información a enviar de forma ordenada 
