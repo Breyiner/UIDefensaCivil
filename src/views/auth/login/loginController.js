@@ -16,6 +16,15 @@ export default async () => {
   const contrasena = document.getElementById("contrasena"); // Caja input pass
   const botonLogin = document.getElementById("botonLogin"); // Actioner
 
+  // if (!form) {
+  //   console.error("loginController: formulario de login no encontrado");
+  //   return;
+  // }
+
+  // if (!botonLogin) {
+  //   console.warn("loginController: botón de login no encontrado");
+  // }
+
   console.log(botonLogin)
   // Validadores y pre-flags para evitar la concurrencia de clicks (Race condition bug fix)
   if (window.procesoPeticion === undefined) {
@@ -55,7 +64,7 @@ export default async () => {
     const data = await api.post("login", datosUsuario);
     
     // Branch exitoso de promesa Fetch nativa
-    if (data.success) {
+    if (data && data.success) {
       const atributos = data.data; // Extrae JSON profundo de la prop key "data" devuelta
       
       // Persiste atributos básicos de perfilamiento offline localmente para toda la persistencia app
