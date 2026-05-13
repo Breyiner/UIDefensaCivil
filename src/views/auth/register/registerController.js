@@ -120,6 +120,6 @@ export default async () => {
   // Delegador de clic secundario de ventana SPA (Botón o hipervínculo para volver si ya tengo cuenta real)
   window.addEventListener("click", async (e) => {
     if (e.target.matches("#tengoCuenta") && !window.procesoPeticion)
-      window.location.href = "#/login";
+      window.location.href = "#/";
   });
 };
