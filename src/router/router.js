@@ -13,7 +13,11 @@ import { isAuth, isAuthorize } from "../helpers/auth";
 
 import * as api from "../helpers/api";
 
+const viewTemplates = import.meta.glob("../views/**/*.html", { as: "raw" });
+
 export const router = async (main) => {
+
+    console.log("main recibido:", main);
     // Encontrar la ruta desde el hash (#)
     const hash = location.hash.slice(1);
     let arregloHash = hash.split("/");
@@ -42,7 +46,7 @@ export const router = async (main) => {
     // verificar que el usuario tenga permisos especificos
     if (!tienePermisos(permissions)) {
         limpiarLayout(main);
-        app.innerHTML = `<h2>No tienes permisos para acceder a esta sección</h2>`;
+        main.innerHTML = `<h2>No tienes permisos para acceder a esta sección</h2>`;
         return;
     }
 
@@ -206,10 +210,27 @@ const validarRol = async (hash) => {
 
 // funcion encargada de cargar una vista. params: la ruta de la vista y el elemento HTML donde se inyecta el contenido de la vista
 const cargarVista = async (path, elemento) => {
-    console.log(path, elemento);
-    const seccion = await fetch(`./src/views/${path}`);
-    if (!seccion.ok) throw new Error("No pudimos leer el archivo");
-    const html = await seccion.text();
+    // console.log(path, elemento);
+    // const url = `/src/views/${path}`;
+    // console.log("🔍 Fetching:", url);
+    // // const seccion = await fetch(`./src/views/${path}`);
+    // const seccion = await fetch(url);
+    // console.log("✅ Status:", seccion.status);
+    // console.log("✅ Content-Type:", seccion.headers.get("content-type"));
+    // if (!seccion.ok) throw new Error("No pudimos leer el archivo");
+    // const html = await seccion.text();
+    // console.log("HTML recibido:", html.slice(0, 100));
+
+    const viewKey = `../views/${path}`;
+    const loader = viewTemplates[viewKey];
+
+    if (!loader) {
+        console.error(`No se encontró la vista: ${viewKey}`);
+        throw new Error(`No se encontró la vista: ${path}`);
+    }
+
+    const html = await loader();
+    
     elemento.innerHTML = html;
 };
 

@@ -10,9 +10,22 @@ import * as cookie from "./cookies";
 import * as spinner from "./spinner"
 
 // URL base para las peticiones a la API del backend
-const url = "http://localhost:8000/api";
+// const url = "http://localhost:8000/api";
+
+// let url = '';
+
+// if (import.meta.env.VITE_API_URL) {
+//   url = import.meta.env.VITE_API_URL;
+// } else {
+//   console.warn("VITE_API_URL no está definida en el entorno. Usando URL por defecto.");
+//   url = "http://localhost:8000/api";
+// }
+
+const url = import.meta.env.VITE_API_URL;
+
 // URL base donde se alojan los archivos estáticos en el backend (imágenes, documentos, etc.)
 export const urlStorage = "http://localhost:8000/storage";
+// export const urlStorage = `${import.meta.env.VITE_STORAGE_URL}`;
 
 // ==========================================
 // FUNCIONES DE PETICIÓN (HTTP FETCH)

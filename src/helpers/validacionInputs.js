@@ -355,10 +355,16 @@ const inputTipos={
 export const validadorAutomatico = {
   // .init(): Se utiliza para inicializar las restricciones en tiémpó de tecleé al cargar la página
   init: (formulario) => {
+    if (!formulario) {
+      console.warn("validadorAutomatico.init: formulario nulo o no definido");
+      return;
+    }
     // Escanea todo el formulario atrapando hijos "input" y "select"
     const inputs = formulario.querySelectorAll("input")
     const selects = formulario.querySelectorAll("select");
     const textArea = formulario.querySelectorAll("textArea");
+
+    if (!inputs.length && !selects.length && !textArea.length) return; // Si no encontró ningún input o select, no hace nada
 
     inputs.forEach(input => {
       // Extrae la etiqueta `<input data-tipo="nombre_tipo">`
@@ -405,10 +411,16 @@ export const validadorAutomatico = {
   
   // .validarTodo(): Se usa por el controlador antes de hacer fetch para validar en masa todo el formulario tras presionar Submit.
   validarTodo: (formulario) => {
+    // if (!formulario) {
+    //   console.warn("validadorAutomatico.validarTodo: formulario nulo o no definido");
+    //   return true;
+    // }
 
     const inputs = formulario.querySelectorAll("input");
     const selects = formulario.querySelectorAll("select");
     const textArea = formulario.querySelectorAll("textArea");
+
+    if (!inputs.length && !selects.length && !textArea.length) return true; // Si no encontró ningún input o select, autoriza el submit sin validar
 
     // Pasada 1: Revisa todos los inputs de texto/numéricos 
     inputs.forEach(input => {
