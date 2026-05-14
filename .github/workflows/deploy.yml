@@ -3,36 +3,35 @@ name: Despliegue de Frontend (Defensa)
 on:
   push:
     branches:
-      - develop
+      - develop # Se dispara solo al subir cambios a la rama develop
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # 1. Obtener el código del repositorio
       - name: Obtener código del repositorio
         uses: actions/checkout@v3
 
-      #1: Preparamos el entorno de Node.js en el corredor de GitHub
+      # 2. Preparar el entorno de Node.js
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      #2: Instalamos las dependencias en GitHub, no en el VPS
+      # 3. Instalar dependencias
       - name: Instalar dependencias
         run: npm install
 
+      # 4. Construir el proyecto (Vite genera la carpeta /dist)
+      # Es vital pasar la variable de entorno AQUÍ para que se inyecte en el JS compilado
+      - name: Ejecutar Build de Producción
+        run: npm run build
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      #3: Si tienes un script de construcción (Tailwind, Vite, etc.), se ejecuta aquí
-      - name: Ejecutar Build (si existe)
-        run: npm run build --if-present
-
-      #4: Eliminamos node_modules para que el SCP no se bloquee subiendo miles de archivos
-      - name: Eliminar node_modules para el despliegue
-        run: rm -rf node_modules
-
+      # 5. Desplegar SOLAMENTE el contenido de la carpeta dist al VPS
       - name: Desplegar archivos al VPS via SCP
         uses: appleboy/scp-action@master
         with:
@@ -40,6 +39,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "./*" 
+          # Explicación pedagógica:
+          # source: "dist/*" indica que solo tomamos lo que está dentro de dist
+          # strip_components: 1 evita que se cree una carpeta llamada "dist" en el servidor
+          source: "dist/*"
           target: "/var/www/defensa.johnbecerra.dev"
-          strip_components: 0
+          strip_components: 1
+          overwrite: true # Asegura que los archivos viejos sean reemplazados
