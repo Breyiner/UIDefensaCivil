@@ -1,7 +1,10 @@
-import * as api from "../../helpers/api";
+
 
 
 export const tarjetaEstados = (info) => {
+
+    console.log(info);
+    
     // Contenedor principal de la tarjeta
     const tarjeta = document.createElement('div');
     // Guardamos el ID aquí para que sea accesible desde cualquier parte de la tarjeta, ya que se espera que al hacer click nos muestre el modal de rechazar o aceptar el acceso
@@ -34,7 +37,7 @@ export const tarjetaEstados = (info) => {
     iconoRol.classList.add('ri-user-line');
     const textoRol = document.createElement('p');
     textoRol.classList.add('valor__rol');
-    textoRol.textContent = `Rol: Voluntario`;
+    textoRol.textContent = `Rol: ${info.rol}`;
     itemRol.append(iconoRol, textoRol);
 
     // Sub-hijo: Seccional
@@ -75,7 +78,7 @@ export const tarjetaEstados = (info) => {
     tarjetaEstado.classList.add('tarjeta__estado');
     const tarjetaBadge = document.createElement('span');
     tarjetaBadge.classList.add('badge', 'badge--completado');
-    tarjetaBadge.textContent = 'Activo';
+    tarjetaBadge.textContent = info.status;
     tarjetaEstado.append(tarjetaBadge);
 
 

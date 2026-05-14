@@ -31,7 +31,7 @@ export default async () => {
         location.href = `#/supervisor/`;
     };
 
-    
+
 
     // Fallback string para el helper de paginación
     const mensajeVacio = "No hay ninguna peticion de activacion";
