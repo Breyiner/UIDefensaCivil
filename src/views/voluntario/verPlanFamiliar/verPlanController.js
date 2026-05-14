@@ -7,6 +7,7 @@
 import { cardPlanFamiliar } from "../../../componentes/cards/planFamiliarCard";
 import { dropdownFiltro } from "../../../componentes/filter/dropdown";
 import { searchBar } from "../../../componentes/filter/searchBar";
+import { adjuntar, adjuntarNoValida } from "../../../helpers/adjuntarOpciones";
 import * as api from "../../../helpers/api";
 import paginacion from "../../../helpers/paginacion";
 
@@ -21,7 +22,9 @@ export default async () => {
   // agregar campos de filtro
 
   const searchbar = await searchBar(searchBarFiltro);
-  const dropdown = await dropdownFiltro(dropdownItems(), dropdownOnChange);
+  const dropdown = await dropdownFiltro(dropdownOnChange);
+  adjuntarNoValida(dropdown,"statusPlans")
+
 
   contenedorFiltro.append(searchbar);
   contenedorFiltro.append(dropdown);
@@ -102,25 +105,7 @@ export default async () => {
     }
   });
 
-  function filtrarPlanes(e){
-    filtroEstado = Number(e.target.value);
-      renderPlanes();
-  }
 
-
-     async function dropdownItems ( ) {
-  
-      const estados = await api.get("statusPlans")
-  
-          if (!estados){
-              throw new Error("Filtro no encontrado")
-          }
-  
-          console.log(estados)
-          return estados
-  
-      }
-  
       function dropdownOnChange(event){
           renderPlanes();
       }
