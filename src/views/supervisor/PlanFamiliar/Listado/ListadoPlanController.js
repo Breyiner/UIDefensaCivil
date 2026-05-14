@@ -36,7 +36,7 @@ const ListadoPlanController = async () => {
     // agregar campos de filtro
 
     const searchbar = await searchBar(searchBarFiltro)
-    const dropdown = await dropdownFiltro()
+    const dropdown = await dropdownFiltro(await dropdownItems(), dropdownOnChange)
 
     contenedorFiltro.append(searchbar)
     contenedorFiltro.append(dropdown)
@@ -209,10 +209,23 @@ const ListadoPlanController = async () => {
     };
 
 
-    dropdown.addEventListener("change", e => {
-        filtroEstado = Number(e.target.value); 
-        renderPlanes(); 
-    })
+    async function dropdownItems ( ) {
+
+    const estados = await api.get("statusPlans")
+
+        if (!estados){
+            throw new Error("Filtro no encontrado")
+        }
+
+        console.log(estados)
+        return estados
+
+    }
+
+    function dropdownOnChange(event){
+        renderPlanes();
+    }
+
     function searchBarFiltro (event) {
         filtroBusqueda = event.target.value.trim();
         renderPlanes();
