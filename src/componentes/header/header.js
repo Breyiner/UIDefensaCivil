@@ -32,8 +32,20 @@ export const componenteHeader = () => {
     });
 
     botonNoti.addEventListener("click", () => {
-        if (hash == 'usuarios/notificaciones') return
-        location.hash = "#/usuarios/notificaciones";
+
+        if (rolId == 1) {
+            location.hash = "#/administrador/notificaciones";
+        }
+
+        if (rolId == 2) {
+            location.hash = "#/supervisor/notificaciones";
+        }
+
+        if (rolId == 3) {
+            location.hash = "#/voluntario/notificaciones";
+        }
+        // if (hash == 'usuarios/notificaciones') return
+        // location.hash = "#/usuarios/notificaciones";
     });
 
 };

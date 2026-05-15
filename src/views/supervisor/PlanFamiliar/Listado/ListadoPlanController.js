@@ -20,6 +20,7 @@ const ListadoPlanController = async () => {
     const contenedor = document.querySelector(".container__paginas");
     
     const selectStatusCont = document.createElement("div");
+
     selectStatusCont.classList.add("selector--estado__cont");
 
 
@@ -56,26 +57,27 @@ const ListadoPlanController = async () => {
     const renderPlanes = () => {
         contenedor.innerHTML = "";
 
-     const planesFiltrados = todosLosPlanes.filter(plan => {
-    const pasaEstado  = filtroEstado === 0 || plan.status_id == filtroEstado;
-    const pasaBusqueda = filtroBusqueda === "" ||
-      plan.last_names.toLowerCase().includes(filtroBusqueda.toLowerCase());
+    const planesFiltrados = todosLosPlanes.filter(plan => {
+        const pasaEstado  = filtroEstado === 0 || plan.status_id == filtroEstado;
+        const pasaBusqueda = filtroBusqueda === "" ||
+        plan.last_names.toLowerCase().includes(filtroBusqueda.toLowerCase());
 
-    return pasaEstado && pasaBusqueda; // deben cumplirse los dos
-  });
+        return pasaEstado && pasaBusqueda; // deben cumplirse los dos
+    });
 
-      planesFiltrados.forEach(async(plan) => {
-    contenedor.append(await carta(plan));
-  });
+    planesFiltrados.forEach(async(plan) => {
+        contenedor.append(await carta(plan));
+    });
 };
 
 
-    let estadoActivo = 0;
+    // let estadoActivo = 0;
 
 
     const mensajeVacio = "No tienes ningun plan familiar realizado.";
 
 
+    
     const carta = async (info) => {
 
         const div = document.createElement("div");
@@ -189,16 +191,16 @@ const ListadoPlanController = async () => {
         });
 
         //Filtrado por estado
-        switch (true) {
+        // switch (true) {
 
-            case estadoActivo === 0:
-                div.style.display = "";
-                break;
+        //     case estadoActivo === 0:
+        //         div.style.display = "";
+        //         break;
 
-            default:
-                div.style.display = info.status_id === estadoActivo ? "" : "none";
-                break;
-        }
+        //     default:
+        //         div.style.display = info.status_id === estadoActivo ? "" : "none";
+        //         break;
+        // }
 
         return div; // Retorna la carta completa para ser inyectada en el DOM por el helper de paginación
     }
