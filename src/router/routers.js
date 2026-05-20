@@ -36,6 +36,7 @@ import * as supervisorPlanFamiliar from "../views/supervisor/PlanFamiliar/index.
 import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
 import * as usuario from "../views/usuario/index.js"
+import notificacionesController from "../views/notificaciones/notificacionesController.js";
 
 // Configuraciones predefinidas de permisos para cada ruta
 const publicRoute = { private: false, permissions: [] };
@@ -90,6 +91,12 @@ export const routes = {
     '': {
       path: `voluntario/home/index.html`,
       controlador: VoluntarioHomeController,
+      config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
+    },
+
+    notificaciones: {
+      path: `notificaciones/index.html`,
+      controlador: notificacionesController,
       config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
     },
 
@@ -297,6 +304,12 @@ export const routes = {
 
     },
 
+    notificaciones: {
+      path: `notificaciones/index.html`,
+      controlador: notificacionesController,
+      config: { ...voluntarioRoute, permissions: ["home-frontend.supervisor"] },
+    },
+
     plan_familiar: {
 
       "": {
@@ -475,6 +488,12 @@ export const routes = {
       path: `administrador/home/index.html`,
       controlador: AdministradorHomeController,
       config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+    },
+
+    notificaciones: {
+      path: `notificaciones/index.html`,
+      controlador: notificacionesController,
+      config: { ...voluntarioRoute, permissions: ["home-frontend.administrador"] },
     },
 
     datos_maestros: {

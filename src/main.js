@@ -56,7 +56,7 @@ const initTomSelect = () => {
 window.addEventListener("hashchange", async () => {
     //El elemento "layout" debe existir en el DOM antes
     const main = document.querySelector("#app");
-    header(); // Ejecuta las interacciones o eventos del header
+    await header(); // Ejecuta las interacciones o eventos del header
     await router(main); // Invoca el enrutador para cargar la nueva vista dentro de "#app"
     initTomSelect(); // <--- Inicializa los selectores TomSelect de la pantalla actual recién cargada
 });
@@ -76,7 +76,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     if (!main) { console.error("❌ No se encontró #app"); return; }
 
-    header(); // Ejecuta las interacciones o eventos del header
+    await header(); // Ejecuta las interacciones o eventos del header
     await router(main); // Invoca el enrutador para cargar la página de inicio o ruta actual en "#app"
     initTomSelect(); // <--- Inicializa los selectores TomSelect de la carga inicial
 });
