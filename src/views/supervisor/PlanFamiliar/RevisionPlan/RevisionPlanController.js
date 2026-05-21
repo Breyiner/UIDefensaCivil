@@ -15,8 +15,6 @@ const RevisionPlanController = async () => {
     const id = location.hash.split("=")[1];
 
     const info = await api.get(`familyPlans/${id}`);
-
-    // console.log(info);
     
 
     const familyMembers = await api.get(`familyMembers/`);

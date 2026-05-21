@@ -185,6 +185,28 @@
     background-color: var(--color-palido);
     margin-bottom: 12px;
     font-family: var(--fuente-contenido);
+    cursor: pointer;
+    transition: ease 0.5s;
+}
+
+.tarjeta--notificacion:hover {
+    scale: 1.02;
+}
+
+.tarjeta--notificacion.tarjeta--notificacion__noread {
+    border: 3px solid var(--color-primario);
+    position: relative;
+}
+
+.tarjeta--notificacion.tarjeta--notificacion__noread::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    background-color: var(--color-primario);
+    right: -10px;
+    top: -10px;
 }
 
 .tarjeta__header {
@@ -251,6 +273,8 @@
     border: 1px solid var(--color-grisMedio);
     border-radius: var(--border-radius-botones);
     padding: 12px;
+    display: flex;
+    gap: 8px;
 }
 
 .tarjeta__mensaje {

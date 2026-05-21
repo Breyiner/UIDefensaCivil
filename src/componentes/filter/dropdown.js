@@ -1,7 +1,7 @@
 import * as api from "../../helpers/api";
 // crear un dropdown para filtrar
 
-export const dropdownFiltro = async(endpoint, onChange) => {
+export const dropdownFiltro = async(items, onChange) => {
     const dropdown = document.createElement("select");
     dropdown.classList.add("dropdown-filtro");
 
@@ -13,11 +13,6 @@ export const dropdownFiltro = async(endpoint, onChange) => {
     dropdown.append(todos);
 
     // agarrar los estados de planes familiares desde la DB
-    const items = await api.get(endpoint)
-
-    if (!items){
-        throw new Error("Filtro no encontrado")
-    }
 
     items.forEach(item => {
         const option = document.createElement("option");
@@ -31,5 +26,5 @@ export const dropdownFiltro = async(endpoint, onChange) => {
 
     return dropdown
 }
-
+ 
 

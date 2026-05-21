@@ -20,11 +20,11 @@ export default async () => {
 
   // agregar campos de filtro
 
-  const searchbar = await searchBar(searchBarFiltro);
-  const dropdown = await dropdownFiltro("statusPlans", filtrarPlanes);
+  // const searchbar = await searchBar(searchBarFiltro);
+  // const dropdown = await dropdownFiltro(dropdownItems(), dropdownOnChange);
 
-  contenedorFiltro.append(searchbar);
-  contenedorFiltro.append(dropdown);
+  // contenedorFiltro.append(searchbar);
+  // contenedorFiltro.append(dropdown);
 
   if (window.procesoPeticion === undefined) window.procesoPeticion = false;
   window.procesoPeticion = false;
@@ -108,11 +108,27 @@ export default async () => {
   }
 
 
+     async function dropdownItems ( ) {
+  
+      const estados = await api.get("statusPlans")
+  
+          if (!estados){
+              throw new Error("Filtro no encontrado")
+          }
+  
+          console.log(estados)
+          return estados
+  
+      }
+  
+      // function dropdownOnChange(event){
+          // renderPlanes();
+      // }
 
-  function searchBarFiltro(event) {
-    filtroBusqueda = event.target.value.trim();
-    renderPlanes();
-  }
+  // function searchBarFiltro(event) {
+    // filtroBusqueda = event.target.value.trim();
+    // renderPlanes();
+  // }
 
   cargarPlanes();
 };
