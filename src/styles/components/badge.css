@@ -23,6 +23,12 @@
   background-color: var(--color-fononaranjatranslucido);
 }
 
+.badge--creado{
+  color: var(--color-secundario);
+  background-color: var(--color-fondoazultranslucido);
+}
+
+
 @media (min-width: 768px) {
     .badge{
       font-size: var(--tamano-mediano);
