@@ -22,6 +22,9 @@ export const componenteHeader = async () => {
     // }
 
     const cargarIndicador = async () => {
+
+        if (!userId) return;
+        
         const data = await api.get(`notifications/user/count/${userId}`);
         console.log('Count data:', data);
         const count = data?.unread_notifications ?? 0;
