@@ -66,15 +66,19 @@ export const routes = {
     controlador: auth.forgotPasswordController,
     config: publicRoute
   },
-  "verifyCode": {
+  "verificar_codigo": {
     path: `auth/verifyCode/index.html`,
     controlador: auth.verifyCodeController,
-    config: publicRoute
+    config: publicRoute,
+    guard: () => !!sessionStorage.getItem('reset_email'),
+    guardRedirect: 'forgotPassword'
   },
-  "changePassword": {
+  "cambiar_password": {
     path: `auth/changePassword/index.html`,
     controlador: auth.changePasswordController,
-    config: publicRoute
+    config: publicRoute,
+    guard: () => !!sessionStorage.getItem('reset_email') && !!sessionStorage.getItem('reset_code'),
+    guardRedirect: 'forgotPassword'
   },
   "usuarios": {
     "perfil": {
