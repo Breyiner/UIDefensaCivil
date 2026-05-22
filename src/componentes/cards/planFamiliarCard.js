@@ -8,14 +8,7 @@ export const cardPlanFamiliar = (planFamiliar) => {
   // 3: Enviado a Revisión (Azul)
   // 4, 7: Aprobados / Certificados (Verde)
   // 5, 6: Rechazos temporales o definitivos (Rojo)
-    const estadoClase =
-    planFamiliar.status_id == 3
-        ? "verPlan__estado--azul"
-        : planFamiliar.status_id == 4 || planFamiliar.status_id == 7
-        ? "verPlan__estado--verde"
-        : planFamiliar.status_id == 5 || planFamiliar.status_id == 6
-        ? "verPlan__estado--rojo"
-          : ""; // Vacio por default (Asume estado 1 o 2 'En Progreso')
+    const estadoClase =getBadgeClase(info.status_id, estado_planes); 
 
     const tipoClase = planFamiliar.family_type_id == 1 ? "verPlan__tipo--rojo" : planFamiliar.family_type_id == 2 ? "verPlan__tipo--verde" : "verPlan__tipo--gris";
   // Override Label Texto para Rechazos (El backend tal vez manda textos largos, front los recorta)

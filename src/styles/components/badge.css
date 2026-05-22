@@ -25,10 +25,11 @@
   background-color: var(--color-fononaranjatranslucido);
 }
 
-.badge--enviado{
-  background-color: var(--color-azulado-50);
-
+.badge--creado{
+  color: var(--color-secundario);
+  background-color: var(--color-fondoazultranslucido);
 }
+
 
 @media (min-width: 768px) {
     .badge{
