@@ -3,12 +3,13 @@
  * Gestiona la vista donde el usuario solicita restablecer su contraseña.
  * Valida el correo electrónico y previene múltiples envíos simultáneos.
  */
+// import { forgotPasswordController } from "..";
 import * as alerta from "../../../helpers/alertas";
 import * as api from "../../../helpers/api";
 import * as validacion from "../../../helpers/validacionInputs";
 
 // Exportación por defecto de la lógica de recuperación de contraseña
-export default async () => {
+const forgotPasswordController = () => {
   // Referencias al DOM (Atrapar nodos de la vista HTML)
   const form = document.querySelector(".form"); // Formulario principal
   const corrElectronico = document.getElementById("correoElectronico"); // Campo de recolección de correo
@@ -45,19 +46,40 @@ export default async () => {
     console.log(datosUsuario);
     
     // Blindar boton e interbloquear el script frente al usuario ansioso
-    boton.disabled = true;
+    // boton.disabled = true;
     procesoPeticion = true;
 
-    // TODO: Falta implementación desde Backend
-    // Actualmente solo avisa que la ruta no existe (Dummy Warning)
-    await alerta.alertaWarning(
-      "Recuperar Contraseña",
-      "Metodo no realizado en el backend",
-    );
+    // await alerta.alertaWarning(
+    //   "Recuperar Contraseña",
+    //   "Metodo no realizado en el backend",
+    // );
 
-    // Devuelve control de interfaces finalizada la simulación del 'envió'
-    boton.disabled = false;
-    procesoPeticion = false;
+    try {
+
+      const respuesta = await api.post("password/forgot", datosUsuario);
+
+      // GUARDAMOS EL EMAIL EN EL CACHÉ DEL NAVEGADOR PARA LOS SIGUIENTES CONTROLADORES
+      sessionStorage.setItem("reset_email", datosUsuario.email);
+
+      if (!respuesta.success) {
+
+        await alerta.alertaError("Hubo un problema al procesar el envío del código.");
+
+        return;
+      }
+      await alerta.alertaOK("Si el correo electrónico coincide con una cuenta activa, recibirás un código de 6 dígitos.")
+
+      window.location.href = "#/verificar_codigo";
+      
+    } catch (error) {
+      console.error(error);
+      await alerta.alertaError("No se pudo procesar la solicitud en este momento.");
+      
+      // Desbloquear solo en caso de error para permitir reintento
+      boton.disabled = false;
+      procesoPeticion = false;
+    }
+
   });
 
   // Delegación de eventos escuchador genérico Mouse Click sobre la ventana SPA
@@ -67,3 +89,5 @@ export default async () => {
       window.location.href = "#/login"; // Lo dirige físicamente al módulo principal router
   });
 };
+
+export default forgotPasswordController;
