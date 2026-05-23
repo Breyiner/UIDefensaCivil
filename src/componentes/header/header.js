@@ -1,4 +1,4 @@
-import * as api from "../../helpers/api";
+import * as api from "@/helpers/api";
 
 export const componenteHeader = async () => {
     const indicador = document.querySelector(".header__indicador");
@@ -26,7 +26,6 @@ export const componenteHeader = async () => {
         if (!userId) return;
         
         const data = await api.get(`notifications/user/count/${userId}`);
-        console.log('Count data:', data);
         const count = data?.unread_notifications ?? 0;
 
         if (count === 0) {

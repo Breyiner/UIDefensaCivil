@@ -3,11 +3,11 @@
  * Renderiza y pagina la bandeja de entrada de nuevos voluntarios que esperan aprobación.
  * Al interactuar, levanta el modal especializado que permite Aprobar o Rechazar el ingreso.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import paginacion from "../../../../helpers/paginacion";
-import * as modalUsuario from "../../../../helpers/modales/usuario";
-import { tarjetaPeticion } from "../../../../componentes/tarjetas/tarjeta_checkbox";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import paginacion from "@/helpers/paginacion";
+import * as modalUsuario from "@/helpers/modales/usuario";
+import { tarjetaPeticion } from "@/componentes/tarjetas/tarjeta_checkbox";
 
 export default async () => {
 

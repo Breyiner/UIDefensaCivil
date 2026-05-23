@@ -4,12 +4,12 @@
  * 1. Edita Atributos Padre (Factor de Riesgo/Amenaza) PATCH Base.
  * 2. Visualización e Inserción usando Modal Popups Múltiples Excéntricos para hijos: "Acciones para Reducir Riesgo" Y "Factores Vulnerabilidad".
  */
-import * as api from "../../../../helpers/api";
-import * as alerta from "../../../../helpers/alertas";
-import * as cargarDatos from "../../../../helpers/cargarDatos";
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as modalFactorRiesgo from "../../../../helpers/modales/factorRiesgo"; // Wrapper Interactivo Doble (Acciones/Vulnerabilidades) CRUD Modal HTML Injected Functions 
-import acordeon from "../../../../helpers/acordeon";
+import * as api from "@/helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as cargarDatos from "@/helpers/cargarDatos";
+import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
+import * as modalFactorRiesgo from "@/helpers/modales/factorRiesgo"; // Wrapper Interactivo Doble (Acciones/Vulnerabilidades) CRUD Modal HTML Injected Functions 
+import acordeon from "@/helpers/acordeon";
 
 export default async () => {
     // Nav Actioners DOM Reference Buttons Nodos Master Layout Target Selectors Elements  

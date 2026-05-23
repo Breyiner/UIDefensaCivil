@@ -1,5 +1,5 @@
-import * as api from "../../helpers/api";
-import { estado_planes, estado_usuarios, getBadgeClase } from "../../helpers/cambioEstado";
+import * as api from "@/helpers/api";
+import { estado_planes, estado_usuarios, getBadgeClase } from "@/helpers/cambioEstado";
 
 
 export const tarjetaEstados = (info) => {

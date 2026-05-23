@@ -4,8 +4,8 @@
  * Si te equivocaste de mapa, toca Eliminar y Crear otro. 
  * El Modulo "EDITAR" es EXCLUSIVAMENTE para actualizar el campo Texto 'Description' del mismo.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
 
 export default async () => {
   // Selectores UI Básicos Textos/Forms

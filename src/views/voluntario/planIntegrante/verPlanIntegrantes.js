@@ -4,10 +4,10 @@
  * que componen una familia usando paginación infinita o listado clásico.
  * Permite Eliminar, Crear nuevos o Editar los datos personales y médicos de los mismos.
  */
-import * as api from "../../../helpers/api";
-import * as alerta from "../../../helpers/alertas";
-import * as modalIntegrante from "../../../helpers/modales/integrante";
-import paginacion from "../../../helpers/paginacion";
+import * as api from "@/helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as modalIntegrante from "@/helpers/modales/integrante";
+import paginacion from "@/helpers/paginacion";
 
 export default async () => {
 

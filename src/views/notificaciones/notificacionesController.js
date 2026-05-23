@@ -1,6 +1,6 @@
-import * as api from "../../helpers/api";
-import paginacion from "../../helpers/paginacion";
-import tiempoRelativo from "../../componentes/tiempos/tiempoRelativo";
+import * as api from "@/helpers/api";
+import paginacion from "@/helpers/paginacion";
+import tiempoRelativo from "@/componentes/tiempos/tiempoRelativo";
 
 const notificacionesController = async () => {
 
@@ -30,7 +30,6 @@ const notificacionesController = async () => {
             const endpoint = `notifications/user/${userId}?page=${paginaActual}`;
             const paginado = await api.getPaginacion(endpoint);
 
-            console.log('Notificaciones:', paginado);
             AllNotify = paginado?.data ?? [];
             carta();
 

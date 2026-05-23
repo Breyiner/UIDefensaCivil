@@ -4,11 +4,11 @@
  * Usa el helper de Paginación para crear cartas dinámicas e invoca el modalUsuario 
  * para visualizar los detalles de cada miembro.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import paginacion from "../../../../helpers/paginacion";
-import * as modalUsuario from "../../../../helpers/modales/usuario";
-import { tarjetaEstados } from "../../../../componentes/tarjetas/tarjeta_gestionSupervisor";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import paginacion from "@/helpers/paginacion";
+import * as modalUsuario from "@/helpers/modales/usuario";
+import { tarjetaEstados } from "@/componentes/tarjetas/tarjeta_gestionSupervisor";
 
 export default async () => {
 
@@ -52,8 +52,6 @@ export default async () => {
 
         // Recuperar Meta-ID guardado en tiempo de inyección (data-id)
         const userId = tarjetaClickeada.dataset.id;
-
-        console.log("USER ID", userId);
 
 
         // Lanza función "Ver" contenida en "modales/usuario.js" pasando 

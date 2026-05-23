@@ -4,12 +4,12 @@
  * Esta vista funciona igual que "Antes" y "Durante", operando bajo el valor 
  * número 3, permitiendo visualizar y agregar las acciones finales del plan.
  */
-import * as api from "../../../../helpers/api";
-import * as alerta from "../../../../helpers/alertas";
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as cargarDatos from "../../../../helpers/cargarDatos";
-import * as validacion from "../../../../helpers/validacionInputs";
-import * as modalPlanAccion from "../../../../helpers/modales/planAccion";
+import * as api from "@/helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
+import * as cargarDatos from "@/helpers/cargarDatos";
+import * as validacion from "@/helpers/validacionInputs";
+import * as modalPlanAccion from "@/helpers/modales/planAccion";
 
 export default async () => {
   // Referencias a los elementos visibles de la pantalla

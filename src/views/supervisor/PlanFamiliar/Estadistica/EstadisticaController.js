@@ -3,9 +3,9 @@
  * Renderiza el dashboard gráfico (Dona iterativa) que resume la cantidad de 
  * Planes Familiares según su estado (Aprobados, Rechazados, Pendientes).
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import * as canva from "../../../../helpers/canvas";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import * as canva from "@/helpers/canvas";
 
 export default async () => {
     // Referencias al DOM para la interacción principal de la vista

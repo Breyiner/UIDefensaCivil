@@ -1,4 +1,4 @@
-import { obtenerTiempoTranscurrido } from "../../helpers/obtenerTiempoTranscurrido";
+import { obtenerTiempoTranscurrido } from "@/helpers/obtenerTiempoTranscurrido";
 
 export const tarjetaPeticion = (info) => {
 

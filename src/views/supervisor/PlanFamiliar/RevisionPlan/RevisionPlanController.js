@@ -3,12 +3,12 @@
  * Facilita las acciones críticas para un Supervisor al evaluar un Plan Familiar.
  * Gestiona botones asíncronos para Aprobar, Rechazar (Definitivo/Cambios) y Ver PDF.
  */
-import factorRiesgoVentana from "../../../../componentes/ver_EstadoSupervisor/factorRiesgoVentana";
-import integranteVentana from "../../../../componentes/ver_EstadoSupervisor/integranteVentana";
-import MascotaVentana from "../../../../componentes/ver_EstadoSupervisor/mascotaVentana";
-import recursosVentana from "../../../../componentes/ver_EstadoSupervisor/recursosVentana";
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
+import factorRiesgoVentana from "@/componentes/ver_EstadoSupervisor/factorRiesgoVentana";
+import integranteVentana from "@/componentes/ver_EstadoSupervisor/integranteVentana";
+import MascotaVentana from "@/componentes/ver_EstadoSupervisor/mascotaVentana";
+import recursosVentana from "@/componentes/ver_EstadoSupervisor/recursosVentana";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
 
 const RevisionPlanController = async () => {
 
@@ -49,7 +49,7 @@ const RevisionPlanController = async () => {
     introduccionCont.classList.add("tarjeta-contenido");
 
     const imagenIcono = document.createElement("img");
-    imagenIcono.src = "../../../../public/icon/familyicon.svg";
+    imagenIcono.src = "../../../public/icon/familyicon.svg";
     imagenIcono.alt = "iconofamilia";
     imagenIcono.classList.add("imagen--icono");
 
@@ -153,8 +153,6 @@ const RevisionPlanController = async () => {
     miembrosFamilia.forEach(async (integrante) => {
 
         const miembro = await api.get(`members/${integrante.member_id}`);
-
-        console.log("miembro", miembro);
 
         const relacion = await api.get(`kinships/${miembro.kinship_id}`);
 
@@ -288,16 +286,11 @@ const RevisionPlanController = async () => {
 
     recursosCont.append(subtituloRecursos);
 
-
-    console.log("recursos", Resources);
-
     let contadorRecursos = 0;
 
     for (const recurso of Resources) {
 
         contadorRecursos++;
-
-        console.log("recurso", recurso);
 
         const recursoCont = document.createElement("div");
         recursoCont.classList.add("form_autorizacion");

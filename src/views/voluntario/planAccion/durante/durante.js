@@ -4,12 +4,12 @@
  * Posiciona al usuario en la pestaña 'Durante', permitiendo ir adelante 
  * ('Después') o regresar atrás ('Antes') libremente.
  */
-import * as api from "../../../../helpers/api";
-import * as alerta from "../../../../helpers/alertas";
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as cargarDatos from "../../../../helpers/cargarDatos";
-import * as validacion from "../../../../helpers/validacionInputs";
-import * as modalPlanAccion from "../../../../helpers/modales/planAccion";
+import * as api from "@/helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
+import * as cargarDatos from "@/helpers/cargarDatos";
+import * as validacion from "@/helpers/validacionInputs";
+import * as modalPlanAccion from "@/helpers/modales/planAccion";
 
 export default async () => {
   // Referencias a los elementos que siempre están en la pantalla

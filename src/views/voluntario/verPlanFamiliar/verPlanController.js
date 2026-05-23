@@ -4,11 +4,11 @@
  * Muestra el estado de cada plan (En Progreso, Aprobado, Rechazado) con colores distintivos.
  * Contiene lógica condicional de enrutamiento basada en el Rol del usuario (Voluntario vs Supervisor).
  */
-import { cardPlanFamiliar } from "../../../componentes/cards/planFamiliarCard";
-import { dropdownFiltro } from "../../../componentes/filter/dropdown";
-import { searchBar } from "../../../componentes/filter/searchBar";
-import * as api from "../../../helpers/api";
-import paginacion from "../../../helpers/paginacion";
+import { cardPlanFamiliar } from "@/componentes/cards/planFamiliarCard";
+import { dropdownFiltro } from "@/componentes/filter/dropdown";
+import { searchBar } from "@/componentes/filter/searchBar";
+import * as api from "@/helpers/api";
+import paginacion from "@/helpers/paginacion";
 
 export default async () => {
   // Referencias DOM
@@ -116,7 +116,6 @@ export default async () => {
               throw new Error("Filtro no encontrado")
           }
   
-          console.log(estados)
           return estados
   
       }

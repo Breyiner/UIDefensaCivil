@@ -5,9 +5,9 @@
  * de datos sensibles como Teléfono, Correo y Contraseña. 
  * También maneja el cierre de sesión seguro.
  */
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
-import * as cargarDatos from "../../../helpers/cargarDatos";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import * as cargarDatos from "@/helpers/cargarDatos";
 
 export default async () => {
     // Referencias al DOM (Campos de Muestra)

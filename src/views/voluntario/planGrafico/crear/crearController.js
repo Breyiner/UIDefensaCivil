@@ -3,8 +3,8 @@
  * Maneja la subida Multipart Upload de una imagen de croquis de la casa junto  
  * con un campo Texto explicativo "descripción".  (1 a Muchos) Familia -> Gráficos.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
 
 export default async () => {
   // Referencias UI Básicas

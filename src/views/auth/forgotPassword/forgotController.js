@@ -4,9 +4,9 @@
  * Valida el correo electrónico y previene múltiples envíos simultáneos.
  */
 // import { forgotPasswordController } from "..";
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
-import * as validacion from "../../../helpers/validacionInputs";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import * as validacion from "@/helpers/validacionInputs";
 
 // Exportación por defecto de la lógica de recuperación de contraseña
 const forgotPasswordController = () => {
@@ -43,7 +43,6 @@ const forgotPasswordController = () => {
     };
 
     // Imprime rastro debugueo en la consola temporal 
-    console.log(datosUsuario);
     
     // Blindar boton e interbloquear el script frente al usuario ansioso
     // boton.disabled = true;

@@ -4,8 +4,8 @@
  * personalizado y provee botones de acceso rápido para la creación
  * de nuevos Planes Familiares o la consulta de planes existentes.
  */
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api"
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api"
 
 export default () => {
   // Selecciona el elemento de texto en la pantalla donde se escribirá la bienvenida

@@ -3,9 +3,9 @@
  * Conecta la Vista HTML con los Helpers (crearLista) y los endpoints del API 
  * para renderizar y administrar dinámicamente los registros de Calidad de Vivienda.
  */
-import * as calidadVivienda from "../../../../helpers/modales/calidadVivienda";
-import * as api from "../../../../helpers/api.js";
-import { verEstado_input } from "../../../../componentes/ver_Estado/varianteEstados.js";
+import * as calidadVivienda from "@/helpers/modales/calidadVivienda";
+import * as api from "@/helpers/api.js";
+import { verEstado_input } from "@/componentes/ver_Estado/varianteEstados.js";
 
 export default async () => {
 

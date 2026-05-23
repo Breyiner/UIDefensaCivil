@@ -1,6 +1,6 @@
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
-import * as validacion from "../../../helpers/validacionInputs";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import * as validacion from "@/helpers/validacionInputs";
 
 const verifyCodeController = () => {
 
@@ -41,7 +41,6 @@ const verifyCodeController = () => {
     //     input.addEventListener("input", () => {
     //         // Esto imprimirá el estado de los 6 cuadros al tiempo con cada pulsación
     //         const enTiempoReal = Array.from(inputsCodigo).map(i => i.value).join("");
-    //         console.log("Escribiendo código... ", enTiempoReal);
     //     });
     // });
 
@@ -61,7 +60,6 @@ const verifyCodeController = () => {
         }
 
         const codigo = Array.from(inputsCodigo).map(i => i.value).join("");
-        console.log("Código ingresado:", codigo);
 
         if (codigo.length !== 6) {
             await alerta.alertaError("Por favor, ingrese el código completo de 6 dígitos.");

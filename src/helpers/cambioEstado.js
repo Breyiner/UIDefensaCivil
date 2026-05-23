@@ -6,7 +6,7 @@ export const estado_planes = {
     4: 'badge badge--pendiente',        //En Revision
     5: 'badge badge--rechazado',      //Devuelto con observaciones
     6: 'badge badge--rechazado',      //rechazado
-    7: 'badde badge--completado'      //completado
+    7: 'badge badge--completado'      //completado
 };
 //objeto que cambia la clase segun el estado del usuario
 export const estado_usuarios = {

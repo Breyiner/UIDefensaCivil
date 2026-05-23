@@ -4,12 +4,12 @@
  * Permite asignar miembros de la familia a los factores de riesgo e ir agregando
  * acciones preventivas específicas usando ventanas emergentes.
  */
-import * as api from "../../../../helpers/api";
-import * as alerta from "../../../../helpers/alertas";
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as cargarDatos from "../../../../helpers/cargarDatos";
-import * as validacion from "../../../../helpers/validacionInputs";
-import * as modalPlanAccion from "../../../../helpers/modales/planAccion";
+import * as api from "@/helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
+import * as cargarDatos from "@/helpers/cargarDatos";
+import * as validacion from "@/helpers/validacionInputs";
+import * as modalPlanAccion from "@/helpers/modales/planAccion";
 
 
 export default async () => {

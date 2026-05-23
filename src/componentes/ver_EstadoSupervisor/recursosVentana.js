@@ -1,4 +1,4 @@
-import * as api from "../../helpers/api";
+import * as api from "@/helpers/api";
 
 const recursosVentana = async (recurso, info) => {
 

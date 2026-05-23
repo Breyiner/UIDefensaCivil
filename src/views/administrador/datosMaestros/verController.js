@@ -4,8 +4,8 @@
  * Escucha los clics en las diferentes tarjetas ("cards") y redirige
  * a la vista específica del catálogo seleccionado (ej. Seccionales, Sectores).
  */
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
 
 export default async () => {
 

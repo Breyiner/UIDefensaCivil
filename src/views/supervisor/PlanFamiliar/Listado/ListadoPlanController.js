@@ -3,14 +3,14 @@
  * Facilita las acciones críticas para un Supervisor al evaluar un Plan Familiar.
  * Gestiona botones asíncronos para Aprobar, Rechazar (Definitivo/Cambios) y Ver PDF.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import paginacion from "../../../../helpers/paginacion";
-// import { dropdownFiltro } from "../../../../componentes/filter/dropdown"
-// import { searchBar } from "../../../../componentes/filter/searchBar"
-import { ver } from "../../../../helpers/modales/integrante";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import paginacion from "@/helpers/paginacion";
+// import { dropdownFiltro } from "@/componentes/filter/dropdown"
+// import { searchBar } from "@/componentes/filter/searchBar"
+import { ver } from "@/helpers/modales/integrante";
 import { color } from "chart.js/helpers";
-import { estado_planes, estado_usuarios, getBadgeClase } from "../../../../helpers/cambioEstado";
+import { estado_planes, estado_usuarios, getBadgeClase } from "@/helpers/cambioEstado";
 
 const ListadoPlanController = async () => {
 
@@ -83,8 +83,6 @@ const ListadoPlanController = async () => {
 
         const div = document.createElement("div");
         div.classList.add("tarjeta");
-        console.log(info);
-
 
         //INTRODUCCION DE LA TARJETA _____________________________________________________________________________________
 
@@ -140,7 +138,6 @@ const ListadoPlanController = async () => {
         verEstado.classList = "verPlan__estado " + estadoClase
 
         verEstado.textContent = info.status;
-        // console.log("hola" + estado);
 
         tarjetaIntroduccion.append(verEstado);
 

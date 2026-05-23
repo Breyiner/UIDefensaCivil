@@ -1,6 +1,6 @@
-import * as departamento from "../../../../helpers/modales/departamento";
-import * as api from "../../../../helpers/api.js";
-import { verEstado_input } from "../../../../componentes/ver_Estado/varianteEstados.js";
+import * as departamento from "@/helpers/modales/departamento";
+import * as api from "@/helpers/api.js";
+import { verEstado_input } from "@/componentes/ver_Estado/varianteEstados.js";
 
 export default async () => {
     const botonBack = document.getElementById("botonBack");

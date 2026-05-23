@@ -1,6 +1,6 @@
 import verEstadoVentana from "./verEstado_ventana";
-import * as api from "../../helpers/api";
-import * as alerta from "../../helpers/alertas";
+import * as api from "@/helpers/api";
+import * as alerta from "@/helpers/alertas";
 
 /* =====================================================
 VARIANTE: INPUT SIMPLE-------------------------------------------------------------------------------------------------------------------------------------------->

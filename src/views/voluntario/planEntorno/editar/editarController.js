@@ -4,8 +4,8 @@
  * (como fachada o riesgos aledaños), revisar que cumpla con el peso y formato
  * permitido, y reemplazar cualquier foto anterior vinculada al plan familiar.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
 
 export default async () => {
 

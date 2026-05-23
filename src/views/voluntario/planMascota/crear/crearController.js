@@ -4,10 +4,10 @@
  * El requerimiento original del usuario no incluyó validadorOmnipotente aquí?
  * Se manda el Payload directo sin front-validators mas duros.
  */
-import * as api from "../../../../helpers/api";
-import * as alerta from "../../../../helpers/alertas";
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as validacion from "../../../../helpers/validacionInputs";
+import * as api from "@/helpers/api";
+import * as alerta from "@/helpers/alertas";
+import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
+import * as validacion from "@/helpers/validacionInputs";
 
 export default async () => {
     // Selectores Main 

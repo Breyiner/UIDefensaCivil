@@ -4,11 +4,11 @@
  * los catálogos públicos (Tipos de Documento, Géneros, Seccionales) y habilitar
  * la selección dependiente de Organizaciones basadas en la Seccional elegida.
  */
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
-import * as adjuntarOpc from "../../../helpers/adjuntarOpciones";
-import * as validacion from "../../../helpers/validacionInputs";
-import * as fechas from "../../../helpers/fechas";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
+import * as validacion from "@/helpers/validacionInputs";
+import * as fechas from "@/helpers/fechas";
 
 export default async () => {
   // Referencias al DOM estáticas generales de la ventana SPA

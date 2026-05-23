@@ -4,9 +4,9 @@
  * los índices de vulnerabilidad de un Plan Familiar.
  */
 
-import * as vulnerabilidad from "../../../../helpers/modales/preguntaVulnerabilidad.js";
-import * as api from "../../../../helpers/api.js";
-import { verEstado_select } from "../../../../componentes/ver_Estado/varianteEstados.js";
+import * as vulnerabilidad from "@/helpers/modales/preguntaVulnerabilidad.js";
+import * as api from "@/helpers/api.js";
+import { verEstado_select } from "@/componentes/ver_Estado/varianteEstados.js";
 
 export default async () => {
 
@@ -28,7 +28,6 @@ export default async () => {
     const recargar = async () => {
 
         const datos = await api.get("vulnerableQuestions/");
-        console.log(datos);
         
 
         const contenedor = document.querySelector(".listaDatos");

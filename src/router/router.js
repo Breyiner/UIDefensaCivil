@@ -16,8 +16,6 @@ import * as api from "../helpers/api";
 const viewTemplates = import.meta.glob("../views/**/*.html", { as: "raw" });
 
 export const router = async (main) => {
-
-    console.log("main recibido:", main);
     // Encontrar la ruta desde el hash (#)
     const hash = location.hash.slice(1);
     let arregloHash = hash.split("/");
@@ -216,16 +214,6 @@ const validarRol = async (hash) => {
 
 // funcion encargada de cargar una vista. params: la ruta de la vista y el elemento HTML donde se inyecta el contenido de la vista
 const cargarVista = async (path, elemento) => {
-    // console.log(path, elemento);
-    // const url = `/src/views/${path}`;
-    // console.log("🔍 Fetching:", url);
-    // // const seccion = await fetch(`./src/views/${path}`);
-    // const seccion = await fetch(url);
-    // console.log("✅ Status:", seccion.status);
-    // console.log("✅ Content-Type:", seccion.headers.get("content-type"));
-    // if (!seccion.ok) throw new Error("No pudimos leer el archivo");
-    // const html = await seccion.text();
-    // console.log("HTML recibido:", html.slice(0, 100));
 
     const viewKey = `../views/${path}`;
     const loader = viewTemplates[viewKey];
@@ -272,10 +260,8 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
                 parametros[claveValor[0]] = claveValor[1];
             });
 
-            // console.log("Parámetros procesados:", parametros);
             arregloHash = [...arregloHash]; // Crear copia para no mutar el original
             arregloHash.pop(); // Remover los parámetros del array
-            // console.log("Array después de quitar parámetros:", arregloHash);
         }
     }
 
@@ -290,27 +276,19 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
     const rutaActual = arregloHash[0] === "" ? arregloHash[1] : arregloHash[0];
     const resto = arregloHash[0] === "" ? arregloHash.slice(2) : arregloHash.slice(1);
 
-    // console.log("Buscando ruta:", rutaActual, "resto:", resto);
-
     // Buscar ruta
     for (const key in routes) {
         if (key == rutaActual) {
-            // console.log("Encontré la clave:", key, "tipo:", typeof routes[key]);
-            // console.log(routes[key])
+
             // Si es una ruta con sub-rutas (contenedor)
             if (typeof routes[key] === "object" && !routes[key].path && !routes[key].controlador) {
-                // console.log("Es un contenedor, llamando recursivamente");
-                // Llamada recursiva con el resto de segmentos
                 const [rutaRecursiva, parametrosRecursivos] = recorrerRutas(routes[key], resto, true);
                 // Combinar parámetros de ambas llamadas
                 return [rutaRecursiva, { ...parametros, ...parametrosRecursivos }];
             }
-            // Ruta final encontrada
-            // console.log("Ruta final encontrada");
             return [routes[key], parametros];
         }
     }
-    // console.log("No se encontró la ruta");
     return [null, parametros];
 };
 
@@ -320,7 +298,6 @@ const removerBotonHeader = (arregloHash) => {
     if (!botonBack) {
         return 
     }
-    // console.log(arregloHash)
     
     if (arregloHash.length <= 2) {
         botonBack.classList.add("invisible")

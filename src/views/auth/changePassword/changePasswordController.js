@@ -1,6 +1,6 @@
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
-import * as validacion from "../../../helpers/validacionInputs";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import * as validacion from "@/helpers/validacionInputs";
 
 const changePasswordController = () => {
 
@@ -44,18 +44,12 @@ const changePasswordController = () => {
             return;
         }
 
-        // console.log("password:", passwordInput.value);
-        // console.log("confirm:", confirmInput.value);
-        // console.log("passwordInput element:", passwordInput);
-
         const data = {
             email: emailGuardado,
             code: codigoGuardado,
             password: passwordInput.value,
             password_confirmation: confirmInput.value
         }
-
-        // console.log("data a enviar:", data);
 
         if (boton) boton.disabled = true;
         procesoPeticion = true;

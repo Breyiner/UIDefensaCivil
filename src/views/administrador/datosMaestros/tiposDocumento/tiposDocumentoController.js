@@ -4,9 +4,9 @@
  * Muestra las siglas (acronym) e incluye la funcionalidad de crear o editar mediante modales.
  */
 
-import * as api from "../../../../helpers/api.js";
-import * as tipoDocumento from "../../../../helpers/modales/tipoDocumento.js";
-import { verEstado_doubleInput } from "../../../../componentes/ver_Estado/varianteEstados.js";
+import * as api from "@/helpers/api.js";
+import * as tipoDocumento from "@/helpers/modales/tipoDocumento.js";
+import { verEstado_doubleInput } from "@/componentes/ver_Estado/varianteEstados.js";
 
 export default async () => {
 
@@ -28,7 +28,6 @@ export default async () => {
     const recargar = async () => {
 
         const datosDocumentos = await api.get("documentTypes/");
-        console.log(datosDocumentos);
         
         const contenedor = document.querySelector(".listaDatos");
         contenedor.innerHTML = "";

@@ -4,10 +4,10 @@
  * y asigna la ubicación inicial de su residencia.
  * Si esto falla o no sirve, nada de los siguientes módulos existirá.
  */
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import * as validacion from "../../../../helpers/validacionInputs";
+import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
+import * as alerta from "@/helpers/alertas";
+import * as api from "@/helpers/api";
+import * as validacion from "@/helpers/validacionInputs";
 
 export default async () => {
   // Elementos principales de la pantalla
