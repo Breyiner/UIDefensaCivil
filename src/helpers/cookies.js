@@ -21,6 +21,8 @@ export const obtener = (name) => {
     if (key == name) cookie = value; // Si la llave es la buscada, guarda su valor
   });
 
+  if (!cookie) return null;
+
   // Retorna el valor decodificando caracteres especiales de URL (ej: %20 a espacios)
   return decodeURIComponent(cookie);
 };
