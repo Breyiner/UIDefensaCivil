@@ -7,7 +7,9 @@
 import { cardPlanFamiliar } from "../../../componentes/cards/planFamiliarCard";
 import { dropdownFiltro } from "../../../componentes/filter/dropdown";
 import { searchBar } from "../../../componentes/filter/searchBar";
+import { adjuntar, adjuntarNoValida } from "../../../helpers/adjuntarOpciones";
 import * as api from "../../../helpers/api";
+import { filtrarDatos } from "../../../helpers/filter";
 import paginacion from "../../../helpers/paginacion";
 
 export default async () => {
@@ -20,8 +22,10 @@ export default async () => {
 
   // agregar campos de filtro
 
-  // const searchbar = await searchBar(searchBarFiltro);
-  // const dropdown = await dropdownFiltro(dropdownItems(), dropdownOnChange);
+  const searchbar = await searchBar(searchBarFiltro);
+  const dropdown = await dropdownFiltro(seleccionarEstado);
+  adjuntarNoValida(dropdown,"statusPlans")
+
 
   // contenedorFiltro.append(searchbar);
   // contenedorFiltro.append(dropdown);
@@ -46,29 +50,26 @@ export default async () => {
 
   const mensajeVacio = "No tienes ningun plan familiar realizado.";
 
-  let filtroEstado = 0;
-  let filtroBusqueda = "";
-  let todosLosPlanes = [];
 
   const cargarPlanes = async (endpoint = "familyPlans") => {
     const paginado = await api.getPaginacion(endpoint);
-    todosLosPlanes = paginado.data;
+    // todosLosPlanes = paginado.data;
     renderPlanes(); // aplica los filtros actuales (vacíos al inicio)
   };
 
-  const renderPlanes = () => {
+  const renderPlanes = async() => {
     contenedor.innerHTML = "";
 
-    const planesFiltrados = todosLosPlanes.filter((plan) => {
-      const pasaEstado = filtroEstado === 0 || plan.status_id == filtroEstado;
-      const pasaBusqueda =
-        filtroBusqueda === "" ||
-        plan.last_names.toLowerCase().includes(filtroBusqueda.toLowerCase());
+    const planes = await api.get("familyPlans");
 
-      return pasaEstado && pasaBusqueda; // deben cumplirse los dos
-    });
+    const criterios = {
+      status_id: dropdown.value,
+      last_names: searchbar.value
+    }
 
-    planesFiltrados.forEach((plan) => {
+    const tarjetasFiltradas = filtrarDatos(planes,criterios,)
+
+    tarjetasFiltradas.forEach((plan) => {
       contenedor.append(cardPlanFamiliar(plan));
     });
   };
@@ -102,33 +103,17 @@ export default async () => {
     }
   });
 
-  function filtrarPlanes(e){
-    filtroEstado = Number(e.target.value);
-      renderPlanes();
-  }
-
-
-     async function dropdownItems ( ) {
-  
-      const estados = await api.get("statusPlans")
-  
-          if (!estados){
-              throw new Error("Filtro no encontrado")
-          }
-  
-          console.log(estados)
-          return estados
-  
-      }
-  
-      // function dropdownOnChange(event){
-          // renderPlanes();
-      // }
-
-  // function searchBarFiltro(event) {
-    // filtroBusqueda = event.target.value.trim();
-    // renderPlanes();
-  // }
 
   cargarPlanes();
+
+  function seleccionarEstado(event) {
+    event.preventDefault();
+    renderPlanes()
+  }
+
+  function searchBarFiltro(event){
+    event.preventDefault();
+    renderPlanes()
+  }
+
 };
