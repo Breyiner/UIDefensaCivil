@@ -9,6 +9,7 @@ import { dropdownFiltro } from "../../../componentes/filter/dropdown";
 import { searchBar } from "../../../componentes/filter/searchBar";
 import { adjuntar, adjuntarNoValida } from "../../../helpers/adjuntarOpciones";
 import * as api from "../../../helpers/api";
+import { filtrarDatos } from "../../../helpers/filter";
 import paginacion from "../../../helpers/paginacion";
 
 export default async () => {
@@ -22,7 +23,7 @@ export default async () => {
   // agregar campos de filtro
 
   const searchbar = await searchBar(searchBarFiltro);
-  const dropdown = await dropdownFiltro(dropdownOnChange);
+  const dropdown = await dropdownFiltro(seleccionarEstado);
   adjuntarNoValida(dropdown,"statusPlans")
 
 
@@ -49,29 +50,26 @@ export default async () => {
 
   const mensajeVacio = "No tienes ningun plan familiar realizado.";
 
-  let filtroEstado = 0;
-  let filtroBusqueda = "";
-  let todosLosPlanes = [];
 
   const cargarPlanes = async (endpoint = "familyPlans") => {
     const paginado = await api.getPaginacion(endpoint);
-    todosLosPlanes = paginado.data;
+    // todosLosPlanes = paginado.data;
     renderPlanes(); // aplica los filtros actuales (vacíos al inicio)
   };
 
-  const renderPlanes = () => {
+  const renderPlanes = async() => {
     contenedor.innerHTML = "";
 
-    const planesFiltrados = todosLosPlanes.filter((plan) => {
-      const pasaEstado = filtroEstado === 0 || plan.status_id == filtroEstado;
-      const pasaBusqueda =
-        filtroBusqueda === "" ||
-        plan.last_names.toLowerCase().includes(filtroBusqueda.toLowerCase());
+    const planes = await api.get("familyPlans");
 
-      return pasaEstado && pasaBusqueda; // deben cumplirse los dos
-    });
+    const criterios = {
+      status_id: dropdown.value,
+      last_names: searchbar.value
+    }
 
-    planesFiltrados.forEach((plan) => {
+    const tarjetasFiltradas = filtrarDatos(planes,criterios,)
+
+    tarjetasFiltradas.forEach((plan) => {
       contenedor.append(cardPlanFamiliar(plan));
     });
   };
@@ -106,14 +104,16 @@ export default async () => {
   });
 
 
-      function dropdownOnChange(event){
-          renderPlanes();
-      }
+  cargarPlanes();
 
-  function searchBarFiltro(event) {
-    filtroBusqueda = event.target.value.trim();
-    renderPlanes();
+  function seleccionarEstado(event) {
+    event.preventDefault();
+    renderPlanes()
   }
 
-  cargarPlanes();
+  function searchBarFiltro(event){
+    event.preventDefault();
+    renderPlanes()
+  }
+
 };
