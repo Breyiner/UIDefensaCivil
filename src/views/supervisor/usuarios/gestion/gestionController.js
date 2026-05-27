@@ -14,7 +14,7 @@ export default async () => {
 
     // Extrae apuntadores a los botones de navegación generales
     const botonBack = document.getElementById("botonBack");
-    
+
     // Contenedor dinámico principal donde se incrustarán las Cards de usuarios paginados
     const contenedor = document.querySelector(".container__paginas");
     const tarjeta = document.querySelector(".tarjeta");
@@ -38,7 +38,7 @@ export default async () => {
     // Función Helper delegada a la clase UI para limpiar rastros y rehacer peticiones (Actualizar lista post-modal)
     const recargarContainer = async () => {
         contenedor.innerHTML = ""; // Barrido
-        
+
         // Petición al endpoint "userForSupervisor" encargada de los filtros, emitiendo objeto Paginated JSON 
         await paginacion(`users`, mensajeVacio, tarjetaEstados);
     };
@@ -54,7 +54,7 @@ export default async () => {
         const userId = tarjetaClickeada.dataset.id;
 
         console.log("USER ID", userId);
-        
+
 
         // Lanza función "Ver" contenida en "modales/usuario.js" pasando 
         // la ID identificadora, el refresco padre y el modo de usuario supervisor.

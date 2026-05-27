@@ -62,6 +62,12 @@ export const router = async (main) => {
 
     // --------------------------------------------------------
 
+    // Si la route tiene guard y este no cumple con la condicion me llevara a una dirección especifica
+    if (ruta.guard && !ruta.guard()) {
+        window.location.hash = `#/${ruta.guardRedirect}`;
+        return;
+    }
+
     if (ruta.path) {
         await cargarVista(ruta.path, main);
     }
@@ -266,10 +272,10 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
                 parametros[claveValor[0]] = claveValor[1];
             });
 
-            console.log("Parámetros procesados:", parametros);
+            // console.log("Parámetros procesados:", parametros);
             arregloHash = [...arregloHash]; // Crear copia para no mutar el original
             arregloHash.pop(); // Remover los parámetros del array
-            console.log("Array después de quitar parámetros:", arregloHash);
+            // console.log("Array después de quitar parámetros:", arregloHash);
         }
     }
 
@@ -284,27 +290,27 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
     const rutaActual = arregloHash[0] === "" ? arregloHash[1] : arregloHash[0];
     const resto = arregloHash[0] === "" ? arregloHash.slice(2) : arregloHash.slice(1);
 
-    console.log("Buscando ruta:", rutaActual, "resto:", resto);
+    // console.log("Buscando ruta:", rutaActual, "resto:", resto);
 
     // Buscar ruta
     for (const key in routes) {
         if (key == rutaActual) {
-            console.log("Encontré la clave:", key, "tipo:", typeof routes[key]);
-            console.log(routes[key])
+            // console.log("Encontré la clave:", key, "tipo:", typeof routes[key]);
+            // console.log(routes[key])
             // Si es una ruta con sub-rutas (contenedor)
             if (typeof routes[key] === "object" && !routes[key].path && !routes[key].controlador) {
-                console.log("Es un contenedor, llamando recursivamente");
+                // console.log("Es un contenedor, llamando recursivamente");
                 // Llamada recursiva con el resto de segmentos
                 const [rutaRecursiva, parametrosRecursivos] = recorrerRutas(routes[key], resto, true);
                 // Combinar parámetros de ambas llamadas
                 return [rutaRecursiva, { ...parametros, ...parametrosRecursivos }];
             }
             // Ruta final encontrada
-            console.log("Ruta final encontrada");
+            // console.log("Ruta final encontrada");
             return [routes[key], parametros];
         }
     }
-    console.log("No se encontró la ruta");
+    // console.log("No se encontró la ruta");
     return [null, parametros];
 };
 
@@ -314,7 +320,7 @@ const removerBotonHeader = (arregloHash) => {
     if (!botonBack) {
         return 
     }
-    console.log(arregloHash)
+    // console.log(arregloHash)
     
     if (arregloHash.length <= 2) {
         botonBack.classList.add("invisible")

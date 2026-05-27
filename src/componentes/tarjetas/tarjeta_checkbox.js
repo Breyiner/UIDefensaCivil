@@ -2,7 +2,6 @@ import { obtenerTiempoTranscurrido } from "../../helpers/obtenerTiempoTranscurri
 
 export const tarjetaPeticion = (info) => {
 
-    console.log("Datos del usuario:", info);
 
     // Contenedor principal de la tarjeta
     const tarjeta = document.createElement('div');
@@ -80,11 +79,11 @@ export const tarjetaPeticion = (info) => {
     tarjetaTiempo.classList.add('tarjeta__tiempo');
     //Se agrega al contenido la funcion ya que primero tiene que hacer el procesamiento de la misma y luego si muestra el resultado, si no se hiciera con la funcion saldria la hora en el formato de mySQL
     tarjetaTiempo.textContent = obtenerTiempoTranscurrido(info.created_at);
-    
+
 
     const tarjetaBadge = document.createElement('span');
-    tarjetaBadge.classList.add('badge', 'badge--pendiente');
-    tarjetaBadge.textContent = 'Pendiente';
+    tarjetaBadge.className = getBadgeClase(info.status_id, estado_usuarios);
+    tarjetaBadge.textContent = info.status;
     tarjetaEstado.append(tarjetaTiempo, tarjetaBadge);
 
 

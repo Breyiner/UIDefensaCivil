@@ -27,8 +27,8 @@ export default async () => {
   adjuntarNoValida(dropdown,"statusPlans")
 
 
-  contenedorFiltro.append(searchbar);
-  contenedorFiltro.append(dropdown);
+  // contenedorFiltro.append(searchbar);
+  // contenedorFiltro.append(dropdown);
 
   if (window.procesoPeticion === undefined) window.procesoPeticion = false;
   window.procesoPeticion = false;
