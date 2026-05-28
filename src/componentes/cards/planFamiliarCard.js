@@ -83,18 +83,26 @@ export const cardPlanFamiliar = (info) => {
         }
 
         boton.addEventListener("click", () => {
-            location.href = info.status_id == 1
-                ? `#/voluntario/plan_familiar/testVunerabilidad?id=${info.id}`
-                : `#/voluntario/plan_familiar/familia?id=${info.id}`;
+            // location.href = info.status_id == 1
+            //     ? `#/voluntario/plan_familiar/testVunerabilidad?id=${info.id}`
+            //     : `#/voluntario/plan_familiar/familia?id=${info.id}`;
+            if (info.status_id === 1) {
+              location.href = `#/voluntario/plan_familiar/testVunerabilidad?id=${info.id}`;
+            } else if (info.status_id === 5) {
+              location.href = `#/voluntario/plan_familiar/familia?id=${info.id}`;
+            } else {
+              location.href = `#/voluntario/plan_familiar/familia?id=${info.id}`;
+            }
         });
     }
 
     if (esSupervisor) {
-        if (info.status_id === 1 || info.status_id === 2 || info.status_id === 3) {
+        if (info.status_id === 1 || info.status_id === 2 || info.status_id === 3 || info.status_id === 5) {
             boton.classList.add("oculto");
             const mensaje = document.createElement("div");
             mensaje.classList.add("verPlan__mensaje--estado");
             if (info.status_id === 1 || info.status_id === 2) mensaje.textContent = "El plan está en proceso de revisión inicial.";
+            else if (info.status_id === 5) mensaje.textContent = "El plan esta siendo editado por el voluntario";
             else if (info.status_id === 3) mensaje.textContent = "El plan está siendo creado por el voluntario.";
             div.append(mensaje);
         }
