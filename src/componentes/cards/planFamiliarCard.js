@@ -1,65 +1,108 @@
+import { estado_planes, getBadgeClase } from "../../helpers/cambioEstado.js";
 
-export const cardPlanFamiliar = (planFamiliar) => {
+export const cardPlanFamiliar = (info) => {
+
+    const rolId = parseInt(localStorage.getItem("role_id"));
+    const esSupervisor = rolId === 2;
+    const esVoluntario = rolId === 3;
 
     const div = document.createElement("div");
-    div.classList.add("verPlan", "tarjeta");
+    div.classList.add("tarjeta");
 
-  // Lógica de Semáforo UI basado en el Código de Estado (Status_id) del Flujo de Aprobación
-  // 3: Enviado a Revisión (Azul)
-  // 4, 7: Aprobados / Certificados (Verde)
-  // 5, 6: Rechazos temporales o definitivos (Rojo)
-    const estadoClase =getBadgeClase(info.status_id, estado_planes); 
+    // INTRODUCCIÓN
+    const tarjetaIntroduccion = document.createElement("div");
+    tarjetaIntroduccion.classList.add("tarjeta--introduccion_supervisor");
 
-    const tipoClase = planFamiliar.family_type_id == 1 ? "verPlan__tipo--rojo" : planFamiliar.family_type_id == 2 ? "verPlan__tipo--verde" : "verPlan__tipo--gris";
-  // Override Label Texto para Rechazos (El backend tal vez manda textos largos, front los recorta)
-    
-    // console.log("EStados:", planFamiliar.status);
-    
-  // Maquetación DOM de la Carta
-    div.innerHTML = `
+    const introduccionDiv = document.createElement("div");
+    introduccionDiv.classList.add("introduccionDiv");
 
-        <div class="verPlan__icono">
-            <i class="ri-parent-fill"></i>
-        </div>
+    const imagenIcono = document.createElement("img");
+    imagenIcono.src = "../../../../public/icon/familyicon.svg";
+    imagenIcono.alt = "iconofamilia";
+    imagenIcono.classList.add("imagen--icono");
 
-        <div class="verPlan__apellidos"> Familia ${planFamiliar.last_names} </div>
+    const introduccionCont = document.createElement("div");
+    introduccionCont.classList.add("tarjeta-contenido");
 
-        <div class="verPlan__tipo--estado">
+    const apellidoFamilia = document.createElement("div");
+    apellidoFamilia.classList.add("tarjeta__titulo");
+    apellidoFamilia.textContent = "Familia " + info.last_names;
 
-        <div class="verPlan__estado ${estadoClase}">
-            ${planFamiliar.status}
-        </div>
+    const departamento = document.createElement("div");
+    departamento.classList.add("form_autorizacion");
+    departamento.innerHTML = `<i class="icono--pequeno ri-map-pin-2-line"></i> ${info.department}`;
 
-        <div class="verPlan__tipo ${tipoClase}">
-            Familia ${planFamiliar.family_type}
-        </div>
+    const fechaRecibido = document.createElement("div");
+    fechaRecibido.classList.add("form_autorizacion");
+    fechaRecibido.innerHTML = `<i class="icono--pequeno ri-calendar-line"></i> Recibido: ${info.date_create}`;
 
-        </div>
+    const nombreVoluntario = document.createElement("div");
+    nombreVoluntario.classList.add("form_autorizacion");
+    nombreVoluntario.innerHTML = `<i class="icono--pequeno ri-user-line"></i> Voluntario: ${info.responsable}`;
 
-        <div class="verPlan__detalles--ubicacion">
-            <i class="ri-map-pin-line"></i>
-            ${planFamiliar.department} - ${planFamiliar.city}
-        </div>
-        <div class="verPlan__detalles--fecha">
-            <i class="ri-calendar-event-fill"></i>
-            Ultima Edicion: ${planFamiliar.date_create}
-        </div>
-        ${
-          // Restricción de Botón "Revisar":
-          // Desaparece si el plan está: (2) Enviado a certificar, (6) Rechazo Mortal, (7) Terminado
-        planFamiliar.status_id == 2 ||
-        planFamiliar.status_id == 6 ||
-        planFamiliar.status_id == 7 ||
-        planFamiliar.status_id == 5 ||
-        planFamiliar.status_id == 4
-            ? ""
-            : `<button class="verPlan__boton boton" 
-                            data-id="${planFamiliar.id}" 
-                            data-status="${planFamiliar.status_id}">
-                        Revisar Plan
-                    </button>`
+    introduccionCont.append(apellidoFamilia, departamento, fechaRecibido, nombreVoluntario);
+    introduccionDiv.append(imagenIcono, introduccionCont);
+    tarjetaIntroduccion.append(introduccionDiv);
+
+    // ESTADO Y TIPO
+    const estadoTipoCont = document.createElement("div");
+    estadoTipoCont.classList.add("verPlan__tipo--estado");
+
+    const estadoClase = getBadgeClase(info.status_id, estado_planes);
+    const verEstado = document.createElement("p");
+    verEstado.classList = "verPlan__estado " + estadoClase;
+    verEstado.textContent = info.status;
+
+    const tipoClase = info.family_type_id == 1 ? "verPlan__tipo--rojo"
+        : info.family_type_id == 2 ? "verPlan__tipo--verde"
+        : "verPlan__tipo--gris";
+
+    const tipoFamilia = document.createElement("p");
+    tipoFamilia.classList.add("verPlan__tipo", tipoClase);
+    tipoFamilia.textContent = `Familia ${info.family_type}`;
+
+    estadoTipoCont.append(verEstado, tipoFamilia);
+    tarjetaIntroduccion.append(estadoTipoCont);
+    div.append(tarjetaIntroduccion);
+
+    // BOTÓN según rol
+    const boton = document.createElement("button");
+    boton.classList.add("boton", "boton--height");
+    boton.textContent = "Revisar Plan";
+    div.append(boton);
+
+    if (esVoluntario) {
+        if (info.status_id === 4 || info.status_id === 6 || info.status_id === 7) {
+            boton.classList.add("oculto");
+            const mensaje = document.createElement("div");
+            mensaje.classList.add("verPlan__mensaje--estado");
+            if (info.status_id === 4) mensaje.textContent = "El plan está siendo revisado por el supervisor.";
+            else if (info.status_id === 6) mensaje.textContent = "El plan fue rechazado por el supervisor.";
+            else if (info.status_id === 7) mensaje.textContent = "El plan ha sido aprobado por el supervisor.";
+            div.append(mensaje);
         }
-    `;
+
+        boton.addEventListener("click", () => {
+            location.href = info.status_id == 1
+                ? `#/voluntario/plan_familiar/testVunerabilidad?id=${info.id}`
+                : `#/voluntario/plan_familiar/familia?id=${info.id}`;
+        });
+    }
+
+    if (esSupervisor) {
+        if (info.status_id === 1 || info.status_id === 2 || info.status_id === 3) {
+            boton.classList.add("oculto");
+            const mensaje = document.createElement("div");
+            mensaje.classList.add("verPlan__mensaje--estado");
+            if (info.status_id === 1 || info.status_id === 2) mensaje.textContent = "El plan está en proceso de revisión inicial.";
+            else if (info.status_id === 3) mensaje.textContent = "El plan está siendo creado por el voluntario.";
+            div.append(mensaje);
+        }
+
+        boton.addEventListener("click", () => {
+            location.href = `#/supervisor/plan_familiar/revision?familia_id=${info.id}`;
+        });
+    }
 
     return div;
 };

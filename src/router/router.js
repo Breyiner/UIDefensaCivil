@@ -56,10 +56,10 @@ export const router = async (main) => {
 
     validarRol(hash);
 
-    ocultarEditarUrl(hash);
+    await ocultarEditarUrl(hash);
 
-    ocultarUrlFamilia(hash);
-
+    await ocultarUrlFamilia(hash);
+    
     // --------------------------------------------------------
 
     // Si la route tiene guard y este no cumple con la condicion me llevara a una dirección especifica
@@ -149,7 +149,7 @@ const ocultarUrlFamilia = async (hash) => {
     const queryString = hash.includes("?") ? hash.split("?")[1] : "";
     const params = new URLSearchParams(queryString);
     // const familiaId = params.get("familia_id");
-    const familiaId = params.get("familia_id");
+    const familiaId = params.get("familia_id") ?? params.get("id");
 
     if (!familiaId) return;
 
@@ -185,6 +185,8 @@ const volverHome = async (hash) => {
 };
 
 const validarRol = async (hash) => {
+
+    console.log("validarRol hash:", hash);
 
     const roleId = parseInt(localStorage.getItem('role_id'));
 

@@ -11,6 +11,7 @@ import paginacion from "../../../../helpers/paginacion";
 import { ver } from "../../../../helpers/modales/integrante";
 import { color } from "chart.js/helpers";
 import { estado_planes, estado_usuarios, getBadgeClase } from "../../../../helpers/cambioEstado";
+import { cardPlanFamiliar } from "../../../../componentes/cards/planFamiliarCard";
 
 const ListadoPlanController = async () => {
 
@@ -48,13 +49,6 @@ const ListadoPlanController = async () => {
     let filtroBusqueda = "";
     let todosLosPlanes = [];
 
-
-    const cargarPlanes = async (endpoint = "familyPlans") => {
-        const paginado = await api.getPaginacion(endpoint);
-        todosLosPlanes = paginado.data;
-        renderPlanes(); // aplica los filtros actuales (vacíos al inicio)
-    };
-
     const renderPlanes = () => {
         contenedor.innerHTML = "";
 
@@ -79,131 +73,131 @@ const ListadoPlanController = async () => {
 
 
     
-    const carta = async (info) => {
+    // const carta = async (info) => {
 
-        const div = document.createElement("div");
-        div.classList.add("tarjeta");
-        console.log(info);
-
-
-        //INTRODUCCION DE LA TARJETA _____________________________________________________________________________________
-
-        const tarjetaIntroduccion = document.createElement("div");
-        tarjetaIntroduccion.classList.add("tarjeta--introduccion_supervisor");
-
-        const introduccionCont = document.createElement("div");
-        introduccionCont.classList.add("tarjeta-contenido");
-
-        const imagenIcono = document.createElement("img");
-        imagenIcono.src = "../../../../public/icon/familyicon.svg";
-        imagenIcono.alt = "iconofamilia";
-        imagenIcono.classList.add("imagen--icono");
-
-        const apellidoFamilia = document.createElement("div");
-        apellidoFamilia.classList.add("tarjeta__titulo");
-        apellidoFamilia.textContent = "Familia " + info.last_names;
-
-        const departamento = document.createElement("div");
-        departamento.classList.add("form_autorizacion");
-        const ubicacionIcono = document.createElement("i");
-        ubicacionIcono.classList.add("icono--pequeno", "ri-map-pin-2-line");
-        departamento.append(ubicacionIcono, " " + info.department);
-
-        const fechaRecibido = document.createElement("div");
-        fechaRecibido.classList.add("form_autorizacion");
-        const calendarioIcono = document.createElement("i");
-        calendarioIcono.classList.add("icono--pequeno", "ri-calendar-line");
-        fechaRecibido.append(calendarioIcono, " Recibido: " + info.date_create);
-
-        const introduccionDiv = document.createElement("div");
-        introduccionDiv.classList.add("introduccionDiv");
-
-        const nombreVoluntario = document.createElement("div");
-        nombreVoluntario.classList.add("form_autorizacion");
-        const voluntarioIcono = document.createElement("i");
-        voluntarioIcono.classList.add("icono--pequeno", "ri-user-line");
-        nombreVoluntario.append(voluntarioIcono, "Voluntario: ", info.responsable);
+    //     const div = document.createElement("div");
+    //     div.classList.add("tarjeta");
+    //     console.log(info);
 
 
-        introduccionCont.append(apellidoFamilia, departamento, fechaRecibido, nombreVoluntario);
+    //     //INTRODUCCION DE LA TARJETA _____________________________________________________________________________________
 
-        introduccionDiv.append(imagenIcono, introduccionCont);
+    //     const tarjetaIntroduccion = document.createElement("div");
+    //     tarjetaIntroduccion.classList.add("tarjeta--introduccion_supervisor");
 
-        tarjetaIntroduccion.append(introduccionDiv);
+    //     const introduccionCont = document.createElement("div");
+    //     introduccionCont.classList.add("tarjeta-contenido");
 
-        const estadoTipoCont = document.createElement("div");
-        estadoTipoCont.classList.add("verPlan__tipo--estado");
+    //     const imagenIcono = document.createElement("img");
+    //     imagenIcono.src = "../../../../public/icon/familyicon.svg";
+    //     imagenIcono.alt = "iconofamilia";
+    //     imagenIcono.classList.add("imagen--icono");
 
-        const estadoClase = getBadgeClase(info.status_id, estado_planes);
+    //     const apellidoFamilia = document.createElement("div");
+    //     apellidoFamilia.classList.add("tarjeta__titulo");
+    //     apellidoFamilia.textContent = "Familia " + info.last_names;
 
-        const verEstado = document.createElement("p");
-        verEstado.classList = "verPlan__estado " + estadoClase
+    //     const departamento = document.createElement("div");
+    //     departamento.classList.add("form_autorizacion");
+    //     const ubicacionIcono = document.createElement("i");
+    //     ubicacionIcono.classList.add("icono--pequeno", "ri-map-pin-2-line");
+    //     departamento.append(ubicacionIcono, " " + info.department);
 
-        verEstado.textContent = info.status;
-        // console.log("hola" + estado);
+    //     const fechaRecibido = document.createElement("div");
+    //     fechaRecibido.classList.add("form_autorizacion");
+    //     const calendarioIcono = document.createElement("i");
+    //     calendarioIcono.classList.add("icono--pequeno", "ri-calendar-line");
+    //     fechaRecibido.append(calendarioIcono, " Recibido: " + info.date_create);
 
-        tarjetaIntroduccion.append(verEstado);
+    //     const introduccionDiv = document.createElement("div");
+    //     introduccionDiv.classList.add("introduccionDiv");
 
-        const tipoClase = info.family_type_id == 1 ? "verPlan__tipo--rojo"
-            : info.family_type_id == 2 ? "verPlan__tipo--verde"
-                : "verPlan__tipo--gris";
-
-        const tipoFamilia = document.createElement("p");
-        tipoFamilia.classList.add("verPlan__tipo", tipoClase);
-        tipoFamilia.textContent = `Familia ${info.family_type}`;
-
-        estadoTipoCont.append(verEstado, tipoFamilia);
-
-        tarjetaIntroduccion.append(estadoTipoCont);
-
-        div.append(tarjetaIntroduccion);
-
-        //BOTONES DE ACCION _____________________________________________________________________________________
-        const resvisarPlan = document.createElement("button");
-        resvisarPlan.classList.add("boton", "boton--height");
-        resvisarPlan.textContent = "Revisar Plan";
-
-        div.append(resvisarPlan);
+    //     const nombreVoluntario = document.createElement("div");
+    //     nombreVoluntario.classList.add("form_autorizacion");
+    //     const voluntarioIcono = document.createElement("i");
+    //     voluntarioIcono.classList.add("icono--pequeno", "ri-user-line");
+    //     nombreVoluntario.append(voluntarioIcono, "Voluntario: ", info.responsable);
 
 
-        if (info.status_id === 1 || info.status_id === 2 || info.status_id === 3) {
-            resvisarPlan.classList.add("oculto");
+    //     introduccionCont.append(apellidoFamilia, departamento, fechaRecibido, nombreVoluntario);
 
-            const mensajeEstado = document.createElement("div");
+    //     introduccionDiv.append(imagenIcono, introduccionCont);
 
-            mensajeEstado.classList.add("verPlan__mensaje--estado");
+    //     tarjetaIntroduccion.append(introduccionDiv);
 
-            if (info.status_id === 1 || info.status_id === 2) {
-                mensajeEstado.textContent = "El plan está en proceso de revisión inicial.";
-            } else if (info.status_id === 3) {
-                mensajeEstado.textContent = "El plan está siendo creado en este momento por el voluntario.";
-            }
+    //     const estadoTipoCont = document.createElement("div");
+    //     estadoTipoCont.classList.add("verPlan__tipo--estado");
 
-            div.append(mensajeEstado);
-        }
+    //     const estadoClase = getBadgeClase(info.status_id, estado_planes);
 
-        resvisarPlan.addEventListener("click", () => {
-            location.href = `#/supervisor/plan_familiar/revision?familia_id=${info.id}`;
-        });
+    //     const verEstado = document.createElement("p");
+    //     verEstado.classList = "verPlan__estado " + estadoClase
 
-        //Filtrado por estado
-        // switch (true) {
+    //     verEstado.textContent = info.status;
+    //     // console.log("hola" + estado);
 
-        //     case estadoActivo === 0:
-        //         div.style.display = "";
-        //         break;
+    //     tarjetaIntroduccion.append(verEstado);
 
-        //     default:
-        //         div.style.display = info.status_id === estadoActivo ? "" : "none";
-        //         break;
-        // }
+    //     const tipoClase = info.family_type_id == 1 ? "verPlan__tipo--rojo"
+    //         : info.family_type_id == 2 ? "verPlan__tipo--verde"
+    //             : "verPlan__tipo--gris";
 
-        return div; // Retorna la carta completa para ser inyectada en el DOM por el helper de paginación
-    }
+    //     const tipoFamilia = document.createElement("p");
+    //     tipoFamilia.classList.add("verPlan__tipo", tipoClase);
+    //     tipoFamilia.textContent = `Familia ${info.family_type}`;
+
+    //     estadoTipoCont.append(verEstado, tipoFamilia);
+
+    //     tarjetaIntroduccion.append(estadoTipoCont);
+
+    //     div.append(tarjetaIntroduccion);
+
+    //     //BOTONES DE ACCION _____________________________________________________________________________________
+    //     const resvisarPlan = document.createElement("button");
+    //     resvisarPlan.classList.add("boton", "boton--height");
+    //     resvisarPlan.textContent = "Revisar Plan";
+
+    //     div.append(resvisarPlan);
+
+
+    //     if (info.status_id === 1 || info.status_id === 5 || info.status_id === 3) {
+    //         resvisarPlan.classList.add("oculto");
+
+    //         const mensajeEstado = document.createElement("div");
+
+    //         mensajeEstado.classList.add("verPlan__mensaje--estado");
+
+    //         if (info.status_id === 1 || info.status_id === 2) {
+    //             mensajeEstado.textContent = "El plan está en proceso de revisión inicial.";
+    //         } else if (info.status_id === 3) {
+    //             mensajeEstado.textContent = "El plan está siendo creado en este momento por el voluntario.";
+    //         }
+
+    //         div.append(mensajeEstado);
+    //     }
+
+    //     resvisarPlan.addEventListener("click", () => {
+    //         location.href = `#/supervisor/plan_familiar/revision?familia_id=${info.id}`;
+    //     });
+
+    //     //Filtrado por estado
+    //     // switch (true) {
+
+    //     //     case estadoActivo === 0:
+    //     //         div.style.display = "";
+    //     //         break;
+
+    //     //     default:
+    //     //         div.style.display = info.status_id === estadoActivo ? "" : "none";
+    //     //         break;
+    //     // }
+
+    //     return div; // Retorna la carta completa para ser inyectada en el DOM por el helper de paginación
+    // }
 
     const recargarContainer = async () => {
         contenedor.innerHTML = "";
-        await paginacion("familyPlans", mensajeVacio, carta);
+        await paginacion("familyPlans", mensajeVacio, cardPlanFamiliar);
     };
 
 
@@ -217,7 +211,7 @@ const ListadoPlanController = async () => {
     // }
 
 
-    await cargarPlanes();
+    await paginacion("familyPlans", mensajeVacio, cardPlanFamiliar);
 
 };
 
