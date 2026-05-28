@@ -69,30 +69,23 @@ window.addEventListener("hashchange", async () => {
 
 // // Cuando el documento principal carga desde cero por primera vez
 window.addEventListener("DOMContentLoaded", async () => {
-
     const layout = document.querySelector(".layout");
-
     if (!layout) {
-
         console.error("❌ No se encontró el elemento .layout en el DOM");
         return;
     }
 
     const main = document.querySelector("#app");
-
     if (!main) {
-
         console.error("❌ No se encontró #app");
         return;
     }
 
     if (isAuth()) {
-
-        layout.insertAdjacentHTML("afterbegin", componenteHeader); // Asegura que el contenedor "#app" esté dentro de "layout" antes de cargar la nueva vista
-        await header(); // Ejecuta las interacciones o eventos del header
+        layout.insertAdjacentHTML("afterbegin", componenteHeader); // Insertar HTML del header
+        await header(); // Luego inicializar el header
     }
-
-    await router(main); // Invoca el enrutador para cargar la página de inicio o ruta actual en "#app"
+    await router(main);
     
-    initTomSelect(); // <--- Inicializa los selectores TomSelect de la carga inicial
+    initTomSelect();
 });
