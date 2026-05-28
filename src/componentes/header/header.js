@@ -1,22 +1,41 @@
-export const componenteHeader = () => {
+import * as api from "../../helpers/api";
+
+export const componenteHeader = async () => {
     const indicador = document.querySelector(".header__indicador");
     const botonAtras = document.getElementById("botonBack");
     const botonHome = document.getElementById("botonHome");
-    const botonNoti = document.getElementById("botonNotificaciones")
+    const botonNoti = document.getElementById("botonNotificaciones");
     const botonPerfil = document.getElementById("botonPerfil");
     const rolId = localStorage.getItem("role_id");
+    const userId = localStorage.getItem("id");
     const hash = location.hash.slice(2);
 
-    indicador.classList.remove('invisible');
+    // indicador.classList.remove('invisible');
 
-    const indicadorNumero = Number(indicador.textContent);
+    // const indicadorNumero = Number(indicador.textContent);
 
-    if (indicadorNumero === 0) {
-        indicador.classList.add('invisible');
-    }
-    else if (indicadorNumero >= 10) {
-        indicador.textContent = '9+';
-    }
+    // if (indicadorNumero === 0) {
+    //     indicador.classList.add('invisible');
+    // }
+    // else if (indicadorNumero >= 10) {
+    //     indicador.textContent = '9+';
+    // }
+
+    const cargarIndicador = async () => {
+
+        if (!userId) return;
+        
+        const data = await api.get(`notifications/user/count/${userId}`);
+        console.log('Count data:', data);
+        const count = data?.unread_notifications ?? 0;
+
+        if (count === 0) {
+            indicador.classList.add('invisible');
+        } else {
+            indicador.classList.remove('invisible');
+            indicador.textContent = count >= 10 ? '9+' : count;
+        }
+    };
 
     // botón HOME
     botonHome.addEventListener("click", () => {
@@ -32,8 +51,18 @@ export const componenteHeader = () => {
     });
 
     botonNoti.addEventListener("click", () => {
-        if (hash == 'usuarios/notificaciones') return
-        location.hash = "#/usuarios/notificaciones";
+
+        if (rolId == 1) {
+            location.hash = "#/administrador/notificaciones";
+        }
+        if (rolId == 2) {
+            location.hash = "#/supervisor/notificaciones";
+        }
+        if (rolId == 3) {
+            location.hash = "#/voluntario/notificaciones";
+        }
     });
+
+    await cargarIndicador();
 
 };

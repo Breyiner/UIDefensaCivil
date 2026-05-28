@@ -74,6 +74,8 @@ export default async () => {
       localStorage.setItem("role_id", atributos.role_id);
       localStorage.setItem("sectional_id", atributos.sectional_id);
       localStorage.setItem("gender_id", atributos.gender);
+      localStorage.setItem("access_token", atributos.token);
+      localStorage.setItem("refresh_token", atributos.refresh_token);
       
       // Presenta mensaje de bienvenida / Éxito dictado por Api
       await alerta.alertaOK(data.message);

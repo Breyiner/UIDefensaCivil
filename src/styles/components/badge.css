@@ -13,15 +13,23 @@
   color: var(--color-rojizo);
 }
 
-.badge--completado {
+.badge--completado,
+.badge--aprobado {
   background-color: var(--color-fondoverdetranslucido);
   color: var(--color-verdoso);
 }
 
-.badge--pendiente{
+.badge--pendiente,
+.badge--devuelto {
   color: var(--color-primario);
   background-color: var(--color-fononaranjatranslucido);
 }
+
+.badge--creado{
+  color: var(--color-secundario);
+  background-color: var(--color-fondoazultranslucido);
+}
+
 
 @media (min-width: 768px) {
     .badge{

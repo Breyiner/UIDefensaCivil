@@ -21,6 +21,8 @@
   cursor: pointer;
   aspect-ratio: 1;
   transition: 0.3s;
+
+  position: relative;
 }
 
 .header__boton--padding {

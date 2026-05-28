@@ -1,10 +1,9 @@
-
+import * as api from "../../helpers/api";
+import { estado_planes, estado_usuarios, getBadgeClase } from "../../helpers/cambioEstado";
 
 
 export const tarjetaEstados = (info) => {
 
-    console.log(info);
-    
     // Contenedor principal de la tarjeta
     const tarjeta = document.createElement('div');
     // Guardamos el ID aquí para que sea accesible desde cualquier parte de la tarjeta, ya que se espera que al hacer click nos muestre el modal de rechazar o aceptar el acceso
@@ -76,8 +75,8 @@ export const tarjetaEstados = (info) => {
     // Hijo 4: Contenedor de estado
     const tarjetaEstado = document.createElement('div');
     tarjetaEstado.classList.add('tarjeta__estado');
-    const tarjetaBadge = document.createElement('span');
-    tarjetaBadge.classList.add('badge', 'badge--completado');
+    const tarjetaBadge = document.createElement('span'); 
+    tarjetaBadge.className = getBadgeClase(info.status_id, estado_usuarios);
     tarjetaBadge.textContent = info.status;
     tarjetaEstado.append(tarjetaBadge);
 
