@@ -4,116 +4,71 @@
  * Muestra el estado de cada plan (En Progreso, Aprobado, Rechazado) con colores distintivos.
  * Contiene lógica condicional de enrutamiento basada en el Rol del usuario (Voluntario vs Supervisor).
  */
-import { cardPlanFamiliar } from "../../../componentes/cards/planFamiliarCard";
-import { dropdownFiltro } from "../../../componentes/filter/dropdown";
-import { searchBar } from "../../../componentes/filter/searchBar";
-import { adjuntar, adjuntarNoValida } from "../../../helpers/adjuntarOpciones";
-import * as api from "../../../helpers/api";
-import { filtrarDatos } from "../../../helpers/filter";
-import paginacion from "../../../helpers/paginacion";
 
-export default async () => {
-  // Referencias DOM
-  const botonBack = document.getElementById("botonBack");
-  const contenedor = document.querySelector(".container__paginas"); // Grid Wrapper Main
+import * as alerta from "../../../helpers/alertas.js";
+import * as api from "../../../helpers/api.js";
+import paginacion from "../../../helpers/paginacion.js";
+import { ver } from "../../../helpers/modales/integrante.js";
+import { color } from "chart.js/helpers";
+import { estado_planes, estado_usuarios, getBadgeClase } from "../../../helpers/cambioEstado.js";
+import { cardPlanFamiliar } from "../../../componentes/cards/planFamiliarCard.js";
 
-  // encontrar contenedor donde van los filtros
-  const contenedorFiltro = document.querySelector(".container__filtro");
+const verPlanController = async () => {
 
-  // agregar campos de filtro
+    const statusPlans = await api.get(`statusPlans/`);
 
-  const searchbar = await searchBar(searchBarFiltro);
-  const dropdown = await dropdownFiltro(seleccionarEstado);
-  adjuntarNoValida(dropdown,"statusPlans")
+    const botonBack = document.getElementById("botonBack");
 
+    const contenedor = document.querySelector(".container__paginas");
 
-  // contenedorFiltro.append(searchbar);
-  // contenedorFiltro.append(dropdown);
+    const selectStatusCont = document.createElement("div");
 
-  if (window.procesoPeticion === undefined) window.procesoPeticion = false;
-  window.procesoPeticion = false;
-
-  //
-
-  // Extracción de Token de Autorización LocalStorage (1 Admin, 2 Supervisor, 3 Voluntario)
-  const rolId = localStorage.getItem("role_id");
-
-  const esSupervisor = location.hash.includes("supervisor");
-  const base = esSupervisor ? "supervisor" : "voluntario";
-
-  // Lógica dinámica Botón Atrás (Si entra un supervisor a mironear, que lo devuelva a su casa)
-  botonBack.onclick = () => {
-    if (window.procesoPeticion) return;
-    // location.href = rolId == 3 ? `#/voluntario` : `#/supervisor`;
-    location.href = `#/${base}`;
-  };
-
-  const mensajeVacio = "No tienes ningun plan familiar realizado.";
+    selectStatusCont.classList.add("selector--estado__cont");
 
 
-  const cargarPlanes = async (endpoint = "familyPlans") => {
-    const paginado = await api.getPaginacion(endpoint);
-    // todosLosPlanes = paginado.data;
-    renderPlanes(); // aplica los filtros actuales (vacíos al inicio)
-  };
-
-  const renderPlanes = async() => {
-    contenedor.innerHTML = "";
-
-    const planes = await api.get("familyPlans");
-
-    const criterios = {
-      status_id: dropdown.value,
-      last_names: searchbar.value
-    }
-
-    const tarjetasFiltradas = filtrarDatos(planes,criterios,)
-
-    tarjetasFiltradas.forEach((plan) => {
-      contenedor.append(cardPlanFamiliar(plan));
-    });
-  };
-
-  // Delegación Eventos de Click Muro Principal "Mis Planes"
-  contenedor.addEventListener("click", async (e) => {
-    const boton = e.target.closest("button");
-    if (!boton) return;
-    if (!boton.classList.contains("verPlan__boton")) return; // Solo acciona el botón inferior
-    if (window.procesoPeticion) return;
-
-    // Recupera Data-Attr embutidos en el HTML al renderizar
-    const planId = boton.dataset.id;
-    const status = boton.dataset.status;
-
-    // Router Inteligente de Permisos Segun el actor logueado:
-    if (rolId == 3) {
-      // Branch VOLUNTARIO (Autor)
-
-      // Si el estado es 1 (Nuevo/Recien creado), Obligale a pasar primero por el Test Psicológico de Vulnerabilidad.
-      if (status == 1) {
-        location.href = `#/voluntario/plan_familiar/testVunerabilidad?id=${planId}`;
-      } else {
-        // Si ya pasó el test, llévalo al Menu Index Hub Modules
-        location.href = `#/voluntario/plan_familiar/familia?id=${planId}`;
-      }
-    } else if (rolId == 2) {
-      // Branch SUPERVISOR (Revisor)
-      // Llévalo al módulo especializado de auditoría y revisión
-      location.href = `#/supervisor/plan_familiar/revision?id=${planId}`;
-    }
-  });
+    // encontrar contenedor donde van los filtros
+    const contenedorFiltro = document.querySelector(".container__filtro");
 
 
-  cargarPlanes();
+    botonBack.onclick = () => {
+        if (window.procesoPeticion) return;
+        location.href = `#/voluntario/`;
+    };
 
-  function seleccionarEstado(event) {
-    event.preventDefault();
-    renderPlanes()
-  }
+    let filtroEstado = 0;
+    let filtroBusqueda = "";
+    let todosLosPlanes = [];
 
-  function searchBarFiltro(event){
-    event.preventDefault();
-    renderPlanes()
-  }
+    const renderPlanes = () => {
+        contenedor.innerHTML = "";
+
+        const planesFiltrados = todosLosPlanes.filter(plan => {
+            const pasaEstado = filtroEstado === 0 || plan.status_id == filtroEstado;
+            const pasaBusqueda = filtroBusqueda === "" ||
+                plan.last_names.toLowerCase().includes(filtroBusqueda.toLowerCase());
+
+            return pasaEstado && pasaBusqueda; // deben cumplirse los dos
+        });
+
+        planesFiltrados.forEach(async (plan) => {
+            contenedor.append(await carta(plan));
+        });
+    };
+
+
+    // let estadoActivo = 0;
+
+
+    const mensajeVacio = "No tienes ningun plan familiar realizado.";
+
+
+    const recargarContainer = async () => {
+        contenedor.innerHTML = "";
+        await paginacion("familyPlans", mensajeVacio, cardPlanFamiliar);
+    };
+
+    await paginacion("familyPlans", mensajeVacio, cardPlanFamiliar);
 
 };
+
+export default verPlanController;

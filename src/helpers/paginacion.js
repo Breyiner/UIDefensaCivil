@@ -11,7 +11,7 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
     // Contenedor mayor donde van las tarjetas (cards)
     const container = document.querySelector(".container__paginas");
     // Barra inferior donde van los numeritos de página
-    const containerPaginador = document.querySelector(".container__paginador")
+    const containerPaginador = document.querySelector(".container__paginador");
 
     const esSupervisor = location.hash.includes("/supervisor/");
     const esVoluntario = location.hash.includes("/voluntario/");
@@ -27,7 +27,7 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
     const evaluacion = await evaluarDatos();
     if (!evaluacion) {
         // 3. Renderiza números y la página default (1)
-        await paginacion();
+        await paginador();
         await cargarPagina();
 
         // 4. Si sobran números para llenar 1 página base, oculta la barra de paginación por innecesaria
@@ -48,7 +48,7 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
         if (e.target.classList.contains("paginador__numero") && !window.procesoPeticion) {
             if (paginaActual == e.target.id) return; // Evita re-cargar la misma pestaña en la que ya está
             paginaActual = e.target.id;
-            paginacion(); // Re-dibuja cintillo numerado
+            paginador(); // Re-dibuja cintillo numerado
             cargarPagina(); // Re-descarga JSON de registros
         }
     });
@@ -57,7 +57,7 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
     // ==========================================
     // LOGICA QUE PINTA LOS BOTONES NUMÉRICOS INFERIORES
     // ==========================================
-    async function paginacion() {
+    async function paginador() {
 
         containerPaginador.innerHTML = ""; // Limpia la barra numerada 
 
