@@ -19,5 +19,4 @@ export const dropdownFiltro = async(onChange) => {
 
     return dropdown
 }
- 
 

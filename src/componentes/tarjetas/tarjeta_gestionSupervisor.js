@@ -36,7 +36,7 @@ export const tarjetaEstados = (info) => {
     iconoRol.classList.add('ri-user-line');
     const textoRol = document.createElement('p');
     textoRol.classList.add('valor__rol');
-    textoRol.textContent = `Rol: Voluntario`;
+    textoRol.textContent = `Rol: ${info.rol}`;
     itemRol.append(iconoRol, textoRol);
 
     // Sub-hijo: Seccional
