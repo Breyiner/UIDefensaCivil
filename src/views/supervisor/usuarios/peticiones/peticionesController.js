@@ -3,9 +3,9 @@
  * Renderiza y pagina la bandeja de entrada de nuevos voluntarios que esperan aprobación.
  * Al interactuar, levanta el modal especializado que permite Aprobar o Rechazar el ingreso.
  */
-import { alertas as alerta, api, paginacion } from "@/helpers";
-import { usuario as modalUsuario } from "@/helpers/modales";
-import { tarjetaPeticion } from "@/componentes/tarjetas";
+import { alertas as alerta, api, paginacion } from "@/helpers/index.js";
+import { usuario as modalUsuario } from "@/helpers/modales/index.js";
+import { tarjetaPeticion } from "@/componentes/tarjetas/index.js";
 
 export default async () => {
 

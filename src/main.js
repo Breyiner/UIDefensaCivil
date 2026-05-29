@@ -71,21 +71,22 @@ window.addEventListener("hashchange", async () => {
 window.addEventListener("DOMContentLoaded", async () => {
     const layout = document.querySelector(".layout");
     if (!layout) {
-        console.error("❌ No se encontró el elemento .layout en el DOM");
+        console.error(" No se encontró el elemento .layout en el DOM");
         return;
     }
 
     const main = document.querySelector("#app");
     if (!main) {
-        console.error("❌ No se encontró #app");
+        console.error(" No se encontró #app");
         return;
     }
 
+    await router(main);
+    
     if (isAuth()) {
         layout.insertAdjacentHTML("afterbegin", componenteHeader); // Insertar HTML del header
         await header(); // Luego inicializar el header
     }
-    await router(main);
     
     initTomSelect();
 });

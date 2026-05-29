@@ -182,8 +182,6 @@ const volverHome = async (hash) => {
 
 const validarRol = async (hash) => {
 
-    console.log("validarRol hash:", hash);
-
     const roleId = parseInt(localStorage.getItem('role_id'));
 
     const homes = {
