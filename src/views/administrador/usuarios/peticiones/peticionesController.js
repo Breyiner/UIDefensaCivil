@@ -7,6 +7,7 @@
 import { alertas as alerta, api, paginacion } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { usuario as modalUsuario } from "@/helpers/modales/index.js";
+import { tarjetaPeticion } from "@/componentes/gestionUser/index.js";
 
 export default async () => {
 

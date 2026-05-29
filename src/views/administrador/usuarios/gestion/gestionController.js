@@ -5,11 +5,11 @@
  * paginación y despliega el modal interactivo de usuario.
  */
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { alertas as alerta, api, paginacion } from "@/helpers/index.js";
+import { alertas as alerta, api, adjuntarNoValida, filtrarDatos } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { usuario as modalUsuario } from "@/helpers/modales/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { tarjetaEstados } from "@/componentes/tarjetas/index.js";
+import { tarjetaEstados } from "@/componentes/gestionUser/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { searchBar, dropdownFiltro } from "@/componentes/filter/index.js";
 
@@ -39,7 +39,7 @@ export default async () => {
     // Regla global retroceder al hub Dashboard del supervisor
     botonBack.onclick = () => {
         if (window.procesoPeticion) return;
-        location.href = `#/supervisor/`;
+        location.href = `#/administrador/`;
     };
 
     // Mensaje que se muestra en pantalla si no se encuentran registros que coincidan con los filtros
