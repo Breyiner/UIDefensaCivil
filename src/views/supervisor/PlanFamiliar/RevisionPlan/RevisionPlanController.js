@@ -3,8 +3,10 @@
  * Facilita las acciones críticas para un Supervisor al evaluar un Plan Familiar.
  * Gestiona botones asíncronos para Aprobar, Rechazar (Definitivo/Cambios) y Ver PDF.
  */
-import { factorRiesgoVentana, integranteVentana, mascotaVentana, recursosVentana } from "@/componentes/ver_EstadoSupervisor";
-import { alertas as alerta, api } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { factorRiesgoVentana, integranteVentana, mascotaVentana, recursosVentana } from "@/componentes/ver_EstadoSupervisor/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta, api } from "@/helpers/index.js";
 
 const RevisionPlanController = async () => {
 
@@ -214,8 +216,9 @@ const RevisionPlanController = async () => {
         integrantesMascotas.append(mascotaCont);
 
         btnVisualizar.addEventListener("click", () => {
-
-            MascotaVentana(mascota, info);
+            // Invoca la ventana modal para visualizar los detalles y vacunas de la mascota seleccionada.
+            // Esto es muy importante para permitirle al supervisor auditar la información del animal doméstico.
+            mascotaVentana(mascota, info);
         });
     });
 

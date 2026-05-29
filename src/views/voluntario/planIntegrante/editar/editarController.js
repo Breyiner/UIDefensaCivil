@@ -4,12 +4,18 @@
  * Además implementa en la parte inferior un Accordion (Acordeón HTML) expansible
  * para Listar, Añadir y Gestionar las "Enfermedades Médicas / Afecciones" Específicas del Sujeto.
  */
-import { api } from "@/helpers";
-import { alertas as alerta } from "@/helpers";
-import { cargarDatosHelper as cargarDatos } from "@/helpers";
-import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
-import { integrante as modalIntegrante } from "@/helpers/modales";
-import { acordeon } from "@/helpers"; // Script Inyector Eventos Acordeon Toggle JS Vainilla
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { integrante as modalIntegrante } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { acordeon } from "@/helpers/index.js"; // Script Inyector Eventos Acordeon Toggle JS Vainilla
 
 export default async () => {
   // Selectores UI Básicos Control

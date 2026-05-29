@@ -4,9 +4,12 @@
  * Muestra las siglas (acronym) e incluye la funcionalidad de crear o editar mediante modales.
  */
 
-import { api } from "@/helpers";
-import { tipoDocumento } from "@/helpers/modales";
-import { verEstado_doubleInput } from "@/componentes/ver_Estado";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { tipoDocumento } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { verEstado_doubleInput } from "@/componentes/ver_Estado/index.js";
 
 export default async () => {
 

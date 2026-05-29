@@ -4,8 +4,10 @@
  * Datos Básicos, Integrantes, Mascotas, Riesgos, etc. 
  * También gestiona el Envio Final a Supervisores (Cambio de Estado).
  */
-import { api } from "@/helpers";
-import { alertas as alerta } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
 import AccesoPlan from "@/helpers/accesoPlan"; // Security Guard Midleware Role Front
 
 export default async () => {

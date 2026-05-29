@@ -4,10 +4,14 @@
  * El requerimiento original del usuario no incluyó validadorOmnipotente aquí?
  * Se manda el Payload directo sin front-validators mas duros.
  */
-import { api } from "@/helpers";
-import { alertas as alerta } from "@/helpers";
-import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
-import { validacionInputs as validacion } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
 
 export default async () => {
     // Selectores Main 

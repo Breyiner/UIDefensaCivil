@@ -4,9 +4,12 @@
  * Valida el correo electrónico y previene múltiples envíos simultáneos.
  */
 // import { forgotPasswordController } from "..";
-import { alertas as alerta } from "@/helpers";
-import { api } from "@/helpers";
-import { validacionInputs as validacion } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
 
 // Exportación por defecto de la lógica de recuperación de contraseña
 const forgotPasswordController = () => {

@@ -54,15 +54,30 @@ const initTomSelect = () => {
 
 // // 2. Ejecuta la inicialización lógica general después de que la ruta o hash cambie en el navegador
 window.addEventListener("hashchange", async () => {
-
-    //El elemento "layout" debe existir en el DOM antes
     const main = document.querySelector("#app");
+    const layout = document.querySelector(".layout");
+
+    // Verifica si el usuario está autenticado y si el encabezado ya existe en la vista.
+    // Esto es muy importante para asegurar que el header esté disponible inmediatamente después del inicio de sesión.
+    if (isAuth()) {
+        const headerEl = document.querySelector(".header");
+        if (!headerEl && layout) {
+            layout.insertAdjacentHTML("afterbegin", componenteHeader); // Inserta el encabezado en el DOM
+        }
+    } else {
+        const headerEl = document.querySelector(".header");
+        if (headerEl) {
+            headerEl.remove(); // Remueve el encabezado del DOM si no está autenticado (como en el Logout)
+        }
+    }
 
     await router(main); // Invoca el enrutador para cargar la nueva vista dentro de "#app"
     
+    // Inicializa la lógica del encabezado si el usuario está autenticado.
+    // Esto es muy importante para activar los eventos clic y la carga de notificaciones en el header recién insertado o actualizado.
     if (isAuth()) {
         await header();
-    } // Ejecuta las interacciones o eventos del header
+    }
     
     initTomSelect(); // <--- Inicializa los selectores TomSelect de la pantalla actual recién cargada
 });
@@ -81,10 +96,17 @@ window.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    await router(main);
-    
+    // Inserta el encabezado si el usuario está autenticado en la carga inicial de la página.
+    // Esto es muy importante para que el botón de volver (botonBack) exista en el DOM antes de que se ejecute el controlador de la ruta en el router.
     if (isAuth()) {
         layout.insertAdjacentHTML("afterbegin", componenteHeader); // Insertar HTML del header
+    }
+
+    await router(main);
+    
+    // Inicializa la lógica del encabezado (como contadores de notificaciones y eventos) después de ejecutar la ruta.
+    // Esto es muy importante para que la interacción del encabezado esté totalmente operativa.
+    if (isAuth()) {
         await header(); // Luego inicializar el header
     }
     

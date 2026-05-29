@@ -4,8 +4,10 @@
  * personalizado y provee botones de acceso rápido para la creación
  * de nuevos Planes Familiares o la consulta de planes existentes.
  */
-import { alertas as alerta } from "@/helpers";
-import { api } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
 
 export default () => {
   // Selecciona el elemento de texto en la pantalla donde se escribirá la bienvenida

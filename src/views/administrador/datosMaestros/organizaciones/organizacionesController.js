@@ -4,9 +4,12 @@
  * visualizando a su vez la relación foránea (Seccional a la que pertenece).
  */
 // import crearLista from "@/helpers/crearLista";
-import { api } from "@/helpers";
-import { organizacion } from "@/helpers/modales";
-import { verEstado_select } from "@/componentes/ver_Estado";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { organizacion } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { verEstado_select } from "@/componentes/ver_Estado/index.js";
 
 export default async () => {
 

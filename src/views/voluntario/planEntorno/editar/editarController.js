@@ -4,8 +4,10 @@
  * (como fachada o riesgos aledaños), revisar que cumpla con el peso y formato
  * permitido, y reemplazar cualquier foto anterior vinculada al plan familiar.
  */
-import { alertas as alerta } from "@/helpers";
-import { api } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
 
 export default async () => {
 

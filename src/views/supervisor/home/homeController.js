@@ -5,8 +5,10 @@
  * y provee navegación rápida a los sub-módulos clave.
  */
 import { crearAside, crearAsideSupervisor } from "@/componentes/navegacion/aside";
-import { alertas as alerta } from "@/helpers";
-import { api } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
 
 export default async () => {
     // Petición al endpoint del dashboard para obtener un objeto de métricas generales consolidadas

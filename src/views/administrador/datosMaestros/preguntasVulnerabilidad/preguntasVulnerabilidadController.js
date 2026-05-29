@@ -4,9 +4,12 @@
  * los índices de vulnerabilidad de un Plan Familiar.
  */
 
-import { api } from "@/helpers";
-import { preguntaVulnerabilidad as vulnerabilidad } from "@/helpers/modales";
-import { verEstado_select } from "@/componentes/ver_Estado";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { preguntaVulnerabilidad as vulnerabilidad } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { verEstado_select } from "@/componentes/ver_Estado/index.js";
 
 export default async () => {
 

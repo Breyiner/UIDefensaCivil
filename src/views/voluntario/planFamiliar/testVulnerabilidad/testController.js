@@ -7,8 +7,10 @@
  * de una conexión lenta.
  * Al concluír, califica la encuesta y decide si el Plan Familiar se aprueba o se expulsa.
  */
-import { alertas as alerta } from "@/helpers";
-import { api } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
 
 export default async () => {
   // Clave o Identificación de la familia en progreso

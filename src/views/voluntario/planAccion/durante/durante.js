@@ -4,12 +4,18 @@
  * Posiciona al usuario en la pestaña 'Durante', permitiendo ir adelante 
  * ('Después') o regresar atrás ('Antes') libremente.
  */
-import { api } from "@/helpers";
-import { alertas as alerta } from "@/helpers";
-import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
-import { cargarDatosHelper as cargarDatos } from "@/helpers";
-import { validacionInputs as validacion } from "@/helpers";
-import { planAccion as modalPlanAccion } from "@/helpers/modales";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { planAccion as modalPlanAccion } from "@/helpers/modales/index.js";
 
 export default async () => {
   // Referencias a los elementos que siempre están en la pantalla
@@ -176,7 +182,7 @@ export default async () => {
 
     // Evento sobre el botón con símbolo de "+" para agregar más acciones a esta fase
     const botonAñadir = document.querySelector(".gestionarAfecciones__boton");
-    
+
     if (esSupervisor) {
       botonAñadir.classList.add("oculto");
     }

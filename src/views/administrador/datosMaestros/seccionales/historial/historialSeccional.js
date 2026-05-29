@@ -1,5 +1,6 @@
 import historial from "@/componentes/historial/historial";
-import { api } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
 
 const historialSeccional = async () => {
     

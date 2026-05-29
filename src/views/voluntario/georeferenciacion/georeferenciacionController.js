@@ -4,8 +4,10 @@
  * secuencial lineal paso-a-paso en la ruta "#/voluntario-planFamiliar/georeferenciacion/..."
  * en vez de en el modo edicion general por menús.
  */
-import { alertas as alerta } from "@/helpers";
-import { api } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
 
 export default async () => {
   // Selectores Identidad

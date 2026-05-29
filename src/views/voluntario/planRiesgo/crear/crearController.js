@@ -3,9 +3,12 @@
  * Formulario inicial simplificado para registrar un tipo de amenaza ("Sismo", "Inundación").
  * Envía el Payload directo porque el cliente confía en el validador estricto del HTML Required Properties o DB side.
  */
-import { api } from "@/helpers";
-import { alertas as alerta } from "@/helpers";
-import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
 
 export default async () => {
     // Selectores DOM Main Nav and Tools

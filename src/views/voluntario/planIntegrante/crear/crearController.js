@@ -4,10 +4,14 @@
  * RH Sangre, Parentesco). 
  * Utiliza el "Validador Automático" (helper inteligente) en lugar de validación manual campo por campo.
  */
-import { api } from "@/helpers";
-import { alertas as alerta } from "@/helpers";
-import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
-import { validacionInputs as validacion } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
 
 export default async () => {
     // Selectores Form Layout

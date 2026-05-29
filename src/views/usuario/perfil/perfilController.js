@@ -5,9 +5,12 @@
  * de datos sensibles como Teléfono, Correo y Contraseña. 
  * También maneja el cierre de sesión seguro.
  */
-import { alertas as alerta } from "@/helpers";
-import { api } from "@/helpers";
-import { cargarDatosHelper as cargarDatos } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
 
 export default async () => {
     // Referencias al DOM (Campos de Muestra)

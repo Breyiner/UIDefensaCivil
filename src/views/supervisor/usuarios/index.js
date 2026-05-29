@@ -4,8 +4,8 @@
  */
 
 // Importación referenciada de los módulos controladores
-import PeticionesController from "./peticiones/peticionesController";
-import GestionController from "./gestion/gestionController"
+import PeticionesController from "./peticiones/peticionesController.js";
+import GestionController from "./gestion/gestionController.js"
 
 // Export múltiple (Barrel pattern)
 export {PeticionesController,GestionController};

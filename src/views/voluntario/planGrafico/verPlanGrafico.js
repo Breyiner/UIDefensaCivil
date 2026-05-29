@@ -4,10 +4,14 @@
  * que la familia ha subido sobre su vivienda. 
  * Permite Eliminar, Editar su descripción, y abrir Modales para "Ver más" amplio.
  */
-import { api } from "@/helpers";
-import { alertas as alerta } from "@/helpers";
-import { paginacion } from "@/helpers";
-import { graficoVivienda as modalGraficoVivienda } from "@/helpers/modales";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { paginacion } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { graficoVivienda as modalGraficoVivienda } from "@/helpers/modales/index.js";
 
 export default async () => {
 

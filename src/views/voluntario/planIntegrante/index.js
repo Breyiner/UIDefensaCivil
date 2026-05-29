@@ -3,8 +3,8 @@
  * Archivo Barril que exporta los módulos del CRUD para gestionar 
  * a cada persona que compone el núcleo familiar (Miembros).
  */
-import verPlanIntegrantes from "./verPlanIntegrantes";
-import crearController from "./crear/crearController";
-import editarController from "./editar/editarController";
+import verPlanIntegrantes from "./verPlanIntegrantes.js";
+import crearController from "./crear/crearController.js";
+import editarController from "./editar/editarController.js";
 
 export { verPlanIntegrantes, crearController, editarController };

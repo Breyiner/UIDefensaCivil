@@ -3,10 +3,14 @@
  * Fetcher asíncrono para renderizar las tarjetas de cada animal perteneciente al núcleo familiar.
  * Usa lógica condicional Switch Case para pintar Iconos SVG según 'Especie' de la Mascota.
  */
-import { api } from "@/helpers";
-import { alertas as alerta } from "@/helpers";
-import { mascota as modalMascota } from "@/helpers/modales";
-import { paginacion } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { mascota as modalMascota } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { paginacion } from "@/helpers/index.js";
 
 export default async () => {
 

@@ -10,33 +10,34 @@
 // ==========================================
 
 // Importa controladores del módulo de Autenticación (Login, Registro, Recuperar Contraseña)
-import * as auth from "../views/auth/index.js"
+// Importa controladores del módulo de Autenticación (Login, Registro, Recuperar Contraseña) desde el barril central de auth. Sirve para agrupar las rutas de validación de identidad, lo cual es muy importante para asegurar que solo usuarios válidos entren al sistema.
+import * as auth from "@/views/auth/index.js"
 
 // Importa controladores de los paneles principales (Dashboards) según el rol
-import VoluntarioHomeController from "../views/voluntario/home/homeController.js";
-import AdministradorHomeController from "../views/administrador/home/homeController.js"
-import SupervisorHomeController from "../views/supervisor/home/homeController.js"
+import VoluntarioHomeController from "@/views/voluntario/home/homeController.js";
+import AdministradorHomeController from "@/views/administrador/home/homeController.js"
+import SupervisorHomeController from "@/views/supervisor/home/homeController.js"
 
 // Importa los sub-módulos pertenecientes al flujo del "Plan Familiar" (Rol Voluntario)
-import * as planFamiliar from "../views/voluntario/planFamiliar/index.js";
-import * as GeoreController from "../views/voluntario/georeferenciacion/index.js";
-import * as verPlan from "../views/voluntario/verPlanFamiliar/index.js";
-import * as planDatos from "../views/voluntario/planDatos/index.js";
-import * as Planintegrante from "../views/voluntario/planIntegrante/index.js";
-import * as planMascota from "../views/voluntario/planMascota/index.js";
-import * as planRiesgo from "../views/voluntario/planRiesgo/index.js";
-import * as planRecurso from "../views/voluntario/planRecurso/index.js";
-import * as PlanEntorno from "../views/voluntario/planEntorno/index.js";
-import * as PlanGrafico from "../views/voluntario/planGrafico/index.js";
-import * as planAccion from "../views/voluntario/planAccion/index.js"
+import * as planFamiliar from "@/views/voluntario/planFamiliar/index.js";
+import * as GeoreController from "@/views/voluntario/georeferenciacion/index.js";
+import * as verPlan from "@/views/voluntario/verPlanFamiliar/index.js";
+import * as planDatos from "@/views/voluntario/planDatos/index.js";
+import * as Planintegrante from "@/views/voluntario/planIntegrante/index.js";
+import * as planMascota from "@/views/voluntario/planMascota/index.js";
+import * as planRiesgo from "@/views/voluntario/planRiesgo/index.js";
+import * as planRecurso from "@/views/voluntario/planRecurso/index.js";
+import * as PlanEntorno from "@/views/voluntario/planEntorno/index.js";
+import * as PlanGrafico from "@/views/voluntario/planGrafico/index.js";
+import * as planAccion from "@/views/voluntario/planAccion/index.js"
 
 // Importa módulos administrativos y de supervisión de Usuarios y Planes
-import * as SupervisorUsuarios from "../views/supervisor/usuarios/index.js"
-import * as supervisorPlanFamiliar from "../views/supervisor/PlanFamiliar/index.js"
-import * as datosMaestros from "../views/administrador/datosMaestros/index.js"
-import * as AdministradorUsuarios from "../views/administrador/usuarios/index.js"
-import * as usuario from "../views/usuario/index.js"
-import notificacionesController from "../views/notificaciones/notificacionesController.js";
+import * as SupervisorUsuarios from "@/views/supervisor/usuarios/index.js"
+import * as supervisorPlanFamiliar from "@/views/supervisor/PlanFamiliar/index.js"
+import * as datosMaestros from "@/views/administrador/datosMaestros/index.js"
+import * as AdministradorUsuarios from "@/views/administrador/usuarios/index.js"
+import * as usuario from "@/views/usuario/index.js"
+import notificacionesController from "@/views/notificaciones/notificacionesController.js";
 
 // Configuraciones predefinidas de permisos para cada ruta
 const publicRoute = { private: false, permissions: [] };
@@ -317,7 +318,7 @@ export const routes = {
     plan_familiar: {
 
       "": {
-        
+
         path: `supervisor/PlanFamiliar/Listado/index.html`,
         controlador: supervisorPlanFamiliar.ListadoPlanController,
         config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
@@ -335,7 +336,7 @@ export const routes = {
         controlador: supervisorPlanFamiliar.RevisionPlanController,
         config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
       },
-      
+
       // FAMILIA MENU: Se presentan en forma de listado las opciones de edicion del plan familiar como: datos, integrantes, mascotas, recursos, etc...
       familia: {
         path: `voluntario/verPlanFamiliar/menu/index.html`,
@@ -353,13 +354,13 @@ export const routes = {
       // 2. INTEGRANTES
       integrantes: {
 
-        "":{
+        "": {
           path: `voluntario/planIntegrante/index.html`,
           controlador: Planintegrante.verPlanIntegrantes,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
 
-        crear:{
+        crear: {
           path: `voluntario/planIntegrante/crear/index.html`,
           controlador: Planintegrante.crearController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
@@ -374,17 +375,17 @@ export const routes = {
 
       // 3. Mascotas y animales
       mascotas: {
-        "":{
+        "": {
           path: `voluntario/planMascota/index.html`,
           controlador: planMascota.verPlanMascota,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        crear:{
+        crear: {
           path: `voluntario/planMascota/crear/index.html`,
           controlador: planMascota.crearController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        editar:{
+        editar: {
           path: `voluntario/planMascota/editar/index.html`,
           controlador: planMascota.editarController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
@@ -394,37 +395,37 @@ export const routes = {
       // 4. Factores de Riesgo
 
       factores_de_riesgo: {
-        "":{
+        "": {
           path: `voluntario/planRiesgo/index.html`,
           controlador: planRiesgo.verPlanRiesgo,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        crear:{
+        crear: {
           path: `voluntario/planRiesgo/crear/index.html`,
           controlador: planRiesgo.crearController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        editar:{
+        editar: {
           path: `voluntario/planRiesgo/editar/index.html`,
           controlador: planRiesgo.editarController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         }
       },
-      
+
       // 5. Recursos Disponibles
 
       recursos: {
-        "":{
+        "": {
           path: `voluntario/planRecurso/index.html`,
           controlador: planRecurso.verController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        crear:{
+        crear: {
           path: `voluntario/planRecurso/crear/index.html`,
           controlador: planRecurso.crearController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        editar:{
+        editar: {
           path: `voluntario/planRecurso/editar/index.html`,
           controlador: planRecurso.editarController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
@@ -444,38 +445,38 @@ export const routes = {
         config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
       },
 
-      grafico_vivienda:{
+      grafico_vivienda: {
 
-        "":{
+        "": {
           path: `voluntario/planGrafico/index.html`,
           controlador: PlanGrafico.verController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        crear:{
+        crear: {
           path: `voluntario/planGrafico/crear/index.html`,
           controlador: PlanGrafico.crearController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        editar:{
+        editar: {
           path: `voluntario/planGrafico/editar/index.html`,
           controlador: PlanGrafico.editarController,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         }
       },
 
-      plan_de_accion:{
+      plan_de_accion: {
 
-        antes:{
+        antes: {
           path: `voluntario/planAccion/index.html`,
           controlador: planAccion.antes,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        durante:{
+        durante: {
           path: `voluntario/planAccion/index.html`,
           controlador: planAccion.durante,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
         },
-        despues:{
+        despues: {
           path: `voluntario/planAccion/index.html`,
           controlador: planAccion.despues,
           config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },

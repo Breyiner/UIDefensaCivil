@@ -3,10 +3,14 @@
  * Usa los componentes de filtrado (barra de búsqueda y selector de estado) y el helper 
  * de filtrado dinámico para permitir búsquedas locales rápidas y eficientes.
  */
-import { alertas as alerta, api, adjuntarNoValida, filtrarDatos } from "@/helpers";
-import { usuario as modalUsuario } from "@/helpers/modales";
-import { tarjetaEstados } from "@/componentes/tarjetas";
-import { searchBar, dropdownFiltro } from "@/componentes/filter";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta, api, adjuntarNoValida, filtrarDatos } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { usuario as modalUsuario } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { tarjetaEstados } from "@/componentes/tarjetas/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { searchBar, dropdownFiltro } from "@/componentes/filter/index.js";
 
 export default async () => {
 

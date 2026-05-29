@@ -1,5 +1,7 @@
-import { api } from "@/helpers";
-import { paginacion } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { paginacion } from "@/helpers/index.js";
 import tiempoRelativo from "@/componentes/tiempos/tiempoRelativo";
 
 const notificacionesController = async () => {

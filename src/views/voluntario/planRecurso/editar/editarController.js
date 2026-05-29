@@ -4,11 +4,16 @@
  * para corregirlos y actualizalos en base de datos.
  * Emplea set estricto de Validaciones Client Side Keydown Event Native.
  */
-import { api } from "@/helpers";
-import { alertas as alerta } from "@/helpers";
-import { validacionInputs as validacion } from "@/helpers"; // Suite Validacion Estricta Vainilla DOM
-import { cargarDatosHelper as cargarDatos } from "@/helpers";
-import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js"; // Suite Validacion Estricta Vainilla DOM
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
 
 export default async () => {
   // Manejo Base DOM Window Document
