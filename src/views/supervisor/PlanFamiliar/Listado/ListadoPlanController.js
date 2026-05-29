@@ -3,15 +3,11 @@
  * Facilita las acciones críticas para un Supervisor al evaluar un Plan Familiar.
  * Gestiona botones asíncronos para Aprobar, Rechazar (Definitivo/Cambios) y Ver PDF.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import paginacion from "../../../../helpers/paginacion";
-// import { dropdownFiltro } from "../../../../componentes/filter/dropdown"
-// import { searchBar } from "../../../../componentes/filter/searchBar"
-import { ver } from "../../../../helpers/modales/integrante";
-import { color } from "chart.js/helpers";
-import { estado_planes, estado_usuarios, getBadgeClase } from "../../../../helpers/cambioEstado";
-import { cardPlanFamiliar } from "../../../../componentes/cards/planFamiliarCard";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta, api, paginacion, estado_planes, estado_usuarios, getBadgeClase } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { integrante } from "@/helpers/modales/index.js";
+import { cardPlanFamiliar } from "@/componentes/cards/planFamiliarCard";
 
 const ListadoPlanController = async () => {
 

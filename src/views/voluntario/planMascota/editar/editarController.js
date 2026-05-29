@@ -3,12 +3,18 @@
  * Actualizar Datos Base Animal (Raza, Edad..).
  * Integra en Layout Abajo un Wrapper Acordeón Especial donde puedes Añadir N Vacunas usando Modales Externos Interconectados.
  */
-import * as api from "../../../../helpers/api";
-import * as alerta from "../../../../helpers/alertas";
-import * as cargarDatos from "../../../../helpers/cargarDatos";
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as modalMascota from "../../../../helpers/modales/mascota"; // Modulo SweetAlert Vacunas
-import acordeon from "../../../../helpers/acordeon"; // UI Expander JS
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { mascota as modalMascota } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { acordeon } from "@/helpers/index.js"; // UI Expander JS
 
 export default async () => {
   // UI Nav elements

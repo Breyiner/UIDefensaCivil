@@ -4,10 +4,13 @@
  * Gestiona múltiples métricas visuales: Historial de acciones (Auditoría),
  * Gráficos de dona (Estados), barras (Roles) y líneas temporales (Tendencias).
  */
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
-import ventanaHistorial from "../../../helpers/ventanaHistorial";
-import * as canva from "../../../helpers/canvas";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+import ventanaHistorial from "@/helpers/ventanaHistorial";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import * as canva from "@/helpers/canvas/index.js";
 
 export default async () => {
   const nombre = localStorage.getItem("full_name");

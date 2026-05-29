@@ -4,10 +4,14 @@
  * y asigna la ubicación inicial de su residencia.
  * Si esto falla o no sirve, nada de los siguientes módulos existirá.
  */
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import * as validacion from "../../../../helpers/validacionInputs";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
 
 export default async () => {
   // Elementos principales de la pantalla

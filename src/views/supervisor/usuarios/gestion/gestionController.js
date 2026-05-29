@@ -3,6 +3,7 @@
  * Usa los componentes de filtrado (barra de búsqueda y selector de estado) y el helper 
  * de filtrado dinámico para permitir búsquedas locales rápidas y eficientes.
  */
+<<<<<<< HEAD
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import * as modalUsuario from "../../../../helpers/modales/usuario";
@@ -15,6 +16,16 @@ import { dropdownFiltro } from "../../../../componentes/filter/dropdown";
 import { adjuntarNoValida } from "../../../../helpers/adjuntarOpciones";
 // Importamos el helper central de filtrado de datos del cliente
 import { filtrarDatos } from "../../../../helpers/filter";
+=======
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta, api, adjuntarNoValida, filtrarDatos } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { usuario as modalUsuario } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { tarjetaEstados } from "@/componentes/tarjetas/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { searchBar, dropdownFiltro } from "@/componentes/filter/index.js";
+>>>>>>> origin/develop
 
 export default async () => {
 
@@ -128,8 +139,6 @@ export default async () => {
 
         // Recuperar Meta-ID guardado en tiempo de inyección (data-id)
         const userId = tarjetaClickeada.dataset.id;
-
-        console.log("USER ID", userId);
 
 
         // Lanza función "Ver" contenida en "modales/usuario.js" pasando 

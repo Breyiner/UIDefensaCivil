@@ -3,9 +3,12 @@
  * Maneja el catálogo de vulnerabilidades con las que se puede asociar una evaluación
  * de Riesgo. Utiliza los helpers básicos de lista paginada y modal.
  */
-import * as vulnerabilidad from "../../../../helpers/modales/vulnerabilidad";
-import * as api from "../../../../helpers/api.js";
-import { verEstado_input } from "../../../../componentes/ver_Estado/varianteEstados.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { vulnerabilidad } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { verEstado_input } from "@/componentes/ver_Estado/index.js";
 
 export default async () => {
 

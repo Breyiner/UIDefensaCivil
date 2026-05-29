@@ -5,9 +5,9 @@
  */
 
 // Importaciones de los submódulos controladores
-import antes from "./antes/antes";
-import durante from "./durante/durante";
-import despues from "./despues/despues";
+import antes from "./antes/antes.js";
+import durante from "./durante/durante.js";
+import despues from "./despues/despues.js";
 
 // Exportación centralizada
 export {antes,durante,despues};

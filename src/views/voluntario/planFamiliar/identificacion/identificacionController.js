@@ -6,12 +6,16 @@
  * Si el usuario pulsa "Subir Foto" se salva en la memoria del navegador 
  * lo que tiene escrito por ahora para no perder su tiempo una vez vuelva de dicha pantalla.
  */
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import { cargarDatos } from "../../../../helpers/cargarDatos";
-import * as localStorage from "../../../../helpers/localStorage";
-import * as validacion from "../../../../helpers/validacionInputs";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+import { cargarDatos } from "@/helpers/cargarDatos";
+import * as localStorage from "@/helpers/localStorage";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
 
 export default async () => {
   // Encontrar en la dirección actual el número identificador de esta familia específica

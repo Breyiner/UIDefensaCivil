@@ -1,6 +1,9 @@
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
-import * as validacion from "../../../helpers/validacionInputs";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
 
 const verifyCodeController = () => {
 
@@ -41,7 +44,6 @@ const verifyCodeController = () => {
     //     input.addEventListener("input", () => {
     //         // Esto imprimirá el estado de los 6 cuadros al tiempo con cada pulsación
     //         const enTiempoReal = Array.from(inputsCodigo).map(i => i.value).join("");
-    //         console.log("Escribiendo código... ", enTiempoReal);
     //     });
     // });
 
@@ -61,7 +63,6 @@ const verifyCodeController = () => {
         }
 
         const codigo = Array.from(inputsCodigo).map(i => i.value).join("");
-        console.log("Código ingresado:", codigo);
 
         if (codigo.length !== 6) {
             await alerta.alertaError("Por favor, ingrese el código completo de 6 dígitos.");

@@ -4,12 +4,18 @@
  * Permite asignar miembros de la familia a los factores de riesgo e ir agregando
  * acciones preventivas específicas usando ventanas emergentes.
  */
-import * as api from "../../../../helpers/api";
-import * as alerta from "../../../../helpers/alertas";
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as cargarDatos from "../../../../helpers/cargarDatos";
-import * as validacion from "../../../../helpers/validacionInputs";
-import * as modalPlanAccion from "../../../../helpers/modales/planAccion";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { planAccion as modalPlanAccion } from "@/helpers/modales/index.js";
 
 
 export default async () => {
@@ -215,8 +221,8 @@ export default async () => {
     botonSiguiente.addEventListener("click", async () => {
       if (window.procesoPeticion) return; // Protección temporal mientras carga
       if (esSupervisor) {
-          location.href = `#/supervisor/plan_familiar/plan_de_accion/durante?familia_id=${id}`;
-          return;
+        location.href = `#/supervisor/plan_familiar/plan_de_accion/durante?familia_id=${id}`;
+        return;
       }
       location.href = `#/voluntario/plan_familiar/plan_de_accion/durante?familia_id=${id}`; // Lo lleva a la siguiente pantalla
     });
@@ -227,7 +233,7 @@ export default async () => {
 
   if (familyPlan.status_plan_id === 6 || familyPlan.status_plan_id === 7) {
     containerTipoAccion.querySelectorAll(".gestionarAfecciones__afeccion").forEach(btn => {
-      btn.disabled=true;
+      btn.disabled = true;
     });
     containerTipoAccion.querySelectorAll(".gestionarAfecciones__boton").forEach(btn => {
       btn.classList.add("oculto");
@@ -236,7 +242,7 @@ export default async () => {
       btn.classList.add("oculto");
     });
     form.querySelectorAll(".selector").forEach(select => {
-      select.disabled=true;
+      select.disabled = true;
     });
   }
 };

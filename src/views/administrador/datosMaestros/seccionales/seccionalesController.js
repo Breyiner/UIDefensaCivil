@@ -4,9 +4,12 @@
  * diferentes organizaciones de voluntarios. Renderiza su lista y formulario modal.
  */
 
-import * as seccional from "../../../../helpers/modales/seccional.js";
-import * as api from "../../../../helpers/api.js";
-import { verEstado_input } from "../../../../componentes/ver_Estado/varianteEstados.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { seccional } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { verEstado_input } from "@/componentes/ver_Estado/index.js";
 
 export default async () => {
     // const datos = await api.get("sectionals/");

@@ -3,9 +3,12 @@
  * Administra el catálogo de recursos disponibles para gestión de riesgos.
  * Permite visualizar el listado completo y abrir modales de edición/creación.
  */
-import * as recurso from "../../../../helpers/modales/recurso";
-import * as api from "../../../../helpers/api.js";
-import { verEstado_doubleInput } from "../../../../componentes/ver_Estado/varianteEstados.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { recurso } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { verEstado_doubleInput } from "@/componentes/ver_Estado/index.js";
 
 export default async () => {
 
@@ -27,7 +30,6 @@ export default async () => {
     const recargar = async () => {
 
         const datosDocumentos = await api.get("resources/");
-        console.log(datosDocumentos);
         
         const contenedor = document.querySelector(".listaDatos");
         contenedor.innerHTML = "";
