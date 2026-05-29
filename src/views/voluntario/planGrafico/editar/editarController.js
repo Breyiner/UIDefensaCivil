@@ -4,8 +4,10 @@
  * Si te equivocaste de mapa, toca Eliminar y Crear otro. 
  * El Modulo "EDITAR" es EXCLUSIVAMENTE para actualizar el campo Texto 'Description' del mismo.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
 
 export default async () => {
   // Selectores UI Básicos Textos/Forms

@@ -4,8 +4,10 @@
  * Escucha los clics en las diferentes tarjetas ("cards") y redirige
  * a la vista específica del catálogo seleccionado (ej. Seccionales, Sectores).
  */
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
 
 export default async () => {
 

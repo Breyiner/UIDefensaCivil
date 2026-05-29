@@ -4,10 +4,10 @@
  * usuarios del sistema (exceptuando pendientes). Se apoya en el helper de
  * paginación y despliega el modal interactivo de usuario.
  */
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import paginacion from "../../../../helpers/paginacion";
-import * as modalUsuario from "../../../../helpers/modales/usuario";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta, api, paginacion } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { usuario as modalUsuario } from "@/helpers/modales/index.js";
 
 export default async () => {
 

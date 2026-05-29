@@ -1,35 +1,39 @@
-.introduccion{
-    display: none;
+.introduccion {
+  display: none;
 }
 
 @media (min-width: 768px) {
-  .introduccion{
+  .introduccion {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: end;
     gap: 30px;
-    background-image: url(../../../public/fondo.png);
+    background-image: url(/fondo.png);
     height: 95%;
     width: 100%;
     border-radius: 40px 0px 0px 40px;
   }
-  .introduccion__logo{
+
+  .introduccion__logo {
     width: 35%;
   }
-  .introduccion__titulo{
+
+  .introduccion__titulo {
     font-size: var(--tamano-titulo);
     font-family: var(--fuente-titulos);
     text-align: center;
   }
-  .introduccion__texto{
+
+  .introduccion__texto {
     font-size: var(--tamano-grande);
     font-family: var(--fuente-contenido);
     width: 70%;
     text-align: center;
     font-weight: 500;
   }
-  .introduccion__imagen{
+
+  .introduccion__imagen {
     width: 37%;
   }
 }

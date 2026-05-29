@@ -3,19 +3,17 @@
  * Facilita las acciones críticas para un Supervisor al evaluar un Plan Familiar.
  * Gestiona botones asíncronos para Aprobar, Rechazar (Definitivo/Cambios) y Ver PDF.
  */
-import factorRiesgoVentana from "../../../../componentes/ver_EstadoSupervisor/factorRiesgoVentana";
-import integranteVentana from "../../../../componentes/ver_EstadoSupervisor/integranteVentana";
-import MascotaVentana from "../../../../componentes/ver_EstadoSupervisor/mascotaVentana";
-import recursosVentana from "../../../../componentes/ver_EstadoSupervisor/recursosVentana";
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { factorRiesgoVentana, integranteVentana, mascotaVentana, recursosVentana } from "@/componentes/ver_EstadoSupervisor/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta, api } from "@/helpers/index.js";
 
 const RevisionPlanController = async () => {
 
     const id = location.hash.split("=")[1];
 
     const info = await api.get(`familyPlans/${id}`);
-    
+
 
     const familyMembers = await api.get(`familyMembers/`);
 
@@ -49,7 +47,7 @@ const RevisionPlanController = async () => {
     introduccionCont.classList.add("tarjeta-contenido");
 
     const imagenIcono = document.createElement("img");
-    imagenIcono.src = "../../../../public/icon/familyicon.svg";
+    imagenIcono.src = "/icon/familyicon.svg";
     imagenIcono.alt = "iconofamilia";
     imagenIcono.classList.add("imagen--icono");
 
@@ -154,8 +152,6 @@ const RevisionPlanController = async () => {
 
         const miembro = await api.get(`members/${integrante.member_id}`);
 
-        console.log("miembro", miembro);
-
         const relacion = await api.get(`kinships/${miembro.kinship_id}`);
 
         const integranteCont = document.createElement("div");
@@ -220,8 +216,9 @@ const RevisionPlanController = async () => {
         integrantesMascotas.append(mascotaCont);
 
         btnVisualizar.addEventListener("click", () => {
-
-            MascotaVentana(mascota, info);
+            // Invoca la ventana modal para visualizar los detalles y vacunas de la mascota seleccionada.
+            // Esto es muy importante para permitirle al supervisor auditar la información del animal doméstico.
+            mascotaVentana(mascota, info);
         });
     });
 
@@ -288,16 +285,11 @@ const RevisionPlanController = async () => {
 
     recursosCont.append(subtituloRecursos);
 
-
-    console.log("recursos", Resources);
-
     let contadorRecursos = 0;
 
     for (const recurso of Resources) {
 
         contadorRecursos++;
-
-        console.log("recurso", recurso);
 
         const recursoCont = document.createElement("div");
         recursoCont.classList.add("form_autorizacion");

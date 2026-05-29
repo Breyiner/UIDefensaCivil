@@ -4,9 +4,12 @@
  * realiza la petición POST al backend, almacena el token/datos en localStorage
  * y redirecciona SPA localmente según el Rol asignado (Admin, Supervisor, etc.).
  */
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
-import * as validacion from "../../../helpers/validacionInputs";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
 
 // Exportación central de toda la función de vista Login
 export default async () => {
@@ -24,8 +27,6 @@ export default async () => {
   // if (!botonLogin) {
   //   console.warn("loginController: botón de login no encontrado");
   // }
-
-  console.log(botonLogin)
   // Validadores y pre-flags para evitar la concurrencia de clicks (Race condition bug fix)
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = false;

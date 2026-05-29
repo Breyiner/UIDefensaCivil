@@ -1,4 +1,4 @@
-import * as api from "../../helpers/api";
+import * as api from "@/helpers/api";
 // crear un dropdown para filtrar
 
 // items es un array de objetos.

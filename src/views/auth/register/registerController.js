@@ -4,11 +4,15 @@
  * los catálogos públicos (Tipos de Documento, Géneros, Seccionales) y habilitar
  * la selección dependiente de Organizaciones basadas en la Seccional elegida.
  */
-import * as alerta from "../../../helpers/alertas";
-import * as api from "../../../helpers/api";
-import * as adjuntarOpc from "../../../helpers/adjuntarOpciones";
-import * as validacion from "../../../helpers/validacionInputs";
-import * as fechas from "../../../helpers/fechas";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
+import * as fechas from "@/helpers/fechas";
 
 export default async () => {
   // Referencias al DOM estáticas generales de la ventana SPA

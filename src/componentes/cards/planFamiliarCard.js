@@ -17,7 +17,7 @@ export const cardPlanFamiliar = (info) => {
     introduccionDiv.classList.add("introduccionDiv");
 
     const imagenIcono = document.createElement("img");
-    imagenIcono.src = "../../../../public/icon/familyicon.svg";
+    imagenIcono.src = "/icon/familyicon.svg";
     imagenIcono.alt = "iconofamilia";
     imagenIcono.classList.add("imagen--icono");
 
@@ -55,7 +55,7 @@ export const cardPlanFamiliar = (info) => {
 
     const tipoClase = info.family_type_id == 1 ? "verPlan__tipo--rojo"
         : info.family_type_id == 2 ? "verPlan__tipo--verde"
-        : "verPlan__tipo--gris";
+            : "verPlan__tipo--gris";
 
     const tipoFamilia = document.createElement("p");
     tipoFamilia.classList.add("verPlan__tipo", tipoClase);
@@ -87,11 +87,11 @@ export const cardPlanFamiliar = (info) => {
             //     ? `#/voluntario/plan_familiar/testVunerabilidad?id=${info.id}`
             //     : `#/voluntario/plan_familiar/familia?id=${info.id}`;
             if (info.status_id === 1) {
-              location.href = `#/voluntario/plan_familiar/testVunerabilidad?id=${info.id}`;
+                location.href = `#/voluntario/plan_familiar/testVunerabilidad?id=${info.id}`;
             } else if (info.status_id === 5) {
-              location.href = `#/voluntario/plan_familiar/familia?id=${info.id}`;
+                location.href = `#/voluntario/plan_familiar/familia?id=${info.id}`;
             } else {
-              location.href = `#/voluntario/plan_familiar/familia?id=${info.id}`;
+                location.href = `#/voluntario/plan_familiar/familia?id=${info.id}`;
             }
         });
     }

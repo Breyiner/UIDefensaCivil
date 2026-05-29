@@ -5,13 +5,18 @@
  * Contiene lógica condicional de enrutamiento basada en el Rol del usuario (Voluntario vs Supervisor).
  */
 
-import * as alerta from "../../../helpers/alertas.js";
-import * as api from "../../../helpers/api.js";
-import paginacion from "../../../helpers/paginacion.js";
-import { ver } from "../../../helpers/modales/integrante.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { paginacion } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { integrante } from "@/helpers/modales/index.js";
 import { color } from "chart.js/helpers";
-import { estado_planes, estado_usuarios, getBadgeClase } from "../../../helpers/cambioEstado.js";
-import { cardPlanFamiliar } from "../../../componentes/cards/planFamiliarCard.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { estado_planes, estado_usuarios, getBadgeClase } from "@/helpers/index.js";
+import { cardPlanFamiliar } from "@/componentes/cards/planFamiliarCard.js";
 
 const verPlanController = async () => {
 

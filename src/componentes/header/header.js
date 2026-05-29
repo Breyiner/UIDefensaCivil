@@ -1,4 +1,4 @@
-import * as api from "../../helpers/api";
+import * as api from "@/helpers/api";
 
 export const componenteHeader = async () => {
     const indicador = document.querySelector(".header__indicador");
@@ -26,7 +26,6 @@ export const componenteHeader = async () => {
         if (!userId) return;
         
         const data = await api.get(`notifications/user/count/${userId}`);
-        console.log('Count data:', data);
         const count = data?.unread_notifications ?? 0;
 
         if (count === 0) {
@@ -37,19 +36,24 @@ export const componenteHeader = async () => {
         }
     };
 
-    // botón HOME
+    // botón HOME: se agregó una validacion antes del evento ya que primero cargaba el controller y no el html lo cual hacia que el boton en ese instante no existiera, lo cual no nos dejaba cargar la pagina correctamente
+    if(botonHome){
     botonHome.addEventListener("click", () => {
         if (rolId == 1) location.href = `#/administrador`
         else if(rolId == 2) location.href = `#/supervisor`
         else if(rolId == 3)location.href = `#/voluntario`
     });
+    }
 
     // botón PERFIL
-    botonPerfil.addEventListener("click", () => {
+    if(botonPerfil){
+        botonPerfil.addEventListener("click", () => {
         if (hash == 'usuarios/perfil') return
         location.hash = "#/usuarios/perfil";
     });
+    }
 
+    if(botonNoti){
     botonNoti.addEventListener("click", () => {
 
         if (rolId == 1) {
@@ -62,6 +66,7 @@ export const componenteHeader = async () => {
             location.hash = "#/voluntario/notificaciones";
         }
     });
+    }
 
     await cargarIndicador();
 

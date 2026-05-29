@@ -3,9 +3,12 @@
  * Renderiza la lista completa de especies animales soportadas por el sistema.
  * Configura los botones de crear nuevo registro y los inyecta en el DOM interactivo.
  */
-import * as especie from "../../../../helpers/modales/especie";
-import * as api from "../../../../helpers/api.js";
-import { verEstado_input } from "../../../../componentes/ver_Estado/varianteEstados.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { especie } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { verEstado_input } from "@/componentes/ver_Estado/index.js";
 
 export default async () => {
 

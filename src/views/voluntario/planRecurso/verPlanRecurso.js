@@ -3,10 +3,14 @@
  * Renderiza de forma asíncrona un listado paginado de los recursos comunitarios / servicios 
  * de emergencia más cercanos a la vivienda de la familia (Hospital, Bomberos, etc).
  */
-import * as api from "../../../helpers/api";
-import * as alerta from "../../../helpers/alertas";
-import * as modalRecursoDisponible from "../../../helpers/modales/recursoDisponible";
-import paginacion from "../../../helpers/paginacion";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { recursoDisponible as modalRecursoDisponible } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { paginacion } from "@/helpers/index.js";
 
 export default async () => {
 

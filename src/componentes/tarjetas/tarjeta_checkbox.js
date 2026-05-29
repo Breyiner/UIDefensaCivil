@@ -1,4 +1,5 @@
-import { obtenerTiempoTranscurrido } from "../../helpers/obtenerTiempoTranscurrido";
+import { obtenerTiempoTranscurrido, getBadgeClase, estado_usuarios } from "@/helpers/index.js";
+
 
 export const tarjetaPeticion = (info) => {
 

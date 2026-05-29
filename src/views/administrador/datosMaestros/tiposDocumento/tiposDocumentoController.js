@@ -4,9 +4,12 @@
  * Muestra las siglas (acronym) e incluye la funcionalidad de crear o editar mediante modales.
  */
 
-import * as api from "../../../../helpers/api.js";
-import * as tipoDocumento from "../../../../helpers/modales/tipoDocumento.js";
-import { verEstado_doubleInput } from "../../../../componentes/ver_Estado/varianteEstados.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { tipoDocumento } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { verEstado_doubleInput } from "@/componentes/ver_Estado/index.js";
 
 export default async () => {
 
@@ -28,7 +31,6 @@ export default async () => {
     const recargar = async () => {
 
         const datosDocumentos = await api.get("documentTypes/");
-        console.log(datosDocumentos);
         
         const contenedor = document.querySelector(".listaDatos");
         contenedor.innerHTML = "";

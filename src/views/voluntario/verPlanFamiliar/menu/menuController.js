@@ -4,9 +4,11 @@
  * Datos Básicos, Integrantes, Mascotas, Riesgos, etc. 
  * También gestiona el Envio Final a Supervisores (Cambio de Estado).
  */
-import * as api from "../../../../helpers/api";
-import * as alerta from "../../../../helpers/alertas";
-import AccesoPlan from "../../../../helpers/accesoPlan"; // Security Guard Midleware Role Front
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+import AccesoPlan from "@/helpers/accesoPlan"; // Security Guard Midleware Role Front
 
 export default async () => {
   // Selectores DOM de la Cuadrícula HTML de Módulos (Iconos grandes)
@@ -46,7 +48,7 @@ export default async () => {
 
   // Definir si existen miembros de la familia para realizar acciones en el menu -------------------------------------------------------------------------------...
   const tieneMiembros = await api.get(`familyPlans/has-members/${id}`);
-  console.log(tieneMiembros);
+
   
 
   // Router Volver al Muro General
@@ -84,7 +86,6 @@ export default async () => {
   factoresRiesgo.addEventListener("click", async () => {
     
     if(!tieneMiembros.has_members){
-      // console.log("No tiene miembros");
       alerta.alertaWarning(`El Plan de la Familia ${planFamiliar.last_names} no posee ningun integrante`);
       return;
     }

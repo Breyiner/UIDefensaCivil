@@ -4,12 +4,18 @@
  * Esta vista funciona igual que "Antes" y "Durante", operando bajo el valor 
  * número 3, permitiendo visualizar y agregar las acciones finales del plan.
  */
-import * as api from "../../../../helpers/api";
-import * as alerta from "../../../../helpers/alertas";
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as cargarDatos from "../../../../helpers/cargarDatos";
-import * as validacion from "../../../../helpers/validacionInputs";
-import * as modalPlanAccion from "../../../../helpers/modales/planAccion";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { planAccion as modalPlanAccion } from "@/helpers/modales/index.js";
 
 export default async () => {
   // Referencias a los elementos visibles de la pantalla
@@ -193,12 +199,12 @@ export default async () => {
     });
 
     // Envío del usuario cuando retrocede
-    
+
     botonAtras.addEventListener("click", async () => {
       if (window.procesoPeticion) return;
       if (esSupervisor) {
-          location.href = `#/supervisor/plan_familiar/plan_de_accion/durante?familia_id=${id}`;
-          return;
+        location.href = `#/supervisor/plan_familiar/plan_de_accion/durante?familia_id=${id}`;
+        return;
       }
       location.href = `#/voluntario/plan_familiar/plan_de_accion/durante?familia_id=${id}`;
     });

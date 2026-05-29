@@ -3,10 +3,14 @@
  * Fetcher asíncrono para renderizar las tarjetas de cada amenaza registrada 
  * en el entorno de la familia. Permite eliminar y abrir modal de detalles avanzados.
  */
-import * as api from "../../../helpers/api";
-import * as alerta from "../../../helpers/alertas";
-import * as modalFactorRiesgo from "../../../helpers/modales/factorRiesgo";
-import paginacion from "../../../helpers/paginacion";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { factorRiesgo as modalFactorRiesgo } from "@/helpers/modales/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { paginacion } from "@/helpers/index.js";
 
 export default async () => {
 

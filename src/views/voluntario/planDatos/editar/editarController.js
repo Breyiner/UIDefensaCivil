@@ -4,11 +4,15 @@
  * desplegables y opciones para llenar toda la información censal e identificatoria
  * del Plan Familiar (como Zonas, Departamentos, Sectores, Calidad de Vivienda).
  */
-import * as adjuntarOpc from "../../../../helpers/adjuntarOpciones";
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import { cargarDatos } from "../../../../helpers/cargarDatos";
-import * as validacion from "../../../../helpers/validacionInputs";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { alertas as alerta } from "@/helpers/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { api } from "@/helpers/index.js";
+import { cargarDatos } from "@/helpers/cargarDatos";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { validacionInputs as validacion } from "@/helpers/index.js";
 
 export default async () => {
   // Extraer el código único o número identificador del plan desde la dirección del navegador web
