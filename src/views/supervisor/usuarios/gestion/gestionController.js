@@ -6,7 +6,7 @@
 import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import * as modalUsuario from "../../../../helpers/modales/usuario";
-import { tarjetaEstados } from "../../../../componentes/tarjetas/tarjeta_gestionSupervisor";
+import { tarjetaEstados } from "../../../../componentes/gestionUser/tarjeta_gestion";
 // Importamos el componente de barra de búsqueda para la UI
 import { searchBar } from "../../../../componentes/filter/searchBar";
 // Importamos el componente de menú desplegable para filtrar por estados

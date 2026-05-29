@@ -7,7 +7,7 @@ import * as alerta from "../../../../helpers/alertas";
 import * as api from "../../../../helpers/api";
 import paginacion from "../../../../helpers/paginacion";
 import * as modalUsuario from "../../../../helpers/modales/usuario";
-import { tarjetaPeticion } from "../../../../componentes/tarjetas/tarjeta_checkbox";
+import { tarjetaPeticion } from "../../../../componentes/gestionUser/tarjeta_peticion.js";
 
 export default async () => {
 
@@ -55,7 +55,7 @@ export default async () => {
         // 5. Si tenemos el ID, lanzamos el modal.
         if (userId) {
             // modalUsuario.ver(ID_DEL_USUARIO, CALLBACK_RECARGAR, MODO_PETICION, EDITABLE)
-            modalUsuario.ver(userId, recargarContainer, true, true);
+            modalUsuario.ver(userId, recargarContainer, true, false);
         }
     });
 

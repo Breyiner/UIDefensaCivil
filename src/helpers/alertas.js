@@ -1,5 +1,3 @@
-
-
 import Swal from "sweetalert2";
 import * as api from "./api.js";
 
@@ -76,7 +74,7 @@ export const alertaMensaje = (mensaje) => {
     icon: "error",
     title: mensaje,
     showConfirmButton: false, // Oculta botones
-    timer: 2000,  // Autodestrucción en milisegundos
+    timer: 2000, // Autodestrucción en milisegundos
     timerProgressBar: true, // Muestra barrita de tiempo decreciendo
     didOpen: (toast) => {
       // Pausa el contador al pasarle el mouse, lo reanuda al quitarlo
@@ -109,19 +107,19 @@ export const alertaPreguntarMasTarde = (mensaje) => {
 // Lanza un Spinner animado infinito que bloquea la pantalla hasta ordenarle cierre
 export const alertaLoading = () => {
   Swal.fire({
-    title: 'Cargando...',
-    text: 'Por favor espera',
+    title: "Cargando...",
+    text: "Por favor espera",
     allowOutsideClick: false, // Evita que se cierre al clickear fuera (backdrop)
     didOpen: () => {
       Swal.showLoading(); // Inyecta la animación CSS de carga al modal
-   }
+    },
   });
 };
 
 // Cierra forzosamente la última alerta activa en pantalla (se usa para matar el Loading anterior)
 export const alertaLoadingCerrar = () => {
   Swal.close();
-}
+};
 
 // ==========================================
 // MODALES COMPLEJOS (FORMULARIOS Y HTML INYECTADO)
@@ -132,12 +130,12 @@ export const alertaLoadingCerrar = () => {
 export const Crear = async (htmlModal, funcionModal, funcionAlAbrir) => {
   Swal.fire({
     html: htmlModal, // DOM Inyectado como String template
-    confirmButtonText: 'Guardar',
-    confirmButtonColor: '#ff6600',
+    confirmButtonText: "Guardar",
+    confirmButtonColor: "#ff6600",
     showCloseButton: true, // Muestra botón (X) en la esquina
     focusConfirm: false,
     customClass: {
-      confirmButton: 'botonOK'
+      confirmButton: "botonOK",
     },
 
     // Callback justo después de renderizar el HTML del modal en pantalla
@@ -150,141 +148,136 @@ export const Crear = async (htmlModal, funcionModal, funcionAlAbrir) => {
     // Callback que se ejecuta justo antes de validar si se cierra cuando dan click a "Guardar"
     preConfirm: async () => {
       return await funcionModal(); // Evalúa código de guardado validando si deja pasar o no
+    },
+  });
+};
+
+// Modal visor: Muestra información de un registro y provee botones de control (Editar / Eliminar)
+export const Ver = (
+  htmlModal,
+  mostrarEditar,
+  mostrarEliminar,
+  funcionEditar,
+  funcionEliminar,
+  esSupervisor,
+) => {
+  Swal.fire({
+    html: htmlModal,
+    showCloseButton: true,
+    focusConfirm: false,
+
+    // BOTÓN EDITAR
+    // Su visualización depende del booleano `mostrarEditar` enviado (Privilegios)
+    showConfirmButton: mostrarEditar,
+    confirmButtonText: "Editar",
+
+    // BOTÓN ELIMINAR
+    showCancelButton: mostrarEliminar && !esSupervisor,
+    cancelButtonText: "Eliminar",
+
+    customClass: {
+      confirmButton: "botonEditar",
+      cancelButton: "botonEliminar",
+    },
+    // Si pincha editar...
+    preConfirm: () => {
+      if (mostrarEditar && funcionEditar) {
+        funcionEditar();
+      }
+      return false; // False evita que se cierre el modal automáticamente
+    },
+  }).then((result) => {
+    // Si pincha eliminar (cancel en SweetAlert)...
+    if (result.dismiss === Swal.DismissReason.cancel) {
+      if (mostrarEliminar && funcionEliminar) {
+        funcionEliminar();
+      }
     }
   });
 };
 
-// Modal visor: Muestra información de un registro y provee botones de control (Editar / Eliminar) 
-export const Ver = (htmlModal, mostrarEditar, mostrarEliminar, funcionEditar, funcionEliminar, esSupervisor) => {
-    Swal.fire({
-        html: htmlModal,
-        showCloseButton: true,
-        focusConfirm: false,
-
-        // BOTÓN EDITAR
-        // Su visualización depende del booleano `mostrarEditar` enviado (Privilegios)
-        showConfirmButton: mostrarEditar,
-        confirmButtonText: 'Editar',
-
-        // BOTÓN ELIMINAR
-        showCancelButton: mostrarEliminar && !esSupervisor,
-        cancelButtonText: 'Eliminar',
-
-        customClass: {
-            confirmButton: 'botonEditar',
-            cancelButton: 'botonEliminar'
-        },
-        // Si pincha editar...
-        preConfirm: () => {
-            if (mostrarEditar && funcionEditar) {
-                funcionEditar()
-            }
-            return false; // False evita que se cierre el modal automáticamente
-        }
-    }).then((result) => {
-        // Si pincha eliminar (cancel en SweetAlert)...
-        if (result.dismiss === Swal.DismissReason.cancel) {
-            if (mostrarEliminar && funcionEliminar) {
-                funcionEliminar()
-            }
-        }
-    });
-};
-
 // Súper Modal visor: Permite además Mutar Estado (Activar/Desactivar) y Ver el Historial del objeto
 export const VerEstado = (
-    htmlModal,
-    mostrarEditar,
-    is_active,
-    funcionEditar,
-    funcionActivar,
-    funcionDesactivar,
-    nombre,
-    id
+  htmlModal,
+  mostrarEditar,
+  is_active,
+  funcionEditar,
+  funcionActivar,
+  funcionDesactivar,
+  nombre,
+  id,
 ) => {
+  // Condicionales ternarios que deciden qué texto y botón mostrar según si está activo actualmente
+  const textoEstado = is_active == 1 ? "Desactivar" : "Activar";
+  const claseBotonEstado = is_active == 1 ? "botonEliminar" : "botonActivar";
 
-    // Condicionales ternarios que deciden qué texto y botón mostrar según si está activo actualmente
-    const textoEstado = is_active == 1 ? "Desactivar" : "Activar";
-    const claseBotonEstado = is_active == 1 ? "botonEliminar" : "botonActivar";
+  Swal.fire({
+    html: htmlModal,
+    showCloseButton: true,
+    focusConfirm: false,
 
-    Swal.fire({
-        html: htmlModal,
-        showCloseButton: true,
-        focusConfirm: false,
+    // EDITAR
+    showConfirmButton: mostrarEditar,
+    confirmButtonText: "Editar",
 
-        // EDITAR
-        showConfirmButton: mostrarEditar,
-        confirmButtonText: 'Editar',
+    // ACTIVAR / DESACTIVAR
+    showCancelButton: true,
+    cancelButtonText: textoEstado,
 
-        // ACTIVAR / DESACTIVAR
-        showCancelButton: true,
-        cancelButtonText: textoEstado,
+    // HISTORIAL
+    showDenyButton: true, // Tercer botón de SweetAlert ("Deny" usado como historial acá)
+    denyButtonText: "Historial",
 
-        // HISTORIAL
-        showDenyButton: true, // Tercer botón de SweetAlert ("Deny" usado como historial acá)
-        denyButtonText: 'Historial',
+    customClass: {
+      confirmButton: "botonEditar",
+      cancelButton: claseBotonEstado,
+      denyButton: "botonHistorial",
+    },
 
-        customClass: {
-            confirmButton: 'botonEditar',
-            cancelButton: claseBotonEstado,
-            denyButton: 'botonHistorial'
-        },
+    // Click en Editar
+    preConfirm: () => {
+      if (mostrarEditar && funcionEditar) {
+        funcionEditar();
+      }
+      return false; // Deja modal abierto
+    },
+  }).then((result) => {
+    // Click en Ver Historial
+    if (result.isDenied) {
+      // Historial(nombre, id); // Llama a la función global debajo
+      window.location.href = `#/administrador-datosMaestros/historial-seccional/id=${id}`;
+    }
 
-        // Click en Editar
-        preConfirm: () => {
-            if (mostrarEditar && funcionEditar) {
-                funcionEditar();
-            }
-            return false; // Deja modal abierto
-        }
-
-    }).then((result) => {
-
-        // Click en Ver Historial
-        if (result.isDenied) {
-          // Historial(nombre, id); // Llama a la función global debajo
-          window.location.href = `#/administrador-datosMaestros/historial-seccional/id=${id}`;
-        }
-
-        // Click en el botón de cambiar Estado (Activar/Desactivar)
-        if (result.dismiss === Swal.DismissReason.cancel) {
-
-            if (is_active == 1) {
-                // Si estaba prendido delega tarea al callback de apagado
-                if (funcionDesactivar) funcionDesactivar();
-            } else {
-                // Viceversa
-                if (funcionActivar) funcionActivar();
-            }
-
-        }
-
-    });
+    // Click en el botón de cambiar Estado (Activar/Desactivar)
+    if (result.dismiss === Swal.DismissReason.cancel) {
+      if (is_active == 1) {
+        // Si estaba prendido delega tarea al callback de apagado
+        if (funcionDesactivar) funcionDesactivar();
+      } else {
+        // Viceversa
+        if (funcionActivar) funcionActivar();
+      }
+    }
+  });
 };
 
-export const verDepartCiudad = (
-    htmlModal,
-    funcionEditar,
-    nombre,
-    id
-) => {
+export const verDepartCiudad = (htmlModal, funcionEditar, nombre, id) => {
+  Swal.fire({
+    html: htmlModal,
+    showCloseButton: true,
+    focusConfirm: false,
 
-    Swal.fire({
-        html: htmlModal,
-        showCloseButton: true,
-        focusConfirm: false,
+    confirmButtonText: "Editar",
 
-        confirmButtonText: 'Editar',
+    customClass: {
+      confirmButton: "botonEditar",
+    },
 
-        customClass: {
-            confirmButton: 'botonEditar',
-        },
-
-        // Click en Editar
-        preConfirm: () => {
-            funcionEditar();
-        }
-    });
+    // Click en Editar
+    preConfirm: () => {
+      funcionEditar();
+    },
+  });
 };
 
 // ==========================================
@@ -293,46 +286,53 @@ export const verDepartCiudad = (
 
 // Pide mediante la API el historial de auditoria de un registro ({tabla}/history/{id}) y lo formatea en una lista
 export const Historial = async (nombre, id) => {
-    const data = await api.get(`${nombre}/${id}/history`);
+  const data = await api.get(`${nombre}/${id}/history`);
 
-    // Construye la bitácora con Array.map() iterando cada acción guardada en la BD
-    let contenido = `
+  // Construye la bitácora con Array.map() iterando cada acción guardada en la BD
+  let contenido = `
       <div class="contenedorHistorial">
-        ${data.map(item => `
+        ${data
+          .map(
+            (item) => `
           <div class="itemHistorial">
             <p><strong>Acción:</strong> ${item.action_execute}</p>
             <p><strong>Usuario:</strong> ${item.user_name}</p>
             <p><strong>Rol:</strong> ${item.rol}</p>
             <p><strong>Fecha:</strong> ${item.date_time}</p>
-            ${item.status_old != item.status_new ? '<p><strong>Cambio de estado a:</strong> '+item.status_new+'</p>' : ""}
+            ${item.status_old != item.status_new ? "<p><strong>Cambio de estado a:</strong> " + item.status_new + "</p>" : ""}
             <hr>
           </div>
-        `).join('')}
+        `,
+          )
+          .join("")}
       </div>
     `;
 
-    // Renderiza
-    Swal.fire({
-      title: 'Historial',
-      html: contenido,
-      width: '700px', // Fuerza un ancho mayor para la bitácora
-      showCloseButton: true,
-      showConfirmButton: false, // Solo cierra con X
-      customClass: {
-        popup: 'modalHistorial'
-      }
-    });
+  // Renderiza
+  Swal.fire({
+    title: "Historial",
+    html: contenido,
+    width: "700px", // Fuerza un ancho mayor para la bitácora
+    showCloseButton: true,
+    showConfirmButton: false, // Solo cierra con X
+    customClass: {
+      popup: "modalHistorial",
+    },
+  });
 };
 
 // Modal enfocado 100% en la gestión de Peticiones de Usuario: "Se inscribe alguien, ¿Se le aprueba el acceso o se le borra?"
 export const VerAprobarEliminarUsuarios = (
-  htmlModal,
+  modal,
   recargarContainer,
-  id
+  id,
+  esAdmin,
+  selectRol,
 ) => {
-
   Swal.fire({
-    html: htmlModal,
+    didOpen: () => {
+        Swal.getHtmlContainer().appendChild(modal);
+    },
     showCloseButton: true,
     focusConfirm: false,
 
@@ -346,12 +346,13 @@ export const VerAprobarEliminarUsuarios = (
 
     customClass: {
       confirmButton: "botonOK",
-      cancelButton: "botonEliminar"
+      cancelButton: "botonEliminar",
     },
 
     // 👉 PRECONFIRM (APROBAR)
     preConfirm: async () => {
-      // Dispara un segundo Micro-Modal confirmando si de verdad quiere aceptarlo
+      const rolSeleccionado = selectRol?.value ?? 2;
+
       const confirmacion = await Swal.fire({
         title: "¿Seguro que deseas aprobar?",
         icon: "question",
@@ -359,39 +360,44 @@ export const VerAprobarEliminarUsuarios = (
         confirmButtonText: "Sí, aprobar",
         cancelButtonText: "Cancelar",
         customClass: {
-            confirmButton: 'botonOK',
-            cancelButton: 'botonEliminar',
-        }
+          confirmButton: "botonOK",
+          cancelButton: "botonEliminar",
+        },
       });
 
       // Si se arrepintió, bloquea ejecución
       if (!confirmacion.isConfirmed) return false;
 
-      // Invoca el endpoint API modificando el `state_user_id` a 1 (aprobado formal)
       try {
-        const response = await api.patch(`users/${id}/change-status`,{user_ids: [id], state_user_id: 1, async: false});
-        //asycn opcional para que la respuesta sea inmediata y no por cola (opcional)
+        const response = await api.patch(`users/${id}/change-status`, {
+          user_ids: [id],
+          state_user_id: 1,
+          async: false,
+        });
+
+        if (esAdmin) {
+          await api.patch(`users/${id}/change-role`, {
+            role: rolSeleccionado == 3 ? "Supervisor" : "Voluntario",
+          });
+        }
 
         if (response.success) {
           await alertaOK(response.message);
-          if (recargarContainer) await recargarContainer(); // Actualiza listado de la tabla detrás
+          if (recargarContainer) await recargarContainer();
         } else {
           alertaWarning(response.message, response.errors);
         }
-
       } catch (error) {
         console.error(error);
         alertaError("Error al aprobar");
       }
 
       return true;
-    }
+    },
 
   }).then(async (result) => {
-
     // 👉 SI PRESIONA ELIMINAR
     if (result.dismiss === Swal.DismissReason.cancel) {
-
       // Dispara validación destructiva
       const confirmacion = await Swal.fire({
         title: "¿Seguro que deseas borrar?",
@@ -400,9 +406,9 @@ export const VerAprobarEliminarUsuarios = (
         confirmButtonText: "Sí, borrar",
         cancelButtonText: "Cancelar",
         customClass: {
-            confirmButton: 'botonEliminar',
-            cancelButton: 'botonOK',
-        }
+          confirmButton: "botonEliminar",
+          cancelButton: "botonOK",
+        },
       });
 
       if (!confirmacion.isConfirmed) return;
@@ -417,7 +423,6 @@ export const VerAprobarEliminarUsuarios = (
         } else {
           alertaWarning(response.message, response.errors);
         }
-
       } catch (error) {
         console.error(error);
         alertaError("Error al borrar");
@@ -426,19 +431,20 @@ export const VerAprobarEliminarUsuarios = (
   });
 };
 
-// Modal visor multifunción enfocado en los roles y administración de bloqueos (Suspensiones) 
+// Modal visor multifunción enfocado en los roles y administración de bloqueos (Suspensiones)
 // de usuarios existentes que ya ingresaron a la plataforma.
 export const VerCambiarEstadoRolUsuarios = (
-  htmlModal,
+  modal,
   recargarContainer,
   id,
   estado,
   rol,
-  esAdmin
+  esAdmin,
 ) => {
-
   Swal.fire({
-    html: htmlModal,
+    didOpen: () => {
+        Swal.getHtmlContainer().appendChild(modal);
+    },
     showCloseButton: true,
     focusConfirm: false,
 
@@ -457,12 +463,11 @@ export const VerCambiarEstadoRolUsuarios = (
     customClass: {
       confirmButton: "botonOK",
       cancelButton: estado == 1 ? "botonEliminar" : "botonOK", // Pinta en rojo si va a desactivar (suspender)
-      denyButton: "botonHistorial"
+      denyButton: "botonHistorial",
     },
 
     // 👉 CONFIRMAR (CAMBIAR ROL)
     preConfirm: async () => {
-
       // Interfaz que pregunta si lo rebaja a voluntario o asciende a supervisor guiándose por el ID numérico
       const confirmacion = await Swal.fire({
         title: `¿Seguro que deseas cambiar el rol de usuario a ${rol == 3 ? "Supervisor" : "Voluntario"}?`,
@@ -471,21 +476,20 @@ export const VerCambiarEstadoRolUsuarios = (
         confirmButtonText: "Sí",
         cancelButtonText: "Cancelar",
         customClass: {
-          confirmButton: 'botonOK',
-          cancelButton: 'botonEliminar',
-        }
+          confirmButton: "botonOK",
+          cancelButton: "botonEliminar",
+        },
       });
 
       if (!confirmacion.isConfirmed) return false;
 
       // Lógica de Petición HTTP Patch atada
       try {
-
         const datos = {
           role: rol == 3 ? "Supervisor" : "Voluntario",
         };
 
-        const response = await api.patch(`users/role/${id}`, datos);
+        const response = await api.patch(`users/${id}/change-role`, datos);
 
         if (response.success) {
           await alertaOK(response.message);
@@ -493,17 +497,14 @@ export const VerCambiarEstadoRolUsuarios = (
         } else {
           alertaWarning(response.message, response.errors);
         }
-
       } catch (error) {
         console.error(error);
         alertaError("Error al cambiar rol");
       }
 
       return true;
-    }
-
+    },
   }).then(async (result) => {
-
     // 👉 HISTORIAL
     if (result.isDenied) {
       Historial("users", id);
@@ -512,7 +513,6 @@ export const VerCambiarEstadoRolUsuarios = (
 
     // 👉 ACTIVAR (REINCORPORACIÓN) / DESACTIVAR (SUSPENSIÓN)
     if (result.dismiss === Swal.DismissReason.cancel) {
-
       const confirmacion = await Swal.fire({
         title: `¿Seguro que deseas ${estado == 1 ? "desactivar" : "activar"} al usuario?`,
         icon: "warning",
@@ -522,7 +522,7 @@ export const VerCambiarEstadoRolUsuarios = (
         customClass: {
           confirmButton: estado == 1 ? "botonEliminar" : "botonOK",
           cancelButton: estado == 1 ? "botonOK" : "botonEliminar",
-        }
+        },
       });
 
       if (!confirmacion.isConfirmed) return;
@@ -530,7 +530,7 @@ export const VerCambiarEstadoRolUsuarios = (
       try {
         // Ejecución invirtiendo el id referencial (Si era 1[Activo] lo vuelve 2[Inactivo])
         const response = await api.patch(`users/${id}/change-status`, {
-          user_ids: [Number(id)], 
+          user_ids: [Number(id)],
           state_user_id: estado == 1 ? 2 : 1,
           async: false,
         });
@@ -541,13 +541,11 @@ export const VerCambiarEstadoRolUsuarios = (
         } else {
           alertaWarning(response.message, response.errors);
         }
-
       } catch (error) {
         console.error(error);
         alertaError("Error al cambiar estado");
       }
     }
-
   });
 };
 
@@ -629,7 +627,7 @@ export const AutorizacionDatos = () => {
     customClass: {
       confirmButton: "botonOK",
       cancelButton: "botonCancelar",
-      title: "modalTitulo"
+      title: "modalTitulo",
     },
 
     didOpen: () => {
@@ -642,11 +640,11 @@ export const AutorizacionDatos = () => {
       checkbox.addEventListener("change", () => {
         confirmBtn.disabled = !checkbox.checked; // Reactiva el botón
       });
-    }
-  })
+    },
+  });
 };
 
-// Modal Auxiliar para el módulo supervisor: Cuadro de texto para dictar rechazo 
+// Modal Auxiliar para el módulo supervisor: Cuadro de texto para dictar rechazo
 // obligando al interventor a dejar comentarios justificando (Mínimo 10 caracteres)
 export const rechazarCambios = (id) => {
   return Swal.fire({
@@ -681,7 +679,7 @@ export const rechazarCambios = (id) => {
     customClass: {
       confirmButton: "botonEliminar",
       cancelButton: "botonOK",
-      title: "modalTitulo"
+      title: "modalTitulo",
     },
 
     didOpen: () => {
@@ -701,23 +699,25 @@ export const rechazarCambios = (id) => {
       });
     },
 
-    // Envío del parche reasignando el "Registro del Plan" a status rechazado (5) 
+    // Envío del parche reasignando el "Registro del Plan" a status rechazado (5)
     preConfirm: async () => {
-
-      const comentarios = document.getElementById("comentariosDevolver").value.trim();
+      const comentarios = document
+        .getElementById("comentariosDevolver")
+        .value.trim();
 
       // Doble filtro por si logran sobrepasar la UI forzándolo
       if (comentarios.length < 10) {
-        Swal.showValidationMessage("El comentario debe tener mínimo 10 caracteres");
+        Swal.showValidationMessage(
+          "El comentario debe tener mínimo 10 caracteres",
+        );
         return;
       }
 
       try {
-
         // Endpoint de Supervisor rechazando Plan del Voluntario
         const response = await api.patch(`familyPlans/${id}/change-status`, {
           status_plan_id: 5,
-          comentary: comentarios
+          comentary: comentarios,
         });
 
         if (response.success) {
@@ -725,14 +725,12 @@ export const rechazarCambios = (id) => {
         } else {
           alertaWarning(response.message, response.errors);
         }
-
       } catch (error) {
         console.error(error);
         alertaError("Error al devolver");
       }
 
-      return; 
-    }
+      return;
+    },
   });
-
 };
