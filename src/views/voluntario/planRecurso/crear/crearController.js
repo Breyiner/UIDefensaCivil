@@ -3,10 +3,10 @@
  * Formulario manual para agregar Hospitales/Bomberos cercanos a la casa.
  * Usa Validadores Individuales (NO el validador automático universal) anclados a eventos del teclado (DOM).
  */
-import * as api from "@/helpers/api";
-import * as alerta from "@/helpers/alertas";
-import * as validacion from "@/helpers/validacionInputs"; // Suite Validacion Explicita
-import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
+import { api } from "@/helpers";
+import { alertas as alerta } from "@/helpers";
+import { validacionInputs as validacion } from "@/helpers"; // Suite Validacion Explicita
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
 
 export default async () => {
   // Manejo de Interfaz Nodos Actioners

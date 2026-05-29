@@ -4,8 +4,8 @@
  * Datos Básicos, Integrantes, Mascotas, Riesgos, etc. 
  * También gestiona el Envio Final a Supervisores (Cambio de Estado).
  */
-import * as api from "@/helpers/api";
-import * as alerta from "@/helpers/alertas";
+import { api } from "@/helpers";
+import { alertas as alerta } from "@/helpers";
 import AccesoPlan from "@/helpers/accesoPlan"; // Security Guard Midleware Role Front
 
 export default async () => {

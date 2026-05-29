@@ -4,11 +4,11 @@
  * para corregirlos y actualizalos en base de datos.
  * Emplea set estricto de Validaciones Client Side Keydown Event Native.
  */
-import * as api from "@/helpers/api";
-import * as alerta from "@/helpers/alertas";
-import * as validacion from "@/helpers/validacionInputs"; // Suite Validacion Estricta Vainilla DOM
-import * as cargarDatos from "@/helpers/cargarDatos";
-import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
+import { api } from "@/helpers";
+import { alertas as alerta } from "@/helpers";
+import { validacionInputs as validacion } from "@/helpers"; // Suite Validacion Estricta Vainilla DOM
+import { cargarDatosHelper as cargarDatos } from "@/helpers";
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
 
 export default async () => {
   // Manejo Base DOM Window Document

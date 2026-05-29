@@ -1,5 +1,5 @@
-import * as api from "@/helpers/api";
-import paginacion from "@/helpers/paginacion";
+import { api } from "@/helpers";
+import { paginacion } from "@/helpers";
 import tiempoRelativo from "@/componentes/tiempos/tiempoRelativo";
 
 const notificacionesController = async () => {

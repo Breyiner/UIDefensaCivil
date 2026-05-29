@@ -3,10 +3,10 @@
  * Renderiza de forma asíncrona un listado paginado de los recursos comunitarios / servicios 
  * de emergencia más cercanos a la vivienda de la familia (Hospital, Bomberos, etc).
  */
-import * as api from "@/helpers/api";
-import * as alerta from "@/helpers/alertas";
-import * as modalRecursoDisponible from "@/helpers/modales/recursoDisponible";
-import paginacion from "@/helpers/paginacion";
+import { api } from "@/helpers";
+import { alertas as alerta } from "@/helpers";
+import { recursoDisponible as modalRecursoDisponible } from "@/helpers/modales";
+import { paginacion } from "@/helpers";
 
 export default async () => {
 

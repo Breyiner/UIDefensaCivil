@@ -3,10 +3,10 @@
  * Fetcher asíncrono para renderizar las tarjetas de cada animal perteneciente al núcleo familiar.
  * Usa lógica condicional Switch Case para pintar Iconos SVG según 'Especie' de la Mascota.
  */
-import * as api from "@/helpers/api";
-import * as alerta from "@/helpers/alertas";
-import * as modalMascota from "@/helpers/modales/mascota";
-import paginacion from "@/helpers/paginacion";
+import { api } from "@/helpers";
+import { alertas as alerta } from "@/helpers";
+import { mascota as modalMascota } from "@/helpers/modales";
+import { paginacion } from "@/helpers";
 
 export default async () => {
 
@@ -14,7 +14,7 @@ export default async () => {
     const crear = document.getElementById("crear"); // Redirige a Nuevo
     const botonBack = document.getElementById("botonBack"); // Regresa a Menu Modulos
     const id = location.hash.split("=")[1]; // PK id Padre Plan Familiar General
-    
+
     // Contenedor Inyección Dom Cuadrícula Mascotas
     const contenedor = document.querySelector(".container__paginas");
 
@@ -59,7 +59,7 @@ export default async () => {
 
         let cartaInfo = document.createElement('div');
         cartaInfo.classList.add("verMascotas"); // Card Wrapper BEM CSS Grid
-        
+
         // Bloque Condicional Interesante: animal_gender_id == 1 is Macho(AZUL). Else Hembra(ROSA CSS Class Modifier)
         cartaInfo.innerHTML = `
             <div class="verMascotas__icono">

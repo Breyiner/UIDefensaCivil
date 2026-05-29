@@ -3,9 +3,9 @@
  * Listado paramétrico de los sectores demográficos/geográficos. 
  * Conecta el endpoint 'sectors' con la fábrica de listas de la vista.
  */
-import * as sector from "@/helpers/modales/sector";
-import * as api from "@/helpers/api.js";
-import { verEstado_input } from "@/componentes/ver_Estado/varianteEstados.js";
+import { api } from "@/helpers";
+import { sector } from "@/helpers/modales";
+import { verEstado_input } from "@/componentes/ver_Estado";
 
 export default async () => {
 

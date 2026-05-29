@@ -4,8 +4,8 @@
  * Gestiona múltiples métricas visuales: Historial de acciones (Auditoría),
  * Gráficos de dona (Estados), barras (Roles) y líneas temporales (Tendencias).
  */
-import * as alerta from "@/helpers/alertas";
-import * as api from "@/helpers/api";
+import { alertas as alerta } from "@/helpers";
+import { api } from "@/helpers";
 import ventanaHistorial from "@/helpers/ventanaHistorial";
 import * as canva from "@/helpers/canvas";
 

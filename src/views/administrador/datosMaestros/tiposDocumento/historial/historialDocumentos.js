@@ -1,5 +1,5 @@
 import historial from "@/componentes/historial/historial";
-import * as api from "@/helpers/api";
+import { api } from "@/helpers";
 
 const historialDocumentos = async () => {
     

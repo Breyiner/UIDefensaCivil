@@ -1,6 +1,6 @@
-import * as alerta from "@/helpers/alertas";
-import * as api from "@/helpers/api";
-import * as validacion from "@/helpers/validacionInputs";
+import { alertas as alerta } from "@/helpers";
+import { api } from "@/helpers";
+import { validacionInputs as validacion } from "@/helpers";
 
 const verifyCodeController = () => {
 

@@ -3,9 +3,9 @@
  * Administra el catálogo de amenazas reconocidas para uso en Planes Familiares.
  * Maneja el renderizado de la lista y la apertura del modal para su edición.
  */
-import * as tipoAmenaza from "@/helpers/modales/tipoAmenaza";
-import * as api from "@/helpers/api.js";
-import { verEstado_input } from "@/componentes/ver_Estado/varianteEstados.js";
+import { api } from "@/helpers";
+import { tipoAmenaza } from "@/helpers/modales";
+import { verEstado_input } from "@/componentes/ver_Estado";
 
 export default async () => {
 

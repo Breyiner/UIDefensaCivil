@@ -5,13 +5,13 @@
  * Contiene lógica condicional de enrutamiento basada en el Rol del usuario (Voluntario vs Supervisor).
  */
 
-import * as alerta from "../../../helpers/alertas.js";
-import * as api from "../../../helpers/api.js";
-import paginacion from "../../../helpers/paginacion.js";
-import { ver } from "../../../helpers/modales/integrante.js";
+import { alertas as alerta } from "@/helpers";
+import { api } from "@/helpers";
+import { paginacion } from "@/helpers";
+import { integrante } from "@/helpers/modales";
 import { color } from "chart.js/helpers";
-import { estado_planes, estado_usuarios, getBadgeClase } from "../../../helpers/cambioEstado.js";
-import { cardPlanFamiliar } from "../../../componentes/cards/planFamiliarCard.js";
+import { estado_planes, estado_usuarios, getBadgeClase } from "@/helpers";
+import { cardPlanFamiliar } from "@/componentes/cards/planFamiliarCard.js";
 
 const verPlanController = async () => {
 

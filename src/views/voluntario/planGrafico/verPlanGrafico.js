@@ -4,10 +4,10 @@
  * que la familia ha subido sobre su vivienda. 
  * Permite Eliminar, Editar su descripción, y abrir Modales para "Ver más" amplio.
  */
-import * as api from "@/helpers/api";
-import * as alerta from "@/helpers/alertas";
-import paginacion from "@/helpers/paginacion";
-import * as modalGraficoVivienda from "@/helpers/modales/graficoVivienda";
+import { api } from "@/helpers";
+import { alertas as alerta } from "@/helpers";
+import { paginacion } from "@/helpers";
+import { graficoVivienda as modalGraficoVivienda } from "@/helpers/modales";
 
 export default async () => {
 

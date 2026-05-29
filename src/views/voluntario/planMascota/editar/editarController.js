@@ -3,12 +3,12 @@
  * Actualizar Datos Base Animal (Raza, Edad..).
  * Integra en Layout Abajo un Wrapper Acordeón Especial donde puedes Añadir N Vacunas usando Modales Externos Interconectados.
  */
-import * as api from "@/helpers/api";
-import * as alerta from "@/helpers/alertas";
-import * as cargarDatos from "@/helpers/cargarDatos";
-import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
-import * as modalMascota from "@/helpers/modales/mascota"; // Modulo SweetAlert Vacunas
-import acordeon from "@/helpers/acordeon"; // UI Expander JS
+import { api } from "@/helpers";
+import { alertas as alerta } from "@/helpers";
+import { cargarDatosHelper as cargarDatos } from "@/helpers";
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
+import { mascota as modalMascota } from "@/helpers/modales";
+import { acordeon } from "@/helpers"; // UI Expander JS
 
 export default async () => {
   // UI Nav elements

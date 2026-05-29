@@ -4,9 +4,9 @@
  * visualizando a su vez la relación foránea (Seccional a la que pertenece).
  */
 // import crearLista from "@/helpers/crearLista";
-import * as organizacion from "@/helpers/modales/organizacion";
-import * as api from "@/helpers/api";
-import { verEstado_select } from "@/componentes/ver_Estado/varianteEstados";
+import { api } from "@/helpers";
+import { organizacion } from "@/helpers/modales";
+import { verEstado_select } from "@/componentes/ver_Estado";
 
 export default async () => {
 

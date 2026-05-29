@@ -3,19 +3,15 @@
  * Facilita las acciones críticas para un Supervisor al evaluar un Plan Familiar.
  * Gestiona botones asíncronos para Aprobar, Rechazar (Definitivo/Cambios) y Ver PDF.
  */
-import factorRiesgoVentana from "@/componentes/ver_EstadoSupervisor/factorRiesgoVentana";
-import integranteVentana from "@/componentes/ver_EstadoSupervisor/integranteVentana";
-import MascotaVentana from "@/componentes/ver_EstadoSupervisor/mascotaVentana";
-import recursosVentana from "@/componentes/ver_EstadoSupervisor/recursosVentana";
-import * as alerta from "@/helpers/alertas";
-import * as api from "@/helpers/api";
+import { factorRiesgoVentana, integranteVentana, mascotaVentana, recursosVentana } from "@/componentes/ver_EstadoSupervisor";
+import { alertas as alerta, api } from "@/helpers";
 
 const RevisionPlanController = async () => {
 
     const id = location.hash.split("=")[1];
 
     const info = await api.get(`familyPlans/${id}`);
-    
+
 
     const familyMembers = await api.get(`familyMembers/`);
 
@@ -49,7 +45,7 @@ const RevisionPlanController = async () => {
     introduccionCont.classList.add("tarjeta-contenido");
 
     const imagenIcono = document.createElement("img");
-    imagenIcono.src = "../../../public/icon/familyicon.svg";
+    imagenIcono.src = "/icon/familyicon.svg";
     imagenIcono.alt = "iconofamilia";
     imagenIcono.classList.add("imagen--icono");
 

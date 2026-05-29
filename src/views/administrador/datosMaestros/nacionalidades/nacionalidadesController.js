@@ -3,9 +3,9 @@
  * Administra la vista de lista de nacionalidades, permitiendo crear, 
  * editar o alterar el estado (activo/inactivo) usando componentes reutilizables.
  */
-import * as nacionalidad from "@/helpers/modales/nacionalidad";
-import * as api from "@/helpers/api.js";
-import { verEstado_input } from "@/componentes/ver_Estado/varianteEstados.js";
+import { api } from "@/helpers";
+import { nacionalidad } from "@/helpers/modales";
+import { verEstado_input } from "@/componentes/ver_Estado";
 
 export default async () => {
 

@@ -3,10 +3,8 @@
  * Vista exclusiva de Administrador para evaluar TODAS las solicitudes de nuevos
  * perfiles. Muestra las cartas paginadas y levanta el modal de Aprobación/Rechazo.
  */
-import * as alerta from "@/helpers/alertas";
-import * as api from "@/helpers/api";
-import paginacion from "@/helpers/paginacion";
-import * as modalUsuario from "@/helpers/modales/usuario";
+import { alertas as alerta, api, paginacion } from "@/helpers";
+import { usuario as modalUsuario } from "@/helpers/modales";
 
 export default async () => {
 

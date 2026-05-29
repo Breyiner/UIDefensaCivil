@@ -4,9 +4,9 @@
  * realiza la petición POST al backend, almacena el token/datos en localStorage
  * y redirecciona SPA localmente según el Rol asignado (Admin, Supervisor, etc.).
  */
-import * as alerta from "@/helpers/alertas";
-import * as api from "@/helpers/api";
-import * as validacion from "@/helpers/validacionInputs";
+import { alertas as alerta } from "@/helpers";
+import { api } from "@/helpers";
+import { validacionInputs as validacion } from "@/helpers";
 
 // Exportación central de toda la función de vista Login
 export default async () => {

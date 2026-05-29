@@ -4,10 +4,10 @@
  * los catálogos públicos (Tipos de Documento, Géneros, Seccionales) y habilitar
  * la selección dependiente de Organizaciones basadas en la Seccional elegida.
  */
-import * as alerta from "@/helpers/alertas";
-import * as api from "@/helpers/api";
-import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
-import * as validacion from "@/helpers/validacionInputs";
+import { alertas as alerta } from "@/helpers";
+import { api } from "@/helpers";
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
+import { validacionInputs as validacion } from "@/helpers";
 import * as fechas from "@/helpers/fechas";
 
 export default async () => {

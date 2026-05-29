@@ -4,10 +4,10 @@
  * RH Sangre, Parentesco). 
  * Utiliza el "Validador Automático" (helper inteligente) en lugar de validación manual campo por campo.
  */
-import * as api from "@/helpers/api";
-import * as alerta from "@/helpers/alertas";
-import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
-import * as validacion from "@/helpers/validacionInputs";
+import { api } from "@/helpers";
+import { alertas as alerta } from "@/helpers";
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
+import { validacionInputs as validacion } from "@/helpers";
 
 export default async () => {
     // Selectores Form Layout

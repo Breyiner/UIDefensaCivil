@@ -4,9 +4,9 @@
  * los índices de vulnerabilidad de un Plan Familiar.
  */
 
-import * as vulnerabilidad from "@/helpers/modales/preguntaVulnerabilidad.js";
-import * as api from "@/helpers/api.js";
-import { verEstado_select } from "@/componentes/ver_Estado/varianteEstados.js";
+import { api } from "@/helpers";
+import { preguntaVulnerabilidad as vulnerabilidad } from "@/helpers/modales";
+import { verEstado_select } from "@/componentes/ver_Estado";
 
 export default async () => {
 

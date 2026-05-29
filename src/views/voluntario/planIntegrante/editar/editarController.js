@@ -4,12 +4,12 @@
  * Además implementa en la parte inferior un Accordion (Acordeón HTML) expansible
  * para Listar, Añadir y Gestionar las "Enfermedades Médicas / Afecciones" Específicas del Sujeto.
  */
-import * as api from "@/helpers/api";
-import * as alerta from "@/helpers/alertas";
-import * as cargarDatos from "@/helpers/cargarDatos";
-import * as adjuntarOpc from "@/helpers/adjuntarOpciones";
-import * as modalIntegrante from "@/helpers/modales/integrante"; // Helper UI SweetAlert Complejo!
-import acordeon from "@/helpers/acordeon"; // Script Inyector Eventos Acordeon Toggle JS Vainilla
+import { api } from "@/helpers";
+import { alertas as alerta } from "@/helpers";
+import { cargarDatosHelper as cargarDatos } from "@/helpers";
+import { adjuntarOpciones as adjuntarOpc } from "@/helpers";
+import { integrante as modalIntegrante } from "@/helpers/modales";
+import { acordeon } from "@/helpers"; // Script Inyector Eventos Acordeon Toggle JS Vainilla
 
 export default async () => {
   // Selectores UI Básicos Control
