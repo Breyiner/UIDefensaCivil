@@ -39,7 +39,6 @@
 @import "./components/tablas.css";
 @import "./components/sidebar.css";
 @import "./components/toggle.css";
-@import "./components/filters.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";
@@ -59,4 +58,3 @@
 @import "./components/historial.css";
 @import "./components/searchbar.css";
 @import "./components/dropdown.css";
-@import "./components/filterContainer.css";

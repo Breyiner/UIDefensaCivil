@@ -1,23 +1,37 @@
 /**
  * Controlador: Gestión de Usuarios Activos (gestionController.js)
- * Responsable de listar y paginar a todos los voluntarios bajo el cargo del supervisor.
- * Usa el helper de Paginación para crear cartas dinámicas e invoca el modalUsuario 
- * para visualizar los detalles de cada miembro.
+ * Usa los componentes de filtrado (barra de búsqueda y selector de estado) y el helper 
+ * de filtrado dinámico para permitir búsquedas locales rápidas y eficientes.
  */
-import * as alerta from "@/helpers/alertas";
-import * as api from "@/helpers/api";
-import paginacion from "@/helpers/paginacion";
-import * as modalUsuario from "@/helpers/modales/usuario";
-import { tarjetaEstados } from "@/componentes/tarjetas/tarjeta_gestionSupervisor";
+import * as alerta from "../../../../helpers/alertas";
+import * as api from "../../../../helpers/api";
+import * as modalUsuario from "../../../../helpers/modales/usuario";
+import { tarjetaEstados } from "../../../../componentes/tarjetas/tarjeta_gestionSupervisor";
+// Importamos el componente de barra de búsqueda para la UI
+import { searchBar } from "../../../../componentes/filter/searchBar";
+// Importamos el componente de menú desplegable para filtrar por estados
+import { dropdownFiltro } from "../../../../componentes/filter/dropdown";
+// Importamos el helper que llena dinámicamente comboboxes desde la API
+import { adjuntarNoValida } from "../../../../helpers/adjuntarOpciones";
+// Importamos el helper central de filtrado de datos del cliente
+import { filtrarDatos } from "../../../../helpers/filter";
 
 export default async () => {
 
-    // Extrae apuntadores a los botones de navegación generales
+    // Extrae los botones de navegación generales
     const botonBack = document.getElementById("botonBack");
 
     // Contenedor dinámico principal donde se incrustarán las Cards de usuarios paginados
     const contenedor = document.querySelector(".container__paginas");
-    const tarjeta = document.querySelector(".tarjeta");
+    
+    // Contenedor específico donde se inyectarán los elementos visuales de los filtros
+    const contenedorFiltro = document.querySelector(".container__filtro");
+
+    // Limpiamos la barra inferior del paginador ya que realizaremos filtrado local de todos los registros
+    const containerPaginador = document.querySelector(".container__paginador");
+    if (containerPaginador) {
+        containerPaginador.innerHTML = "";
+    }
 
     // Prevención de clics múltiples bloqueando interacción si la red está operando
     if (window.procesoPeticion === undefined) {
@@ -31,16 +45,78 @@ export default async () => {
         location.href = `#/supervisor/`;
     };
 
-    // Fallback string para el helper de paginación
-    const mensajeVacio = "No hay ninguna peticion de activacion";
+    // Mensaje que se muestra en pantalla si no se encuentran registros que coincidan con los filtros
+    const mensajeVacio = "No hay ningún usuario que coincida con los filtros";
 
+    // Array en memoria que actuará como caché local para almacenar todos los usuarios obtenidos de la API
+    let todosLosUsuarios = [];
+
+    // Manejador del evento de entrada de texto en la barra de búsqueda
+    function searchBarFiltro(event) {
+        event.preventDefault();
+        // Vuelve a procesar y renderizar los usuarios aplicando los nuevos criterios de búsqueda
+        renderUsuarios();
+    }
+
+    // Manejador del evento de cambio de selección en el dropdown de estado
+    function seleccionarEstado(event) {
+        event.preventDefault();
+        // Vuelve a procesar y renderizar los usuarios aplicando el nuevo estado seleccionado
+        renderUsuarios();
+    }
+
+    // Inicialización de filtros: Limpia y agrega barra de búsqueda y dropdown en el DOM
+    contenedorFiltro.innerHTML = "";
+    // Instancia el input de búsqueda con un placeholder descriptivo en español
+    const searchbar = searchBar(searchBarFiltro, "Buscar voluntario por nombre...");
+    // Instancia el dropdown que ejecutará seleccionarEstado al cambiar su valor
+    const dropdown = await dropdownFiltro(seleccionarEstado);
+    // Llena el dropdown con los estados de usuario disponibles en la base de datos (activo, inactivo, pendiente)
+    await adjuntarNoValida(dropdown, "stateUsers");
+
+    // Acopla los elementos de filtrado en el contenedor de la interfaz de usuario
+    contenedorFiltro.append(searchbar);
+    contenedorFiltro.append(dropdown);
+
+    // Procesa, filtra y dibuja las tarjetas de los usuarios que cumplan con los criterios establecidos
+    const renderUsuarios = () => {
+        contenedor.innerHTML = ""; // Limpieza del contenedor para redibujar
+
+        // Criterios de búsqueda: 'full_name' filtra por texto y 'status_id' por el ID del estado del usuario
+        const criterios = {
+            full_name: searchbar.value.trim(),
+            status_id: Number(dropdown.value)
+        };
+
+        // Filtra los datos locales usando el helper filtrarDatos importado
+        const usuariosFiltrados = filtrarDatos(todosLosUsuarios, criterios);
+
+        // Si el resultado del filtro está vacío, muestra un mensaje amigable al usuario
+        if (usuariosFiltrados.length === 0) {
+            contenedor.innerHTML = `<div class="noCantidad">${mensajeVacio}</div>`;
+        } else {
+            // Recorre los usuarios filtrados y los inyecta en el contenedor visual
+            usuariosFiltrados.forEach((user) => {
+                contenedor.append(tarjetaEstados(user));
+            });
+        }
+    };
 
     // Función Helper delegada a la clase UI para limpiar rastros y rehacer peticiones (Actualizar lista post-modal)
     const recargarContainer = async () => {
         contenedor.innerHTML = ""; // Barrido
 
-        // Petición al endpoint "userForSupervisor" encargada de los filtros, emitiendo objeto Paginated JSON 
-        await paginacion(`users`, mensajeVacio, tarjetaEstados);
+        // Petición al endpoint "users" pidiendo una cantidad alta para obtener todos los registros de una vez
+        // Esto permite que el buscador y el filtro de estados operen localmente sobre el set completo del supervisor
+        todosLosUsuarios = await api.get("users?per_page=1000");
+
+        // Aseguramos que la respuesta sea un array antes de renderizar para prevenir errores
+        if (!todosLosUsuarios) {
+            todosLosUsuarios = [];
+        }
+
+        // Renderiza el listado aplicando los filtros activos (inicialmente vacíos/todos)
+        renderUsuarios();
     };
 
     // Escucha pasiva delegada al contenedor padre (Técnica Event Delegation optimizada RAM)

@@ -1,9 +1,7 @@
 .dropdown-filtro{
     background-color: var(--color-secundario);
     border: none;
-    border-radius: 7px;
+    border-radius: var(--border-radius-botones);
     padding: 0.5rem;
-    width: 10rem;
-
     color: var(--color-grisFondo)
 }

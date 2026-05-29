@@ -54,10 +54,10 @@ export const router = async (main) => {
 
     validarRol(hash);
 
-    ocultarEditarUrl(hash);
+    if(await ocultarEditarUrl(hash)) return;
 
-    ocultarUrlFamilia(hash);
-
+    if(await ocultarUrlFamilia(hash)) return;
+    
     // --------------------------------------------------------
 
     // Si la route tiene guard y este no cumple con la condicion me llevara a una dirección especifica
@@ -104,7 +104,6 @@ const corregirQueryParams = (hash) => {
 }
 
 const ocultarEditarUrl = async (hash) => {
-
     const esSupervisor = hash.includes("supervisor/");
     const esVoluntario = hash.includes("voluntario/");
     const segmentos = hash.split("/");
@@ -117,28 +116,27 @@ const ocultarEditarUrl = async (hash) => {
     const params = new URLSearchParams(queryString);
     const familia_id = params.get("familia_id");
 
-    if (!familia_id) return;
+    if (!familia_id) return true;
 
     const plan = await api.get(`familyPlans/${familia_id}`);
 
     if (plan.status_plan_id === 6 || plan.status_plan_id === 7) {
-
         if (esSupervisor) {
             window.location.hash = "#/supervisor/plan_familiar";
             alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente y no se puede editar, te redirigiremos al listado de planes familiares`);
-            return;
+            return true; // Detener flujo
         }
         
         if (esVoluntario) {
             window.location.hash = "#/voluntario/plan_familiar";
             alerta.alertaMensaje(`Este plan familiar ya fue aprobado o rechazado definitivamente y no se puede editar, te redirigiremos al listado de planes familiares`);
-            return;
+            return true; // Detener flujo
         }
     }
+    return false; // no hubo redirección, continuar
 }
 
 const ocultarUrlFamilia = async (hash) => {
-
     const esSupervisor = hash.includes("supervisor/");
     const esVoluntario = hash.includes("voluntario/");
 
@@ -146,28 +144,28 @@ const ocultarUrlFamilia = async (hash) => {
 
     const queryString = hash.includes("?") ? hash.split("?")[1] : "";
     const params = new URLSearchParams(queryString);
-    // const familiaId = params.get("familia_id");
-    const familiaId = params.get("familia_id");
+    const familiaId = params.get("familia_id") ?? params.get("id");
 
     if (!familiaId) return;
 
     const plan = await api.get(`familyPlans/${familiaId}`);
 
     if (esVoluntario) {
-        if (plan.status_plan_id === 4 || plan.status_plan_id === 5 || plan.status_plan_id === 6 || plan.status_plan_id === 7) {
-            window.location.hash = "#/voluntario/plan_familiar";
+        if (plan.status_plan_id === 4 || plan.status_plan_id === 6 || plan.status_plan_id === 7) {
             alerta.alertaMensaje(`Este plan familiar ya fue enviado por voluntario y no se puede acceder directamente`);
-            return;
+            location.replace("#/voluntario/plan_familiar");
+            return true;
         }
     }
 
     if (esSupervisor) {
-        if (plan.status_plan_id === 1 || plan.status_plan_id === 2 || plan.status_plan_id === 3) {
-            window.location.hash = "#/supervisor/plan_familiar";
+        if (plan.status_plan_id === 1 || plan.status_plan_id === 2 || plan.status_plan_id === 3 || plan.status_plan_id === 5) {
             alerta.alertaMensaje(`Este plan familiar aún no ha sido enviado por el voluntario, no se puede acceder directamente hasta que el voluntario lo envíe para revisión`);
-            return;
+            location.replace("#/supervisor/plan_familiar");
+            return true;
         }
     }
+    return false;
 }
 
 const volverHome = async (hash) => {
@@ -183,6 +181,8 @@ const volverHome = async (hash) => {
 };
 
 const validarRol = async (hash) => {
+
+    console.log("validarRol hash:", hash);
 
     const roleId = parseInt(localStorage.getItem('role_id'));
 
