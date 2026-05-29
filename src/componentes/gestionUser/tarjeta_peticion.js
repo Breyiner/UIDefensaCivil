@@ -1,11 +1,6 @@
-<<<<<<< HEAD:src/componentes/gestionUser/tarjeta_peticion.js
-import { obtenerTiempoTranscurrido } from "../../helpers/obtenerTiempoTranscurrido";
-import { getBadgeClase, estado_usuarios } from "../../helpers/cambioEstado.js";
-import tiempoRelativo from "../tiempos/tiempoRelativo.js";
-=======
 import { obtenerTiempoTranscurrido, getBadgeClase, estado_usuarios } from "@/helpers/index.js";
+import tiempoRelativo from "../tiempos/tiempoRelativo.js";
 
->>>>>>> origin/develop:src/componentes/tarjetas/tarjeta_checkbox.js
 
 export const tarjetaPeticion = (info) => {
 
