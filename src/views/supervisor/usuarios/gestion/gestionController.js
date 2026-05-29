@@ -8,7 +8,7 @@ import { alertas as alerta, api, adjuntarNoValida, filtrarDatos } from "@/helper
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { usuario as modalUsuario } from "@/helpers/modales/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { tarjetaEstados } from "@/componentes/tarjetas/index.js";
+import { tarjetaEstados } from "@/componentes/gestionUser/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { searchBar, dropdownFiltro } from "@/componentes/filter/index.js";
 

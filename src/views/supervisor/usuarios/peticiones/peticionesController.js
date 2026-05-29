@@ -5,7 +5,7 @@
  */
 import { alertas as alerta, api, paginacion } from "@/helpers/index.js";
 import { usuario as modalUsuario } from "@/helpers/modales/index.js";
-import { tarjetaPeticion } from "@/componentes/tarjetas/index.js";
+import { tarjetaPeticion } from "@/componentes/gestionUser/index.js";
 
 export default async () => {
 
