@@ -4,25 +4,14 @@
  * usuarios del sistema (exceptuando pendientes). Se apoya en el helper de
  * paginación y despliega el modal interactivo de usuario.
  */
-<<<<<<< HEAD
-import * as alerta from "../../../../helpers/alertas";
-import * as api from "../../../../helpers/api";
-import * as modalUsuario from "../../../../helpers/modales/usuario";
-import { tarjetaEstados } from "../../../../componentes/gestionUser/tarjeta_gestion";
-// Importamos el componente de barra de búsqueda para la UI
-import { searchBar } from "../../../../componentes/filter/searchBar";
-// Importamos el componente de menú desplegable para filtrar por estados
-import { dropdownFiltro } from "../../../../componentes/filter/dropdown";
-// Importamos el helper que llena dinámicamente comboboxes desde la API
-import { adjuntarNoValida } from "../../../../helpers/adjuntarOpciones";
-// Importamos el helper central de filtrado de datos del cliente
-import { filtrarDatos } from "../../../../helpers/filter";
-=======
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { alertas as alerta, api, paginacion } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { usuario as modalUsuario } from "@/helpers/modales/index.js";
->>>>>>> origin/develop
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { tarjetaEstados } from "@/componentes/tarjetas/index.js";
+// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
+import { searchBar, dropdownFiltro } from "@/componentes/filter/index.js";
 
 export default async () => {
 

@@ -1,2 +1,2 @@
-export { tarjetaPeticion } from "./tarjeta_checkbox.js";
-export { tarjetaEstados } from "./tarjeta_gestionSupervisor.js";
+export { tarjetaPeticion } from "./tarjeta_peticion.js";
+export { tarjetaEstados } from "./tarjeta_gestion.js";
