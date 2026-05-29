@@ -53,7 +53,7 @@ export default async () => {
         // 5. Si tenemos el ID, lanzamos el modal.
         if (userId) {
             // modalUsuario.ver(ID_DEL_USUARIO, CALLBACK_RECARGAR, MODO_PETICION, EDITABLE)
-            modalUsuario.ver(userId, recargarContainer, true, true);
+            modalUsuario.ver(userId, recargarContainer, true, false);
         }
     });
 

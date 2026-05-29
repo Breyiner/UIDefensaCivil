@@ -1,8 +1,8 @@
-import * as api from "@/helpers/api";
-import { estado_planes, estado_usuarios, getBadgeClase } from "@/helpers/cambioEstado";
+import { obtenerTiempoTranscurrido, getBadgeClase, estado_usuarios } from "@/helpers/index.js";
+import tiempoRelativo from "../tiempos/tiempoRelativo.js";
 
 
-export const tarjetaEstados = (info) => {
+export const tarjetaPeticion = (info) => {
 
     // Contenedor principal de la tarjeta
     const tarjeta = document.createElement('div');
@@ -35,8 +35,8 @@ export const tarjetaEstados = (info) => {
     const iconoRol = document.createElement('i');
     iconoRol.classList.add('ri-user-line');
     const textoRol = document.createElement('p');
-    textoRol.classList.add('valor__rol');
-    textoRol.textContent = `Rol: ${info.rol}`;
+    textoRol.classList.add('tarjeta__valor');
+    textoRol.textContent = `Rol: Voluntario`;
     itemRol.append(iconoRol, textoRol);
 
     // Sub-hijo: Seccional
@@ -45,7 +45,7 @@ export const tarjetaEstados = (info) => {
     const iconoSeccional = document.createElement('i');
     iconoSeccional.classList.add('ri-map-pin-fill');
     const textoSeccional = document.createElement('p');
-    textoSeccional.classList.add('valor__seccional');
+    textoSeccional.classList.add('tarjeta__valor');
     textoSeccional.textContent = `Seccional: ${info.sectional}`;
     itemSeccional.append(iconoSeccional, textoSeccional);
 
@@ -55,7 +55,7 @@ export const tarjetaEstados = (info) => {
     const iconoOrg = document.createElement('i');
     iconoOrg.classList.add('ri-map-pin-fill');
     const textoOrg = document.createElement('p');
-    textoOrg.classList.add('valor__organizacion');
+    textoOrg.classList.add('tarjeta__valor');
     textoOrg.textContent = `Organizacion: ${info.organization}`;
     itemOrg.append(iconoOrg, textoOrg);
 
@@ -65,7 +65,7 @@ export const tarjetaEstados = (info) => {
     const iconoCorreo = document.createElement('i');
     iconoCorreo.classList.add('ri-mail-line');
     const textoCorreo = document.createElement('p');
-    textoCorreo.classList.add('valor__correo');
+    textoCorreo.classList.add('tarjeta__valor');
     textoCorreo.textContent = `Correo: ${info.email}`;
     itemCorreo.append(iconoCorreo, textoCorreo);
 
@@ -75,14 +75,21 @@ export const tarjetaEstados = (info) => {
     // Hijo 4: Contenedor de estado
     const tarjetaEstado = document.createElement('div');
     tarjetaEstado.classList.add('tarjeta__estado');
-    const tarjetaBadge = document.createElement('span'); 
+
+    const tarjetaTiempo = document.createElement('span');
+    tarjetaTiempo.classList.add('tarjeta__tiempo');
+    //Se agrega al contenido la funcion ya que primero tiene que hacer el procesamiento de la misma y luego si muestra el resultado, si no se hiciera con la funcion saldria la hora en el formato de mySQL
+    tarjetaTiempo.textContent = tiempoRelativo(info.created_at);
+
+
+    const tarjetaBadge = document.createElement('span');
     tarjetaBadge.className = getBadgeClase(info.status_id, estado_usuarios);
     tarjetaBadge.textContent = info.status;
-    tarjetaEstado.append(tarjetaBadge);
-
+    tarjetaEstado.append(tarjetaTiempo, tarjetaBadge);
 
     // Unir elementos al header
     tarjetaHeader.append(tarjetaIconoCont, tarjetaInfo, tarjetaEstado);
+
     // Unir el header al contenedor principal
     tarjeta.append(tarjetaHeader);
 

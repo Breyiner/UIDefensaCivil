@@ -1,14 +1,41 @@
-import { obtenerTiempoTranscurrido, getBadgeClase, estado_usuarios } from "@/helpers/index.js";
+import * as api from "@/helpers/api";
+import { estado_planes, estado_usuarios, getBadgeClase } from "@/helpers/cambioEstado";
 
 
-export const tarjetaPeticion = (info) => {
+export const tarjetaEstados = (info) => {
 
+    console.log( info);
+    
 
+    const hash = window.location.hash;
+    const rolId = parseInt(localStorage.getItem("role_id"));
+
+    const esAdmin = rolId === 1 && hash.includes("administrador/");
+    const esSupervisor = rolId === 2 && hash.includes("supervisor/");
+
+    const rolID = parseInt(info.rol_id); 
+
+    
     // Contenedor principal de la tarjeta
     const tarjeta = document.createElement('div');
     // Guardamos el ID aquí para que sea accesible desde cualquier parte de la tarjeta, ya que se espera que al hacer click nos muestre el modal de rechazar o aceptar el acceso
     tarjeta.setAttribute("data-id", info.id);
     tarjeta.classList.add('tarjeta', 'tarjeta--notificacion');
+    
+    if (esSupervisor && rolID !== 3) {
+      tarjeta.classList.add("oculto");
+      return tarjeta;
+    }
+
+    if (esAdmin && rolID !== 3 && rolID !== 2) {
+      tarjeta.classList.add("oculto");
+      return tarjeta;
+    }
+
+    if (!esSupervisor && !esAdmin) {
+      tarjeta.classList.add("oculto");
+      return tarjeta;
+    }
 
     //Header
     const tarjetaHeader = document.createElement('div');
@@ -35,8 +62,8 @@ export const tarjetaPeticion = (info) => {
     const iconoRol = document.createElement('i');
     iconoRol.classList.add('ri-user-line');
     const textoRol = document.createElement('p');
-    textoRol.classList.add('tarjeta__valor');
-    textoRol.textContent = `Rol: Voluntario`;
+    textoRol.classList.add('valor__rol');
+    textoRol.textContent = `Rol: ${info.rol}`;
     itemRol.append(iconoRol, textoRol);
 
     // Sub-hijo: Seccional
@@ -45,7 +72,7 @@ export const tarjetaPeticion = (info) => {
     const iconoSeccional = document.createElement('i');
     iconoSeccional.classList.add('ri-map-pin-fill');
     const textoSeccional = document.createElement('p');
-    textoSeccional.classList.add('tarjeta__valor');
+    textoSeccional.classList.add('valor__seccional');
     textoSeccional.textContent = `Seccional: ${info.sectional}`;
     itemSeccional.append(iconoSeccional, textoSeccional);
 
@@ -55,7 +82,7 @@ export const tarjetaPeticion = (info) => {
     const iconoOrg = document.createElement('i');
     iconoOrg.classList.add('ri-map-pin-fill');
     const textoOrg = document.createElement('p');
-    textoOrg.classList.add('tarjeta__valor');
+    textoOrg.classList.add('valor__organizacion');
     textoOrg.textContent = `Organizacion: ${info.organization}`;
     itemOrg.append(iconoOrg, textoOrg);
 
@@ -65,7 +92,7 @@ export const tarjetaPeticion = (info) => {
     const iconoCorreo = document.createElement('i');
     iconoCorreo.classList.add('ri-mail-line');
     const textoCorreo = document.createElement('p');
-    textoCorreo.classList.add('tarjeta__valor');
+    textoCorreo.classList.add('valor__correo');
     textoCorreo.textContent = `Correo: ${info.email}`;
     itemCorreo.append(iconoCorreo, textoCorreo);
 
@@ -75,17 +102,10 @@ export const tarjetaPeticion = (info) => {
     // Hijo 4: Contenedor de estado
     const tarjetaEstado = document.createElement('div');
     tarjetaEstado.classList.add('tarjeta__estado');
-
-    const tarjetaTiempo = document.createElement('span');
-    tarjetaTiempo.classList.add('tarjeta__tiempo');
-    //Se agrega al contenido la funcion ya que primero tiene que hacer el procesamiento de la misma y luego si muestra el resultado, si no se hiciera con la funcion saldria la hora en el formato de mySQL
-    tarjetaTiempo.textContent = obtenerTiempoTranscurrido(info.created_at);
-
-
-    const tarjetaBadge = document.createElement('span');
+    const tarjetaBadge = document.createElement('span'); 
     tarjetaBadge.className = getBadgeClase(info.status_id, estado_usuarios);
     tarjetaBadge.textContent = info.status;
-    tarjetaEstado.append(tarjetaTiempo, tarjetaBadge);
+    tarjetaEstado.append(tarjetaBadge);
 
 
     // Unir elementos al header
