@@ -1,19 +1,22 @@
 .spinner-background {
-    background-color: #0000004c;    
+    background-color: #ffffff4c;    
 
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    z-index: 1000;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    backdrop-filter: blur(2px);
 }
 
 .spinner-background__spinner {
+  
   width: 5rem;
   height: 5rem;
-  border: 5px solid #f3f3f3; /* Light gray base */
+  border: 5px solid var(--color-secundario); /* Light gray base */
   border-top: 5px solid var(--color-primario); /* Blue moving part */
   border-radius: 50%;
   animation: spin 1s linear infinite;

@@ -5,3 +5,7 @@
   font-optical-sizing: auto;
   font-family: roboto, sans-serif;
 }
+
+body {
+  background-color: var(--color-grisFondo);
+}

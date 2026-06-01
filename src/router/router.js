@@ -16,18 +16,39 @@ import * as api from "../helpers/api";
 const viewTemplates = import.meta.glob("../views/**/*.html", { as: "raw" });
 
 export const router = async (main) => {
+
     // Encontrar la ruta desde el hash (#)
     const hash = location.hash.slice(1);
+
     let arregloHash = hash.split("/");
+
     let residuo = arregloHash.pop();
+
     // Separar la ruta URL de los queryParams
     arregloHash = [...arregloHash, ...residuo.split("?")];
 
     // recorrer todas las rutas
     const [ruta, parametros] = recorrerRutas(routes, arregloHash);
 
-    // si la ruta no es encontrada:
+    // si el usuario esta autenticado devolvera al home respectivo de cada rol, de lo contrario devolvera al "/"
+    if (isAuth()) {
 
+        const rutasPublicas = ["", "/", "/#", "/login", "/register"];
+        if (rutasPublicas.includes(hash)) {
+            volverHome(hash);
+            return;
+        }
+        
+    } else {
+
+        const rutasPublicas = ["", "/", "/#", "/login", "/register", "/forgotPassword", "/verificar_codigo", "/cambiar_password"];
+            if (!rutasPublicas.includes(hash)) {
+            window.location.hash = "/#";
+            return;
+        }
+    }
+    
+    // si la ruta no es encontrada:
     if (!ruta) {
         volverHome(hash);
         alerta.alertaMensaje(`Error 404: Página no encontrada. Serás redirigido a tu página de inicio.`)
