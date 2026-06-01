@@ -6,16 +6,17 @@ let requestActivas = 0;
 // temporizador para que el spinner no aparezca como parpadeo
 let timer = null;
 
-const layout = document.querySelector(".layout")
 
 export const abrirSpinner = () => {
     requestActivas ++;
-
-    if (requestActivas === 1) {
-
-        timer = setTimeout(() => {
     
+    
+    if (requestActivas === 1) {
+        
+        timer = setTimeout(() => {
+            
             if (!spinnerDiv){
+                const layout = document.querySelector(".layout")
                 spinnerDiv = document.createElement("div");
                 spinnerDiv.className = "spinner-background"
                 spinnerDiv.innerHTML = `<div class="spinner-background__spinner"></div>`
@@ -33,16 +34,28 @@ export const cerrarSpinner = () => {
     if (requestActivas > 0){
         requestActivas --;
     }
+    
     // validar que no haya ninguna request y que el div del spinner exista para removerlo
-    if (requestActivas === 0){
-
+    if (requestActivas === 0) {
         clearTimeout(timer);
-
-        if (spinnerDiv){
-
-            spinnerDiv.remove();
-            spinnerDiv = null;
-        }
+        
+        setTimeout(() => {
+            if (requestActivas === 0 && spinnerDiv) {
+                spinnerDiv.remove();
+                spinnerDiv = null;
+            }
+        }, 100); // ← espera 100ms antes de cerrar
     }
+
+    // if (requestActivas === 0){
+
+    //     clearTimeout(timer);
+
+    //     if (spinnerDiv){
+
+    //         spinnerDiv.remove();
+    //         spinnerDiv = null;
+    //     }
+    // }
 
 }

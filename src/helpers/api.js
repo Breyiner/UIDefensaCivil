@@ -9,16 +9,6 @@ import * as alerta from "./alertas";
 import * as cookie from "./cookies";
 import * as spinner from "./spinner"
 
-// URL base para las peticiones a la API del backend
-// const url = "http://localhost:8000/api";
-// let url = '';
-// if (import.meta.env.VITE_API_URL) {
-//   url = import.meta.env.VITE_API_URL;
-// } else {
-//   console.warn("VITE_API_URL no está definida en el entorno. Usando URL por defecto.");
-//   url = "http://localhost:8000/api";
-// }
-
 const url = import.meta.env.VITE_API_URL;
 
 // URL base donde se alojan los archivos estáticos en el backend (imágenes, documentos, etc.)
@@ -72,7 +62,7 @@ export const getExiste = async (endpoint) => {
     const obtenciones = await response.json();
     const info = obtenciones.data;
     // Evalúa si vino relleno o vacío
-    spinner.cerrarSpinner();
+
     if (info.length > 0) return true;
     else return false;
   } catch (error) {
@@ -117,7 +107,6 @@ export const postImagen = async (endpoint, datos) => {
       }
     }
 
-    spinner.cerrarSpinner();
     return await response.json();
   } catch (error) {
     console.error("Error en POST:", error);
@@ -165,7 +154,7 @@ export const getImagen = async (endpoint) => {
     const obtenciones = await response.json();
     const imagenNombre = obtenciones.data[0].path; // Toma de asunción que la API retorna base en la prop path
     const imagen = `${urlStorage}/${imagenNombre}`; // Arma la url completa de la foto
-    spinner.cerrarSpinner();
+
     return imagen;
   } catch (error) {
     console.error("Error en GET:", error);
@@ -211,7 +200,6 @@ export const get = async (endpoint) => {
     
     const obtenciones = await response.json();
 
-    spinner.cerrarSpinner();
     return obtenciones.data; // Devuelve solo el payload interno 
   } catch (error) {
     console.error("Error en GET:", error);
@@ -259,7 +247,7 @@ export const post = async (endpoint, datos) => {
       }
     }
 
-    spinner.cerrarSpinner();
+  
     return await response.json();
   } catch (error) {
     console.error("Error en POST:", error);
@@ -306,7 +294,7 @@ export const put = async (endpoint, datos) => {
       }
     }
 
-    spinner.cerrarSpinner();
+  
     return await response.json();
   } catch (error) {
     console.error("Error en PUT:", error);
@@ -361,7 +349,7 @@ export const patch = async (endpoint, datos) => {
       return null;
     }
 
-    spinner.cerrarSpinner()
+
     return await response.json();
 
   } catch (error) {
@@ -408,7 +396,7 @@ export const delet = async (endpoint) => {
       }
     }
 
-    spinner.cerrarSpinner()
+
     return await response.json();
   } catch (error) {
     console.error("Error en DELETE:", error);
@@ -463,8 +451,7 @@ export const getPaginacion = async (endpoint) => {
     
     // Procesa el Request Json
     const obtenciones = await response.json();
-    // Retorna ambas raíces en un solo objeto consolidado
-    spinner.cerrarSpinner()
+
     return { data: obtenciones.data, paginate: obtenciones.paginate };
   } catch (error) {
     console.error("Error en GET:", error);
@@ -521,8 +508,6 @@ export const getPdf = async (endpoint, filename = "archivo.pdf") => {
     a.click(); // Autoclick automático para lanzar el modal de descargas en Chrome/Firefox
     a.remove(); // Borra la meta etiqueta basura después de usada
     window.URL.revokeObjectURL(urlBlob); // Libera RAM cachada de la PC usada para el Blob
-    
-    spinner.cerrarSpinner()
 
   } catch (error) {
     console.error("Error descargando PDF:", error);

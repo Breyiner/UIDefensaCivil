@@ -1,17 +1,27 @@
+.headerCont {
+  width: 100%;
+  /* padding: 10px; */
+  height: fit-content;
+  background-color: var(--color-grisFondo);
+}
+
 .header {
   display: flex;
   background-color: #0770CC;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 10px 15px;
   height: var(--altura-header);
   align-items: center;
+  transform: ease 0.3s;
+  height: fit-content;
 }
 
 .header__contenedor {
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 }
 
 .header__boton {
