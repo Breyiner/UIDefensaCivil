@@ -64,7 +64,7 @@ export default async () => {
   const existe = existeData !== null && existeData !== undefined;
 
   if (existe) {
-    preview.src = `${api.urlStorage}/${existeData.path}`;
+    preview.src = existeData.path;
     preview.style.display = "block";
     imagenTitulo.textContent = "Vista previa de la imagen actual";
   } else {

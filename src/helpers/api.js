@@ -12,7 +12,7 @@ import * as spinner from "./spinner"
 const url = import.meta.env.VITE_API_URL;
 
 // URL base donde se alojan los archivos estáticos en el backend (imágenes, documentos, etc.)
-export const urlStorage = "http://localhost:8000/storage";
+export const urlStorage = import.meta.env.VITE_STORAGE_URL;
 
 // ==========================================
 // FUNCIONES DE PETICIÓN (HTTP FETCH)
@@ -111,6 +111,8 @@ export const postImagen = async (endpoint, datos) => {
   } catch (error) {
     console.error("Error en POST:", error);
     return null;
+  } finally {
+    spinner.cerrarSpinner();
   }
 };
 
@@ -159,6 +161,8 @@ export const getImagen = async (endpoint) => {
   } catch (error) {
     console.error("Error en GET:", error);
     return null;
+  } finally {
+    spinner.cerrarSpinner();
   }
 };
 

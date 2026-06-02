@@ -51,7 +51,7 @@ export default async () => {
   const datosGrafico = await api.get(`housingGraphics/${graficoId}`); // Petición Específica de Unidad Croquis
   
   // Render de Preview Visual Mode Solo Lectura FOTO
-  preview.src = api.urlStorage + "/" + datosGrafico.path; // Render Static AWS/S3 URL 
+  preview.src = datosGrafico.path; // Render Static AWS/S3 URL 
   
   // Rellenar TextArea con BD string
   descripcion.value = datosGrafico.description;

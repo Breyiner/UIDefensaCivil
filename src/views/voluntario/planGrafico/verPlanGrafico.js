@@ -62,7 +62,7 @@ export default async () => {
         // Render Image URL (Bucket AWS S3 Public Host API) + Botonera de Acción ID-Inyectado
         div.innerHTML = `
             <div class="verGraficos__imagenTexto">
-                <img class="verGraficos__imagen" src="${api.urlStorage + '/' + info.path}">
+                <img class="verGraficos__imagen" src="${info.path}">
                 <div class="verGraficos__texto">${info.description}</div>
             </div>
             <div class="verGraficos__botones">
