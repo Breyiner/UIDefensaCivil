@@ -20,7 +20,7 @@ export const componenteHeader = async () => {
     
     const logo = document.createElement("img");
     logo.classList.add("header__imagen-logo");
-    logo.src="../public/logo.png";
+    logo.src="/logo.png";
     
     const headerTexto = document.createElement("div");
     headerTexto.classList.add("header__texto");
