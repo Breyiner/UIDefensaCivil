@@ -37,7 +37,10 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
     }
     else {
         // Alternativa: Si hay cero, imprime el warning de vacío inyectando el msj
-        container.innerHTML = `<div class="noCantidad">${mensajeVacio}</div>`
+        const divVacio = document.createElement("div");
+        divVacio.classList.add("noCantidad");
+        divVacio.textContent = mensajeVacio;
+        container.replaceChildren(divVacio);
         window.procesoPeticion = false;
     }
 
@@ -78,7 +81,9 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
             const botonAtras = document.createElement("button");
             botonAtras.classList.add("paginador__numero");
             botonAtras.id = paginaActual != 1 ? Number(paginaActual) - 1 : paginaActual;
-            botonAtras.innerHTML = `<i class="ri-arrow-left-wide-line"></i>`
+            const iconoAtras = document.createElement("i");
+            iconoAtras.classList.add("ri-arrow-left-wide-line");
+            botonAtras.append(iconoAtras);
             containerPaginador.appendChild(botonAtras);
 
             let numeroCasillas = 0;
@@ -113,7 +118,9 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
             const botonSiguiente = document.createElement("button");
             botonSiguiente.classList.add("paginador__numero");
             botonSiguiente.id = (Number(paginaActual) + 1) > cantidad ? cantidad : Number(paginaActual) + 1;
-            botonSiguiente.innerHTML = `<i class="ri-arrow-right-wide-line"></i>`;
+            const iconoSiguiente = document.createElement("i");
+            iconoSiguiente.classList.add("ri-arrow-right-wide-line");
+            botonSiguiente.append(iconoSiguiente); 
             containerPaginador.appendChild(botonSiguiente);
         }
     }
