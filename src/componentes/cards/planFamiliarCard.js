@@ -1,5 +1,20 @@
 import { estado_planes, getBadgeClase } from "../../helpers/cambioEstado.js";
 
+const crearDatoConIcono = (claseIcono, texto) => {
+    const contenedor = document.createElement("div");
+    contenedor.classList.add("form_autorizacion");
+
+    const icono = document.createElement("i");
+    icono.classList.add("icono--pequeno", claseIcono);
+
+    const span = document.createElement("span");
+    span.textContent = texto;
+
+    contenedor.append(icono, span);
+
+    return contenedor;
+};
+
 export const cardPlanFamiliar = (info) => {
 
     const rolId = parseInt(localStorage.getItem("role_id"));
@@ -28,17 +43,20 @@ export const cardPlanFamiliar = (info) => {
     apellidoFamilia.classList.add("tarjeta__titulo");
     apellidoFamilia.textContent = "Familia " + info.last_names;
 
-    const departamento = document.createElement("div");
-    departamento.classList.add("form_autorizacion");
-    departamento.innerHTML = `<i class="icono--pequeno ri-map-pin-2-line"></i> ${info.department}`;
+    const departamento = crearDatoConIcono(
+        "ri-map-pin-2-line",
+        info.department
+    );
 
-    const fechaRecibido = document.createElement("div");
-    fechaRecibido.classList.add("form_autorizacion");
-    fechaRecibido.innerHTML = `<i class="icono--pequeno ri-calendar-line"></i> Recibido: ${info.date_create}`;
+    const fechaRecibido = crearDatoConIcono(
+        "ri-calendar-line",
+        `Recibido: ${info.date_create}`
+    );
 
-    const nombreVoluntario = document.createElement("div");
-    nombreVoluntario.classList.add("form_autorizacion");
-    nombreVoluntario.innerHTML = `<i class="icono--pequeno ri-user-line"></i> Voluntario: ${info.responsable}`;
+    const nombreVoluntario = crearDatoConIcono(
+        "ri-user-line",
+        `Voluntario: ${info.responsable}`
+    );
 
     introduccionCont.append(apellidoFamilia, departamento, fechaRecibido, nombreVoluntario);
     introduccionDiv.append(imagenIcono, introduccionCont);
@@ -50,7 +68,7 @@ export const cardPlanFamiliar = (info) => {
 
     const estadoClase = getBadgeClase(info.status_id, estado_planes);
     const verEstado = document.createElement("p");
-    verEstado.classList = "verPlan__estado " + estadoClase;
+    verEstado.classList.add("verPlan__estado ", estadoClase);
     verEstado.textContent = info.status;
 
     const tipoClase = info.family_type_id == 1 ? "verPlan__tipo--rojo"
@@ -69,6 +87,7 @@ export const cardPlanFamiliar = (info) => {
     const boton = document.createElement("button");
     boton.classList.add("boton", "boton--height");
     boton.textContent = "Revisar Plan";
+
     div.append(boton);
 
     if (esVoluntario) {
@@ -83,9 +102,6 @@ export const cardPlanFamiliar = (info) => {
         }
 
         boton.addEventListener("click", () => {
-            // location.href = info.status_id == 1
-            //     ? `#/voluntario/plan_familiar/testVunerabilidad?id=${info.id}`
-            //     : `#/voluntario/plan_familiar/familia?id=${info.id}`;
             if (info.status_id === 1) {
                 location.href = `#/voluntario/plan_familiar/testVunerabilidad?id=${info.id}`;
             } else if (info.status_id === 5) {
