@@ -67,8 +67,11 @@ export const cardPlanFamiliar = (info) => {
     estadoTipoCont.classList.add("verPlan__tipo--estado");
 
     const estadoClase = getBadgeClase(info.status_id, estado_planes);
+
+    console.log("estadoClase =", JSON.stringify(estadoClase));
+    
     const verEstado = document.createElement("p");
-    verEstado.classList.add("verPlan__estado ", estadoClase);
+    verEstado.className = `verPlan__estado ${estadoClase}`;
     verEstado.textContent = info.status;
 
     const tipoClase = info.family_type_id == 1 ? "verPlan__tipo--rojo"
