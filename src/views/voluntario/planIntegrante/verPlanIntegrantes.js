@@ -48,17 +48,59 @@ export default async () => {
         let cartaInfo = document.createElement('div');
         cartaInfo.classList.add("verIntegrante"); // Grid wrapper
         
-        // Plantilla UI con iconos RemixIcon y clases BEM
-        cartaInfo.innerHTML = `
-            <div class="verIntegrante__nombre"><p class="tarjeta__titulo">${info.full_name}</p></div>
-            <div class="verIntegrante__sangre"><p class="tarjeta__titulo">${info.blood_group}</p></div>
-            <div class="verIntegrante__documento"><i class="ri-passport-line"></i><p class="tarjeta__contenido">${info.document_number}</p></div>
-            <div class="verIntegrante__telefono"><i class="ri-phone-line"></i><p class="tarjeta__contenido">${info.phone}</p></div>
-            <div class="verIntegrante__parentesco"><i class="ri-parent-line"></i><p class="tarjeta__contenido">${info.kinship}</p></div>
-            <div class="verIntegrante__edad"><i class="ri-cake-2-line"></i><p class="tarjeta__contenido">${info.birth_date}</p></div>
-            <button class="boton boton--azul boton__editar" data-id="${info.id}">Editar</button>
-            <button class="boton boton--azul boton__eliminar" data-id="${info.id}">Eliminar</button>
-            <button class="boton boton__vermas" data-id="${info.id}">Ver más</button>`;
+        const divNombre = document.createElement("div");
+        divNombre.className = "verIntegrante__nombre";
+        const pNombre = document.createElement("p");
+        pNombre.className = "tarjeta__titulo";
+        pNombre.textContent = info.full_name;
+        divNombre.appendChild(pNombre);
+        cartaInfo.appendChild(divNombre);
+
+        const divSangre = document.createElement("div");
+        divSangre.className = "verIntegrante__sangre";
+        const pSangre = document.createElement("p");
+        pSangre.className = "tarjeta__titulo";
+        pSangre.textContent = info.blood_group;
+        divSangre.appendChild(pSangre);
+        cartaInfo.appendChild(divSangre);
+
+        const fields = [
+            { cls: "verIntegrante__documento", icon: "ri-passport-line", val: info.document_number },
+            { cls: "verIntegrante__telefono", icon: "ri-phone-line", val: info.phone },
+            { cls: "verIntegrante__parentesco", icon: "ri-parent-line", val: info.kinship },
+            { cls: "verIntegrante__edad", icon: "ri-cake-2-line", val: info.birth_date },
+        ];
+
+        fields.forEach(({ cls, icon, val }) => {
+            const div = document.createElement("div");
+            div.className = cls;
+            const i = document.createElement("i");
+            i.className = icon;
+            div.appendChild(i);
+            const p = document.createElement("p");
+            p.className = "tarjeta__contenido";
+            p.textContent = val;
+            div.appendChild(p);
+            cartaInfo.appendChild(div);
+        });
+
+        const btnEditar = document.createElement("button");
+        btnEditar.className = "boton boton--azul boton__editar";
+        btnEditar.dataset.id = info.id;
+        btnEditar.textContent = "Editar";
+        cartaInfo.appendChild(btnEditar);
+
+        const btnEliminar = document.createElement("button");
+        btnEliminar.className = "boton boton--azul boton__eliminar";
+        btnEliminar.dataset.id = info.id;
+        btnEliminar.textContent = "Eliminar";
+        cartaInfo.appendChild(btnEliminar);
+
+        const btnVerMas = document.createElement("button");
+        btnVerMas.className = "boton boton__vermas";
+        btnVerMas.dataset.id = info.id;
+        btnVerMas.textContent = "Ver más";
+        cartaInfo.appendChild(btnVerMas);
         return cartaInfo; // Node Retrun
     };
 
