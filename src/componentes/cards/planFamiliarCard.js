@@ -68,8 +68,6 @@ export const cardPlanFamiliar = (info) => {
 
     const estadoClase = getBadgeClase(info.status_id, estado_planes);
 
-    console.log("estadoClase =", JSON.stringify(estadoClase));
-    
     const verEstado = document.createElement("p");
     verEstado.className = `verPlan__estado ${estadoClase}`;
     verEstado.textContent = info.status;
