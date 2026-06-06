@@ -85,11 +85,13 @@ export default async () => {
       boton.className = "gestionarAfecciones__afeccion"; // Design Helper "Afeccion" reciclado (Mismo CSS Layout q Integrante Condiciones Medicas en Front!)
       boton.dataset.id = item.id; // PK_petVaccine Id for Update/Delete
 
-      // Label "Nombre Vacuna - Fecha Aplicacion!"
-      boton.innerHTML = `
-                <span class="gestionarAfecciones__tipoNombre">
-                    <i class="ri-eye-fill"></i> ${item.name} - ${item.date} 
-                </span>`;
+      const spanVacuna = document.createElement("span");
+      spanVacuna.className = "gestionarAfecciones__tipoNombre";
+      const iconVacuna = document.createElement("i");
+      iconVacuna.className = "ri-eye-fill";
+      spanVacuna.appendChild(iconVacuna);
+      spanVacuna.appendChild(document.createTextNode(` ${item.name} - ${item.date}`));
+      boton.appendChild(spanVacuna);
       contenedorAfecciones.appendChild(boton); // Attach Dom
     });
   };
