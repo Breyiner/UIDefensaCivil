@@ -65,7 +65,9 @@ export const router = async (main) => {
     // verificar que el usuario tenga permisos especificos
     if (!tienePermisos(permissions)) {
         limpiarLayout(main);
-        main.innerHTML = `<h2>No tienes permisos para acceder a esta sección</h2>`;
+        const h2 = document.createElement("h2");
+        h2.textContent = "No tienes permisos para acceder a esta sección";
+        main.appendChild(h2);
         return;
     }
 
