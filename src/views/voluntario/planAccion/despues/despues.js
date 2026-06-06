@@ -161,10 +161,13 @@ export default async () => {
           const boton = document.createElement("button"); // Pinta cada cuadro como oprimible
           boton.className = "gestionarAfecciones__afeccion";
           boton.dataset.id = item.id;
-          boton.innerHTML = `
-            <span class="gestionarAfecciones__tipoNombre">
-                <i class="ri-eye-fill"></i> ${item.member_name} - ${item.description}
-            </span>`;
+          const span = document.createElement("span");
+          span.className = "gestionarAfecciones__tipoNombre";
+          const icon = document.createElement("i");
+          icon.className = "ri-eye-fill";
+          span.appendChild(icon);
+          span.appendChild(document.createTextNode(` ${item.member_name} - ${item.description}`));
+          boton.appendChild(span);
           contenedorAfecciones.appendChild(boton); // Añadir finalmente la tarea creada a la familia global de arriba
         }
       });
