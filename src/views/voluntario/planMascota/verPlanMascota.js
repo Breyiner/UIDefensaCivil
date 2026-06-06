@@ -64,24 +64,59 @@ export default async () => {
         let cartaInfo = document.createElement('div');
         cartaInfo.classList.add("verMascotas"); // Card Wrapper BEM CSS Grid
 
-        // Bloque Condicional Interesante: animal_gender_id == 1 is Macho(AZUL). Else Hembra(ROSA CSS Class Modifier)
-        cartaInfo.innerHTML = `
-            <div class="verMascotas__icono">
-                <img src="icon/${adaptarIcono(info.species_name)}.svg">
-            </div>
-            <div class="verMascotas__nombre">${info.name}</div>
-            <div class="verMascotas__datos">${info.species_name} - ${info.breed}</div>
-            <div class="verMascotas__edad">${info.age} años</div>
-            <div class="verMascotas__generoIcono ${info.animal_gender_id == 1 ? "" : "verMascotas__generoIcono--hembra"}">
-                <i class="ri-${info.animal_gender_id == 1 ? 'men' : 'women'}-line"></i>
-            </div>
-            <div class="verMascotas__genero">
-                <span>${info.animal_gender_name}</span>
-            </div>
-            <button class="boton boton--azul verMascotas__boton--editar" data-id="${info.id}">Editar</button>
-            <button class="boton boton--azul verMascotas__boton--eliminar" data-id="${info.id}">Eliminar</button>
-            <button class="boton verMascotas__boton--verMas" data-id="${info.id}">Ver más</button>
-        `;
+        const divIcono = document.createElement("div");
+        divIcono.className = "verMascotas__icono";
+        const img = document.createElement("img");
+        img.src = `icon/${adaptarIcono(info.species_name)}.svg`;
+        divIcono.appendChild(img);
+        cartaInfo.appendChild(divIcono);
+
+        const divNombre = document.createElement("div");
+        divNombre.className = "verMascotas__nombre";
+        divNombre.textContent = info.name;
+        cartaInfo.appendChild(divNombre);
+
+        const divDatos = document.createElement("div");
+        divDatos.className = "verMascotas__datos";
+        divDatos.textContent = `${info.species_name} - ${info.breed}`;
+        cartaInfo.appendChild(divDatos);
+
+        const divEdad = document.createElement("div");
+        divEdad.className = "verMascotas__edad";
+        divEdad.textContent = `${info.age} años`;
+        cartaInfo.appendChild(divEdad);
+
+        const divGeneroIcono = document.createElement("div");
+        divGeneroIcono.className = `verMascotas__generoIcono${info.animal_gender_id == 1 ? "" : " verMascotas__generoIcono--hembra"}`;
+        const iGenero = document.createElement("i");
+        iGenero.className = `ri-${info.animal_gender_id == 1 ? "men" : "women"}-line`;
+        divGeneroIcono.appendChild(iGenero);
+        cartaInfo.appendChild(divGeneroIcono);
+
+        const divGenero = document.createElement("div");
+        divGenero.className = "verMascotas__genero";
+        const spanGenero = document.createElement("span");
+        spanGenero.textContent = info.animal_gender_name;
+        divGenero.appendChild(spanGenero);
+        cartaInfo.appendChild(divGenero);
+
+        const btnEditar = document.createElement("button");
+        btnEditar.className = "boton boton--azul verMascotas__boton--editar";
+        btnEditar.dataset.id = info.id;
+        btnEditar.textContent = "Editar";
+        cartaInfo.appendChild(btnEditar);
+
+        const btnEliminar = document.createElement("button");
+        btnEliminar.className = "boton boton--azul verMascotas__boton--eliminar";
+        btnEliminar.dataset.id = info.id;
+        btnEliminar.textContent = "Eliminar";
+        cartaInfo.appendChild(btnEliminar);
+
+        const btnVerMas = document.createElement("button");
+        btnVerMas.className = "boton verMascotas__boton--verMas";
+        btnVerMas.dataset.id = info.id;
+        btnVerMas.textContent = "Ver más";
+        cartaInfo.appendChild(btnVerMas);
 
         return cartaInfo; // Div Node Retorno
     };
