@@ -178,10 +178,13 @@ export default async () => {
           boton.dataset.id = item.id; // Guarda internamente el código identificador de esa acción
 
           // Construye la estructura visual de la tarjeta mostrando a quién le toca y qué hará
-          boton.innerHTML = `
-            <span class="gestionarAfecciones__tipoNombre">
-                <i class="ri-eye-fill"></i> ${item.member_name} - ${item.description}
-            </span>`;
+          const span = document.createElement("span");
+          span.className = "gestionarAfecciones__tipoNombre";
+          const icon = document.createElement("i");
+          icon.className = "ri-eye-fill";
+          span.appendChild(icon);
+          span.appendChild(document.createTextNode(` ${item.member_name} - ${item.description}`));
+          boton.appendChild(span);
           contenedorAfecciones.appendChild(boton); // Añade visualmente esta tarjeta terminada al contenedor general
         }
       });
