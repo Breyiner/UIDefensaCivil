@@ -29,9 +29,9 @@ export default async () => {
 
     // Lógica boba inclusiva para el saludo ('Bienvenido' vs 'Bienvenida') según catálogos previos (1=Masc, 2=Fem)
     if (genero == 2) {
-        explicaciontitulo.innerHTML += "a " + nombre; // Resulta en: ...Bienvenida Fulanita
+        explicaciontitulo.textContent = "Bienvenida " + nombre;
     } else {
-        explicaciontitulo.innerHTML += " " + nombre; // Resulta: ...Bienvenido Menganito
+        explicaciontitulo.textContent = "Bienvenido " + nombre;
     }
 
     // Nodos contadores crudos (Tarjetas resumen)
