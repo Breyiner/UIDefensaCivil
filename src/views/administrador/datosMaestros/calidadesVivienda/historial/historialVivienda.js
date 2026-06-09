@@ -10,8 +10,10 @@ const historialVivienda = async () => {
 
     const datosHistorial = await api.get(`housingQualities/${id}/history/`);
 
+    console.log(datosHistorial);
+    
 
-    historial(datosHistorial, datoMaestro, null, "name", null);
+    historial(datosHistorial, null, datoMaestro);
 };
 
 export default historialVivienda;

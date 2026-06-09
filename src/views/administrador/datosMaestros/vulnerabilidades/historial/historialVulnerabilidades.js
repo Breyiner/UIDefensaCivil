@@ -10,7 +10,7 @@ const historialVulnerabilidades = async () => {
 
     const datosHistorial = await api.get(`vulnerabilities/${id}/history`);
 
-    historial(datosHistorial, datoMaestro, null, "name", null);
+    historial(datosHistorial, null, datoMaestro);
 };
 
 export default historialVulnerabilidades;

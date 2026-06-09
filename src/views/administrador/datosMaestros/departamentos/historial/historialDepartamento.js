@@ -10,7 +10,7 @@ const historialDepartamento = async () => {
 
     const datosHistorial = await api.get(`departments/${id}/history/`);
 
-    historial(datosHistorial, datoMaestro, null, "name", null);
+    historial(datosHistorial, null, datoMaestro);
 };
 
 export default historialDepartamento;

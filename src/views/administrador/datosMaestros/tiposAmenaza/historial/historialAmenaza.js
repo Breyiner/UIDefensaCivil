@@ -11,7 +11,7 @@ const historialAmenaza = async () => {
     const datosHistorial = await api.get(`threatTypes/${id}/history`);
 
 
-    historial(datosHistorial, datoMaestro, null, "name", null);
+    historial(datosHistorial, null, datoMaestro);
 };
 
 export default historialAmenaza;

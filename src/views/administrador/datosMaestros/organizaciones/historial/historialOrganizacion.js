@@ -14,7 +14,7 @@ const historialOrganizacion = async () => {
 
     const seccional = SubDatos.find(s => s.id === datoMaestro.sectional_id);
     
-    historial(datosHistorial, datoMaestro, "Seccional", "name", seccional.name);
+    historial(datosHistorial, "Seccional", datoMaestro);
 };
 
 export default historialOrganizacion;

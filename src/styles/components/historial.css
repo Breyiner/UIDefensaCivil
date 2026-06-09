@@ -1,16 +1,17 @@
 .container-historial {
 
     padding: 30px 20px 20px 20px;
+    width: 100%;
 }
 
-.container-historial .list-Historial {
+/* .container-historial {
     
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     gap: 20px;
-}
+} */
 
-.container-historial .list-Historial .card-Cont {
+.container-historial .card-Cont {
     background-color: var(--color-palido);
     box-shadow: 0px 0px 5px var(--color-sombra);
     border-radius: 5px;
@@ -25,14 +26,14 @@
 
 /* Contenido de Usuario ________________________________________________________________ */
 
-.container-historial .list-Historial .card-Cont .user-Cont {
+.container-historial .card-Cont .user-Cont {
 
     display: flex;
     /* align-items: center; */
     gap: 10px;
 }
 
-.list-Historial .card-Cont .user-Cont .user-div {
+.card-Cont .user-Cont .user-div {
 
     width: 40px;
     height: 40px;
@@ -48,27 +49,27 @@
     justify-content: center;
 }
 
-.list-Historial .card-Cont .user-Cont .user-div i {
+.card-Cont .user-Cont .user-div i {
 
     color: var(--color-palido);
     font-size: 20px;
 }
 
-.list-Historial .card-Cont .user-info {
+.card-Cont .user-info {
 
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.list-Historial .card-Cont .user-info .user-name {
+.card-Cont .user-info .user-name {
 
     font-weight: bold;
     font-size: 22px;
 }
 
 
-.list-Historial .card-Cont .user-info .user-rol {
+.card-Cont .user-info .user-rol {
 
     color: var(--color-palido);
     /* font-size: 20px; */
@@ -81,7 +82,7 @@
 
 /* Contenido de Historial ________________________________________________________________ */
 
-.container-historial .list-Historial .card-Cont .historial-Cont {
+.container-historial .card-Cont .historial-Cont {
 
     display: grid;
 
@@ -93,7 +94,7 @@
     ;
 }
 
-.container-historial .list-Historial .card-Cont .historial-Cont .historial-nameAction {
+.container-historial .card-Cont .historial-Cont .historial-nameAction {
 
     grid-area: nameAction;
 
@@ -104,7 +105,7 @@
     gap: 10px;
 }
 
-.container-historial .list-Historial .card-Cont .historial-Cont .historial-side {
+.container-historial .card-Cont .historial-Cont .historial-side {
 
     grid-area: side;
 
@@ -134,27 +135,27 @@
     border-bottom-left-radius: 12px;
 }
 
-.list-Historial .card-Cont .historial-Cont .historial-nameAction .name-Historial {
+.card-Cont .historial-Cont .historial-nameAction .name-Historial {
 
     font-weight: bold;
     font-size: 30px;
     position: relative;
 }
 
-.list-Historial .card-Cont .historial-Cont .historial-nameAction .subname-Historial {
+.card-Cont .historial-Cont .historial-nameAction .subname-Historial {
 
     font-weight: bold;
     color: var(--color-grisOscuro);
 }
 
-.list-Historial .card-Cont .historial-Cont .historial-nameAction .name-Description {
+.card-Cont .historial-Cont .historial-nameAction .name-Description {
 
     font-weight: normal;
     font-size: 20px;
     position: relative;
 }
 
-.container-historial .list-Historial .card-Cont .status-Cont {
+.container-historial .card-Cont .status-Cont {
 
     grid-area: status;
     padding-top: 10px;
@@ -165,7 +166,7 @@
     flex-direction: column;
 }
 
-.container-historial .list-Historial .card-Cont .status-Cont .status-Element {
+.container-historial .card-Cont .status-Cont .status-Element {
 
 
     display: flex;
@@ -174,7 +175,7 @@
     gap: 10px;
 }
 
-.list-Historial .card-Cont .status-Cont .status-Element .status-color {
+.card-Cont .status-Cont .status-Element .status-color {
 
     height: 10px;
     width: 10px;
@@ -192,7 +193,7 @@
     background: var(--color-rojizo);
 }
 
-.container-historial .list-Historial .card-Cont .action-Cont {
+.container-historial .card-Cont .action-Cont {
 
     display: flex;
     /* align-items: center; */
@@ -202,7 +203,7 @@
 
 /* Contenido Fecha ____________________________________________________________________ */
 
-.container-historial .list-Historial .card-Cont .date-Cont {
+.container-historial .card-Cont .date-Cont {
 
     display: flex;
     /* align-items: center; */
@@ -212,3 +213,22 @@
     right: 20px;
 }
 
+/* Boton borrar ________________________________________________________________________ */
+
+.container-historial .card-Cont .borrarHistorial {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 5px 15px;
+    border-radius: 100px;
+    border: none;
+    color: var(--color-palido);
+    background-color: var(--color-rojizo);
+    cursor: pointer;
+
+}
