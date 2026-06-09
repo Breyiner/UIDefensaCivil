@@ -81,6 +81,6 @@ export default async () => {
         window.location.href = `#/supervisor/plan_familiar/`; // Vista Planes List Main
     });
     botonEstadistica.addEventListener("click", () => {
-        window.location.href = `#/supervisor/plan_familiar/estadistica`; // La Dona Chart page
+        window.location.href = `#/supervisor/estadisticas`; // La Dona Chart page
     });
 };
