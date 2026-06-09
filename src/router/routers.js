@@ -38,6 +38,7 @@ import * as datosMaestros from "@/views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "@/views/administrador/usuarios/index.js"
 import * as usuario from "@/views/usuario/index.js"
 import notificacionesController from "@/views/notificaciones/notificacionesController.js";
+import EstadisticaController from "../views/supervisor/Estadistica/EstadisticaController";
 
 // Configuraciones predefinidas de permisos para cada ruta
 const publicRoute = { private: false, permissions: [] };
@@ -309,6 +310,12 @@ export const routes = {
 
     },
 
+    estadisticas: {
+      path: `supervisor/Estadistica/index.html`,
+      controlador: EstadisticaController,
+      config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+    },
+
     notificaciones: {
       path: `notificaciones/index.html`,
       controlador: notificacionesController,
@@ -321,12 +328,6 @@ export const routes = {
 
         path: `supervisor/PlanFamiliar/Listado/index.html`,
         controlador: supervisorPlanFamiliar.ListadoPlanController,
-        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
-      },
-
-      estadistica: {
-        path: `supervisor/usuarios/Estadistica/index.html`,
-        controlador: supervisorPlanFamiliar.EstadisticaController,
         config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
       },
 

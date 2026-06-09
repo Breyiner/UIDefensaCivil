@@ -89,7 +89,10 @@ export default async () => {
 
         // Si el resultado del filtro está vacío, muestra un mensaje amigable al usuario
         if (usuariosFiltrados.length === 0) {
-            contenedor.innerHTML = `<div class="noCantidad">${mensajeVacio}</div>`;
+            const div = document.createElement("div");
+            div.className = "noCantidad";
+            div.textContent = mensajeVacio;
+            contenedor.appendChild(div);
         } else {
             // Recorre los usuarios filtrados y los inyecta en el contenedor visual
             usuariosFiltrados.forEach((user) => {

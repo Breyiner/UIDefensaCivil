@@ -59,18 +59,43 @@ export default async () => {
         const div = document.createElement("div");
         div.classList.add("verGraficos"); // Wrapper CSS layout Grid/Flex
 
-        // Render Image URL (Bucket AWS S3 Public Host API) + Botonera de Acción ID-Inyectado
-        div.innerHTML = `
-            <div class="verGraficos__imagenTexto">
-                <img class="verGraficos__imagen" src="${info.path}">
-                <div class="verGraficos__texto">${info.description}</div>
-            </div>
-            <div class="verGraficos__botones">
-                <button class="boton boton--azul verGrafico__boton--editar" data-id="${info.id}">Editar</button>
-                <button class="boton boton--azul verGrafico__boton--eliminar" data-id="${info.id}">Eliminar</button>
-                <button class="boton verGrafico__boton--verMas" data-id="${info.id}">Ver más</button>
-            </div>
-            `;
+        const imgTexto = document.createElement("div");
+        imgTexto.className = "verGraficos__imagenTexto";
+
+        const img = document.createElement("img");
+        img.className = "verGraficos__imagen";
+        img.src = info.path;
+        imgTexto.appendChild(img);
+
+        const texto = document.createElement("div");
+        texto.className = "verGraficos__texto";
+        texto.textContent = info.description;
+        imgTexto.appendChild(texto);
+
+        div.appendChild(imgTexto);
+
+        const botones = document.createElement("div");
+        botones.className = "verGraficos__botones";
+
+        const btnEditar = document.createElement("button");
+        btnEditar.className = "boton boton--azul verGrafico__boton--editar";
+        btnEditar.dataset.id = info.id;
+        btnEditar.textContent = "Editar";
+        botones.appendChild(btnEditar);
+
+        const btnEliminar = document.createElement("button");
+        btnEliminar.className = "boton boton--azul verGrafico__boton--eliminar";
+        btnEliminar.dataset.id = info.id;
+        btnEliminar.textContent = "Eliminar";
+        botones.appendChild(btnEliminar);
+
+        const btnVerMas = document.createElement("button");
+        btnVerMas.className = "boton verGrafico__boton--verMas";
+        btnVerMas.dataset.id = info.id;
+        btnVerMas.textContent = "Ver más";
+        botones.appendChild(btnVerMas);
+
+        div.appendChild(botones);
 
         return div; // Return DOM Node Component
     };

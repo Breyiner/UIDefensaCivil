@@ -5,26 +5,49 @@
  * directamente dentro del Nodo DOM (contenedor) pasado por argumento.
  */
 export default async (data, contenedor) => {
-    contenedor.innerHTML = ""; // Purga el contenedor original de HTML
-    // Transita sobre el arreglo arrojado por el JSON del endpoint "Tabla/history"
+    // Limpia el contenedor
+    contenedor.innerHTML = "";
+
+    // Recorre cada registro de auditoría
     data.forEach(item => {
-        const divItem = document.createElement("div");
-        divItem.innerHTML = `
-            <div class="ventanaHistorial__item">
-                <p><strong>Nombre:</strong> ${item.name_model}</p>
-                <p><strong>Acción:</strong> ${item.action_execute}</p>
-                <p><strong>Usuario:</strong> ${item.user_name}</p>
-                <p><strong>Rol:</strong> ${item.rol}</p>
-                <p><strong>Fecha:</strong> ${item.date_time}</p>
-                ${
-                    // Pequeña variante inyectada en string literal: Si detectó una mutación real de estado la describe (Ej: Activo a Suspendido)
-                    item.status_old != item.status_new
-                        ? `<p><strong>Cambio de estado a:</strong> ${item.status_new}</p>`
-                        : ""
-                }
-                <hr>
-            </div>
-        `;
-        contenedor.appendChild(divItem);
+        // Crea el div contenedor del item con su clase
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "ventanaHistorial__item";
+
+        // Pares etiqueta-valor para renderizar
+        const fields = [
+            ["Nombre:", item.name_model],
+            ["Acción:", item.action_execute],
+            ["Usuario:", item.user_name],
+            ["Rol:", item.rol],
+            ["Fecha:", item.date_time],
+        ];
+
+        // Crea un <p> por cada campo: <strong>etiqueta</strong> valor
+        fields.forEach(([label, value]) => {
+            const p = document.createElement("p");
+            const strong = document.createElement("strong");
+            strong.textContent = label + " ";
+            p.appendChild(strong);
+            p.appendChild(document.createTextNode(value));
+            itemDiv.appendChild(p);
+        });
+
+        // Si hubo cambio de estado, agrega un <p> extra
+        if (item.status_old !== item.status_new) {
+            const p = document.createElement("p");
+            const strong = document.createElement("strong");
+            strong.textContent = "Cambio de estado a: ";
+            p.appendChild(strong);
+            p.appendChild(document.createTextNode(item.status_new));
+            itemDiv.appendChild(p);
+        }
+
+        // Línea separadora
+        const hr = document.createElement("hr");
+        itemDiv.appendChild(hr);
+
+        // Inserta el item en el contenedor principal
+        contenedor.appendChild(itemDiv);
     });
 };

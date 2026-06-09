@@ -97,21 +97,50 @@ export default async () => {
         ? "preguntas__contenedor preguntas__contendor--precaucion"
         : "preguntas__contenedor";
 
-      // Plantilla Estructural Ciega: Esconde elementos funcionales debajo de letreros llamativos.
-      // ESTRATEGIA: La opción elegida anteriormente es deducida gracias a la Memoria, así al volver las cosas marcadas seguirán tal cual se dejaron.
-      contenedor.innerHTML = `
-        <p class="test__numero">${cont}</p>
-        <p class="test__texto">${opcion.description}</p>
-        <div class="test__opciones">
-          <input type="radio" class="invisible" name="opcion-${opcion.id}" id="si-${opcion.id}" value="true"
-            ${testRespuestas.respuesta[`opcion-${opcion.id}`] === "true" ? "checked" : ""}>
-          <label class="test__opcion test__opcion--si" for="si-${opcion.id}">SI</label>
+      const pNumero = document.createElement("p");
+      pNumero.className = "test__numero";
+      pNumero.textContent = cont;
+      contenedor.appendChild(pNumero);
 
-          <input type="radio" class="invisible" name="opcion-${opcion.id}" id="no-${opcion.id}" value="false"
-            ${testRespuestas.respuesta[`opcion-${opcion.id}`] === "false" ? "checked" : ""}>
-          <label class="test__opcion test__opcion--no" for="no-${opcion.id}">NO</label>
-        </div>
-      `;
+      const pTexto = document.createElement("p");
+      pTexto.className = "test__texto";
+      pTexto.textContent = opcion.description;
+      contenedor.appendChild(pTexto);
+
+      const divOpciones = document.createElement("div");
+      divOpciones.className = "test__opciones";
+
+      const radioSi = document.createElement("input");
+      radioSi.type = "radio";
+      radioSi.className = "invisible";
+      radioSi.name = `opcion-${opcion.id}`;
+      radioSi.id = `si-${opcion.id}`;
+      radioSi.value = "true";
+      if (testRespuestas.respuesta[`opcion-${opcion.id}`] === "true") radioSi.checked = true;
+
+      const labelSi = document.createElement("label");
+      labelSi.className = "test__opcion test__opcion--si";
+      labelSi.htmlFor = `si-${opcion.id}`;
+      labelSi.textContent = "SI";
+      divOpciones.appendChild(radioSi);
+      divOpciones.appendChild(labelSi);
+
+      const radioNo = document.createElement("input");
+      radioNo.type = "radio";
+      radioNo.className = "invisible";
+      radioNo.name = `opcion-${opcion.id}`;
+      radioNo.id = `no-${opcion.id}`;
+      radioNo.value = "false";
+      if (testRespuestas.respuesta[`opcion-${opcion.id}`] === "false") radioNo.checked = true;
+
+      const labelNo = document.createElement("label");
+      labelNo.className = "test__opcion test__opcion--no";
+      labelNo.htmlFor = `no-${opcion.id}`;
+      labelNo.textContent = "NO";
+      divOpciones.appendChild(radioNo);
+      divOpciones.appendChild(labelNo);
+
+      contenedor.appendChild(divOpciones);
 
       preguntas.appendChild(contenedor); // Lanzarlo dentro del contenedor visual masivo
       cont++; // Sube y repite pero con un número textual más grande

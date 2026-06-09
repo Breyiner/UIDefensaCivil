@@ -101,11 +101,13 @@ export default async () => {
       boton.className = "gestionarAfecciones__afeccion";
       boton.dataset.id = item.id; // PK Afeccion para Borrar/Editar luego
 
-      // Render text y cruzCategoria
-      boton.innerHTML = `
-        <span class="gestionarAfecciones__tipoNombre">
-                    <i class="ri-eye-fill"></i> ${item.condition_type.name} - ${item.name}
-        </span>`;
+      const span = document.createElement("span");
+      span.className = "gestionarAfecciones__tipoNombre";
+      const icon = document.createElement("i");
+      icon.className = "ri-eye-fill";
+      span.appendChild(icon);
+      span.appendChild(document.createTextNode(` ${item.condition_type.name} - ${item.name}`));
+      boton.appendChild(span);
       contenedorAfecciones.appendChild(boton); // Anexar 
     });
   };

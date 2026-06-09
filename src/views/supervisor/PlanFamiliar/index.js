@@ -5,7 +5,7 @@
  */
 
 // Importa los controladores secundarios desde sus respectivas carpetas internas
-import EstadisticaController from "./Estadistica/EstadisticaController.js";
+import EstadisticaController from "./../Estadistica/EstadisticaController.js";
 import RevisionPlanController from "./RevisionPlan/RevisionPlanController.js"
 import ListadoPlanController from "./Listado/ListadoPlanController.js";
 

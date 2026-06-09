@@ -48,24 +48,55 @@ export default async () => {
         const div = document.createElement("div");
         div.classList.add("verRiesgos"); // Re-uso de Estilos de Tarjeta genérica
 
-        // Maquetación Tarjeta Informativa
-        div.innerHTML = `
-            <div class="verRiesgos__tipoRiesgo">
-                <i class="ri-error-warning-line"></i>${info.resource_name}
-            </div>
-            <div class="verRiesgos__ubicacion">
-                <i class="ri-map-2-line"></i>${info.location}
-            </div>
-            <div class="verRiesgos__distancia">
-                <i class="ri-map-pin-line"></i>${info.distance} m
-            </div>
-            <div class="verRiesgos__descripcion">
-                <p>Descripción:</p>${info.service} - ${info.description}
-            </div>
-            <button class="boton boton--azul verRiesgos__boton--editar" data-id="${info.id}">Editar</button>
-            <button class="boton boton--azul verRiesgos__boton--eliminar" data-id="${info.id}">Eliminar</button>
-            <button class="boton verRiesgos__boton--verMas" data-id="${info.id}">Ver más</button>
-        `;
+        const divTipo = document.createElement("div");
+        divTipo.className = "verRiesgos__tipoRiesgo";
+        const iTipo = document.createElement("i");
+        iTipo.className = "ri-error-warning-line";
+        divTipo.appendChild(iTipo);
+        divTipo.appendChild(document.createTextNode(info.resource_name));
+        div.appendChild(divTipo);
+
+        const divUbicacion = document.createElement("div");
+        divUbicacion.className = "verRiesgos__ubicacion";
+        const iUbicacion = document.createElement("i");
+        iUbicacion.className = "ri-map-2-line";
+        divUbicacion.appendChild(iUbicacion);
+        divUbicacion.appendChild(document.createTextNode(info.location));
+        div.appendChild(divUbicacion);
+
+        const divDistancia = document.createElement("div");
+        divDistancia.className = "verRiesgos__distancia";
+        const iDistancia = document.createElement("i");
+        iDistancia.className = "ri-map-pin-line";
+        divDistancia.appendChild(iDistancia);
+        divDistancia.appendChild(document.createTextNode(`${info.distance} m`));
+        div.appendChild(divDistancia);
+
+        const divDescripcion = document.createElement("div");
+        divDescripcion.className = "verRiesgos__descripcion";
+        const pDesc = document.createElement("p");
+        pDesc.textContent = "Descripción:";
+        divDescripcion.appendChild(pDesc);
+        divDescripcion.appendChild(document.createTextNode(`${info.service} - ${info.description}`));
+        div.appendChild(divDescripcion);
+
+        const btnEditar = document.createElement("button");
+        btnEditar.className = "boton boton--azul verRiesgos__boton--editar";
+        btnEditar.dataset.id = info.id;
+        btnEditar.textContent = "Editar";
+        div.appendChild(btnEditar);
+
+        const btnEliminar = document.createElement("button");
+        btnEliminar.className = "boton boton--azul verRiesgos__boton--eliminar";
+        btnEliminar.dataset.id = info.id;
+        btnEliminar.textContent = "Eliminar";
+        div.appendChild(btnEliminar);
+
+        const btnVerMas = document.createElement("button");
+        btnVerMas.className = "boton verRiesgos__boton--verMas";
+        btnVerMas.dataset.id = info.id;
+        btnVerMas.textContent = "Ver más";
+        div.appendChild(btnVerMas);
 
         return div;
     };

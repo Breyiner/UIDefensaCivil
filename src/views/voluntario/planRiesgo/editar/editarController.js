@@ -87,11 +87,13 @@ export default async () => {
             const boton = document.createElement("button"); // List element UI Factory
             boton.className = "gestionarAfecciones__afeccion"; // Uso del diseño Reciclado .gestionarAfecciones
             boton.dataset.id = item.id;
-            // Título: Acción a realizar - Fecha límite final de proyecto 
-            boton.innerHTML = `
-                <span class="gestionarAfecciones__tipoNombre">
-                    <i class="ri-eye-fill"></i> ${item.action} - ${item.end_date}
-                </span>`;
+            const span = document.createElement("span");
+            span.className = "gestionarAfecciones__tipoNombre";
+            const icon = document.createElement("i");
+            icon.className = "ri-eye-fill";
+            span.appendChild(icon);
+            span.appendChild(document.createTextNode(` ${item.action} - ${item.end_date}`));
+            boton.appendChild(span);
             contenedorAcciones.appendChild(boton);
         });
     };
@@ -107,11 +109,13 @@ export default async () => {
             const boton = document.createElement("button");
             boton.className = "gestionarAfecciones__afeccion"; // Diseño reciclado de lista afecciones...
             boton.dataset.id = item.id;
-            // Titulo: "Mala estructura - Grado: 3 Alto!"  (Accede a foreign keys profundas expandidas)
-            boton.innerHTML = `
-                <span class="gestionarAfecciones__tipoNombre">
-                    <i class="ri-eye-fill"></i> ${item.vulnerability.name} - Grado: ${item.vulnerability_grade.name}
-                </span>`;
+            const span = document.createElement("span");
+            span.className = "gestionarAfecciones__tipoNombre";
+            const icon = document.createElement("i");
+            icon.className = "ri-eye-fill";
+            span.appendChild(icon);
+            span.appendChild(document.createTextNode(` ${item.vulnerability.name} - Grado: ${item.vulnerability_grade.name}`));
+            boton.appendChild(span);
             contenedorVulnerabilidades.appendChild(boton);
         });
     };

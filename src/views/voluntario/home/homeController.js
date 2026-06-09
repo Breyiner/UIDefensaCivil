@@ -19,9 +19,9 @@ export default () => {
 
   // Inclusión básica de género (1 = Masculino, otro = Femenino/Otro) para la letra final del saludo
   if (genero == 1) {
-    explicaciontitulo.innerHTML += "o " + nombre; // Ejemplo: "Bienvenido Juan"
+    explicaciontitulo.textContent = "Bienvenido " + nombre;
   } else {
-    explicaciontitulo.innerHTML += "a " + nombre; // Ejemplo: "Bienvenida Maria"
+    explicaciontitulo.textContent = "Bienvenida " + nombre;
   }
 
   // Escucha los clics en toda la ventana para detectar si tocan algún botón del panel
