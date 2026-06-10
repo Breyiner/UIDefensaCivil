@@ -8,10 +8,9 @@ const historialAmenaza = async () => {
 
     const datoMaestro = await api.get(`threatTypes/${id}`);
 
-    const datosHistorial = await api.get(`threatTypes/${id}/history`);
+    const endpoint = `threatTypes/${id}/history`;
 
-
-    historial(datosHistorial, null, datoMaestro);
+    historial(endpoint, null);
 };
 
 export default historialAmenaza;

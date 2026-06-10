@@ -8,12 +8,9 @@ const historialRecursos = async () => {
 
     const datoMaestro = await api.get(`resources/${id}`);
 
-    const datosHistorial = await api.get(`resources/${id}/history`);
+    const endpoint = `resources/${id}/history`;
 
-    console.log(datosHistorial);
-    
-
-    historial(datosHistorial, "Servicio", datoMaestro,);
+    historial(endpoint, "Servicio");
 };
 
 export default historialRecursos;

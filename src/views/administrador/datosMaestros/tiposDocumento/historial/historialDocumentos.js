@@ -9,8 +9,11 @@ const historialDocumentos = async () => {
     const datoMaestro = await api.get(`documentTypes/${id}`);
 
     const datosHistorial = await api.get(`documentTypes/${id}/history`);
+    console.log(datosHistorial);
+    
+    const endpoint = `documentTypes/${id}/history`;
 
-    historial(datosHistorial, "Acrónimo", datoMaestro);
+    historial(endpoint, "Acrónimo");
 };
 
 export default historialDocumentos;

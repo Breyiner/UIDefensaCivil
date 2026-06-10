@@ -213,17 +213,18 @@
     right: 20px;
 }
 
-/* Boton borrar ________________________________________________________________________ */
+/* Botones ________________________________________________________________________ */
 
-.container-historial .card-Cont .borrarHistorial {
+.container-historial .card-Cont .borrarHistorial,
+.container-eliminar-panel .btn_borrar {
 
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
-    position: absolute;
+    /* position: absolute;
     bottom: 10px;
-    left: 10px;
+    left: 10px; */
     padding: 5px 15px;
     border-radius: 100px;
     border: none;
@@ -232,3 +233,23 @@
     cursor: pointer;
 
 }
+
+.container-eliminar-panel .botonera--panel__Eliminacion {
+
+    display: flex;
+    gap: 5px;
+}
+
+/* Panel de eliminación historial ___________________________________________________________*/
+
+.container-eliminar-panel {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px 10px 30px;
+  background-color: var(--color-primario);
+  border-radius: 100px;
+  width: 100%;
+}
+
