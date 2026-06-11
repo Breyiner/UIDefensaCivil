@@ -9,31 +9,36 @@ const historial = async (endpoint, nombreSubDato) => {
     const mensajeVacio = "No hay registros en el historial para este elemento.";
 
     let selectedAuditIds = [];
-    let opcionesCont = null;
+    let opcionesPanel = null;
     let contadorSpan = null;
 
     const opcionesEliminar = async () => {
 
-        if (document.querySelector('.container-eliminar-panel')) return; 
+        if (document.querySelector('.eliminar-panel')) return; 
         //Antes de crear el panel de eliminación, busca si ya existe uno en la pantalla.
         // Si ya existe, salte de la función (return) inmediatamente y no hagas nada más
 
-        opcionesCont = document.createElement('div');
-        opcionesCont.classList.add('container-eliminar-panel', 'oculto');
+        opcionesPanel = document.createElement('div');
+        opcionesPanel.classList.add('eliminar-panel', 'ocultar_opciones');
+
+        const opcionesCont = document.createElement('div');
+        opcionesCont.classList.add('container-eliminar-panel')
 
         const btnCerrar = document.createElement('button');
-        btnCerrar.classList.add('btnCerrar', 'ri-close-large-line')
+        btnCerrar.classList.add('btnCerrar', 'ri-close-large-line');
 
         contadorSpan = document.createElement('span');
+        contadorSpan.classList.add('contadorSpan')
         contadorSpan.textContent = "Elementos seleccionados: 0";
 
         const botonera = document.createElement('div');
-        botonera.classList.add('botonera--panel__Eliminacion')
+        botonera.classList.add('botonera--panel__Eliminacion');
         
-        const btnSelectAll = document.createElement('button')
+        const btnSelectAll = document.createElement('button');
+        btnSelectAll.classList.add('btnSelectAll');
         btnSelectAll.textContent='seleccionar todo';
 
-        const btnBorrar = document.createElement('button')
+        const btnBorrar = document.createElement('button');
         btnBorrar.classList.add('btn_borrar');
 
         const borrarIcono = document.createElement('i');
@@ -48,7 +53,9 @@ const historial = async (endpoint, nombreSubDato) => {
 
         opcionesCont.append(btnCerrar, contadorSpan, botonera);
 
-        container.before(opcionesCont);
+        opcionesPanel.appendChild(opcionesCont);
+
+        container.before(opcionesPanel);
 
         // 1. Botón Cerrar (Limpia toda la selección actual) ______________________________________
         btnCerrar.addEventListener('click', () => {
@@ -143,7 +150,6 @@ const historial = async (endpoint, nombreSubDato) => {
         //     await recargarContainer();
         // });
         
-        
     }
 
     const actualizarPanelSeleccion = () => {
@@ -151,11 +157,11 @@ const historial = async (endpoint, nombreSubDato) => {
             contadorSpan.textContent = "Elementos seleccionados: " + selectedAuditIds.length;
         }
 
-        if (opcionesCont) {
+        if (opcionesPanel) {
             if (selectedAuditIds.length > 0) {
-                opcionesCont.classList.remove('oculto');
+                opcionesPanel.classList.remove('ocultar_opciones');
             } else {
-                opcionesCont.classList.add('oculto');
+                opcionesPanel.classList.add('ocultar_opciones');
             }
         }
     };
@@ -214,7 +220,7 @@ const historial = async (endpoint, nombreSubDato) => {
         sideHistorial.classList.add('historial-side');
 
         const sidePunto = document.createElement('div');
-        sidePunto.classList.add('historial-sideElement');
+        sidePunto.classList.add('historial-sideElement', 'check-historial_cont');
 
         const checkHistorial = document.createElement('input');
         checkHistorial.type = 'checkbox';
@@ -226,10 +232,6 @@ const historial = async (endpoint, nombreSubDato) => {
 
         const labelHistorial = document.createElement('label');
         labelHistorial.htmlFor = uniqueId;
-        labelHistorial.style.display = 'block';
-        labelHistorial.style.cursor = 'pointer';
-        labelHistorial.style.width = '100%';
-        labelHistorial.style.height = '100%';
 
         const iconCheck = document.createElement('i');
         iconCheck.className = 'ri-check-line';

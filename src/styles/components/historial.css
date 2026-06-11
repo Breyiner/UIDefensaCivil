@@ -119,10 +119,19 @@
 
 .card-Cont .historial-Cont .historial-side .historial-sideElement:nth-child(1) {
 
-    min-width: 15px; max-width: 15px;
-    min-height: 15px; max-height: 15px;
-    border-radius: 100%;
-    background-color: var(--color-primario);
+    min-width: 20px; max-width: 20px;
+    min-height: 20px; max-height: 20px;
+    border-radius: 5px;
+    
+    border: solid 2px var(--color-primario);
+}
+
+.card-Cont .historial-Cont .historial-side .historial-sideElement:nth-child(1) label {
+
+    display: block;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
 }
 
 .card-Cont .historial-Cont .historial-side .historial-sideElement:nth-child(2) {
@@ -215,6 +224,19 @@
 
 /* Botones ________________________________________________________________________ */
 
+.container-eliminar-panel .botonera--panel__Eliminacion {
+
+    display: flex;
+    gap: 5px;
+}
+
+.container-eliminar-panel .botonera--panel__Eliminacion button {
+    padding: 5px 15px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+}
+
 .container-historial .card-Cont .borrarHistorial,
 .container-eliminar-panel .btn_borrar {
 
@@ -225,31 +247,63 @@
     /* position: absolute;
     bottom: 10px;
     left: 10px; */
-    padding: 5px 15px;
-    border-radius: 100px;
-    border: none;
     color: var(--color-palido);
     background-color: var(--color-rojizo);
-    cursor: pointer;
-
 }
 
-.container-eliminar-panel .botonera--panel__Eliminacion {
 
-    display: flex;
-    gap: 5px;
+.container-eliminar-panel .btnSelectAll {
+
+    color: var(--color-palido);
+    background-color: var(--color-primario);
+}
+
+.container-eliminar-panel .btnCerrar {
+
+    color: var(--color-palido);
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 /* Panel de eliminación historial ___________________________________________________________*/
 
-.container-eliminar-panel {
+.eliminar-panel {
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 10px 10px 30px;
-  background-color: var(--color-primario);
-  border-radius: 100px;
-  width: 100%;
+    width: 100%;
+    height: 45px;
+    background-color: var(--color-secundario);
+    overflow: hidden;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s ease-in-out;
+}
+
+.container-eliminar-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 10px 10px 10px 30px;
+    width: 100%;
+    transition: 0.3s ease-in-out;
+}
+
+.eliminar-panel.ocultar_opciones {
+
+    height: 0;
+    opacity: 0;
+}
+
+.eliminar-panel.ocultar_opciones .container-eliminar-panel {
+
+    opacity: 0;
+}
+
+.container-eliminar-panel .contadorSpan {
+
+    color: var(--color-palido);
 }
 
