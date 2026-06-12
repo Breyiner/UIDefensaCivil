@@ -8,9 +8,9 @@ const historialVulnerabilidades = async () => {
 
     const datoMaestro = await api.get(`vulnerabilities/${id}`);
 
-    const datosHistorial = await api.get(`vulnerabilities/${id}/history`);
+    const endpoint = `vulnerabilities/${id}/history`;
 
-    historial(datosHistorial, datoMaestro, null, "name", null);
+    historial(endpoint, null);
 };
 
 export default historialVulnerabilidades;

@@ -1,16 +1,17 @@
 .container-historial {
 
     padding: 30px 20px 20px 20px;
+    width: 100%;
 }
 
-.container-historial .list-Historial {
+/* .container-historial {
     
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     gap: 20px;
-}
+} */
 
-.container-historial .list-Historial .card-Cont {
+.container-historial .card-Cont {
     background-color: var(--color-palido);
     box-shadow: 0px 0px 5px var(--color-sombra);
     border-radius: 5px;
@@ -25,14 +26,14 @@
 
 /* Contenido de Usuario ________________________________________________________________ */
 
-.container-historial .list-Historial .card-Cont .user-Cont {
+.container-historial .card-Cont .user-Cont {
 
     display: flex;
     /* align-items: center; */
     gap: 10px;
 }
 
-.list-Historial .card-Cont .user-Cont .user-div {
+.card-Cont .user-Cont .user-div {
 
     width: 40px;
     height: 40px;
@@ -48,27 +49,27 @@
     justify-content: center;
 }
 
-.list-Historial .card-Cont .user-Cont .user-div i {
+.card-Cont .user-Cont .user-div i {
 
     color: var(--color-palido);
     font-size: 20px;
 }
 
-.list-Historial .card-Cont .user-info {
+.card-Cont .user-info {
 
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.list-Historial .card-Cont .user-info .user-name {
+.card-Cont .user-info .user-name {
 
     font-weight: bold;
     font-size: 22px;
 }
 
 
-.list-Historial .card-Cont .user-info .user-rol {
+.card-Cont .user-info .user-rol {
 
     color: var(--color-palido);
     /* font-size: 20px; */
@@ -81,7 +82,7 @@
 
 /* Contenido de Historial ________________________________________________________________ */
 
-.container-historial .list-Historial .card-Cont .historial-Cont {
+.container-historial .card-Cont .historial-Cont {
 
     display: grid;
 
@@ -93,7 +94,7 @@
     ;
 }
 
-.container-historial .list-Historial .card-Cont .historial-Cont .historial-nameAction {
+.container-historial .card-Cont .historial-Cont .historial-nameAction {
 
     grid-area: nameAction;
 
@@ -104,7 +105,7 @@
     gap: 10px;
 }
 
-.container-historial .list-Historial .card-Cont .historial-Cont .historial-side {
+.container-historial .card-Cont .historial-Cont .historial-side {
 
     grid-area: side;
 
@@ -118,10 +119,19 @@
 
 .card-Cont .historial-Cont .historial-side .historial-sideElement:nth-child(1) {
 
-    min-width: 15px; max-width: 15px;
-    min-height: 15px; max-height: 15px;
-    border-radius: 100%;
-    background-color: var(--color-primario);
+    min-width: 20px; max-width: 20px;
+    min-height: 20px; max-height: 20px;
+    border-radius: 5px;
+    
+    border: solid 2px var(--color-primario);
+}
+
+.card-Cont .historial-Cont .historial-side .historial-sideElement:nth-child(1) label {
+
+    display: block;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
 }
 
 .card-Cont .historial-Cont .historial-side .historial-sideElement:nth-child(2) {
@@ -134,27 +144,27 @@
     border-bottom-left-radius: 12px;
 }
 
-.list-Historial .card-Cont .historial-Cont .historial-nameAction .name-Historial {
+.card-Cont .historial-Cont .historial-nameAction .name-Historial {
 
     font-weight: bold;
     font-size: 30px;
     position: relative;
 }
 
-.list-Historial .card-Cont .historial-Cont .historial-nameAction .subname-Historial {
+.card-Cont .historial-Cont .historial-nameAction .subname-Historial {
 
     font-weight: bold;
     color: var(--color-grisOscuro);
 }
 
-.list-Historial .card-Cont .historial-Cont .historial-nameAction .name-Description {
+.card-Cont .historial-Cont .historial-nameAction .name-Description {
 
     font-weight: normal;
     font-size: 20px;
     position: relative;
 }
 
-.container-historial .list-Historial .card-Cont .status-Cont {
+.container-historial .card-Cont .status-Cont {
 
     grid-area: status;
     padding-top: 10px;
@@ -165,7 +175,7 @@
     flex-direction: column;
 }
 
-.container-historial .list-Historial .card-Cont .status-Cont .status-Element {
+.container-historial .card-Cont .status-Cont .status-Element {
 
 
     display: flex;
@@ -174,7 +184,7 @@
     gap: 10px;
 }
 
-.list-Historial .card-Cont .status-Cont .status-Element .status-color {
+.card-Cont .status-Cont .status-Element .status-color {
 
     height: 10px;
     width: 10px;
@@ -192,7 +202,7 @@
     background: var(--color-rojizo);
 }
 
-.container-historial .list-Historial .card-Cont .action-Cont {
+.container-historial .card-Cont .action-Cont {
 
     display: flex;
     /* align-items: center; */
@@ -202,7 +212,7 @@
 
 /* Contenido Fecha ____________________________________________________________________ */
 
-.container-historial .list-Historial .card-Cont .date-Cont {
+.container-historial .card-Cont .date-Cont {
 
     display: flex;
     /* align-items: center; */
@@ -210,5 +220,90 @@
     position: absolute;
     bottom: 10px;
     right: 20px;
+}
+
+/* Botones ________________________________________________________________________ */
+
+.container-eliminar-panel .botonera--panel__Eliminacion {
+
+    display: flex;
+    gap: 5px;
+}
+
+.container-eliminar-panel .botonera--panel__Eliminacion button {
+    padding: 5px 15px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+}
+
+.container-historial .card-Cont .borrarHistorial,
+.container-eliminar-panel .btn_borrar {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    /* position: absolute;
+    bottom: 10px;
+    left: 10px; */
+    color: var(--color-palido);
+    background-color: var(--color-rojizo);
+}
+
+
+.container-eliminar-panel .btnSelectAll {
+
+    color: var(--color-palido);
+    background-color: var(--color-primario);
+}
+
+.container-eliminar-panel .btnCerrar {
+
+    color: var(--color-palido);
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Panel de eliminación historial ___________________________________________________________*/
+
+.eliminar-panel {
+
+    width: 100%;
+    height: 45px;
+    background-color: var(--color-secundario);
+    overflow: hidden;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    transition: 0.5s ease-in-out;
+}
+
+.container-eliminar-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 10px 10px 10px 30px;
+    width: 100%;
+    transition: 0.1s ease-in-out;
+}
+
+.eliminar-panel.ocultar_opciones {
+
+    height: 0;
+    opacity: 0;
+}
+
+.eliminar-panel.ocultar_opciones .container-eliminar-panel {
+
+    opacity: 0;
+}
+
+.container-eliminar-panel .contadorSpan {
+
+    color: var(--color-palido);
 }
 

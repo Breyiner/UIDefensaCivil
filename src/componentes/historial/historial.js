@@ -1,17 +1,189 @@
-const historial = async (datosHistorial, datoMaestro, nombreSubDato, nombreDB, subnombreDB) => {
+import { paginacion } from "@/helpers/index.js";
+import * as alerta from "../../helpers/alertas";
+import * as api from "../../helpers/api";
+
+const historial = async (endpoint, nombreSubDato) => {
 
     
-    const container = document.querySelector('.container-historial');
+    const container = document.querySelector('.container__paginas');
+    const mensajeVacio = "No hay registros en el historial para este elemento.";
 
-    const listHistorial = document.createElement('div');
-    listHistorial.classList.add('list-Historial');
+    let selectedAuditIds = [];
+    let opcionesPanel = null;
+    let contadorSpan = null;
 
-    
-    datosHistorial.forEach(dato => {
+    const opcionesEliminar = async () => {
+
+        if (document.querySelector('.eliminar-panel')) return; 
+        //Antes de crear el panel de eliminación, busca si ya existe uno en la pantalla.
+        // Si ya existe, salte de la función (return) inmediatamente y no hagas nada más
+
+        opcionesPanel = document.createElement('div');
+        opcionesPanel.classList.add('eliminar-panel', 'ocultar_opciones');
+
+        const opcionesCont = document.createElement('div');
+        opcionesCont.classList.add('container-eliminar-panel')
+
+        const btnCerrar = document.createElement('button');
+        btnCerrar.classList.add('btnCerrar', 'ri-close-large-line');
+
+        contadorSpan = document.createElement('span');
+        contadorSpan.classList.add('contadorSpan')
+        contadorSpan.textContent = "Elementos seleccionados: 0";
+
+        const botonera = document.createElement('div');
+        botonera.classList.add('botonera--panel__Eliminacion');
         
-        //elementos creados
+        const btnSelectAll = document.createElement('button');
+        btnSelectAll.classList.add('btnSelectAll');
+        btnSelectAll.textContent='seleccionar todo';
+
+        const btnBorrar = document.createElement('button');
+        btnBorrar.classList.add('btn_borrar');
+
+        const borrarIcono = document.createElement('i');
+        borrarIcono.classList.add('ri-delete-bin-2-fill');
+
+        const borrarText = document.createElement('p');
+        borrarText.textContent = 'Borrar datos';
+
+        btnBorrar.append(borrarIcono, borrarText);
+
+        botonera.append(btnSelectAll, btnBorrar);
+
+        opcionesCont.append(btnCerrar, contadorSpan, botonera);
+
+        opcionesPanel.appendChild(opcionesCont);
+
+        container.before(opcionesPanel);
+
+        // 1. Botón Cerrar (Limpia toda la selección actual) ______________________________________
+        btnCerrar.addEventListener('click', () => {
+            selectedAuditIds = [];
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(chk => {
+                chk.checked = false;
+                const icon = chk.parentElement.querySelector('.ri-check-line');
+                if (icon) icon.classList.add('oculto');
+            });
+            actualizarPanelSeleccion();
+        });
+
+        // 2. Botón Seleccionar Todo ______________________________________________________________
+        btnSelectAll.addEventListener('click', () => {
+
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+            const todosMarcados = Array.from(checkboxes).every(chk => chk.checked);
+
+            checkboxes.forEach(chk => {
+                if (todosMarcados) {
+                    // Si ya todos estaban marcados en la página, desmarca
+                    if (chk.checked) {
+                        chk.checked = false;
+                        chk.dispatchEvent(new Event('change'));
+                    }
+                } else {
+                    // Si faltaba alguno, márcalos todos
+                    if (!chk.checked) {
+                        chk.checked = true;
+                        chk.dispatchEvent(new Event('change'));
+                    }
+                }
+            });
+        });
+
+        // 3. Botón Borrar Masivo (Borra concurrentemente todos los IDs recolectados)___________________________________
+        btnBorrar.addEventListener("click", async () => {
+          const totalElementos = selectedAuditIds.length;
+          const confirmacion = await alerta.alertaQuest(
+            `¿Estás seguro de que deseas eliminar los ${totalElementos} registros seleccionados del historial?`,
+          );
+
+          if (!confirmacion.isConfirmed) return;
+
+          try {
+
+            const resultado = await api.bulkDelete("audits/bulk_delete", {
+              audit_ids: selectedAuditIds,
+            });
+
+            if (resultado.success) {
+
+              await alerta.alertaOK("Los registros seleccionados se eliminaron con éxito.",);
+
+            } else {
+              // Si el backend devuelve un error controlado (ej. código 422 o 500)
+              await alerta.alertaError(resultado.message || "No se pudieron eliminar los registros.",);
+            }
+          } catch (error) {
+            await alerta.alertaError("Ocurrió un error inesperado al procesar el borrado masivo.",);
+          }
+
+          selectedAuditIds = [];
+          await recargarContainer();
+        });
+
+        // btnBorrar.addEventListener('click', async () => {
+        //     const totalElementos = selectedAuditIds.length;
+        //     const confirmacion = await alerta.alertaQuest(`¿Estás seguro de que deseas eliminar los ${totalElementos} registros seleccionados del historial?`);
+            
+        //     if (!confirmacion.isConfirmed) return;
+
+        //     try {
+        //         let fallos = 0;
+        //         // Ejecutamos las peticiones de borrado de forma paralela
+        //         await Promise.all(selectedAuditIds.map(async (id) => {
+        //             const eliminado = await api.delet(`audits/${id}/delete_audit`);
+        //             if (!eliminado.success) fallos++;
+        //         }));
+
+        //         if (fallos === 0) {
+        //             await alerta.alertaOK("Los registros seleccionados se eliminaron con éxito.");
+        //         } else {
+        //             await alerta.alertaError(`Se procesó la solicitud, pero no se pudieron eliminar ${fallos} registros.`);
+        //         }
+        //     } catch (error) {
+        //         await alerta.alertaError("Ocurrió un error inesperado al procesar el borrado masivo.");
+        //     }
+
+        //     selectedAuditIds = []; // Limpiamos la memoria de seleccionados
+        //     await recargarContainer();
+        // });
+        
+    }
+
+    const actualizarPanelSeleccion = () => {
+        if (contadorSpan) {
+            contadorSpan.textContent = "Elementos seleccionados: " + selectedAuditIds.length;
+        }
+
+        if (opcionesPanel) {
+            if (selectedAuditIds.length > 0) {
+                opcionesPanel.classList.remove('ocultar_opciones');
+            } else {
+                opcionesPanel.classList.add('ocultar_opciones');
+            }
+        }
+    };
+
+    const cargarHistorial = async () => {
+        container.innerHTML = "";
+
+        await opcionesEliminar();
+
+        await paginacion(endpoint, mensajeVacio, cardHistorial);
+
+        actualizarPanelSeleccion();
+    };
+    
+    const recargarContainer = async () => {
+        await cargarHistorial();
+    };
+
+    const cardHistorial = (dato) => {
+        
         // USER_________________________________________________________
-        const card = document.createElement ('div');
+        const card = document.createElement('div');
         card.classList.add('card-Cont');
     
         const userContainer = document.createElement('div');
@@ -35,14 +207,12 @@ const historial = async (datosHistorial, datoMaestro, nombreSubDato, nombreDB, s
         userRol.textContent = dato.rol;
     
         userDiv.append(userIcon);
-    
         userInfo.append(userName, userRol);
-    
         userContainer.append(userDiv, userInfo);
-
     
         // HISTORIAL_________________________________________________________
-
+        const uniqueId = `checkHistorial-${dato.id}`;
+        
         const historialContainer = document.createElement('div');
         historialContainer.classList.add('historial-Cont');
 
@@ -50,7 +220,43 @@ const historial = async (datosHistorial, datoMaestro, nombreSubDato, nombreDB, s
         sideHistorial.classList.add('historial-side');
 
         const sidePunto = document.createElement('div');
-        sidePunto.classList.add('historial-sideElement');
+        sidePunto.classList.add('historial-sideElement', 'check-historial_cont');
+
+        const checkHistorial = document.createElement('input');
+        checkHistorial.type = 'checkbox';
+        checkHistorial.id = uniqueId;
+        checkHistorial.classList.add('oculto');
+        
+        // Ahora sí puede leer selectedAuditIds sin romper el código
+        checkHistorial.checked = selectedAuditIds.includes(dato.id);
+
+        const labelHistorial = document.createElement('label');
+        labelHistorial.htmlFor = uniqueId;
+
+        const iconCheck = document.createElement('i');
+        iconCheck.className = 'ri-check-line';
+
+        labelHistorial.appendChild(iconCheck);
+        sidePunto.append(checkHistorial, labelHistorial);
+        
+        // Estado inicial del icono de check
+        iconCheck.classList.toggle("oculto", !checkHistorial.checked);
+        
+        // Evento que reacciona al hacer click en el LABEL
+        checkHistorial.addEventListener("change", function () {
+
+            const isChecked = this.checked;
+            
+            iconCheck.classList.toggle("oculto", !isChecked);
+
+            if (isChecked) {
+                selectedAuditIds.push(dato.id);
+            } else {
+                selectedAuditIds = selectedAuditIds.filter(id => id !== dato.id);
+            }
+
+            actualizarPanelSeleccion();
+        });
 
         const sideLine = document.createElement('div');
         sideLine.classList.add('historial-sideElement');
@@ -60,12 +266,32 @@ const historial = async (datosHistorial, datoMaestro, nombreSubDato, nombreDB, s
         
         const name = document.createElement('p');
         name.classList.add('name-Historial');
-        name.textContent = datoMaestro[nombreDB];
+        name.textContent = dato.data_new ?? dato.data_old ?? "Sin registro";
+
+        historialNameAct.append(name);
+
         
-        if(nombreDB=="description") {
+        if (dato.data_old !== null && dato.data_old !== undefined && dato.data_old !== dato.data_new) {
+            const oldName = document.createElement("p");
+            oldName.classList.add("oldName-Historial");
+            oldName.textContent = "Anteriormente: " + dato.data_old;
+            historialNameAct.append(oldName);
+        }
+        
+        let subname = null;
+        if (dato.subData_new != null) {
+            subname = document.createElement('p');
+            subname.classList.add('subname-Historial');
+            subname.textContent = `${nombreSubDato}: ${dato.subData_new ?? dato.subData_old ?? "Sin registro"}`;
             
-            name.classList.add('name-Description');
-        };
+            historialNameAct.append(subname);
+            
+            if (dato.subData_old !== null && dato.subData_old !== undefined) {
+                const oldSubname = document.createElement("p");
+                oldSubname.textContent = `Anteriormente ${nombreSubDato}: ${dato.subData_old}`;
+                historialNameAct.append(oldSubname);
+            }
+        }
         
         const actionContainer = document.createElement('div');
         actionContainer.classList.add('action-Cont');
@@ -75,29 +301,13 @@ const historial = async (datosHistorial, datoMaestro, nombreSubDato, nombreDB, s
         action.textContent = 'Acción: ' + dato.action_execute;
         
         sideHistorial.append(sidePunto, sideLine);
-
-        historialNameAct.append(name);
-
-        let subname = null;
-
-        if(subnombreDB!=null){
-
-            subname = document.createElement('p');
-            subname.classList.add('subname-Historial');
-            subname.textContent = `${nombreSubDato}: ${subnombreDB}`;
-
-            historialNameAct.append(subname);
-        }
-
         historialNameAct.append(action);
-
         historialContainer.append(sideHistorial, historialNameAct);
 
         const statusContainer = document.createElement('div');
         statusContainer.classList.add('status-Cont');
         
         if (dato.status_new !== null) {
-            
             const statusElement = document.createElement('div');
             statusElement.classList.add('status-Element');
             
@@ -116,7 +326,6 @@ const historial = async (datosHistorial, datoMaestro, nombreSubDato, nombreDB, s
             status.textContent = 'Estado nuevo: ' + dato.status_new;
 
             statusElement.append(statusColor, status);
-            
             statusContainer.append(statusElement);
         }
         
@@ -139,35 +348,64 @@ const historial = async (datosHistorial, datoMaestro, nombreSubDato, nombreDB, s
             status.textContent = 'Estado anterior: ' + dato.status_old;
             
             statusElement.append(statusColor, status);
-            
             statusContainer.append(statusElement);
         }
 
         historialContainer.append(statusContainer);
         
-        
         // FECHA_________________________________________________________
-    
         const dateContainer = document.createElement('div');
         dateContainer.classList.add('date-Cont');
     
         const date = document.createElement('p');
         date.classList.add('date-Historial');
-        date.textContent =  dato.date_time;
+        date.textContent = dato.date_time;
     
         const dateIcon = document.createElement('i');
         dateIcon.classList.add('ri-calendar-event-fill');
     
         dateContainer.append(dateIcon, date);
-    
-    
-        // append general
+
+        // BOTON BORRAR DATO_____________________________________________
+        // const borrarbtn = document.createElement('button');
+        // borrarbtn.classList.add('borrarHistorial');
+
+        // const borrarIcono = document.createElement('i');
+        // borrarIcono.classList.add('ri-delete-bin-2-fill');
+
+        // const borrarText = document.createElement('p');
+        // borrarText.textContent = 'Borrar dato del historial';
+
+        // borrarbtn.append(borrarIcono, borrarText);
+
+        // borrarbtn.addEventListener('click', async () => {
+
+        //     const confirmacion = await alerta.alertaQuest('¿Estás seguro de que deseas eliminar este registro del historial?');
+
+        //     if (!confirmacion.isConfirmed) return;
+
+        //     const eliminado = await api.delet(`audits/${dato.id}/delete_audit`);
+
+        //     if (eliminado.success) {
+
+        //       await alerta.alertaOK(eliminado.message);
+
+        //       await recargarContainer();
+
+        //     } else {
+
+        //       await alerta.alertaError(
+        //         eliminado?.message || "No se pudo eliminar el registro.",
+        //       );
+        //     }
+        // });
+
         card.append(userContainer, historialContainer, dateContainer);
 
-        listHistorial.appendChild(card);
-    });
+        return card;
+    };
 
-    container.appendChild(listHistorial);
+    await cargarHistorial();
 };
 
 export default historial;

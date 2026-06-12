@@ -8,13 +8,9 @@ const historialOrganizacion = async () => {
 
     const datoMaestro = await api.get(`organizations/${id}`);
 
-    const datosHistorial = await api.get(`organizations/${id}/history`);
-
-    const SubDatos = await api.get(`sectionals`);
-
-    const seccional = SubDatos.find(s => s.id === datoMaestro.sectional_id);
+    const endpoint = `organizations/${id}/history`;
     
-    historial(datosHistorial, datoMaestro, "Seccional", "name", seccional.name);
+    historial(endpoint, "Seccional");
 };
 
 export default historialOrganizacion;

@@ -410,6 +410,54 @@ export const delet = async (endpoint) => {
   }
 };
 
+/***
+ * DELETE_BULK (se borra de forma masiva)
+ */
+
+export const bulkDelete = async (endpoint, datos) => {
+  try {
+    spinner.abrirSpinner();
+
+    const opciones = {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookie.obtener("access_token")}`,
+      },
+      body: JSON.stringify(datos), // Obligatorio para este método
+    };
+
+    let response = await fetch(`${url}/${endpoint}`, opciones);
+
+    // --- Mecanismo de Refresh Token ---
+    if (response.status === 401) {
+      await refreshToken();
+
+      opciones.headers.Authorization = `Bearer ${cookie.obtener("access_token")}`;
+      response = await fetch(`${url}/${endpoint}`, opciones);
+
+      if (response.status === 401) {
+        
+        alerta.alertaError("Sesion Expirada");
+        window.location.href = "#/login";
+        localStorage.clear();
+        return null;
+      }
+    }
+
+    return await response.json();
+
+  } catch (error) {
+
+    console.error("Error en BULK DELETE:", error);
+    return null;
+
+  } finally {
+    spinner.cerrarSpinner();
+  }
+};
+
 /**
  * GET (Paginación estructurada): Especial para tablas y listas muy largas.
  * Espera que la API mande no solo "data", sino también los metadatos numéricos 

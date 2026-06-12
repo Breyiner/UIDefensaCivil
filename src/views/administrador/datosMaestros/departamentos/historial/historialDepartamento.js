@@ -8,9 +8,9 @@ const historialDepartamento = async () => {
 
     const datoMaestro = await api.get(`departments/${id}`);
 
-    const datosHistorial = await api.get(`departments/${id}/history/`);
+    const endpoint = `departments/${id}/history/`;
 
-    historial(datosHistorial, datoMaestro, null, "name", null);
+    historial(endpoint, null);
 };
 
 export default historialDepartamento;

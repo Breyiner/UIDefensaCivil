@@ -7,8 +7,8 @@ const historialPreguntas = async () => {
     const id = location.hash.split("=")[1];
 
     const datoMaestro = await api.get(`vulnerableQuestions/${id}`);
-
-    const datosHistorial = await api.get(`vulnerableQuestions/${id}/history`);
+    
+    const endpoint = `vulnerableQuestions/${id}/history`;
 
     let precaucion = null;
 
@@ -22,7 +22,7 @@ const historialPreguntas = async () => {
     }
 
 
-    historial(datosHistorial, datoMaestro, "Precaución", "description", precaucion);
+    historial(endpoint, "Precaución");
 };
 
 export default historialPreguntas;

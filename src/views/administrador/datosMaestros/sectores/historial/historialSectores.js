@@ -8,10 +8,9 @@ const historialSectores = async () => {
 
     const datoMaestro = await api.get(`sectors/${id}`);
 
-    const datosHistorial = await api.get(`sectors/${id}/history`);
+    const endpoint = `sectors/${id}/history`;
 
-
-    historial(datosHistorial, datoMaestro, null, "name", null);
+    historial(endpoint, null);
 };
 
 export default historialSectores;
