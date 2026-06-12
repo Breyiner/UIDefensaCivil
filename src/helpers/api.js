@@ -31,6 +31,7 @@ export const getExiste = async (endpoint) => {
       credentials: "include", // Permite envío de cookies entre dominios si aplica
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
     });
@@ -45,6 +46,7 @@ export const getExiste = async (endpoint) => {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
           Authorization: `Bearer ${cookie.obtener("access_token")}`,
         },
       });
@@ -82,6 +84,7 @@ export const postImagen = async (endpoint, datos) => {
       method: "POST",
       credentials: "include",
       headers: {
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
       body: datos, // Payload en formato bruto o FormData
@@ -94,6 +97,7 @@ export const postImagen = async (endpoint, datos) => {
         method: "POST",
         credentials: "include",
         headers: {
+          "Accept": "application/json",
           Authorization: `Bearer ${cookie.obtener("access_token")}`,
         },
         body: datos,
@@ -128,6 +132,7 @@ export const getImagen = async (endpoint) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
     });
@@ -178,6 +183,7 @@ export const get = async (endpoint) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
     });
@@ -225,6 +231,7 @@ export const post = async (endpoint, datos) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
       body: JSON.stringify(datos), // Transformación de Obj Javascript a Texto JSON
@@ -272,6 +279,7 @@ export const put = async (endpoint, datos) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
       body: JSON.stringify(datos),
@@ -320,6 +328,7 @@ export const patch = async (endpoint, datos) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
       body: JSON.stringify(datos),
@@ -376,6 +385,7 @@ export const delet = async (endpoint) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
     });
@@ -425,6 +435,7 @@ export const getPaginacion = async (endpoint) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
     });
