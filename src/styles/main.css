@@ -55,6 +55,7 @@
 @import "./pages/revisionplansupervisor";
 @import "./pages/perfil.css";
 @import "./pages/lista.css";
+@import "./pages/estadisticaSupervisor.css";
 @import "./components/historial.css";
 @import "./components/searchbar.css";
 @import "./components/dropdown.css";

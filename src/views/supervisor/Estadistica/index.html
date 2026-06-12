@@ -1,9 +1,33 @@
 <div class="container">
     <div class="explicacion">
-        <p class="explicacion__titulo">Estadisticas de los planes familiares</p>
-        <p class="explicacion__subtitulo">Estadisticas actuales sobre los estados de los planes familiares</p>
+        <p class="explicacion__titulo">Estadísticas de la Seccional</p>
+        <p class="explicacion__subtitulo">Resumen de planes familiares, voluntarios y más</p>
     </div>
-    <form class="form">
-        <canvas id="estadosPlanFamiliar"></canvas>
-    </form>
+
+    <div class="stats-loading" id="statsLoading">
+        <div class="stats-loading__spinner"></div>
+        <p class="stats-loading__texto">Cargando estadísticas...</p>
+    </div>
+
+    <div class="stats-error invisible" id="statsError">
+        <i class="ri-error-warning-line stats-error__icono"></i>
+        <p class="stats-error__mensaje" id="statsErrorMsg">Error al cargar las estadísticas</p>
+    </div>
+
+    <div class="stats-content invisible" id="statsContent">
+        <div class="stats-cards" id="statsCards"></div>
+
+        <div class="stats-grid">
+            <div class="stats-chart">
+                <h3 class="stats-chart__titulo">Distribución de Planes</h3>
+                <div class="stats-chart__canvas-wrapper">
+                    <canvas id="donaChart"></canvas>
+                </div>
+            </div>
+
+            <div class="stats-families" id="statsFamilies"></div>
+        </div>
+
+        <div class="stats-table" id="statsTable"></div>
+    </div>
 </div>
