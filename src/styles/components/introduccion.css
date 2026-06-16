@@ -10,7 +10,7 @@
     justify-content: end;
     gap: 30px;
     background-image: url(/fondo.png);
-    height: 95%;
+    height: 100%;
     width: 100%;
     border-radius: 40px 0px 0px 40px;
   }

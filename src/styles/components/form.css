@@ -9,6 +9,41 @@
   font-family: var(--fuente-contenido);
 }
 
+.form__subBotones {
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.form__decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--color-secundario);
+  gap: 15px;
+  width: 100%;
+  margin: 15px 0;
+}
+
+.form__decoration::before,
+.form__decoration::after {
+  content: "";
+  height: 2px;
+  background-color: var(--color-secundario);
+  flex: 1;
+  max-width: 100%;
+}
+
+.form__tittle {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: var(--color-secundario);
+}
+
 .form--alineacion {
   align-items: stretch;
 }
@@ -102,7 +137,7 @@
 
 @media (min-width: 768px) {
   .form{
-    gap: 30px;
+    gap: 25px;
   }
   .form--contenedor{
     display: grid;

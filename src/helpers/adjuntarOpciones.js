@@ -86,35 +86,109 @@ export const adjuntarFactorRiesgo = async (combox, endpoint) => {
 
 // Muta y re-carga combos modernizados instanciados con el plugin "TomSelect".
 // Válidador de activos solamente.
-export const adjuntarReseteo = async (combox, endpoint) => {  
-  const datos = await api.get(endpoint);
 
-  const tom = combox.tomselect; // Extrae API de TomSelect atado al DOM node
+export const adjuntarReseteo = async (combox, endpoint) => {   
+  if (endpoint.endsWith('/') || endpoint.endsWith('undefined') || endpoint.endsWith('null')) return;
 
-  if (!tom) return;
+  const respuestaApi = await api.get(endpoint);
+  
+  // DIAGNÓSTICO: Veremos exactamente en la consola el objeto que manda el backend
+  // console.log("Respuesta API cruda:", respuestaApi);
 
-  tom.disable(); // Lo desactiva para no clickear mientras renderiza las requests network
+  // NORMALIZACIÓN SEGURA: Extrae el array sin importar la envoltura
+  let arr = [];
+  if (Array.isArray(respuestaApi)) {
+    arr = respuestaApi;
+  } else if (respuestaApi && Array.isArray(respuestaApi.data)) {
+    arr = respuestaApi.data;
+  } else if (respuestaApi && respuestaApi.data && Array.isArray(respuestaApi.data.data)) {
+    arr = respuestaApi.data.data;
+  }
 
-  tom.clear(); // Limpia la caja visual
-  tom.clearOptions(); // Borra el historial viejo interno 
+  console.log("Array de organizaciones a iterar:", arr);
 
-  // Inyecta una por una según formato de objeto requerido por TomSelect
-  datos.forEach((dat) => {
-    if (dat.is_active == 1) {
-      tom.addOption({
-        value: dat.id,
-        text: dat.name
-      });
-    }
-  });
+  const tom = combox.tomselect; // Extrae API de TomSelect si existe
 
-  tom.refreshOptions(false); // Renderiza opciones secretamente
+  // ==========================================
+  // OPICIÓN A: SI EL ELEMENTO USA TOMSELECT
+  // ==========================================
+  if (tom) {
+    tom.disable(); 
+    tom.clear(); 
+    tom.clearOptions(); 
 
-  tom.enable(); // 🔥 Vuelve a habilitarlo visualmente
+    // CORREGIDO: Se cambia 'datos' por 'arr'
+    arr.forEach((dat) => {  
+      if (dat.is_active == 1) {
+        tom.addOption({
+          value: dat.id,
+          text: dat.name
+        });
+      }
+    });
+
+    tom.refreshOptions(false); 
+    tom.enable(); 
+  }
+
+  // ==========================================
+  // OPCIÓN B: SI ES UN SELECT NATIVO COMÚN
+  // ==========================================
+  else {
+
+    // 1. Limpiamos las opciones viejas del HTML
+    combox.innerHTML = "";
+
+    // 2. Creamos la opción por defecto (Placeholder)
+    const optionDefault = document.createElement('option');
+    optionDefault.value = "";
+    optionDefault.textContent = "Organización";
+    optionDefault.disabled = true;
+    optionDefault.selected = true;
+    combox.appendChild(optionDefault);
+
+    // 3. Inyectamos las organizaciones activas una por una en el DOM
+    arr.forEach((dat) => {
+      if (dat.is_active == 1) {
+        const opt = document.createElement('option');
+        opt.value = dat.id;
+        opt.textContent = dat.name;
+        combox.appendChild(opt);
+      }
+    });
+  }
 };
+
+// export const adjuntarReseteo = async (combox, endpoint) => {  
+//   const datos = await api.get(endpoint);
+
+//   const tom = combox.tomselect; // Extrae API de TomSelect atado al DOM node
+
+//   if (!tom) return;
+
+//   tom.disable(); // Lo desactiva para no clickear mientras renderiza las requests network
+
+//   tom.clear(); // Limpia la caja visual
+//   tom.clearOptions(); // Borra el historial viejo interno 
+
+//   // Inyecta una por una según formato de objeto requerido por TomSelect
+//   datos.forEach((dat) => {
+//     if (dat.is_active == 1) {
+//       tom.addOption({
+//         value: dat.id,
+//         text: dat.name
+//       });
+//     }
+//   });
+
+//   tom.refreshOptions(false); // Renderiza opciones secretamente
+
+//   tom.enable(); // 🔥 Vuelve a habilitarlo visualmente
+// };
 
 // Gemelo de "adjuntarReseteo" pero incluye compatibilidad si fue invocado en un combobox Normal por despiste.
 // Y no filtra por `is_active`.
+
 export const adjuntarReseteoNoValida = async (combox, endpoint) => {
   const datos = await api.get(endpoint);
 

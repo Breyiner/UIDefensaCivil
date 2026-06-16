@@ -38,13 +38,26 @@ const mostrarError = (input, mensaje) => {
   span.textContent = mensaje;
 
   // Sube dos niveles en el DOM (doble parentElement) para inyectarlo en el contenedor del input
-  input.parentElement.parentElement.append(span);
+  // input.parentElement.parentElement.append(span);
+  input.parentElement.appendChild(span);
+  // input.parentElement.insertAdjacentElement('afterend', span);
 };
 
 // Busca si hay un span ".error" colgando del contenedor del input y lo destruye
 export const limpiarError = (input) => {
-  const error = input.parentElement.parentElement.querySelector(".error");
-  if (error) error.remove();
+  // const error = input.parentElement.parentElement.querySelector(".error");
+  // if (error) error.remove();
+  //----------------------------------------------------------
+  // const error = input.parentElement.nextElementSibling;
+  // if (error && error.classList.contains("error")) {
+  //     error.remove();
+  // }
+  // ---------------------------------------------------------
+  const container = input.closest('.section__input') || input.parentElement;
+  
+  const errores = container.querySelectorAll(".error");
+  
+  errores.forEach(error => error.remove());
 };
 
 // Función auxiliar envoltura: Invoca el dibujo del error y retorna automáticamente 'false' 
@@ -306,6 +319,11 @@ export const  validar_siExiste = (input, minimo) => {
   return validar_minimo(input,minimo);
 };
 
+// export const validar_password = (input) => {
+
+//   const regex = `^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$`;
+// };
+
 // =====================================================
 // DICCIONARIO DE PATRONES DE VALIDACIÓN HTML (`data-tipo`)
 // =====================================================
@@ -344,7 +362,11 @@ const inputTipos={
 
   passwordSinValdacion: {validacion:(input)=>validar_maximo(input),max:40},
 
-  mayorDeEdad:{validacion:(input)=>validar_minimoMaximo(input)}
+  mayorDeEdad:{validacion:(input)=>validar_minimoMaximo(input)},
+
+  // Se agregó la regla entera para "fecha", que te faltaba en tu diccionario original
+  fecha: { validacion: (input) => validar_mayoriaEdad(input)}
+  // Valida la edad al procesar
 };
 
 
@@ -403,8 +425,13 @@ export const validadorAutomatico = {
 
     // Ata función de auto-limpieza térmica al menú select apenas cambie la opción.
     selects.forEach(select => {
-          select.addEventListener("change", e => {
-            limpiarError(select)
+        select.addEventListener("change", e => {
+          limpiarError(select);
+
+          const tipo = select.dataset.tipo;
+          if (tipo in inputTipos && inputTipos[tipo].validacion) {
+              inputTipos[tipo].validacion(select);
+          }
         })
     })
   },
