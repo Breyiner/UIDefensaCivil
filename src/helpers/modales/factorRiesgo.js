@@ -39,50 +39,41 @@ export const ver = async (id) => {
     
     if (vulnerabilidades.length == 0) todasVulnerabilidades = "ninguna";
 
-    // 2. Definición del cuerpo visual usando template literals dinámicos
-    const htmlModal = `
-    <div class="modalVer modal">
+    // 2. Definición del cuerpo visual usando creación DOM
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal");
 
-      <div class="modalVer__dato modalVer__dato--largo">
-        <i class="ri-shield-check-line"></i>
-        <div class="modalVer__titulo">Tipo de Amenaza</div>
-        <div class="modalVer__texto">${datos.threat_type.name}</div>
-      </div>
+    const crearDato = (claseIcono, titulo, texto, largo) => {
+      const dato = document.createElement("div");
+      dato.classList.add("modalVer__dato");
+      if (largo) dato.classList.add("modalVer__dato--largo");
 
-      <div class="modalVer__dato modalVer__dato--largo">
-        <i class="ri-user-line"></i>
-        <div class="modalVer__titulo">Descripcion</div>
-        <div class="modalVer__texto">${datos.description}</div>
-      </div>
+      const icon = document.createElement("i");
+      icon.classList.add(claseIcono);
 
-      <div class="modalVer__dato">
-        <i class="ri-calendar-line"></i>
-        <div class="modalVer__titulo">Ubicacion del riesgo</div>
-        <div class="modalVer__texto">${datos.ubication}</div>
-      </div>
+      const tituloDiv = document.createElement("div");
+      tituloDiv.classList.add("modalVer__titulo");
+      tituloDiv.textContent = titulo;
 
-      <div class="modalVer__dato">
-        <i class="ri-map-pin-line"></i>
-        <div class="modalVer__titulo">Distancia</div>
-        <div class="modalVer__texto">${datos.distance} m</div>
-      </div>
+      const textoDiv = document.createElement("div");
+      textoDiv.classList.add("modalVer__texto");
+      textoDiv.textContent = texto;
 
-      <div class="modalVer__dato modalVer__dato--largo">
-        <i class="ri-list-check"></i>
-        <div class="modalVer__titulo">Acciones de reducción de riesgo</div>
-        <div class="modalVer__texto">${todasAcciones}</div>
-      </div>
+      dato.append(icon, tituloDiv, textoDiv);
+      return dato;
+    };
 
-      <div class="modalVer__dato modalVer__dato--largo">
-        <i class="ri-list-check"></i>
-        <div class="modalVer__titulo">Vulnerabilidades</div>
-        <div class="modalVer__texto">${todasVulnerabilidades}</div>
-      </div>
-    </div>
-  `;
+    modalDiv.append(
+      crearDato("ri-shield-check-line", "Tipo de Amenaza", datos.threat_type.name, true),
+      crearDato("ri-user-line", "Descripcion", datos.description, true),
+      crearDato("ri-calendar-line", "Ubicacion del riesgo", datos.ubication, false),
+      crearDato("ri-map-pin-line", "Distancia", `${datos.distance} m`, false),
+      crearDato("ri-list-check", "Acciones de reducción de riesgo", todasAcciones, true),
+      crearDato("ri-list-check", "Vulnerabilidades", todasVulnerabilidades, true)
+    );
 
     // 3. Renderiza en pantalla sin botones CRUD
-    alerta.Ver(htmlModal, false, false, null, null, null);
+    alerta.Ver(modalDiv, false, false, null, null, null);
 };
 
 
@@ -91,42 +82,72 @@ export const crearAccion = async (riskFactorId, familyPlanId, recargarContainer)
 
     // Extrae los familiares registrados en el plan para listarlos en el Input Encargado
     const members = await api.get(`members/familyPlan/select/${familyPlanId}`);
-    let options = "";
+    // Marco del SweetAlert
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
+
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Agregar Acción de Reducción";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBox1 = document.createElement("div");
+    inputBox1.classList.add("form__inputBox", "modal-50");
+
+    const icon1 = document.createElement("i");
+    icon1.classList.add("ri-shield-check-line");
+
+    const inputAction = document.createElement("input");
+    inputAction.type = "text";
+    inputAction.classList.add("form__input", "form__action");
+    inputAction.placeholder = "Acción a realizar";
+    inputAction.autocomplete = "off";
+
+    inputBox1.append(icon1, inputAction);
+    formDiv.appendChild(inputBox1);
+
+    const inputBox2 = document.createElement("div");
+    inputBox2.classList.add("form__inputBox");
+
+    const icon2 = document.createElement("i");
+    icon2.classList.add("ri-user-line");
+
+    const selectMember = document.createElement("select");
+    selectMember.classList.add("form__input", "form__member");
+
+    const optionDefault = document.createElement("option");
+    optionDefault.value = "";
+    optionDefault.textContent = "Seleccione un miembro";
+    selectMember.appendChild(optionDefault);
+
     members.forEach(member => {
-        options += `<option value="${member.id}">${member.full_name}</option>`;
+      const option = document.createElement("option");
+      option.value = member.id;
+      option.textContent = member.full_name;
+      selectMember.appendChild(option);
     });
 
-    // Marco del SweetAlert
-    const htmlModal = `
-    <div class="explicacion modal">
-      <p class="explicacion__titulo">Agregar Acción de Reducción</p>
-    </div>
+    inputBox2.append(icon2, selectMember);
+    formDiv.appendChild(inputBox2);
 
-    <div class="form">
+    const inputBox3 = document.createElement("div");
+    inputBox3.classList.add("form__inputBox");
 
-      <div class="form__inputBox modal-50">
-        <i class="ri-shield-check-line"></i>
-        <input type="text" 
-               class="form__input form__action" 
-               placeholder="Acción a realizar"
-               autocomplete="off">
-      </div>
+    const icon3 = document.createElement("i");
+    icon3.classList.add("ri-calendar-line");
 
-      <div class="form__inputBox">
-        <i class="ri-user-line"></i>
-        <select class="form__input form__member">
-          <option value="">Seleccione un miembro</option>
-          ${options}
-        </select>
-      </div>
+    const inputDate = document.createElement("input");
+    inputDate.type = "date";
+    inputDate.classList.add("form__input", "form__date");
 
-      <div class="form__inputBox">
-        <i class="ri-calendar-line"></i>
-        <input type="date" class="form__input form__date">
-      </div>
+    inputBox3.append(icon3, inputDate);
+    formDiv.appendChild(inputBox3);
 
-    </div>
-  `;
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Hook: se activa con el Ok confirmatorio
     const funcionModal = async () => {
@@ -158,7 +179,7 @@ export const crearAccion = async (riskFactorId, familyPlanId, recargarContainer)
     };
 
     // Abre el creador
-    alerta.Crear(htmlModal, funcionModal);
+    alerta.Crear(container, funcionModal);
 };
 
 // Sub-Controlador: Lee en modal una acción de riesgo, pero con habilitación CRUD (Edita y Borra hijo)
@@ -167,29 +188,33 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
     const datos = await api.get(`riskReductionActions/${id}`);
     
     // Estructura de vista default (lectura)
-    const htmlModal = `
-    <div class="modalVer modal">
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal");
 
-      <div class="modalVer__dato modalVer__dato--largo">
-        <i class="ri-shield-check-line"></i>
-        <div class="modalVer__titulo">Acción</div>
-        <div class="modalVer__texto">${datos.action}</div>
-      </div>
+    const crearDato = (claseIcono, titulo, texto) => {
+      const dato = document.createElement("div");
+      dato.classList.add("modalVer__dato", "modalVer__dato--largo");
 
-      <div class="modalVer__dato  modalVer__dato--largo">
-        <i class="ri-user-line"></i>
-        <div class="modalVer__titulo">Miembro</div>
-        <div class="modalVer__texto">${datos.member.names} ${datos.member.last_names}</div>
-      </div>
+      const icon = document.createElement("i");
+      icon.classList.add(claseIcono);
 
-      <div class="modalVer__dato modalVer__dato--largo">
-        <i class="ri-calendar-line"></i>
-        <div class="modalVer__titulo">Fecha Finalización</div>
-        <div class="modalVer__texto">${datos.end_date}</div>
-      </div>
+      const tituloDiv = document.createElement("div");
+      tituloDiv.classList.add("modalVer__titulo");
+      tituloDiv.textContent = titulo;
 
-    </div>
-  `;
+      const textoDiv = document.createElement("div");
+      textoDiv.classList.add("modalVer__texto");
+      textoDiv.textContent = texto;
+
+      dato.append(icon, tituloDiv, textoDiv);
+      return dato;
+    };
+
+    modalDiv.append(
+      crearDato("ri-shield-check-line", "Acción", datos.action),
+      crearDato("ri-user-line", "Miembro", `${datos.member.names} ${datos.member.last_names}`),
+      crearDato("ri-calendar-line", "Fecha Finalización", datos.end_date)
+    );
 
     // ✏ ALGORITMO DE EDICIÓN
     const funcionModalEditar = async () => {
@@ -197,46 +222,68 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
         // Recarga catálogo delegados
         const members = await api.get(`members/familyPlan/select/${familyPlanId}`);
         
-        let options = "";
+        // Pantalla de Form Editar rellena
+        const explicacionDiv = document.createElement("div");
+        explicacionDiv.classList.add("explicacion", "modal");
+
+        const tituloP = document.createElement("p");
+        tituloP.classList.add("explicacion__titulo");
+        tituloP.textContent = "Editar Acción";
+        explicacionDiv.appendChild(tituloP);
+
+        const formDiv = document.createElement("div");
+        formDiv.classList.add("form");
+
+        const inputBox1 = document.createElement("div");
+        inputBox1.classList.add("form__inputBox", "modal-50");
+
+        const icon1 = document.createElement("i");
+        icon1.classList.add("ri-shield-check-line");
+
+        const inputAction = document.createElement("input");
+        inputAction.type = "text";
+        inputAction.classList.add("form__input", "form__action");
+        inputAction.value = datos.action;
+
+        inputBox1.append(icon1, inputAction);
+        formDiv.appendChild(inputBox1);
+
+        const inputBox2 = document.createElement("div");
+        inputBox2.classList.add("form__inputBox");
+
+        const icon2 = document.createElement("i");
+        icon2.classList.add("ri-user-line");
+
+        const selectMember = document.createElement("select");
+        selectMember.classList.add("form__input", "form__member");
+
         members.forEach(member => {
-            options += `
-        <option value="${member.id}" 
-          ${member.id == datos.member_id ? "selected" : ""}>
-          ${member.full_name}
-        </option>`;
+          const option = document.createElement("option");
+          option.value = member.id;
+          option.textContent = member.full_name;
+          if (member.id == datos.member_id) option.selected = true;
+          selectMember.appendChild(option);
         });
 
-        // Pantalla de Form Editar rellena
-        const htmlEditar = `
-      <div class="explicacion modal">
-        <p class="explicacion__titulo">Editar Acción</p>
-      </div>
+        inputBox2.append(icon2, selectMember);
+        formDiv.appendChild(inputBox2);
 
-      <div class="form">
+        const inputBox3 = document.createElement("div");
+        inputBox3.classList.add("form__inputBox");
 
-        <div class="form__inputBox modal-50">
-          <i class="ri-shield-check-line"></i>
-          <input type="text" 
-                 class="form__input form__action" 
-                 value="${datos.action}">
-        </div>
+        const icon3 = document.createElement("i");
+        icon3.classList.add("ri-calendar-line");
 
-        <div class="form__inputBox">
-          <i class="ri-user-line"></i>
-          <select class="form__input form__member">
-            ${options}
-          </select>
-        </div>
+        const inputDate = document.createElement("input");
+        inputDate.type = "date";
+        inputDate.classList.add("form__input", "form__date");
+        inputDate.value = datos.end_date;
 
-        <div class="form__inputBox">
-          <i class="ri-calendar-line"></i>
-          <input type="date" 
-                 class="form__input form__date" 
-                 value="${datos.end_date}">
-        </div>
+        inputBox3.append(icon3, inputDate);
+        formDiv.appendChild(inputBox3);
 
-      </div>
-    `;
+        const container = document.createElement("div");
+        container.append(explicacionDiv, formDiv);
 
         const funcionModal = async () => {
 
@@ -263,7 +310,7 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
 
         };
 
-        alerta.Crear(htmlEditar, funcionModal);
+        alerta.Crear(container, funcionModal);
     };
 
     // 🗑 ALGORITMO BORRADOR
@@ -286,7 +333,7 @@ export const verEditarEliminarAccion = async (id, familyPlanId, recargarContaine
     };
 
     // Renderiza modal incial de vista habilitando edición y tachado
-    alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
+    alerta.Ver(modalDiv, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 };
 
 
@@ -297,40 +344,67 @@ export const crearVulnerabilidad = async (riskFactorId, recargarContainer) => {
     const vulnerabilityGrades = await api.get("vulnerabilityGrades");
     const vulnerabilities = await api.get("vulnerabilities");
 
-    let optionsGrades = "";
-    vulnerabilityGrades.forEach(item => {
-        optionsGrades += `<option value="${item.id}">${item.name}</option>`;
-    });
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-    let optionsVulnerabilities = "";
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Agregar Vulnerabilidad";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBox1 = document.createElement("div");
+    inputBox1.classList.add("form__inputBox", "modal-50");
+
+    const icon1 = document.createElement("i");
+    icon1.classList.add("ri-alert-line");
+
+    const selectVulnerability = document.createElement("select");
+    selectVulnerability.classList.add("form__input", "form__vulnerability");
+
+    const optionDefault1 = document.createElement("option");
+    optionDefault1.value = "";
+    optionDefault1.textContent = "Seleccione vulnerabilidad";
+    selectVulnerability.appendChild(optionDefault1);
+
     vulnerabilities.forEach(item => {
-        optionsVulnerabilities += `<option value="${item.id}">${item.name}</option>`;
+      const option = document.createElement("option");
+      option.value = item.id;
+      option.textContent = item.name;
+      selectVulnerability.appendChild(option);
     });
 
-    const htmlModal = `
-    <div class="explicacion modal">
-      <p class="explicacion__titulo">Agregar Vulnerabilidad</p>
-    </div>
+    inputBox1.append(icon1, selectVulnerability);
+    formDiv.appendChild(inputBox1);
 
-    <div class="form">
-      <div class="form__inputBox modal-50">
-        <i class="ri-alert-line"></i>
-        <select class="form__input form__vulnerability">
-          <option value="">Seleccione vulnerabilidad</option>
-          ${optionsVulnerabilities}
-        </select>
-      </div>
+    const inputBox2 = document.createElement("div");
+    inputBox2.classList.add("form__inputBox");
 
-      <div class="form__inputBox">
-        <i class="ri-bar-chart-line"></i>
-        <select class="form__input form__vulnerabilityGrade">
-          <option value="">Seleccione grado</option>
-          ${optionsGrades}
-        </select>
-      </div>
+    const icon2 = document.createElement("i");
+    icon2.classList.add("ri-bar-chart-line");
 
-    </div>
-  `;
+    const selectGrade = document.createElement("select");
+    selectGrade.classList.add("form__input", "form__vulnerabilityGrade");
+
+    const optionDefault2 = document.createElement("option");
+    optionDefault2.value = "";
+    optionDefault2.textContent = "Seleccione grado";
+    selectGrade.appendChild(optionDefault2);
+
+    vulnerabilityGrades.forEach(item => {
+      const option = document.createElement("option");
+      option.value = item.id;
+      option.textContent = item.name;
+      selectGrade.appendChild(option);
+    });
+
+    inputBox2.append(icon2, selectGrade);
+    formDiv.appendChild(inputBox2);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     const funcionModal = async () => {
 
@@ -355,7 +429,7 @@ export const crearVulnerabilidad = async (riskFactorId, recargarContainer) => {
         }
     };
 
-    alerta.Crear(htmlModal, funcionModal);
+    alerta.Crear(container, funcionModal);
 };
 
 // Modal de lectura simple pero equiparado con la capacidad de borrado de dicha vulnerabilidad detectada
@@ -363,23 +437,32 @@ export const verEditarEliminarVulnerabilidad = async (id, recargarContainer, esS
 
     const datos = await api.get(`vulnerabilityFactors/${id}`);
 
-    const htmlModal = `
-    <div class="modalVer modal">
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal");
 
-      <div class="modalVer__dato modalVer__dato--largo">
-        <i class="ri-alert-line"></i>
-        <div class="modalVer__titulo">Vulnerabilidad</div>
-        <div class="modalVer__texto">${datos.vulnerability.name}</div>
-      </div>
+    const crearDato = (claseIcono, titulo, texto) => {
+      const dato = document.createElement("div");
+      dato.classList.add("modalVer__dato", "modalVer__dato--largo");
 
-      <div class="modalVer__dato modalVer__dato--largo">
-        <i class="ri-bar-chart-line"></i>
-        <div class="modalVer__titulo">Grado</div>
-        <div class="modalVer__texto">${datos.vulnerability_grade.name}</div>
-      </div>
+      const icon = document.createElement("i");
+      icon.classList.add(claseIcono);
 
-    </div>
-  `;
+      const tituloDiv = document.createElement("div");
+      tituloDiv.classList.add("modalVer__titulo");
+      tituloDiv.textContent = titulo;
+
+      const textoDiv = document.createElement("div");
+      textoDiv.classList.add("modalVer__texto");
+      textoDiv.textContent = texto;
+
+      dato.append(icon, tituloDiv, textoDiv);
+      return dato;
+    };
+
+    modalDiv.append(
+      crearDato("ri-alert-line", "Vulnerabilidad", datos.vulnerability.name),
+      crearDato("ri-bar-chart-line", "Grado", datos.vulnerability_grade.name)
+    );
 
     // ✏ EDITAR (Nuevos Selects pre-seleccionados)
     const funcionModalEditar = async () => {
@@ -387,47 +470,59 @@ export const verEditarEliminarVulnerabilidad = async (id, recargarContainer, esS
         const vulnerabilityGrades = await api.get("vulnerabilityGrades");
         const vulnerabilities = await api.get("vulnerabilities");
 
-        let optionsGrades = "";
-        vulnerabilityGrades.forEach(item => {
-            optionsGrades += `
-            <option value="${item.id}" 
-              ${item.id == datos.vulnerability_grade_id ? "selected" : ""}>
-              ${item.name}
-            </option>`;
-        });
+        const explicacionDiv = document.createElement("div");
+        explicacionDiv.classList.add("explicacion", "modal");
 
-        let optionsVulnerabilities = "";
+        const tituloP = document.createElement("p");
+        tituloP.classList.add("explicacion__titulo");
+        tituloP.textContent = "Editar Vulnerabilidad";
+        explicacionDiv.appendChild(tituloP);
+
+        const formDiv = document.createElement("div");
+        formDiv.classList.add("form");
+
+        const inputBox1 = document.createElement("div");
+        inputBox1.classList.add("form__inputBox", "modal-50");
+
+        const icon1 = document.createElement("i");
+        icon1.classList.add("ri-alert-line");
+
+        const selectVulnerability = document.createElement("select");
+        selectVulnerability.classList.add("form__input", "form__vulnerability");
+
         vulnerabilities.forEach(item => {
-            optionsVulnerabilities += `
-            <option value="${item.id}" 
-              ${item.id == datos.vulnerability_id ? "selected" : ""}>
-              ${item.name}
-            </option>`;
+          const option = document.createElement("option");
+          option.value = item.id;
+          option.textContent = item.name;
+          if (item.id == datos.vulnerability_id) option.selected = true;
+          selectVulnerability.appendChild(option);
         });
 
-        const htmlEditar = `
-        <div class="explicacion modal">
-          <p class="explicacion__titulo">Editar Vulnerabilidad</p>
-        </div>
+        inputBox1.append(icon1, selectVulnerability);
+        formDiv.appendChild(inputBox1);
 
-        <div class="form">
+        const inputBox2 = document.createElement("div");
+        inputBox2.classList.add("form__inputBox");
 
-          <div class="form__inputBox modal-50">
-            <i class="ri-alert-line"></i>
-            <select class="form__input form__vulnerability">
-              ${optionsVulnerabilities}
-            </select>
-          </div>
+        const icon2 = document.createElement("i");
+        icon2.classList.add("ri-bar-chart-line");
 
-          <div class="form__inputBox">
-            <i class="ri-bar-chart-line"></i>
-            <select class="form__input form__vulnerabilityGrade">
-              ${optionsGrades}
-            </select>
-          </div>
+        const selectGrade = document.createElement("select");
+        selectGrade.classList.add("form__input", "form__vulnerabilityGrade");
 
-        </div>
-      `;
+        vulnerabilityGrades.forEach(item => {
+          const option = document.createElement("option");
+          option.value = item.id;
+          option.textContent = item.name;
+          if (item.id == datos.vulnerability_grade_id) option.selected = true;
+          selectGrade.appendChild(option);
+        });
+
+        inputBox2.append(icon2, selectGrade);
+        formDiv.appendChild(inputBox2);
+
+        const container = document.createElement("div");
+        container.append(explicacionDiv, formDiv);
 
         const funcionModal = async () => {
 
@@ -453,7 +548,7 @@ export const verEditarEliminarVulnerabilidad = async (id, recargarContainer, esS
         };
 
         // Levanta cuadro editable
-        alerta.Crear(htmlEditar, funcionModal);
+        alerta.Crear(container, funcionModal);
     };
 
     // 🗑 ELIMINAR VULNERABILIDAD SUBORDINADA
@@ -474,5 +569,5 @@ export const verEditarEliminarVulnerabilidad = async (id, recargarContainer, esS
     };
 
     // Abre el modal inicial inyectando las lógicas CRUD completas
-    alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
+    alerta.Ver(modalDiv, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 };
