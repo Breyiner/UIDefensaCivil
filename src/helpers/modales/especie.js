@@ -16,19 +16,29 @@ export const ver = async (id, recargarContainer) => {
     const datos = await api.get(`species/${id}`);
 
     // Diseña la interfaz HTML usando los datos inyectados de la respuesta
-    const htmlModal = `
-        <div class="modalVer modal-50">
-            <div class="modalVer__dato">
-                <i class="ri-bear-smile-line"></i>
-                <div class="modalVer__titulo">Nombre</div>
-                <div class="modalVer__texto">${datos.name}</div>
-            </div>
-        </div>
-    `;
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal-50");
+
+    const datoDiv = document.createElement("div");
+    datoDiv.classList.add("modalVer__dato");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-bear-smile-line");
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = "Nombre";
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = datos.name;
+
+    datoDiv.append(icon, tituloDiv, textoDiv);
+    modalDiv.appendChild(datoDiv);
 
     // Utiliza el helper genérico "VerEstado" pasándole lógica de callbacks
     alerta.VerEstado(
-        htmlModal,
+        modalDiv,
         true, // Habilita el botón de edición
         datos.is_active, // Informa el estado booleano para mostrar Activar o Desactivar
 
@@ -68,26 +78,37 @@ export const ver = async (id, recargarContainer) => {
 // Crea y levanta el cuadro de diálogo con un formulario vacío 
 export const crear = async (recargarContainer) => {
 
-    // Crea el formulario HTML
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Especie</p>
-        </div>
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-bear-smile-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre de la especie"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Especie";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-bear-smile-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.placeholder = "Nombre de la especie";
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Invoca SweetAlert pidiendo que renderice el HTML y envíe la petición POST
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Busca el elemento del input en el DOM del modal
         const nombre = document.querySelector(".form__nombre").value;
@@ -116,25 +137,37 @@ export const editar = async (id, recargarContainer) => {
     // Extrae el objeto registro original
     const info = await api.get(`species/${id}`);
 
-    // Configura HTML, nota el atributo 'value="${info.name}"'
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Especie</p>
-        </div>
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-bear-smile-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre"
-                    value="${info.name}"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
+
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Editar Especie";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-bear-smile-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.value = info.name;
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Pide confirmación y guarda actualización
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Obtiene el valor final del input de texto
         const nombre = document.querySelector(".form__nombre").value;
