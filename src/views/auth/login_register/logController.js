@@ -15,6 +15,12 @@ const logController = async () => {
     const loginCont = document.querySelector(".login");
     const registerCont = document.querySelector(".register");
 
+    const resetForm = (form) => { //Resetea el formulario
+        form.reset();
+        form.querySelectorAll("input, select").forEach(el => el.value = "");
+        form.querySelectorAll(".error").forEach(el => el.remove());
+    };
+
     // Inicialización del semáforo global para evitar peticiones simultáneas
     if (window.procesoPeticion === undefined) {
         window.procesoPeticion = false;
@@ -25,18 +31,25 @@ const logController = async () => {
     const formLogin = document.createElement('form');
     formLogin.classList.add("form", "form--login");
 
-    const emailCredential = document.createElement('input')
+    const emailCredSection = document.createElement('div');
+    emailCredSection.classList.add("section__input")
+
+    const emailCredential = document.createElement('input');
     emailCredential.classList.add("input--azul");
     emailCredential.type = "text";
     emailCredential.placeholder = "Correo electrónico";
-    emailCredential.classList.add("form__input");
     emailCredential.id = "emailCredential";
     emailCredential.autocomplete = "off";
     emailCredential.setAttribute("data-tipo", "correo");
 
+    emailCredSection.appendChild(emailCredential);
+
     //-----password
     const passwordContLogin = document.createElement('div');
     passwordContLogin.classList.add("form__input--password");
+
+    const passCredSection = document.createElement('div');
+    passCredSection.classList.add("section__input");
 
     const passwordCredential = document.createElement('input')
     passwordCredential.classList.add("input--azul");
@@ -46,6 +59,8 @@ const logController = async () => {
     passwordCredential.id = "passwordCredential";
     passwordCredential.autocomplete = "off";
     passwordCredential.setAttribute("data-tipo", "passwordSinValdacion");
+
+    passCredSection.appendChild(passwordCredential);
 
     const checkVistaPassword = document.createElement('input');
     checkVistaPassword.classList.add("oculto");
@@ -64,7 +79,7 @@ const logController = async () => {
     iconOpenEye.classList.add("ri-eye-fill", "oculto");
 
     labelVistaPassword.addEventListener("click", () => {
-        if (checkVistaPassword.checked) {
+        if (!checkVistaPassword.checked) {
             passwordCredential.type = "text";
             iconCloseEye.classList.add("oculto");
             iconOpenEye.classList.remove("oculto");
@@ -77,15 +92,14 @@ const logController = async () => {
 
     labelVistaPassword.append(iconCloseEye, iconOpenEye);
 
-    passwordContLogin.append(passwordCredential, checkVistaPassword, labelVistaPassword);
+    passwordContLogin.append( checkVistaPassword, labelVistaPassword, passCredSection);
 
     const botonLogin = document.createElement('button');
-    botonLogin.classList.add("boton");
+    botonLogin.classList.add("boton", "form__boton");
     botonLogin.type = "submit";
     botonLogin.textContent = "Iniciar sesión";
 
-
-    formLogin.appendChild(emailCredential);
+    formLogin.appendChild(emailCredSection);
     formLogin.appendChild(passwordContLogin);
     formLogin.appendChild(botonLogin);
 
@@ -107,6 +121,85 @@ const logController = async () => {
     botonesLogin.append(botonRecuperar, decorationLogin, botonRegistrar);
 
     loginCont.append(formLogin, botonesLogin);
+
+    // Validaciones y data LOGIN
+    validacion.validadorAutomatico.init(formLogin);
+    
+    formLogin.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (window.procesoPeticion) return;
+      botonLogin.disabled = true;
+      window.procesoPeticion = true;
+
+      const validacionLogin = validacion.validadorAutomatico.validarTodo(formLogin);
+
+      if (!validacionLogin) {
+
+        console.log("Error en validación de sesión");
+        botonLogin.disabled = false;
+        window.procesoPeticion = false;
+      };
+
+      const dataLogin = {
+        email: emailCredential.value,
+        password: passwordCredential.value,
+      };
+
+      // Solicita Tokenización o aprobación a servicio
+      const data = await api.post("login", dataLogin);
+
+      // Branch exitoso de promesa Fetch nativa
+      if (data && data.success) {
+        const atributos = data.data; // Extrae JSON profundo de la prop key "data" devuelta
+
+        // Persiste atributos básicos de perfilamiento offline localmente para toda la persistencia app
+        localStorage.setItem("full_name", atributos.full_name);
+        localStorage.setItem("id", atributos.id);
+        localStorage.setItem("permissions", atributos.permissions);
+        localStorage.setItem("role_id", atributos.role_id);
+        localStorage.setItem("sectional_id", atributos.sectional_id);
+        localStorage.setItem("gender_id", atributos.gender);
+        localStorage.setItem("access_token", atributos.token);
+        localStorage.setItem("refresh_token", atributos.refresh_token);
+
+        // Presenta mensaje de bienvenida / Éxito dictado por Api
+        await alerta.alertaOK(data.message);
+
+        // Enrutador cliente "Router" manual leyendo permisos o rol ID local
+        if (atributos.role_id == 1)
+          window.location.href = "#/administrador"; // Dashboard Administrador Supremo
+
+        else if (atributos.role_id == 2)
+          window.location.href = "#/supervisor"; // Dashboard Supervisor (Tercero)
+
+        else if (atributos.role_id == 3)
+          window.location.href = "#/voluntario"; // Dashboard Voluntario
+
+        else window.location.href = "#/"; // Contingencia en caso raro
+
+      } else {
+        // Branch fallido (Ej: Credenciales incorrectas)
+        await alerta.alertaError(data.message);
+      }
+
+      // Rehabilitación del sistema general
+      botonLogin.disabled = false;
+      window.procesoPeticion = false;
+
+    });
+
+    botonRecuperar.addEventListener("click", async (e) =>{
+        window.location.href = "#/forgotPassword";
+    });
+
+    botonRegistrar.addEventListener("click", () => {
+        resetForm(formLogin);
+        loginCont.classList.remove("active");
+        registerCont.classList.add("active");
+    });
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------- }
 
     // REGISTRO ____________________________________________________________________________
 
@@ -398,7 +491,8 @@ const logController = async () => {
     iconOpenEyeRegister.classList.add("ri-eye-fill", "oculto");
     
     labelVistaPasswordRegister.addEventListener("click", () => {
-        if (checkVistaPasswordRegister.checked) {
+
+        if (!checkVistaPasswordRegister.checked) {
             password.type = "text";
             iconCloseEyeRegister.classList.add("oculto");
             iconOpenEyeRegister.classList.remove("oculto");
@@ -446,7 +540,8 @@ const logController = async () => {
     iconOpenEyeComfirm.classList.add("ri-eye-fill", "oculto");
     
     labelVistaPasswordComfirm.addEventListener("click", () => {
-        if (checkVistaPasswordComfirm.checked) {
+
+        if (!checkVistaPasswordComfirm.checked) {
             passwordComfirm.type = "text";
             iconCloseEyeComfirm.classList.add("oculto");
             iconOpenEyeComfirm.classList.remove("oculto");
@@ -473,11 +568,11 @@ const logController = async () => {
     decorationRegister.textContent = "O";
 
     const botonIrLogin = document.createElement('button');
-    botonIrLogin.classList.add("form__link");
+    botonIrLogin.classList.add("boton", "boton--azul");
     botonIrLogin.textContent = "Iniciar sesión";
     
     const botonRegister = document.createElement('button');
-    botonRegister.classList.add("boton");
+    botonRegister.classList.add("boton", "form__boton");
     botonRegister.type = "submit";
     botonRegister.textContent = "Registrarse";
 
@@ -512,8 +607,7 @@ const logController = async () => {
         if (window.procesoPeticion) return;
 
         // Busca el botón de envío dentro del formulario para deshabilitarlo
-        const botonSubmit = formRegister.querySelector(".form__boton");
-        if (botonSubmit) botonSubmit.disabled = true;
+        botonRegister.disabled = true;
         window.procesoPeticion = true;
 
         // Validaciones booleanas finales
@@ -523,7 +617,7 @@ const logController = async () => {
         if (!validacionRegister || !contrasenaIgualdad) {
             console.log("Error en validación de registro");
             // Si la validación falla localmente, debemos liberar el formulario
-            if (botonSubmit) botonSubmit.disabled = false;
+            botonRegister.disabled = false;
             window.procesoPeticion = false;
             return;
 
@@ -551,8 +645,12 @@ const logController = async () => {
           // Verifica prop return success estándar en todo Service response de backend
           if (data.success) {
 
-                  await alerta.alertaOK(data.message);
-          //   window.location.href = "#/"
+            await alerta.alertaOK(data.message);
+
+            resetForm(formRegister);
+            registerCont.classList.remove("active");
+            loginCont.classList.add("active");
+            
           } else alerta.alertaWarning(data.message, data.errors); // Producir array validation
           
         } catch (error) {
@@ -560,8 +658,14 @@ const logController = async () => {
         }
 
         // Pase lo que pase (Éxito o Error de red), volvemos a habilitar todo
-        if (botonSubmit) botonSubmit.disabled = false;
+        botonRegister.disabled = false;
         window.procesoPeticion = false;
+    });
+
+    botonIrLogin.addEventListener("click", () => {
+        resetForm(formRegister);
+        registerCont.classList.remove("active");
+        loginCont.classList.add("active");
     });
     
     seccional.addEventListener("change", async () => {

@@ -83,7 +83,7 @@
 .form__link {
   border: none;
   text-decoration: underline;
-  color: var(--color-grisOscuro);
+  color: var(--color-secundario);
   font-size: var(--tamano-mediano);
   background: none;
   transition: 0.3s;

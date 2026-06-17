@@ -42,6 +42,8 @@ textarea:focus {
   width: 100%;
   background-color: rgba(235, 248, 255, 1);
   color: #0770cc;
+  border-radius: 100px;
+  /* height: fit-content; */
 }
 /* ---------------------- */
 
