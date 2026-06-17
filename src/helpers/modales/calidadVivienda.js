@@ -15,20 +15,30 @@ export const ver = async (id, recargarContainer) => {
     // Pide a la API los datos de la calidad de vivienda específica por su ID
     const datos = await api.get(`housingQualities/${id}`);
 
-    // Construye el componente visual HTML inyectando el nombre devuelto por la API
-    const htmlModal = `
-        <div class="modalVer modal-50">
-            <div class="modalVer__dato">
-                <i class="ri-home-4-line"></i>
-                <div class="modalVer__titulo">Nombre</div>
-                <div class="modalVer__texto">${datos.name}</div>
-            </div>
-        </div>
-    `;
+    // Se crea con el dom los elementos
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal-50");
 
-    // Llama al helper de alertas generales para renderizar el modal pasándole el HTML creado
+    const datoDiv = document.createElement("div");
+    datoDiv.classList.add("modalVer__dato");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-home-4-line");
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = "Nombre";
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = datos.name;
+
+    datoDiv.append(icon, tituloDiv, textoDiv);
+    modalDiv.appendChild(datoDiv);
+
+    // Llama al helper de alertas generales para renderizar el modal pasándole el DOM creado
     alerta.VerEstado(
-        htmlModal,
+        modalDiv,
         true, // Indica que este modal tiene botón de edición
         datos.is_active, // Determina si la calidad de vivienda actual está activa o inactiva
 
@@ -70,26 +80,38 @@ export const ver = async (id, recargarContainer) => {
 // Muestra el formulario vacío para registrar una nueva calidad de vivienda
 export const crear = async (recargarContainer) => {
 
-    // Fabrica la interfaz del formulario en HTML
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Calidad de Vivienda</p>
-        </div>
+    // Fabrica la interfaz del formulario con el DOM
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-home-5-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre de la calidad de vivienda"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Calidad de Vivienda";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-home-5-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.placeholder = "Nombre de la calidad de vivienda";
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Levanta un cuadro de diálogo con el formulario base
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Extrae el valor que el usuario ingresó en el input de texto
         const nombre = document.querySelector(".form__nombre").value;
@@ -119,24 +141,37 @@ export const editar = async (id, recargarContainer) => {
     const info = await api.get(`housingQualities/${id}`);
 
     // Inyecta el valor preexistente en el atributo "value" del input HTML
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Calidad de Vivienda</p>
-        </div>
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-home-5-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre"
-                    value="${info.name}"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
+
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Editar Calidad de Vivienda";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-home-5-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.value = info.name;
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Carga la alerta personalizada estilo "Crear" pero para confirmar edición
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
         // Captura el valor modificado por el usuario
         const nombre = document.querySelector(".form__nombre").value;
 
