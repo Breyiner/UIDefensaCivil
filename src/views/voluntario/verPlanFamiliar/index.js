@@ -5,5 +5,6 @@
  */
 import VerPlanFamiliar from "./verPlanController.js";
 import MenuController from "./menu/menuController.js";
+import VerPDFController from "./verPDF/verPDFController.js";
 
-export { VerPlanFamiliar, MenuController };
+export { VerPlanFamiliar, MenuController, VerPDFController };

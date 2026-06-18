@@ -581,7 +581,58 @@ export const getPdf = async (endpoint, filename = "archivo.pdf") => {
 };
 
 /**
+ * GET (PDF Blob): Realiza una petición GET autenticada para descargar y retornar
+ * el contenido binario (Blob) de un reporte o PDF sin forzar la descarga en el equipo.
+ * Se encarga de instanciar un Blob con tipo de contenido explícito 'application/pdf'.
+ */
+export const getPdfBlob = async (endpoint) => {
+  try {
+    spinner.abrirSpinner();
+    let response = await fetch(`${url}/${endpoint}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${cookie.obtener("access_token")}`,
+      },
+    });
+
+    // --- Mecanismo de Refresh Token ---
+    if (response.status === 401) {
+      await refreshToken();
+      response = await fetch(`${url}/${endpoint}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${cookie.obtener("access_token")}`,
+        },
+      });
+
+      if (response.status === 401) {
+        alerta.alertaError("Sesión expirada");
+        window.location.href = "#/login";
+        localStorage.clear();
+        return null;
+      }
+    }
+
+    if (!response.ok) return null;
+
+    // Se extraen los bytes en bruto para sanitizar las cabeceras de Content-Disposition
+    const arrayBuffer = await response.arrayBuffer();
+    // Se retorna un Blob explícito para habilitar la visualización en iframe
+    return new Blob([arrayBuffer], { type: "application/pdf" });
+
+  } catch (error) {
+    console.error("Error al obtener PDF Blob:", error);
+    return null;
+  } finally {
+    spinner.cerrarSpinner();
+  }
+};
+
+/**
  * REFRESH TOKEN (Renovación Silenciosa): Función pilar que contacta al endpoint seguro de "/refresh-token"
+
  * enviando el token secundario. Su propósito es interceptar caídas 401, conseguir un nuevo token (access_token) válido,
  * incrustarlo en las cookies, y dejarle continuar normalmente su petición a las funciones principales invisíblemente.
  */

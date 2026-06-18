@@ -118,10 +118,9 @@ const RevisionPlanController = async () => {
 
     tarjetaIntroduccion.append(introduccionDiv, botonVerPDF);
 
-    // Enganche Visor pasivo
+    //Navegación al Visor de Vista Previa PDF
     botonVerPDF.addEventListener("click", () => {
-        // Abre el PDF en otra pestaña consumiendo un binario mediante helper subyacente dedicado PDF
-        api.getPdf(`pdf/${id}`);
+        location.href = `#/supervisor/plan_familiar/ver_pdf?familia_id=${id}`;
     });
 
     //CONTENIDO DE LA TARJETA _____________________________________________________________________________________
