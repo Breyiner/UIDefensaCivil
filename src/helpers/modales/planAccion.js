@@ -12,37 +12,58 @@ export const crear = async (familyPlanId, actionTypeId, recargarContainer, idPla
   // Descarga los miembros de la familia que pertenecen al plan para el listado desplegable
   const members = await api.get(`members/familyPlan/select/${familyPlanId}`);
 
-  // Inicia la variable del desplegable HTML con opción nula
-  let options = `<option value="">Seleccione un miembro</option>`;
+  const explicacionDiv = document.createElement("div");
+  explicacionDiv.classList.add("explicacion", "modal");
 
-  // Recorre el array agregando opciones interactivas con el nombre completo y id de validación
+  const tituloP = document.createElement("p");
+  tituloP.classList.add("explicacion__titulo");
+  tituloP.textContent = "Crear Acción";
+  explicacionDiv.appendChild(tituloP);
+
+  const formDiv = document.createElement("div");
+  formDiv.classList.add("form");
+
+  const memberBoxDiv = document.createElement("div");
+  memberBoxDiv.classList.add("form__inputBox", "modal-50");
+
+  const userIcon = document.createElement("i");
+  userIcon.classList.add("ri-user-line");
+
+  const memberSelect = document.createElement("select");
+  memberSelect.classList.add("form__input", "form__member");
+
+  const defaultOpt = document.createElement("option");
+  defaultOpt.value = "";
+  defaultOpt.textContent = "Seleccione un miembro";
+  memberSelect.appendChild(defaultOpt);
+
   members.forEach(member => {
-    options += `<option value="${member.id}">${member.full_name}</option>`;
+    const opt = document.createElement("option");
+    opt.value = member.id;
+    opt.textContent = member.full_name;
+    memberSelect.appendChild(opt);
   });
 
-  // Modal inyectado a la librería de alertas con los select y inputs necesarios
-  const htmlModal = `
-    <div class="explicacion modal">
-      <p class="explicacion__titulo">Crear Acción</p>
-    </div>
+  memberBoxDiv.append(userIcon, memberSelect);
+  formDiv.appendChild(memberBoxDiv);
 
-    <div class="form">
-      <div class="form__inputBox modal-50">
-        <i class="ri-user-line"></i>
-        <select class="form__input form__member">
-          ${options}
-        </select>
-      </div>
+  const descBoxDiv = document.createElement("div");
+  descBoxDiv.classList.add("form__inputBox");
 
-      <div class="form__inputBox">
-        <i class="ri-file-text-line"></i>
-        <input type="text"
-               class="form__input form__description"
-               placeholder="Descripción"
-               autocomplete="off">
-      </div>
-    </div>
-  `;
+  const fileIcon = document.createElement("i");
+  fileIcon.classList.add("ri-file-text-line");
+
+  const descInput = document.createElement("input");
+  descInput.type = "text";
+  descInput.classList.add("form__input", "form__description");
+  descInput.placeholder = "Descripción";
+  descInput.autocomplete = "off";
+
+  descBoxDiv.append(fileIcon, descInput);
+  formDiv.appendChild(descBoxDiv);
+
+  const container = document.createElement("div");
+  container.append(explicacionDiv, formDiv);
 
   // Callback para cuando se intente guardar el modal SweetAlert
   const funcionModal = async () => {
@@ -75,7 +96,7 @@ export const crear = async (familyPlanId, actionTypeId, recargarContainer, idPla
   };
 
   // Abre el modal visual vacío pasándole el listener asíncrono confirmador 
-  alerta.Crear(htmlModal, funcionModal);
+  alerta.Crear(container, funcionModal);
 };
 
 // Detalle completo y gestión de la acción registrada de un integrante (Editar/Eliminar)
@@ -83,22 +104,42 @@ export const verEditarEliminar = async (id, familyPlanId, recargarContainer, esS
   // Pide al servidor detalles exactos de esa tarea "Acción" específica
   const datos = await api.get(`actionPlanActions/${id}`);
 
-  // Estructura contenedora del listado grid view-only (Solo Ver) para ser renderizado por ver()
-  const htmlModal = `
-    <div class="modalVer modal">
-      <div class="modalVer__dato">
-        <i class="ri-user-line modalVer__icono"></i>
-        <div class="modalVer__titulo">Miembro</div>
-        <div class="modalVer__texto">${datos.member.names} ${datos.member.last_names}</div>
-      </div>
+  const modalDiv = document.createElement("div");
+  modalDiv.classList.add("modalVer", "modal");
 
-      <div class="modalVer__dato modalVer__dato--largo">
-        <i class="ri-file-text-line modalVer__icono"></i>
-        <div class="modalVer__titulo">Descripción</div>
-        <div class="modalVer__texto">${datos.description}</div>
-      </div>
-    </div>
-  `;
+  const miembroDatoDiv = document.createElement("div");
+  miembroDatoDiv.classList.add("modalVer__dato");
+
+  const miembroIcon = document.createElement("i");
+  miembroIcon.classList.add("ri-user-line", "modalVer__icono");
+
+  const miembroTitulo = document.createElement("div");
+  miembroTitulo.classList.add("modalVer__titulo");
+  miembroTitulo.textContent = "Miembro";
+
+  const miembroTexto = document.createElement("div");
+  miembroTexto.classList.add("modalVer__texto");
+  miembroTexto.textContent = `${datos.member.names} ${datos.member.last_names}`;
+
+  miembroDatoDiv.append(miembroIcon, miembroTitulo, miembroTexto);
+  modalDiv.appendChild(miembroDatoDiv);
+
+  const descDatoDiv = document.createElement("div");
+  descDatoDiv.classList.add("modalVer__dato", "modalVer__dato--largo");
+
+  const descIcon = document.createElement("i");
+  descIcon.classList.add("ri-file-text-line", "modalVer__icono");
+
+  const descTitulo = document.createElement("div");
+  descTitulo.classList.add("modalVer__titulo");
+  descTitulo.textContent = "Descripción";
+
+  const descTexto = document.createElement("div");
+  descTexto.classList.add("modalVer__texto");
+  descTexto.textContent = datos.description;
+
+  descDatoDiv.append(descIcon, descTitulo, descTexto);
+  modalDiv.appendChild(descDatoDiv);
 
   // Listener adjunto que levanta y sustituye el DOM "Solo Ver" para brindar el input de Edición si ocurre click en Editar
   const funcionModalEditar = async () => {
@@ -106,39 +147,55 @@ export const verEditarEliminar = async (id, familyPlanId, recargarContainer, esS
     // Extrae los miembros familiares de nuevo, a lo mejor el plan ha sido modificado y se removieron parientes
     const members = await api.get(`members/familyPlan/select/${familyPlanId}`);
 
-    // Loop similar al crear, pero incrustando directrices de UI "selected" usando operador ternario IF corto
-    let options = "";
+    const editExplicacionDiv = document.createElement("div");
+    editExplicacionDiv.classList.add("explicacion", "modal");
+
+    const editTituloP = document.createElement("p");
+    editTituloP.classList.add("explicacion__titulo");
+    editTituloP.textContent = "Editar Acción";
+    editExplicacionDiv.appendChild(editTituloP);
+
+    const editFormDiv = document.createElement("div");
+    editFormDiv.classList.add("form");
+
+    const editMemberBoxDiv = document.createElement("div");
+    editMemberBoxDiv.classList.add("form__inputBox");
+
+    const editUserIcon = document.createElement("i");
+    editUserIcon.classList.add("ri-user-line");
+
+    const editMemberSelect = document.createElement("select");
+    editMemberSelect.classList.add("form__input", "form__member");
+
     members.forEach(member => {
-      options += `
-        <option value="${member.id}"
-          ${member.id == datos.member_id ? "selected" : ""}>
-          ${member.full_name}
-        </option>
-      `;
+      const opt = document.createElement("option");
+      opt.value = member.id;
+      opt.textContent = member.full_name;
+      if (member.id == datos.member_id) {
+        opt.selected = true;
+      }
+      editMemberSelect.appendChild(opt);
     });
 
-    // Nuevo código visual form (Modal interactivo)
-    const htmlEditar = `
-      <div class="explicacion modal">
-        <p class="explicacion__titulo">Editar Acción</p>
-      </div>
+    editMemberBoxDiv.append(editUserIcon, editMemberSelect);
+    editFormDiv.appendChild(editMemberBoxDiv);
 
-      <div class="form">
-        <div class="form__inputBox">
-          <i class="ri-user-line"></i>
-          <select class="form__input form__member">
-            ${options}
-          </select>
-        </div>
+    const editDescBoxDiv = document.createElement("div");
+    editDescBoxDiv.classList.add("form__inputBox", "modal-50");
 
-        <div class="form__inputBox modal-50">
-          <i class="ri-file-text-line"></i>
-          <input type="text"
-                 class="form__input form__description"
-                 value="${datos.description}">
-        </div>
-      </div>
-    `;
+    const editFileIcon = document.createElement("i");
+    editFileIcon.classList.add("ri-file-text-line");
+
+    const editDescInput = document.createElement("input");
+    editDescInput.type = "text";
+    editDescInput.classList.add("form__input", "form__description");
+    editDescInput.value = datos.description;
+
+    editDescBoxDiv.append(editFileIcon, editDescInput);
+    editFormDiv.appendChild(editDescBoxDiv);
+
+    const editContainer = document.createElement("div");
+    editContainer.append(editExplicacionDiv, editFormDiv);
 
     // Confirma guardado y modificaciones enviando a la API
     const guardar = async () => {
@@ -167,7 +224,7 @@ export const verEditarEliminar = async (id, familyPlanId, recargarContainer, esS
     };
 
     // Abre modal form para sobreescribir la tarea actual
-    alerta.Crear(htmlEditar, guardar);
+    alerta.Crear(editContainer, guardar);
   };
 
   // Función atada al botón Trash/Eliminar del SweetAlert general (Ver modal)
@@ -191,5 +248,5 @@ export const verEditarEliminar = async (id, familyPlanId, recargarContainer, esS
   };
 
   // Levanta sweetalert "ModalVer" nativo permitiendo las operaciones de editar true/eliminar true inyectadas en los parámetros
-  alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
+  alerta.Ver(modalDiv, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 };
