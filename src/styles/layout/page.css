@@ -14,7 +14,7 @@
 }
 
 .layout:has(.container--noHeader){
-  display: block;
+  display: flex;
 }
 
 #app {
