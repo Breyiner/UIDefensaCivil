@@ -36,57 +36,85 @@
       condicionVacunas = "ninguna";
     }
 
-    // Estructura el HTML inyectando las propiedades de la mascota y el string de vacunas procesado
-    const htmlModal = `
-          <div class="modalVer modal">
-              <div class="modalVer__dato">
-                  <i class="ri-coupon-line"></i>
-                  <div class="modalVer__titulo">Nombre</div>
-                  <div class="modalVer__texto">${datos.name}</div>
-              </div>
-              <div class="modalVer__dato">
-                  <i class="ri-dna-line"></i>
-                  <div class="modalVer__titulo">Raza</div>
-                  <div class="modalVer__texto">${datos.breed}</div>
-              </div>
-              <div class="modalVer__dato">
-                  <i class="ri-cake-2-line"></i>
-                  <div class="modalVer__titulo">Edad</div>
-                  <div class="modalVer__texto">${datos.age}</div>
-              </div>
-              <div class="modalVer__dato">
-                  <i class="ri-bell-line"></i>
-                  <div class="modalVer__titulo">Especie</div>
-                  <div class="modalVer__texto">${datos.species.name}</div>
-              </div>
-              <div class="modalVer__dato modalVer__dato--largo">
-                  <i class="ri-syringe-line"></i>
-                  <div class="modalVer__titulo">Vacunas</div>
-                  <div class="modalVer__texto">${condicionVacunas}</div>
-              </div>
-          </div>`;
+    // Estructura el DOM inyectando las propiedades de la mascota y el string de vacunas procesado
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal");
+
+    const crearDato = (claseIcono, titulo, texto, largo) => {
+      const dato = document.createElement("div");
+      dato.classList.add("modalVer__dato");
+      if (largo) dato.classList.add("modalVer__dato--largo");
+
+      const icon = document.createElement("i");
+      icon.classList.add(claseIcono);
+
+      const tituloDiv = document.createElement("div");
+      tituloDiv.classList.add("modalVer__titulo");
+      tituloDiv.textContent = titulo;
+
+      const textoDiv = document.createElement("div");
+      textoDiv.classList.add("modalVer__texto");
+      textoDiv.textContent = texto;
+
+      dato.append(icon, tituloDiv, textoDiv);
+      return dato;
+    };
+
+    modalDiv.append(
+      crearDato("ri-coupon-line", "Nombre", datos.name),
+      crearDato("ri-dna-line", "Raza", datos.breed),
+      crearDato("ri-cake-2-line", "Edad", datos.age),
+      crearDato("ri-bell-line", "Especie", datos.species.name),
+      crearDato("ri-syringe-line", "Vacunas", condicionVacunas, true)
+    );
           
     // Despliega la alerta modal en modo lectura      
-    alerta.Ver(htmlModal, false, false, null, null);
+    alerta.Ver(modalDiv, false, false, null, null);
   };
 
   // Abre un formulario modal para registrar una vacuna nueva a esta mascota
   export const crearVacunas = async (mascotaId,recargarContainer) => {
-      // Estructura UI del formulario de vacunas vacio
-      const htmlModal = `
-          <div class="explicacion modal">
-              <p class="explicacion__titulo">Agregar Vacunas</p>
-          </div>
-          <div class="form">
-              <div class="form__inputBox modal-50">
-                  <i class="ri-syringe-fill"></i>
-                  <input type="text" class="form__input form__nombre" placeholder="Nombre de la vacuna" autocomplete="off">
-              </div>
-              <div class="form__inputBox">
-                  <i class="ri-calendar-fill"></i>
-                  <input type="date" class="form__input form__fecha">
-              </div>
-          </div>`;
+      const explicacionDiv = document.createElement("div");
+      explicacionDiv.classList.add("explicacion", "modal");
+
+      const tituloP = document.createElement("p");
+      tituloP.classList.add("explicacion__titulo");
+      tituloP.textContent = "Agregar Vacunas";
+      explicacionDiv.appendChild(tituloP);
+
+      const formDiv = document.createElement("div");
+      formDiv.classList.add("form");
+
+      const inputBox1 = document.createElement("div");
+      inputBox1.classList.add("form__inputBox", "modal-50");
+
+      const icon1 = document.createElement("i");
+      icon1.classList.add("ri-syringe-fill");
+
+      const inputNombre = document.createElement("input");
+      inputNombre.type = "text";
+      inputNombre.classList.add("form__input", "form__nombre");
+      inputNombre.placeholder = "Nombre de la vacuna";
+      inputNombre.autocomplete = "off";
+
+      inputBox1.append(icon1, inputNombre);
+      formDiv.appendChild(inputBox1);
+
+      const inputBox2 = document.createElement("div");
+      inputBox2.classList.add("form__inputBox");
+
+      const icon2 = document.createElement("i");
+      icon2.classList.add("ri-calendar-fill");
+
+      const inputFecha = document.createElement("input");
+      inputFecha.type = "date";
+      inputFecha.classList.add("form__input", "form__fecha");
+
+      inputBox2.append(icon2, inputFecha);
+      formDiv.appendChild(inputBox2);
+
+      const container = document.createElement("div");
+      container.append(explicacionDiv, formDiv);
 
     // Lógica que se dispara al enviar el formulario modal
     const funcionModal = async () => {
@@ -118,7 +146,7 @@
     };
     
     // Inicia SweetAlert con opciones creativas
-    alerta.Crear(htmlModal, funcionModal);
+    alerta.Crear(container, funcionModal);
   };
 
   // Muestra una vacuna individual permitiendo su eventual edición o eliminación
@@ -127,40 +155,82 @@
       const datos = await api.get(`petVaccines/${id}`);
       
       // Modal de vista simple detallado
-      const htmlModal = `
-              <div class="modalVer modal">
-                  <div class="modalVer__dato">
-                      <i class="ri-syringe-line modalVer__icono"></i>
-                      <div class="modalVer__titulo">Nombre</div>
-                      <div class="modalVer__texto">${datos.name}</div>
-                  </div>
+      const modalDiv = document.createElement("div");
+      modalDiv.classList.add("modalVer", "modal");
 
-                  <div class="modalVer__dato">
-                      <i class="ri-calendar-line modalVer__icono"></i>
-                      <div class="modalVer__titulo">Fecha de Vacuna</div>
-                      <div class="modalVer__texto">${datos.date}</div>
-                  </div>
-              </div>`;
+      const crearDato = (claseIcono, titulo, texto) => {
+        const dato = document.createElement("div");
+        dato.classList.add("modalVer__dato");
+
+        const icon = document.createElement("i");
+        icon.classList.add(claseIcono, "modalVer__icono");
+
+        const tituloDiv = document.createElement("div");
+        tituloDiv.classList.add("modalVer__titulo");
+        tituloDiv.textContent = titulo;
+
+        const textoDiv = document.createElement("div");
+        textoDiv.classList.add("modalVer__texto");
+        textoDiv.textContent = texto;
+
+        dato.append(icon, tituloDiv, textoDiv);
+        return dato;
+      };
+
+      modalDiv.append(
+        crearDato("ri-syringe-line", "Nombre", datos.name),
+        crearDato("ri-calendar-line", "Fecha de Vacuna", datos.date)
+      );
               
       // ✏ CALLBACK EDITAR: Si se clickea el lápiz de editar vacuna
       const funcionModalEditar = async () => {
       
       // Necesitamos la data viva para inyectar los 'value' por defecto
       const info = await api.get(`petVaccines/${id}`);
-      const htmlModal = `
-        <div class="explicacion modal">
-          <p class="explicacion__titulo">Editar Vacuna</p>
-        </div>
-        <div class="form">
-          <div class="form__inputBox modal-50">
-            <i class="ri-syringe-fill"></i>
-            <input type="text" class="form__input form__nombre" placeholder="Nombre de la vacuna" autocomplete="off" value="${info.name}">
-          </div>
-          <div class="form__inputBox">
-            <i class="ri-calendar-fill"></i>
-            <input type="date" class="form__input form__fecha" value="${info.date}">
-          </div>
-        </div>`;
+
+      const explicacionDiv = document.createElement("div");
+      explicacionDiv.classList.add("explicacion", "modal");
+
+      const tituloP = document.createElement("p");
+      tituloP.classList.add("explicacion__titulo");
+      tituloP.textContent = "Editar Vacuna";
+      explicacionDiv.appendChild(tituloP);
+
+      const formDiv = document.createElement("div");
+      formDiv.classList.add("form");
+
+      const inputBox1 = document.createElement("div");
+      inputBox1.classList.add("form__inputBox", "modal-50");
+
+      const icon1 = document.createElement("i");
+      icon1.classList.add("ri-syringe-fill");
+
+      const inputNombre = document.createElement("input");
+      inputNombre.type = "text";
+      inputNombre.classList.add("form__input", "form__nombre");
+      inputNombre.placeholder = "Nombre de la vacuna";
+      inputNombre.autocomplete = "off";
+      inputNombre.value = info.name;
+
+      inputBox1.append(icon1, inputNombre);
+      formDiv.appendChild(inputBox1);
+
+      const inputBox2 = document.createElement("div");
+      inputBox2.classList.add("form__inputBox");
+
+      const icon2 = document.createElement("i");
+      icon2.classList.add("ri-calendar-fill");
+
+      const inputFecha = document.createElement("input");
+      inputFecha.type = "date";
+      inputFecha.classList.add("form__input", "form__fecha");
+      inputFecha.value = info.date;
+
+      inputBox2.append(icon2, inputFecha);
+      formDiv.appendChild(inputBox2);
+
+      const container = document.createElement("div");
+      container.append(explicacionDiv, formDiv);
         
       // Lógica ejecutada tras confirmar la ventana de edición
       const funcionModal = async () => {
@@ -187,7 +257,7 @@
       };
       
       // Crea el form flotante de edición
-      alerta.Crear(htmlModal, funcionModal);
+      alerta.Crear(container, funcionModal);
       };
       
       // 🗑 CALLBACK ELIMINAR: Si se clickea el bote de basura
@@ -209,6 +279,6 @@
       };
 
       // Construye el modal inicial de solo vista con los callbacks activados (true)
-      alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
+      alerta.Ver(modalDiv, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 
   }
