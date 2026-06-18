@@ -52,77 +52,48 @@ export const ver = async (id) => {
   }
 
   // Interfaz de solo lectura con diseño grid
-  const htmlModal = `
-            <div class="modalVer modal">
-                <div class="modalVer__dato">
-                    <i class="ri-user-line"></i>
-                    <div class="modalVer__titulo">Nombre</div>
-                    <div class="modalVer__texto">${datos.names}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-user-line"></i>
-                    <div class="modalVer__titulo">Apellidos</div>
-                    <div class="modalVer__texto">${datos.last_names}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-info-card-line"></i>
-                    <div class="modalVer__titulo">Tip documento </div>
-                    <div class="modalVer__texto">${datos.document_type.acronym}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-id-card-line"></i>
-                    <div class="modalVer__titulo">Num documento</div>
-                    <div class="modalVer__texto">${datos.document_number}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-calendar-line modalVer__icono"></i>
-                    <div class="modalVer__titulo">Fecha nacimiento</div>
-                    <div class="modalVer__texto">${datos.birth_date}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-phone-line"></i>
-                    <div class="modalVer__titulo">Telefono</div>
-                    <div class="modalVer__texto">${datos.phone}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-men-line"></i>
-                    <div class="modalVer__titulo">Genero</div>
-                    <div class="modalVer__texto">${datos.gender.name}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-flag-line"></i>
-                    <div class="modalVer__titulo">Parentesco</div>
-                    <div class="modalVer__texto">${datos.kinship.name}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-heart-pulse-line"></i>
-                    <div class="modalVer__titulo">Grupo Sanguineo</div>
-                    <div class="modalVer__texto">${datos.blood_group.name}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-health-book-line"></i>
-                    <div class="modalVer__titulo">EPS</div>
-                    <div class="modalVer__texto">${datos.eps}</div>
-                </div>
-                <div class="modalVer__dato">
-                    <i class="ri-flag-line"></i>
-                    <div class="modalVer__titulo">Nacionalidad</div>
-                    <div class="modalVer__texto">${datos.nationality.name}</div>
-                </div>
-                <div class="modalVer__dato modalVer__dato--largo">
-                    <i class="ri-stethoscope-line"></i>
-                    <div class="modalVer__titulo">Afecciones</div>
-                    <div class="modalVer__texto">${condicionNombre}</div>
-                </div>
-                <div class="modalVer__dato modalVer__dato--largo">
-                    <i class="ri-capsule-fill"></i>
-                    <div class="modalVer__titulo">Medicinas o Dosis</div>
-                    <div class="modalVer__texto">${condicionMedicina}</div>
-                </div>
-            </div>`;
-            
+  const modalDiv = document.createElement("div");
+  modalDiv.classList.add("modalVer", "modal");
+
+  const crearDato = (claseIcono, titulo, texto, largo, claseIconoExtra) => {
+    const dato = document.createElement("div");
+    dato.classList.add("modalVer__dato");
+    if (largo) dato.classList.add("modalVer__dato--largo");
+
+    const icon = document.createElement("i");
+    icon.classList.add(claseIcono);
+    if (claseIconoExtra) icon.classList.add(claseIconoExtra);
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = titulo;
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = texto;
+
+    dato.append(icon, tituloDiv, textoDiv);
+    return dato;
+  };
+
+  modalDiv.append(
+    crearDato("ri-user-line", "Nombre", datos.names),
+    crearDato("ri-user-line", "Apellidos", datos.last_names),
+    crearDato("ri-info-card-line", "Tip documento", datos.document_type.acronym),
+    crearDato("ri-id-card-line", "Num documento", datos.document_number),
+    crearDato("ri-calendar-line", "Fecha nacimiento", datos.birth_date, false, "modalVer__icono"),
+    crearDato("ri-phone-line", "Telefono", datos.phone),
+    crearDato("ri-men-line", "Genero", datos.gender.name),
+    crearDato("ri-flag-line", "Parentesco", datos.kinship.name),
+    crearDato("ri-heart-pulse-line", "Grupo Sanguineo", datos.blood_group.name),
+    crearDato("ri-health-book-line", "EPS", datos.eps),
+    crearDato("ri-flag-line", "Nacionalidad", datos.nationality.name),
+    crearDato("ri-stethoscope-line", "Afecciones", condicionNombre, true),
+    crearDato("ri-capsule-fill", "Medicinas o Dosis", condicionMedicina, true)
+  );
+
   // Abre ventana base sin botones extras
-  alerta.Ver(htmlModal, false, false, null, null);
+  alerta.Ver(modalDiv, false, false, null, null);
 };
 
 
@@ -130,39 +101,90 @@ export const ver = async (id) => {
 export const afeccionCrear = async (id, recargarContainer) => {
   // Solicita la tabla tipoAfecciones (ej: "Alergia", "Enfermedad Crónica") para el dropdwon select
   const tiposAfeccionesPeticion = await api.get(`conditionTypes`);
-  let tiposAfecciones = "";
+
+  const explicacionDiv = document.createElement("div");
+  explicacionDiv.classList.add("explicacion", "modal");
+
+  const tituloP = document.createElement("p");
+  tituloP.classList.add("explicacion__titulo");
+  tituloP.textContent = "Agregar Afección";
+  explicacionDiv.appendChild(tituloP);
+
+  const containerGap = document.createElement("div");
+  containerGap.classList.add("container__gap", "modal-50");
+
+  const inputDiv1 = document.createElement("div");
+  inputDiv1.classList.add("input");
+
+  const inputBox1 = document.createElement("div");
+  inputBox1.classList.add("form__inputBox", "form__inputBox--selector");
+
+  const icon1 = document.createElement("i");
+  icon1.classList.add("ri-id-card-line");
+  icon1.id = "selector__icono";
+
+  const select = document.createElement("select");
+  select.classList.add("selector-portatil");
+  select.id = "afecciones";
+
+  const optionDefault = document.createElement("option");
+  optionDefault.value = "";
+  optionDefault.hidden = true;
+  optionDefault.textContent = "Seleccione una afeccion...";
+  select.appendChild(optionDefault);
+
   for (let i = 0; i < tiposAfeccionesPeticion.length; i++) {
-    tiposAfecciones += `<option value="${tiposAfeccionesPeticion[i].id}">${tiposAfeccionesPeticion[i].name}</option>`;
+    const option = document.createElement("option");
+    option.value = tiposAfeccionesPeticion[i].id;
+    option.textContent = tiposAfeccionesPeticion[i].name;
+    select.appendChild(option);
   }
-  
-  // HTML que usa el componente TomSelect a través de clase "selector-portatil"
-  const htmlModal = `
-    <div class="explicacion modal">
-      <p class="explicacion__titulo">Agregar Afección</p>
-    </div>
-    <div class="container__gap modal-50">
-    <div class="input">
-      <div class="form__inputBox form__inputBox--selector">
-        <i class="ri-id-card-line" id="selector__icono"></i>
-        <select class="selector-portatil" id="afecciones">
-          <option value ="" hidden>Seleccione una afeccion...</option>
-          ${tiposAfecciones}
-        </select>
-      </div>
-    </div>
-      <div class="input">
-        <div class="form__inputBox">
-          <i class="ri-syringe-line"></i>
-          <input type="text" placeholder="Nombre de la afección" id="nombreAfeccion" autocomplete="off" data-tipo="textoCorto">
-        </div>
-      </div>
-      <div class="input">
-        <div class="form__inputBox">
-          <i class="ri-calendar-line"></i>
-          <textarea placeholder="Descripción de dosis" id="descripcion" autocomplete="off" data-tipo="textoLargoOpcional"></textarea>
-        </div>
-      </div>
-    </div>`;
+
+  inputBox1.append(icon1, select);
+  inputDiv1.appendChild(inputBox1);
+  containerGap.appendChild(inputDiv1);
+
+  const inputDiv2 = document.createElement("div");
+  inputDiv2.classList.add("input");
+
+  const inputBox2 = document.createElement("div");
+  inputBox2.classList.add("form__inputBox");
+
+  const icon2 = document.createElement("i");
+  icon2.classList.add("ri-syringe-line");
+
+  const inputNombre = document.createElement("input");
+  inputNombre.type = "text";
+  inputNombre.placeholder = "Nombre de la afección";
+  inputNombre.id = "nombreAfeccion";
+  inputNombre.autocomplete = "off";
+  inputNombre.dataset.tipo = "textoCorto";
+
+  inputBox2.append(icon2, inputNombre);
+  inputDiv2.appendChild(inputBox2);
+  containerGap.appendChild(inputDiv2);
+
+  const inputDiv3 = document.createElement("div");
+  inputDiv3.classList.add("input");
+
+  const inputBox3 = document.createElement("div");
+  inputBox3.classList.add("form__inputBox");
+
+  const icon3 = document.createElement("i");
+  icon3.classList.add("ri-calendar-line");
+
+  const textarea = document.createElement("textarea");
+  textarea.placeholder = "Descripción de dosis";
+  textarea.id = "descripcion";
+  textarea.autocomplete = "off";
+  textarea.dataset.tipo = "textoLargoOpcional";
+
+  inputBox3.append(icon3, textarea);
+  inputDiv3.appendChild(inputBox3);
+  containerGap.appendChild(inputDiv3);
+
+  const container = document.createElement("div");
+  container.append(explicacionDiv, containerGap);
 
   // CALLBACK principal (click en Guardar en SweetAlert)
   const funcionModal = async () => {
@@ -207,7 +229,7 @@ export const afeccionCrear = async (id, recargarContainer) => {
   }
   
   // Ejecuta Sweet alert pasando modal visual y funciones reactivas para el on-click y on-open
-  alerta.Crear(htmlModal, funcionModal, funcionAlAbrir);
+  alerta.Crear(container, funcionModal, funcionAlAbrir);
   // Inicializador del widget avanzado Tom Select adaptativo (en helper tomSelectPortatil.js)
   initTomSelectPortatil();
 }
@@ -219,26 +241,36 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer, esS
   const datos = await api.get(`conditionMembers/${id}`);
   
   // Vista resumida
-  const htmlModal = `
-            <div class="modalVer modal">
-                <div class="modalVer__dato">
-                    <i class="ri-building-line modalVer__icono"></i>
-                    <div class="modalVer__titulo">Tipo de Afeccion</div>
-                    <div class="modalVer__texto">${datos.condition_type.name}</div>
-                </div>
+  const modalDiv = document.createElement("div");
+  modalDiv.classList.add("modalVer", "modal");
 
-                <div class="modalVer__dato">
-                    <i class="ri-syringe-line modalVer__icono"></i>
-                    <div class="modalVer__titulo">Nombre Afeccion</div>
-                    <div class="modalVer__texto">${datos.name}</div>
-                </div>
+  const crearDato = (claseIcono, titulo, texto, largo) => {
+    const dato = document.createElement("div");
+    dato.classList.add("modalVer__dato");
+    if (largo) dato.classList.add("modalVer__dato--largo");
 
-                <div class="modalVer__dato modalVer__dato--largo">
-                    <i class="ri-calendar-line modalVer__icono"></i>
-                    <div class="modalVer__titulo">Descripcion</div>
-                    <div class="modalVer__texto">${datos.dose != null ? datos.dose : "-"}</div>
-                </div>
-            </div>`;
+    const icon = document.createElement("i");
+    icon.classList.add(claseIcono, "modalVer__icono");
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = titulo;
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = texto;
+
+    dato.append(icon, tituloDiv, textoDiv);
+    return dato;
+  };
+
+  const descripcionTexto = datos.dose != null ? datos.dose : "-";
+
+  modalDiv.append(
+    crearDato("ri-building-line", "Tipo de Afeccion", datos.condition_type.name),
+    crearDato("ri-syringe-line", "Nombre Afeccion", datos.name),
+    crearDato("ri-calendar-line", "Descripcion", descripcionTexto, true)
+  );
 
   // ✏ Lógica si el usuario oprime "Modificar" en el mini-modal de afección
   const funcionModalEditar = async () => {
@@ -246,56 +278,91 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer, esS
     const tipos = await api.get("conditionTypes");
     const info = await api.get(`conditionMembers/${id}`);
 
-    let opcionesTexto = "";
-
-    // Pinta la actual como pre-seleccionada o 'selected'
-    for (let i = 0; i < tipos.length; i++) {
-      opcionesTexto += `
-      <option value="${tipos[i].id}" ${tipos[i].id == info.condition_type_id ? "selected" : ""}>
-      ${tipos[i].name}
-      </option>`;
-    }
-    
     // HTML de edición rellenado
-    const htmlModal = `
-      <div class="explicacion modal">
-        <p class="explicacion__titulo">Editar Afección</p>
-      </div>
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-      <div class="container__gap modal-50">
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Editar Afección";
+    explicacionDiv.appendChild(tituloP);
 
-    <div class="input">
-      <div class="form__inputBox form__inputBox--selector">
-        <i class="ri-id-card-line" id="selector__icono"></i>
-        <select class="selector-portatil" id="afecciones">
-          <option value ="" hidden>Seleccione una afeccion...</option>
-          ${opcionesTexto}
-        </select>
-      </div>
-    </div>
+    const containerGap = document.createElement("div");
+    containerGap.classList.add("container__gap", "modal-50");
 
-        <div class="input">
-          <div class="form__inputBox">
-            <i class="ri-syringe-line"></i>
-            <input type="text"
-              id="nombreAfeccion"
-              placeholder="Nombre de la afección"
-              autocomplete="off"
-              value="${info.name}">
-          </div>
-        </div>
+    const inputDiv1 = document.createElement("div");
+    inputDiv1.classList.add("input");
 
-        <div class="input">
-          <div class="form__inputBox">
-            <i class="ri-calendar-line"></i>
-            <textarea
-              id="descripcion"
-              placeholder="Descripción de dosis"
-              autocomplete="off">${info.dose ?? ""}</textarea>
-          </div>
-        </div>
+    const inputBox1 = document.createElement("div");
+    inputBox1.classList.add("form__inputBox", "form__inputBox--selector");
 
-      </div>`;
+    const icon1 = document.createElement("i");
+    icon1.classList.add("ri-id-card-line");
+    icon1.id = "selector__icono";
+
+    const select = document.createElement("select");
+    select.classList.add("selector-portatil");
+    select.id = "afecciones";
+
+    const optionDefault = document.createElement("option");
+    optionDefault.value = "";
+    optionDefault.hidden = true;
+    optionDefault.textContent = "Seleccione una afeccion...";
+    select.appendChild(optionDefault);
+
+    for (let i = 0; i < tipos.length; i++) {
+      const option = document.createElement("option");
+      option.value = tipos[i].id;
+      option.textContent = tipos[i].name;
+      if (tipos[i].id == info.condition_type_id) option.selected = true;
+      select.appendChild(option);
+    }
+
+    inputBox1.append(icon1, select);
+    inputDiv1.appendChild(inputBox1);
+    containerGap.appendChild(inputDiv1);
+
+    const inputDiv2 = document.createElement("div");
+    inputDiv2.classList.add("input");
+
+    const inputBox2 = document.createElement("div");
+    inputBox2.classList.add("form__inputBox");
+
+    const icon2 = document.createElement("i");
+    icon2.classList.add("ri-syringe-line");
+
+    const inputNombre = document.createElement("input");
+    inputNombre.type = "text";
+    inputNombre.id = "nombreAfeccion";
+    inputNombre.placeholder = "Nombre de la afección";
+    inputNombre.autocomplete = "off";
+    inputNombre.value = info.name;
+
+    inputBox2.append(icon2, inputNombre);
+    inputDiv2.appendChild(inputBox2);
+    containerGap.appendChild(inputDiv2);
+
+    const inputDiv3 = document.createElement("div");
+    inputDiv3.classList.add("input");
+
+    const inputBox3 = document.createElement("div");
+    inputBox3.classList.add("form__inputBox");
+
+    const icon3 = document.createElement("i");
+    icon3.classList.add("ri-calendar-line");
+
+    const textarea = document.createElement("textarea");
+    textarea.id = "descripcion";
+    textarea.placeholder = "Descripción de dosis";
+    textarea.autocomplete = "off";
+    textarea.textContent = info.dose ?? "";
+
+    inputBox3.append(icon3, textarea);
+    inputDiv3.appendChild(inputBox3);
+    containerGap.appendChild(inputDiv3);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, containerGap);
 
     // Acción on-click Edit Confirm
     const funcionModal = async () => {
@@ -372,7 +439,7 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer, esS
     };
 
     // Abre modal de edición
-    alerta.Crear(htmlModal, funcionModal, funcionAlAbrir);
+    alerta.Crear(container, funcionModal, funcionAlAbrir);
     // Aplica renderizado Tom Select
     initTomSelectPortatil();
 
@@ -396,5 +463,5 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer, esS
     }
   };
 
-  alerta.Ver(htmlModal, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
+  alerta.Ver(modalDiv, true, true, funcionModalEditar, funcionModalEliminar, esSupervisor);
 }
