@@ -72,7 +72,7 @@ export default async () => {
         );
         if (pregunta.isConfirmed) {
             await api.post("logout");
-            window.location.href = "#/login";
+            window.location.href = "#/";
             localStorage.clear();
         }
     });

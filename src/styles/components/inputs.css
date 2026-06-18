@@ -34,6 +34,19 @@ textarea:focus {
   outline: none;
 }
 
+/* ---------------------- */
+.input--azul {
+  border: none;
+  padding: 10px;
+  text-align: start;
+  width: 100%;
+  background-color: rgba(235, 248, 255, 1);
+  color: #0770cc;
+  border-radius: 100px;
+  /* height: fit-content; */
+}
+/* ---------------------- */
+
 .input--naranja {
   padding: 10px;
   border: var(--color-naranja-claro) solid 1px;
