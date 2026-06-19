@@ -151,13 +151,16 @@ const factorRiesgoVentana = async (factor, miembrosFamilia, info) => {
 
     overlay.appendChild(ventana);
 
+    btnCerrar.onclick = () => overlay.remove();
+
+    const container = document.querySelector(".container");
+    container.appendChild(overlay);
+
     overlay.onclick = (e) => {
         if (e.target === overlay) {
             document.body.removeChild(overlay);
         }
     };
-
-    document.body.appendChild(overlay);
 
     btnCerrar.onclick = () => {
         document.body.removeChild(overlay);

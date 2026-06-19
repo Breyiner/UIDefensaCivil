@@ -88,7 +88,10 @@ const verEstadoVentana = (datoMaestro, recargar, urlHistorial, datoText, configu
     });
 
     overlay.appendChild(ventana);
-    document.body.appendChild(overlay);
+    // document.body.appendChild(overlay);
+
+    const container = document.querySelector(".container");
+    container.appendChild(overlay);
 
     overlay.onclick = (e) => {
         if (e.target === overlay) overlay.remove();

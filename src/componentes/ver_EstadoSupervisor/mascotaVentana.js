@@ -127,8 +127,11 @@ const MascotaVentana = async (mascota, info) => {
     }
 
     overlay.append(ventana);
+    
+    btnCerrar.onclick = () => overlay.remove();
 
-    document.body.appendChild(overlay);
+    const container = document.querySelector(".container");
+    container.appendChild(overlay);
 
     overlay.onclick = (e) => {
         if (e.target === overlay) {
@@ -136,7 +139,6 @@ const MascotaVentana = async (mascota, info) => {
         }
     };
 
-    btnCerrar.onclick = () => overlay.remove();
 
     btnEditar.addEventListener("click", () => {
         location.href = `#/supervisor/plan_familiar/mascotas/editar?familia_id=${info.id}&mascota_id=${mascota.id}`;

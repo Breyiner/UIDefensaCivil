@@ -112,6 +112,11 @@ const recursosVentana = async (recurso, info) => {
 
     overlay.append(ventana);
 
+    btnCerrar.onclick = () => overlay.remove();
+
+    const container = document.querySelector(".container");
+    container.appendChild(overlay);
+
     overlay.onclick = (e) => {
         if (e.target === overlay) {
             overlay.remove();
@@ -122,8 +127,6 @@ const recursosVentana = async (recurso, info) => {
         location.href = `#/supervisor/plan_familiar/recursos/editar?familia_id=${info.id}&recurso_id=${recurso.id}`;
         overlay.remove();
     });
-
-    document.body.appendChild(overlay);
 }
 
 export default recursosVentana;

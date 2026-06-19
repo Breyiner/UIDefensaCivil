@@ -355,7 +355,7 @@ export const verEstado_select = (datoMaestro, subDatoMaestro, recargar, urlHisto
             btnGuardar.disabled = true;
             const data = await api.patch(`${datoText.urlDato}/${datoMaestro.id}`, {
                 [datoText.nameDB]: inputNombre.value,
-                [datoText.campoDato]: inputSubDato.value
+                [datoText.campoSubDato]: inputSubDato.value
             });
             btnGuardar.disabled = false;
 
