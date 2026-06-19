@@ -39,6 +39,7 @@ import * as AdministradorUsuarios from "@/views/administrador/usuarios/index.js"
 import * as usuario from "@/views/usuario/index.js"
 import notificacionesController from "@/views/notificaciones/notificacionesController.js";
 import EstadisticaController from "../views/supervisor/Estadistica/EstadisticaController";
+import logController from "../views/auth/login_register/logController";
 
 // Configuraciones predefinidas de permisos para cada ruta
 const publicRoute = { private: false, permissions: [] };
@@ -49,8 +50,8 @@ const adminRoute = { private: true, permissions: ['admin'] };
 
 export const routes = {
   "": {
-    path: `auth/login/index.html`,
-    controlador: auth.loginController,
+    path: `auth/login_register/index.html`,
+    controlador: logController,
     config: publicRoute,
   },
   "login": {

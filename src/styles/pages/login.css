@@ -1,80 +1,302 @@
-.login {
-  width: 95%;
-  height: 95%;
+.login__mid {
+  width: 500px;
+  height: 100%;
+  max-height: 800px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
-  gap: 12px;
-  background-color: var(--color-palido);
-  border-radius: 40px;
+  position: relative;
+  transition: ease-in-out 1s;
+  z-index: 3;
+  padding-top: 100px;
 }
 
-.register {
-  width: 95%;
-  height: 95%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  gap: 12px;
-  background-color: var(--color-palido);
-  border-radius: 0 40px 40px 0;
+.login__mid img {
+
+  display: inline-block;
+  width: 650px;
+  transform: translateY(150px);
 }
 
-.login--gap {
-  gap: 30px;
-}
-
-.login__logo {
-  max-width: 80%;
-}
-
-.decoration {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: var(--color-grisOscuro);
-  width: 80%;
-}
-
-.decoration__text {
+.login__mid p {
+  text-align: center;
   font-weight: 500;
-  font-family: var(--fuente-titulos);
-  font-size: var(--tamano-pequeno);
+  color: var(--color-secundario);
 }
 
-.decoration__linea {
-  width: 100px;
-  height: 1px;
-  background-color: var(--color-grisOscuro);
+.login__mid p::first-line {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--color-primario);
 }
 
-@media (min-width: 768px) {
-  .login__logo {
+.auth--container {
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.auth_card {
+
+  width: 100%;
+  height: 100%;
+  max-width: 600px;
+  min-width: 600px;
+  max-height: 850px;
+  min-height: 850px;
+  min-height: 500px;
+  background: linear-gradient(180deg, rgba(235, 248, 255, 0) 0%, rgba(255, 255, 255, 0.822) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px 60px;
+  gap: 12px;
+  border-radius: 40px;
+  z-index: 2;
+  position: relative;
+  transition: ease-in-out 1s;
+}
+
+.login__left,
+.login__rigth {
+  position: relative;
+  height: 100%;
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: antiquewhite; */
+  transition: ease-in-out 0.7s;
+}
+
+.auth--container:has(.login.auth_card.active) .login__rigth,
+.auth--container:has(.register.auth_card.active) .login__left {
+  width: 5px;
+}
+
+/* Las cards solo manejan opacidad */
+.login.auth_card {
+  opacity: 0;
+  transform: translateX(-1000px);
+  pointer-events: none;
+  transition: ease-in-out 0.4s;
+}
+
+.register.auth_card {
+  opacity: 0;
+  transform: translateX(1000px);
+  pointer-events: none;
+  transition: ease-in-out 0.4s;
+}
+
+.login.auth_card.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+  transition: ease-in-out 0.4s;
+}
+
+.register.auth_card.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+  transition: ease-in-out 0.4s;
+}
+
+.form__input--password {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.form__input--password label {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.form__input--password i {
+  font-size: 30px;
+  cursor: pointer;
+  color: var(--color-secundario);
+}
+
+.form__input {
+
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  border-radius: 100px;
+}
+
+.form__doubleCont label {
+
+  display: flex;
+}
+
+.form__input i,
+.form__doubleinput i,
+.form__doubleCont label i {
+
+  margin-top: 5px;
+  font-size: 25px;
+  color: var(--color-secundario);
+}
+
+.form__doubleCont .form__input i {
+  margin-top: 0;
+}
+
+.form__doubleCont {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  height: auto;
+}
+
+.form__doubleinput {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+.form__doubleinput input,
+.form__doubleinput select,
+.form__input input,
+.form__input select {
+  width: 100%;
+  border-radius: 100px;
+  padding: 5px 15px;
+}
+
+.section__input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  gap: 2px;
+}
+
+@media (max-width: 1129px) {
+
+  .auth--container {
+    flex-direction: column;
+  }
+
+  .auth_card {
+    padding: 20px;
+    max-width: 100%;
+    min-width: unset;
+    width: 100%;
+    max-height: none;
+    justify-content: center;
+  }
+
+  .login__mid {
     display: none;
   }
 
-  .login {
+  .login__left,
+  .login__rigth {
     width: 100%;
-    border-radius: 0px 40px 40px 0px;
-    gap: 25px;
-    padding: 50px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 0;
+    opacity: 1;
+    transition: ease-in-out 0.7s;
   }
 
-  .login .boton {
-    padding: 15px;
-    font-size: var(--tamano-medio-grande);
+
+  .auth--container:has(.login.auth_card.active) .login__rigth {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: -100%;
+    opacity: 0;
+  }
+  
+  .auth--container:has(.register.auth_card.active) .login__left {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: -50px;
+    opacity: 0;
   }
 
-  .decoration__linea {
-    flex: 1;
+  .login.auth_card {
+    
+    opacity: 0;
+    position: relative;
+    height: 650px;
+    transform: translateX(0);
+    background: none;
   }
-  .decoration__text {
-    font-size: var(--tamano-medio-grande)
+  
+  .login.auth_card.active {
+    
+    opacity: 1;
+    position: relative;
+    transform: translateX(0);
+  }
+  
+  .register.auth_card {
+    
+    opacity: 0;
+    position: absolute;
+    top: -900px;
+    transform: translateY(0);
+    min-height: 800px;
+    justify-content: space-evenly;
+  }
+
+  .register.auth_card.active {
+
+    opacity: 1;
+    position: relative;
+    top: 0;
+    transform: translateY(0);
+  }
+  
+  .form__subBotones {
+    gap: 10px;
+  }
+  
+  .form__decoration {
+    padding: 0;
+    margin: 5px 0;
   }
 }
 
+@media (max-width: 765px) {
+
+  .form__doubleCont,
+  .form__doubleinput {
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+  }
+
+  .form__doubleinput i{
+    position: absolute;
+  }
+
+  .form__doubleinput .section__input {
+    /* position: absolute; */
+    padding-left: 35px;
+  }
+}
