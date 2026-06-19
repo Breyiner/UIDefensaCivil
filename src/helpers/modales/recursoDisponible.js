@@ -12,41 +12,37 @@ export const ver = async (id) => {
   // Dispara el GET al API en el controlador availableResources 
   const datos = await api.get(`availableResources/${id}`);
 
-  // Diseño HTML en flex grid para listar descriptores geográficos y descriptores clave
-  const htmlModal = `
-        <div class="modalVer modal">
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-error-warning-line"></i>
-                <div class="modalVer__titulo">Nombre del recurso</div>
-                <div class="modalVer__texto">${datos.resource_name}</div>
-            </div>
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-heart-line"></i>
-                <div class="modalVer__titulo">Servicio</div>
-                <div class="modalVer__texto">${datos.resource_service}</div>
-            </div>
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-phone-line"></i>
-                <div class="modalVer__titulo">Telefono de contacto</div>
-                <div class="modalVer__texto">${datos.phone}</div>
-            </div>
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-file-text-line"></i>
-                <div class="modalVer__titulo">Descripcion</div>
-                <div class="modalVer__texto">${datos.description}</div>
-            </div>
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-map-2-line"></i>
-                <div class="modalVer__titulo">Ubicacion</div>
-                <div class="modalVer__texto">${datos.location}</div>
-            </div>
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-map-pin-line"></i>
-                <div class="modalVer__titulo">Distancia</div>
-                <div class="modalVer__texto">${datos.distance}</div>
-            </div>
-        </div>`;
+  const modalDiv = document.createElement("div");
+  modalDiv.classList.add("modalVer", "modal");
+
+  const campos = [
+    { icono: "ri-error-warning-line", titulo: "Nombre del recurso", texto: datos.resource_name },
+    { icono: "ri-heart-line", titulo: "Servicio", texto: datos.resource_service },
+    { icono: "ri-phone-line", titulo: "Telefono de contacto", texto: datos.phone },
+    { icono: "ri-file-text-line", titulo: "Descripcion", texto: datos.description },
+    { icono: "ri-map-2-line", titulo: "Ubicacion", texto: datos.location },
+    { icono: "ri-map-pin-line", titulo: "Distancia", texto: datos.distance },
+  ];
+
+  campos.forEach(({ icono, titulo, texto }) => {
+    const datoDiv = document.createElement("div");
+    datoDiv.classList.add("modalVer__dato", "modalVer__dato--largo");
+
+    const icon = document.createElement("i");
+    icon.classList.add(icono);
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = titulo;
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = texto;
+
+    datoDiv.append(icon, tituloDiv, textoDiv);
+    modalDiv.appendChild(datoDiv);
+  });
         
   // Enlaza con el helper genérico "Ver" enviando false, false, indicando carencia de UI CRUD (Solo Ver)
-  alerta.Ver(htmlModal, false, false, null, null);
+  alerta.Ver(modalDiv, false, false, null, null);
 };
