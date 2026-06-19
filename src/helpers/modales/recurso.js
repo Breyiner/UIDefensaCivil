@@ -14,25 +14,46 @@ export const ver = async (id, recargarContainer) => {
     // Consume info cruda JSON referente
     const datos = await api.get(`resources/${id}`);
     
-    // Tarjeta gráfica descriptiva del Recurso
-    const htmlModal = `
-        <div class="modalVer modal-50">
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-folder-line"></i>
-                <div class="modalVer__titulo">Nombre</div>
-                <div class="modalVer__texto">${datos.name}</div>
-            </div>
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-service-line"></i>
-                <div class="modalVer__titulo">Servicio</div>
-                <div class="modalVer__texto">${datos.service}</div>
-            </div>
-        </div>
-    `;
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal-50");
+
+    const nomDatoDiv = document.createElement("div");
+    nomDatoDiv.classList.add("modalVer__dato", "modalVer__dato--largo");
+
+    const nomIcon = document.createElement("i");
+    nomIcon.classList.add("ri-folder-line");
+
+    const nomTitulo = document.createElement("div");
+    nomTitulo.classList.add("modalVer__titulo");
+    nomTitulo.textContent = "Nombre";
+
+    const nomTexto = document.createElement("div");
+    nomTexto.classList.add("modalVer__texto");
+    nomTexto.textContent = datos.name;
+
+    nomDatoDiv.append(nomIcon, nomTitulo, nomTexto);
+    modalDiv.appendChild(nomDatoDiv);
+
+    const servDatoDiv = document.createElement("div");
+    servDatoDiv.classList.add("modalVer__dato", "modalVer__dato--largo");
+
+    const servIcon = document.createElement("i");
+    servIcon.classList.add("ri-service-line");
+
+    const servTitulo = document.createElement("div");
+    servTitulo.classList.add("modalVer__titulo");
+    servTitulo.textContent = "Servicio";
+
+    const servTexto = document.createElement("div");
+    servTexto.classList.add("modalVer__texto");
+    servTexto.textContent = datos.service;
+
+    servDatoDiv.append(servIcon, servTitulo, servTexto);
+    modalDiv.appendChild(servDatoDiv);
 
     // Helper "VerEstado" propio de la arquitectura que inyecta palancas de activación
     alerta.VerEstado(
-        htmlModal,
+        modalDiv,
         true, // Switch autorizador que prende el evento Edit
         datos.is_active, // Estatus actual DB para preconfigurar palanca de toggle
         // EDITAR (Callback asignado)
@@ -69,34 +90,52 @@ export const ver = async (id, recargarContainer) => {
 ==================================================== */
 // Lanzador del popup para añadir recursos frescos a la bolsa
 export const crear = async (recargarContainer) => {
-    // Markup modal estandar sin rellenar variable alguna
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Recurso</p>
-        </div>
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-folder-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre del recurso"
-                    autocomplete="off">
-            </div>
-            <div class="form__inputBox">
-                <i class="ri-service-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__servicio" 
-                    placeholder="Service del recurso"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Recurso";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const nomBoxDiv = document.createElement("div");
+    nomBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const nomIcon = document.createElement("i");
+    nomIcon.classList.add("ri-folder-fill");
+
+    const nomInput = document.createElement("input");
+    nomInput.type = "text";
+    nomInput.classList.add("form__input", "form__nombre");
+    nomInput.placeholder = "Nombre del recurso";
+    nomInput.autocomplete = "off";
+
+    nomBoxDiv.append(nomIcon, nomInput);
+    formDiv.appendChild(nomBoxDiv);
+
+    const servBoxDiv = document.createElement("div");
+    servBoxDiv.classList.add("form__inputBox");
+
+    const servIcon = document.createElement("i");
+    servIcon.classList.add("ri-service-fill");
+
+    const servInput = document.createElement("input");
+    servInput.type = "text";
+    servInput.classList.add("form__input", "form__servicio");
+    servInput.placeholder = "Service del recurso";
+    servInput.autocomplete = "off";
+
+    servBoxDiv.append(servIcon, servInput);
+    formDiv.appendChild(servBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Envuelve promesa click bajo entorno Sweet Alert
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
         // Caza DOMs y desmenuza variables textuales
         const nombre = document.querySelector(".form__nombre").value;
         const servicio = document.querySelector(".form__servicio").value;
@@ -123,33 +162,52 @@ export const editar = async (id, recargarContainer) => {
     // Trae las variantes originales
     const info = await api.get(`resources/${id}`);
 
-    // Despliega visual de modal reciclando y pegando las variantes guardadas "value=info.name"
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Recurso</p>
-        </div>
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-folder-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre"
-                    value="${info.name}"
-                    autocomplete="off">
-            </div> 
-            <div class="form__inputBox">
-                <i class="ri-service-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__servicio" 
-                    value="${info.service}"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const editExplicacionDiv = document.createElement("div");
+    editExplicacionDiv.classList.add("explicacion", "modal");
+
+    const editTituloP = document.createElement("p");
+    editTituloP.classList.add("explicacion__titulo");
+    editTituloP.textContent = "Editar Recurso";
+    editExplicacionDiv.appendChild(editTituloP);
+
+    const editFormDiv = document.createElement("div");
+    editFormDiv.classList.add("form");
+
+    const editNomBoxDiv = document.createElement("div");
+    editNomBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const editNomIcon = document.createElement("i");
+    editNomIcon.classList.add("ri-folder-fill");
+
+    const editNomInput = document.createElement("input");
+    editNomInput.type = "text";
+    editNomInput.classList.add("form__input", "form__nombre");
+    editNomInput.value = info.name;
+    editNomInput.autocomplete = "off";
+
+    editNomBoxDiv.append(editNomIcon, editNomInput);
+    editFormDiv.appendChild(editNomBoxDiv);
+
+    const editServBoxDiv = document.createElement("div");
+    editServBoxDiv.classList.add("form__inputBox");
+
+    const editServIcon = document.createElement("i");
+    editServIcon.classList.add("ri-service-fill");
+
+    const editServInput = document.createElement("input");
+    editServInput.type = "text";
+    editServInput.classList.add("form__input", "form__servicio");
+    editServInput.value = info.service;
+    editServInput.autocomplete = "off";
+
+    editServBoxDiv.append(editServIcon, editServInput);
+    editFormDiv.appendChild(editServBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(editExplicacionDiv, editFormDiv);
 
     // Confirma el proceso Patch de base de datos asíncronamente
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
         // Analíticas de dom, extrae nodos de la plantilla
         const nombre = document.querySelector(".form__nombre").value;
         const servicio = document.querySelector(".form__servicio").value;
