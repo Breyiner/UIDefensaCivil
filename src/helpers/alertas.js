@@ -288,33 +288,46 @@ export const verDepartCiudad = (htmlModal, funcionEditar, nombre, id) => {
 export const Historial = async (nombre, id) => {
   const data = await api.get(`${nombre}/${id}/history`);
 
-  // Construye la bitácora con Array.map() iterando cada acción guardada en la BD
-  let contenido = `
-      <div class="contenedorHistorial">
-        ${data
-          .map(
-            (item) => `
-          <div class="itemHistorial">
-            <p><strong>Acción:</strong> ${item.action_execute}</p>
-            <p><strong>Usuario:</strong> ${item.user_name}</p>
-            <p><strong>Rol:</strong> ${item.rol}</p>
-            <p><strong>Fecha:</strong> ${item.date_time}</p>
-            ${item.status_old != item.status_new ? "<p><strong>Cambio de estado a:</strong> " + item.status_new + "</p>" : ""}
-            <hr>
-          </div>
-        `,
-          )
-          .join("")}
-      </div>
-    `;
+  const contenedor = document.createElement('div');
+  contenedor.className = 'contenedorHistorial';
 
-  // Renderiza
+  data.forEach((item) => {
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'itemHistorial';
+
+    const crearParrafo = (label, valor) => {
+      const p = document.createElement('p');
+      const strong = document.createElement('strong');
+      strong.textContent = `${label}: `;
+      p.appendChild(strong);
+      p.appendChild(document.createTextNode(valor));
+      return p;
+    };
+
+    itemDiv.appendChild(crearParrafo('Acción', item.action_execute));
+    itemDiv.appendChild(crearParrafo('Usuario', item.user_name));
+    itemDiv.appendChild(crearParrafo('Rol', item.rol));
+    itemDiv.appendChild(crearParrafo('Fecha', item.date_time));
+
+    if (item.status_old != item.status_new) {
+      const p = document.createElement('p');
+      const strong = document.createElement('strong');
+      strong.textContent = 'Cambio de estado a: ';
+      p.appendChild(strong);
+      p.appendChild(document.createTextNode(item.status_new));
+      itemDiv.appendChild(p);
+    }
+
+    itemDiv.appendChild(document.createElement('hr'));
+    contenedor.appendChild(itemDiv);
+  });
+
   Swal.fire({
     title: "Historial",
-    html: contenido,
-    width: "700px", // Fuerza un ancho mayor para la bitácora
+    html: contenedor,
+    width: "700px",
     showCloseButton: true,
-    showConfirmButton: false, // Solo cierra con X
+    showConfirmButton: false,
     customClass: {
       popup: "modalHistorial",
     },
@@ -555,70 +568,79 @@ export const VerCambiarEstadoRolUsuarios = (
 
 // Muestra las condiciones y términos obligatorias para el Plan Familiar (Ley 1581)
 export const AutorizacionDatos = () => {
+  const outerDiv = document.createElement('div');
+  outerDiv.style.textAlign = 'left';
+  outerDiv.style.fontSize = '13px';
+  outerDiv.style.lineHeight = '1.6';
+
+  const scrollDiv = document.createElement('div');
+  scrollDiv.style.maxHeight = '220px';
+  scrollDiv.style.overflowY = 'auto';
+  scrollDiv.style.paddingRight = '8px';
+  scrollDiv.style.border = '1px solid #eee';
+  scrollDiv.style.borderRadius = '10px';
+  scrollDiv.style.padding = '10px';
+  scrollDiv.style.marginBottom = '15px';
+
+  const parrafos = [
+    'En cumplimiento de lo dispuesto en la Ley 1581 de 2012 y el Decreto 1377 de 2013, autorizo de manera libre, previa, expresa, voluntaria e informada el tratamiento de mis datos personales suministrados a través del presente formulario.',
+    'Los datos serán utilizados con la finalidad de elaborar, gestionar y administrar el Plan Familiar de Emergencia, así como para realizar procesos de validación, seguimiento, control y mejora de los programas institucionales relacionados con la gestión del riesgo y la atención de emergencias.',
+    'Entiendo que el tratamiento podrá incluir la recolección, almacenamiento, uso, circulación, actualización y supresión de la información, conforme a las políticas de protección de datos adoptadas por la entidad.',
+    'Declaro que he sido informado acerca de mis derechos como titular de datos personales, entre ellos:',
+  ];
+
+  parrafos.forEach((texto) => {
+    const p = document.createElement('p');
+    p.textContent = texto;
+    scrollDiv.appendChild(p);
+  });
+
+  const ul = document.createElement('ul');
+  ul.style.paddingLeft = '18px';
+
+  const derechos = [
+    'Conocer, actualizar y rectificar mis datos personales.',
+    'Solicitar prueba de la autorización otorgada.',
+    'Ser informado sobre el uso que se ha dado a mis datos.',
+    'Revocar la autorización y/o solicitar la supresión del dato cuando proceda.',
+    'Acceder en forma gratuita a mis datos personales.',
+  ];
+
+  derechos.forEach((texto) => {
+    const li = document.createElement('li');
+    li.textContent = texto;
+    ul.appendChild(li);
+  });
+
+  scrollDiv.appendChild(ul);
+
+  const ultimoParrafo = document.createElement('p');
+  ultimoParrafo.textContent = 'Esta autorización permanecerá vigente mientras exista una relación administrativa o legal con la entidad o hasta que el titular solicite su revocatoria en los términos establecidos por la ley.';
+  scrollDiv.appendChild(ultimoParrafo);
+
+  outerDiv.appendChild(scrollDiv);
+
+  const checkboxDiv = document.createElement('div');
+  checkboxDiv.style.display = 'flex';
+  checkboxDiv.style.alignItems = 'center';
+  checkboxDiv.style.gap = '8px';
+
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.id = 'checkAutorizacion';
+
+  const label = document.createElement('label');
+  label.htmlFor = 'checkAutorizacion';
+  label.style.cursor = 'pointer';
+  label.textContent = 'Declaro que he leído y acepto la autorización';
+
+  checkboxDiv.appendChild(checkbox);
+  checkboxDiv.appendChild(label);
+  outerDiv.appendChild(checkboxDiv);
+
   return Swal.fire({
     title: "Autorización para el Tratamiento de Datos Personales",
-    html: `
-      <div style="text-align:left; font-size:13px; line-height:1.6;">
-
-        <div style="
-            max-height: 220px;
-            overflow-y: auto;
-            padding-right: 8px;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 15px;
-        ">
-
-          <p>
-            En cumplimiento de lo dispuesto en la Ley 1581 de 2012 y el Decreto 1377 de 2013,
-            autorizo de manera libre, previa, expresa, voluntaria e informada el tratamiento
-            de mis datos personales suministrados a través del presente formulario.
-          </p>
-
-          <p>
-            Los datos serán utilizados con la finalidad de elaborar, gestionar y administrar
-            el Plan Familiar de Emergencia, así como para realizar procesos de validación,
-            seguimiento, control y mejora de los programas institucionales relacionados
-            con la gestión del riesgo y la atención de emergencias.
-          </p>
-
-          <p>
-            Entiendo que el tratamiento podrá incluir la recolección, almacenamiento,
-            uso, circulación, actualización y supresión de la información, conforme
-            a las políticas de protección de datos adoptadas por la entidad.
-          </p>
-
-          <p>
-            Declaro que he sido informado acerca de mis derechos como titular de datos
-            personales, entre ellos:
-          </p>
-
-          <ul style="padding-left:18px;">
-            <li>Conocer, actualizar y rectificar mis datos personales.</li>
-            <li>Solicitar prueba de la autorización otorgada.</li>
-            <li>Ser informado sobre el uso que se ha dado a mis datos.</li>
-            <li>Revocar la autorización y/o solicitar la supresión del dato cuando proceda.</li>
-            <li>Acceder en forma gratuita a mis datos personales.</li>
-          </ul>
-
-          <p>
-            Esta autorización permanecerá vigente mientras exista una relación
-            administrativa o legal con la entidad o hasta que el titular
-            solicite su revocatoria en los términos establecidos por la ley.
-          </p>
-
-        </div>
-
-        <div style="display:flex; align-items:center; gap:8px;">
-          <input type="checkbox" id="checkAutorizacion">
-          <label for="checkAutorizacion" style="cursor:pointer;">
-            Declaro que he leído y acepto la autorización
-          </label>
-        </div>
-
-      </div>
-    `,
+    html: outerDiv,
     icon: false,
     width: 600,
     showCancelButton: true,
@@ -631,14 +653,11 @@ export const AutorizacionDatos = () => {
     },
 
     didOpen: () => {
-      // Bloquea por default el botón inferior hasta que haga Scroll + Check en Acepto
       const confirmBtn = Swal.getConfirmButton();
       confirmBtn.disabled = true;
 
-      const checkbox = document.getElementById("checkAutorizacion");
-
       checkbox.addEventListener("change", () => {
-        confirmBtn.disabled = !checkbox.checked; // Reactiva el botón
+        confirmBtn.disabled = !checkbox.checked;
       });
     },
   });
@@ -647,31 +666,37 @@ export const AutorizacionDatos = () => {
 // Modal Auxiliar para el módulo supervisor: Cuadro de texto para dictar rechazo
 // obligando al interventor a dejar comentarios justificando (Mínimo 10 caracteres)
 export const rechazarCambios = (id) => {
+  const div = document.createElement('div');
+  div.style.textAlign = 'left';
+
+  const label = document.createElement('label');
+  label.style.fontWeight = '600';
+  label.textContent = 'Comentarios';
+  div.appendChild(label);
+
+  const textarea = document.createElement('textarea');
+  textarea.placeholder = 'Escribe el motivo de la devolución (mínimo 10 caracteres)...';
+  textarea.style.width = '100%';
+  textarea.style.height = '150px';
+  textarea.style.marginTop = '8px';
+  textarea.style.padding = '10px';
+  textarea.style.borderRadius = '10px';
+  textarea.style.border = '1px solid #ddd';
+  textarea.style.resize = 'none';
+  textarea.style.overflowY = 'auto';
+  textarea.style.fontSize = '14px';
+  div.appendChild(textarea);
+
+  const contador = document.createElement('small');
+  contador.style.display = 'block';
+  contador.style.marginTop = '6px';
+  contador.style.color = '#888';
+  contador.textContent = '0 / mínimo 10 caracteres';
+  div.appendChild(contador);
+
   return Swal.fire({
     title: "rechazar con cambios",
-    html: `
-      <div style="text-align:left;">
-        <label style="font-weight:600;">Comentarios</label>
-        <textarea 
-          id="comentariosDevolver" 
-          placeholder="Escribe el motivo de la devolución (mínimo 10 caracteres)..."
-          style="
-            width:100%;
-            height:150px;
-            margin-top:8px;
-            padding:10px;
-            border-radius:10px;
-            border:1px solid #ddd;
-            resize:none;
-            overflow-y:auto;
-            font-size:14px;
-          "
-        ></textarea>
-        <small id="contadorTexto" style="display:block;margin-top:6px;color:#888;">
-          0 / mínimo 10 caracteres
-        </small>
-      </div>
-    `,
+    html: div,
     width: 600,
     showCancelButton: true,
     confirmButtonText: "Devolver",
@@ -683,29 +708,20 @@ export const rechazarCambios = (id) => {
     },
 
     didOpen: () => {
-      const textarea = document.getElementById("comentariosDevolver");
       const confirmBtn = Swal.getConfirmButton();
-      const contador = document.getElementById("contadorTexto");
-
-      // Inicia botón bloqueado
       confirmBtn.disabled = true;
 
-      // Evento constante detectando cuántas letras hay escritas ("Keylogger local")
       textarea.addEventListener("input", () => {
         const longitud = textarea.value.trim().length;
         contador.textContent = `${longitud} / mínimo 10 caracteres`;
 
-        confirmBtn.disabled = longitud < 10; // Suelta el bloqueador tras tipear 10 letras reales
+        confirmBtn.disabled = longitud < 10;
       });
     },
 
-    // Envío del parche reasignando el "Registro del Plan" a status rechazado (5)
     preConfirm: async () => {
-      const comentarios = document
-        .getElementById("comentariosDevolver")
-        .value.trim();
+      const comentarios = textarea.value.trim();
 
-      // Doble filtro por si logran sobrepasar la UI forzándolo
       if (comentarios.length < 10) {
         Swal.showValidationMessage(
           "El comentario debe tener mínimo 10 caracteres",
@@ -714,7 +730,6 @@ export const rechazarCambios = (id) => {
       }
 
       try {
-        // Endpoint de Supervisor rechazando Plan del Voluntario
         const response = await api.patch(`familyPlans/${id}/change-status`, {
           status_plan_id: 5,
           comentary: comentarios,

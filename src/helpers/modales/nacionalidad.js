@@ -15,20 +15,30 @@ export const ver = async (id, recargarContainer) => {
     // Despacha la solicitud GET buscando el registro por su Primary Key
     const datos = await api.get(`nationalities/${id}`);
 
-    // Diseña el DOM en formato string de backticks a inyectar en SweetAlert
-    const htmlModal = `
-        <div class="modalVer modal-50">
-            <div class="modalVer__dato">
-                <i class="ri-flag-line"></i>
-                <div class="modalVer__titulo">Nombre</div>
-                <div class="modalVer__texto">${datos.name}</div>
-            </div>
-        </div>
-    `;
+    // Diseña el DOM a inyectar en SweetAlert
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal-50");
+
+    const datoDiv = document.createElement("div");
+    datoDiv.classList.add("modalVer__dato");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-flag-line");
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = "Nombre";
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = datos.name;
+
+    datoDiv.append(icon, tituloDiv, textoDiv);
+    modalDiv.appendChild(datoDiv);
 
     // Llama al sistema base de Alertas pasándole qué botones manejará
     alerta.VerEstado(
-        htmlModal,
+        modalDiv,
         true, // Indica verdadero el parámetro de permitir Edición
         datos.is_active, // Pasa el estado real de la BD (1 = Activo, 0 = Inactivo)
 
@@ -66,26 +76,37 @@ export const ver = async (id, recargarContainer) => {
 // Exporta la UI interactiva que permite a un Administrador crear nuevas nacionalidades
 export const crear = async (recargarContainer) => {
 
-    // Bloque HTML crudo del formulario
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Nacionalidad</p>
-        </div>
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-flag-2-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre de la nacionalidad"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Nacionalidad";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-flag-2-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.placeholder = "Nombre de la nacionalidad";
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Utiliza la estructura Swal genérica de "Crear" para invocarlo
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Recoge el texto introducido por el usuario dentro del modal HTML
         const nombre = document.querySelector(".form__nombre").value;
@@ -113,25 +134,37 @@ export const editar = async (id, recargarContainer) => {
     // Recupera lo guardado en el backend
     const info = await api.get(`nationalities/${id}`);
 
-    // Modela el form con value="${info.name}"
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Nacionalidad</p>
-        </div>
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-flag-2-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre"
-                    value="${info.name}"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
+
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Editar Nacionalidad";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-flag-2-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.value = info.name;
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Captura cambios tras oprimir confirmar de Swal
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Lee el input
         const nombre = document.querySelector(".form__nombre").value;

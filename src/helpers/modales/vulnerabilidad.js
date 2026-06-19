@@ -15,20 +15,29 @@ export const ver = async (id, recargarContainer) => {
     // Descarga json en tiempo real
     const datos = await api.get(`vulnerabilities/${id}`);
 
-    // Modal grid asimétrico para solo lectura (ModalVer)
-    const htmlModal = `
-        <div class="modalVer modal-50">
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-error-warning-line"></i>
-                <div class="modalVer__titulo">Nombre</div>
-                <div class="modalVer__texto">${datos.name}</div>
-            </div>
-        </div>
-    `;
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal-50");
+
+    const datoDiv = document.createElement("div");
+    datoDiv.classList.add("modalVer__dato", "modalVer__dato--largo");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-error-warning-line");
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = "Nombre";
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = datos.name;
+
+    datoDiv.append(icon, tituloDiv, textoDiv);
+    modalDiv.appendChild(datoDiv);
 
     // Engancha el wrapper nativo de Estado, inserta Modificar si True
     alerta.VerEstado(
-        htmlModal,
+        modalDiv,
         true, // Encender botón 'Edit'
         datos.is_active, // Estatus booleano DB
 
@@ -70,26 +79,37 @@ export const ver = async (id, recargarContainer) => {
 // Dispara interfaz que requiere input de Nombre para asentar una nueva vulnerabilidad
 export const crear = async (recargarContainer) => {
 
-    // Html Template literal enrutando clase base .explicacion
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Vulnerabilidad</p>
-        </div>
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-error-warning-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre de la vulnerabilidad"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Vulnerabilidad";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-error-warning-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.placeholder = "Nombre de la vulnerabilidad";
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Escucha el submit afirmativo del sweetAlert
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Evalúa captador Value DOM
         const nombre = document.querySelector(".form__nombre").value;
@@ -118,25 +138,37 @@ export const editar = async (id, recargarContainer) => {
     // Extrae la unidad directa usando path API local
     const info = await api.get(`vulnerabilities/${id}`);
 
-    // UI form clon pre-cargada con String Value anterior insertado
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Vulnerabilidad</p>
-        </div>
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-error-warning-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre"
-                    value="${info.name}"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const editExplicacionDiv = document.createElement("div");
+    editExplicacionDiv.classList.add("explicacion", "modal");
+
+    const editTituloP = document.createElement("p");
+    editTituloP.classList.add("explicacion__titulo");
+    editTituloP.textContent = "Editar Vulnerabilidad";
+    editExplicacionDiv.appendChild(editTituloP);
+
+    const editFormDiv = document.createElement("div");
+    editFormDiv.classList.add("form");
+
+    const editInputBoxDiv = document.createElement("div");
+    editInputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const editIcon = document.createElement("i");
+    editIcon.classList.add("ri-error-warning-fill");
+
+    const editInput = document.createElement("input");
+    editInput.type = "text";
+    editInput.classList.add("form__input", "form__nombre");
+    editInput.value = info.name;
+    editInput.autocomplete = "off";
+
+    editInputBoxDiv.append(editIcon, editInput);
+    editFormDiv.appendChild(editInputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(editExplicacionDiv, editFormDiv);
 
     // Engancha acción a ejecutarse tras interactuar "Confirm"
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Value del único form field
         const nombre = document.querySelector(".form__nombre").value;

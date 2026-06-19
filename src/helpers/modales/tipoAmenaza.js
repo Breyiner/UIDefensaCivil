@@ -15,20 +15,29 @@ export const ver = async (id, recargarContainer) => {
     // Extrae la unidad dictatorial desde el listado backend REST
     const datos = await api.get(`threatTypes/${id}`);
 
-    // Interfaz asimétrica flex-box para alojar detalles read-only (Solo Ver)
-    const htmlModal = `
-        <div class="modalVer modal-50">
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-alert-line"></i>
-                <div class="modalVer__titulo">Nombre</div>
-                <div class="modalVer__texto">${datos.name}</div>
-            </div>
-        </div>
-    `;
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal-50");
+
+    const datoDiv = document.createElement("div");
+    datoDiv.classList.add("modalVer__dato", "modalVer__dato--largo");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-alert-line");
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = "Nombre";
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = datos.name;
+
+    datoDiv.append(icon, tituloDiv, textoDiv);
+    modalDiv.appendChild(datoDiv);
 
     // Patrón VerEstado invocado: Añade botón Editar si habilitado, y botón palanca Lógico Is_Active
     alerta.VerEstado(
-        htmlModal,
+        modalDiv,
         true, // Encender botón 'Edit'
         datos.is_active, // Determina estatus booleano previo db (Activalo / Desactivalo) predeterminado
 
@@ -70,26 +79,37 @@ export const ver = async (id, recargarContainer) => {
 // Lanzamiento para inyección general de tipos únicos (Ej: Inundación, Sísmico) en el sistema backend
 export const crear = async (recargarContainer) => {
 
-    // Html Template literal enrutando clase base .explicacion para UI Alert y contenedores Form
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Tipo de Amenaza</p>
-        </div>
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-alert-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre del tipo de amenaza"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Tipo de Amenaza";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-alert-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.placeholder = "Nombre del tipo de amenaza";
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Manda el string modal crudo, y empalma el bloque Confirm / Create en la UI del alerta
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Evalúa captador Value DOM
         const nombre = document.querySelector(".form__nombre").value;
@@ -118,25 +138,37 @@ export const editar = async (id, recargarContainer) => {
     // Descarga info nativa del objeto central de DB evitando usar un String o cache
     const info = await api.get(`threatTypes/${id}`);
 
-    // UI form clon pre-cargada con Interpolaciones "value="
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Tipo de Amenaza</p>
-        </div>
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-alert-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre"
-                    value="${info.name}"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const editExplicacionDiv = document.createElement("div");
+    editExplicacionDiv.classList.add("explicacion", "modal");
+
+    const editTituloP = document.createElement("p");
+    editTituloP.classList.add("explicacion__titulo");
+    editTituloP.textContent = "Editar Tipo de Amenaza";
+    editExplicacionDiv.appendChild(editTituloP);
+
+    const editFormDiv = document.createElement("div");
+    editFormDiv.classList.add("form");
+
+    const editInputBoxDiv = document.createElement("div");
+    editInputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const editIcon = document.createElement("i");
+    editIcon.classList.add("ri-alert-fill");
+
+    const editInput = document.createElement("input");
+    editInput.type = "text";
+    editInput.classList.add("form__input", "form__nombre");
+    editInput.value = info.name;
+    editInput.autocomplete = "off";
+
+    editInputBoxDiv.append(editIcon, editInput);
+    editFormDiv.appendChild(editInputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(editExplicacionDiv, editFormDiv);
 
     // Engancha acción a ejecutarse tras interactuar "Confirm" o "Completar"
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Recibe y extrae
         const nombre = document.querySelector(".form__nombre").value;

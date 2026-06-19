@@ -15,20 +15,29 @@ export const ver = async (id, recargarContainer) => {
     // Fetch asíncrono desde backend, obteniendo info JSON base del ID estricto
     const datos = await api.get(`sectors/${id}`);
 
-    // UI card HTML con iconografía Remix Icon e interpelación a datos crudos
-    const htmlModal = `
-        <div class="modalVer modal-50">
-            <div class="modalVer__dato">
-                <i class="ri-map-pin-2-line"></i>
-                <div class="modalVer__titulo">Nombre</div>
-                <div class="modalVer__texto">${datos.name}</div>
-            </div>
-        </div>
-    `;
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal-50");
+
+    const datoDiv = document.createElement("div");
+    datoDiv.classList.add("modalVer__dato");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-map-pin-2-line");
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = "Nombre";
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = datos.name;
+
+    datoDiv.append(icon, tituloDiv, textoDiv);
+    modalDiv.appendChild(datoDiv);
 
     // Enmarcado general en Sweet Alert "Extended" portando botones de Switch Is_Active generalizados
     alerta.VerEstado(
-        htmlModal,
+        modalDiv,
         true, // Switch permitir botón de editar
         datos.is_active, // Estatus actual DB para preconfigurar palanca de toggle
 
@@ -69,26 +78,37 @@ export const ver = async (id, recargarContainer) => {
 // Levanta modal interactivo que requiere texto del operador para consolidar nuevos sectores en nube
 export const crear = async (recargarContainer) => {
 
-    // Box modal HTML nativo (Inyección de strings JS puro)
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Sector</p>
-        </div>
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-map-pin-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre del sector"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Sector";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-map-pin-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.placeholder = "Nombre del sector";
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Interceptor principal de pulsaciones para concretar (Callback general confirmante)
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Recolectan la información puesta en los Input Boxes de SweetAlert renderizado
         const nombre = document.querySelector(".form__nombre").value;
@@ -117,25 +137,37 @@ export const editar = async (id, recargarContainer) => {
     // Adquiere la frescura de datos pre-aplicando a cajas nativas a fin de prever 'cacheamiento' visual
     const info = await api.get(`sectors/${id}`);
 
-    // Modal calcado pero con inyecciones de las variables previas "value='info...'"
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Sector</p>
-        </div>
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-map-pin-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre"
-                    value="${info.name}"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const editExplicacionDiv = document.createElement("div");
+    editExplicacionDiv.classList.add("explicacion", "modal");
+
+    const editTituloP = document.createElement("p");
+    editTituloP.classList.add("explicacion__titulo");
+    editTituloP.textContent = "Editar Sector";
+    editExplicacionDiv.appendChild(editTituloP);
+
+    const editFormDiv = document.createElement("div");
+    editFormDiv.classList.add("form");
+
+    const editInputBoxDiv = document.createElement("div");
+    editInputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const editIcon = document.createElement("i");
+    editIcon.classList.add("ri-map-pin-fill");
+
+    const editInput = document.createElement("input");
+    editInput.type = "text";
+    editInput.classList.add("form__input", "form__nombre");
+    editInput.value = info.name;
+    editInput.autocomplete = "off";
+
+    editInputBoxDiv.append(editIcon, editInput);
+    editFormDiv.appendChild(editInputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(editExplicacionDiv, editFormDiv);
 
     // Alerta envolvente que ejecuta bloque en 'Save / Aceptar'
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Evaluar variables presentes en DOM popup para el POST
         const nombre = document.querySelector(".form__nombre").value;

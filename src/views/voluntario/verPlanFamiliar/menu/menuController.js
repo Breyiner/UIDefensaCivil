@@ -199,12 +199,26 @@ export default async () => {
   
   // Al pulsar la campana, Lanza el Sweet Alert Explicativo con el texto largo del Jefe
   comentarios.addEventListener("click", async () => {
-    const htmlModal = `
-        <div class="explicacion modal">
-          <p class="explicacion__titulo">Rechazado con solicitud de cambios</p>
-          <p class="explicacion__subtitulo">Este plan familiar fue rechazado con solicitud de cambios y en el siguiente texto se especifica cuales fueron esos errores</p>
-        </div>
-        <div class="explicacion_subtitulo">${planFamiliar.comentary}</div>`; // Inyección String Raw DB text Response
-    alerta.Ver(htmlModal, false, false, null, null); // Render Pure Html Raw 
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
+
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Rechazado con solicitud de cambios";
+    explicacionDiv.appendChild(tituloP);
+
+    const subtituloP = document.createElement("p");
+    subtituloP.classList.add("explicacion__subtitulo");
+    subtituloP.textContent = "Este plan familiar fue rechazado con solicitud de cambios y en el siguiente texto se especifica cuales fueron esos errores";
+    explicacionDiv.appendChild(subtituloP);
+
+    const comentarioDiv = document.createElement("div");
+    comentarioDiv.classList.add("explicacion_subtitulo");
+    comentarioDiv.textContent = planFamiliar.comentary;
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, comentarioDiv);
+
+    alerta.Ver(container, false, false, null, null);
   });
 };

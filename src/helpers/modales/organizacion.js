@@ -15,35 +15,56 @@ export const crear = async (recargarContainer) => {
     // Obtener las secciones (dropdown parametrizado) de la BD para popular el campo <select>
     const secciones = await api.get("sectionals");
 
-    // Recorre todos los resultados de Secciones, elaborando <option> HTML por cada uno
-    const opciones = secciones.map(sec => `<option value="${sec.id}">${sec.name}</option>`).join('');
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-    // Prepara la base visual incluyendo el input principal de nombre y la lista select dependiente
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Organización</p>
-        </div>
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Organización";
+    explicacionDiv.appendChild(tituloP);
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-building-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre de la organización"
-                    autocomplete="off">
-            </div>
-            <div class="form__inputBox">
-                <i class="ri-article-fill"></i>
-                <select class="form__input form__seccional">
-                    ${opciones}
-                </select>
-            </div>
-        </div>
-    `;
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const iconBuilding = document.createElement("i");
+    iconBuilding.classList.add("ri-building-fill");
+
+    const inputNombre = document.createElement("input");
+    inputNombre.type = "text";
+    inputNombre.classList.add("form__input", "form__nombre");
+    inputNombre.placeholder = "Nombre de la organización";
+    inputNombre.autocomplete = "off";
+
+    inputBoxDiv.append(iconBuilding, inputNombre);
+    formDiv.appendChild(inputBoxDiv);
+
+    const selectBoxDiv = document.createElement("div");
+    selectBoxDiv.classList.add("form__inputBox");
+
+    const iconArticle = document.createElement("i");
+    iconArticle.classList.add("ri-article-fill");
+
+    const select = document.createElement("select");
+    select.classList.add("form__input", "form__seccional");
+
+    secciones.forEach(sec => {
+        const opt = document.createElement("option");
+        opt.value = sec.id;
+        opt.textContent = sec.name;
+        select.appendChild(opt);
+    });
+
+    selectBoxDiv.append(iconArticle, select);
+    formDiv.appendChild(selectBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Envía configuración base a la pantalla de alertas
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Adquiere los campos escritos u opciones escogidas del DOM temporal (SweetAlert window)
         const nombre = document.querySelector(".form__nombre").value;
