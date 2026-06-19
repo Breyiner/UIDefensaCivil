@@ -74,34 +74,52 @@ import * as alerta from "../alertas";
 // Despliega ventanilla pidiendo nombre completo y su Abreviatura Oficial
 export const crear = async (recargarContainer) => {
 
-    // HTML del formulario de adición
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Tipo de Documento</p>
-        </div>
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-id-card-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre del tipo de documento"
-                    autocomplete="off">
-            </div>
-            <div class="form__inputBox">
-                <i class="ri-info-card-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__acronimo" 
-                    placeholder="Acronimo del tipo de documento"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Tipo de Documento";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const idIcon = document.createElement("i");
+    idIcon.classList.add("ri-id-card-fill");
+
+    const nombreInput = document.createElement("input");
+    nombreInput.type = "text";
+    nombreInput.classList.add("form__input", "form__nombre");
+    nombreInput.placeholder = "Nombre del tipo de documento";
+    nombreInput.autocomplete = "off";
+
+    inputBoxDiv.append(idIcon, nombreInput);
+    formDiv.appendChild(inputBoxDiv);
+
+    const acrBoxDiv = document.createElement("div");
+    acrBoxDiv.classList.add("form__inputBox");
+
+    const infoIcon = document.createElement("i");
+    infoIcon.classList.add("ri-info-card-fill");
+
+    const acrInput = document.createElement("input");
+    acrInput.type = "text";
+    acrInput.classList.add("form__input", "form__acronimo");
+    acrInput.placeholder = "Acronimo del tipo de documento";
+    acrInput.autocomplete = "off";
+
+    acrBoxDiv.append(infoIcon, acrInput);
+    formDiv.appendChild(acrBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Empalma promesa OK botón de sweet alert con peticiones REST
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Recolectores
         const nombre = document.querySelector(".form__nombre").value;
