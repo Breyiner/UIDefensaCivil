@@ -10,25 +10,37 @@ import * as alerta from "../alertas";
 
 export const crear = async (recargarContainer) => {
 
-    // Markup modal estandar para solicitar info inicial
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Seccional</p>
-        </div> 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-building-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__nombre" 
-                    placeholder="Nombre de la seccional"
-                    autocomplete="off">
-            </div>
-        </div>
-    `;
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
+
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Seccional";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const icon = document.createElement("i");
+    icon.classList.add("ri-building-fill");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("form__input", "form__nombre");
+    input.placeholder = "Nombre de la seccional";
+    input.autocomplete = "off";
+
+    inputBoxDiv.append(icon, input);
+    formDiv.appendChild(inputBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Envuelve promesa click bajo el entorno centralizado Sweet Alert
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
 
         // Caza el input desde el HTML dinámico inyectado arriba
         const nombre = document.querySelector(".form__nombre").value;
