@@ -14,25 +14,46 @@ export const ver = async (id, recargarContainer) => {
     // Comunica con URL en servidor para sustraer JSON asociado a su ID
     const datos = await api.get(`vulnerableQuestions/${id}`);
     
-    // Plantilla modal de estilo Grid asimétrico (modal-50) visualizando campos leídos
-    const htmlModal = `
-        <div class="modalVer modal-50">
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-questionnaire-line"></i>
-                <div class="modalVer__titulo">Descripción</div>
-                <div class="modalVer__texto">${datos.description}</div>
-            </div>
-            <div class="modalVer__dato modalVer__dato--largo">
-                <i class="ri-question-line"></i>
-                <div class="modalVer__titulo">¿Precaución?</div>
-                <div class="modalVer__texto">${datos.question_caution ? "Sí" : "No"}</div>
-            </div>
-        </div>
-    `;
+    const modalDiv = document.createElement("div");
+    modalDiv.classList.add("modalVer", "modal-50");
+
+    const descDatoDiv = document.createElement("div");
+    descDatoDiv.classList.add("modalVer__dato", "modalVer__dato--largo");
+
+    const descIcon = document.createElement("i");
+    descIcon.classList.add("ri-questionnaire-line");
+
+    const descTitulo = document.createElement("div");
+    descTitulo.classList.add("modalVer__titulo");
+    descTitulo.textContent = "Descripción";
+
+    const descTexto = document.createElement("div");
+    descTexto.classList.add("modalVer__texto");
+    descTexto.textContent = datos.description;
+
+    descDatoDiv.append(descIcon, descTitulo, descTexto);
+    modalDiv.appendChild(descDatoDiv);
+
+    const precDatoDiv = document.createElement("div");
+    precDatoDiv.classList.add("modalVer__dato", "modalVer__dato--largo");
+
+    const precIcon = document.createElement("i");
+    precIcon.classList.add("ri-question-line");
+
+    const precTitulo = document.createElement("div");
+    precTitulo.classList.add("modalVer__titulo");
+    precTitulo.textContent = "¿Precaución?";
+
+    const precTexto = document.createElement("div");
+    precTexto.classList.add("modalVer__texto");
+    precTexto.textContent = datos.question_caution ? "Sí" : "No";
+
+    precDatoDiv.append(precIcon, precTitulo, precTexto);
+    modalDiv.appendChild(precDatoDiv);
 
     // Utiliza un patrón extendido de SweetAlert llamado "VerEstado" (probablemente implementa Toggle de Active/Inactive)
     alerta.VerEstado(
-        htmlModal,
+        modalDiv,
         true, // Switch para habilitar opción editar
         datos.is_active, // Variable booleana dictadora de Activado/Desactivado
         // EDITAR (Sección Hook Callback)
@@ -68,33 +89,59 @@ export const ver = async (id, recargarContainer) => {
 ==================================================== */
 // Levantamiento de formulario prefabricado SweetAlert para agregar nuevas entradas de preguntas maestra
 export const crear = async (recargarContainer) => {
-    // Skeleton base
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Crear Recurso</p>
-        </div>
+    const explicacionDiv = document.createElement("div");
+    explicacionDiv.classList.add("explicacion", "modal");
 
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-questionnaire-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__descripcion" 
-                    placeholder="Descripción del recurso"
-                    autocomplete="off">
-            </div>
-            <div class="form__inputBox">
-                <i class="ri-question-fill"></i>
-                <select class="form__input form__precaucion">
-                    <option value="1">Sí</option>
-                    <option value="0">No</option>
-                </select>
-            </div>
-        </div>
-    `;
+    const tituloP = document.createElement("p");
+    tituloP.classList.add("explicacion__titulo");
+    tituloP.textContent = "Crear Pregunta";
+    explicacionDiv.appendChild(tituloP);
+
+    const formDiv = document.createElement("div");
+    formDiv.classList.add("form");
+
+    const inputBoxDiv = document.createElement("div");
+    inputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const iconQuest = document.createElement("i");
+    iconQuest.classList.add("ri-questionnaire-fill");
+
+    const inputDesc = document.createElement("input");
+    inputDesc.type = "text";
+    inputDesc.classList.add("form__input", "form__descripcion");
+    inputDesc.placeholder = "Descripción de la pregunta";
+    inputDesc.autocomplete = "off";
+
+    inputBoxDiv.append(iconQuest, inputDesc);
+    formDiv.appendChild(inputBoxDiv);
+
+    const selectBoxDiv = document.createElement("div");
+    selectBoxDiv.classList.add("form__inputBox");
+
+    const iconPrec = document.createElement("i");
+    iconPrec.classList.add("ri-question-fill");
+
+    const select = document.createElement("select");
+    select.classList.add("form__input", "form__precaucion");
+
+    const optSi = document.createElement("option");
+    optSi.value = "1";
+    optSi.textContent = "Sí";
+    select.appendChild(optSi);
+
+    const optNo = document.createElement("option");
+    optNo.value = "0";
+    optNo.textContent = "No";
+    select.appendChild(optNo);
+
+    selectBoxDiv.append(iconPrec, select);
+    formDiv.appendChild(selectBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(explicacionDiv, formDiv);
 
     // Listener de Sweet Alert `confirmButton`
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
         // Lee los punteros del DOM modal en pantalla de los inputs de interes
         const descripcion = document.querySelector(".form__descripcion").value;
         const precaucion = document.querySelector(".form__precaucion").value;
@@ -122,31 +169,61 @@ export const editar = async (id, recargarContainer) => {
     // Hace refresh a la información concreta de base de datos antes de pintar UI para no usar data cacheada sucia
     const info = await api.get(`vulnerableQuestions/${id}`);
 
-    const htmlModal = `
-        <div class="explicacion modal">
-            <p class="explicacion__titulo">Editar Recurso</p>
-        </div>
-        <div class="form">
-            <div class="form__inputBox modal-50">
-                <i class="ri-questionnaire-fill"></i>
-                <input 
-                    type="text" 
-                    class="form__input form__descripcion"
-                    value="${info.description}"
-                    autocomplete="off">
-            </div> 
-            <div class="form__inputBox">
-                <i class="ri-question-fill"></i>
-                <select class="form__input form__precaucion">
-                    <option value="1" ${info.question_caution ? "selected" : ""}>Sí</option>
-                    <option value="0" ${!info.question_caution ? "selected" : ""}>No</option>
-                </select>
-            </div>
-        </div>
-    `;
+    const editExplicacionDiv = document.createElement("div");
+    editExplicacionDiv.classList.add("explicacion", "modal");
+
+    const editTituloP = document.createElement("p");
+    editTituloP.classList.add("explicacion__titulo");
+    editTituloP.textContent = "Editar pregunta";
+    editExplicacionDiv.appendChild(editTituloP);
+
+    const editFormDiv = document.createElement("div");
+    editFormDiv.classList.add("form");
+
+    const editInputBoxDiv = document.createElement("div");
+    editInputBoxDiv.classList.add("form__inputBox", "modal-50");
+
+    const editIconQuest = document.createElement("i");
+    editIconQuest.classList.add("ri-questionnaire-fill");
+
+    const editInputDesc = document.createElement("input");
+    editInputDesc.type = "text";
+    editInputDesc.classList.add("form__input", "form__descripcion");
+    editInputDesc.value = info.description;
+    editInputDesc.autocomplete = "off";
+
+    editInputBoxDiv.append(editIconQuest, editInputDesc);
+    editFormDiv.appendChild(editInputBoxDiv);
+
+    const editSelectBoxDiv = document.createElement("div");
+    editSelectBoxDiv.classList.add("form__inputBox");
+
+    const editIconPrec = document.createElement("i");
+    editIconPrec.classList.add("ri-question-fill");
+
+    const editSelect = document.createElement("select");
+    editSelect.classList.add("form__input", "form__precaucion");
+
+    const editOptSi = document.createElement("option");
+    editOptSi.value = "1";
+    editOptSi.textContent = "Sí";
+    if (info.question_caution) editOptSi.selected = true;
+    editSelect.appendChild(editOptSi);
+
+    const editOptNo = document.createElement("option");
+    editOptNo.value = "0";
+    editOptNo.textContent = "No";
+    if (!info.question_caution) editOptNo.selected = true;
+    editSelect.appendChild(editOptNo);
+
+    editSelectBoxDiv.append(editIconPrec, editSelect);
+    editFormDiv.appendChild(editSelectBoxDiv);
+
+    const container = document.createElement("div");
+    container.append(editExplicacionDiv, editFormDiv);
 
     // Confirmación al editar
-    alerta.Crear(htmlModal, async () => {
+    alerta.Crear(container, async () => {
         // Identifica variables
         const descripcion = document.querySelector(".form__descripcion").value;
         const precaucion = document.querySelector(".form__precaucion").value;
