@@ -75,7 +75,7 @@ export default async () => {
                 urlDato: "organizations",
                 urlSubDato: "sectionals",
 
-                campoDato: "sectional_id"
+                campoSubDato: "sectional_id"
             }
         
             boton.addEventListener("click", () => {

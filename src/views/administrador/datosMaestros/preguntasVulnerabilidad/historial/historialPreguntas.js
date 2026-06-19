@@ -6,7 +6,10 @@ const historialPreguntas = async () => {
     
     const id = location.hash.split("=")[1];
 
-    const datoMaestro = await api.get(`vulnerableQuestions/${id}`);
+    const datoMaestro = await api.get(`vulnerableQuestions/${id}/history`);
+
+    console.log(datoMaestro);
+    
     
     const endpoint = `vulnerableQuestions/${id}/history`;
 

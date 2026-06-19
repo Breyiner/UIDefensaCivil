@@ -255,7 +255,8 @@ const integranteVentana = async (miembro, relacion, info) =>{
 
     btnCerrar.onclick = () => overlay.remove();
 
-    document.body.appendChild(overlay);
+    const container = document.querySelector(".container");
+    container.appendChild(overlay);
 
     overlay.onclick = (e) => {
         if (e.target === overlay) {

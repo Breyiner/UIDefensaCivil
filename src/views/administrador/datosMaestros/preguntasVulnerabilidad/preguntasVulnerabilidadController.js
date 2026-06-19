@@ -70,9 +70,7 @@ export default async () => {
                 urlDato: "vulnerableQuestions",
                 urlSubDato: null,
 
-                campoDato: null,
-                campoSubDato: "question_caution"
-
+                campoSubDato: "question_caution",
             }
                 
             boton.addEventListener("click", () => {
