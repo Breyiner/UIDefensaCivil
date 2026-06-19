@@ -42,8 +42,12 @@ export const verPdfComponent = (urlBlob, onDownload) => {
     // Iframe responsivo para el visualizador
     const iframe = document.createElement("iframe");
     iframe.classList.add("pdf-iframe");
-    // Carga el PDF en memoria ocultando barras nativas (#toolbar=0) y ajustando el zoom al ancho del celular (view=FitH&zoom=page-width)
-    iframe.src = `${urlBlob}#toolbar=0&navpanes=0&view=FitH&zoom=page-width`;
+    // Detectamos si la pantalla actual es de tamaño móvil (menor o igual a 600px)
+    const esMovil = window.innerWidth <= 600;
+    // Si es móvil ocultamos la barra nativa (toolbar=0) para no sobrecargar la pantalla; en desktop la mostramos (toolbar=1)
+    const toolbar = esMovil ? "0" : "1";
+    // Carga el PDF en memoria con el parámetro de barra de herramientas dinámico
+    iframe.src = `${urlBlob}#toolbar=${toolbar}&navpanes=0&view=FitH&zoom=page-width`;
 
     iframeWrapper.appendChild(iframe);
 
