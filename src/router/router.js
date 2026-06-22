@@ -72,15 +72,18 @@ export const router = async (main) => {
     }
 
     // VALIDACIONES DE RUTAS ESPECIFICAS Y SEGURIDAD ADICIONAL
-
+    
     corregirQueryParams(hash);
-
+    
     validarRol(hash);
+    
+    removerBotonHeader(arregloHash);
 
     if(await ocultarEditarUrl(hash)) return;
 
     if(await ocultarUrlFamilia(hash)) return;
     
+
     // --------------------------------------------------------
 
     // Si la route tiene guard y este no cumple con la condicion me llevara a una dirección especifica
@@ -92,8 +95,6 @@ export const router = async (main) => {
     if (ruta.path) {
         await cargarVista(ruta.path, main);
     }
-
-    removerBotonHeader(arregloHash)
 
     await ruta.controlador(parametros);
 
@@ -314,15 +315,25 @@ const recorrerRutas = (routes, arregloHash, esLlamadaRecursiva = false) => {
 };
 
 const removerBotonHeader = (arregloHash) => {
+
     const botonBack = document.getElementById("botonBack");
 
-    if (!botonBack) {
-        return 
-    }
-    
-    if (arregloHash.length <= 2) {
-        botonBack.classList.add("invisible")
+    if (!botonBack) return;
+
+    const currentHash = location.hash.slice(1);
+
+    const rutasHome = [
+
+        "/administrador/", 
+        "/supervisor/", 
+        "/voluntario/"
+    ];
+
+    const hashSinParams = currentHash.split('?')[0];
+
+    if (rutasHome.includes(hashSinParams) || arregloHash.length <= 2) {
+        botonBack.classList.add("invisible");
     } else {
-        botonBack.classList.remove("invisible")
+        botonBack.classList.remove("invisible");
     }
 }

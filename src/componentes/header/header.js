@@ -9,7 +9,7 @@ export const componenteHeader = async () => {
     header.classList.add("header"); 
     
     const botonAtras = document.createElement("button");
-    botonAtras.classList.add("header__boton", "header__boton--padding", "header__boton--oscuro");
+    botonAtras.classList.add("header__boton", "header__boton--atras");
     botonAtras.id = "botonBack";
     const iconBack = document.createElement("i");
     iconBack.classList.add("header__icono", "ri-arrow-left-s-line");
@@ -42,7 +42,7 @@ export const componenteHeader = async () => {
     rightHeader.classList.add("header__contenedor");
     
     const botonNoti = document.createElement("button");
-    botonNoti.classList.add("header__boton", "header__boton--padding", "header__boton--notificacion", "header__boton--oscuro");
+    botonNoti.classList.add("header__boton", "header__boton--notificacion");
     const iconNoti = document.createElement("i");
     iconNoti.classList.add("header__icono", "ri-notification-2-fill");
     const indicador = document.createElement("span");
@@ -50,7 +50,7 @@ export const componenteHeader = async () => {
     botonNoti.append(iconNoti, indicador);
 
     const botonPerfil = document.createElement("button");
-    botonPerfil.classList.add("header__boton", "header__boton--padding", "header__boton--oscuro");
+    botonPerfil.classList.add("header__boton", "header__boton--usuario");
     const iconPerfil = document.createElement("i");
     iconPerfil.classList.add("header__icono", "ri-user-3-fill");
     botonPerfil.appendChild(iconPerfil);

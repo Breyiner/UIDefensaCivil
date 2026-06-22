@@ -654,6 +654,20 @@ export const routes = {
         }
       },
 
+      ciudades: {
+        "": {
+          path: `administrador/datosMaestros/ciudades/index.html`,
+          controlador: datosMaestros.ciudadesController,
+          config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+        },
+        historial: {
+          path: `administrador/datosMaestros/ciudades/historial/index.html`,
+          controlador: datosMaestros.historialCiudad,
+          config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+        }
+      }
+      ,
+
       departamentos: {
         "": {
           path: `administrador/datosMaestros/departamentos/index.html`,

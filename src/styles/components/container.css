@@ -1,19 +1,18 @@
 .container {
   width: 100%;
-  /* height: ; */
-  min-height: 100vh; /* Cambiado de height a min-height */
+  min-height: 100vh;
   min-width: 350px;
+  max-width: 2000px;
   padding: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
   gap: 0.7rem;
-  /* overflow: hidden; */
+  background: transparent;
 }
 
 .container.container--noHeader {
-  background: linear-gradient(25deg, rgb(0 182 255) 0%, rgba(235, 248, 255, 1) 100%);
   overflow: hidden;
 }
 
@@ -89,7 +88,6 @@
     display: flex;
     gap: 10px;
     padding: 20px 20px;
-    background: linear-gradient(0deg,rgba(133, 220, 255, 1) 0%, rgba(235, 248, 255, 1) 100%);
   }
 
   .container--grid {

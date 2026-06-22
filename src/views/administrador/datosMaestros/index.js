@@ -15,6 +15,7 @@ import tiposAmenazaController from "./tiposAmenaza/tiposAmenazaControlles.js";
 import especiesController from "./especies/especiesController.js";
 import recursosController from "./recursos/recursosController.js";
 import departamentoController from "./departamentos/departamentoController.js";
+import ciudadesController from "./ciudades/ciudadesController.js";
 import vulnerabilidadesController from "./vulnerabilidades/vulnerabilidadesController.js";
 
 
@@ -29,6 +30,7 @@ import historialAmenaza from "./tiposAmenaza/historial/historialAmenaza.js";
 import historialEspecies from "./especies/historial/historialEspecies.js";
 import historialRecursos from "./recursos/historial/historialRecursos.js";
 import historialVulnerabilidades from "./vulnerabilidades/historial/historialVulnerabilidades.js";
+import historialCiudad from "./ciudades/historial/historialCiudad.js";
 import historialDepartamento from "./departamentos/historial/historialDepartamento.js";
 
 export {
@@ -44,6 +46,7 @@ export {
   especiesController,
   recursosController,
   departamentoController,
+  ciudadesController,
   vulnerabilidadesController,
   
   historialSeccional,
@@ -57,5 +60,6 @@ export {
   historialEspecies,
   historialRecursos,
   historialVulnerabilidades,
-  historialDepartamento
+  historialCiudad,
+  historialDepartamento,
 };

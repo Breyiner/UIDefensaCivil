@@ -8,12 +8,19 @@ import { validacionInputs as validacion } from "@/helpers/index.js";
 const verifyCodeController = () => {
 
     const form = document.querySelector(".form");
-    const inputsCodigo = document.querySelectorAll(".code__input")
+    const inputsCodigo = document.querySelectorAll(".code__input");
     const boton = document.querySelector(".form__boton");
     const btnVolver = document.getElementById("volver");
-
+    
     let procesoPeticion = false;
 
+    let email = sessionStorage.getItem("reset_email");
+
+    const formTexto = document.querySelector(".form__texto");
+    formTexto.textContent = `Ingrese el código de 6 dígitos enviado al correo ${email}`;
+
+    validacion.validadorAutomatico.init(form);
+    
     inputsCodigo.forEach((input,index) => {
 
         input.addEventListener("input", (event) => {
@@ -39,13 +46,6 @@ const verifyCodeController = () => {
             }
         });
     });
-
-    // inputsCodigo.forEach(input => {
-    //     input.addEventListener("input", () => {
-    //         // Esto imprimirá el estado de los 6 cuadros al tiempo con cada pulsación
-    //         const enTiempoReal = Array.from(inputsCodigo).map(i => i.value).join("");
-    //     });
-    // });
 
     const subir = async (event) =>{
 
