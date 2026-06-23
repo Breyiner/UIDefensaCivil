@@ -3,6 +3,7 @@
     box-shadow: 0 0 10px var(--color-sombra);
     border-radius: var(--border-radius-tarjetas);
     width: 100%;
+    background: var(--color-palido);
 }
 
 .tarjeta--fila {

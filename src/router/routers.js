@@ -81,7 +81,7 @@ export const routes = {
     controlador: auth.changePasswordController,
     config: publicRoute,
     guard: () => !!sessionStorage.getItem('reset_email') && !!sessionStorage.getItem('reset_code'),
-    guardRedirect: 'forgotPassword'
+    guardRedirect: 'verificar_codigo'
   },
   "usuarios": {
     "perfil": {
@@ -653,6 +653,20 @@ export const routes = {
           config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
         }
       },
+
+      ciudades: {
+        "": {
+          path: `administrador/datosMaestros/ciudades/index.html`,
+          controlador: datosMaestros.ciudadesController,
+          config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+        },
+        historial: {
+          path: `administrador/datosMaestros/ciudades/historial/index.html`,
+          controlador: datosMaestros.historialCiudad,
+          config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+        }
+      }
+      ,
 
       departamentos: {
         "": {

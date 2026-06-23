@@ -1,25 +1,44 @@
 <div class="container container--noHeader">
-    <div class="introduccion">
-        <img src="/logo.png" alt="logo" class="introduccion__logo">
-        <h2 class="introduccion__titulo">Plan familiar de emergencia</h2>
-        <p class="introduccion__texto">Planificación familiar para la prevención y respuesta ante emergencias</p>
-        <img src="/familiapng.png" alt="imagen" class="introduccion__imagen">
-    </div>
-    <div class="login login--gap">
+    <div class="changeCont">
         <img src="/logo.png" alt="logoDefensaCivil" class="login__logo">
+
         <form method="POST" class="form">
+
             <h2 class="form__titulo">Nueva Contraseña</h2>
-            <div class="form__texto form__texto--center">Ingrese su nueva contraseña y la confirmacion de la misma,
-                ¡procure no olvidarla!</div>
-            <div class="input">
-                <input type="password" class="input_password input--naranja" placeholder="Nueva Contraseña"
-                    id="nuevaContraseña" data-tipo="contraseña">
+
+            <div class="form__texto form__texto--center">
+                Ingrese su nueva contraseña y la confirmación de la misma,
+                ¡procure no olvidarla!
             </div>
-            <div class="input">
-                <input type="password" class="input_confirm input--naranja" placeholder="Confirmar contraseña"
-                    id="confirmarContraseña" data-tipo="contraseña">
+
+            <div class="form__input--password">
+                <input type="checkbox" class="oculto form__input--password--checkbox" id="checkPass">
+                <label for="checkPass" class="form__input--password--label">
+                    <i class="ri-eye-close-line"></i>
+                    <i class="ri-eye-fill oculto"></i>
+                </label>
+                <div class="section__input">
+                    <input type="password" class="input_password input--azul" 
+                        placeholder="Nueva Contraseña" id="nuevaContrasena" 
+                        data-tipo="password" autocomplete="off">
+                </div>
             </div>
-            <button class="boton">Confirmar</button>
+
+            <div class="form__input--password">
+                <input type="checkbox" class="oculto form__input--password--checkbox" id="checkConfirm">
+                <label for="checkConfirm" class="form__input--password--label">
+                    <i class="ri-eye-close-line"></i>
+                    <i class="ri-eye-fill oculto"></i>
+                </label>
+                <div class="section__input">
+                    <input type="password" class="input_confirm input--azul" 
+                        placeholder="Confirmar contraseña" id="confirmarContrasena" 
+                        data-tipo="passwordSinValdacion" autocomplete="off">
+                </div>
+            </div>
+
+            <button class="boton form__boton" type="submit">Confirmar</button>
+
         </form>
     </div>
 </div>

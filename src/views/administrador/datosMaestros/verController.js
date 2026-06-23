@@ -65,6 +65,10 @@ export default async () => {
       window.location.href = "#/administrador/datos_maestros/recursos";
     }
 
+    if (e.target.closest("#cities")) {
+      window.location.href = "#/administrador/datos_maestros/ciudades";
+    }
+
     if (e.target.closest("#departments")) {
       window.location.href = "#/administrador/datos_maestros/departamentos";
     }

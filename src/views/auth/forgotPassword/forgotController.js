@@ -88,7 +88,7 @@ const forgotPasswordController = () => {
   window.addEventListener("click", async (e) => {
     // Si usuario hace clic en el enlace 'volver' y no está enclavado el sistema cargando:
     if (e.target.matches("#volver") && !procesoPeticion)
-      window.location.href = "#/login"; // Lo dirige físicamente al módulo principal router
+      window.location.href = "#/"; // Lo dirige físicamente al módulo principal router
   });
 };
 

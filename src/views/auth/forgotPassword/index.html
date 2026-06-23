@@ -1,29 +1,37 @@
 <div class="container container--noHeader">
-    <div class="introduccion">
-        <img src="/logo.png" alt="logo" class="introduccion__logo">
-        <h2 class="introduccion__titulo">Plan familiar de emergencia</h2>
-        <p class="introduccion__texto">Planificación familiar para la prevención y respuesta ante emergencias</p>
-        <img src="/familiapng.png" alt="imagen" class="introduccion__imagen">
-    </div>
-    <div class="login login--gap">
+
+    <div class="forgotCont">
+
         <img src="/logo.png" alt="logoDefensaCivil" class="login__logo">
+
         <form method="POST" class="form">
+
             <h2 class="form__titulo">¿Olvidó su contraseña?</h2>
-            <div class="form__texto form__texto--center">Ingrese su direccion de correo electronico y le enviaremos un
-                código de verificación para restablecer su contraseña.</div>
+
+            <div class="form__texto form__texto--center">
+                Ingrese su direccion de correo electronico y le enviaremos un
+                código de verificación para restablecer su contraseña.
+            </div>
+
             <div class="input">
                 <div>
-                    <input type="text" class="input--naranja" placeholder="Correo Electronico" id="correoElectronico"
+                    <input type="text" class="input--azul form__input" placeholder="Correo Electronico" id="correoElectronico"
                         autocomplete="off" data-tipo="correo">
                 </div>
             </div>
+
             <button class="boton">Confirmar Correo</button>
+
         </form>
-        <div class="decoration">
-            <div class="decoration__linea"></div>
-            <p class="decoration__text">o</p>
-            <div class="decoration__linea"></div>
+
+        <div class="form__subBotones">
+
+
+            <p class="form__decoration">O</p>
+
+            <button id="volver" class=" boton boton--azul">Volver al inicio</button>
+            
         </div>
-        <button id="volver" class=" boton boton--azul">Volver al inicio</button>
+
     </div>
 </div>

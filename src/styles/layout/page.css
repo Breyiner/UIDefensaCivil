@@ -1,5 +1,5 @@
 /* body */
-.layout:has(.container--noHeader) .header {
+.layout:has(.container--noHeader) .headerCont {
   display: none;
 }
 
@@ -11,21 +11,15 @@
   grid-template-columns: 1fr;
   justify-content: center;
   padding: 0;
-}
-
-.layout:has(.container--noHeader){
-  display: flex;
+  background: linear-gradient(0deg,rgba(133, 220, 255, 1) 0%, rgba(235, 248, 255, 1) 100%);
 }
 
 #app {
   width: 100%;
   height: 100%;
-  background-color: var(--color-grisFondo);
+  /* min-height: 100vh; */
   color: var(--color-oscuro);
   display: flex;
-}
-
-#app:has(.login) {
-  background-color: var(--color-grisMedio);
+  justify-content: center;
 }
 

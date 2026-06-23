@@ -1,3 +1,4 @@
+export { default as ciudad } from "./ciudad.js";
 export * as calidadVivienda from "./calidadVivienda.js";
 export * as departamento from "./departamento.js";
 export * as especie from "./especie.js";
