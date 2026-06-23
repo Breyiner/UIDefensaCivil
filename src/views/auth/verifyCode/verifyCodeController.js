@@ -10,7 +10,7 @@ const verifyCodeController = () => {
     const form = document.querySelector(".form");
     const inputsCodigo = document.querySelectorAll(".code__input");
     const boton = document.querySelector(".form__boton");
-    const btnVolver = document.getElementById("volver");
+    const btnVolver = document.getElementById("reenviar");
     
     let procesoPeticion = false;
 

@@ -81,7 +81,7 @@ export const routes = {
     controlador: auth.changePasswordController,
     config: publicRoute,
     guard: () => !!sessionStorage.getItem('reset_email') && !!sessionStorage.getItem('reset_code'),
-    guardRedirect: 'forgotPassword'
+    guardRedirect: 'verificar_codigo'
   },
   "usuarios": {
     "perfil": {
