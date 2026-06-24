@@ -54,7 +54,7 @@ export const getExiste = async (endpoint) => {
       // 5. Si de nuevo falla con 401, significa que la sesión caducó por completo
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login"; // Expulsa al login
+        window.location.href = "#/"; // Expulsa al login
         localStorage.clear(); // Limpia datos locales de sesión
         return null;
       }
@@ -105,7 +105,7 @@ export const postImagen = async (endpoint, datos) => {
 
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         return null;
       }
@@ -151,7 +151,7 @@ export const getImagen = async (endpoint) => {
 
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         return null;
       }
@@ -202,7 +202,7 @@ export const get = async (endpoint) => {
 
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         return null;
       }
@@ -252,7 +252,7 @@ export const post = async (endpoint, datos) => {
 
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         return null;
       }
@@ -300,7 +300,7 @@ export const put = async (endpoint, datos) => {
 
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         return null;
       }
@@ -349,7 +349,7 @@ export const patch = async (endpoint, datos) => {
 
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         return null;
       }
@@ -404,7 +404,7 @@ export const delet = async (endpoint) => {
 
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         return null;
       }
@@ -450,7 +450,7 @@ export const bulkDelete = async (endpoint, datos) => {
       if (response.status === 401) {
         
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         return null;
       }
@@ -505,7 +505,7 @@ export const getPaginacion = async (endpoint) => {
       
       if (response.status === 401) {
         alerta.alertaError("Sesion Expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         spinner.cerrarSpinner()
         return null;
@@ -553,7 +553,7 @@ export const getPdf = async (endpoint, filename = "archivo.pdf") => {
 
       if (response.status === 401) {
         alerta.alertaError("Sesión expirada");
-        window.location.href = "#/login";
+        window.location.href = "#/";
         localStorage.clear();
         return null;
       }

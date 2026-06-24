@@ -87,11 +87,16 @@ export const tarjetaPeticion = (info) => {
     tarjetaBadge.textContent = info.status;
     tarjetaEstado.append(tarjetaTiempo, tarjetaBadge);
 
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.classList.add("tarjeta__checkbox");
+    checkbox.value = info.id;
+
     // Unir elementos al header
     tarjetaHeader.append(tarjetaIconoCont, tarjetaInfo, tarjetaEstado);
 
     // Unir el header al contenedor principal
-    tarjeta.append(tarjetaHeader);
+    tarjeta.append(tarjetaHeader, checkbox);
 
     return tarjeta;
 };

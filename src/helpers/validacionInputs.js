@@ -135,7 +135,7 @@ export const validar_correo = (input) => {
 // =====================================================
 
 export const validar_password = (input) => {
-  const value = input.value.trim();
+  const value = input.value;
 
   limpiarError(input);
 
@@ -319,11 +319,6 @@ export const  validar_siExiste = (input, minimo) => {
   return validar_minimo(input,minimo);
 };
 
-// export const validar_password = (input) => {
-
-//   const regex = `^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$`;
-// };
-
 // =====================================================
 // DICCIONARIO DE PATRONES DE VALIDACIÓN HTML (`data-tipo`)
 // =====================================================
@@ -358,9 +353,11 @@ const inputTipos={
   // Reglas con métodos exóticos custom via inyección de funciones anónimas
   correo:{validacion:(input)=>validar_correo(input)},
 
-  password:{validacion:(input)=>validar_password(input),max:40},
+  password:{validacion:(input)=>validar_password(input),max:20},
 
-  passwordSinValdacion: {validacion:(input)=>validar_maximo(input),max:40},
+  passwordConfirm: { validacion: (input) => validar_vacio(input), max: 20 },
+
+  passwordSinValdacion: { validacion: (input) => validar_vacio(input), max: 20 },
 
   mayorDeEdad:{validacion:(input)=>validar_minimoMaximo(input)},
 
