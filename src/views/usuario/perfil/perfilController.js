@@ -11,6 +11,7 @@ import { alertas as alerta } from "@/helpers/index.js";
 import { api } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
+import { validacionInputs as validacion } from "@/helpers/index.js";
 
 export default async () => {
     // Referencias al DOM (Campos de Muestra)
@@ -146,6 +147,13 @@ export default async () => {
         });
 
         botonGuardarPassword.addEventListener("click", async () => {
+            const validacionNueva = validacion.validar_password(passwordNueva);
+            const validacionActual = validacion.validar_vacio(passwordOriginal);
+
+            if (!validacionNueva || !validacionActual) {
+                return;
+            }
+
             await alerta.alertaOK('Contraseña guardada exitosamente');
             contrasena.parentElement.classList.remove('invisible');
             passwordNueva.parentElement.classList.add('invisible');
