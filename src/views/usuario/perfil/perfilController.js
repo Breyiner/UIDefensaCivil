@@ -51,7 +51,6 @@ export default async () => {
     const accionesPassword = document.getElementById('accionesPassword');
     const passwordOriginal = document.getElementById('passwordOriginal');
     const passwordNueva = document.getElementById('passwordNueva');
-    const passwordNuevaRepeticion = document.getElementById('passwordNuevaRepeticion');
     const botonCancelarPassword = document.getElementById('botonCancelarPassword');
     const botonGuardarPassword = document.getElementById('botonGuardarPassword');
 
@@ -91,6 +90,10 @@ export default async () => {
         telefono.disabled = true;
     })
         botonGuardarTelefono.addEventListener("click", async () => {
+            if (!passwordTelefono.value.trim()) {
+                await alerta.alertaError('Ingresa su contraseña actual para guardar el teléfono');
+                return;
+            }
             await alerta.alertaOK('Telefono guardado exitosamente');
             accionesTelefono.classList.add('invisible');
             passwordTelefono.parentElement.classList.add('invisible');
@@ -115,6 +118,10 @@ export default async () => {
     });
 
     botonGuardarCorreo.addEventListener("click", async () => {
+        if (!passwordCorreo.value.trim()) {
+            await alerta.alertaError('Ingresa su contraseña actual para guardar el correo');
+            return;
+        }
         await alerta.alertaOK('Correo guardado exitosamente');
         accionesCorreo.classList.add('invisible');
         passwordCorreo.parentElement.classList.add('invisible');
@@ -125,32 +132,27 @@ export default async () => {
 
     botonEditarPassword.addEventListener("click", async () => {
         contrasena.parentElement.classList.add('invisible');
-        passwordOriginal.parentElement.classList.remove('invisible');
         passwordNueva.parentElement.classList.remove('invisible');
-        passwordNuevaRepeticion.parentElement.classList.remove('invisible');
+        passwordOriginal.parentElement.classList.remove('invisible');
         accionesPassword.classList.remove('invisible');
 
         botonCancelarPassword.addEventListener("click", async () => {
             contrasena.parentElement.classList.remove('invisible');
-            passwordOriginal.parentElement.classList.add('invisible');
             passwordNueva.parentElement.classList.add('invisible');
-            passwordNuevaRepeticion.parentElement.classList.add('invisible');
+            passwordOriginal.parentElement.classList.add('invisible');
             accionesPassword.classList.add('invisible');
             passwordOriginal.value = "";
             passwordNueva.value = "";
-            passwordNuevaRepeticion.value = "";
         });
 
         botonGuardarPassword.addEventListener("click", async () => {
             await alerta.alertaOK('Contraseña guardada exitosamente');
             contrasena.parentElement.classList.remove('invisible');
-            passwordOriginal.parentElement.classList.add('invisible');
             passwordNueva.parentElement.classList.add('invisible');
-            passwordNuevaRepeticion.parentElement.classList.add('invisible');
+            passwordOriginal.parentElement.classList.add('invisible');
             accionesPassword.classList.add('invisible');
             passwordOriginal.value = "";
             passwordNueva.value = "";
-            passwordNuevaRepeticion.value = "";
     });
     });
 };
