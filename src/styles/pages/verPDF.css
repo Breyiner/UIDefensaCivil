@@ -1,0 +1,55 @@
+/* verPDF.css - Estilos específicos para la vista previa del PDF */
+
+.pdf-viewer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.pdf-btn-descargar {
+    display: none;
+}
+
+.pdf-iframe-wrapper {
+    width: 100%; 
+    max-width: 900px; 
+    height: 75vh;
+    min-height: 480px;
+    border: 1px solid var(--color-grisMedio);
+    border-radius: var(--border-radius-tarjetas);
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--color-sombra);
+}
+
+.pdf-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media (max-width: 600px) {
+    .pdf-iframe-wrapper {
+        height: 65vh;
+        min-height: 400px;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+        overflow: hidden; /* Ocultar desbordamientos por la escala */
+    }
+    .pdf-iframe {
+        width: 200%;
+        height: 200%;
+        transform: scale(0.5);
+        transform-origin: top left;
+    }
+    .pdf-btn-descargar {
+    width: 100%;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    }
+}

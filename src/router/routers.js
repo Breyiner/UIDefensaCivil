@@ -121,6 +121,12 @@ export const routes = {
         config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
       },
 
+      ver_pdf: {
+        path: `voluntario/verPlanFamiliar/verPDF/index.html`,
+        controlador: verPlan.VerPDFController,
+        config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
+      },
+
       testVunerabilidad: {
         path: `voluntario/planFamiliar/testVulnerabilidad/index.html`,
         controlador: planFamiliar.TestController,
@@ -336,6 +342,12 @@ export const routes = {
 
         path: `supervisor/PlanFamiliar/RevisionPlan/index.html`,
         controlador: supervisorPlanFamiliar.RevisionPlanController,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      },
+
+      ver_pdf: {
+        path: `voluntario/verPlanFamiliar/verPDF/index.html`,
+        controlador: verPlan.VerPDFController,
         config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
       },
 

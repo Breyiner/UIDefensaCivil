@@ -3,7 +3,6 @@
   color: var(--color-oscuro);
   font-family: var(--fuente-titulos);
   padding-bottom: 10px;
-  margin-bottom: 10px;
   border-bottom: 1px solid var(--color-grisOscuro);
 }
 .explicacion__titulo {

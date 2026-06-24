@@ -184,10 +184,9 @@ export default async () => {
     }
   });
 
-  // Accion Boton Exportar Visor PDF (Axios Request Arraybuffer Helper Native Window open)
+  //Navegación al Visor de Vista Previa PDF
   verPDF.addEventListener("click", () => {
-
-      api.getPdf(`pdf/${id}`);
+    location.href = `#/${base}/plan_familiar/ver_pdf?familia_id=${id}`;
   });
 
   /**
