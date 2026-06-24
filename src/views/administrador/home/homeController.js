@@ -52,7 +52,7 @@ export default async () => {
       const pregunta = await alerta.alertaQuest('¿Seguro que quieres cerrar sesión?');
       if (pregunta.isConfirmed) {
         await api.post('logout');
-        window.location.href = '#/login';
+        window.location.href = '#/';
         localStorage.clear();
       }
     }

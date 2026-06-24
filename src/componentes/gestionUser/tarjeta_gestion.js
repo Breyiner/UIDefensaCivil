@@ -107,7 +107,6 @@ export const tarjetaEstados = (info) => {
     tarjetaBadge.textContent = info.status;
     tarjetaEstado.append(tarjetaBadge);
 
-
     // Unir elementos al header
     tarjetaHeader.append(tarjetaIconoCont, tarjetaInfo, tarjetaEstado);
     // Unir el header al contenedor principal

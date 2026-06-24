@@ -519,7 +519,7 @@ const logController = async () => {
     passwordComfirm.placeholder = "Confirmar contraseña";
     passwordComfirm.id = "confContrasena";
     passwordComfirm.autocomplete = "off";
-    passwordComfirm.setAttribute("data-tipo", "passwordSinValdacion");
+    passwordComfirm.setAttribute("data-tipo", "passwordConfirm");
 
     passwordComfirmSection.append(passwordComfirm);
     
@@ -612,7 +612,7 @@ const logController = async () => {
 
         // Validaciones booleanas finales
         const validacionRegister = validacion.validadorAutomatico.validarTodo(formRegister);
-        const contrasenaIgualdad = validacion.validar_igualdad(password, passwordComfirm);
+        const contrasenaIgualdad = validacion.validar_igualdad(passwordComfirm, password);
     
         if (!validacionRegister || !contrasenaIgualdad) {
             console.log("Error en validación de registro");
