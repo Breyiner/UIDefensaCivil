@@ -92,6 +92,10 @@ export const tarjetaPeticion = (info) => {
     checkbox.classList.add("tarjeta__checkbox");
     checkbox.value = info.id;
 
+    checkbox.addEventListener("click", (e) => {
+    e.stopPropagation();
+});
+
     // Unir elementos al header
     tarjetaHeader.append(tarjetaIconoCont, tarjetaInfo, tarjetaEstado);
 

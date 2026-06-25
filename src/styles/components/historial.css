@@ -269,7 +269,8 @@
 
 /* Panel de eliminación historial ___________________________________________________________*/
 
-.eliminar-panel {
+.eliminar-panel,
+.acciones-panel {
 
     width: 100%;
     height: 45px;
@@ -291,7 +292,8 @@
 
 /*  */
 
-.container-eliminar-panel {
+.container-eliminar-panel,
+.container-acciones-panel {
     display: flex;
     align-items: center;
     justify-content: space-between;

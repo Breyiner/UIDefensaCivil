@@ -108,6 +108,7 @@
 
 .header__boton--usuario {
   position: relative;
+  overflow: hidden;
   background: var(--color-primario);
 }
 

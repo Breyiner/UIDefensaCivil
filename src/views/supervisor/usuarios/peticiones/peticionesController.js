@@ -6,14 +6,20 @@
 import { alertas as alerta, api, paginacion } from "@/helpers/index.js";
 import { usuario as modalUsuario } from "@/helpers/modales/index.js";
 import { tarjetaPeticion } from "@/componentes/gestionUser/index.js";
+import { panelAcciones } from "../../../../componentes/peticiones/accionesPeticiones";
 
 export default async () => {
 
     // Instancia el botón de retroceso superior
     const botonBack = document.querySelector("#botonBack");
 
+    // const cont = document.querySelector(".container")
+
     // Contenedor principal que alojará las tarjetas renderizadas por paginación
     const contenedor = document.querySelector(".container__paginas");
+
+    panelAcciones(contenedor);
+    
 
     // Lógica bloqueante anti-múltiples clics por retardos asincronos
     if (window.procesoPeticion === undefined) window.procesoPeticion = false;
@@ -50,13 +56,16 @@ export default async () => {
         // 4. "Pescamos" el ID que guardamos en el componente tarjetaPeticion.
         const userId = tarjetaEscogida.dataset.id;
 
+        console.log(userId);
+
+        
         // 5. Si tenemos el ID, lanzamos el modal.
         if (userId) {
             // modalUsuario.ver(ID_DEL_USUARIO, CALLBACK_RECARGAR, MODO_PETICION, EDITABLE)
             modalUsuario.ver(userId, recargarContainer, true, false);
         }
     });
-
+    
     // Llenado automático primera carga en memoria SPA
     await recargarContainer();
 };

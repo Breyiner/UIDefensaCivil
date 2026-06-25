@@ -8,6 +8,7 @@ import { alertas as alerta, api, paginacion } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { usuario as modalUsuario } from "@/helpers/modales/index.js";
 import { tarjetaPeticion } from "@/componentes/gestionUser/index.js";
+import { panelAcciones } from "../../../../componentes/peticiones/accionesPeticiones";
 
 export default async () => {
 
@@ -16,6 +17,8 @@ export default async () => {
 
     // Contenedor principal que alojará las tarjetas renderizadas por paginación
     const contenedor = document.querySelector(".container__paginas");
+
+    // panelAcciones(contenedor);
 
     // Lógica bloqueante anti-múltiples clics por retardos asincronos
     if (window.procesoPeticion === undefined) window.procesoPeticion = false;

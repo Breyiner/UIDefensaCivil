@@ -433,6 +433,7 @@ export const bulkDelete = async (endpoint, datos) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
         Authorization: `Bearer ${cookie.obtener("access_token")}`,
       },
       body: JSON.stringify(datos), // Obligatorio para este método
