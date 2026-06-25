@@ -4,7 +4,6 @@
  * Muestra métricas rápidas (Planes Recibidos, Aprobados, Rechazados, Tiempos) 
  * y provee navegación rápida a los sub-módulos clave.
  */
-import { crearAside, crearAsideSupervisor } from "@/componentes/navegacion/aside";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { alertas as alerta } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
@@ -20,12 +19,6 @@ export default async () => {
     // Absorbe de localStorage (Sesión actual) el identity
     const nombre = localStorage.getItem("full_name");
     const genero = localStorage.getItem("gender_id");
-
-    // renderizar componente de aside
-    const aside = crearAsideSupervisor();
-    const app = document.querySelector("#app"); 
-    app.prepend(aside)
-
 
     // Lógica boba inclusiva para el saludo ('Bienvenido' vs 'Bienvenida') según catálogos previos (1=Masc, 2=Fem)
     if (genero == 2) {
@@ -52,7 +45,7 @@ export default async () => {
     planesRecibidos.textContent = dashBoard.pending_plans;
     planesAprobados.textContent = dashBoard.approved_plans;
     planesRechazados.textContent = dashBoard.rejected_plans;
- /*    
+/*
     // Algoritmo de formateo simple para presentar el Promedio de Tiempo en forma legible (Mins o Horas)
     const tiempo = dashBoard.time_validation;
     let tiempoValidado;

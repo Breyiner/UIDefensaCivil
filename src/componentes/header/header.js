@@ -1,4 +1,5 @@
 import * as api from "@/helpers/api";
+import { crearAsideSupervisor } from "@/componentes/navegacion/aside";
 
 export const componenteHeader = async () => {
     
@@ -59,12 +60,18 @@ export const componenteHeader = async () => {
 
     header.append(botonAtras, home, rightHeader);
 
-    headerCont.appendChild(header)
+    headerCont.appendChild(header);
 
-
+    
     const rolId = localStorage.getItem("role_id");
     const userId = localStorage.getItem("id");
     const hash = location.hash.slice(2);
+    
+    if (rolId === '2') {
+        const aside = crearAsideSupervisor();
+        aside.classList.add("sidebar--flotante");
+        headerCont.appendChild(aside);
+    }
 
     const cargarIndicador = async () => {
 
@@ -120,5 +127,7 @@ export const componenteHeader = async () => {
     }
 
     await cargarIndicador();
+
+    return headerCont;
 
 };

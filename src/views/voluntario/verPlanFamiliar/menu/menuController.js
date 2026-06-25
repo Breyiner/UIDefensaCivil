@@ -23,7 +23,6 @@ export default async () => {
   const planAccion = document.getElementById("planAccion");
   const graficoEntorno = document.getElementById("graficoEntorno");
   const georeferenciacion = document.getElementById("georeferenciacion");
-
   // Nodos UI Actioners Finales
   const comentarios = document.getElementById("comentarios"); // Badge Peligro Si hubo un rechazo ("Lee por qué lo devolvieron")
   const botonEnviar = document.getElementById("enviar"); // Submit Todo el dossier al Jefe

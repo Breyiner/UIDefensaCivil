@@ -7,7 +7,6 @@ const ejemplo = [
     { icono: 'ri-group-line',          texto: 'Voluntarios',      info: null,         perfil: false, href: '#/supervisor/usuarios/gestion' },
     { icono: 'ri-bar-chart-2-line',    texto: 'Estadisticas',     info: null,         perfil: false, href: '#/supervisor/estadisticas' },
     { icono: 'ri-arrow-left-right-line',texto: 'Peticiones',      info: null,         perfil: false, href: '#/supervisor/usuarios/peticiones' },
-    { icono: 'ri-user-line',           texto: 'Nombre',           info: 'Supervisor', perfil: true , href: '#/usuarios/perfil' },
 ];
 // De manera que el aside pueda usarse en cualquier lugar y desde la vista se especifiquen los items que se vayan a tener en esa vista en especifico
 
@@ -69,7 +68,6 @@ export const crearAsideSupervisor = () => {
     { icono: 'ri-group-line',          texto: 'Voluntarios',      info: null,         perfil: false, href: '#/supervisor/usuarios/gestion' },
     { icono: 'ri-bar-chart-2-line',    texto: 'Estadisticas',     info: null,         perfil: false, href: '#/supervisor/estadisticas' },
     { icono: 'ri-arrow-left-right-line',texto: 'Peticiones',      info: null,         perfil: false, href: '#/supervisor/usuarios/peticiones' },
-    { icono: 'ri-user-line',           texto: 'Nombre',           info: 'Supervisor', perfil: true , href: '#/usuarios/perfil' },
 ];
 
   return crearAside(enlaces);

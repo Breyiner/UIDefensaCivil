@@ -13,6 +13,10 @@
   /* box-sizing: content-box; */
 }
 
+.container--supervisor{
+  padding-left: 80px;
+}
+
 .container.container--noHeader {
   overflow: hidden;
   min-height: 100vh;
