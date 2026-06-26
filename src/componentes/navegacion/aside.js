@@ -13,7 +13,6 @@ const ejemplo = [
 
 export const crearAside = (enlaces) => {
   // Crear el aside principal
-  
   const aside = document.createElement('aside');
   aside.classList.add('sidebar');
   
@@ -24,8 +23,8 @@ export const crearAside = (enlaces) => {
   // Construir y montar el sidebar
   enlaces.forEach(enlace => divLista.appendChild(crearEnlace(enlace)));
   aside.appendChild(divLista);
-  return aside
   
+  return aside;
 }
 
 
@@ -73,3 +72,4 @@ export const crearAsideSupervisor = () => {
   return crearAside(enlaces);
 
 }
+
