@@ -1,7 +1,7 @@
 import * as alerta from "../../helpers/alertas";
 import * as api from "../../helpers/api.js";
 
-export const panelAcciones = (contenedor, ids) => {
+export const panelAcciones = (contenedor, recargarContainer) => {
 
     if (document.querySelector('.acciones-panel')) return;
 
@@ -24,16 +24,37 @@ export const panelAcciones = (contenedor, ids) => {
     botonera.classList.add('botonera--panel__Acciones');
 
     const btnAprobar = document.createElement('button');
-    btnAprobar.classList.add('btn_aprobar');
-    btnAprobar.innerHTML = '<i class="ri-check-line"></i><p>Aprobar</p>';
+    btnAprobar.classList.add('btnAprobar');
+
+    const aprobarIcono = document.createElement('i');
+    aprobarIcono.classList.add('ri-checkbox-circle-line');
+
+    const aprobarText = document.createElement('p');
+    aprobarText.textContent = 'Aprobar';
+
+    btnAprobar.append(aprobarIcono, aprobarText);
 
     const btnRechazar = document.createElement('button');
-    btnRechazar.classList.add('btn_rechazar');
-    btnRechazar.innerHTML = '<i class="ri-close-line"></i><p>Rechazar</p>';
+    btnRechazar.classList.add('btnRechazar');
+
+    const rechazarIcono = document.createElement('i');
+    rechazarIcono.classList.add('ri-close-circle-line');
+
+    const rechazarText = document.createElement('p');
+    rechazarText.textContent = 'Rechazar';
+
+    btnRechazar.append(rechazarIcono, rechazarText);
     
     const btnSelectAll = document.createElement('button');
-    btnSelectAll.classList.add('btn_selectAll');
-    btnSelectAll.innerHTML = '<p>Seleccionar todos</p>';
+    btnSelectAll.classList.add('btnSelectAll');
+
+    const selectIcono = document.createElement('i');
+    selectIcono.classList.add('ri-checkbox-multiple-line');
+
+    const selectText = document.createElement('p');
+    selectText.textContent = 'Seleccionar todos';
+
+    btnSelectAll.append(selectIcono, selectText);
     
     botonera.append(btnSelectAll, btnAprobar, btnRechazar);
     opcionesCont.append(btnCerrar, contadorSpan, botonera);
@@ -87,11 +108,39 @@ export const panelAcciones = (contenedor, ids) => {
         });
     });
 
+    btnAprobar.addEventListener("click", async () => {
+
+        console.log("IDs a aprobar:", selectedUserIds);
+        const totalElementos = selectedUserIds.length;
+        const confirmacion = await alerta.alertaQuest(`¿Estás seguro de que deseas aprobar los ${totalElementos} registros seleccionados?`);
+
+        if (!confirmacion.isConfirmed) return;
+
+        try {
+            const resultado = await api.bulkPost("users/approve", {
+                user_ids: selectedUserIds.map(Number)
+            });
+
+            if (resultado.success) {
+                await alerta.alertaOK("Los registros seleccionados se aprobaron con éxito.");
+            } else {
+                await alerta.alertaError(resultado.message || "No se pudieron aprobar los registros.");
+            }
+
+        } catch (error) {
+            await alerta.alertaError("Ocurrió un error inesperado al procesar la aprobación masiva.");
+        }
+
+        selectedUserIds = [];
+
+        await recargarContainer();
+    });
+
     btnRechazar.addEventListener("click", async () => {
 
         console.log("IDs a rechazar:", selectedUserIds);
         const totalElementos = selectedUserIds.length;
-        const confirmacion = await alerta.alertaQuest(`¿Estás seguro de que deseas eliminar los ${totalElementos} registros seleccionados del historial?`);
+        const confirmacion = await alerta.alertaQuest(`¿Estás seguro de que deseas eliminar los ${totalElementos} registros seleccionados?`);
     
         if (!confirmacion.isConfirmed) return;
     
@@ -116,7 +165,7 @@ export const panelAcciones = (contenedor, ids) => {
         }
 
         selectedUserIds = [];
-        // await recargarContainer();
+        await recargarContainer();
     });
     
     

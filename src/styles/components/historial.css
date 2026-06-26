@@ -224,41 +224,54 @@
 
 /* Botones ________________________________________________________________________ */
 
-.container-eliminar-panel .botonera--panel__Eliminacion {
+.container-eliminar-panel .botonera--panel__Eliminacion,
+.container-acciones-panel .botonera--panel__Acciones {
 
     display: flex;
     gap: 5px;
 }
 
-.container-eliminar-panel .botonera--panel__Eliminacion button {
+.container-eliminar-panel .botonera--panel__Eliminacion button,
+.container-acciones-panel .botonera--panel__Acciones button {
     padding: 5px 15px;
     border-radius: 100px;
+    display: flex;
+    gap: 5px;
     border: none;
     cursor: pointer;
 }
 
 .container-historial .card-Cont .borrarHistorial,
-.container-eliminar-panel .btn_borrar {
+.container-eliminar-panel .btn_borrar,
+.container-acciones-panel .btnRechazar {
 
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
-    /* position: absolute;
-    bottom: 10px;
-    left: 10px; */
+    text-wrap: nowrap;
     color: var(--color-palido);
     background-color: var(--color-rojizo);
 }
 
 
-.container-eliminar-panel .btnSelectAll {
+.container-eliminar-panel .btnSelectAll,
+.container-acciones-panel .btnSelectAll {
 
     color: var(--color-palido);
+    text-wrap: nowrap;
     background-color: var(--color-primario);
 }
 
-.container-eliminar-panel .btnCerrar {
+.container-acciones-panel .btnAprobar {
+
+    color: var(--color-palido);
+    text-wrap: nowrap;
+    background-color: var(--color-verdoso);
+}
+
+.container-eliminar-panel .btnCerrar,
+.container-acciones-panel .btnCerrar {
 
     color: var(--color-palido);
     background-color: transparent;
@@ -282,7 +295,8 @@
     transition: height 0.3s ease-in-out 0.0s, width 0.18s ease-in-out 0.2s, opacity 0.3s ease-in-out 0.2s;
 }
 
-.eliminar-panel.ocultar_opciones {
+.eliminar-panel.ocultar_opciones,
+.acciones-panel.ocultar_opciones {
 
     height: 0;
     width: 45px;
@@ -294,6 +308,7 @@
 
 .container-eliminar-panel,
 .container-acciones-panel {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -303,20 +318,23 @@
     transition: 0.0s ease-in-out 0.2s;
 }
 
-.eliminar-panel.ocultar_opciones .container-eliminar-panel {
+.eliminar-panel.ocultar_opciones .container-eliminar-panel,
+.acciones-panel.ocultar_opciones .container-acciones-panel {
 
     padding: 0;
 }
 
 /*  */
 
-.container-eliminar-panel * {
+.container-eliminar-panel *,
+.container-acciones-panel * {
     opacity: 1;
     transition: 0.2s ease-in-out 0.4s;
     transition-delay: 0.5s; 
 }
 
-.eliminar-panel.ocultar_opciones .container-eliminar-panel * {
+.eliminar-panel.ocultar_opciones .container-eliminar-panel *,
+.acciones-panel.ocultar_opciones .container-acciones-panel * {
     opacity: 0;
     transition: 0.2s ease-in-out;
     /* transition-delay: 0s; */
@@ -324,9 +342,67 @@
 
 /*  */
 
-.container-eliminar-panel .contadorSpan {
+.container-eliminar-panel .contadorSpan,
+.container-acciones-panel .contadorSpan {
 
     color: var(--color-palido);
     text-wrap: nowrap;
 }
 
+@media (max-width: 765px) {
+
+  .container.container--noHeader {
+    padding: 12px;
+  }
+
+  .form__doubleCont,
+  .form__doubleinput {
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+  }
+
+  .form__doubleinput i {
+    position: absolute;
+  }
+
+  .form__doubleinput .section__input {
+    /* position: absolute; */
+    padding-left: 35px;
+  }
+}
+
+
+@media (max-width: 680px) {
+
+    .eliminar-panel.ocultar_opciones,
+    .acciones-panel.ocultar_opciones {
+
+        height: 0;
+        width: 80px;
+        opacity: 0;
+        border-radius: 100px;
+        transition: height 0.3s ease-in-out 0.45s, width 0.18s ease-in-out 0.2s, opacity 0.3s ease-in-out 0.25s, border-radius 0.5s ease-in-out 0.1s;
+    }
+
+    .eliminar-panel,
+    .acciones-panel {
+
+        height: 80px;
+        border-radius: 20px;
+    }
+
+    .container-eliminar-panel,
+    .container-acciones-panel {
+
+        flex-direction: column;
+    }
+    
+
+    .container-eliminar-panel .btnCerrar,
+    .container-acciones-panel .btnCerrar {
+
+        position: absolute;
+        left: 30px;
+    }
+}

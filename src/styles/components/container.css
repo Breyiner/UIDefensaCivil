@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   min-height: 100vh;
-  min-width: 350px;
+  min-width: 340px;
   max-width: 2000px;
   padding: 12px;
   display: flex;
@@ -91,7 +91,8 @@
 
   .container--grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-columns: repeat(3, 1fr); */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   }
 }
 

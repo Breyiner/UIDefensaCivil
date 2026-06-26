@@ -100,7 +100,7 @@ export const tarjetaPeticion = (info) => {
     tarjetaHeader.append(tarjetaIconoCont, tarjetaInfo, tarjetaEstado);
 
     // Unir el header al contenedor principal
-    tarjeta.append(tarjetaHeader, checkbox);
+    tarjeta.append(checkbox, tarjetaHeader);
 
     return tarjeta;
 };

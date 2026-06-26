@@ -420,6 +420,51 @@ export const delet = async (endpoint) => {
   }
 };
 
+export const bulkPost = async (endpoint, datos) => {
+  try {
+    spinner.abrirSpinner();
+
+    const opciones = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        Authorization: `Bearer ${cookie.obtener("access_token")}`,
+      },
+      body: JSON.stringify(datos), // Obligatorio para este método
+    };
+
+    let response = await fetch(`${url}/${endpoint}`, opciones);
+
+    // --- Mecanismo de Refresh Token ---
+    if (response.status === 401) {
+      await refreshToken();
+
+      opciones.headers.Authorization = `Bearer ${cookie.obtener("access_token")}`;
+      response = await fetch(`${url}/${endpoint}`, opciones);
+
+      if (response.status === 401) {
+        
+        alerta.alertaError("Sesion Expirada");
+        window.location.href = "#/";
+        localStorage.clear();
+        return null;
+      }
+    }
+
+    return await response.json();
+
+  } catch (error) {
+
+    console.error("Error en BULK POST:", error);
+    return null;
+
+  } finally {
+    spinner.cerrarSpinner();
+  }
+};
+
 /***
  * DELETE_BULK (se borra de forma masiva)
  */
