@@ -24,6 +24,8 @@ const RevisionPlanController = async () => {
     const riskFactors = await api.get(`riskFactors/`);
 
     const Resources = await api.get(`availableResources/familyPlan/${id}`) ?? [];
+    
+    const principalCont = document.querySelector(".container");
 
     const contenedor = document.querySelector(".container__revision");
 
@@ -36,6 +38,9 @@ const RevisionPlanController = async () => {
         if (window.procesoPeticion) return;
         location.href = `#/supervisor/plan_familiar`;
     };
+
+    const esSupervisor = location.hash.includes("supervisor/");
+    if (esSupervisor) principalCont.classList.add("container--supervisor")
 
 
     //INTRODUCCION DE LA TARJETA _____________________________________________________________________________________

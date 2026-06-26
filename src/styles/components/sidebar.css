@@ -4,16 +4,21 @@
 
 @media (min-width: 768px) {
   .sidebar {
+    position: fixed;
+    height: auto;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     background-color: var(--color-palido);
     width: 80px;
-    height: 100%;
     padding: 2rem 0.8rem;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
     transition: width 0.3s ease;
     overflow-x: hidden;
     z-index: 10;
+    border-radius: 0 50px 50px 0;
   }
 
   .sidebar:hover {
@@ -23,6 +28,7 @@
   .sidebar__lista {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 15px;
     height: 100%;
     width: 100%;
@@ -34,10 +40,8 @@
     padding: 12px;
     border-radius: var(--border-radius-botones);
     text-decoration: none;
-    color: var(--color-oscuro);
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 100%;
     white-space: nowrap;
     position: relative;
   }
@@ -48,10 +52,11 @@
   }
 
   .icono__grande {
-    font-size: 24px;
+    font-size: var(--tamano-titulo);
     min-width: 24px;
     display: flex;
     justify-content: center;
+    color: var(--color-secundario);
     align-items: center;
     margin-right: 15px;
   }
@@ -64,6 +69,7 @@
 
   .siderbar__oculto {
     display: flex;
+    color: var(--color-oscuro);
     flex-direction: column;
     opacity: 0;
     transition: opacity 0.3s ease;
