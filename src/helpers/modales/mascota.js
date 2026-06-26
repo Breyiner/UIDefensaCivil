@@ -74,6 +74,10 @@
 
   // Abre un formulario modal para registrar una vacuna nueva a esta mascota
   export const crearVacunas = async (mascotaId,recargarContainer) => {
+      // Obtiene la información de la mascota (incluyendo su fecha de nacimiento) para realizar validaciones de fecha
+      const pet = await api.get(`pets/${mascotaId}`);
+      const birthDateOnly = pet && pet.birth_date ? pet.birth_date.split('T')[0] : '';
+
       const explicacionDiv = document.createElement("div");
       explicacionDiv.classList.add("explicacion", "modal");
 
@@ -110,6 +114,17 @@
       inputFecha.type = "date";
       inputFecha.classList.add("form__input", "form__fecha");
 
+      // Configura la fecha mínima permitida en el input para que sea estrictamente posterior al nacimiento de la mascota
+      if (birthDateOnly) {
+        const parts = birthDateOnly.split('-');
+        const d = new Date(parts[0], parts[1] - 1, parts[2]);
+        d.setDate(d.getDate() + 1); // Suma un día para asegurar que la fecha sea mayor
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        inputFecha.min = `${yyyy}-${mm}-${dd}`;
+      }
+
       inputBox2.append(icon2, inputFecha);
       formDiv.appendChild(inputBox2);
 
@@ -121,6 +136,12 @@
       // Recoge información tecleada o seleccionada en la fecha
       const nombreVacuna = document.querySelector(".form__nombre").value;
       const fechaVacuna = document.querySelector(".form__fecha").value;
+
+      // Valida del lado del cliente que la fecha de la vacuna sea mayor a la de nacimiento
+      if (fechaVacuna && birthDateOnly && fechaVacuna <= birthDateOnly) {
+        alerta.mostrarErrorValidacion("La fecha de la vacuna debe ser posterior a la fecha de nacimiento de la mascota.");
+        return false;
+      }
 
       // Ensambla el payload para el servidor (incluye el ID foráneo mascotaId)
       const datos = {
@@ -136,12 +157,15 @@
           // Todo correcto
           await alerta.alertaOK(data.message);
           await recargarContainer();
+          return true;
         } else {
           // Errores comunes (campo vacío, vacuna duplicada)
           alerta.alertaWarning(data.message, data.errors);
+          return false;
         }
       } catch (error) {
         alerta.alertaError(error.errors);
+        return false;
       }
     };
     
@@ -187,6 +211,9 @@
       
       // Necesitamos la data viva para inyectar los 'value' por defecto
       const info = await api.get(`petVaccines/${id}`);
+      // Obtiene la información de la mascota para validar las fechas en el formulario de edición
+      const pet = await api.get(`pets/${mascotaId}`);
+      const birthDateOnly = pet && pet.birth_date ? pet.birth_date.split('T')[0] : '';
 
       const explicacionDiv = document.createElement("div");
       explicacionDiv.classList.add("explicacion", "modal");
@@ -226,6 +253,17 @@
       inputFecha.classList.add("form__input", "form__fecha");
       inputFecha.value = info.date;
 
+      // Configura la fecha mínima permitida en el input para que sea estrictamente posterior al nacimiento de la mascota
+      if (birthDateOnly) {
+        const parts = birthDateOnly.split('-');
+        const d = new Date(parts[0], parts[1] - 1, parts[2]);
+        d.setDate(d.getDate() + 1); // Suma un día para asegurar que la fecha sea mayor
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        inputFecha.min = `${yyyy}-${mm}-${dd}`;
+      }
+
       inputBox2.append(icon2, inputFecha);
       formDiv.appendChild(inputBox2);
 
@@ -237,6 +275,12 @@
         // Obtiene valores nuevos
         const nombreVacuna = document.querySelector(".form__nombre").value;
         const fechaVacuna = document.querySelector(".form__fecha").value;
+
+        // Valida del lado del cliente que la fecha de la vacuna editada sea mayor a la de nacimiento
+        if (fechaVacuna && birthDateOnly && fechaVacuna <= birthDateOnly) {
+          alerta.mostrarErrorValidacion("La fecha de la vacuna debe ser posterior a la fecha de nacimiento de la mascota.");
+          return false;
+        }
 
         // Construye payload
         const datos = {
@@ -250,9 +294,14 @@
           if (data.success) {
             await alerta.alertaOK(data.message);
             await recargarContainer();
-          } else alerta.alertaWarning(data.message, data.errors);
+            return true;
+          } else {
+            alerta.alertaWarning(data.message, data.errors);
+            return false;
+          }
         } catch (error) {
           alerta.alertaError(error.errors);
+          return false;
         }
       };
       
