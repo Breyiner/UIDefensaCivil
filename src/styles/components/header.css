@@ -108,6 +108,7 @@
 
 .header__boton--usuario {
   position: relative;
+  overflow: hidden;
   background: var(--color-primario);
 }
 
@@ -124,6 +125,7 @@
 
   width: 60px;
   height: 60px;
+  margin-right: 60px;
 }
 
 .header__boton--atras i {
@@ -135,9 +137,9 @@
 .header__indicador {
   position: absolute;
   right: 3px;
-  top: 8px;
-  width: 15px;
-  height: 15px;
+  top: 3px;
+  width: 20px;
+  height: 20px;
   background-color: var(--color-primario);
   border-radius: 50%;
   font-size: 12px;
@@ -153,4 +155,18 @@
 
 .header__boton:active .header__icono {
   color: #0770CC;
+}
+
+@media (max-width: 600px) {
+
+  .header__texto {
+    display: none;
+  }
+}
+
+@media (max-width: 425px) {
+
+  .header__boton--atras {
+    margin: 0;
+  }
 }

@@ -384,6 +384,7 @@
   }
 
   .auth--container {
+    
     padding: 10px;
   }
 
@@ -391,13 +392,30 @@
 
     width: 100%;
     min-width: 270px;
+    max-width: unset;
   }
-
-
 
   .auth_card {
 
-    padding: 10px;
+    padding: 15px;
+    min-width: 300px;
+    max-width: 300px;
+  }
+
+  .login__logo {
+
+    width: 200px;
+  }
+
+  .forgotCont,
+  .verifyCont,
+  .changeCont {
+
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 600px;
+    min-height: 600px;
+    gap: 10px;
   }
 
 }
