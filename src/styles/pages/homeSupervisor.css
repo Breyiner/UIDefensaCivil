@@ -27,11 +27,11 @@
 
 .home-supervisor .profile-details h2 {
     color: var(--color-secundario);
-    font-size: 12px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 670;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    opacity: 0.9;
+    letter-spacing: 0.6px;
+    
 }
 
 .home-supervisor .profile-details h3 {
@@ -174,7 +174,7 @@
 
 .home-supervisor .total-revisados-container {
     text-align: center;
-    color: var(--color-palido);
+    color: var(--color-secundario);
     margin: 25px 0;
 }
 
@@ -185,7 +185,7 @@
     gap: 10px;
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--color-palido);
+    color: var(--color-secundario);
 }
 
 .home-supervisor .total-revisados-container h4 span {
@@ -466,14 +466,20 @@
 @media (max-width: 768px) {
     .home-supervisor .wrapper {
         flex-direction: column;
+        gap: 20px;
+    }
+    .home-supervisor .dashboard-body {
+        gap: 20px;
     }
     .home-supervisor .dashboard-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
     .home-supervisor .supervisor-card {
         flex-wrap: wrap;
         justify-content: center;
-        padding: 16px 24px;
+        padding: 18px 24px;
+        width: 100%;
     }
     .home-supervisor .profile-image-frame {
         width: 90px;
@@ -496,11 +502,22 @@
 }
 
 @media (max-width: 480px) {
+    .home-supervisor {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    .home-supervisor .wrapper,
+    .home-supervisor .dashboard-body {
+        gap: 16px;
+    }
     .home-supervisor .supervisor-card {
-        padding: 14px 16px;
+        padding: 16px;
+        width: 100%;
     }
     .home-supervisor .profile-container {
-        gap: 14px;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
     }
     .home-supervisor .profile-image-frame {
         width: 70px;
@@ -511,49 +528,105 @@
         font-size: 12px;
     }
     .home-supervisor .profile-details h3 {
-        font-size: 22px;
+        font-size: 20px;
     }
     .home-supervisor .profile-details p {
         font-size: 11px;
+        justify-content: center;
+    }
+    .home-supervisor .section-headline {
+        margin-left: 0;
+        font-size: 16px;
+    }
+    .home-supervisor .grid-cuadrícula {
+        gap: 10px;
+    }
+    .home-supervisor .icon-size {
+        font-size: 1.6rem;
     }
     .home-supervisor .card-conteo {
-        padding: 12px;
+        padding: 10px 12px;
+        
+    }
+    .home-supervisor .card-conteo .info .number {
+        font-size: 1.5rem;
+    }
+    .home-supervisor .card-conteo .info span {
+        font-size: 0.75rem;
+    }
+    .home-supervisor .total-revisados-container {
+        margin: 16px 0;
+    }
+    .home-supervisor .total-revisados-container h4 {
+        font-size: 1.2rem;
+    }
+    .home-supervisor .total-revisados-container h4 span {
+        font-size: 1.8rem;
     }
     .home-supervisor .total-revisados-container .big-display {
-        font-size: 32px;
+        font-size: 28px;
+    }
+    .home-supervisor .bottom-split-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
     }
     .home-supervisor .mini-metric-card {
         padding: 12px;
     }
     .home-supervisor .btn-action-orange {
         width: 100%;
+        min-height: 49px;
+        max-width: 255px;
     }
     .home-supervisor .planes-container-panel {
-        padding: 20px;
+        padding: 16px;
         border-radius: 24px;
+        gap: 12px;
+    }
+    .home-supervisor .panel-planes-title {
+        font-size: 1.1rem;
+        width: 100%;
+        margin-left: 0;
+    }
+    .home-supervisor .panel-planes-title span {
+        font-size: 1.4rem;
+    }
+    .home-supervisor .row-plan-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
     }
     .home-supervisor .row-plan-card {
-        padding: 12px 14px;
+        padding: 12px;
+        gap: 8px;
+    }
+    .home-supervisor .left-info-group {
         gap: 10px;
     }
     .home-supervisor .avatar-circle-icon {
         width: 36px;
         height: 36px;
     }
-    .home-supervisor .left-info-group {
-        gap: 12px;
-    }
     .home-supervisor .details-list h4 {
-        font-size: 16px;
+        font-size: 15px;
     }
     .home-supervisor .details-list p {
         font-size: 12px;
+        flex-wrap: wrap;
     }
     .home-supervisor .details-list p span {
-        font-size: 14px;
+        font-size: 13px;
+    }
+    .home-supervisor .right-status-group {
+        align-items: flex-start;
+        text-align: left;
+        flex-direction: row;
+        gap: 10px;
+        width: 100%;
     }
     .home-supervisor .timestamp {
         font-size: 11px;
+        margin-bottom: 0;
     }
     .home-supervisor .status-pill {
         font-size: 11px;
