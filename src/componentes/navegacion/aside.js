@@ -1,16 +1,4 @@
 
-// El parametro enlaces de crearAside() es un array de objetos que debe contener los datos de cada item del aside. Ejemplo:
-// Mas abajo hay asides predeterminados
-const ejemplo = [
-    { icono: 'ri-gallery-view-2',      texto: 'Inicio',           info: null,         perfil: false, href: '#/supervisor' },
-    { icono: 'ri-file-user-line',      texto: 'Planes Familiares',info: null,         perfil: false, href: '#/supervisor/plan_familiar' },
-    { icono: 'ri-group-line',          texto: 'Voluntarios',      info: null,         perfil: false, href: '#/supervisor/usuarios/gestion' },
-    { icono: 'ri-bar-chart-2-line',    texto: 'Estadisticas',     info: null,         perfil: false, href: '#/supervisor/estadisticas' },
-    { icono: 'ri-arrow-left-right-line',texto: 'Peticiones',      info: null,         perfil: false, href: '#/supervisor/usuarios/peticiones' },
-];
-// De manera que el aside pueda usarse en cualquier lugar y desde la vista se especifiquen los items que se vayan a tener en esa vista en especifico
-
-
 export const crearAside = (enlaces) => {
   // Crear el aside principal
   const aside = document.createElement('aside');
