@@ -171,3 +171,9 @@
 
   display: none;
 } */
+
+@media (max-width: 767px) {
+  .container--supervisor {
+    padding-bottom: 80px;
+  }
+}

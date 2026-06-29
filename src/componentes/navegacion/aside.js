@@ -73,3 +73,46 @@ export const crearAsideSupervisor = () => {
 
 }
 
+
+export const marcarActivo = (nav, hash) => {
+  nav.querySelectorAll('.sidebar-mobile__link').forEach(link => {
+    link.classList.remove('sidebar-mobile__link--active');
+    if (link.getAttribute('href') === hash) {
+      link.classList.add('sidebar-mobile__link--active');
+    }
+  });
+};
+
+
+//sidebar para movile 
+
+export const crearAsideMobile = () => {
+  const enlaces = [
+    { icono: 'ri-gallery-view-2',       href: '#/supervisor' },
+    { icono: 'ri-file-user-line',       href: '#/supervisor/plan_familiar' },
+    { icono: 'ri-group-line',           href: '#/supervisor/usuarios/gestion' },
+    { icono: 'ri-bar-chart-2-line',     href: '#/supervisor/estadisticas' },
+    { icono: 'ri-arrow-left-right-line', href: '#/supervisor/usuarios/peticiones' },
+  ];
+
+  const nav = document.createElement('nav');
+  nav.classList.add('sidebar-mobile');
+  nav.id = 'sidebarMobile';
+
+  enlaces.forEach(({ icono, href }) => {
+    const a = document.createElement('a');
+    a.href = href;
+    a.classList.add('sidebar-mobile__link');
+
+    const i = document.createElement('i');
+    i.classList.add(icono, 'sidebar-mobile__icono');
+
+    a.appendChild(i);
+    nav.appendChild(a);
+  });
+
+  marcarActivo(nav, window.location.hash);
+
+  return nav;
+}
+

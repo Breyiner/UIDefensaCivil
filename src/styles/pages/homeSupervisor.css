@@ -581,8 +581,8 @@
     }
     .home-supervisor .btn-action-orange {
         width: 100%;
-        min-height: 49px;
-        max-width: 255px;
+        min-height: 48px;
+        max-width: 240px;
     }
     .home-supervisor .planes-container-panel {
         padding: 16px;
