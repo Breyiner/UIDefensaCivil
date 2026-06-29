@@ -1,79 +1,78 @@
-/**
- * Controlador: Home Supervisor (homeController.js)
- * Construye la página principal o Dashboard del perfil Supervisor.
- * Muestra métricas rápidas (Planes Recibidos, Aprobados, Rechazados, Tiempos) 
- * y provee navegación rápida a los sub-módulos clave.
- */
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { alertas as alerta } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { api } from "@/helpers/index.js";
 
+function crearCardPlan(plan) {
+    const esDevuelto = plan.status === "Devuelto" || plan.status === "Rechazado";
+    const pillClass = esDevuelto ? "devuelto" : "pendiente";
+    const badgeTexto = plan.status ?? "Pendiente";
+
+    const motivoHtml = esDevuelto
+        ? `<div class="devuelto-reason-container">
+                <span class="ri-chat-1-line"></span>
+                <div>
+                    <strong>Motivo</strong><br>
+                    ${plan.motivo ?? "Sin especificar"}
+                </div>
+            </div>`
+        : "";
+
+    return `
+        <div class="row-plan-card">
+            <div class="row-plan-main">
+                <div class="left-info-group">
+                    <div class="avatar-circle-icon"><span class="ri-team-line"></span></div>
+                    <div class="details-list">
+                        <h4>${plan.familia ?? "Familia sin nombre"}</h4>
+                        <p><span class="ri-map-pin-line"></span> ${plan.ubicacion ?? "Sin ubicación"}</p>
+                        <p><span class="ri-calendar-line"></span> Recibido: ${plan.fecha ?? "—"}</p>
+                        <p><span class="ri-user-line"></span> Voluntario: ${plan.voluntario ?? "—"}</p>
+                    </div>
+                </div>
+                <div class="right-status-group">
+                    <div class="timestamp">${plan.tiempo ?? "—"}</div>
+                    <div class="status-pill ${pillClass}">${badgeTexto}</div>
+                </div>
+            </div>
+            ${motivoHtml}
+        </div>`;
+}
+
 export default async () => {
-    // Petición al endpoint del dashboard para obtener un objeto de métricas generales consolidadas
     const dashBoard = await api.get('audits/dashBoardSupervisor');
 
-    // Nodos de presentación de 'Hola X persona'
-    const explicaciontitulo = document.querySelector(".explicacion__titulo");
-    
-    // Absorbe de localStorage (Sesión actual) el identity
     const nombre = localStorage.getItem("full_name");
     const genero = localStorage.getItem("gender_id");
 
-    // Lógica boba inclusiva para el saludo ('Bienvenido' vs 'Bienvenida') según catálogos previos (1=Masc, 2=Fem)
-    if (genero == 2) {
-        explicaciontitulo.textContent = "Bienvenida " + nombre;
-    } else {
-        explicaciontitulo.textContent = "Bienvenido " + nombre;
+    const saludo = document.querySelector(".profile-details h3");
+    if (saludo) {
+        saludo.textContent = genero == 2 ? "Bienvenida " + nombre : "Bienvenido " + nombre;
     }
 
-    // Nodos contadores crudos (Tarjetas resumen)
-    const planesRecibidos = document.getElementById('planesRecibidos');
-    const planesAprobados = document.getElementById('planesAprobados');
-    const planesRechazados = document.getElementById('planesRechazados');
-    const planesEnRevision = document.getElementById('planesEnRevision');
-    /* const tiempoAproximado = document.getElementById('tiempoAproximado'); */
+    const ids = ["planesRecibidos", "planesEnRevision", "planesAprobados", "planesRechazados"];
+    const [nuevos, pendientes, aprobados, rechazados] = ids.map(id => document.getElementById(id));
 
-    // Accesos directos / Botonera secundaria
-    const botonVoluntarios = document.getElementById("voluntarios");
-    const botonPeticiones = document.getElementById("peticiones");
-    const botonPlanFamiliar = document.getElementById("planFamiliar");
-    const botonEstadistica = document.getElementById("estadisticas");
+    if (nuevos) nuevos.textContent = dashBoard.pending_plans ?? 0;
+    if (aprobados) aprobados.textContent = dashBoard.approved_plans ?? 0;
+    if (rechazados) rechazados.textContent = dashBoard.rejected_plans ?? 0;
+    if (pendientes) pendientes.textContent = dashBoard.in_review_plans ?? 0;
 
+    const totalRev = document.getElementById("totalRevisados");
+    if (totalRev) totalRev.textContent = (dashBoard.approved_plans ?? 0) + (dashBoard.rejected_plans ?? 0);
 
-    // Llenado estático de los contadores con las claves recuperadas del objeto 'dashboard' json
-    planesRecibidos.textContent = dashBoard.pending_plans;
-    planesAprobados.textContent = dashBoard.approved_plans;
-    planesRechazados.textContent = dashBoard.rejected_plans;
-/*
-    // Algoritmo de formateo simple para presentar el Promedio de Tiempo en forma legible (Mins o Horas)
-    const tiempo = dashBoard.time_validation;
-    let tiempoValidado;
-    
-    // Si sobrepasa la métrica en Minutos (Ej: 90) -> Lo reduce a factor Horas ej: 1h
-    // TODO: Bug potencial - solo extrae horas pisando minutos. (Ej 90 -> 1h, perdiendo los 30 min)
-    if (tiempo > 60)
-    {
-        tiempoValidado = Math.floor(tiempo / 60);
-        tiempoValidado += "h" 
+    const volAct = document.getElementById("voluntariosActivos");
+    if (volAct) volAct.textContent = dashBoard.active_volunteers ?? 0;
+
+    const prom = document.getElementById("promedioPlanes");
+    if (prom) prom.textContent = (dashBoard.avg_plans_per_volunteer ?? 0) + "%";
+
+    const planesList = document.getElementById("planesList");
+    if (planesList && dashBoard.recent_plans?.length) {
+        planesList.innerHTML = dashBoard.recent_plans.map(crearCardPlan).join("");
     }
-    // Presentación en minutos puros si es lapso corto
-    else tiempoValidado = tiempo + "m"
-    
-    // Aplica el string formateado final
-    tiempoAproximado.textContent = tiempoValidado */
 
-    // Declaración de enrutamientos de la botonera principal Dashboard
-    botonVoluntarios.addEventListener("click", () => {
-        window.location.href = `#/supervisor/usuarios/gestion/`; // Vista Gestor Users
+    document.getElementById("btnEstadisticas")?.addEventListener("click", () => {
+        window.location.href = "#/supervisor/estadisticas";
     });
-    botonPeticiones.addEventListener("click", () => {
-        window.location.href = `#/supervisor/usuarios/peticiones`; // Vista Peticiones/Requests List
-    });
-    botonPlanFamiliar.addEventListener("click", () => {
-        window.location.href = `#/supervisor/plan_familiar/`; // Vista Planes List Main
-    });
-    botonEstadistica.addEventListener("click", () => {
-        window.location.href = `#/supervisor/estadisticas`; // La Dona Chart page
+    document.getElementById("btnVerTodos")?.addEventListener("click", () => {
+        window.location.href = "#/supervisor/plan_familiar/";
     });
 };
