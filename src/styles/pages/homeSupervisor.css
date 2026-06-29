@@ -324,6 +324,12 @@
     border-radius: 10px;
 }
 
+.home-supervisor .planes-page {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .home-supervisor .planes-panel-footer {
     display: flex;
     justify-content: center;
@@ -582,6 +588,7 @@
         padding: 16px;
         border-radius: 24px;
         gap: 12px;
+        max-height: 530px;
     }
     .home-supervisor .panel-planes-title {
         font-size: 1.1rem;
@@ -591,6 +598,21 @@
     .home-supervisor .panel-planes-title span {
         font-size: 1.4rem;
     }
+    .home-supervisor .planes-lista {
+        scroll-snap-type: y mandatory;
+        gap: 0;
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+    }
+    .home-supervisor .planes-lista::-webkit-scrollbar {
+        display: none;
+    }
+    .home-supervisor .planes-page {
+        scroll-snap-align: start;
+        gap: 8px;
+        
+    }
     .home-supervisor .row-plan-main {
         flex-direction: column;
         align-items: flex-start;
@@ -599,6 +621,7 @@
     .home-supervisor .row-plan-card {
         padding: 12px;
         gap: 8px;
+        margin: 3px 0;
     }
     .home-supervisor .left-info-group {
         gap: 10px;

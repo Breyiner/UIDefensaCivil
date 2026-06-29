@@ -66,7 +66,13 @@ export default async () => {
 
     const planesList = document.getElementById("planesList");
     if (planesList && dashBoard.recent_plans?.length) {
-        planesList.innerHTML = dashBoard.recent_plans.map(crearCardPlan).join("");
+        const planes = dashBoard.recent_plans;
+        const pages = [];
+        for (let i = 0; i < planes.length; i += 4) {
+            const chunk = planes.slice(i, i + 4);
+            pages.push(`<div class="planes-page">${chunk.map(crearCardPlan).join("")}</div>`);
+        }
+        planesList.innerHTML = pages.join("");
     }
 
     document.getElementById("btnEstadisticas")?.addEventListener("click", () => {
