@@ -85,7 +85,6 @@ export default async () => {
       "id",
       "family_type",
       "last_names",
-      "family_type",
       "zone_id",
       "department_id",
       "city_id",

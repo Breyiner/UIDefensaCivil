@@ -43,7 +43,7 @@ export const router = async (main) => {
 
         const rutasPublicas = ["", "/", "/#", "/login", "/register", "/forgotPassword", "/verificar_codigo", "/cambiar_password"];
             if (!rutasPublicas.includes(hash)) {
-            window.location.hash = "/#";
+            window.location.hash = "";
             return;
         }
     }
