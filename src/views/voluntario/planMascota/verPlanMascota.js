@@ -8,9 +8,100 @@ import { api } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { alertas as alerta } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { mascota as modalMascota } from "@/helpers/modales/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { paginacion } from "@/helpers/index.js";
+
+// Modal detallado de la mascota (antes MascotaModal.js)
+const mostrarMascotaModal = ({ petData, vaccines }) => {
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr;
+    return `${parts[2]}/${parts[1]}/${parts[0].substring(2)}`;
+  };
+
+  const modal = document.createElement("dialog");
+  modal.className = "modal-edicion";
+
+  const cabecera = document.createElement("div");
+  cabecera.className = "modal-edicion__cabecera";
+  
+  const titulo = document.createElement("h3");
+  titulo.className = "modal-edicion__titulo";
+  titulo.textContent = `Detalles de ${petData.name}`;
+  cabecera.appendChild(titulo);
+  modal.appendChild(cabecera);
+
+  const content = document.createElement("div");
+  content.className = "modal-edicion__content";
+
+  const modalDiv = document.createElement("div");
+  modalDiv.classList.add("modalVer", "modal");
+  modalDiv.style.boxShadow = "none";
+  modalDiv.style.background = "transparent";
+  modalDiv.style.padding = "0";
+
+  const crearDato = (claseIcono, tituloDato, texto, largo) => {
+    const dato = document.createElement("div");
+    dato.classList.add("modalVer__dato");
+    if (largo) dato.classList.add("modalVer__dato--largo");
+
+    const icon = document.createElement("i");
+    icon.classList.add(claseIcono);
+
+    const tituloDiv = document.createElement("div");
+    tituloDiv.classList.add("modalVer__titulo");
+    tituloDiv.textContent = tituloDato;
+
+    const textoDiv = document.createElement("div");
+    textoDiv.classList.add("modalVer__texto");
+    textoDiv.textContent = texto;
+
+    dato.append(icon, tituloDiv, textoDiv);
+    return dato;
+  };
+
+  const formattedVaccines = vaccines.map(v => `${v.name} (${formatDate(v.date)})`).join(", ") || "ninguna";
+
+  modalDiv.append(
+    crearDato("ri-coupon-line", "Nombre", petData.name),
+    crearDato("ri-dna-line", "Raza", petData.breed),
+    crearDato("ri-cake-2-line", "Edad", petData.age),
+    crearDato("ri-bell-line", "Especie", petData.species ? petData.species.name : ""),
+    crearDato("ri-syringe-line", "Vacunas", formattedVaccines, true)
+  );
+
+  content.appendChild(modalDiv);
+  modal.appendChild(content);
+
+  const pie = document.createElement("div");
+  pie.className = "modal-edicion__pie";
+
+  const btnCerrar = document.createElement("button");
+  btnCerrar.type = "button";
+  btnCerrar.className = "modal-edicion__btn modal-edicion__btn--secundario";
+  btnCerrar.textContent = "Cerrar";
+  
+  const closeModal = () => {
+    modal.close();
+    modal.remove();
+  };
+
+  btnCerrar.addEventListener("click", closeModal);
+  pie.appendChild(btnCerrar);
+  modal.appendChild(pie);
+
+  document.body.appendChild(modal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  modal.showModal();
+};
+
 
 export default async () => {
 
@@ -162,7 +253,10 @@ export default async () => {
         // Branch 3: Sweet Alert Expansor (Ver Vacunas Historial Específico si no quiero entrar a editar)
         if (e.target.classList.contains("verMascotas__boton--verMas")) {
             const petId = e.target.dataset.id;
-            modalMascota.ver(petId);
+            const petData = await api.get(`pets/${petId}`);
+            if (!petData) return;
+            const vaccines = await api.get(`petVaccines/pet/${petId}`) || [];
+            mostrarMascotaModal({ petData, vaccines });
         }
     });
 

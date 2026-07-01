@@ -749,8 +749,3 @@ export const rechazarCambios = (id) => {
     },
   });
 };
-
-// Muestra un mensaje de validación inline dentro del SweetAlert actualmente abierto
-export const mostrarErrorValidacion = (mensaje) => {
-  Swal.showValidationMessage(mensaje);
-};

@@ -1,5 +1,5 @@
-.gestioarAfecciones{
-  border: var(--color-grisOscuro) solid 2px;
+.gestioarAfecciones, .gestionarAfecciones{
+  border: var(--color-grisOscuro) solid 1px;
   width: 100%;
   padding: 10px;
   border-radius: var(--border-radius-tarjetas);
@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--color-palido);
 }
 .gestionarAfecciones__header{
   display: flex;
@@ -59,5 +60,25 @@
 .gestionarAfecciones__afeccion:active{
   background-color: var(--color-lila);
   color: var(--color-palido);
+}
+
+.gestionarAfecciones__afeccion--editable {
+  cursor: pointer;
+}
+
+.gestionarAfecciones__vacio {
+  color: var(--color-grisOscuro);
+  font-size: var(--tamano-pequeno);
+  margin-top: 10px;
+}
+
+.vacuna-tag__eliminar {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: var(--tamano-medio-grande);
 }
 
