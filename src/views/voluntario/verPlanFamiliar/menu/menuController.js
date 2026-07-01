@@ -43,12 +43,12 @@ export default async () => {
   // Inyección Custom Title en Top Bar UI (Ej: Familia "Perez Rodriguez")
   nombreFamilia.textContent += `${planFamiliar.last_names}`;
 
-  
-
   // Definir si existen miembros de la familia para realizar acciones en el menu -------------------------------------------------------------------------------...
   const tieneMiembros = await api.get(`familyPlans/has-members/${id}`);
 
-  
+  const tieneRiesgo = await api.get(`riskFactors/familyPlan/${id}`);
+
+  console.log(tieneRiesgo);
 
   // Router Volver al Muro General
   botonBack.onclick = () => {
@@ -67,6 +67,7 @@ export default async () => {
    * SECCIÓN ENRUTADORES SUB-MÓDULOS (Branching Routes)
    * Asignan el HASH URL appending the Current Family Plan ID as argument passing.
    */
+
   datosPrincipales.addEventListener("click", async () => {
 
     location.href = `#/${base}/plan_familiar/datos?familia_id=${id}`;
@@ -114,7 +115,15 @@ export default async () => {
 
   planAccion.addEventListener("click", async () => {
 
-    location.href = `#/${base}/plan_familiar/plan_de_accion/antes?familia_id=${id}`;
+    // const sinMiembros = !tieneMiembros.has_members;
+    const sinRiesgo = (tieneRiesgo.data ?? tieneRiesgo).length <= 0;
+
+    if(!tieneMiembros.has_members || sinRiesgo){
+      alerta.alertaWarning(`El Plan de la Familia ${planFamiliar.last_names} no posee ningun integrantes y factores de riesgo`);
+      return;
+    }
+
+    location.href = `#/${base}/plan_familiar/plan_de_accion?familia_id=${id}`;
   });
 
   // BOTÓN MAESTRO: Entregar Trabajo (Cambio Flujo Vida Útil Status Id)
@@ -157,10 +166,6 @@ export default async () => {
             alerta.alertaWarning('Plan incompleto', detalles);
             return;
         }
-                // const isValid = validate?.is_valid ?? false;
-        // const message = validate?.message ?? "Por favor completa el plan familiar";
-        // if (!isValid) {
-        //   alerta.alertaWarning("Validación fallida", message);
 
         // Envio Endpoint Workflow. 
         // 4 -> 'Enviado a Revisión (Ficha Completa)'. El supervisor ahora lo verá en su bandeja y al autor se le bloquea la app en modo Read-only a nivel backend.

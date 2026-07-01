@@ -47,7 +47,6 @@ const voluntarioRoute = { private: true, permissions: ['voluntario'] };
 const supervisorRoute = { private: true, permissions: ['supervisor'] };
 const adminRoute = { private: true, permissions: ['admin'] };
 
-
 export const routes = {
   "": {
     path: `auth/login_register/index.html`,
@@ -270,23 +269,12 @@ export const routes = {
       },
 
       plan_de_accion: {
-
-        antes: {
-          path: `voluntario/planAccion/index.html`,
-          controlador: planAccion.antes,
-          config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        },
-        durante: {
-          path: `voluntario/planAccion/index.html`,
-          controlador: planAccion.durante,
-          config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        },
-        despues: {
-          path: `voluntario/planAccion/index.html`,
-          controlador: planAccion.despues,
-          config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        }
+        
+        path: `voluntario/planAccion/index.html`,
+        controlador: planAccion.planAccionController,
+        config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] }
       }
+
     }
 
   },
