@@ -9,6 +9,7 @@ import { api } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { alertas as alerta } from "@/helpers/index.js";
 import AccesoPlan from "@/helpers/accesoPlan"; // Security Guard Midleware Role Front
+import { formatearLista, separarLista } from "../../../../componentes/separar/separarLista";
 
 export default async () => {
   // Selectores DOM de la Cuadrícula HTML de Módulos (Iconos grandes)
@@ -147,24 +148,32 @@ export default async () => {
     }
 
     if (confirmacion.isConfirmed) {
-      try {
 
+      try {
+        
         const validate = await api.get(`familyPlans/validate-requirements/${id}`);
 
         if (!validate || !validate.is_valid) {
-            const detalles = validate ? `
-                ${!validate.has_min_members ? '❌ Mínimo 2 integrantes\n' : ''} ${!validate.has_min_members ? ' | ' : ''}
-                ${!validate.has_risk_factors ? '❌ Al menos 1 factor de riesgo\n' : ''} ${!validate.has_risk_factors ? ' | ' : ''}
-                ${!validate.has_resources ? '❌ Al menos 1 recurso disponible\n' : ''} ${!validate.has_resources ? ' | ' : ''}
-                ${!validate.has_photos ? '❌ Al menos 1 foto del entorno\n' : ''} ${!validate.has_photos ? ' | ' : ''}
-                ${!validate.has_graphics ? '❌ Al menos 1 gráfico de vivienda\n' : ''} ${!validate.has_graphics ? ' | ' : ''}
-                ${!validate.has_action_before ? '❌ Plan de acción: falta Antes\n' : ''} ${!validate.has_action_before ? ' | ' : ''} 
-                ${!validate.has_action_during ? '❌ Plan de acción: falta Durante\n' : ''} ${!validate.has_action_during ? ' | ' : ''}
-                ${!validate.has_action_after ? '❌ Plan de acción: falta Después\n' : ''}
-            ` : 'No se pudo verificar el plan';
+            let detalles = 'No se pudo verificar el plan';
 
-            alerta.alertaWarning('Plan incompleto', detalles);
-            return;
+            if (validate) {
+
+              const faltantes = [];
+
+              if (!validate.has_min_members)    faltantes.push('Mínimo 2 integrantes');
+              if (!validate.has_risk_factors)   faltantes.push('Al menos 1 factor de riesgo');
+              if (!validate.has_resources)      faltantes.push('Al menos 1 recurso disponible');
+              if (!validate.has_photos)         faltantes.push('Al menos 1 foto del entorno');
+              if (!validate.has_graphics)       faltantes.push('Al menos 1 gráfico de vivienda');
+              if (!validate.has_action_before)  faltantes.push('Plan de acción: falta Antes');
+              if (!validate.has_action_during)  faltantes.push('Plan de acción: falta Durante');
+              if (!validate.has_action_after)   faltantes.push('Plan de acción: falta Después');
+
+              detalles = formatearLista(faltantes);
+          }
+
+          alerta.alertaWarning('Plan incompleto', detalles);
+          return;
         }
 
         // Envio Endpoint Workflow. 

@@ -80,13 +80,14 @@ export default async () => {
   await adjuntarOpc.adjuntar(tipoDocumento, "documentTypes");
   await adjuntarOpc.adjuntarNoValida(genero, "genders");
   await adjuntarOpc.adjuntarNoValida(parentesco, "kinships");
+  await adjuntarOpc.adjuntarNoValida(eps, "eps");
   await adjuntarOpc.adjuntarNoValida(grupoSanguineo, "bloodGroups");
   await adjuntarOpc.adjuntarNoValida(nacionalidad, "nationalities");
 
   // MAGIA HELPER -> Dispara 1 Get a member/$id, y mapéa automáticamente cada Propiedad JSON a su Nodo Input HTML Vainilla 
   await cargarDatos.cargarDatos(`members/${integranteId}`,
     [nombres, apellidos, numDocumento, eps, celularPersonal, nacimiento, tipoDocumento, genero, parentesco, grupoSanguineo, nacionalidad,], // Array Doms
-    ["names", "last_names", "document_number", "eps", "phone", "birth_date", "document_type_id", "gender_id", "kinship_id", "blood_group_id", "nationality_id",], // Array DB Columns Strings
+    ["names", "last_names", "document_number", "eps_id", "phone", "birth_date", "document_type_id", "gender_id", "kinship_id", "blood_group_id", "nationality_id",], // Array DB Columns Strings
   );
 
   /**
@@ -151,7 +152,7 @@ export default async () => {
       nationality_id: nacionalidad.value,
       gender_id: genero.value,
       kinship_id: parentesco.value,
-      eps: eps.value,
+      eps_id: eps.value,
       // Bug here en codigo Base: Se esta llamando celular.value cuando Node de arriba es celularPersonal (Posible NullPtr Reference!). Dejado intacto por politica.
       phone: celularPersonal.value,
     };

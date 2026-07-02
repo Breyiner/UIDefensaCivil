@@ -39,7 +39,7 @@ export const alertaWarning = (titulo, mensaje) => {
   return Swal.fire({
     icon: "warning",
     title: titulo,
-    text: mensaje,
+    html: mensaje,
     confirmButtonText: "Ok",
     customClass: {
       confirmButton: "botonOK",
