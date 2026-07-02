@@ -5,7 +5,6 @@ export * as especie from "./especie.js";
 export * as factorRiesgo from "./factorRiesgo.js";
 export * as graficoVivienda from "./graficoVivienda.js";
 export * as integrante from "./integrante.js";
-export * as mascota from "./mascota.js";
 export * as nacionalidad from "./nacionalidad.js";
 export * as organizacion from "./organizacion.js";
 export * as planAccion from "./planAccion.js";

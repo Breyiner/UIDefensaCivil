@@ -1,53 +1,39 @@
 /**
  * Controlador: Editar Datos Mascota y Gestión de Historial de Vacunación (planMascota/editarController.js)
- * Actualizar Datos Base Animal (Raza, Edad..).
- * Integra en Layout Abajo un Wrapper Acordeón Especial donde puedes Añadir N Vacunas usando Modales Externos Interconectados.
+ * Carga el perfil actual de la mascota y sus vacunas registradas en la base de datos.
+ * Orquesta todos los eventos de actualización de perfil, creación de vacunas en tiempo real,
+ * edición y eliminación con doble confirmación, y gestiona las redirecciones basadas en el rol.
+ * Sigue la estructura de tarjeta_gestion donde el componente visual retorna el elemento DOM.
+ * 
+ * @module editarController
  */
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { api } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { alertas as alerta } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { mascota as modalMascota } from "@/helpers/modales/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { acordeon } from "@/helpers/index.js"; // UI Expander JS
+import { VistaMascotas, VacunaModal, crearVacunaTag } from "@/componentes/mascotas/index.js";
+import { validacionInputs as validacion, fechas } from "@/helpers/index.js";
 
+/**
+ * Inicializa el controlador de edición de mascota
+ */
 export default async () => {
-  // UI Nav elements
   const esSupervisor = location.hash.includes("/supervisor/");
+  const hashQuery = location.hash.split("?")[1] ?? "";
+  const params = new URLSearchParams(hashQuery);
 
-  const botonBack = document.getElementById("botonBack");
-  const botonGuardar = document.getElementById("botonGuardar"); // Submit update Base Form
-  const form = document.querySelector(".form");
+  const planId = params.get("familia_id");
+  const mascotaId = params.get("mascota_id");
 
-  const hashQuery = location.hash.split("?")[1] ?? ""; // Si no hay query params, asigna string vacío para evitar errores al crear URLSearchParams
-  const params = new URLSearchParams(hashQuery); // Crea instancia URLSearchParams para extraer parámetros específicos de la URL despues del signo de interrogación
+  /** @type {Array} Estado local mutable del listado de vacunas sincronizado con la BD */
+  let vaccines = [];
 
-  const planId = params.get("familia_id"); // ID de la familia a la que pertenece la mascota (para navegación posterior)
-  const mascotaId = params.get("mascota_id"); // ID específico de la mascota que se está editando, utilizado para cargar sus datos y gestionar sus vacunas
-
-  // Selector Contenedores para Modulo Sub-Lista Vacunas Inferior (Relacion 1 -> N Mascotas a Vacunas)
-  const contenedorAfecciones = document.querySelector(".gestionarAfecciones__lista");
-  const botonAñadir = document.querySelector(".gestionarAfecciones__boton"); // Lanzador Modal de Vacuna
-
-  if(esSupervisor) {
-    botonAñadir.classList.add("oculto");
-  }
-
-  // Bloqueo Inicial Interfaz pre-cargas
   if (window.procesoPeticion === undefined) {
     window.procesoPeticion = true;
   }
-  window.procesoPeticion = true;
+  window.procesoPeticion = false;
 
-
-  // Lógica Botón Atrás Muro listado Animalitos Familia
-  botonBack.onclick = async () => {
-    if (window.procesoPeticion) return;
+  // Lógica Botón Atrás
+  const botonBack = document.getElementById("botonBack");
+  botonBack.onclick = () => {
     if (esSupervisor) {
       location.href = `#/supervisor/plan_familiar/revision?familia_id=${planId}`;
       return;
@@ -55,96 +41,198 @@ export default async () => {
     location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${planId}`;
   };
 
-  // Inputs de texto Básicos Identidad Perro/Gato HTML
-  const nombre = document.getElementById('nombre');
-  const raza = document.getElementById('raza');
-  const edad = document.getElementById('edad');
-  const especies = document.getElementById('especies');
-  const generos = document.getElementById('generos');
+  // Carga inicial del perfil de mascota y sus vacunas desde el servidor
+  let petData = null;
+  if (mascotaId) {
+    petData = await api.get(`pets/${mascotaId}`);
+    vaccines = await api.get(`petVaccines/pet/${mascotaId}`) || [];
+  }
 
-  // Auto-llenado Diccionarios Select <option> Frontend
-  await adjuntarOpc.adjuntar(especies, "species");
-  await adjuntarOpc.adjuntarNoValida(generos, "animalGenders");
+  // Instancia el componente visual de mascotas (retorna el nodo del formulario)
+  const form = await VistaMascotas({
+    petData: petData,
+    esSupervisor: esSupervisor
+  });
 
-  // AUTO-BINDEO HELPER GLOBAL: Hace el GET /pets/$mascotaId y le inyecta solito la variable a cada HTML Input Text 
-  // Ej: nombre.value = response.name de una !!. Sin codigos manuales.
-  await cargarDatos.cargarDatos(`pets/${mascotaId}`, [nombre, raza, edad, especies, generos,], ["name", "breed", "birth_date", "species_id", "animal_gender_id",],);
+  const contenedorMascota = document.getElementById("contenedor-mascota");
+  if (contenedorMascota) {
+    contenedorMascota.innerHTML = ""; // Limpiar
+    contenedorMascota.appendChild(form);
 
-  /**
-   * Rutina Hija Aslida Fetching Vacunas Actuales
-   * Pinta la Lista debajo del Formulario Base para mostrar "Rabia, ParvoVirus" del mes.
-   */
+    // Inicializar calendarios AirDatepicker
+    fechas.initFechas();
 
-  const cargarAfecciones = async () => {
-    const afecciones = await api.get(`petVaccines/pet/${mascotaId}`); // Api Call Relacional /petVaccines
-    contenedorAfecciones.innerHTML = ""; // Clear Layout
+    const mainContainer = contenedorMascota.closest(".container");
+    if (mainContainer) {
+      if (esSupervisor) {
+        mainContainer.classList.add("container--supervisor");
+      } else {
+        mainContainer.classList.remove("container--supervisor");
+      }
+    }
+  }
 
-    // Bucle Rende Botones Rectangulares Custom list View
-    afecciones.forEach((item) => {
-      const boton = document.createElement("button");
-      boton.className = "gestionarAfecciones__afeccion"; // Design Helper "Afeccion" reciclado (Mismo CSS Layout q Integrante Condiciones Medicas en Front!)
-      boton.dataset.id = item.id; // PK_petVaccine Id for Update/Delete
+  // Inicializar validador automático sobre el formulario
+  validacion.validadorAutomatico.init(form);
 
-      const spanVacuna = document.createElement("span");
-      spanVacuna.className = "gestionarAfecciones__tipoNombre";
-      const iconVacuna = document.createElement("i");
-      iconVacuna.className = "ri-eye-fill";
-      spanVacuna.appendChild(iconVacuna);
-      spanVacuna.appendChild(document.createTextNode(` ${item.name} - ${item.date}`));
-      boton.appendChild(spanVacuna);
-      contenedorAfecciones.appendChild(boton); // Attach Dom
+  // Obtener referencias de elementos del DOM internos del formulario
+  const nombreInput = form.querySelector("#nombre");
+  const razaInput = form.querySelector("#raza");
+  const edadInput = form.querySelector("#edad");
+  const especiesSelect = form.querySelector("#especies");
+  const generosSelect = form.querySelector("#generos");
+  const btnAgregarVacuna = form.querySelector("#btnAgregarVacuna");
+  const listaDiv = form.querySelector(".gestionarAfecciones__lista");
+  const btnGuardar = form.querySelector("#botonGuardar");
+
+  // Helper local para renderizar las vacunas
+  const renderVaccines = (list) => {
+    listaDiv.innerHTML = "";
+
+    if (!list || list.length === 0) {
+      const emptyMsg = document.createElement("p");
+      emptyMsg.className = "gestionarAfecciones__vacio";
+      emptyMsg.textContent = "No hay vacunas registradas.";
+      listaDiv.appendChild(emptyMsg);
+      return;
+    }
+
+    list.forEach((vacuna) => {
+      const tag = crearVacunaTag(
+        vacuna,
+        esSupervisor,
+        () => {
+          // Callback al editar vacuna (en base de datos directamente)
+          VacunaModal({
+            initialData: vacuna,
+            birthDate: edadInput.value,
+            onSave: async (vaccineData) => {
+              try {
+                const res = await api.patch(`petVaccines/${vacuna.id}`, vaccineData);
+                if (res && res.success) {
+                  // Refresca la lista desde la API
+                  vaccines = await api.get(`petVaccines/pet/${mascotaId}`) || [];
+                  renderVaccines(vaccines);
+                  return { success: true, message: res.message };
+                } else if (res) {
+                  alerta.alertaWarning(res.message, res.errors);
+                }
+              } catch (err) {
+                alerta.alertaError(err.errors || err.message);
+              }
+              return { success: false };
+            }
+          });
+        },
+        async () => {
+          // Callback al eliminar vacuna (en base de datos directamente)
+          const confirmacion = await alerta.alertaQuest(
+            "¿Seguro que deseas eliminar esta vacuna de la mascota?"
+          );
+          if (!confirmacion.isConfirmed) return;
+
+          try {
+            const res = await api.delet(`petVaccines/${vacuna.id}`);
+            if (res && res.success) {
+              await alerta.alertaOK(res.message);
+              // Refresca la lista local
+              vaccines = await api.get(`petVaccines/pet/${mascotaId}`) || [];
+              renderVaccines(vaccines);
+            } else if (res) {
+              alerta.alertaError(res.message);
+            }
+          } catch (err) {
+            alerta.alertaError(err.errors || err.message);
+          }
+        }
+      );
+      listaDiv.appendChild(tag);
     });
   };
 
-  // Bind CSS Toggle Display Height 0-100 Menu Oculto
-  acordeon()
+  // Manejar click en agregar vacuna
+  if (!esSupervisor) {
+    btnAgregarVacuna.addEventListener("click", () => {
+      VacunaModal({
+        birthDate: edadInput.value,
+        onSave: async (vaccineData) => {
+          try {
+            const res = await api.post("petVaccines", {
+              ...vaccineData,
+              pet_id: mascotaId
+            });
+            if (res && res.success) {
+              // Refresca la lista desde la API
+              vaccines = await api.get(`petVaccines/pet/${mascotaId}`) || [];
+              renderVaccines(vaccines);
+              return { success: true, message: res.message };
+            } else if (res) {
+              alerta.alertaWarning(res.message, res.errors);
+            }
+          } catch (err) {
+            alerta.alertaError(err.errors || err.message);
+          }
+          return { success: false };
+        }
+      });
+    });
+  }
 
-  // Primer Trigger Load Data List Views Vaccine
-  cargarAfecciones();
-
-  window.procesoPeticion = false; // Libre de clicks User Final
-  botonGuardar.disabled = false;
-
-  // Accion: Boton Pulsar "Añadir Nueva Vacuna" (Burbuja Inferior)
-  botonAñadir.addEventListener("click", async () => {
-    // LLama Submodulo Sweet Alert con Form Inputs Inyectados Pasando el Parametro ID Padre (Para el POST Relacional) y la funcion Actualizar para re render local
-    modalMascota.crearVacunas(mascotaId, cargarAfecciones);
-  });
-
-  // Accion: Escuchador Muro Delegacion Burbujeo Elemento Especifico Lista Vacuna (Si pulsan "Parvovirus 2023...")
-  contenedorAfecciones.addEventListener("click", async (e) => {
-    const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id; // Extractor UUID PK
-    // Manda al helper a Pop-Up Vista Resumen Vacuna especifica
-    modalMascota.verEditarEliminar(id, mascotaId, cargarAfecciones, esSupervisor);
-  });
-
-  // Listener Submit Form Maestro Superior (Atributos Basicos Raza/Edad/Nombre) PATCH!
+  // Manejar el submit del formulario
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    window.procesoPeticion = true; // Hard Lock Form Block Spams
-    botonGuardar.disabled = true;
 
-    // DTO PATCH Update DB Contract Mapping
+    // Validar inputs
+    const isValid = validacion.validadorAutomatico.validarTodo(form);
+    if (!isValid) return;
+
+    // Validar fechas de vacunas
+    const birthDate = edadInput.value;
+    if (birthDate) {
+      const invalidVaccines = vaccines.filter(v => v.date <= birthDate);
+      if (invalidVaccines.length > 0) {
+        alerta.alertaWarning(
+          "Conflicto en vacunas",
+          `La fecha de las vacunas debe ser posterior al nacimiento (${birthDate}).`
+        );
+        return;
+      }
+    }
+
+    if (window.procesoPeticion) return;
+    window.procesoPeticion = true;
+    btnGuardar.disabled = true;
+
     const datosRegistro = {
-      name: nombre.value,
-      breed: raza.value,
-      birth_date: edad.value,
-      species_id: especies.value,
-      animal_gender_id: generos.value,
+      name: nombreInput.value,
+      breed: razaInput.value,
+      birth_date: edadInput.value,
+      species_id: especiesSelect.value,
+      animal_gender_id: generosSelect.value,
     };
 
     try {
-      // API Partial Resource Update (no toca relacion family plan ni vacunas)
+      // Ejecuta la actualización parcial del perfil
       const data = await api.patch(`pets/${mascotaId}`, datosRegistro);
-      if (data.success) {
-        await alerta.alertaOK(data.message); // Notificar (NO VUELVE A MURO PRINCIPAL, Se queda en esta page viva UX Editando si quiere...)
-      } else alerta.alertaWarning(data.message, data.errors);
+      if (data && data.success) {
+        await alerta.alertaOK(data.message);
+        // Redirección según rol de usuario
+        if (esSupervisor) {
+          location.href = `#/supervisor/plan_familiar/revision?familia_id=${planId}`;
+        } else {
+          location.href = `#/voluntario/plan_familiar/mascotas?familia_id=${planId}`;
+        }
+      } else if (data) {
+        alerta.alertaWarning(data.message, data.errors);
+      }
     } catch (error) {
-      alerta.alertaError(error.errors);
+      alerta.alertaError(error.errors || error.message);
     }
 
-    // Unblock Catch
-    botonGuardar.disabled = false;
+    btnGuardar.disabled = false;
     window.procesoPeticion = false;
   });
+
+  // Render inicial de vacunas
+  renderVaccines(vaccines);
 };

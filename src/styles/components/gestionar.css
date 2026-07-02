@@ -1,5 +1,5 @@
-.gestioarAfecciones{
-  border: var(--color-grisOscuro) solid 2px;
+.gestioarAfecciones, .gestionarAfecciones{
+  border: var(--color-grisOscuro) solid 1px;
   width: 100%;
   padding: 10px;
   border-radius: var(--border-radius-tarjetas);
@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--color-palido);
 }
 
 .gestionarAfecciones__header{
