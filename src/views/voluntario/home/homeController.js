@@ -1,112 +1,86 @@
 import { api } from "@/helpers/index.js";
 import tiempoRelativo from "@/componentes/tiempos/tiempoRelativo";
 
-function crearCardNotificacion(notificacion) {
-  const card = document.createElement("div");
-  card.classList.add("v-notification-card");
+function h(tag, cls, ...children) {
+    const el = document.createElement(tag);
+    if (cls) el.className = cls;
+    children.forEach(c => el.append(typeof c === 'string' ? document.createTextNode(c) : c));
+    return el;
+}
 
-  if (notificacion.entidad.tipo === "Plan Familiar") {
-    const main = document.createElement("div");
-    main.classList.add("v-card-main");
+const NOTIF_STATUS = { 4: 'pending', 5: 'returned', 6: 'pending', 7: 'pending' };
 
-    const icono = document.createElement("div");
-    icono.classList.add("v-card-icon");
-    const i = document.createElement("i");
-    i.classList.add("ri-parent-fill");
-    icono.append(i);
+function crearCardNotificacion(n) {
+    const card = h('div', 'v-notification-card');
+    if (n.entidad.tipo !== 'Plan Familiar') return card;
 
-    const info = document.createElement("div");
-    info.classList.add("v-card-info");
-    const titulo = document.createElement("h3");
-    titulo.textContent = "Familia " + notificacion.entidad.apellidos;
-    const pLoc = document.createElement("p");
-    pLoc.classList.add("v-card-location");
-    const iLoc = document.createElement("i");
-    iLoc.classList.add("ri-map-pin-fill");
-    pLoc.append(iLoc, " " + (notificacion.entidad.direccion || ""));
-    info.append(titulo, pLoc);
+    const icono = h('div', 'v-card-icon', h('i', 'ri-parent-fill'));
+    const info = h('div', 'v-card-info',
+        h('h3', null, 'Familia ' + n.entidad.apellidos),
+        h('p', 'v-card-location', h('i', 'ri-map-pin-fill'), ' ' + (n.entidad.direccion || ''))
+    );
 
-    const estado = document.createElement("div");
-    estado.classList.add("v-card-status");
-    const tiempo = document.createElement("span");
-    tiempo.classList.add("v-time");
-    tiempo.textContent = tiempoRelativo(notificacion.created_at);
-    const badge = document.createElement("span");
-    badge.classList.add("v-status-badge");
-    const estId = notificacion.entidad.estado_id;
-    if (estId === 4) badge.classList.add("v-status-pending");
-    else if (estId === 5) badge.classList.add("v-status-returned");
-    else if (estId === 6) badge.classList.add("v-status-pending");
-    else if (estId === 7) badge.classList.add("v-status-pending");
-    badge.textContent = notificacion.entidad.estado;
-    estado.append(tiempo, badge);
+    const badgeCls = 'v-status-badge v-status-' + (NOTIF_STATUS[n.entidad.estado_id] || 'pending');
+    const estado = h('div', 'v-card-status',
+        h('span', 'v-time', tiempoRelativo(n.created_at)),
+        h('span', badgeCls, n.entidad.estado)
+    );
 
-    main.append(icono, info, estado);
-    card.append(main);
+    card.append(h('div', 'v-card-main', icono, info, estado));
 
-    if (notificacion.entidad.comentario) {
-      const reason = document.createElement("div");
-      reason.classList.add("v-card-reason");
-      const p = document.createElement("p");
-      const strong = document.createElement("strong");
-      strong.textContent = "Motivo: ";
-      p.append(strong, notificacion.entidad.comentario);
-      reason.append(p);
-      card.append(reason);
+    if (n.entidad.comentario) {
+        card.append(h('div', 'v-card-reason',
+            h('p', null, h('strong', null, 'Motivo: '), n.entidad.comentario)
+        ));
     }
 
-    card.addEventListener("click", async () => {
-      await api.patch("notifications/" + notificacion.id, { is_read: true });
-      window.location.href = "#/voluntario/plan_familiar/familia?id=" + notificacion.entidad.id;
+    card.addEventListener('click', async () => {
+        await api.patch('notifications/' + n.id, { is_read: true });
+        window.location.href = '#/voluntario/plan_familiar/familia?id=' + n.entidad.id;
     });
-  }
 
-  return card;
+    return card;
 }
 
 export default async () => {
-  const volunteerName = document.querySelector(".v-volunteer-name");
-  const fullName = localStorage.getItem("full_name");
+    const volunteerName = document.querySelector(".v-volunteer-name");
+    if (volunteerName) {
+        volunteerName.textContent = localStorage.getItem("full_name") || "Voluntario";
+    }
 
-  if (volunteerName) {
-    volunteerName.textContent = fullName || "Voluntario";
-  }
-
-  try {
-    const data = await api.get("familyPlans/stats_voluntario");
-    document.getElementById("totalPlanes").textContent = data.total_planes;
-    document.getElementById("numVuln").textContent = data.familias_registradas["Familias Vulnerables"];
-    document.getElementById("numNoVuln").textContent = data.familias_registradas["Familias no Vulnerables"];
-  } catch (error) {
-    console.error("Error al cargar estadísticas del voluntario:", error);
-  }
-
-  const userId = localStorage.getItem("id");
-  if (userId) {
     try {
-      const notificaciones = await api.get("notifications/user/" + userId);
-      if (notificaciones && notificaciones.length > 0) {
-        const contenedor = document.querySelector(".v-notifications-list");
-        if (contenedor) {
-          contenedor.innerHTML = "";
-          const primeras = notificaciones.slice(0, 3);
-          primeras.forEach(n => contenedor.append(crearCardNotificacion(n)));
-        }
-      }
+        const data = await api.get("familyPlans/stats_voluntario");
+        document.getElementById("totalPlanes").textContent = data.total_planes;
+        document.getElementById("numVuln").textContent = data.familias_registradas["Familias Vulnerables"];
+        document.getElementById("numNoVuln").textContent = data.familias_registradas["Familias no Vulnerables"];
     } catch (error) {
-      console.error("Error al cargar notificaciones:", error);
+        console.error("Error al cargar estadísticas del voluntario:", error);
     }
-  }
 
-  window.addEventListener("click", (e) => {
-    if (e.target.matches("#nuevoPlan") || e.target.closest("#nuevoPlan")) {
-      window.location.href = '#/voluntario/plan_familiar/crear';
+    const userId = localStorage.getItem("id");
+    if (userId) {
+        try {
+            const notificaciones = await api.get("notifications/user/" + userId);
+            if (notificaciones && notificaciones.length > 0) {
+                const contenedor = document.querySelector(".v-notifications-list");
+                if (contenedor) {
+                    contenedor.innerHTML = "";
+                    notificaciones.slice(0, 3).forEach(n => contenedor.append(crearCardNotificacion(n)));
+                }
+            }
+        } catch (error) {
+            console.error("Error al cargar notificaciones:", error);
+        }
     }
-    if (e.target.matches("#verPlan") || e.target.closest("#verPlan")) {
-      window.location.href = '#/voluntario/plan_familiar';
-    }
-    if (e.target.matches("#verTodasNotificaciones") || e.target.closest("#verTodasNotificaciones")) {
-      window.location.href = '#/voluntario/notificaciones';
-    }
-  });
-}
+
+    const RUTAS = {
+        nuevoPlan: '#/voluntario/plan_familiar/crear',
+        verPlan: '#/voluntario/plan_familiar',
+        verTodasNotificaciones: '#/voluntario/notificaciones',
+    };
+
+    window.addEventListener('click', (e) => {
+        const btn = e.target.closest(Object.keys(RUTAS).map(k => '#' + k).join(','));
+        if (btn) window.location.href = RUTAS[btn.id];
+    });
+};

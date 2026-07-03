@@ -1,84 +1,41 @@
 import { get } from "@/helpers/api.js";
 
+function h(tag, cls, ...children) {
+    const el = document.createElement(tag);
+    if (cls) el.className = cls;
+    children.forEach(c => el.append(typeof c === 'string' ? document.createTextNode(c) : c));
+    return el;
+}
+
 function crearCardPlan(plan) {
     const esDevuelto = plan.status === "Devuelto";
     const pillClass = esDevuelto ? "devuelto" : "pendiente";
-    const badgeTexto = plan.status ?? "Pendiente";
 
-    const card = document.createElement('div');
-    card.className = 'row-plan-card';
-
-    const rowMain = document.createElement('div');
-    rowMain.className = 'row-plan-main';
-
-    const leftGroup = document.createElement('div');
-    leftGroup.className = 'left-info-group';
-
-    const avatar = document.createElement('div');
-    avatar.className = 'avatar-circle-icon';
-    const avatarIcon = document.createElement('span');
-    avatarIcon.className = 'ri-team-line';
-    avatar.appendChild(avatarIcon);
-
-    const details = document.createElement('div');
-    details.className = 'details-list';
-
-    const h4 = document.createElement('h4');
-    h4.textContent = plan.familia ?? "Familia sin nombre";
-
-    const p1 = document.createElement('p');
-    const span1 = document.createElement('span');
-    span1.className = 'ri-map-pin-line';
-    p1.appendChild(span1);
-    p1.append(' ' + (plan.ubicacion ?? "Sin ubicación"));
-
-    const p2 = document.createElement('p');
-    const span2 = document.createElement('span');
-    span2.className = 'ri-calendar-line';
-    p2.appendChild(span2);
-    p2.append(' Recibido: ' + (plan.fecha ?? "—"));
-
-    const p3 = document.createElement('p');
-    const span3 = document.createElement('span');
-    span3.className = 'ri-user-line';
-    p3.appendChild(span3);
-    p3.append(' Voluntario: ' + (plan.voluntario ?? "—"));
-
-    details.append(h4, p1, p2, p3);
-    leftGroup.append(avatar, details);
-
-    const rightGroup = document.createElement('div');
-    rightGroup.className = 'right-status-group';
-
-    const timestamp = document.createElement('div');
-    timestamp.className = 'timestamp';
-    timestamp.textContent = plan.tiempo ?? "—";
-
-    const pill = document.createElement('div');
-    pill.className = 'status-pill ' + pillClass;
-    pill.textContent = badgeTexto;
-
-    rightGroup.append(timestamp, pill);
-
-    rowMain.append(leftGroup, rightGroup);
-    card.appendChild(rowMain);
+    const card = h('div', 'row-plan-card',
+        h('div', 'row-plan-main',
+            h('div', 'left-info-group',
+                h('div', 'avatar-circle-icon', h('span', 'ri-team-line')),
+                h('div', 'details-list',
+                    h('h4', null, plan.familia ?? "Familia sin nombre"),
+                    h('p', null, h('span', 'ri-map-pin-line'), ' ' + (plan.ubicacion ?? "Sin ubicación")),
+                    h('p', null, h('span', 'ri-calendar-line'), ' Recibido: ' + (plan.fecha ?? "—")),
+                    h('p', null, h('span', 'ri-user-line'), ' Voluntario: ' + (plan.voluntario ?? "—"))
+                )
+            ),
+            h('div', 'right-status-group',
+                h('div', 'timestamp', plan.tiempo ?? "—"),
+                h('div', 'status-pill ' + pillClass, plan.status ?? "Pendiente")
+            )
+        )
+    );
 
     if (esDevuelto) {
-        const motivo = document.createElement('div');
-        motivo.className = 'devuelto-reason-container';
-
-        const chatIcon = document.createElement('span');
-        chatIcon.className = 'ri-chat-1-line';
-
-        const motivoDiv = document.createElement('div');
-        const strong = document.createElement('strong');
-        strong.textContent = 'Motivo';
-        const br = document.createElement('br');
-        motivoDiv.append(strong, br);
-        motivoDiv.append(plan.motivo ?? "Sin especificar");
-
-        motivo.append(chatIcon, motivoDiv);
-        card.appendChild(motivo);
+        card.appendChild(
+            h('div', 'devuelto-reason-container',
+                h('span', 'ri-chat-1-line'),
+                h('div', null, h('strong', null, 'Motivo'), h('br'), plan.motivo ?? "Sin especificar")
+            )
+        );
     }
 
     return card;
@@ -105,7 +62,6 @@ export default async () => {
         actualizarElemento("planesEnRevision", dashBoard.in_review_plans);
         actualizarElemento("planesAprobados", dashBoard.approved_plans);
         actualizarElemento("planesRechazados", dashBoard.rejected_plans);
-
         actualizarElemento("totalRevisados", (dashBoard.approved_plans ?? 0) + (dashBoard.rejected_plans ?? 0));
 
         const sectionalId = localStorage.getItem("sectional_id");
@@ -122,19 +78,20 @@ export default async () => {
             const planes = dashBoard.recent_plans;
             planesList.innerHTML = "";
             for (let i = 0; i < planes.length; i += 4) {
-                const chunk = planes.slice(i, i + 4);
-                const page = document.createElement('div');
-                page.className = 'planes-page';
-                chunk.forEach(plan => page.appendChild(crearCardPlan(plan)));
+                const page = h('div', 'planes-page');
+                planes.slice(i, i + 4).forEach(plan => page.appendChild(crearCardPlan(plan)));
                 planesList.appendChild(page);
             }
         }
 
-        document.getElementById("btnEstadisticas")?.addEventListener("click", () => {
-            window.location.hash = "#/supervisor/estadisticas";
-        });
-        document.getElementById("btnVerTodos")?.addEventListener("click", () => {
-            window.location.hash = "#/supervisor/plan_familiar/";
+        const RUTAS = {
+            btnEstadisticas: '#/supervisor/estadisticas',
+            btnVerTodos: '#/supervisor/plan_familiar/',
+        };
+
+        window.addEventListener('click', (e) => {
+            const btn = e.target.closest(Object.keys(RUTAS).map(k => '#' + k).join(','));
+            if (btn) window.location.hash = RUTAS[btn.id];
         });
     } catch (error) {
         console.error("Error cargando dashboard supervisor:", error);
