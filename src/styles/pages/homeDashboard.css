@@ -298,7 +298,7 @@
 .home-supervisor .total-revisados-container .big-display { font-size: 32px; }
 .home-supervisor .bottom-split-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
 .home-supervisor .mini-metric-card { padding: 12px; }
-.home-supervisor .btn-action-orange { width: 100%; min-height: 48px; max-width: 240px; }
+.home-supervisor .btn-action-orange { width: 100%; min-height: 43px; max-width: 240px; font-size: 15px;}
 .home-supervisor .planes-container-panel { padding: 16px; border-radius: 24px; gap: 12px; max-height: 530px; }
 .home-supervisor .panel-planes-title { font-size: 1.1rem; }
 .home-supervisor .panel-planes-title span { font-size: 1.4rem; }
