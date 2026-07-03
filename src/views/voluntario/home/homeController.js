@@ -36,6 +36,7 @@ function crearCardNotificacion(notificacion) {
     const estId = notificacion.entidad.estado_id;
     if (estId === 4) badge.classList.add("v-status-pending");
     else if (estId === 5) badge.classList.add("v-status-returned");
+    else if (estId === 6) badge.classList.add("v-status-pending");
     else if (estId === 7) badge.classList.add("v-status-pending");
     badge.textContent = notificacion.entidad.estado;
     estado.append(tiempo, badge);
@@ -81,21 +82,23 @@ export default async () => {
   }
 
   const userId = localStorage.getItem("id");
-  try {
-    const notificaciones = await api.get("notifications/user/" + userId);
-    if (notificaciones && notificaciones.length > 0) {
-      const contenedor = document.querySelector(".v-notifications-list");
-      if (contenedor) {
-        contenedor.innerHTML = "";
-        const primeras = notificaciones.slice(0, 3);
-        primeras.forEach(n => contenedor.append(crearCardNotificacion(n)));
+  if (userId) {
+    try {
+      const notificaciones = await api.get("notifications/user/" + userId);
+      if (notificaciones && notificaciones.length > 0) {
+        const contenedor = document.querySelector(".v-notifications-list");
+        if (contenedor) {
+          contenedor.innerHTML = "";
+          const primeras = notificaciones.slice(0, 3);
+          primeras.forEach(n => contenedor.append(crearCardNotificacion(n)));
+        }
       }
+    } catch (error) {
+      console.error("Error al cargar notificaciones:", error);
     }
-  } catch (error) {
-    console.error("Error al cargar notificaciones:", error);
   }
 
-  window.addEventListener("click", async (e) => {
+  window.addEventListener("click", (e) => {
     if (e.target.matches("#nuevoPlan") || e.target.closest("#nuevoPlan")) {
       window.location.href = '#/voluntario/plan_familiar/crear';
     }
