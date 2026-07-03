@@ -1,11 +1,22 @@
 .tarjeta {
-    display: flex;
+    /* display: flex; */
     padding: 20px;
     gap: 15px;
     box-shadow: 0 0 10px var(--color-sombra);
     border-radius: var(--border-radius-tarjetas);
     width: 100%;
     background: var(--color-palido);
+}
+
+.tarjeta__flex--row {
+
+    display: flex;
+}
+
+.tarjeta__flex--column{
+
+    display: flex;
+    flex-direction: column;
 }
 
 .tarjeta--fila {

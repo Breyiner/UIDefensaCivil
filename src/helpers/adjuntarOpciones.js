@@ -43,7 +43,7 @@ export const adjuntarInfo = async (combox, endpoint, infoDato) => {
 };
 
 // Combina el llenado del combo, y además ata un evento "onChange" para autobloquear otro campo (input) sincronizado.
-export const adjuntarDouble = async (combox, endpoint,input,infoDato) => {
+export const adjuntarDouble = async (combox, endpoint, input, infoDato) => {
   const datos = await api.get(endpoint);
   datos.forEach((dat) => {
     if (dat.is_active == 1) {
@@ -87,11 +87,11 @@ export const adjuntarFactorRiesgo = async (combox, endpoint) => {
 // Muta y re-carga combos modernizados instanciados con el plugin "TomSelect".
 // Válidador de activos solamente.
 
-export const adjuntarReseteo = async (combox, endpoint) => {   
+export const adjuntarReseteo = async (combox, endpoint) => {
   if (endpoint.endsWith('/') || endpoint.endsWith('undefined') || endpoint.endsWith('null')) return;
 
   const respuestaApi = await api.get(endpoint);
-  
+
   // DIAGNÓSTICO: Veremos exactamente en la consola el objeto que manda el backend
   // console.log("Respuesta API cruda:", respuestaApi);
 
@@ -113,12 +113,12 @@ export const adjuntarReseteo = async (combox, endpoint) => {
   // OPICIÓN A: SI EL ELEMENTO USA TOMSELECT
   // ==========================================
   if (tom) {
-    tom.disable(); 
-    tom.clear(); 
-    tom.clearOptions(); 
+    tom.disable();
+    tom.clear();
+    tom.clearOptions();
 
     // CORREGIDO: Se cambia 'datos' por 'arr'
-    arr.forEach((dat) => {  
+    arr.forEach((dat) => {
       if (dat.is_active == 1) {
         tom.addOption({
           value: dat.id,
@@ -127,8 +127,8 @@ export const adjuntarReseteo = async (combox, endpoint) => {
       }
     });
 
-    tom.refreshOptions(false); 
-    tom.enable(); 
+    tom.refreshOptions(false);
+    tom.enable();
   }
 
   // ==========================================
@@ -158,36 +158,6 @@ export const adjuntarReseteo = async (combox, endpoint) => {
     });
   }
 };
-
-// export const adjuntarReseteo = async (combox, endpoint) => {  
-//   const datos = await api.get(endpoint);
-
-//   const tom = combox.tomselect; // Extrae API de TomSelect atado al DOM node
-
-//   if (!tom) return;
-
-//   tom.disable(); // Lo desactiva para no clickear mientras renderiza las requests network
-
-//   tom.clear(); // Limpia la caja visual
-//   tom.clearOptions(); // Borra el historial viejo interno 
-
-//   // Inyecta una por una según formato de objeto requerido por TomSelect
-//   datos.forEach((dat) => {
-//     if (dat.is_active == 1) {
-//       tom.addOption({
-//         value: dat.id,
-//         text: dat.name
-//       });
-//     }
-//   });
-
-//   tom.refreshOptions(false); // Renderiza opciones secretamente
-
-//   tom.enable(); // 🔥 Vuelve a habilitarlo visualmente
-// };
-
-// Gemelo de "adjuntarReseteo" pero incluye compatibilidad si fue invocado en un combobox Normal por despiste.
-// Y no filtra por `is_active`.
 
 export const adjuntarReseteoNoValida = async (combox, endpoint) => {
   const datos = await api.get(endpoint);

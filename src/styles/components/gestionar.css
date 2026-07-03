@@ -1,5 +1,5 @@
-.gestioarAfecciones{
-  border: var(--color-grisOscuro) solid 2px;
+.gestioarAfecciones, .gestionarAfecciones{
+  border: var(--color-grisOscuro) solid 1px;
   width: 100%;
   padding: 10px;
   border-radius: var(--border-radius-tarjetas);
@@ -7,13 +7,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--color-palido);
 }
+
 .gestionarAfecciones__header{
   display: flex;
   font-size: var(--tamano-mediano);
   justify-content: space-between;
   width: 100%;
 }
+
 .gestionarAfecciones__titulo{
   display: flex;
   color: var(--color-grisOscuro);
@@ -22,42 +25,108 @@
   gap: 10px;
   font-size: var(--tamano-mediano);
 }
+
 .gestionarAfecciones__boton{
   padding: 0px 10px;
   border-radius: 5px;
 }
+
 .gestionarAfecciones__lista{
   display: flex;
   flex-direction: column;
-  
+  text-align: center;
   width: 95%;
   gap: 10px;
 }
+
 .gestionarAfecciones__afeccion{
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: var(--tamano-mediano);
-  border: 2px solid var(--color-lila);
-  color: var(--color-lila);
-  padding: 5px;
-  border-radius: 10px;
-  margin-left: 5px;
-  transition: 0.3s;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+  background: var(--color-palido);
+  font-size: 1.5rem;
+  border: 2px solid var(--color-grisOscuro);
+  padding: 20px;
+  border-radius: 30px;
+  transition: 0.5s;
 }
-.gestionarAfecciones__afeccion:nth-child(1)
-{
-  margin-top: 10px;
+
+.gestionarAfecciones__mensajeVacio {
+
+  padding: 20px;
+  color: var(--color-grisOscuro);
+  font-size: 1.5rem;
 }
+
 .gestionarAfecciones__tipoNombre{
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .gestionarAfecciones__afeccion:active{
-  background-color: var(--color-lila);
+  background-color: var(--color-secundario);
   color: var(--color-palido);
+  scale: 0.8;
 }
 
+.gestionarAfecciones__descripcion{
+
+  display: flex;
+  gap: 15px;
+}
+
+.gestionarAfecciones__descripcion i{
+
+  font-size: 2rem;
+  margin-top: 3px;
+  color: var(--color-primario);
+}
+
+.gestionarAfecciones__descripcion p{
+
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: start;
+}
+
+.gestionarAfecciones__Responsable{
+
+  display: flex;
+  gap: 10px;
+  font-size: 1.2rem;
+}
+
+.gestionarAfecciones__Responsable span{
+
+  color: var(--color-grisOscuro);
+}
+
+.gestionarPlanAccion__secciones {
+
+  width: 100%;
+  max-width: 700px;
+}
+
+.gestionarPlanAccion__fase {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 560px) {
+
+  .gestionarAfecciones__Responsable {
+    font-size: 1.0rem;
+  }
+
+  .gestionarAfecciones__descripcion p{
+
+    font-size: 1.7rem;
+  }
+}

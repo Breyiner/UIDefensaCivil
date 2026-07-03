@@ -8,7 +8,7 @@ export const tarjetaPeticion = (info) => {
     const tarjeta = document.createElement('div');
     // Guardamos el ID aquí para que sea accesible desde cualquier parte de la tarjeta, ya que se espera que al hacer click nos muestre el modal de rechazar o aceptar el acceso
     tarjeta.setAttribute("data-id", info.id);
-    tarjeta.classList.add('tarjeta', 'tarjeta--notificacion');
+    tarjeta.classList.add('tarjeta', 'tarjeta--notificacion', 'tarjeta__flex--row');
 
     //Header
     const tarjetaHeader = document.createElement('div');

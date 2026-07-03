@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 100px);
   min-width: 340px;
   max-width: 2000px;
   padding: 12px;
@@ -49,6 +49,7 @@
 .container__gap {
   width: 100%;
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 10px;
 }
@@ -87,6 +88,13 @@
     background: linear-gradient(0deg,rgba(133, 220, 255, 1) 0%, rgba(235, 248, 255, 1) 100%);
   }
 
+}
+
+@media (max-width: 768px) {
+
+  .container--supervisor{
+    padding-left: 12px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -130,8 +138,6 @@
     box-shadow: -4px 0 10px rgba(0, 0, 0, 0.05);
   }
 }
-
-
 
 .container__revision {
 

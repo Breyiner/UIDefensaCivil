@@ -51,6 +51,7 @@ export default async () => {
     await adjuntarOpc.adjuntarNoValida(parentesco,"kinships");
     await adjuntarOpc.adjuntarNoValida(grupoSanguineo,"bloodGroups");
     await adjuntarOpc.adjuntarNoValida(nacionalidad,"nationalities");
+    await adjuntarOpc.adjuntarNoValida(eps,"eps");
 
     // Unlock Early UI Loading State
     window.procesoPeticion = false;
@@ -87,7 +88,7 @@ export default async () => {
             nationality_id: nacionalidad.value,
             gender_id: genero.value,
             kinship_id: parentesco.value,
-            eps: eps.value,
+            eps_id: eps.value,
             phone: celularPersonal.value,
         };
 
