@@ -1,4 +1,4 @@
-<div class="container voluntario-dashboard">
+<div class="container">
 
     <main class="v-main-container">
 
@@ -14,17 +14,17 @@
                 <div class="v-stats-container">
                     <p class="v-stats-title">Total Planes Familiares Realizados</p>
                     <div class="v-counter-row">
-                        <span class="v-counter-number">37</span>
+                        <span class="v-counter-number" id="totalPlanes">0</span>
                         <div class="v-counter-icon">
                             <i class="ri-team-line"></i>
                         </div>
                     </div>
                     <div class="v-tags-row">
                         <span class="v-tag v-tag-vulnerable">
-                            <i class="ri-home-heart-fill"></i> 12 Familias vulnerables
+                            <i class="ri-home-heart-fill"></i> <span id="numVuln">0</span> Familias vulnerables
                         </span>
                         <span class="v-tag v-tag-safe">
-                            <i class="ri-home-heart-fill"></i> 25 Familias no vulnerables
+                            <i class="ri-home-heart-fill"></i> <span id="numNoVuln">0</span> Familias no vulnerables
                         </span>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
             </div>
 
             <div class="v-panel-right-footer">
-                <button class="v-btn v-btn-orange v-btn-see-all">Ver todo</button>
+                <button class="v-btn v-btn-orange v-btn-see-all" id="verTodasNotificaciones">Ver todo</button>
             </div>
         </section>
 
