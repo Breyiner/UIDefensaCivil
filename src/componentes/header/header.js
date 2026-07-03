@@ -1,3 +1,4 @@
+// Header: barra superior con logo, notificaciones y perfil; además inyecta sidebar y bottom nav para supervisores
 import * as api from "@/helpers/api";
 import { crearAsideSupervisor, crearAsideMobile, marcarActivo } from "@/componentes/navegacion/aside";
 

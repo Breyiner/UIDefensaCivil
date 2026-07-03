@@ -1,4 +1,5 @@
 
+// Sidebar: construye la navegación lateral (desktop) y bottom nav (mobile) con las 5 secciones del panel supervisor
 export const crearAside = (enlaces) => {
   // Crear el aside principal
   const aside = document.createElement('aside');
@@ -61,6 +62,7 @@ export const crearAsideSupervisor = () => {
 
 }
 
+//Sidebar mobile
 
 export const marcarActivo = (nav, hash) => {
   nav.querySelectorAll('.sidebar-mobile__link').forEach(link => {
@@ -71,8 +73,6 @@ export const marcarActivo = (nav, hash) => {
   });
 };
 
-
-//sidebar para movile 
 
 export const crearAsideMobile = () => {
   const enlaces = [
