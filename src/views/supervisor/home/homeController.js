@@ -107,8 +107,15 @@ export default async () => {
         actualizarElemento("planesRechazados", dashBoard.rejected_plans);
 
         actualizarElemento("totalRevisados", (dashBoard.approved_plans ?? 0) + (dashBoard.rejected_plans ?? 0));
-        actualizarElemento("voluntariosActivos", dashBoard.active_volunteers);
-        actualizarElemento("promedioPlanes", (dashBoard.avg_plans_per_volunteer ?? 0) + "%");
+
+        const sectionalId = localStorage.getItem("sectional_id");
+        if (sectionalId) {
+            const stats = await get(`sectionals/${sectionalId}/stats_supervisor`);
+            if (stats) {
+                actualizarElemento("voluntariosActivos", stats.voluntarios_activos);
+                actualizarElemento("promedioPlanes", (stats.promedio_planes_por_voluntario ?? 0) + "%");
+            }
+        }
 
         const planesList = document.getElementById("planesList");
         if (planesList && dashBoard.recent_plans?.length) {
