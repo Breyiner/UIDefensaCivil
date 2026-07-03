@@ -32,7 +32,6 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    
 }
 
 .home-supervisor .profile-details h3 {
@@ -70,7 +69,6 @@
     font-size: 3.5rem;
     color: var(--color-secundario);
 }
-
 
 .home-supervisor .dashboard-grid {
     display: grid;
@@ -186,7 +184,6 @@
     gap: 10px;
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--color-secundario);
 }
 
 .home-supervisor .total-revisados-container h4 span {
@@ -555,7 +552,6 @@
     }
     .home-supervisor .card-conteo {
         padding: 10px 12px;
-        
     }
     .home-supervisor .card-conteo .info .number {
         font-size: 1.5rem;
@@ -614,7 +610,6 @@
     .home-supervisor .planes-page {
         scroll-snap-align: start;
         gap: 8px;
-        
     }
     .home-supervisor .row-plan-main {
         flex-direction: column;
@@ -665,17 +660,6 @@
     .home-supervisor .devuelto-reason-container span {
         font-size: 16px;
     }
-}
-
-
-.voluntario-dashboard {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    width: 100%;
-    align-items: center;
-    background: linear-gradient(0deg,rgba(133, 220, 255, 1) 0%, rgba(235, 248, 255, 1) 100%);
-    min-height: 100%;
 }
 
 .v-main-container {
@@ -827,8 +811,6 @@
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
     text-align: center;
-   
-    
 }
 
 .v-btn:hover {
@@ -839,7 +821,6 @@
 .v-btn-orange {
     background-color: var(--color-primario);
     color: white;
-    
 }
 
 .v-btn-blue {
@@ -1029,13 +1010,10 @@
     width: 150px;
 }
 
-
-
 @media (max-width: 1200px) {
     .v-main-container {
         grid-template-columns: 1fr;
     }
-
 }
 
 @media (max-width: 768px) {
