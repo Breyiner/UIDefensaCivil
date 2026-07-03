@@ -10,31 +10,19 @@ import { alertas as alerta } from "@/helpers/index.js";
 import { api } from "@/helpers/index.js";
 
 export default () => {
-  // Selecciona el elemento de texto en la pantalla donde se escribirá la bienvenida
-  const explicaciontitulo = document.querySelector(".explicacion__titulo");
-  
-  // Rescata el nombre y género guardados en el almacenamiento del navegador durante el inicio de sesión
-  const nombre = localStorage.getItem("full_name");
-  const genero = localStorage.getItem("gender_id");
+  const volunteerName = document.querySelector(".v-volunteer-name");
+  const fullName = localStorage.getItem("full_name");
 
-  // Inclusión básica de género (1 = Masculino, otro = Femenino/Otro) para la letra final del saludo
-  if (genero == 1) {
-    explicaciontitulo.textContent = "Bienvenido " + nombre;
-  } else {
-    explicaciontitulo.textContent = "Bienvenida " + nombre;
+  if (volunteerName) {
+    volunteerName.textContent = fullName || "Voluntario";
   }
 
-  // Escucha los clics en toda la ventana para detectar si tocan algún botón del panel
   window.addEventListener("click", async (e) => {
-    // Si toca el botón con el identificador 'nuevoPlan'
-    if (e.target.matches("#nuevoPlan")) {
-      window.location.href = '#/voluntario/plan_familiar/crear'; // Redirige a la pantalla para crear un nuevo plan familiar
-      // alerta.alertaSuscripcionPremium();
+    if (e.target.matches("#nuevoPlan") || e.target.closest("#nuevoPlan")) {
+      window.location.href = '#/voluntario/plan_familiar/crear';
     }
-    // Si toca el botón con el identificador 'verPlan'
-    if (e.target.matches("#verPlan")) {
-      window.location.href = '#/voluntario/plan_familiar'; // Redirige a la pantalla para ver el listado de planes
+    if (e.target.matches("#verPlan") || e.target.closest("#verPlan")) {
+      window.location.href = '#/voluntario/plan_familiar';
     }
-
   });
 }
