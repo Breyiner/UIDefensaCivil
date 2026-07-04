@@ -1,5 +1,6 @@
+// Header: barra superior con logo, notificaciones y perfil; además inyecta sidebar y bottom nav para supervisores
 import * as api from "@/helpers/api";
-import { crearAsideSupervisor } from "@/componentes/navegacion/aside";
+import { crearAsideSupervisor, crearAsideMobile, marcarActivo } from "@/componentes/navegacion/aside";
 
 export const componenteHeader = async () => {
     
@@ -71,6 +72,36 @@ export const componenteHeader = async () => {
         const aside = crearAsideSupervisor();
         aside.classList.add("sidebar--flotante");
         headerCont.appendChild(aside);
+
+        const rutasPublicas = ['/login', '/register', '/forgotPassword', '/verificar_codigo', '/cambiar_password'];
+        const hashActual = window.location.hash.replace('#', '').split('?')[0];
+        const esPaginaPublica = rutasPublicas.some(r => hashActual === r || hashActual.startsWith(r + '/'));
+        if (!esPaginaPublica) {
+            const mobileNav = crearAsideMobile();
+            document.body.appendChild(mobileNav);
+
+            let lastScrollY = 0;
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        const currentY = window.scrollY;
+                        if (currentY > lastScrollY && currentY > 60) {
+                            mobileNav.classList.add('sidebar-mobile--hidden');
+                        } else {
+                            mobileNav.classList.remove('sidebar-mobile--hidden');
+                        }
+                        lastScrollY = currentY;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            window.addEventListener('hashchange', () => {
+                marcarActivo(mobileNav, window.location.hash);
+            });
+        }
     }
 
     const cargarIndicador = async () => {

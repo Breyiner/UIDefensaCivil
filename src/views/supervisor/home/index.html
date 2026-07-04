@@ -1,132 +1,261 @@
-<div class="container container--supervisor">
-    <section class="explicacion">
-        <p class="explicacion__titulo">Hola, Supervisor</p>
-        <p class="explicacion__subtitulo">Bienvenido al panel de Control</p>
-    </section>
+<div class="container container--supervisor home-supervisor">
+    <div class="wrapper">
+        <div class="dashboard-body">
 
-    <h3 class="tarjeta__titulo tarjeta__titulo--left">Estado General</h3>
-    <section class="seccion seccion--estado">
-        <article class="seccion__tarjeta seccion__tarjeta--azul">
-            <i class="ri-file-2-line icono__tarjeta"></i>
-            <div class="seccion__tarjeta-contenido">
-                <p class="tarjeta__header-texto">Planes Recibidos</p>
-                <span id="planesRecibidos" class="seccion__valor">0</span>
-                <p class="seccion__detalle">Nuevos</p>
+            <div class="supervisor-card">
+                <div class="profile-container">
+                    <div class="profile-image-frame">
+                        <span class="ri-user-3-fill"></span>
+                    </div>
+                    <div class="profile-details">
+                        <h1>Panel Supervisor</h1>
+                        <h3>Bienvenido</h3>
+                        <p><span class="ri-map-pin-line"></span> Santander · Supervisor activo</p>
+                    </div>
+                </div>
             </div>
-        </article>
-        <article class="seccion__tarjeta seccion__tarjeta--amarillo">
-            <i class="ri-time-line icono__tarjeta"></i>
-            <div class="seccion__tarjeta-contenido">
-                <p class="tarjeta__header-texto">Planes Recibidos</p>
-                <span id="planesEnRevision" class="seccion__valor">0</span>
-                <p class="seccion__detalle">En revisión</p>
-            </div>
-        </article>
-        <article class="seccion__tarjeta seccion__tarjeta--verde">
-            <i class="ri-checkbox-circle-line icono__tarjeta"></i>
-            <div class="seccion__tarjeta-contenido">
-                <p class="tarjeta__header-texto">Planes Recibidos</p>
-                <span id="planesAprobados" class="seccion__valor">0</span>
-                <p class="seccion__detalle">Aprobados</p>
-            </div>
-        </article>
-        <article class="seccion__tarjeta seccion__tarjeta--rojo">
-            <i class="ri-close-circle-line icono__tarjeta"></i>
-            <div class="seccion__tarjeta-contenido">
-                <p class="tarjeta__header-texto">Planes Recibidos</p>
-                <span id="planesRechazados" class="seccion__valor">0</span>
-                <p class="seccion__detalle">Rechazados</p>
-            </div>
-        </article>
-    </section>
 
-    <h3 class="tarjeta__titulo tarjeta__titulo--left">Últimos planes recibidos</h3>
-    <section class="lista lista--planes">
-        <article class="tarjeta tarjeta--fila tarjeta--plan">
-            <i class="ri-team-line icono__tarjeta tarjeta__icono tarjeta__icono--azul"></i>
-            <div class="tarjeta__contenido tarjeta__contenido--linea">
-                <p class="tarjeta__titulo tarjeta__titulo--pequeno">Familia Kennedy</p>
-                <p class="form__texto form__texto--secundario">Bucaramanga · 30/10/25</p>
-                <p class="form__texto form__texto--secundario">Voluntario: Juan Gomez</p>
-            </div>
-            <span class="badge badge--pendiente">Pendiente</span>
-        </article>
-        <article class="tarjeta tarjeta--fila tarjeta--plan">
-            <i class="ri-team-line icono__tarjeta tarjeta__icono tarjeta__icono--azul"></i>
-            <div class="tarjeta__contenido tarjeta__contenido--linea">
-                <p class="tarjeta__titulo tarjeta__titulo--pequeno">Familia Rodríguez</p>
-                <p class="form__texto form__texto--secundario">Bucaramanga · 10/02/26</p>
-                <p class="form__texto form__texto--secundario">Voluntario: S. Díaz</p>
-            </div>
-            <span class="badge badge--pendiente">Pendiente</span>
-        </article>
-        <article class="tarjeta tarjeta--fila tarjeta--plan">
-            <i class="ri-team-line icono__tarjeta tarjeta__icono tarjeta__icono--azul"></i>
-            <div class="tarjeta__contenido tarjeta__contenido--linea">
-                <p class="tarjeta__titulo tarjeta__titulo--pequeno">Familia Rodríguez</p>
-                <p class="form__texto form__texto--secundario">Bucaramanga · 10/02/26</p>
-                <p class="form__texto form__texto--secundario">Voluntario: S. Díaz</p>
-            </div>
-            <span class="badge badge--pendiente">Pendiente</span>
-        </article>
-    </section>
-    <table class="tabla tabla--supervisor">
-        <thead class="tabla__header">
-            <tr class="tabla__fila tabla__fila--header">
-                <th class="tabla__celda tabla__celda--titulo">Familia</th>
-                <th class="tabla__celda tabla__celda--titulo">Organización</th>
-                <th class="tabla__celda tabla__celda--titulo">Fecha</th>
-                <th class="tabla__celda tabla__celda--titulo">Voluntario</th>
-            </tr>
-        </thead>
-        <tbody class="tabla__contenido">
-            <tr class="tabla__fila">
-                <td class="tabla__celda">
-                        <i class="ri-team-line tabla__icono"></i>
-                        <span>Quintero Díaz</span>
-                </td>
-                <td class="tabla__celda">Bucaramanga</td>
-                <td class="tabla__celda">20/04/2026</td>
-                <td class="tabla__celda">Jhon Díaz</td>
-            </tr>
-            <tr class="tabla__fila">
-                <td class="tabla__celda">
-                        <i class="ri-team-line tabla__icono"></i>
-                        <span>Quintero Díaz</span>
-                </td>
-                <td class="tabla__celda">Bucaramanga</td>
-                <td class="tabla__celda">20/04/2026</td>
-                <td class="tabla__celda">Jhon Díaz</td>
-            </tr>
-            <tr class="tabla__fila">
-                <td class="tabla__celda">
-                        <i class="ri-team-line tabla__icono"></i>
-                        <span>Quintero Díaz</span>
-                </td>
-                <td class="tabla__celda">Bucaramanga</td>
-                <td class="tabla__celda">20/04/2026</td>
-                <td class="tabla__celda">Jhon Díaz</td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="dashboard-grid">
+                <img src="/ilustracion-vector-familia.svg" alt="" aria-hidden="true" class="dashboard-grid__ilustracion">
 
-    <h3 class="tarjeta__titulo tarjeta__titulo--left">Accesos Rápidos</h3>
-    <section class="seccion">
-        <article class="seccion__tarjeta seccion__tarjeta--azul" id="planFamiliar">
-            <i class="ri-file-list-3-line icono__tarjeta"></i>
-            <p class="seccion__detalle">Planes Familiares</p>
-        </article>
-        <article class="seccion__tarjeta seccion__tarjeta--verde" id="voluntarios">
-            <i class="ri-team-line icono__tarjeta"></i>
-            <p class="seccion__detalle">Voluntarios</p>
-        </article>
-        <article class="seccion__tarjeta seccion__tarjeta--naranja" id="estadisticas">
-            <i class="ri-bar-chart-box-line icono__tarjeta"></i>
-            <p class="seccion__detalle">Estadísticas</p>
-        </article>
-        <article class="seccion__tarjeta seccion__tarjeta--naranja" id="peticiones">
-            <i class="ri-git-pull-request-line icono__tarjeta"></i>
-            <p class="seccion__detalle">Peticiones</p>
-        </article>
-    </section>
+                <div class="stats-panel">
+                    <h3 class="section-headline">Estado planes familiares</h3>
+
+                    <div class="grid-cuadrícula">
+                        <div class="card-conteo aprobados">
+                            <span class="ri-checkbox-circle-line icon-size"></span>
+                            <div class="info">
+                                <h5>Planes Aprobados</h5>
+                                <div class="number" id="planesAprobados">0</div>
+                                <span>Aprobados</span>
+                            </div>
+                        </div>
+                        <div class="card-conteo rechazados">
+                            <span class="ri-close-circle-line icon-size"></span>
+                            <div class="info">
+                                <h5>Planes Rechazados</h5>
+                                <div class="number" id="planesRechazados">0</div>
+                                <span>Rechazados</span>
+                            </div>
+                        </div>
+                        <div class="card-conteo pendientes">
+                            <span class="ri-time-line icon-size"></span>
+                            <div class="info">
+                                <h5>Planes Pendientes</h5>
+                                <div class="number" id="planesEnRevision">0</div>
+                                <span>Pendientes</span>
+                            </div>
+                        </div>
+                        <div class="card-conteo nuevos">
+                            <span class="ri-file-2-line icon-size"></span>
+                            <div class="info">
+                                <h5>Planes Recibidos</h5>
+                                <div class="number" id="planesRecibidos">0</div>
+                                <span>Nuevos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="total-revisados-container">
+                        <h4><span class="ri-hotel-line"></span> Total planes revisados</h4>
+                        <div class="big-display" id="totalRevisados">0</div>
+                    </div>
+
+                    <div class="bottom-split-cards">
+                        <div class="mini-metric-card">
+                            <div class="mini-card-lbl">
+                                <span class="ri-team-line"></span> Voluntarios activos
+                            </div>
+                            <div class="big-val" id="voluntariosActivos">0</div>
+                        </div>
+                        <div class="mini-metric-card">
+                            <div class="mini-card-lbl">
+                                <span class="ri-file-list-3-line"></span> Promedio planes por Voluntario
+                            </div>
+                            <div class="big-val" id="promedioPlanes">0%</div>
+                        </div>
+                    </div>
+
+                    <button class="btn-action-orange" id="btnEstadisticas">
+                        <span class="ri-bar-chart-box-line"></span> Ver estadísticas
+                    </button>
+                </div>
+
+                <div class="planes-container-panel">
+                    <div class="panel-planes-title">
+                        Planes Familiares
+                        <span class="ri-team-line"></span>
+                    </div>
+
+                    <div class="planes-lista" id="planesList">
+                        <div class="row-plan-card">
+                            <div class="row-plan-main">
+                                <div class="left-info-group">
+                                    <div class="avatar-circle-icon"><span class="ri-team-line"></span></div>
+                                    <div class="details-list">
+                                        <h4>Familia Quintero</h4>
+                                        <p><span class="ri-map-pin-line"></span> Palonegro, Santander</p>
+                                        <p><span class="ri-calendar-line"></span> Recibido: 02/04/2026</p>
+                                        <p><span class="ri-user-line"></span> Voluntario: Juan A. Diaz</p>
+                                    </div>
+                                </div>
+                                <div class="right-status-group">
+                                    <div class="timestamp">Hace 10 min</div>
+                                    <div class="status-pill pendiente">Pendiente</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-plan-card">
+                            <div class="row-plan-main">
+                                <div class="left-info-group">
+                                    <div class="avatar-circle-icon"><span class="ri-team-line"></span></div>
+                                    <div class="details-list">
+                                        <h4>Familia Rodriguez</h4>
+                                        <p><span class="ri-map-pin-line"></span> Bucaramanga, Santander</p>
+                                        <p><span class="ri-calendar-line"></span> Recibido: 28/03/2026</p>
+                                        <p><span class="ri-user-line"></span> Voluntario: Maria L. Perez</p>
+                                    </div>
+                                </div>
+                                <div class="right-status-group">
+                                    <div class="timestamp">Hace 2 horas</div>
+                                    <div class="status-pill pendiente">Pendiente</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-plan-card">
+                            <div class="row-plan-main">
+                                <div class="left-info-group">
+                                    <div class="avatar-circle-icon"><span class="ri-team-line"></span></div>
+                                    <div class="details-list">
+                                        <h4>Familia Moreno</h4>
+                                        <p><span class="ri-map-pin-line"></span> Floridablanca, Santander</p>
+                                        <p><span class="ri-calendar-line"></span> Recibido: 25/03/2026</p>
+                                        <p><span class="ri-user-line"></span> Voluntario: Carlos Rueda</p>
+                                    </div>
+                                </div>
+                                <div class="right-status-group">
+                                    <div class="timestamp">Hace 1 dia</div>
+                                    <div class="status-pill devuelto">Devuelto</div>
+                                </div>
+                            </div>
+                            <div class="devuelto-reason-container">
+                                <span class="ri-chat-1-line"></span>
+                                <div>
+                                    <strong>Motivo</strong><br>
+                                    Integrantes no identificados correctamente en el registro
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-plan-card">
+                            <div class="row-plan-main">
+                                <div class="left-info-group">
+                                    <div class="avatar-circle-icon"><span class="ri-team-line"></span></div>
+                                    <div class="details-list">
+                                        <h4>Familia Lopez</h4>
+                                        <p><span class="ri-map-pin-line"></span> Piedecuesta, Santander</p>
+                                        <p><span class="ri-calendar-line"></span> Recibido: 20/03/2026</p>
+                                        <p><span class="ri-user-line"></span> Voluntario: Ana Torres</p>
+                                    </div>
+                                </div>
+                                <div class="right-status-group">
+                                    <div class="timestamp">Hace 3 dias</div>
+                                    <div class="status-pill pendiente">Pendiente</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-plan-card">
+                            <div class="row-plan-main">
+                                <div class="left-info-group">
+                                    <div class="avatar-circle-icon"><span class="ri-team-line"></span></div>
+                                    <div class="details-list">
+                                        <h4>Familia Castro</h4>
+                                        <p><span class="ri-map-pin-line"></span> Girón, Santander</p>
+                                        <p><span class="ri-calendar-line"></span> Recibido: 15/03/2026</p>
+                                        <p><span class="ri-user-line"></span> Voluntario: Pedro Rojas</p>
+                                    </div>
+                                </div>
+                                <div class="right-status-group">
+                                    <div class="timestamp">Hace 5 dias</div>
+                                    <div class="status-pill devuelto">Devuelto</div>
+                                </div>
+                            </div>
+                            <div class="devuelto-reason-container">
+                                <span class="ri-chat-1-line"></span>
+                                <div>
+                                    <strong>Motivo</strong><br>
+                                    Datos de ubicación incompletos
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-plan-card">
+                            <div class="row-plan-main">
+                                <div class="left-info-group">
+                                    <div class="avatar-circle-icon"><span class="ri-team-line"></span></div>
+                                    <div class="details-list">
+                                        <h4>Familia Diaz</h4>
+                                        <p><span class="ri-map-pin-line"></span> Bucaramanga, Santander</p>
+                                        <p><span class="ri-calendar-line"></span> Recibido: 10/03/2026</p>
+                                        <p><span class="ri-user-line"></span> Voluntario: Laura Mendez</p>
+                                    </div>
+                                </div>
+                                <div class="right-status-group">
+                                    <div class="timestamp">Hace 1 semana</div>
+                                    <div class="status-pill pendiente">Pendiente</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-plan-card">
+                            <div class="row-plan-main">
+                                <div class="left-info-group">
+                                    <div class="avatar-circle-icon"><span class="ri-team-line"></span></div>
+                                    <div class="details-list">
+                                        <h4>Familia Ruiz</h4>
+                                        <p><span class="ri-map-pin-line"></span> Floridablanca, Santander</p>
+                                        <p><span class="ri-calendar-line"></span> Recibido: 05/03/2026</p>
+                                        <p><span class="ri-user-line"></span> Voluntario: Camilo Suarez</p>
+                                    </div>
+                                </div>
+                                <div class="right-status-group">
+                                    <div class="timestamp">Hace 2 semanas</div>
+                                    <div class="status-pill devuelto">Devuelto</div>
+                                </div>
+                            </div>
+                            <div class="devuelto-reason-container">
+                                <span class="ri-chat-1-line"></span>
+                                <div>
+                                    <strong>Motivo</strong><br>
+                                    Falta firma del voluntario encargado
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-plan-card">
+                            <div class="row-plan-main">
+                                <div class="left-info-group">
+                                    <div class="avatar-circle-icon"><span class="ri-team-line"></span></div>
+                                    <div class="details-list">
+                                        <h4>Familia Medina</h4>
+                                        <p><span class="ri-map-pin-line"></span> Piedecuesta, Santander</p>
+                                        <p><span class="ri-calendar-line"></span> Recibido: 01/03/2026</p>
+                                        <p><span class="ri-user-line"></span> Voluntario: Sofia Rangel</p>
+                                    </div>
+                                </div>
+                                <div class="right-status-group">
+                                    <div class="timestamp">Hace 3 semanas</div>
+                                    <div class="status-pill pendiente">Pendiente</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="planes-panel-footer">
+                        <button class="btn-action-orange" id="btnVerTodos">
+                            <span class="ri-eye-line"></span> Ver todos los planes
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

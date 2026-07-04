@@ -38,8 +38,8 @@ import * as datosMaestros from "@/views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "@/views/administrador/usuarios/index.js"
 import * as usuario from "@/views/usuario/index.js"
 import notificacionesController from "@/views/notificaciones/notificacionesController.js";
-import EstadisticaController from "../views/supervisor/Estadistica/EstadisticaController";
-import logController from "../views/auth/login_register/logController";
+import EstadisticaController from "@/views/supervisor/Estadistica/EstadisticaController";
+import logController from "@/views/auth/login_register/logController";
 
 // Configuraciones predefinidas de permisos para cada ruta
 const publicRoute = { private: false, permissions: [] };

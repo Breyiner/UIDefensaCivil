@@ -60,6 +60,9 @@ window.addEventListener("hashchange", async () => {
     if (headerContEl) {
         headerContEl.remove();
     }
+
+    const mobileNav = document.getElementById("sidebarMobile");
+    if (mobileNav) mobileNav.remove();
     
     // Inicializa la lógica del encabezado si el usuario está autenticado.
     if (isAuth()) {
