@@ -7,8 +7,7 @@
 import { api } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { alertas as alerta } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { factorRiesgo as modalFactorRiesgo } from "@/helpers/modales/index.js";
+import { verRiesgo } from "@/componentes/riesgo/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { paginacion } from "@/helpers/index.js";
 
@@ -154,7 +153,7 @@ export default async () => {
 
         // Branch 3: Lanza SubRutina Ver detalles completos sweetalert Helper global (ReadOnly de Relaciones Acción y Vulnerab)
         if (boton.classList.contains("verRiesgos__boton--verMas")) {
-            modalFactorRiesgo.ver(riskId);
+            verRiesgo(riskId);
         }
     });
 

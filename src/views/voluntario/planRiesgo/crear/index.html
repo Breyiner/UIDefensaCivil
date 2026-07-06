@@ -3,40 +3,5 @@
         <p class="explicacion__titulo">Agregar riesgo</p>
         <p class="explicacion__subtitulo">Llene los datos con la informacion del riesgo</p>
     </div>
-
-<form method="POST" class="form">
-
-    <div class="input">
-        <div class="form__inputBox form__inputBox--selector">
-            <i class="ri-error-warning-line" id="selector__icono"></i>
-            <select class="selector" id="tiposAmenaza">
-                <option value="" hidden>Seleccione un tipo de amenaza...</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="input">
-        <div class="form__inputBox">
-            <i class="ri-file-text-line"></i>
-            <textarea id="descripcion" placeholder="Descripcion" autocomplete="off"></textarea>
-        </div>
-    </div>
-
-    <div class="input">
-        <div class="form__inputBox">
-            <i class="ri-map-2-line"></i>
-            <input type="text" id="ubicacion" placeholder="Ubicacion del riesgo" autocomplete="off">
-        </div>
-    </div>
-
-    <div class="input">
-        <div class="form__inputBox">
-            <i class="ri-map-pin-line"></i>
-            <input type="text" id="distancia" placeholder="Distancia del riesgo" autocomplete="off">
-        </div>
-    </div>
-
-    <button class="boton" id="botonSiguiente" disabled>Seguiente</button>
-
-</form>
+    <div class="container__gap" id="contenedor-riesgo"></div>
 </div>

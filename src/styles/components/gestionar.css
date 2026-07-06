@@ -8,6 +8,7 @@
   justify-content: center;
   align-items: center;
   background-color: var(--color-palido);
+  gap: 15px;
 }
 
 .gestionarAfecciones__header{
@@ -34,7 +35,6 @@
 .gestionarAfecciones__lista{
   display: flex;
   flex-direction: column;
-  text-align: center;
   width: 95%;
   gap: 10px;
 }
@@ -53,8 +53,22 @@
   transition: 0.5s;
 }
 
-.gestionarAfecciones__mensajeVacio {
+.gestionarAfecciones__afeccion--editable {
+  cursor: pointer;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--tamano-mediano);
+  border: 2px solid var(--color-lila);
+  color: var(--color-lila);
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-left: 5px;
+  transition: 0.3s;
+  background: transparent;
+}
 
+.gestionarAfecciones__mensajeVacio {
   padding: 20px;
   color: var(--color-grisOscuro);
   font-size: 1.5rem;
@@ -67,7 +81,19 @@
   text-overflow: ellipsis;
 }
 
-.gestionarAfecciones__afeccion:active{
+.vacuna-tag__eliminar {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: var(--tamano-medio-grande);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.gestionarAfecciones__afeccion:not(.gestionarAfecciones__afeccion--editable):active{
   background-color: var(--color-secundario);
   color: var(--color-palido);
   scale: 0.8;
