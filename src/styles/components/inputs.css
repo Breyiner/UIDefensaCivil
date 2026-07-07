@@ -81,7 +81,7 @@ textarea:focus {
 
 .form__inputBox {
   display: flex;
-  border: var(--color-grisMedio) solid 2px;
+  /* border: var(--color-grisMedio) solid 2px; */
   border-radius: var(--border-radius-botones);
   width: 100%;
   background-color: var(--color-palido);

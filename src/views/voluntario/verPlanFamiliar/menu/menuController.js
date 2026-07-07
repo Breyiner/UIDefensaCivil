@@ -14,7 +14,7 @@ import { formatearLista, separarLista } from "../../../../componentes/separar/se
 export default async () => {
   // Selectores DOM de la Cuadrícula HTML de Módulos (Iconos grandes)
   const botonBack = document.getElementById("botonBack");
-  const nombreFamilia = document.querySelector(".informacion__nombreFamiliar");
+  const nombreFamilia = document.querySelector(".menu--header__nombre--familia");
   const datosPrincipales = document.getElementById("datosPrincipales");
   const integrante = document.getElementById("integrantes");
   const mascotas = document.getElementById("mascotas");
@@ -207,7 +207,7 @@ export default async () => {
    * Si el Backend me mandó de vuelta la propiedad 'comentary' poblada 
    * significa que el supervisor me devolvió la tarea con notas rojas.
    */
-  if (planFamiliar.comentary) comentarios.classList.remove("invisible"); // Desenmascara la campana roja
+  if (planFamiliar.comentary) comentarios.classList.remove("oculto"); // Desenmascara la campana roja
   
   // Al pulsar la campana, Lanza el Sweet Alert Explicativo con el texto largo del Jefe
   comentarios.addEventListener("click", async () => {
