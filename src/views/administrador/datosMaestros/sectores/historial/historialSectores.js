@@ -3,10 +3,14 @@ import historial from "@/componentes/historial/historial";
 import { api } from "@/helpers/index.js";
 
 const historialSectores = async () => {
+
+    const datoHistorial = document.querySelector(".dato--historial");
     
     const id = location.hash.split("=")[1];
 
     const datoMaestro = await api.get(`sectors/${id}`);
+
+    datoHistorial.textContent = datoMaestro.name;
 
     const endpoint = `sectors/${id}/history`;
 

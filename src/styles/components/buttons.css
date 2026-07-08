@@ -4,8 +4,8 @@ button {
 }
 
 .boton {
-  width: 60%;
-  padding: 10px;
+  width: fit-content;
+  padding: 10px 20px;
   border-radius: var(--border-radius-botones);
   background-color: var(--color-primario);
   color: var(--color-palido);

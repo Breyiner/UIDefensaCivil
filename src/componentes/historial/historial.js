@@ -122,33 +122,6 @@ const historial = async (endpoint, nombreSubDato) => {
           selectedAuditIds = [];
           await recargarContainer();
         });
-
-        // btnBorrar.addEventListener('click', async () => {
-        //     const totalElementos = selectedAuditIds.length;
-        //     const confirmacion = await alerta.alertaQuest(`¿Estás seguro de que deseas eliminar los ${totalElementos} registros seleccionados del historial?`);
-            
-        //     if (!confirmacion.isConfirmed) return;
-
-        //     try {
-        //         let fallos = 0;
-        //         // Ejecutamos las peticiones de borrado de forma paralela
-        //         await Promise.all(selectedAuditIds.map(async (id) => {
-        //             const eliminado = await api.delet(`audits/${id}/delete_audit`);
-        //             if (!eliminado.success) fallos++;
-        //         }));
-
-        //         if (fallos === 0) {
-        //             await alerta.alertaOK("Los registros seleccionados se eliminaron con éxito.");
-        //         } else {
-        //             await alerta.alertaError(`Se procesó la solicitud, pero no se pudieron eliminar ${fallos} registros.`);
-        //         }
-        //     } catch (error) {
-        //         await alerta.alertaError("Ocurrió un error inesperado al procesar el borrado masivo.");
-        //     }
-
-        //     selectedAuditIds = []; // Limpiamos la memoria de seleccionados
-        //     await recargarContainer();
-        // });
         
     }
 
@@ -268,6 +241,12 @@ const historial = async (endpoint, nombreSubDato) => {
         name.classList.add('name-Historial');
         name.textContent = dato.data_new ?? dato.data_old ?? "Sin registro";
 
+        const limit_carat = 75;
+
+        if (name.textContent.length > limit_carat) {
+            name.classList.add('name-historial__large');
+        }
+
         historialNameAct.append(name);
 
         
@@ -365,40 +344,6 @@ const historial = async (endpoint, nombreSubDato) => {
         dateIcon.classList.add('ri-calendar-event-fill');
     
         dateContainer.append(dateIcon, date);
-
-        // BOTON BORRAR DATO_____________________________________________
-        // const borrarbtn = document.createElement('button');
-        // borrarbtn.classList.add('borrarHistorial');
-
-        // const borrarIcono = document.createElement('i');
-        // borrarIcono.classList.add('ri-delete-bin-2-fill');
-
-        // const borrarText = document.createElement('p');
-        // borrarText.textContent = 'Borrar dato del historial';
-
-        // borrarbtn.append(borrarIcono, borrarText);
-
-        // borrarbtn.addEventListener('click', async () => {
-
-        //     const confirmacion = await alerta.alertaQuest('¿Estás seguro de que deseas eliminar este registro del historial?');
-
-        //     if (!confirmacion.isConfirmed) return;
-
-        //     const eliminado = await api.delet(`audits/${dato.id}/delete_audit`);
-
-        //     if (eliminado.success) {
-
-        //       await alerta.alertaOK(eliminado.message);
-
-        //       await recargarContainer();
-
-        //     } else {
-
-        //       await alerta.alertaError(
-        //         eliminado?.message || "No se pudo eliminar el registro.",
-        //       );
-        //     }
-        // });
 
         card.append(userContainer, historialContainer, dateContainer);
 

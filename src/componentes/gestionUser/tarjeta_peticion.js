@@ -87,20 +87,40 @@ export const tarjetaPeticion = (info) => {
     tarjetaBadge.textContent = info.status;
     tarjetaEstado.append(tarjetaTiempo, tarjetaBadge);
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.classList.add("tarjeta__checkbox");
+    // Checkbox con label (misma estructura que en historial.js)
+    const uniqueId = `checkPeticion-${info.id}`;
+
+    const checkCont = document.createElement('div');
+    checkCont.classList.add('check-peticion_cont');
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = uniqueId;
+    checkbox.classList.add('oculto');
     checkbox.value = info.id;
 
-    checkbox.addEventListener("click", (e) => {
-    e.stopPropagation();
-});
+    const labelCheckbox = document.createElement('label');
+    labelCheckbox.htmlFor = uniqueId;
 
-    // Unir elementos al header
+    const iconCheck = document.createElement('i');
+    iconCheck.className = 'ri-check-line';
+
+    labelCheckbox.appendChild(iconCheck);
+    checkCont.append(checkbox, labelCheckbox);
+
+    iconCheck.classList.toggle('oculto', !checkbox.checked);
+
+    checkbox.addEventListener('change', function () {
+
+        const isChecked = this.checked;
+
+        iconCheck.classList.toggle("oculto", !isChecked);
+    });
+
     tarjetaHeader.append(tarjetaIconoCont, tarjetaInfo, tarjetaEstado);
 
-    // Unir el header al contenedor principal
-    tarjeta.append(checkbox, tarjetaHeader);
+    
+    tarjeta.append(checkCont, tarjetaHeader);
 
     return tarjeta;
 };

@@ -1,17 +1,19 @@
 .paginador__numero{
   border: none;
-  width: 100%;
+  /* width: 100%; */
+  min-width: 50px;
   padding: 10px;
-  background-color: var(--color-grisFondo);
+  background: linear-gradient(180deg, rgba(133, 220, 255, 1) 0%, rgba(235, 248, 255, 0) 100%);
   color: var(--color-secundario);
   font-weight: bolder;
+  font-size: 1.2rem;
   transition: 0.3s;
-  border-radius: var(--border-radius-tarjetas);
+  border-radius: 100px;
 }
-.paginador__numero:active{
+/* .paginador__numero:active{
   background-color: var(--color-secundario);
   color: var(--color-palido);
-}
+} */
 .paginador__numero--activo{
   background-color: var(--color-secundario);
   color: var(--color-palido);

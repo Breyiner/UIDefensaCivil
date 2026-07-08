@@ -122,7 +122,7 @@ export default async () => {
     contenedor.addEventListener("click", async (e) => {
 
         // Verifica si el clic recayó exacto sobre, o dentro (Span/icon), de un <button> HTML
-        const tarjetaClickeada = e.target.closest(".tarjeta");
+        const tarjetaClickeada = e.target.closest(".tarjeta__header");
         if (!tarjetaClickeada) return; // Rompe si tocó pared vacía
 
         // Recuperar Meta-ID guardado en tiempo de inyección (data-id)
