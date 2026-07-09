@@ -2,56 +2,30 @@
  * Controlador: Gestor Completo del Riesgo, Modifica Riesgo Base e inyecta Relaciones Hijos (planRiesgo/editarController.js)
  * Controlador de Alta Complejidad. Permite Múltiples Operaciones Interrelacionadas:
  * 1. Edita Atributos Padre (Factor de Riesgo/Amenaza) PATCH Base.
- * 2. Visualización e Inserción usando Modal Popups Múltiples Excéntricos para hijos: "Acciones para Reducir Riesgo" Y "Factores Vulnerabilidad".
+ * 2. Visualización e Inserción usando modales de UI reutilizados de componentes para hijos: "Acciones para Reducir Riesgo" Y "Factores Vulnerabilidad".
  */
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { api } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { alertas as alerta } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { factorRiesgo as modalFactorRiesgo } from "@/helpers/modales/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { acordeon } from "@/helpers/index.js";
+import { validacionInputs as validacion } from "@/helpers/index.js";
+import { VistaRiesgo, tarjetaVulnerabilidad, tarjetaAccion, agregarVulnerabilidadMemoria, agregarAccionMemoria } from "@/componentes/riesgo/index.js";
 
 export default async () => {
-    // Nav Actioners DOM Reference Buttons Nodos Master Layout Target Selectors Elements  
     const esSupervisor = location.hash.includes("/supervisor/");
-    
-    const botonBack = document.getElementById("botonBack");
-    const botonGuardar = document.getElementById("botonGuardar"); // Base Patch Target Submission API Method Patch Only Main Parent "Risk" Trigger Save Actions Request. Does not touch relationships.
-    const form = document.querySelector(".form");
-    
-    // Contenedores Arrays Acordeon Desplegable Inferior para la lógica Relacional N UI (1 a Muchos DB).
-    const contenedorAcciones = document.querySelector(".gestionarAcciones__lista");
-    const contenedorVulnerabilidades = document.querySelector(".gestionarVulnerabilidades__lista");
-    
-    // Botones Triggers (Añadir Nuevo "Hijo") 
-    const botonAñadirAcciones = document.querySelector(".gestionarAcciones__boton");
-    const botonAñadirVulnerabilidad = document.querySelector(".gestionarVulnerabilidades__boton");
+    const hashQuery = location.hash.split("?")[1] ?? "";
+    const params = new URLSearchParams(hashQuery);
 
-    if (esSupervisor){
-        botonAñadirAcciones.classList.add("oculto");
-        botonAñadirVulnerabilidad.classList.add("oculto");
-    }
-
-    // PARSING DOBLE URL
-    const hashQuery = location.hash.split("?")[1] ?? ""; // Si no hay query params, asigna string vacío para evitar errores al crear URLSearchParams
-    const params = new URLSearchParams(hashQuery); // Crea instancia URLSearchParams para extraer parámetros específicos de la URL despues del signo de interrogación
-
-    const planId = params.get("familia_id"); // ID de la familia a la que pertenece el riesgo (para navegación posterior)
-    const riesgoId = params.get("riesgo_id"); // ID específico del factor de riesgo que se está editando, utilizado para cargar sus datos y gestionar sus relaciones (acciones y vulnerabilidades)
+    const planId = params.get("familia_id");
+    const riesgoId = params.get("riesgo_id");
 
     if (window.procesoPeticion === undefined) {
         window.procesoPeticion = true;
     }
-    window.procesoPeticion = true;
+    window.procesoPeticion = false;
 
-
-    // Accion Atras Muro General List Navigation 
+    // Lógica Botón Atrás
+    const botonBack = document.getElementById("botonBack");
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
         if (esSupervisor) {
@@ -61,124 +35,232 @@ export default async () => {
         location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${planId}`;
     };
 
-    // Inputs Elementos Base Formularios DOM Reference HTML
-    const amenazas = document.getElementById("tiposAmenaza");
-    const descripcion = document.getElementById("descripcion");
-    const ubicacion = document.getElementById("ubicacion");
-    const distancia = document.getElementById("distancia");
+    // Cargar datos del factor de riesgo desde el servidor
+    let riskData = null;
+    if (riesgoId) {
+        riskData = await api.get(`riskFactors/${riesgoId}`);
+    }
 
-    // Select Autorellenador Option Tool Loader 
-    await adjuntarOpc.adjuntar(amenazas, "threatTypes");
+    // Instancia el componente visual de factores de riesgo (retorna el nodo del formulario)
+    const form = await VistaRiesgo({
+        riskData: riskData,
+        esSupervisor: esSupervisor
+    });
 
-    // Cargar datos actuales del riesgo pre-escritos HTTP GET API Filler (Auto Inject .value Form Native Property Element Binder Array KeyMap) 
-    await cargarDatos.cargarDatos(`riskFactors/${riesgoId}`,
-        [amenazas, descripcion, ubicacion, distancia],
-        ["threat_type_id", "description", "ubication", "distance"]
-    );
+    const contenedor = document.getElementById("contenedor-riesgo");
+    contenedor.innerHTML = ""; // Limpiar
+    contenedor.appendChild(form);
 
-    /**
-     * Helper Func: Pinta lista interactiva de 'Acciones para reducir' actualmente mapeadas a este Riesgo Base Target ID 
-     */
-    const cargarAcciones = async () => {
-        const acciones = await api.get(`riskReductionActions/riskFactor/${riesgoId}`); // Endpoint 1 N Get List Query Relation Response Mapping App Status Load Json 
-        contenedorAcciones.innerHTML = "";
+    // Inicializar validador automático sobre el formulario
+    validacion.validadorAutomatico.init(form);
 
-        acciones.forEach((item) => {
-            const boton = document.createElement("button"); // List element UI Factory
-            boton.className = "gestionarAfecciones__afeccion"; // Uso del diseño Reciclado .gestionarAfecciones
-            boton.dataset.id = item.id;
-            const span = document.createElement("span");
-            span.className = "gestionarAfecciones__tipoNombre";
-            const icon = document.createElement("i");
-            icon.className = "ri-eye-fill";
-            span.appendChild(icon);
-            span.appendChild(document.createTextNode(` ${item.action} - ${item.end_date}`));
-            boton.appendChild(span);
-            contenedorAcciones.appendChild(boton);
-        });
-    };
+    // Obtener referencias de elementos del DOM internos del formulario
+    const descripcionTextarea = form.querySelector("#descripcion");
+    const ubicacionInput = form.querySelector("#ubicacion");
+    const amenazaSelect = form.querySelector("#tiposAmenaza");
+    const distanciaInput = form.querySelector("#distancia");
+    const btnAgregarVuln = form.querySelector("#btnAgregarVulnerabilidad");
+    const btnAgregarAcc = form.querySelector("#btnAgregarAccion");
+    const listaVulnDiv = form.querySelector("#vulnerabilidades-lista");
+    const listaAccDiv = form.querySelector("#acciones-lista");
+    const btnGuardar = form.querySelector("#botonGuardar");
 
-    /**
-     * Helper Func: Pinta lista interactiva de "Factores de Vulnerabilidad" mapeadas a este Riesgo Base Target ID  
-     */
+    // Helper local para renderizar vulnerabilidades
     const cargarVulnerabilidades = async () => {
-        const acciones = await api.get(`vulnerabilityFactors/riskFactor/${riesgoId}`); // Endpoint Get Query Fetch DB List Vulnerability Linked Table Data Mapping Response Json Data Formater Request Backend Router Server Controller Action Execute Model Relation N Get Property Linked 
-        contenedorVulnerabilidades.innerHTML = "";
+        const list = await api.get(`vulnerabilityFactors/riskFactor/${riesgoId}`) || [];
+        listaVulnDiv.innerHTML = "";
 
-        acciones.forEach((item) => {
-            const boton = document.createElement("button");
-            boton.className = "gestionarAfecciones__afeccion"; // Diseño reciclado de lista afecciones...
-            boton.dataset.id = item.id;
-            const span = document.createElement("span");
-            span.className = "gestionarAfecciones__tipoNombre";
-            const icon = document.createElement("i");
-            icon.className = "ri-eye-fill";
-            span.appendChild(icon);
-            span.appendChild(document.createTextNode(` ${item.vulnerability.name} - Grado: ${item.vulnerability_grade.name}`));
-            boton.appendChild(span);
-            contenedorVulnerabilidades.appendChild(boton);
+        if (list.length === 0) {
+            const emptyMsg = document.createElement("p");
+            emptyMsg.className = "gestionarAfecciones__mensajeVacio";
+            emptyMsg.textContent = "No hay vulnerabilidades registradas.";
+            listaVulnDiv.appendChild(emptyMsg);
+            return;
+        }
+
+        list.forEach((vuln) => {
+            const tag = tarjetaVulnerabilidad(
+                vuln,
+                esSupervisor,
+                () => {
+                    // Editar vulnerabilidad en la base de datos usando el componente modal de UI
+                    agregarVulnerabilidadMemoria({
+                        initialData: vuln,
+                        onSave: async (updatedData) => {
+                            const res = await api.patch(`vulnerabilityFactors/${vuln.id}`, {
+                                vulnerability_id: updatedData.vulnerability_id,
+                                vulnerability_grade_id: updatedData.vulnerability_grade_id
+                            });
+                            if (res.success) {
+                                await alerta.alertaOK(res.message);
+                                cargarVulnerabilidades();
+                                return true;
+                            } else {
+                                alerta.alertaWarning(res.message, res.errors);
+                                return false;
+                            }
+                        }
+                    });
+                },
+                async () => {
+                    // Lógica del delete si es voluntario
+                    const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar esta vulnerabilidad?");
+                    if (!confirmacion.isConfirmed) return;
+
+                    const res = await api.delet(`vulnerabilityFactors/${vuln.id}`);
+                    if (res.success) {
+                        await alerta.alertaOK(res.message);
+                        cargarVulnerabilidades();
+                    }
+                }
+            );
+            listaVulnDiv.appendChild(tag);
         });
     };
 
-    // Auto Inicializadores Helpers Globales Tools Utilities UI DOM Scripts
-    acordeon() // Reactiva animaciones desplegables ocultas Toggle Expand UI Element Container Sublists Data Grid Arrays Box Design Layout Component 
-    cargarAcciones();
+    // Helper local para renderizar acciones de reducción
+    const cargarAcciones = async () => {
+        const list = await api.get(`riskReductionActions/riskFactor/${riesgoId}`) || [];
+        listaAccDiv.innerHTML = "";
+
+        if (list.length === 0) {
+            const emptyMsg = document.createElement("p");
+            emptyMsg.className = "gestionarAfecciones__mensajeVacio";
+            emptyMsg.textContent = "No hay acciones de reducción registradas.";
+            listaAccDiv.appendChild(emptyMsg);
+            return;
+        }
+
+        list.forEach((action) => {
+            const tag = tarjetaAccion(
+                action,
+                esSupervisor,
+                () => {
+                    // Editar acción de reducción en la base de datos usando el componente modal de UI
+                    agregarAccionMemoria({
+                        familyPlanId: planId,
+                        initialData: action,
+                        onSave: async (updatedData) => {
+                            const res = await api.patch(`riskReductionActions/${action.id}`, {
+                                action: updatedData.action,
+                                member_id: updatedData.member_id,
+                                end_date: updatedData.end_date
+                            });
+                            if (res.success) {
+                                await alerta.alertaOK(res.message);
+                                cargarAcciones();
+                                return true;
+                            } else {
+                                alerta.alertaWarning(res.message, res.errors);
+                                return false;
+                            }
+                        }
+                    });
+                },
+                async () => {
+                    // Lógica del delete si es voluntario
+                    const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar esta acción?");
+                    if (!confirmacion.isConfirmed) return;
+
+                    const res = await api.delet(`riskReductionActions/${action.id}`);
+                    if (res.success) {
+                        await alerta.alertaOK(res.message);
+                        cargarAcciones();
+                    }
+                }
+            );
+            listaAccDiv.appendChild(tag);
+        });
+    };
+
+    // Cargar listas iniciales
     cargarVulnerabilidades();
+    cargarAcciones();
 
-    window.procesoPeticion = false;
-    botonGuardar.disabled = false;
+    // Click en agregar vulnerabilidad
+    if (!esSupervisor) {
+        btnAgregarVuln.addEventListener("click", () => {
+            agregarVulnerabilidadMemoria({
+                initialData: null,
+                onSave: async (data) => {
+                    const res = await api.post("vulnerabilityFactors", {
+                        vulnerability_id: data.vulnerability_id,
+                        vulnerability_grade_id: data.vulnerability_grade_id,
+                        risk_factor_id: riesgoId
+                    });
+                    if (res.success) {
+                        await alerta.alertaOK(res.message);
+                        cargarVulnerabilidades();
+                        return true;
+                    } else {
+                        alerta.alertaWarning(res.message, res.errors);
+                        return false;
+                    }
+                }
+            });
+        });
 
-    // Lanza Modales De Inserción Hijos Relación One-To-Many (Usa Helpers externos Complex SweetAlerts Multi Inputs Logic Wrapper Tool API Form Injected Actions Scripts Execution Callbacks Trigger Handler Functions) 
-    botonAñadirAcciones.addEventListener("click", async () => {
-        modalFactorRiesgo.crearAccion(riesgoId, planId, cargarAcciones); // Pasa Puntero DB ID FK Binding + CallBack Refresh Re Render UI State List Updated Local Sync No Web Page Refresh Application Logic Pattern Design Architecture Implementation Approach SPA Method Use Case Scenario Feature App Flow Functionality Requirement Specification 
-    });
+        // Click en agregar acción
+        btnAgregarAcc.addEventListener("click", () => {
+            agregarAccionMemoria({
+                familyPlanId: planId,
+                initialData: null,
+                onSave: async (data) => {
+                    const res = await api.post("riskReductionActions", {
+                        action: data.action,
+                        member_id: data.member_id,
+                        risk_factor_id: riesgoId,
+                        end_date: data.end_date
+                    });
+                    if (res.success) {
+                        await alerta.alertaOK(res.message);
+                        cargarAcciones();
+                        return true;
+                    } else {
+                        alerta.alertaWarning(res.message, res.errors);
+                        return false;
+                    }
+                }
+            });
+        });
+    }
 
-    botonAñadirVulnerabilidad.addEventListener("click", async () => {
-        modalFactorRiesgo.crearVulnerabilidad(riesgoId, cargarVulnerabilidades); // CallBack Refresher UI Inject
-    });
-
-    // Delegador Bubbling Evento para Click en items específicos de Sub-listas (Abrir vista detalle modal sweetalert para Modificar/Borrar un Hijo Individual de la relación)
-    contenedorAcciones.addEventListener("click", async (e) => {
-        const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id;
-        modalFactorRiesgo.verEditarEliminarAccion(id, planId, cargarAcciones, esSupervisor);
-    });
-
-    // Delegador Vulnerabilidad Info Action Request Delete Edit Detail View Detail Popup Data Trigger Handler Execute Callback Refresh Re-Load Method Render List Pattern Application State Synced Application Client Server API Local Function Implementation Tool Usage Guide Flow Function Execution Runtime Interaction Behavior Case 
-    contenedorVulnerabilidades.addEventListener("click", async (e) => {
-        const id = e.target.closest(".gestionarAfecciones__afeccion").dataset.id;
-        modalFactorRiesgo.verEditarEliminarVulnerabilidad(id, cargarVulnerabilidades, esSupervisor);
-    });
-
-
-    // Submit del PADRE: Modificar Datos Root Del Riesgo Base (no sus ramas/hijos acciones). Core Parent Model Attribute Partial Update Patch JSON HTTP Call Script Logic Trigger Function Event Binding Form Method Submit Prevent Default Lock Check Network Wait Await Response Parse Evaluation Handle Alerts Error Messages Throw Return Exit Try Catch Block
+    // Submit del PADRE: Modificar Datos del Riesgo Base
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        window.procesoPeticion = true;
-        botonGuardar.disabled = true;
 
-        // DTO Base Constructor
+        // Validar inputs
+        const isValid = validacion.validadorAutomatico.validarTodo(form);
+        if (!isValid) return;
+
+        if (window.procesoPeticion) return;
+        window.procesoPeticion = true;
+        btnGuardar.disabled = true;
+
         const datosRegistro = {
-            threat_type_id: amenazas.value,
-            description: descripcion.value,
-            location: ubicacion.value,
-            distance: distancia.value,
+            threat_type_id: amenazaSelect.value,
+            description: descripcionTextarea.value,
+            location: ubicacionInput.value,
+            distance: distanciaInput.value,
         };
 
         try {
-            // PATCH EndPoint Factor De Riesgo Padre Update Request Action Database Push SQL Modification Value Parameters Model Mapping Binding Evaluation Results Return Data Json Structure Code Success Boolean Validator Message Helper UI Notice Output Trigger Handlers Scripts 
             const data = await api.patch(`riskFactors/${riesgoId}`, datosRegistro);
             if (data.success) {
-                // Notificar Front Success. Se queda en esta page viva permitiendo anexar sub-ramificaciones hijos (Vulnerabilidades, Acciones). No te patea atrás UX Pattern UI Design Control User Flow Execution Application Component Use Case Functionality Method Process Evaluation Implementation Test Case Procedure Logic Model Form Controller Component Tool Script Request Call Axios Response Catch Error Logic Structure Block Statement Conditional Code Execute Handler 
                 await alerta.alertaOK(data.message);
+                if (esSupervisor) {
+                    location.href = `#/supervisor/plan_familiar/revision?familia_id=${planId}`;
+                } else {
+                    location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${planId}`;
+                }
             } else {
                 alerta.alertaWarning(data.message, data.errors);
             }
         } catch (error) {
-            alerta.alertaError(error.errors);
+            alerta.alertaError(error.errors || error.message);
         }
 
-        botonGuardar.disabled = false;
+        btnGuardar.disabled = false;
         window.procesoPeticion = false;
     });
-
 };
