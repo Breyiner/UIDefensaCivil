@@ -3,7 +3,7 @@
   /* width: 100%; */
   min-width: 50px;
   padding: 10px;
-  background: linear-gradient(180deg, rgba(133, 220, 255, 1) 0%, rgba(235, 248, 255, 0) 100%);
+  background: var(--color-palido);
   color: var(--color-secundario);
   font-weight: bolder;
   font-size: 1.2rem;
