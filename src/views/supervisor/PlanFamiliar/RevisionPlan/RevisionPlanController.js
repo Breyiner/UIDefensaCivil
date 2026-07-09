@@ -39,9 +39,6 @@ const RevisionPlanController = async () => {
         location.href = `#/supervisor/plan_familiar`;
     };
 
-    const esSupervisor = location.hash.includes("supervisor/");
-    if (esSupervisor) principalCont.classList.add("container--supervisor")
-
 
     //INTRODUCCION DE LA TARJETA _____________________________________________________________________________________
 

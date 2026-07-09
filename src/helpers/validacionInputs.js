@@ -29,7 +29,7 @@ export const TECLAS_ESPECIALES = [
 // =====================================================
 
 // Dibuja visualmente un mensaje de error rojo debajo o al lado del input
-const mostrarError = (input, mensaje) => {
+export const mostrarError = (input, mensaje) => {
   limpiarError(input); // Borra cualquier error anterior para no apilarlos
 
   // Crea una nueva etiqueta <span> e inyecta la clase CSS ".error" y el texto descriptivo

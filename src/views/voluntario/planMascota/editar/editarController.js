@@ -61,15 +61,6 @@ export default async () => {
 
     // Inicializar calendarios AirDatepicker
     fechas.initFechas();
-
-    const mainContainer = contenedorMascota.closest(".container");
-    if (mainContainer) {
-      if (esSupervisor) {
-        mainContainer.classList.add("container--supervisor");
-      } else {
-        mainContainer.classList.remove("container--supervisor");
-      }
-    }
   }
 
   // Inicializar validador automático sobre el formulario
