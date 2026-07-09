@@ -1,62 +1,139 @@
-<div class="container">
-  <div class="informacion">
-    <p class="informacion__nombreFamiliar">Familia </p>
+<div class="container container--menu__familiar">
+
+  <div class="menu--header">
+
+    <p class="menu--header__titulo">Plan familiar de emergencia</p>
+
+    <div class="menu--header__text--familia">
+
+      <i class="ri-team-line"></i>
+      <p class="menu--header__text--familia">Familia</p>
+
+    </div>
+
+    <span class="menu--header__nombre--familia"></span>
     <button id="verPDF" class="informacion__pdf boton--redondo">
       <i class="ri-file-text-line"></i> Ver PDF
     </button>
+
+    <img src="asset/ilustracion_menu.svg" alt="Logo Defensa Civil">
+
+    
+  </div>
+
+
+  <div class="menu--container">
+
+    <div class="opciones--menuFamilia">
+
+      <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="datosPrincipales">
+
+        <div class="boton--menu__titulo">
+
+          <i class="ri-bubble-chart-fill"></i>
+          <span>Datos principales</span>
+        </div>
+
+        <p>Datos principales de la familia que se usaron al registrarse.</p>
+      </button>
+      
+      <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="integrantes">
+
+        <div class="boton--menu__titulo">
+
+          <i class="ri-user-add-line"></i>
+          <span>Integrantes</span>
+        </div>
+
+        <p>Informacion base de cada uno de los integrantes de la familia.</p>
+      </button>
+  
+      <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="mascotas">
+
+        <div class="boton--menu__titulo">
+
+          <i class="ri-bell-line"></i>
+          <span>Mascotas y animales</span>
+        </div>
+
+        <p>Informacion base sobre las mascotas o animales de compañia dentro de la familia.</p>
+      </button>
+
+      <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="graficosVivienda">
+
+        <div class="boton--menu__titulo">
+
+          <i class="ri-home-4-line"></i>
+          <span>Gráfico de vivienda</span>
+        </div>
+
+        <p>Plano de la información infraestructural de la vivienda.</p>
+      </button>
+      
+      <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="georeferenciacion">
+
+        <div class="boton--menu__titulo">
+
+          <i class="ri-map-pin-2-line"></i>
+          <span>Georeferenciación</span>
+        </div>
+
+        <p>Imagen del lugar en donde se encuentra la familia con coordenadas exactas (Google maps o Google earth).</p>
+      </button>
+
+      <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="graficoEntorno">
+
+        <div class="boton--menu__titulo">
+
+          <i class="ri-earth-line"></i>
+          <span>Gráfico del Entorno</span>
+        </div>
+
+        <p>Imagen satelital del lugar en donde se encuentra la familia (Google maps o Google earth).</p>
+      </button>
+  
+      <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="factoresRiesgo">
+
+        <div class="boton--menu__titulo">
+
+          <i class="ri-error-warning-fill"></i>
+          <span>Factores de Riesgo</span>
+        </div>
+
+        <p>Información relacionada con distintos riesgos a los que la familia y su hogar estan expuestos.</p>
+      </button>
+  
+      <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="recursosDisponibles">
+
+        <div class="boton--menu__titulo">
+
+          <i class="ri-hospital-fill"></i>
+          <span>Recursos Disponibles</span>
+        </div>
+
+        <p>Informacion base de los recursos disponibles (hospitales, cruz roja, bomberos, etc) para la familia.</p>
+      </button>
+  
+      <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="planAccion">
+
+        <div class="boton--menu__titulo">
+
+          <i class="ri-file-list-3-line"></i>
+          <span>Plan de Acción</span>
+        </div>
+
+        <p>Guía de tareas creada por toda la familia para saber cómo actuar y protegerse ante un desastre. Se divide en tres etapas vitales: antes, durante y despues.</p>
+      </button>
+  
+      <button class="menuFamilia__boton boton boton--rojo boton--grande boton--menu oculto" id="comentarios">
+        <i class="ri-message-2-line"></i>
+        <span>Comentarios</span>
+      </button>
+      
+    </div>
+
+    <button class="boton" id="enviar">Enviar</button>
+
   </div>
   
-  <div class="menuFamilia">
-    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="datosPrincipales">
-      <i class="ri-parent-line"></i>
-      <span>Datos principales</span>
-    </button>
-    
-    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="integrantes">
-      <i class="ri-user-add-line"></i>
-      <span>Integrantes</span>
-    </button>
-
-    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="mascotas">
-      <i class="ri-bell-line"></i>
-      <span>Mascotas o animales</span>
-    </button>
-
-    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="factoresRiesgo">
-      <i class="ri-alert-line"></i>
-      <span>Factores de Riesgo</span>
-    </button>
-
-    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="recursosDisponibles">
-      <i class="ri-hand-heart-line"></i>
-      <span>Recursos Disponibles</span>
-    </button>
-
-    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="graficoEntorno">
-      <i class="ri-earth-line"></i>
-      <span>Gráfico del Entorno</span>
-    </button>
-    
-    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="georeferenciacion">
-      <i class="ri-map-pin-2-line"></i>
-      <span>Georeferenciación</span>
-    </button>
-    
-    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="graficosVivienda">
-      <i class="ri-home-4-line"></i>
-      <span>Gráfico de la vivienda</span>
-    </button>
-
-    <button class="menuFamilia__boton boton boton--azul boton--grande boton--menu" id="planAccion">
-      <i class="ri-file-list-3-line"></i>
-      <span>Plan de Acción</span>
-    </button>
-
-    <button class="menuFamilia__boton boton boton--rojo boton--grande boton--menu invisible" id="comentarios">
-      <i class="ri-message-2-line"></i>
-      <span>Comentarios</span>
-    </button>
-    
-  </div>
-  <button class="boton" id="enviar">Enviar</button>
 </div>

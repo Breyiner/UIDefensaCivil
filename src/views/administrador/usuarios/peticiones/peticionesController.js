@@ -46,7 +46,7 @@ export default async () => {
         
         // 2. Buscamos la tarjeta más cercana al lugar donde se hizo clic.
         // .closest() asegura que si tocas un texto o icono dentro, igual encuentre la tarjeta.
-        const tarjetaEscogida = e.target.closest(".tarjeta");
+        const tarjetaEscogida = e.target.closest(".tarjeta__header");
         
         // 3. Si no se tocó una tarjeta (ej. se tocó el espacio entre ellas), no hacemos nada.
         if (!tarjetaEscogida) return;

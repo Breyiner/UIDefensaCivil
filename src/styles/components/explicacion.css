@@ -1,23 +1,128 @@
 .explicacion {
   width: 100%;
+  height: 150px;
+  display: flex;
+  gap: 20px;
   color: var(--color-oscuro);
   font-family: var(--fuente-titulos);
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--color-grisOscuro);
+  padding: 30px 30px 0 30px;
+  background: linear-gradient(180deg, rgba(7, 112, 204, 0) 10%, #cde9ff 100%);
+  border-radius: 30px;
+  margin-top: 20px;
 }
+
+.explicacion.explicacion--noImg {
+
+  padding-bottom: 30px;
+}
+
+.explicacion img {
+
+  height: 165px;
+  transform: translateY(-45px);
+}
+
 .explicacion__titulo {
   font-size: var(--tamano-medio-grande);
   font-weight: bolder;
   margin-bottom: 5px;
+  width: 100%;
 }
-.explicacion__subtitulo {
+
+.explicacion__titulo span {
+
+  font-size: 2.5rem;
+  color: var(--color-palido);
+}
+
+.explicacion__titulo i {
+  
+  font-size: 2.5rem;
+  color: var(--color-primario);
+}
+
+.explicacion__titulo p {
   font-size: var(--tamano-mediano);
-  color: var(--color-grisOscuro);
+  color: var(--color-secundario);
 }
 
 @media (min-width: 768px) {
+
   .span--grid{
+
     grid-column: span 2;
     width: 100%;
+  }
+}
+
+@media (max-width: 1020px) {
+
+  .explicacion {
+
+    flex-direction: column;
+    height: fit-content;
+    margin-top: 0;
+  }
+
+  .explicacion img {
+    height: 200px;
+    width: 100%;
+    transform: unset;
+  }
+}
+
+.explicacion--historial {
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--color-oscuro);
+  font-family: var(--fuente-titulos);
+  padding: 30px;
+  background: linear-gradient(180deg, rgba(7, 112, 204, 0) 10%, #cde9ff 100%);
+  border-radius: 30px;
+  margin-top: 20px;
+}
+
+.explicacion--historial__titulo {
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-secundario);
+}
+
+.explicacion--historial__titulo i {
+
+  font-size: 1.5rem;
+}
+
+.explicacion--historial__dato {
+
+  display: flex;
+  gap: 5px;
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: bolder;
+  color: var(--color-primario);
+}
+
+.explicacion--historial__dato span {
+
+  color: black;
+}
+
+.explicacion--historial__dato .dato--descripcion {
+
+  margin-top: 5px;
+  font-size: 1rem;
+}
+
+@media (max-width: 720px) {
+
+  .explicacion--historial__dato {
+
+    flex-direction: column;
   }
 }

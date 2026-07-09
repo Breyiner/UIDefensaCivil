@@ -5,9 +5,10 @@
     padding: 20px;
     gap: 8px;
     width: 100%;
+    border-radius: 50px;
 }
 .banner--azul{
-    background: var(--color-secundario);
+    background: linear-gradient(180deg, #80c6ff00  20%, var(--color-secundario) 120%);;
     color: var(--color-palido);
 }
 .banner__titulo{

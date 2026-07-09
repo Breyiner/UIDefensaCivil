@@ -4,9 +4,13 @@ import { api } from "@/helpers/index.js";
 
 const historialVulnerabilidades = async () => {
     
-    const id = location.hash.split("=")[1];
+    const datoHistorial = document.querySelector(".dato--historial");
 
+    const id = location.hash.split("=")[1];
+    
     const datoMaestro = await api.get(`vulnerabilities/${id}`);
+    
+    datoHistorial.textContent = datoMaestro.name;
 
     const endpoint = `vulnerabilities/${id}/history`;
 

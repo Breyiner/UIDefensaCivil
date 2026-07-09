@@ -4,9 +4,13 @@ import { api } from "@/helpers/index.js";
 
 const historialNacionalidades = async () => {
     
-    const id = location.hash.split("=")[1];
+    const datoHistorial = document.querySelector(".dato--historial");
 
+    const id = location.hash.split("=")[1];
+    
     const datoMaestro = await api.get(`nationalities/${id}`);
+    
+    datoHistorial.textContent = datoMaestro.name;
 
     const endpoint = `nationalities/${id}/history`;
 

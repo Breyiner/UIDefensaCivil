@@ -151,6 +151,12 @@
     position: relative;
 }
 
+.card-Cont .historial-Cont .historial-nameAction .name-historial__large {
+
+    margin-top: 8px;
+    font-size: 20px;
+}
+
 .card-Cont .historial-Cont .historial-nameAction .subname-Historial {
 
     font-weight: bold;
