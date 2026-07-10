@@ -6,6 +6,11 @@
  */
 import TomSelect from 'tom-select';
 
+import TomSelectDropdownInput from 'tom-select/dist/esm/plugins/dropdown_input/plugin';
+
+// Registra el plugin globalmente (solo una vez)
+TomSelect.define('dropdown_input', TomSelectDropdownInput);
+
 export const initTomSelectPortatil = () => {
     const elements = document.querySelectorAll(".selector-portatil");
 
@@ -16,7 +21,8 @@ export const initTomSelectPortatil = () => {
 
         new TomSelect(el, {
             create: false, // Desactiva que el usuario pueda tipear opciones personalizadas e insertarlas
-            sortField: { field: "text", direction: "asc" } // Fuerza el acomodo alfabético A-Z usando los <labels> text
+            sortField: { field: "text", direction: "asc" }, // Fuerza el acomodo alfabético A-Z usando los <labels> text
+            plugins: ['dropdown_input'] // El input de búsqueda vive dentro del dropdown, no superpuesto al control
         });
     });
 };

@@ -13,6 +13,8 @@ import { api } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { validacionInputs as validacion } from "@/helpers/index.js";
 
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
+
 export default async () => {
   // Elementos principales de la pantalla
   const botonBack = document.getElementById("botonBack");
@@ -43,6 +45,8 @@ export default async () => {
   // Traer las opciones del gobierno (Zona Urbana, Rural / Departamentos macro) desde la base de datos
   await adjuntarOpc.adjuntarNoValida(zona, "zones");
   await adjuntarOpc.adjuntarNoValida(apartamento, "departments");
+
+  initTomSelectPortatil(); 
   
   // Termina la carga inicial y libera los botones
   window.procesoPeticion = false;

@@ -8,6 +8,7 @@ import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
 import { validacionInputs as validacion } from "@/helpers/index.js";
 
 import * as fechas from "@/helpers/fechas";
+
 import { initTomSelectPortatil } from "../../../helpers/tomSelectPortatil";
 
 const logController = async () => {
@@ -15,10 +16,18 @@ const logController = async () => {
     const loginCont = document.querySelector(".login");
     const registerCont = document.querySelector(".register");
 
-    const resetForm = (form) => { //Resetea el formulario
+    const resetForm = (form) => {
+        
         form.reset();
         form.querySelectorAll("input, select").forEach(el => el.value = "");
         form.querySelectorAll(".error").forEach(el => el.remove());
+
+        // Limpia también la capa visual de TomSelect en los selects que lo tengan activo
+        form.querySelectorAll(".selector-portatil").forEach(el => {
+            if (el.tomselect) {
+                el.tomselect.clear(); // Quita la selección visual
+            }
+        });
     };
 
     // Inicialización del semáforo global para evitar peticiones simultáneas
@@ -259,7 +268,7 @@ const logController = async () => {
     documentTypeSection.classList.add("section__input");
 
     const documentType = document.createElement('select');
-    documentType.classList.add("input--azul");
+    documentType.classList.add("input--azul", "selector-portatil");
     documentType.id = "tiposDocumento";
     documentType.classList.add("form__input");
 
@@ -307,7 +316,8 @@ const logController = async () => {
     genderSection.classList.add("section__input");
 
     const gender = document.createElement('select');
-    gender.classList.add("form__input", "input--azul");
+    gender.classList.add("form__input", "input--azul", "selector-portatil");
+    gender.id = "gender";
 
     const optionDefaultGender = document.createElement('option');
     optionDefaultGender.value = "";
@@ -363,7 +373,7 @@ const logController = async () => {
     seccionalSection.classList.add("section__input");
 
     const seccional = document.createElement('select');
-    seccional.classList.add("form__input", "input--azul");
+    seccional.classList.add("form__input", "input--azul", "selector-portatil");
     seccional.id = "seccionales";
     seccional.classList.add("form__input");
 
@@ -383,7 +393,7 @@ const logController = async () => {
     organizacionSection.classList.add("section__input");
 
     const organizacion = document.createElement('select');
-    organizacion.classList.add("form__input", "input--azul");
+    organizacion.classList.add("form__input", "input--azul", "selector-portatil");
     organizacion.id = "organizaciones";
     organizacion.classList.add("form__input");
 
@@ -582,6 +592,8 @@ const logController = async () => {
     botonesRegister.append(decorationRegister, botonIrLogin);
     
     registerCont.append(registerTittle, formRegister, botonesRegister);
+
+    initTomSelectPortatil(); 
 
     // Validaciones y data REGISTER ------------------------------------------------------------------------
 

@@ -202,6 +202,49 @@
   width: 100%;
   border-radius: 100px;
   padding: 5px 15px;
+  font-size: 0.9rem;
+  min-height: 27.5px;
+}
+
+.register.auth_card .ts-wrapper {
+
+  padding: 0;
+  min-height: 27.5px;
+}
+
+.register.auth_card .ts-control {
+    
+  padding: 5px 15px;
+  border-radius: 100px;
+  flex-direction: row;
+  background: transparent;
+}
+
+.register.auth_card .ts-wrapper.single.input-active .ts-control {
+  background: transparent;
+  border: none;
+}
+
+.register.auth_card .ts-control .item,
+#gender-ts-control {
+
+  font-size: 0.8rem;
+}
+
+#seccionales-ts-control,
+#organizaciones-ts-control,
+#gender-ts-control,
+#tiposDocumento-ts-control {
+
+  display: inline-block;
+  width: auto;
+  min-width: unset;
+}
+
+.register.auth_card input::placeholder{
+
+  color: var(--color-grisOscuro);
+  font-size: 0.8rem;
 }
 
 .section__input {
