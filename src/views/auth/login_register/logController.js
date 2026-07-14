@@ -40,36 +40,41 @@ const logController = async () => {
     const formLogin = document.createElement('form');
     formLogin.classList.add("form", "form--login");
 
-    const emailCredSection = document.createElement('div');
-    emailCredSection.classList.add("section__input")
+    const emailWrapper = document.createElement('div');
+    emailWrapper.classList.add("input");
+
+    const emailInputBox = document.createElement('div');
+    emailInputBox.classList.add("input--azul");
+
+    const iconEmailLogin = document.createElement('i');
+    iconEmailLogin.classList.add("ri-mail-line");
 
     const emailCredential = document.createElement('input');
-    emailCredential.classList.add("input--azul");
     emailCredential.type = "text";
     emailCredential.placeholder = "Correo electrónico";
     emailCredential.id = "emailCredential";
     emailCredential.autocomplete = "off";
     emailCredential.setAttribute("data-tipo", "correo");
 
-    emailCredSection.appendChild(emailCredential);
+    emailInputBox.append(iconEmailLogin, emailCredential);
+    emailWrapper.appendChild(emailInputBox);
 
     //-----password
-    const passwordContLogin = document.createElement('div');
-    passwordContLogin.classList.add("form__input--password");
+    const passwordWrapper = document.createElement('div');
+    passwordWrapper.classList.add("input");
 
-    const passCredSection = document.createElement('div');
-    passCredSection.classList.add("section__input");
+    const passwordInputBox = document.createElement('div');
+    passwordInputBox.classList.add("input--azul");
 
-    const passwordCredential = document.createElement('input')
-    passwordCredential.classList.add("input--azul");
+    const iconLockLogin = document.createElement('i');
+    iconLockLogin.classList.add("ri-lock-fill");
+
+    const passwordCredential = document.createElement('input');
     passwordCredential.type = "password";
     passwordCredential.placeholder = "Contraseña";
-    passwordCredential.classList.add("form__input");
     passwordCredential.id = "passwordCredential";
     passwordCredential.autocomplete = "off";
     passwordCredential.setAttribute("data-tipo", "passwordSinValdacion");
-
-    passCredSection.appendChild(passwordCredential);
 
     const checkVistaPassword = document.createElement('input');
     checkVistaPassword.classList.add("oculto");
@@ -101,15 +106,16 @@ const logController = async () => {
 
     labelVistaPassword.append(iconCloseEye, iconOpenEye);
 
-    passwordContLogin.append( checkVistaPassword, labelVistaPassword, passCredSection);
+    passwordInputBox.append(iconLockLogin, passwordCredential, checkVistaPassword, labelVistaPassword);
+    passwordWrapper.appendChild(passwordInputBox);
 
     const botonLogin = document.createElement('button');
     botonLogin.classList.add("boton", "form__boton");
     botonLogin.type = "submit";
     botonLogin.textContent = "Iniciar sesión";
 
-    formLogin.appendChild(emailCredSection);
-    formLogin.appendChild(passwordContLogin);
+    formLogin.appendChild(emailWrapper);
+    formLogin.appendChild(passwordWrapper);
     formLogin.appendChild(botonLogin);
 
     const botonesLogin = document.createElement('div');
@@ -144,10 +150,10 @@ const logController = async () => {
       const validacionLogin = validacion.validadorAutomatico.validarTodo(formLogin);
 
       if (!validacionLogin) {
-
         console.log("Error en validación de sesión");
         botonLogin.disabled = false;
         window.procesoPeticion = false;
+        return;
       };
 
       const dataLogin = {
@@ -208,8 +214,6 @@ const logController = async () => {
         registerCont.classList.add("active");
     });
 
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------- }
-
     // REGISTRO ____________________________________________________________________________
 
     const registerTittle = document.createElement("p");
@@ -223,54 +227,61 @@ const logController = async () => {
     const nameCont = document.createElement('div');
     nameCont.classList.add("form__doubleinput");
 
+    // Nombres
+    const nameWrapper = document.createElement('div');
+    nameWrapper.classList.add("input");
+    const nameInputBox = document.createElement('div');
+    nameInputBox.classList.add("input--azul");
     const iconName = document.createElement('i');
     iconName.classList.add("ri-user-fill");
 
-    const nameSection = document.createElement('div');
-    nameSection.classList.add("section__input"); 
-
     const name = document.createElement('input')
-    name.classList.add("input--azul")
+    // name.classList.add("input--azul")
     name.type = "text";
     name.placeholder = "Nombres";
     name.id = "nombres";
     name.autocomplete = "off";
     name.setAttribute("data-tipo", "textoNombres");
 
-    nameSection.append(name);
+    nameInputBox.append(iconName, name);
+    nameWrapper.append(nameInputBox);
     
-    const lastNameSection = document.createElement('div');
-    lastNameSection.classList.add("section__input");
+    // Apellidos
+    const lastNameWrapper = document.createElement('div');
+    lastNameWrapper.classList.add("input");
+    const lastNameInputBox = document.createElement('div');
+    lastNameInputBox.classList.add("input--azul");
+    const iconLastName = document.createElement('i');
+    iconLastName.classList.add("ri-user-fill");
 
     const lastName = document.createElement('input')
-    lastName.classList.add("input--azul")
     lastName.type = "text";
     lastName.placeholder = "Apellidos";
     lastName.id = "apellidos";
     lastName.autocomplete = "off";
     lastName.setAttribute("data-tipo", "textoNombres");
 
-    lastNameSection.append(lastName);
+    lastNameInputBox.append(iconLastName, lastName);
+    lastNameWrapper.append(lastNameInputBox);
     
-    nameCont.append(iconName, nameSection, lastNameSection);
-    
-    
+    nameCont.append(nameWrapper, lastNameWrapper);
     formRegister.appendChild(nameCont);
 
     // ---Tipo y número de documento
     const documentCont = document.createElement('div');
     documentCont.classList.add("form__doubleinput");
 
-    const iconDocument = document.createElement('i');
-    iconDocument.classList.add("ri-pass-valid-fill");
-
-    const documentTypeSection = document.createElement('div');
-    documentTypeSection.classList.add("section__input");
+    // Tipo de documento
+    const docTypeWrapper = document.createElement('div');
+    docTypeWrapper.classList.add("input");
+    const docTypeInputBox = document.createElement('div');
+    docTypeInputBox.classList.add("input--azul");
+    const iconDocType = document.createElement('i');
+    iconDocType.classList.add("ri-pass-valid-fill");
 
     const documentType = document.createElement('select');
-    documentType.classList.add("input--azul", "selector-portatil");
+    documentType.classList.add("selector-portatil");
     documentType.id = "tiposDocumento";
-    documentType.classList.add("form__input");
 
     const optionDefault = document.createElement('option');
     optionDefault.value = "";
@@ -279,44 +290,46 @@ const logController = async () => {
     optionDefault.selected = true;
     
     documentType.appendChild(optionDefault);
-    
     await adjuntarOpc.adjuntarInfo(documentType,"public/document-types","acronym");
 
-    documentTypeSection.append(documentType);
+    docTypeInputBox.append(iconDocType, documentType);
+    docTypeWrapper.append(docTypeInputBox);
     
-    const documentNumberSection = document.createElement('div');
-    documentNumberSection.classList.add("section__input");
+    // Número de documento
+    const docNumWrapper = document.createElement('div');
+    docNumWrapper.classList.add("input");
+    const docNumInputBox = document.createElement('div');
+    docNumInputBox.classList.add("input--azul");
+    const iconDocNum = document.createElement('i');
+    iconDocNum.classList.add("ri-info-card-line");
 
     const documentNumber = document.createElement('input');
-    documentNumber.classList.add("input--azul");
     documentNumber.type = "text";
     documentNumber.placeholder = "Número de documento";
     documentNumber.id = "numeroDocumento";
     documentNumber.autocomplete = "off";
     documentNumber.setAttribute("data-tipo", "documento");
 
-    documentNumberSection.append(documentNumber);
+    docNumInputBox.append(iconDocNum, documentNumber);
+    docNumWrapper.append(docNumInputBox);
 
-    documentCont.append(iconDocument, documentTypeSection, documentNumberSection);
-
+    documentCont.append(docTypeWrapper, docNumWrapper);
     formRegister.appendChild(documentCont);
 
-
-    // ---Género y fecha de nacimiento (Contenedor doble con íconos individuales)
+    // ---Género y fecha de nacimiento
     const genderbirthCont = document.createElement('div');
     genderbirthCont.classList.add("form__doubleCont");
 
-    const genderCont = document.createElement('div');
-    genderCont.classList.add("form__input");
-
+    // Género
+    const genderWrapper = document.createElement('div');
+    genderWrapper.classList.add("input");
+    const genderInputBox = document.createElement('div');
+    genderInputBox.classList.add("input--azul");
     const iconGender = document.createElement('i');
     iconGender.classList.add("ri-genderless-line");
 
-    const genderSection = document.createElement('div');
-    genderSection.classList.add("section__input");
-
     const gender = document.createElement('select');
-    gender.classList.add("form__input", "input--azul", "selector-portatil");
+    gender.classList.add("selector-portatil");
     gender.id = "gender";
 
     const optionDefaultGender = document.createElement('option');
@@ -326,26 +339,21 @@ const logController = async () => {
     optionDefaultGender.selected = true;
 
     gender.setAttribute("data-tipo", "requerido");
-    
     gender.appendChild(optionDefaultGender);
-
     await adjuntarOpc.adjuntar(gender, "public/genders");
 
-    genderSection.append(gender);
+    genderInputBox.append(iconGender, gender);
+    genderWrapper.append(genderInputBox);
 
-    genderCont.append(iconGender, genderSection);
-
-    const birthCont = document.createElement('div');
-    birthCont.classList.add("form__input");
-
+    // Fecha de nacimiento
+    const birthWrapper = document.createElement('div');
+    birthWrapper.classList.add("input");
+    const birthInputBox = document.createElement('div');
+    birthInputBox.classList.add("input--azul");
     const iconBirth = document.createElement('i');
     iconBirth.classList.add("ri-calendar-event-fill");
 
-    const birthSection = document.createElement('div');
-    birthSection.classList.add("section__input");
-
     const birth = document.createElement('input');
-    birth.classList.add("input--azul");
     birth.type = "text";
     birth.id = "nacimiento";
     birth.autocomplete = "off";
@@ -353,29 +361,27 @@ const logController = async () => {
     birth.setAttribute("data-tipo", "fecha");
     birth.setAttribute("data-fecha", "fechaAntes");
 
-    birthSection.append(birth);
+    birthInputBox.append(iconBirth, birth);
+    birthWrapper.append(birthInputBox);
 
-    birthCont.append(iconBirth, birthSection);
-
-    genderbirthCont.append(genderCont, birthCont);
-
+    genderbirthCont.append(genderWrapper, birthWrapper);
     formRegister.appendChild(genderbirthCont);
 
-
-    // ---Seccional y organización (Contenedor doble con íconos individuales, organización dependiente de seccional)
+    // ---Seccional y organización
     const seccionalOrganizacionCont = document.createElement('div');
     seccionalOrganizacionCont.classList.add("form__doubleinput");
 
-    const iconUbicacion = document.createElement('i');
-    iconUbicacion.classList.add("ri-map-pin-2-fill");
-
-    const seccionalSection = document.createElement('div');
-    seccionalSection.classList.add("section__input");
+    // Seccional
+    const seccionalWrapper = document.createElement('div');
+    seccionalWrapper.classList.add("input");
+    const seccionalInputBox = document.createElement('div');
+    seccionalInputBox.classList.add("input--azul");
+    const iconSeccional = document.createElement('i');
+    iconSeccional.classList.add("ri-map-pin-2-fill");
 
     const seccional = document.createElement('select');
-    seccional.classList.add("form__input", "input--azul", "selector-portatil");
+    seccional.classList.add("selector-portatil");
     seccional.id = "seccionales";
-    seccional.classList.add("form__input");
 
     const optionDefaultSeccional = document.createElement('option');
     optionDefaultSeccional.value = "";
@@ -384,18 +390,22 @@ const logController = async () => {
     optionDefaultSeccional.selected = true;
 
     seccional.appendChild(optionDefaultSeccional);
-
     await adjuntarOpc.adjuntar(seccional, "public/sectionals");
 
-    seccionalSection.append(seccional);
+    seccionalInputBox.append(iconSeccional, seccional);
+    seccionalWrapper.append(seccionalInputBox);
 
-    const organizacionSection = document.createElement('div');
-    organizacionSection.classList.add("section__input");
+    // Organización
+    const organizacionWrapper = document.createElement('div');
+    organizacionWrapper.classList.add("input");
+    const organizacionInputBox = document.createElement('div');
+    organizacionInputBox.classList.add("input--azul");
+    const iconOrganizacion = document.createElement('i');
+    iconOrganizacion.classList.add("ri-map-pin-2-fill");
 
     const organizacion = document.createElement('select');
-    organizacion.classList.add("form__input", "input--azul", "selector-portatil");
+    organizacion.classList.add("selector-portatil");
     organizacion.id = "organizaciones";
-    organizacion.classList.add("form__input");
 
     const optionDefaultOrganizacion = document.createElement('option');
     optionDefaultOrganizacion.value = "";
@@ -405,84 +415,70 @@ const logController = async () => {
 
     organizacion.appendChild(optionDefaultOrganizacion);
 
-    organizacionSection.append(organizacion);
+    organizacionInputBox.append(iconOrganizacion, organizacion);
+    organizacionWrapper.append(organizacionInputBox);
 
     console.log("seccionales", seccional.value);
     
-    seccionalOrganizacionCont.append(iconUbicacion, seccionalSection, organizacionSection);
-    
+    seccionalOrganizacionCont.append(seccionalWrapper, organizacionWrapper);
     formRegister.appendChild(seccionalOrganizacionCont);
     
-
-    // ---Correo electrónico y teléfono (Contenedor doble con íconos individuales)
-    const emailCont = document.createElement('div');
-    emailCont.classList.add("form__input");
-    
-    const iconEmail = document.createElement('i');
-    iconEmail.classList.add("ri-mail-fill");
-    
-    const emailSection = document.createElement('div');
-    emailSection.classList.add("section__input");
+    // ---Correo electrónico
+    const emailWrapperReg = document.createElement('div');
+    emailWrapperReg.classList.add("input");
+    const emailInputBoxReg = document.createElement('div');
+    emailInputBoxReg.classList.add("input--azul");
+    const iconEmailReg = document.createElement('i');
+    iconEmailReg.classList.add("ri-mail-fill");
 
     const email = document.createElement('input');
-    email.classList.add("input--azul")
     email.type = "text";
     email.placeholder = "Correo electrónico";
     email.id = "correoElectronico";
     email.autocomplete = "off";
     email.setAttribute("data-tipo", "correo");
 
-    emailSection.append(email);
+    emailInputBoxReg.append(iconEmailReg, email);
+    emailWrapperReg.append(emailInputBoxReg);
+    formRegister.appendChild(emailWrapperReg);
     
-    emailCont.append(iconEmail, emailSection);
-    
-    formRegister.appendChild(emailCont);
-    
-    const phoneCont = document.createElement('div');
-    phoneCont.classList.add("form__input");
-    
-    const iconPhone = document.createElement('i');
-    iconPhone.classList.add("ri-phone-fill");
-    
-    const phoneSection = document.createElement('div');
-    phoneSection.classList.add("section__input");
+    // ---Teléfono
+    const phoneWrapperReg = document.createElement('div');
+    phoneWrapperReg.classList.add("input");
+    const phoneInputBoxReg = document.createElement('div');
+    phoneInputBoxReg.classList.add("input--azul");
+    const iconPhoneReg = document.createElement('i');
+    iconPhoneReg.classList.add("ri-phone-fill");
 
     const phone = document.createElement('input');
-    phone.classList.add("input--azul")
     phone.type = "text";
     phone.placeholder = "Número de teléfono";
     phone.id = "telefono";
     phone.autocomplete = "off";
     phone.setAttribute("data-tipo", "telefono");
 
-    phoneSection.append(phone);
+    phoneInputBoxReg.append(iconPhoneReg, phone);
+    phoneWrapperReg.append(phoneInputBoxReg);
+    formRegister.appendChild(phoneWrapperReg);
     
-    phoneCont.append(iconPhone, phoneSection);
-    formRegister.appendChild(phoneCont);
-    
-
-    // ---Contraseña y confirmación de contraseña (Contenedor doble con íconos individuales, validación de igualdad entre ambos campos) 
+    // ---Contraseña y confirmación de contraseña
     const passwordRegisterCont = document.createElement('div');
     passwordRegisterCont.classList.add("form__doubleCont", "colum__doubleCont");
     
-    const passwordCont = document.createElement('div');
-    passwordCont.classList.add("form__input");
-    
-    const iconPassword = document.createElement('i');
-    iconPassword.classList.add("ri-lock-fill");
-    
-    const passwordSection = document.createElement('div');
-    passwordSection.classList.add("section__input");
+    // Contraseña
+    const passRegWrapper = document.createElement('div');
+    passRegWrapper.classList.add("input");
+    const passRegInputBox = document.createElement('div');
+    passRegInputBox.classList.add("input--azul");
+    const iconPasswordReg = document.createElement('i');
+    iconPasswordReg.classList.add("ri-lock-fill");
 
     const password = document.createElement('input');
-    password.classList.add("input--azul");
     password.type = "password";
     password.placeholder = "Contraseña";
     password.id = "contrasena";
     password.autocomplete = "off";
     password.setAttribute("data-tipo", "password");
-
-    passwordSection.append(password);
     
     const checkVistaPasswordRegister = document.createElement('input');
     checkVistaPasswordRegister.classList.add("oculto");
@@ -501,7 +497,6 @@ const logController = async () => {
     iconOpenEyeRegister.classList.add("ri-eye-fill", "oculto");
     
     labelVistaPasswordRegister.addEventListener("click", () => {
-
         if (!checkVistaPasswordRegister.checked) {
             password.type = "text";
             iconCloseEyeRegister.classList.add("oculto");
@@ -515,23 +510,23 @@ const logController = async () => {
     
     labelVistaPasswordRegister.append(iconCloseEyeRegister, iconOpenEyeRegister);
     
-    passwordCont.append( checkVistaPasswordRegister, labelVistaPasswordRegister, passwordSection);
+    passRegInputBox.append(iconPasswordReg, password, checkVistaPasswordRegister, labelVistaPasswordRegister);
+    passRegWrapper.append(passRegInputBox);
     
-    const passwordComfirmCont = document.createElement('div');
-    passwordComfirmCont.classList.add("form__input");
-    
-    const passwordComfirmSection = document.createElement('div');
-    passwordComfirmSection.classList.add("section__input");
+    // Confirmar contraseña
+    const passConfirmWrapper = document.createElement('div');
+    passConfirmWrapper.classList.add("input");
+    const passConfirmInputBox = document.createElement('div');
+    passConfirmInputBox.classList.add("input--azul");
+    const iconPasswordConfirm = document.createElement('i');
+    iconPasswordConfirm.classList.add("ri-lock-fill");
 
     const passwordComfirm = document.createElement('input');
-    passwordComfirm.classList.add("input--azul")
     passwordComfirm.type = "password";
     passwordComfirm.placeholder = "Confirmar contraseña";
     passwordComfirm.id = "confContrasena";
     passwordComfirm.autocomplete = "off";
     passwordComfirm.setAttribute("data-tipo", "passwordConfirm");
-
-    passwordComfirmSection.append(passwordComfirm);
     
     const checkVistaPasswordComfirm = document.createElement('input');
     checkVistaPasswordComfirm.classList.add("oculto");
@@ -550,7 +545,6 @@ const logController = async () => {
     iconOpenEyeComfirm.classList.add("ri-eye-fill", "oculto");
     
     labelVistaPasswordComfirm.addEventListener("click", () => {
-
         if (!checkVistaPasswordComfirm.checked) {
             passwordComfirm.type = "text";
             iconCloseEyeComfirm.classList.add("oculto");
@@ -564,10 +558,10 @@ const logController = async () => {
     
     labelVistaPasswordComfirm.append(iconCloseEyeComfirm, iconOpenEyeComfirm);
     
-    passwordComfirmCont.append(checkVistaPasswordComfirm, labelVistaPasswordComfirm, passwordComfirmSection);
+    passConfirmInputBox.append(iconPasswordConfirm, passwordComfirm, checkVistaPasswordComfirm, labelVistaPasswordComfirm);
+    passConfirmWrapper.append(passConfirmInputBox);
     
-    passwordRegisterCont.append(passwordCont, passwordComfirmCont);
-    
+    passwordRegisterCont.append(passRegWrapper, passConfirmWrapper);
     formRegister.appendChild(passwordRegisterCont);
     
     const botonesRegister = document.createElement('div');
@@ -586,23 +580,18 @@ const logController = async () => {
     botonRegister.type = "submit";
     botonRegister.textContent = "Registrarse";
 
-    
     formRegister.appendChild(botonRegister);
-
     botonesRegister.append(decorationRegister, botonIrLogin);
     
     registerCont.append(registerTittle, formRegister, botonesRegister);
 
-    initTomSelectPortatil(); 
-
+    
     // Validaciones y data REGISTER ------------------------------------------------------------------------
-
-    // Una vez que el formRegister ya está armado e insertado, 
-    // ejecutamos el init para que detecte todos los data-tipo y amarre los eventos 'keydown'.
+    
     validacion.validadorAutomatico.init(formRegister); 
-
-    fechas.initFechas(); // se cargan el calendario
-
+    
+    fechas.initFechas(); // se carga el calendario
+    
     // Limpieza visual del error en el campo de confirmación de contraseña
     const confirmacionPsw = document.getElementById("confContrasena");
     if (confirmacionPsw) {
@@ -610,29 +599,25 @@ const logController = async () => {
             validacion.limpiarError(e.target);
         });
     }
+    
+    initTomSelectPortatil(); 
 
     formRegister.addEventListener("submit", async (e) => {
-
         e.preventDefault();
 
-        // Si ya hay una petición de registro en curso, frena de inmediato
         if (window.procesoPeticion) return;
 
-        // Busca el botón de envío dentro del formulario para deshabilitarlo
         botonRegister.disabled = true;
         window.procesoPeticion = true;
 
-        // Validaciones booleanas finales
         const validacionRegister = validacion.validadorAutomatico.validarTodo(formRegister);
         const contrasenaIgualdad = validacion.validar_igualdad(passwordComfirm, password);
     
         if (!validacionRegister || !contrasenaIgualdad) {
             console.log("Error en validación de registro");
-            // Si la validación falla localmente, debemos liberar el formulario
             botonRegister.disabled = false;
             window.procesoPeticion = false;
             return;
-
         } else {
             console.log("Validación de registro exitosa");
         }
@@ -651,25 +636,19 @@ const logController = async () => {
         };
 
         try {
-          // Enlaza la ruta 'api/v1/register/' (Por omisión app)
           const data = await api.post("register", dataRegistro);
 
-          // Verifica prop return success estándar en todo Service response de backend
           if (data.success) {
-
             await alerta.alertaOK(data.message);
-
             resetForm(formRegister);
             registerCont.classList.remove("active");
             loginCont.classList.add("active");
-            
-          } else alerta.alertaWarning(data.message, data.errors); // Producir array validation
+          } else alerta.alertaWarning(data.message, data.errors);
           
         } catch (error) {
-          alerta.alertaError(error); // Trágico 500 error o no red
+          alerta.alertaError(error);
         }
 
-        // Pase lo que pase (Éxito o Error de red), volvemos a habilitar todo
         botonRegister.disabled = false;
         window.procesoPeticion = false;
     });
@@ -681,7 +660,7 @@ const logController = async () => {
     });
     
     seccional.addEventListener("change", async () => {
-        console.log("Seccional seleccionada ID:", seccional.value); // Ahora sí verás el ID real cargado
+        console.log("Seccional seleccionada ID:", seccional.value);
         await adjuntarOpc.adjuntarReseteo(organizacion, `public/organizations/sectional/${seccional.value}`);
     });
 }

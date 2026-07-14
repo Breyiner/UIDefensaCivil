@@ -15,6 +15,8 @@ import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
 
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
+
 export default async () => {
   // Manejo Base DOM Window Document
   const botonBack = document.getElementById("botonBack");
@@ -104,6 +106,8 @@ export default async () => {
 
   window.procesoPeticion = false;
   botonGuardar.disabled = false;
+
+  initTomSelectPortatil();
 
   // Intercepting The User Update Push Intent Local Block Action And Verification Server Push Update. 
   form.addEventListener("submit", async (e) => {

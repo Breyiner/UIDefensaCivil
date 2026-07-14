@@ -13,6 +13,8 @@ import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { validacionInputs as validacion } from "@/helpers/index.js";
 
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
+
 export default async () => {
     // Selectores Form Layout
     const botonBack = document.getElementById("botonBack");
@@ -60,6 +62,7 @@ export default async () => {
     // MAGIA: Inicializador Validador Omnipotente Frontend (Parsea Atributos HTML del file PUG/HTML buscando Data-types Min, Max regexes automaticos)
     validacion.validadorAutomatico.init(form);
     
+    initTomSelectPortatil();
     // Envío Datos Form
     form.addEventListener('submit', async (e) => {
 

@@ -14,6 +14,8 @@ import { cargarDatos } from "@/helpers/cargarDatos";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { validacionInputs as validacion } from "@/helpers/index.js";
 
+import { initTomSelectPortatil } from "../../../../helpers/tomSelectPortatil";
+
 export default async () => {
   // Extraer el código único o número identificador del plan desde la dirección del navegador web
   const id = location.hash.split("=")[1];
@@ -104,6 +106,8 @@ export default async () => {
   // Termina el proceso de cargar información inicial y desbloquea el botón de guardar
   botonGuardar.disabled = false;
   window.procesoPeticion = false;
+
+  initTomSelectPortatil();
 
   // Acción principal que envía toda esta nueva información al servidor
   form.addEventListener("submit", async (e) => {

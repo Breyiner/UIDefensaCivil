@@ -16,6 +16,7 @@ import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
 import { integrante as modalIntegrante } from "@/helpers/modales/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { acordeon } from "@/helpers/index.js"; // Script Inyector Eventos Acordeon Toggle JS Vainilla
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
 
 export default async () => {
   // Selectores UI Básicos Control
@@ -134,6 +135,8 @@ export default async () => {
     // Activa Popup Modal Custom Especial Version Action Compleja.
     modalIntegrante.verEditarEliminar(id, integranteId, cargarAfecciones, esSupervisor);
   });
+
+  initTomSelectPortatil();
 
   // Listener Submit Core Form Data Personales 'PUT Update Completo'
   form.addEventListener("submit", async (e) => {
