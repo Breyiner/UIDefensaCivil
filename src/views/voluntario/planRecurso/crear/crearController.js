@@ -12,6 +12,8 @@ import { validacionInputs as validacion } from "@/helpers/index.js"; // Suite Va
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
 
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
+
 export default async () => {
   // Manejo de Interfaz Nodos Actioners
   const botonBack = document.getElementById("botonBack");
@@ -45,9 +47,10 @@ export default async () => {
   const recurso = document.getElementById("recursos"); // Select Type "Bomberos, Cruz Roja.."
   const servicio = document.getElementById("servicio"); // Select Subtype
 
+  
   // Magic Helper Doble Lista Enlazada Dinámica! (Actualiza selects hijos segun el padre)
   await adjuntarOpc.adjuntarDouble(recurso, "resources",servicio,'service');
-
+  
   /**
    * --- SECCIÓN LISTENER VALIDACIONES MANUALES EVENT DRIVEN "EN VIVO" ---
    * Escucha cada pulsación KeyDown y previene inyección o escritura de caracteres ilegales 
@@ -91,6 +94,7 @@ export default async () => {
   window.procesoPeticion = false;
   botonCrear.disabled = false;
 
+  initTomSelectPortatil();
   // Listener Master Envio HTTP Api Creador
   form.addEventListener("submit", async (e) => {
     e.preventDefault();

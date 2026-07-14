@@ -43,9 +43,28 @@ textarea:focus {
   background-color: rgba(235, 248, 255, 1);
   color: #0770cc;
   border-radius: 100px;
-  /* height: fit-content; */
+  position: relative;
+
+  display: flex;
+  gap: 5px;
+
+  cursor: pointer;
 }
+
 /* ---------------------- */
+
+.input--azul > i {
+  text-align: center;
+  color: var(--color-secundario);
+  font-size: 1.1rem;
+  margin: auto;
+}
+
+.input--azul > input, .input--azul > select{
+  border: none;
+  width: 100%;
+  background-color: transparent;
+}
 
 .input--naranja {
   padding: 10px;

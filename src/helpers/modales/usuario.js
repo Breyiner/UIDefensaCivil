@@ -11,6 +11,8 @@
 import * as api from "../api";
 import * as alerta from "../alertas";
 
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
+
 // Ventana maestra para auditoría. Exhibe la información de ficha civil completa del Account
 export const ver = async (id, recargarContainer, esPeticion, esAdmin) => {
   try {
@@ -231,7 +233,7 @@ export const ver = async (id, recargarContainer, esPeticion, esAdmin) => {
       tituloSelectRol.textContent = "Asignar Rol";
 
       const select = document.createElement("select");
-      select.classList.add("modalVer__select");
+      select.classList.add("selector-portatil");
       select.id = "selectRol";
 
       const optVoluntario = document.createElement("option");
@@ -241,6 +243,8 @@ export const ver = async (id, recargarContainer, esPeticion, esAdmin) => {
       const optSupervisor = document.createElement("option");
       optSupervisor.value = 3;
       optSupervisor.textContent = "Supervisor";
+
+      // initTomSelectPortatil();
 
       select.append(optVoluntario, optSupervisor);
 
@@ -252,10 +256,13 @@ export const ver = async (id, recargarContainer, esPeticion, esAdmin) => {
     }
 
 
-    if (esPeticion)
-      alerta.VerAprobarEliminarUsuarios(modal, recargarContainer, id, esAdmin, selectRol);
-    else
-      alerta.VerCambiarEstadoRolUsuarios( modal, recargarContainer, id, estado, rol, esAdmin);
+    if (esPeticion) {
+      alerta.VerAprobarEliminarUsuarios(modal, recargarContainer, id, esAdmin, selectRol, initTomSelectPortatil);
+      initTomSelectPortatil();
+    } else {
+      alerta.VerCambiarEstadoRolUsuarios(modal, recargarContainer, id, estado, rol, esAdmin);
+    }
+
   } catch (error) {
     console.error(error);
     alerta.alertaError("Error al obtener el usuario");

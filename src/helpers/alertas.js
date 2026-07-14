@@ -341,10 +341,12 @@ export const VerAprobarEliminarUsuarios = (
   id,
   esAdmin,
   selectRol,
+  funcionAlAbrir
 ) => {
   Swal.fire({
     didOpen: () => {
         Swal.getHtmlContainer().appendChild(modal);
+        if (funcionAlAbrir) funcionAlAbrir();
     },
     showCloseButton: true,
     focusConfirm: false,

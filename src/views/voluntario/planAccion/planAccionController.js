@@ -9,6 +9,7 @@ import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
 import { validacionInputs as validacion } from "@/helpers/index.js";
 
 import { planAccion as modalPlanAccion } from "@/helpers/modales/index.js";
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
 
 const planAccionController = async () => {
 
@@ -62,6 +63,8 @@ const planAccionController = async () => {
             ["member_id", "risk_factor_id"], // Nombres de los datos según la base de datos
         );
     }
+
+    initTomSelectPortatil();
 
     // ---- Guardar datos base (miembro + factor de riesgo) ----
     form.addEventListener("submit", async (e) => {
