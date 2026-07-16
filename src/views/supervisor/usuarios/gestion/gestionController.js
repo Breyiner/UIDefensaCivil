@@ -1,6 +1,6 @@
 /**
  * Controlador: Gestión de Usuarios Activos (gestionController.js)
- * Usa los componentes de filtrado (barra de búsqueda y selector de estado) y el helper 
+ * Usa los componentes de filtrado (barra de búsqueda y selector de estado) y el helper
  * de filtrado dinámico para permitir búsquedas locales rápidas y eficientes.
  */
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
@@ -12,14 +12,15 @@ import { tarjetaEstados } from "@/componentes/gestionUser/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { searchBar, dropdownFiltro } from "@/componentes/filter/index.js";
 
-export default async () => {
+import { verUsuarioVentana } from "../../../../componentes/ver_Estado";
 
+export default async () => {
     // Extrae los botones de navegación generales
     const botonBack = document.getElementById("botonBack");
 
     // Contenedor dinámico principal donde se incrustarán las Cards de usuarios paginados
     const contenedor = document.querySelector(".container__paginas");
-    
+
     // Contenedor específico donde se inyectarán los elementos visuales de los filtros
     const contenedorFiltro = document.querySelector(".container__filtro");
 
@@ -81,7 +82,7 @@ export default async () => {
         // Criterios de búsqueda: 'full_name' filtra por texto y 'status_id' por el ID del estado del usuario
         const criterios = {
             full_name: searchbar.value.trim(),
-            status_id: Number(dropdown.value)
+            status_id: Number(dropdown.value),
         };
 
         // Filtra los datos locales usando el helper filtrarDatos importado
@@ -120,19 +121,22 @@ export default async () => {
 
     // Escucha pasiva delegada al contenedor padre (Técnica Event Delegation optimizada RAM)
     contenedor.addEventListener("click", async (e) => {
-
         // Verifica si el clic recayó exacto sobre, o dentro (Span/icon), de un <button> HTML
         const tarjetaClickeada = e.target.closest(".tarjeta");
+
         if (!tarjetaClickeada) return; // Rompe si tocó pared vacía
 
-        // Recuperar Meta-ID guardado en tiempo de inyección (data-id)
         const userId = tarjetaClickeada.dataset.id;
 
+        const endpoint = `users/${userId}`;
 
-        // Lanza función "Ver" contenida en "modales/usuario.js" pasando 
-        // la ID identificadora, el refresco padre y el modo de usuario supervisor.
-        // El supervisor debe ver activar/desactivar.
-        modalUsuario.ver(userId, recargarContainer, false, false);
+        const logEndpoint = await api.get(`users/${userId}`);
+
+        console.log(logEndpoint);
+
+        const urlHistorial = `#/supervisor/usuarios/historial?id=${userId}`;
+
+        verUsuarioVentana(endpoint, recargarContainer, urlHistorial);
     });
 
     // Arranque de rutina nativo al desplegar esta vista la primera vez
