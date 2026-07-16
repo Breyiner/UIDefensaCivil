@@ -1,4 +1,4 @@
-import historial from "@/componentes/historial/historial";
+import historial_usuarios from "@/componentes/historial/historial_usuarios";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { api } from "@/helpers/index.js";
 
@@ -8,13 +8,17 @@ const historialUsuario = async () => {
 
     const datoMaestro = await api.get(`users/${id}`);
 
-    const datosHistorial = await api.get(`users/${id}/history/`);
+    const datosHistorial = await api.get(`audits/users`);
 
     console.log(datosHistorial);
 
-    const endpoint = `users/${id}/history/`;
+    const dato = await api.get(`profiles/${id}/history`);
 
-    historial(endpoint, null);
+    console.log(dato);
+
+    const endpoint = `profiles/${id}/history`;
+
+    historial_usuarios(endpoint, null);
 };
 
 export default historialUsuario;
