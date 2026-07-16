@@ -5,7 +5,7 @@
  * 
  * @module VistaMascotas
  */
-import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
+import { adjuntarOpciones as adjuntarOpc, formatearFecha } from "@/helpers/index.js";
 
 /**
  * Crea y retorna el elemento visual (chip) de una vacuna
@@ -20,17 +20,9 @@ export const crearVacunaTag = (vacuna, esSupervisor, onEdit, onDelete) => {
   const tag = document.createElement("div");
   tag.className = "gestionarAfecciones__afeccion";
 
-  // Formato visual de la fecha DD/MM/YY
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    const parts = dateStr.split('-');
-    if (parts.length !== 3) return dateStr;
-    return `${parts[2]}/${parts[1]}/${parts[0].substring(2)}`;
-  };
-  
   const label = document.createElement("span");
   label.className = "gestionarAfecciones__tipoNombre";
-  label.textContent = `${vacuna.name} - ${formatDate(vacuna.date)}`;
+  label.textContent = `${vacuna.name} - ${formatearFecha(vacuna.date)}`;
   tag.appendChild(label);
 
   tag.classList.add("gestionarAfecciones__afeccion--editable");

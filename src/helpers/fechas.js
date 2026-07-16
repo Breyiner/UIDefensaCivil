@@ -45,3 +45,16 @@ export const initFechas = () => {
   });
 
 };
+
+/**
+ * Formatea una fecha del formato YYYY-MM-DD al formato visual DD/MM/YY.
+ * 
+ * @param {string} dateStr - Fecha en formato YYYY-MM-DD (ej: "2026-07-16")
+ * @returns {string} Fecha formateada (ej: "16/07/26")
+ */
+export const formatearFecha = (dateStr) => {
+  if (!dateStr) return "";
+  const parts = dateStr.split('-');
+  if (parts.length !== 3) return dateStr;
+  return `${parts[2]}/${parts[1]}/${parts[0].substring(2)}`;
+};

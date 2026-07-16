@@ -4,21 +4,14 @@
  * Usa lógica condicional Switch Case para pintar Iconos SVG según 'Especie' de la Mascota.
  */
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { api } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { alertas as alerta } from "@/helpers/index.js";
+import { api, alertas as alerta, formatearFecha } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { paginacion } from "@/helpers/index.js";
 
 // Modal detallado de la mascota (antes MascotaModal.js)
 const mostrarMascotaModal = ({ petData, vaccines }) => {
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    const parts = dateStr.split('-');
-    if (parts.length !== 3) return dateStr;
-    return `${parts[2]}/${parts[1]}/${parts[0].substring(2)}`;
-  };
+
 
   const modal = document.createElement("dialog");
   modal.className = "modal-edicion";
@@ -61,7 +54,7 @@ const mostrarMascotaModal = ({ petData, vaccines }) => {
     return dato;
   };
 
-  const formattedVaccines = vaccines.map(v => `${v.name} (${formatDate(v.date)})`).join(", ") || "ninguna";
+  const formattedVaccines = vaccines.map(v => `${v.name} (${formatearFecha(v.date)})`).join(", ") || "ninguna";
 
   modalDiv.append(
     crearDato("ri-coupon-line", "Nombre", petData.name),

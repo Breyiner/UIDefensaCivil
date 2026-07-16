@@ -3,12 +3,8 @@
  * Fetcher asíncrono para renderizar las tarjetas de cada amenaza registrada 
  * en el entorno de la familia. Permite eliminar y abrir modal de detalles avanzados.
  */
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { api } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { alertas as alerta } from "@/helpers/index.js";
+import { api, alertas as alerta, formatearFecha } from "@/helpers/index.js";
 import { verRiesgo } from "@/componentes/riesgo/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { paginacion } from "@/helpers/index.js";
 
 export default async () => {
@@ -151,9 +147,51 @@ export default async () => {
             }
         }
 
-        // Branch 3: Lanza SubRutina Ver detalles completos sweetalert Helper global (ReadOnly de Relaciones Acción y Vulnerab)
+        // Branch 3: Lanza SubRutina Ver detalles completos (ReadOnly de Relaciones Acción y Vulnerab)
         if (boton.classList.contains("verRiesgos__boton--verMas")) {
-            verRiesgo(riskId);
+            const riskData = await api.get(`riskFactors/${riskId}`);
+            if (!riskData) return;
+            const actions = await api.get(`riskReductionActions/riskFactor/${riskId}`) || [];
+            const vulnerabilities = await api.get(`vulnerabilityFactors/riskFactor/${riskId}`) || [];
+            
+            // Formatear acciones de reducción de riesgo en el controlador
+            const actionsText = actions.map(accion => {
+                const encName = accion.member ? `${accion.member.names} ${accion.member.last_names}` : (accion.member_name || "Sin encargado");
+                return `${accion.action} - Encargado: ${encName} - Fin: ${formatearFecha(accion.end_date)}`;
+            }).join(", ") || "ninguna";
+
+            // Formatear vulnerabilidades en el controlador
+            const vulnerabilitiesText = vulnerabilities.map(v => {
+                const vName = v.vulnerability?.name || v.vulnerability_name || "";
+                const gName = v.vulnerability_grade?.name || v.grade_name || "";
+                return `${vName} - Grado: ${gName}`;
+            }).join(", ") || "ninguna";
+
+            // Payload puramente de texto/datos sin lógica
+            const payload = {
+                threatTypeName: riskData.threat_type?.name || riskData.threat_type_name || "",
+                description: riskData.description || "",
+                location: riskData.ubication || riskData.location || "",
+                distanceText: `${riskData.distance || 0} m`,
+                actionsText,
+                vulnerabilitiesText
+            };
+
+            // Crear y mostrar modal
+            const modal = verRiesgo(payload);
+            document.body.appendChild(modal);
+
+            const btnCerrar = modal.querySelector(".modal-edicion__btn--secundario");
+            const closeModal = () => {
+                modal.close();
+                modal.remove();
+            };
+            btnCerrar.addEventListener("click", closeModal);
+            modal.addEventListener("mousedown", (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            modal.showModal();
         }
     });
 
