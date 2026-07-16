@@ -65,14 +65,14 @@ export default async ({ petData = null, esSupervisor = false }) => {
     wrapper.className = "input";
 
     const inputBox = document.createElement("div");
-    inputBox.className = inputType === "selector" ? "form__inputBox form__inputBox--selector" : "form__inputBox";
+    inputBox.className = inputType === "selector-portatil" ? "form__inputBox form__inputBox--selector" : "form__inputBox";
 
     const i = document.createElement("i");
     i.className = iconClass;
     if (iconId) i.id = iconId;
 
     let field;
-    if (inputType === "selector") {
+    if (inputType === "selector-portatil") {
       field = document.createElement("select");
       field.className = "selector-custom";
     } else {
@@ -90,7 +90,7 @@ export default async ({ petData = null, esSupervisor = false }) => {
   mainForm.method = "POST";
   mainForm.className = "form";
 
-  const divEsp = createFormGroup("ri-bell-line", "selector", "especies", "selector__icono");
+  const divEsp = createFormGroup("ri-bell-line", "selector-portatil", "especies", "selector__icono");
   const especiesSelect = divEsp.querySelector("select");
   const optEsp = document.createElement("option");
   optEsp.value = "";
@@ -123,7 +123,7 @@ export default async ({ petData = null, esSupervisor = false }) => {
 
   doubleDiv.append(divRaz, divEdad);
 
-  const divGen = createFormGroup("ri-user-line", "selector", "generos", "selector__icono");
+  const divGen = createFormGroup("ri-user-line", "selector-portatil", "generos", "selector__icono");
   const generosSelect = divGen.querySelector("select");
   const optGen = document.createElement("option");
   optGen.value = "";
@@ -182,20 +182,6 @@ export default async ({ petData = null, esSupervisor = false }) => {
     edadInput.value = petData.birth_date ? petData.birth_date.split("T")[0] : "";
     especiesSelect.value = petData.species_id || "";
     generosSelect.value = petData.animal_gender_id || "";
-  }
-
-  try {
-    const { default: TomSelect } = await import("tom-select");
-    new TomSelect(especiesSelect, {
-      create: false,
-      sortField: { field: "text", direction: "asc" }
-    });
-    new TomSelect(generosSelect, {
-      create: false,
-      sortField: { field: "text", direction: "asc" }
-    });
-  } catch (e) {
-    console.error("Error initializing TomSelect:", e);
   }
 
   return mainForm;

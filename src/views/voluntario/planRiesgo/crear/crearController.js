@@ -3,9 +3,9 @@
  * Formulario inicial simplificado para registrar un tipo de amenaza ("Sismo", "Inundación").
  * Envía el Payload directo porque el cliente confía en el validador estricto del HTML Required Properties o DB side.
  */
-import { api, alertas as alerta, validacionInputs as validacion, adjuntarOpciones as adjuntarOpc, formatearFecha } from "@/helpers/index.js";
+import { api, alertas as alerta, validacionInputs as validacion, adjuntarOpciones as adjuntarOpc, formatearFecha, } from "@/helpers/index.js";
 import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil.js";
-import { VistaRiesgo, tarjetaVulnerabilidad, tarjetaAccion, agregarVulnerabilidadMemoria, agregarAccionMemoria } from "@/componentes/riesgo/index.js";
+import { VistaRiesgo, tarjetaVulnerabilidad, tarjetaAccion, agregarVulnerabilidadMemoria, agregarAccionMemoria, } from "@/componentes/riesgo/index.js";
 
 export default async () => {
     // Selectores DOM Main Nav and Tools
@@ -16,24 +16,29 @@ export default async () => {
     let vulnerabilities = [];
     let actions = [];
 
-    if (window.procesoPeticion === undefined) { window.procesoPeticion = true; }
+    if (window.procesoPeticion === undefined) {
+        window.procesoPeticion = true;
+    }
     window.procesoPeticion = false;
 
-    // Retorno Cancelación Safe 
+    // Retorno Cancelación Safe
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
-        const confirmacion = await alerta.alertaQuest("¿Seguro que quieres volver? perderás tu progreso");
-        if (confirmacion.isConfirmed) location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`;
+        const confirmacion = await alerta.alertaQuest(
+            "¿Seguro que quieres volver? perderás tu progreso",
+        );
+        if (confirmacion.isConfirmed)
+            location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`;
     };
 
     // Precargar catálogos para vulnerabilidades y miembros
-    const vulnerabilityGradesList = await api.get("vulnerabilityGrades") || [];
-    const vulnerabilitiesList = await api.get("vulnerabilities") || [];
-    const membersList = await api.get(`members/familyPlan/select/${id}`) || [];
+    const vulnerabilityGradesList = (await api.get("vulnerabilityGrades")) || [];
+    const vulnerabilitiesList = (await api.get("vulnerabilities")) || [];
+    const membersList = (await api.get(`members/familyPlan/select/${id}`)) || [];
 
     // Instancia el componente visual de factores de riesgo (retorna el nodo del formulario)
     const form = VistaRiesgo({
-        esSupervisor: false
+        esSupervisor: false,
     });
 
     const contenedor = document.getElementById("contenedor-riesgo");
@@ -49,15 +54,15 @@ export default async () => {
     validacion.validadorAutomatico.init(form);
 
     // Selectores Dom Formularios
-    const descripcion = document.getElementById('descripcion');
-    const distancia = document.getElementById('distancia');
-    const ubicacion = document.getElementById('ubicacion');
-    const amenaza = document.getElementById('tiposAmenaza'); // Select Diccionario
+    const descripcion = document.getElementById("descripcion");
+    const distancia = document.getElementById("distancia");
+    const ubicacion = document.getElementById("ubicacion");
+    const amenaza = document.getElementById("tiposAmenaza"); // Select Diccionario
     const btnAgregarVuln = form.querySelector("#btnAgregarVulnerabilidad");
     const btnAgregarAcc = form.querySelector("#btnAgregarAccion");
     const listaVulnDiv = form.querySelector("#vulnerabilidades-lista");
     const listaAccDiv = form.querySelector("#acciones-lista");
-    const botonSiguiente = form.querySelector('#botonGuardar'); // Botón guardar/siguiente
+    const botonSiguiente = form.querySelector("#botonGuardar"); // Botón guardar/siguiente
 
     // Helper local para renderizar vulnerabilidades en la vista
     const renderVulnerabilities = () => {
@@ -80,15 +85,21 @@ export default async () => {
                     const modal = agregarVulnerabilidadMemoria({
                         initialData: vuln,
                         vulnerabilities: vulnerabilitiesList,
-                        vulnerabilityGrades: vulnerabilityGradesList
+                        vulnerabilityGrades: vulnerabilityGradesList,
                     });
                     document.body.appendChild(modal);
+
+                    const selectVulnerability = modal.querySelector(".form__vulnerability");
+                    const selectGrade = modal.querySelector(".form__vulnerabilityGrade");
+                    selectVulnerability.classList.add("selector-portatil");
+                    selectGrade.classList.add("selector-portatil");
+                    initTomSelectPortatil();
+
 
                     const formModal = modal.querySelector("form");
                     const btnCancelar = modal.querySelector(".modal-edicion__btn--secundario");
                     const btnGuardar = modal.querySelector(".modal-edicion__btn--primario");
-                    const selectVulnerability = modal.querySelector(".form__vulnerability");
-                    const selectGrade = modal.querySelector(".form__vulnerabilityGrade");
+
 
                     const closeModal = () => {
                         modal.close();
@@ -102,19 +113,26 @@ export default async () => {
                     // Iniciar validador y evento de envío
                     validacion.validadorAutomatico.init(formModal);
                     btnGuardar.addEventListener("click", () => {
-                        const isValid = validacion.validadorAutomatico.validarTodo(formModal);
+                        const isValid =
+                            validacion.validadorAutomatico.validarTodo(formModal);
                         if (!isValid) return;
 
-                        const idx = vulnerabilities.findIndex(v => v.tempId === vuln.tempId);
+                        const idx = vulnerabilities.findIndex(
+                            (v) => v.tempId === vuln.tempId,
+                        );
                         if (idx !== -1) {
-                            const selectedVuln = vulnerabilitiesList.find(v => v.id == selectVulnerability.value);
-                            const selectedGrade = vulnerabilityGradesList.find(g => g.id == selectGrade.value);
-                            
-                            vulnerabilities[idx] = { 
+                            const selectedVuln = vulnerabilitiesList.find(
+                                (v) => v.id == selectVulnerability.value,
+                            );
+                            const selectedGrade = vulnerabilityGradesList.find(
+                                (g) => g.id == selectGrade.value,
+                            );
+
+                            vulnerabilities[idx] = {
                                 ...vulnerabilities[idx],
                                 vulnerability_id: selectVulnerability.value,
                                 vulnerability_grade_id: selectGrade.value,
-                                labelText: `${selectedVuln ? selectedVuln.name : ""} - Grado: ${selectedGrade ? selectedGrade.name : ""}`
+                                labelText: `${selectedVuln ? selectedVuln.name : ""} - Grado: ${selectedGrade ? selectedGrade.name : ""}`,
                             };
                             renderVulnerabilities();
                             closeModal();
@@ -125,12 +143,16 @@ export default async () => {
                 },
                 async () => {
                     // Callback al eliminar de memoria
-                    const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar esta vulnerabilidad?");
+                    const confirmacion = await alerta.alertaQuest(
+                        "¿Seguro que deseas eliminar esta vulnerabilidad?",
+                    );
                     if (confirmacion.isConfirmed) {
-                        vulnerabilities = vulnerabilities.filter(v => v.tempId !== vuln.tempId);
+                        vulnerabilities = vulnerabilities.filter(
+                            (v) => v.tempId !== vuln.tempId,
+                        );
                         renderVulnerabilities();
                     }
-                }
+                },
             );
             listaVulnDiv.appendChild(tag);
         });
@@ -156,15 +178,22 @@ export default async () => {
                     // Instanciar modal visual nativo
                     const modal = agregarAccionMemoria({
                         members: membersList,
-                        initialData: action
+                        initialData: action,
                     });
                     document.body.appendChild(modal);
 
+                    const selectMember = modal.querySelector(".form__member"); 
+                    selectMember.classList.add("selector-portatil"); 
+                    initTomSelectPortatil();
+
                     const formModal = modal.querySelector("form");
-                    const btnCancelar = modal.querySelector(".modal-edicion__btn--secundario");
-                    const btnGuardar = modal.querySelector(".modal-edicion__btn--primario");
+                    const btnCancelar = modal.querySelector(
+                        ".modal-edicion__btn--secundario",
+                    );
+                    const btnGuardar = modal.querySelector(
+                        ".modal-edicion__btn--primario",
+                    );
                     const inputAction = modal.querySelector(".form__action");
-                    const selectMember = modal.querySelector(".form__member");
                     const inputDate = modal.querySelector(".form__date");
 
                     const closeModal = () => {
@@ -179,31 +208,40 @@ export default async () => {
                     // Iniciar validador y evento de envío
                     validacion.validadorAutomatico.init(formModal);
                     btnGuardar.addEventListener("click", () => {
-                        const isValid = validacion.validadorAutomatico.validarTodo(formModal);
+                        const isValid =
+                            validacion.validadorAutomatico.validarTodo(formModal);
                         if (!isValid) return;
 
                         const dateVal = inputDate.value;
                         if (!dateVal) {
-                            validacion.mostrarError(inputDate, "La fecha de finalización es obligatoria.");
+                            validacion.mostrarError(
+                                inputDate,
+                                "La fecha de finalización es obligatoria.",
+                            );
                             return;
                         }
                         const today = new Date();
-                        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+                        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
                         if (dateVal < todayStr) {
-                            validacion.mostrarError(inputDate, "La fecha de la acción no puede ser anterior al día de hoy.");
+                            validacion.mostrarError(
+                                inputDate,
+                                "La fecha de la acción no puede ser anterior al día de hoy.",
+                            );
                             return;
                         }
 
-                        const idx = actions.findIndex(a => a.tempId === action.tempId);
+                        const idx = actions.findIndex((a) => a.tempId === action.tempId);
                         if (idx !== -1) {
-                            const selectedMember = membersList.find(m => m.id == selectMember.value);
+                            const selectedMember = membersList.find(
+                                (m) => m.id == selectMember.value,
+                            );
 
-                            actions[idx] = { 
+                            actions[idx] = {
                                 ...actions[idx],
                                 action: inputAction.value,
                                 member_id: selectMember.value,
                                 end_date: dateVal,
-                                labelText: `${inputAction.value} - ${selectedMember ? (selectedMember.full_name || `${selectedMember.names} ${selectedMember.last_names}`) : "Sin encargado"} - ${formatearFecha(dateVal)}`
+                                labelText: `${inputAction.value} - ${selectedMember ? selectedMember.full_name || `${selectedMember.names} ${selectedMember.last_names}` : "Sin encargado"} - ${formatearFecha(dateVal)}`,
                             };
                             renderActions();
                             closeModal();
@@ -214,12 +252,14 @@ export default async () => {
                 },
                 async () => {
                     // Callback al eliminar de memoria
-                    const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar esta acción?");
+                    const confirmacion = await alerta.alertaQuest(
+                        "¿Seguro que deseas eliminar esta acción?",
+                    );
                     if (confirmacion.isConfirmed) {
-                        actions = actions.filter(a => a.tempId !== action.tempId);
+                        actions = actions.filter((a) => a.tempId !== action.tempId);
                         renderActions();
                     }
-                }
+                },
             );
             listaAccDiv.appendChild(tag);
         });
@@ -230,15 +270,24 @@ export default async () => {
         const modal = agregarVulnerabilidadMemoria({
             initialData: null,
             vulnerabilities: vulnerabilitiesList,
-            vulnerabilityGrades: vulnerabilityGradesList
+            vulnerabilityGrades: vulnerabilityGradesList,
         });
         document.body.appendChild(modal);
+
+        const selectVulnerability = modal.querySelector(".form__vulnerability");
+        const selectGrade = modal.querySelector(".form__vulnerabilityGrade");
+
+        // Les inyectamos dinámicamente la clase que nuestro script de TomSelect requiere
+        selectVulnerability.classList.add("selector-portatil");
+        selectGrade.classList.add("selector-portatil");
+
+        // Ejecutamos el helper para que escanee el DOM de nuevo, encuentre estos nuevos selectores y los inicialice
+        initTomSelectPortatil();
 
         const formModal = modal.querySelector("form");
         const btnCancelar = modal.querySelector(".modal-edicion__btn--secundario");
         const btnGuardar = modal.querySelector(".modal-edicion__btn--primario");
-        const selectVulnerability = modal.querySelector(".form__vulnerability");
-        const selectGrade = modal.querySelector(".form__vulnerabilityGrade");
+
 
         const closeModal = () => {
             modal.close();
@@ -254,13 +303,17 @@ export default async () => {
             const isValid = validacion.validadorAutomatico.validarTodo(formModal);
             if (!isValid) return;
 
-            const selectedVuln = vulnerabilitiesList.find(v => v.id == selectVulnerability.value);
-            const selectedGrade = vulnerabilityGradesList.find(g => g.id == selectGrade.value);
+            const selectedVuln = vulnerabilitiesList.find(
+                (v) => v.id == selectVulnerability.value,
+            );
+            const selectedGrade = vulnerabilityGradesList.find(
+                (g) => g.id == selectGrade.value,
+            );
             const newVuln = {
                 tempId: Date.now().toString() + Math.random().toString(),
                 vulnerability_id: selectVulnerability.value,
                 vulnerability_grade_id: selectGrade.value,
-                labelText: `${selectedVuln ? selectedVuln.name : ""} - Grado: ${selectedGrade ? selectedGrade.name : ""}`
+                labelText: `${selectedVuln ? selectedVuln.name : ""} - Grado: ${selectedGrade ? selectedGrade.name : ""}`,
             };
             vulnerabilities.push(newVuln);
             renderVulnerabilities();
@@ -274,7 +327,7 @@ export default async () => {
     btnAgregarAcc.addEventListener("click", () => {
         const modal = agregarAccionMemoria({
             members: membersList,
-            initialData: null
+            initialData: null,
         });
         document.body.appendChild(modal);
 
@@ -301,23 +354,31 @@ export default async () => {
 
             const dateVal = inputDate.value;
             if (!dateVal) {
-                validacion.mostrarError(inputDate, "La fecha de finalización es obligatoria.");
+                validacion.mostrarError(
+                    inputDate,
+                    "La fecha de finalización es obligatoria.",
+                );
                 return;
             }
             const today = new Date();
-            const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
             if (dateVal < todayStr) {
-                validacion.mostrarError(inputDate, "La fecha de la acción no puede ser anterior al día de hoy.");
+                validacion.mostrarError(
+                    inputDate,
+                    "La fecha de la acción no puede ser anterior al día de hoy.",
+                );
                 return;
             }
 
-            const selectedMember = membersList.find(m => m.id == selectMember.value);
+            const selectedMember = membersList.find(
+                (m) => m.id == selectMember.value,
+            );
             const newAction = {
                 tempId: Date.now().toString() + Math.random().toString(),
                 action: inputAction.value,
                 member_id: selectMember.value,
                 end_date: dateVal,
-                labelText: `${inputAction.value} - ${selectedMember ? (selectedMember.full_name || `${selectedMember.names} ${selectedMember.last_names}`) : "Sin encargado"} - ${formatearFecha(dateVal)}`
+                labelText: `${inputAction.value} - ${selectedMember ? selectedMember.full_name || `${selectedMember.names} ${selectedMember.last_names}` : "Sin encargado"} - ${formatearFecha(dateVal)}`,
             };
             actions.push(newAction);
             renderActions();
@@ -328,7 +389,7 @@ export default async () => {
     });
 
     // Master Submit Hook Form Send
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         // Validar inputs principales
@@ -339,19 +400,19 @@ export default async () => {
         window.procesoPeticion = true; // Lock doble hit prevent
         botonSiguiente.disabled = true;
 
-        // Mapper a DB Contract DTO Expected properties names 
+        // Mapper a DB Contract DTO Expected properties names
         const datosRegistro = {
-            threat_type_id: amenaza.value, // Select Foreign Key Relational Data Dict App State Value numeric id 
+            threat_type_id: amenaza.value, // Select Foreign Key Relational Data Dict App State Value numeric id
             description: descripcion.value,
             ubication: ubicacion.value,
             distance: distancia.value,
-            family_plan_id: id // Linkea Relacion Raiz (Plan Familiar) 
+            family_plan_id: id, // Linkea Relacion Raiz (Plan Familiar)
         };
-        
+
         try {
             // Push HTTP Create Resource Entry Factor Riesgo "RiskFactors" tables back
-            const data = await api.post(`riskFactors`, datosRegistro); // Call Helpers Axios Wrapper Fetch 
-            
+            const data = await api.post(`riskFactors`, datosRegistro); // Call Helpers Axios Wrapper Fetch
+
             if (data.success) {
                 const riesgoCreadoId = data.data.id;
 
@@ -360,7 +421,7 @@ export default async () => {
                     await api.post("vulnerabilityFactors", {
                         vulnerability_id: vuln.vulnerability_id,
                         vulnerability_grade_id: vuln.vulnerability_grade_id,
-                        risk_factor_id: riesgoCreadoId
+                        risk_factor_id: riesgoCreadoId,
                     });
                 }
 
@@ -370,21 +431,20 @@ export default async () => {
                         action: action.action,
                         member_id: action.member_id,
                         risk_factor_id: riesgoCreadoId,
-                        end_date: action.end_date
+                        end_date: action.end_date,
                     });
                 }
 
                 await alerta.alertaOK(data.message);
-                window.location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`; // Return Dash Layout Default Front 
-            }
-            else {
+                window.location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`; // Return Dash Layout Default Front
+            } else {
                 alerta.alertaWarning(data.message, data.errors); // Business Layer Error Catch From Server Backend Logic Validators
             }
         } catch (error) {
             alerta.alertaError(error.errors || error.message);
         }
 
-        // Release Form Locked Try-Catch Flow Completed Execution Return 
+        // Release Form Locked Try-Catch Flow Completed Execution Return
         botonSiguiente.disabled = false;
         window.procesoPeticion = false;
     });

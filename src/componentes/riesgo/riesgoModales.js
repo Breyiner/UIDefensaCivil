@@ -38,7 +38,7 @@ export const agregarVulnerabilidadMemoria = ({ initialData = null, vulnerabiliti
   const grupoVuln = document.createElement("div");
   grupoVuln.classList.add("input");
   const formGroup1 = document.createElement("div");
-  formGroup1.classList.add("form__inputBox");
+  formGroup1.classList.add("form__inputBox" , "form__inputBox--selector");
   const icon1 = document.createElement("i");
   icon1.className = "ri-alert-line";
   const selectVulnerability = document.createElement("select");
@@ -67,7 +67,7 @@ export const agregarVulnerabilidadMemoria = ({ initialData = null, vulnerabiliti
   const grupoGrade = document.createElement("div");
   grupoGrade.classList.add("input");
   const formGroup2 = document.createElement("div");
-  formGroup2.classList.add("form__inputBox");
+  formGroup2.classList.add("form__inputBox" , "form__inputBox--selector");
   const icon2 = document.createElement("i");
   icon2.className = "ri-bar-chart-line";
   const selectGrade = document.createElement("select");
@@ -166,7 +166,7 @@ export const agregarAccionMemoria = ({ members = [], initialData = null }) => {
   const grupoMember = document.createElement("div");
   grupoMember.classList.add("input");
   const formGroup2 = document.createElement("div");
-  formGroup2.classList.add("form__inputBox");
+  formGroup2.classList.add("form__inputBox" , "form__inputBox--selector");
   const icon2 = document.createElement("i");
   icon2.className = "ri-user-line";
   const selectMember = document.createElement("select");

@@ -1,10 +1,3 @@
-/**
- * Componente: Formulario VistaRiesgo
- * Módulo visual puro encargado de estructurar y retornar el nodo DOM del formulario de factores de riesgo.
- * Sigue la estructura de tarjeta_peticion y tarjeta_gestion retornando directamente el elemento.
- * 
- * @module VistaRiesgo
- */
 
 /**
  * Crea y retorna el elemento visual (tarjeta tipo chip) de una vulnerabilidad.
@@ -113,7 +106,7 @@ export default ({ esSupervisor = false }) => {
     wrapper.classList.add("input");
 
     const inputBox = document.createElement("div");
-    if (inputType === "selector") {
+    if (inputType === "selector-portatil") {
       inputBox.classList.add("form__inputBox", "form__inputBox--selector");
     } else {
       inputBox.classList.add("form__inputBox");
@@ -124,7 +117,7 @@ export default ({ esSupervisor = false }) => {
     if (iconId) i.id = iconId;
 
     let field;
-    if (inputType === "selector") {
+    if (inputType === "selector-portatil") {
       field = document.createElement("select");
       field.classList.add("selector-portatil");
     } else if (inputType === "textarea") {
@@ -158,8 +151,8 @@ export default ({ esSupervisor = false }) => {
   ubicacionInput.setAttribute("data-tipo", "textoMedio");
 
   // Amenaza (Selector)
-  const divAmenaza = createFormGroup("ri-alert-line", "selector", "tiposAmenaza", "selector__icono");
-  const amenazaSelect = divAmenaza.querySelector("select");
+  const divAmenaza = createFormGroup("ri-alert-line", "selector-portatil", "tiposAmenaza", "selector__icono");
+  const amenazaSelect = divAmenaza.querySelector(".selector-portatil");
   const optAmenaza = document.createElement("option");
   optAmenaza.value = "";
   optAmenaza.hidden = true;
