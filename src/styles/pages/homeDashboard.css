@@ -439,7 +439,6 @@
 .v-family-image-container { margin-bottom: -60px; }
 .v-notifications-list { max-height: 340px; }
 }
-
 @media (max-width: 480px) {
 .home-supervisor { padding-left: 12px; padding-right: 12px; }
 .home-supervisor .wrapper,
@@ -457,7 +456,7 @@
 .home-supervisor .card-conteo .info .number { font-size: 1.5rem; }
 .home-supervisor .card-conteo .info span { font-size: 0.75rem; }
 .home-supervisor .total-revisados-container { margin: 16px 0; }
-.home-supervisor .total-revisados-container h4 { font-size: 1.5rem; }
+.home-supervisor .total-revisados-container h4 { font-size: 1.3rem; }
 .home-supervisor .total-revisados-container h4 span { font-size: 1.8rem; }
 .home-supervisor .total-revisados-container .big-display { font-size: 32px; }
 .home-supervisor .bottom-split-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
