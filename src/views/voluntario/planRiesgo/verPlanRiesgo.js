@@ -13,7 +13,7 @@ export default async () => {
     const crear = document.getElementById("crear"); // Redirige a Nuevo
     const botonBack = document.getElementById("botonBack"); // Regresa a Menu Principal
     const id = location.hash.split("=")[1]; // PK Plan Familiar DB ID
-    
+
     // Contenedor Inyección Grilla Dom
     const contenedor = document.querySelector(".container__paginas");
 
@@ -46,7 +46,7 @@ export default async () => {
     const carta = async (info) => {
 
         const div = document.createElement("div");
-        div.classList.add("verRiesgos"); // Reutilización diseño Tarjetas CSS
+        div.classList.add("verRiesgos"); 
 
         const divTipo = document.createElement("div");
         divTipo.className = "verRiesgos__tipoRiesgo";
@@ -109,7 +109,7 @@ export default async () => {
         await paginacion(`riskFactors/familyPlan/${id}`, mensajeVacio, carta);
     };
 
-    // DELEGADOR MAESTRO Contenedor Grid Virtual (Event Bubbling Listener)
+    // DELEGADOR MAESTRO 
     contenedor.addEventListener("click", async (e) => {
 
         const boton = e.target.closest("button"); // Caza solo elements 'button'
@@ -117,43 +117,41 @@ export default async () => {
 
         const riskId = boton.dataset.id; // DB PK Extraído HTML Attr
 
-        // Branch 1: Modificar/Anexar Elemento Riesgo
+        //Modificar/Anexar Elemento Riesgo
         if (boton.classList.contains("verRiesgos__boton--editar")) {
-            // URL Mapeada con IDs csv (Plan y Riesgo Target)
-            if(esSupervisor){
+
+            if (esSupervisor) {
                 location.href = `#/supervisor/plan_familiar/factores_de_riesgo/editar?familia_id=${id}&riesgo_id=${riskId}`;
             }
             location.href = `#/voluntario/plan_familiar/factores_de_riesgo/editar?familia_id=${id}&riesgo_id=${riskId}`;
         }
 
-        // Branch 2: Borrar Riesgo Base (Backend ejecutará cascada con vulnerabilidades y acciones asociadas) 
-        if (boton.classList.contains("verRiesgos__boton--eliminar")) {
-            
-            // Sweet alert Warning UI Doble Confirmación
-            const confirmacion = await alerta.alertaQuest(
-                "¿Seguro que deseas eliminar este factor de riesgo?"
-            );
+        // Borrar Riesgo 
+        if (boton.classList.contains("verRiesgos__boton--eliminar")) { 
 
-            if (!confirmacion.isConfirmed) return;
+            const confirmacion = await alerta.alertaQuest( 
+                "¿Seguro que deseas eliminar este factor de riesgo?" 
+            ); 
 
-            // Rest DELETE DB Execution Target Entity
-            const eliminado = await api.delet(`threats/${riskId}`);
+            if (!confirmacion.isConfirmed) return; 
 
-            if (eliminado.success) {
-                await alerta.alertaOK(eliminado.message);
-                await recargarContainer(); // Auto Sync DOM Front 
-            } else {
-                alerta.alertaError(eliminado.message);
-            }
-        }
+            const eliminado = await api.delet(`riskFactors/${riskId}`); 
 
-        // Branch 3: Lanza SubRutina Ver detalles completos (ReadOnly de Relaciones Acción y Vulnerab)
+            if (eliminado.success) { 
+                await alerta.alertaOK(eliminado.message); 
+                await recargarContainer(); 
+            } else { 
+                alerta.alertaError(eliminado.message); 
+            } 
+        } 
+
+        // Ver detalles completos (ReadOnly de Relaciones Acción y Vulnerab)
         if (boton.classList.contains("verRiesgos__boton--verMas")) {
             const riskData = await api.get(`riskFactors/${riskId}`);
             if (!riskData) return;
             const actions = await api.get(`riskReductionActions/riskFactor/${riskId}`) || [];
             const vulnerabilities = await api.get(`vulnerabilityFactors/riskFactor/${riskId}`) || [];
-            
+
             // Formatear acciones de reducción de riesgo en el controlador
             const actionsText = actions.map(accion => {
                 const encName = accion.member ? `${accion.member.names} ${accion.member.last_names}` : (accion.member_name || "Sin encargado");
@@ -195,6 +193,5 @@ export default async () => {
         }
     });
 
-    // AutoBoot First Fetch Render Grid Container list
     await recargarContainer();
 };

@@ -16,7 +16,7 @@ export const tarjetaVulnerabilidad = (item, esSupervisor, onEdit, onDelete) => {
 
   const label = document.createElement("span");
   label.classList.add("gestionarAfecciones__tipoNombre");
-  label.textContent = item.labelText || "";
+  label.textContent = item.labelText;
 
   tag.append(label);
 
