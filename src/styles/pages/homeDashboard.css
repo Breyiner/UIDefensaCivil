@@ -403,6 +403,7 @@
 }
 .v-panel-right-footer { margin-top: 20px; display: flex; justify-content: center; }
 .v-btn-see-all { width: 150px; }
+
 @media (min-width: 1268px) and (max-width: 1350px) {
 .home-supervisor .profile-details h3 { font-size: 24px; max-width: 360px; }
 }
@@ -438,6 +439,7 @@
 .v-family-image-container { margin-bottom: -60px; }
 .v-notifications-list { max-height: 340px; }
 }
+
 @media (max-width: 480px) {
 .home-supervisor { padding-left: 12px; padding-right: 12px; }
 .home-supervisor .wrapper,
@@ -500,6 +502,7 @@
 .v-family-image { max-width: 115%; height: auto; }
 .v-family-image-container { margin-top: 20px; margin-bottom: -80px; order: 2; }
 }
+
 @media (max-width: 1200px) {
     .v-main-container { grid-template-columns: 1fr; }
 }
