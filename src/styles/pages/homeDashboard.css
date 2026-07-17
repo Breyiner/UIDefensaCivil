@@ -455,6 +455,7 @@
 .home-supervisor .card-conteo { padding: 10px 12px; }
 .home-supervisor .card-conteo .info .number { font-size: 1.5rem; }
 .home-supervisor .card-conteo .info span { font-size: 0.75rem; }
+.home-supervisor .stat-planes__familiares {border-radius: 60px 60px 60px 60px;}
 .home-supervisor .total-revisados-container { margin: 16px 0; }
 .home-supervisor .total-revisados-container h4 { font-size: 1.3rem; }
 .home-supervisor .total-revisados-container h4 span { font-size: 1.8rem; }
