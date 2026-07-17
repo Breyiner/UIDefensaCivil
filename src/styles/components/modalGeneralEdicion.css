@@ -44,6 +44,11 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    transition: padding-bottom 0.3s ease;
+}
+
+.modal-edicion__formulario--desplegado {
+    padding-bottom: 270px;
 }
 
 .modal-edicion__grupo {

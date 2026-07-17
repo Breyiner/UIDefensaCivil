@@ -6,6 +6,8 @@
  * @module riesgoModales
  */
 
+import { createFormGroup } from "./vistaRiesgo.js";
+
 /**
  * Crea y retorna el nodo DOM del diálogo <dialog> para agregar/editar una vulnerabilidad.
  * 
@@ -35,14 +37,9 @@ export const agregarVulnerabilidadMemoria = ({ initialData = null, vulnerabiliti
   form.classList.add("modal-edicion__formulario");
 
   // Select 1: Vulnerability
-  const grupoVuln = document.createElement("div");
-  grupoVuln.classList.add("input");
-  const formGroup1 = document.createElement("div");
-  formGroup1.classList.add("form__inputBox" , "form__inputBox--selector");
-  const icon1 = document.createElement("i");
-  icon1.className = "ri-alert-line";
-  const selectVulnerability = document.createElement("select");
-  selectVulnerability.classList.add("form__input", "form__vulnerability", "selector-portatil");
+  const grupoVuln = createFormGroup("ri-alert-line", "selector-portatil", "vulnerabilidadSelect", "selector__icono");
+  const selectVulnerability = grupoVuln.querySelector("select");
+  selectVulnerability.classList.add("form__vulnerability");
   selectVulnerability.setAttribute("required", "");
   
   const optionDefault1 = document.createElement("option");
@@ -60,18 +57,10 @@ export const agregarVulnerabilidadMemoria = ({ initialData = null, vulnerabiliti
     selectVulnerability.appendChild(option);
   });
 
-  formGroup1.append(icon1, selectVulnerability);
-  grupoVuln.appendChild(formGroup1);
-
   // Select 2: Grade
-  const grupoGrade = document.createElement("div");
-  grupoGrade.classList.add("input");
-  const formGroup2 = document.createElement("div");
-  formGroup2.classList.add("form__inputBox" , "form__inputBox--selector");
-  const icon2 = document.createElement("i");
-  icon2.className = "ri-bar-chart-line";
-  const selectGrade = document.createElement("select");
-  selectGrade.classList.add("form__input", "form__vulnerabilityGrade", "selector-portatil");
+  const grupoGrade = createFormGroup("ri-bar-chart-line", "selector-portatil", "gradoSelect", "selector__icono");
+  const selectGrade = grupoGrade.querySelector("select");
+  selectGrade.classList.add("form__vulnerabilityGrade");
   selectGrade.setAttribute("required", "");
 
   const optionDefault2 = document.createElement("option");
@@ -88,9 +77,6 @@ export const agregarVulnerabilidadMemoria = ({ initialData = null, vulnerabiliti
     }
     selectGrade.appendChild(option);
   });
-
-  formGroup2.append(icon2, selectGrade);
-  grupoGrade.appendChild(formGroup2);
 
   form.append(grupoVuln, grupoGrade);
   content.appendChild(form);
@@ -143,34 +129,21 @@ export const agregarAccionMemoria = ({ members = [], initialData = null }) => {
   form.classList.add("modal-edicion__formulario");
 
   // Campo Acción
-  const grupoAccion = document.createElement("div");
-  grupoAccion.classList.add("input");
-  const formGroup1 = document.createElement("div");
-  formGroup1.classList.add("form__inputBox");
-  const icon1 = document.createElement("i");
-  icon1.className = "ri-shield-check-line";
-  const inputAction = document.createElement("input");
+  const grupoAccion = createFormGroup("ri-shield-check-line", "input", "accionInput");
+  const inputAction = grupoAccion.querySelector("input");
   inputAction.type = "text";
-  inputAction.classList.add("form__input", "form__action");
+  inputAction.classList.add("form__action");
   inputAction.placeholder = "Acción a realizar";
-  inputAction.autocomplete = "off";
   inputAction.setAttribute("data-tipo", "textoCorto");
   inputAction.setAttribute("required", "");
   if (initialData) {
     inputAction.value = initialData.action || "";
   }
-  formGroup1.append(icon1, inputAction);
-  grupoAccion.appendChild(formGroup1);
 
   // Campo Miembro Encargado
-  const grupoMember = document.createElement("div");
-  grupoMember.classList.add("input");
-  const formGroup2 = document.createElement("div");
-  formGroup2.classList.add("form__inputBox" , "form__inputBox--selector");
-  const icon2 = document.createElement("i");
-  icon2.className = "ri-user-line";
-  const selectMember = document.createElement("select");
-  selectMember.classList.add("form__input", "form__member", "selector-portatil");
+  const grupoMember = createFormGroup("ri-user-line", "selector-portatil", "miembroSelect", "selector__icono");
+  const selectMember = grupoMember.querySelector("select");
+  selectMember.classList.add("form__member");
   selectMember.setAttribute("required", "");
   
   const optionDefault = document.createElement("option");
@@ -187,25 +160,17 @@ export const agregarAccionMemoria = ({ members = [], initialData = null }) => {
     }
     selectMember.appendChild(option);
   });
-  formGroup2.append(icon2, selectMember);
-  grupoMember.appendChild(formGroup2);
 
   // Campo Fecha
-  const grupoFecha = document.createElement("div");
-  grupoFecha.classList.add("input");
-  const formGroup3 = document.createElement("div");
-  formGroup3.classList.add("form__inputBox");
-  const icon3 = document.createElement("i");
-  icon3.className = "ri-calendar-line";
-  const inputDate = document.createElement("input");
-  inputDate.type = "date";
-  inputDate.classList.add("form__input", "form__date");
+  const grupoFecha = createFormGroup("ri-calendar-line", "input", "fechaInput");
+  const inputDate = grupoFecha.querySelector("input");
+  inputDate.type = "text";
+  inputDate.placeholder = "Fecha de finalización";
+  inputDate.classList.add("form__date");
   inputDate.setAttribute("required", "");
   if (initialData) {
-    inputDate.value = initialData.end_date || "";
+    inputDate.value = initialData.end_date ? initialData.end_date.split("T")[0] : "";
   }
-  formGroup3.append(icon3, inputDate);
-  grupoFecha.appendChild(formGroup3);
 
   form.append(grupoAccion, grupoMember, grupoFecha);
   content.appendChild(form);

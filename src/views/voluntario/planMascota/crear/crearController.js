@@ -10,6 +10,10 @@ import { api } from "@/helpers/index.js";
 import { alertas as alerta } from "@/helpers/index.js";
 import { VistaMascotas, VacunaModal, crearVacunaTag } from "@/componentes/mascotas/index.js";
 import { validacionInputs as validacion, fechas } from "@/helpers/index.js";
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil.js";
+import AirDatepicker from "air-datepicker";
+import localeEs from "air-datepicker/locale/es";
+import "air-datepicker/air-datepicker.css";
 
 /**
  * Inicializa el controlador de creación de mascota
@@ -38,6 +42,7 @@ export default async () => {
   const contenedor = document.getElementById("contenedor-mascota");
   contenedor.innerHTML = ""; // Limpiar
   contenedor.appendChild(form);
+  initTomSelectPortatil();
 
   // Inicializar calendarios AirDatepicker
   fechas.initFechas();
@@ -73,20 +78,69 @@ export default async () => {
         false, // esSupervisor
         () => {
           // Callback al editar
-          VacunaModal({
+          const modal = VacunaModal({
             initialData: vacuna,
-            birthDate: edadInput.value,
-            onSave: async (data) => {
-              const idx = vaccines.findIndex(v => v.tempId === vacuna.tempId);
-              if (idx !== -1) {
-                vaccines[idx].name = data.name;
-                vaccines[idx].date = data.date;
-                renderVaccines(vaccines);
-                return { success: true };
-              }
-              return { success: false };
+            birthDate: edadInput.dataset.isoDate || edadInput.value
+          });
+          document.body.appendChild(modal);
+
+          const formModal = modal.querySelector("form");
+          const btnCancelar = modal.querySelector(".modal-edicion__btn--secundario");
+          const btnGuardarVac = modal.querySelector(".modal-edicion__btn--primario");
+          const inputNombre = modal.querySelector(".form__nombreVacuna");
+          const inputFecha = modal.querySelector(".form__fechaVacuna");
+
+          const closeModal = () => {
+            modal.close();
+            modal.remove();
+          };
+          btnCancelar.addEventListener("click", closeModal);
+          modal.addEventListener("mousedown", (e) => {
+            if (e.target.closest(".air-datepicker")) return;
+            if (e.target === modal) closeModal();
+          });
+
+          const datepickerConfig = {
+            locale: localeEs,
+            buttons: ['today', 'clear'],
+            autoClose: true,
+            dateFormat: "yyyy-MM-dd",
+            maxDate: new Date(),
+            container: modal,
+            onShow(isFinished) {
+              if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
+            },
+            onHide(isFinished) {
+              if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
+            }
+          };
+
+          // Restringe la fecha mínima de la vacuna para que sea posterior al nacimiento de la mascota
+          const bDate = edadInput.dataset.isoDate || edadInput.value;
+          if (bDate) {
+            const parts = bDate.split('-');
+            const d = new Date(parts[0], parts[1] - 1, parts[2]);
+            d.setDate(d.getDate() + 1); // un día después del nacimiento
+            datepickerConfig.minDate = d;
+          }
+
+          new AirDatepicker(inputFecha, datepickerConfig);
+          validacion.validadorAutomatico.init(formModal);
+
+          btnGuardarVac.addEventListener("click", async () => {
+            const isValid = validacion.validadorAutomatico.validarTodo(formModal);
+            if (!isValid) return;
+
+            const idx = vaccines.findIndex(v => v.tempId === vacuna.tempId);
+            if (idx !== -1) {
+              vaccines[idx].name = inputNombre.value;
+              vaccines[idx].date = inputFecha.value;
+              renderVaccines(vaccines);
+              closeModal();
             }
           });
+
+          modal.showModal();
         },
         () => {
           // Callback al eliminar
@@ -100,19 +154,68 @@ export default async () => {
 
   // Manejar click en agregar vacuna
   btnAgregarVacuna.addEventListener("click", () => {
-    VacunaModal({
-      birthDate: edadInput.value,
-      onSave: async (data) => {
-        const newVac = {
-          tempId: Date.now().toString(),
-          name: data.name,
-          date: data.date
-        };
-        vaccines.push(newVac);
-        renderVaccines(vaccines);
-        return { success: true };
-      }
+    const modal = VacunaModal({
+      birthDate: edadInput.dataset.isoDate || edadInput.value
     });
+    document.body.appendChild(modal);
+
+    const formModal = modal.querySelector("form");
+    const btnCancelar = modal.querySelector(".modal-edicion__btn--secundario");
+    const btnGuardarVac = modal.querySelector(".modal-edicion__btn--primario");
+    const inputNombre = modal.querySelector(".form__nombreVacuna");
+    const inputFecha = modal.querySelector(".form__fechaVacuna");
+
+    const closeModal = () => {
+      modal.close();
+      modal.remove();
+    };
+    btnCancelar.addEventListener("click", closeModal);
+    modal.addEventListener("mousedown", (e) => {
+      if (e.target.closest(".air-datepicker")) return;
+      if (e.target === modal) closeModal();
+    });
+
+    const datepickerConfig = {
+      locale: localeEs,
+      buttons: ['today', 'clear'],
+      autoClose: true,
+      dateFormat: "yyyy-MM-dd",
+      maxDate: new Date(),
+      container: modal,
+      onShow(isFinished) {
+        if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
+      },
+      onHide(isFinished) {
+        if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
+      }
+    };
+
+    const bDate = edadInput.dataset.isoDate || edadInput.value;
+    if (bDate) {
+      const parts = bDate.split('-');
+      const d = new Date(parts[0], parts[1] - 1, parts[2]);
+      d.setDate(d.getDate() + 1); // un día después del nacimiento
+      datepickerConfig.minDate = d;
+    }
+
+    new AirDatepicker(inputFecha, datepickerConfig);
+    validacion.validadorAutomatico.init(formModal);
+
+    btnGuardarVac.addEventListener("click", async () => {
+      const isValid = validacion.validadorAutomatico.validarTodo(formModal);
+      if (!isValid) return;
+
+      const newVac = {
+        tempId: Date.now().toString(),
+        name: inputNombre.value,
+        date: inputFecha.value
+      };
+      vaccines.push(newVac);
+      renderVaccines(vaccines);
+      closeModal();
+    });
+
+    modal.showModal();
   });
 
   // Manejar el submit del formulario
@@ -124,7 +227,7 @@ export default async () => {
     if (!isValid) return;
 
     // Validar fechas de vacunas
-    const birthDate = edadInput.value;
+    const birthDate = edadInput.dataset.isoDate || edadInput.value;
     if (birthDate) {
       const invalidVaccines = vaccines.filter(v => v.date <= birthDate);
       if (invalidVaccines.length > 0) {
@@ -143,7 +246,7 @@ export default async () => {
     const datosRegistro = {
       name: nombreInput.value,
       breed: razaInput.value,
-      birth_date: edadInput.value,
+      birth_date: edadInput.dataset.isoDate || edadInput.value,
       species_id: especiesSelect.value,
       animal_gender_id: generosSelect.value,
     };

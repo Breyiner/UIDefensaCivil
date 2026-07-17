@@ -31,22 +31,22 @@
     align-items: center;
 }
 
-.ts-wrapper .ts-control input::placeholder{
+.ts-wrapper .ts-control input::placeholder {
     color: var(--color-oscuro);
     font-family: var(--fuente-contenido);
     font-size: var(--tamano-mediano);
 }
 
-.form__inputBox--selector{
+.form__inputBox--selector {
     position: relative;
     min-height: 54px;
 }
 
-.ts-wrapper{
+.ts-wrapper {
     width: 100%;
 }
 
-#selector__icono{
+#selector__icono {
 
     color: var(--color-oscuro);
 }
@@ -90,7 +90,7 @@
 .ts-dropdown.single .option .highlight {
 
     font-size: 1rem;
-    padding-top: 3px ;
+    padding-top: 3px;
 }
 
 .ts-dropdown.single .option.active {

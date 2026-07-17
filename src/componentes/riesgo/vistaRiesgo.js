@@ -94,6 +94,48 @@ export const tarjetaAccion = (item, esSupervisor, onEdit, onDelete) => {
 };
 
 /**
+ * Crea y retorna un contenedor de grupo de formulario (input, select, o textarea)
+ * con su respectivo icono y clases.
+ * 
+ * @param {string} iconClass - Clase CSS del icono de FontAwesome/RemixIcon
+ * @param {string} inputType - Tipo de campo: "selector-portatil", "textarea", u otro (input)
+ * @param {string} id - Atributo id del campo
+ * @param {string} [iconId=""] - Atributo id del elemento <i> (opcional)
+ * @returns {HTMLElement} Elemento DOM wrapper del grupo
+ */
+export const createFormGroup = (iconClass, inputType, id, iconId = "") => {
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("input");
+
+  const inputBox = document.createElement("div");
+  if (inputType === "selector-portatil") {
+    inputBox.classList.add("form__inputBox", "form__inputBox--selector");
+  } else {
+    inputBox.classList.add("form__inputBox");
+  }
+
+  const i = document.createElement("i");
+  i.className = iconClass;
+  if (iconId) i.id = iconId;
+
+  let field;
+  if (inputType === "selector-portatil") {
+    field = document.createElement("select");
+    field.classList.add("selector-portatil");
+  } else if (inputType === "textarea") {
+    field = document.createElement("textarea");
+  } else {
+    field = document.createElement("input");
+    field.autocomplete = "off";
+  }
+  field.id = id;
+
+  inputBox.append(i, field);
+  wrapper.appendChild(inputBox);
+  return wrapper;
+};
+
+/**
  * Genera el formulario HTML de factores de riesgo
  * 
  * @param {Object} params
@@ -101,37 +143,6 @@ export const tarjetaAccion = (item, esSupervisor, onEdit, onDelete) => {
  * @returns {HTMLElement} Elemento HTML <form>
  */
 export default ({ esSupervisor = false }) => {
-  const createFormGroup = (iconClass, inputType, id, iconId = "") => {
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("input");
-
-    const inputBox = document.createElement("div");
-    if (inputType === "selector-portatil") {
-      inputBox.classList.add("form__inputBox", "form__inputBox--selector");
-    } else {
-      inputBox.classList.add("form__inputBox");
-    }
-
-    const i = document.createElement("i");
-    i.className = iconClass;
-    if (iconId) i.id = iconId;
-
-    let field;
-    if (inputType === "selector-portatil") {
-      field = document.createElement("select");
-      field.classList.add("selector-portatil");
-    } else if (inputType === "textarea") {
-      field = document.createElement("textarea");
-    } else {
-      field = document.createElement("input");
-      field.autocomplete = "off";
-    }
-    field.id = id;
-
-    inputBox.append(i, field);
-    wrapper.appendChild(inputBox);
-    return wrapper;
-  };
 
   const mainForm = document.createElement("form");
   mainForm.method = "POST";

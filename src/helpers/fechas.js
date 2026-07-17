@@ -17,12 +17,22 @@ export const initFechas = () => {
     const config = {
       locale: localeEs,
       buttons: ['today', 'clear'],
-      autoClose: true
+      autoClose: true,
+      onSelect({date}) {
+        if (date) {
+          const yyyy = date.getFullYear();
+          const mm = String(date.getMonth() + 1).padStart(2, '0');
+          const dd = String(date.getDate()).padStart(2, '0');
+          input.dataset.isoDate = `${yyyy}-${mm}-${dd}`;
+        } else {
+          input.dataset.isoDate = "";
+        }
+      }
     };
 
     // SOLO FECHAS PASADAS
     if (tipo === "fechaAntes") {
-      config.dateFormat = "yyyy-MM-dd";
+      config.dateFormat = "dd/MM/yy";
       config.maxDate = new Date();
     }
 

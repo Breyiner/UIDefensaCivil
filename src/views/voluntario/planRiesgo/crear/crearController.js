@@ -5,6 +5,9 @@
  */
 import { api, alertas as alerta, validacionInputs as validacion, adjuntarOpciones as adjuntarOpc, formatearFecha, } from "@/helpers/index.js";
 import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil.js";
+import AirDatepicker from "air-datepicker";
+import localeEs from "air-datepicker/locale/es";
+import "air-datepicker/air-datepicker.css";
 import { VistaRiesgo, tarjetaVulnerabilidad, tarjetaAccion, agregarVulnerabilidadMemoria, agregarAccionMemoria, } from "@/componentes/riesgo/index.js";
 
 export default async () => {
@@ -91,9 +94,6 @@ export default async () => {
 
                     const selectVulnerability = modal.querySelector(".form__vulnerability");
                     const selectGrade = modal.querySelector(".form__vulnerabilityGrade");
-                    selectVulnerability.classList.add("selector-portatil");
-                    selectGrade.classList.add("selector-portatil");
-                    initTomSelectPortatil();
 
 
                     const formModal = modal.querySelector("form");
@@ -140,6 +140,7 @@ export default async () => {
                     });
 
                     modal.showModal();
+                    initTomSelectPortatil();
                 },
                 async () => {
                     // Callback al eliminar de memoria
@@ -182,9 +183,7 @@ export default async () => {
                     });
                     document.body.appendChild(modal);
 
-                    const selectMember = modal.querySelector(".form__member"); 
-                    selectMember.classList.add("selector-portatil"); 
-                    initTomSelectPortatil();
+                    const selectMember = modal.querySelector(".form__member");
 
                     const formModal = modal.querySelector("form");
                     const btnCancelar = modal.querySelector(
@@ -202,8 +201,26 @@ export default async () => {
                     };
                     btnCancelar.addEventListener("click", closeModal);
                     modal.addEventListener("mousedown", (e) => {
+                        if (e.target.closest(".air-datepicker")) return;
                         if (e.target === modal) closeModal();
                     });
+
+                    // Configurar AirDatepicker con límites
+                    const datepickerConfig = {
+                        locale: localeEs,
+                        buttons: ['today', 'clear'],
+                        autoClose: true,
+                        dateFormat: "yyyy-MM-dd",
+                        minDate: new Date(),
+                        container: modal,
+                        onShow(isFinished) {
+                            if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
+                        },
+                        onHide(isFinished) {
+                            if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
+                        }
+                    };
+                    new AirDatepicker(inputDate, datepickerConfig);
 
                     // Iniciar validador y evento de envío
                     validacion.validadorAutomatico.init(formModal);
@@ -249,6 +266,7 @@ export default async () => {
                     });
 
                     modal.showModal();
+                    initTomSelectPortatil();
                 },
                 async () => {
                     // Callback al eliminar de memoria
@@ -276,13 +294,6 @@ export default async () => {
 
         const selectVulnerability = modal.querySelector(".form__vulnerability");
         const selectGrade = modal.querySelector(".form__vulnerabilityGrade");
-
-        // Les inyectamos dinámicamente la clase que nuestro script de TomSelect requiere
-        selectVulnerability.classList.add("selector-portatil");
-        selectGrade.classList.add("selector-portatil");
-
-        // Ejecutamos el helper para que escanee el DOM de nuevo, encuentre estos nuevos selectores y los inicialice
-        initTomSelectPortatil();
 
         const formModal = modal.querySelector("form");
         const btnCancelar = modal.querySelector(".modal-edicion__btn--secundario");
@@ -321,6 +332,7 @@ export default async () => {
         });
 
         modal.showModal();
+        initTomSelectPortatil();
     });
 
     // Click en agregar acción
@@ -344,8 +356,26 @@ export default async () => {
         };
         btnCancelar.addEventListener("click", closeModal);
         modal.addEventListener("mousedown", (e) => {
+            if (e.target.closest(".air-datepicker")) return;
             if (e.target === modal) closeModal();
         });
+
+        // Configurar AirDatepicker con límites
+        const datepickerConfig = {
+            locale: localeEs,
+            buttons: ['today', 'clear'],
+            autoClose: true,
+            dateFormat: "yyyy-MM-dd",
+            minDate: new Date(),
+            container: modal,
+            onShow(isFinished) {
+                if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
+            },
+            onHide(isFinished) {
+                if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
+            }
+        };
+        new AirDatepicker(inputDate, datepickerConfig);
 
         validacion.validadorAutomatico.init(formModal);
         btnGuardar.addEventListener("click", () => {
@@ -386,6 +416,7 @@ export default async () => {
         });
 
         modal.showModal();
+        initTomSelectPortatil();
     });
 
     // Master Submit Hook Form Send

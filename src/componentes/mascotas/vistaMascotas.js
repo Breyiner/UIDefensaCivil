@@ -52,6 +52,42 @@ export const crearVacunaTag = (vacuna, esSupervisor, onEdit, onDelete) => {
 };
 
 /**
+ * Crea y retorna un contenedor de grupo de formulario (input o select)
+ * con su respectivo icono y clases.
+ * 
+ * @param {string} iconClass - Clase CSS del icono de FontAwesome/RemixIcon
+ * @param {string} inputType - Tipo de campo: "selector-portatil" u otro (input)
+ * @param {string} id - Atributo id del campo
+ * @param {string} [iconId=""] - Atributo id del elemento <i> (opcional)
+ * @returns {HTMLElement} Elemento DOM wrapper del grupo
+ */
+export const createFormGroup = (iconClass, inputType, id, iconId = "") => {
+  const wrapper = document.createElement("div");
+  wrapper.className = "input";
+
+  const inputBox = document.createElement("div");
+  inputBox.className = inputType === "selector-portatil" ? "form__inputBox form__inputBox--selector" : "form__inputBox";
+
+  const i = document.createElement("i");
+  i.className = iconClass;
+  if (iconId) i.id = iconId;
+
+  let field;
+  if (inputType === "selector-portatil") {
+    field = document.createElement("select");
+    field.className = "selector-portatil";
+  } else {
+    field = document.createElement("input");
+    field.autocomplete = "off";
+  }
+  field.id = id;
+
+  inputBox.append(i, field);
+  wrapper.appendChild(inputBox);
+  return wrapper;
+};
+
+/**
  * Genera el formulario HTML de mascotas
  * 
  * @param {Object} params
@@ -60,31 +96,6 @@ export const crearVacunaTag = (vacuna, esSupervisor, onEdit, onDelete) => {
  * @returns {HTMLElement} Elemento HTML <form>
  */
 export default async ({ petData = null, esSupervisor = false }) => {
-  const createFormGroup = (iconClass, inputType, id, iconId = "") => {
-    const wrapper = document.createElement("div");
-    wrapper.className = "input";
-
-    const inputBox = document.createElement("div");
-    inputBox.className = inputType === "selector-portatil" ? "form__inputBox form__inputBox--selector" : "form__inputBox";
-
-    const i = document.createElement("i");
-    i.className = iconClass;
-    if (iconId) i.id = iconId;
-
-    let field;
-    if (inputType === "selector-portatil") {
-      field = document.createElement("select");
-      field.className = "selector-custom";
-    } else {
-      field = document.createElement("input");
-      field.autocomplete = "off";
-    }
-    field.id = id;
-
-    inputBox.append(i, field);
-    wrapper.appendChild(inputBox);
-    return wrapper;
-  };
 
   const mainForm = document.createElement("form");
   mainForm.method = "POST";
@@ -179,7 +190,15 @@ export default async ({ petData = null, esSupervisor = false }) => {
   if (petData) {
     nombreInput.value = petData.name || "";
     razaInput.value = petData.breed || "";
-    edadInput.value = petData.birth_date ? petData.birth_date.split("T")[0] : "";
+    // Formatea la fecha ISO para mostrarla como DD/MM/YY visualmente, manteniendo el valor ISO en el dataset
+    if (petData.birth_date) {
+      const isoDate = petData.birth_date.split("T")[0];
+      edadInput.value = formatearFecha(isoDate);
+      edadInput.dataset.isoDate = isoDate;
+    } else {
+      edadInput.value = "";
+      edadInput.dataset.isoDate = "";
+    }
     especiesSelect.value = petData.species_id || "";
     generosSelect.value = petData.animal_gender_id || "";
   }

@@ -6,6 +6,9 @@
  */
 import { api, alertas as alerta, validacionInputs as validacion, adjuntarOpciones as adjuntarOpc, formatearFecha } from "@/helpers/index.js";
 import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil.js";
+import AirDatepicker from "air-datepicker";
+import localeEs from "air-datepicker/locale/es";
+import "air-datepicker/air-datepicker.css";
 import { VistaRiesgo, tarjetaVulnerabilidad, tarjetaAccion, agregarVulnerabilidadMemoria, agregarAccionMemoria } from "@/componentes/riesgo/index.js";
 
 export default async () => {
@@ -138,15 +141,16 @@ export default async () => {
                             vulnerability_grade_id: selectGrade.value
                         });
                         if (res.success) {
+                            closeModal();
                             await alerta.alertaOK(res.message);
                             cargarVulnerabilidades();
-                            closeModal();
                         } else {
                             alerta.alertaWarning(res.message, res.errors);
                         }
                     });
 
                     modal.showModal();
+                    initTomSelectPortatil();
                 },
                 async () => {
                     // Lógica del delete si es voluntario
@@ -207,8 +211,26 @@ export default async () => {
                     };
                     btnCancelar.addEventListener("click", closeModal);
                     modal.addEventListener("mousedown", (e) => {
+                        if (e.target.closest(".air-datepicker")) return;
                         if (e.target === modal) closeModal();
                     });
+
+                    // Configurar AirDatepicker con límites
+                    const datepickerConfig = {
+                        locale: localeEs,
+                        buttons: ['today', 'clear'],
+                        autoClose: true,
+                        dateFormat: "yyyy-MM-dd",
+                        minDate: new Date(),
+                        container: modal,
+                        onShow(isFinished) {
+                            if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
+                        },
+                        onHide(isFinished) {
+                            if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
+                        }
+                    };
+                    new AirDatepicker(inputDate, datepickerConfig);
 
                     // Iniciar validador y evento de envío a API
                     validacion.validadorAutomatico.init(formModal);
@@ -234,15 +256,16 @@ export default async () => {
                             end_date: dateVal
                         });
                         if (res.success) {
+                            closeModal();
                             await alerta.alertaOK(res.message);
                             cargarAcciones();
-                            closeModal();
                         } else {
                             alerta.alertaWarning(res.message, res.errors);
                         }
                     });
 
                     modal.showModal();
+                    initTomSelectPortatil();
                 },
                 async () => {
                     // Lógica del delete si es voluntario
@@ -300,15 +323,16 @@ export default async () => {
                     risk_factor_id: riesgoId
                 });
                 if (res.success) {
+                    closeModal();
                     await alerta.alertaOK(res.message);
                     cargarVulnerabilidades();
-                    closeModal();
                 } else {
                     alerta.alertaWarning(res.message, res.errors);
                 }
             });
 
             modal.showModal();
+            initTomSelectPortatil();
         });
 
         // Click en agregar acción
@@ -332,8 +356,26 @@ export default async () => {
             };
             btnCancelar.addEventListener("click", closeModal);
             modal.addEventListener("mousedown", (e) => {
+                if (e.target.closest(".air-datepicker")) return;
                 if (e.target === modal) closeModal();
             });
+
+            // Configurar AirDatepicker con límites
+            const datepickerConfig = {
+                locale: localeEs,
+                buttons: ['today', 'clear'],
+                autoClose: true,
+                dateFormat: "yyyy-MM-dd",
+                minDate: new Date(),
+                container: modal,
+                onShow(isFinished) {
+                    if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
+                },
+                onHide(isFinished) {
+                    if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
+                }
+            };
+            new AirDatepicker(inputDate, datepickerConfig);
 
             validacion.validadorAutomatico.init(formModal);
             btnGuardarAcc.addEventListener("click", async () => {
@@ -359,15 +401,16 @@ export default async () => {
                     end_date: dateVal
                 });
                 if (res.success) {
+                    closeModal();
                     await alerta.alertaOK(res.message);
                     cargarAcciones();
-                    closeModal();
                 } else {
                     alerta.alertaWarning(res.message, res.errors);
                 }
             });
 
             modal.showModal();
+            initTomSelectPortatil();
         });
     }
 

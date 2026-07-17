@@ -11,6 +11,10 @@ import { api } from "@/helpers/index.js";
 import { alertas as alerta } from "@/helpers/index.js";
 import { VistaMascotas, VacunaModal, crearVacunaTag } from "@/componentes/mascotas/index.js";
 import { validacionInputs as validacion, fechas } from "@/helpers/index.js";
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil.js";
+import AirDatepicker from "air-datepicker";
+import localeEs from "air-datepicker/locale/es";
+import "air-datepicker/air-datepicker.css";
 
 /**
  * Inicializa el controlador de edición de mascota
@@ -58,6 +62,7 @@ export default async () => {
   if (contenedorMascota) {
     contenedorMascota.innerHTML = ""; // Limpiar
     contenedorMascota.appendChild(form);
+    initTomSelectPortatil();
 
     // Inicializar calendarios AirDatepicker
     fechas.initFechas();
@@ -94,26 +99,78 @@ export default async () => {
         esSupervisor,
         () => {
           // Callback al editar vacuna (en base de datos directamente)
-          VacunaModal({
+          const modal = VacunaModal({
             initialData: vacuna,
-            birthDate: edadInput.value,
-            onSave: async (vaccineData) => {
-              try {
-                const res = await api.patch(`petVaccines/${vacuna.id}`, vaccineData);
-                if (res && res.success) {
-                  // Refresca la lista desde la API
-                  vaccines = await api.get(`petVaccines/pet/${mascotaId}`) || [];
-                  renderVaccines(vaccines);
-                  return { success: true, message: res.message };
-                } else if (res) {
-                  alerta.alertaWarning(res.message, res.errors);
-                }
-              } catch (err) {
-                alerta.alertaError(err.errors || err.message);
+            birthDate: edadInput.dataset.isoDate || edadInput.value
+          });
+          document.body.appendChild(modal);
+
+          const formModal = modal.querySelector("form");
+          const btnCancelar = modal.querySelector(".modal-edicion__btn--secundario");
+          const btnGuardarVac = modal.querySelector(".modal-edicion__btn--primario");
+          const inputNombre = modal.querySelector(".form__nombreVacuna");
+          const inputFecha = modal.querySelector(".form__fechaVacuna");
+
+          const closeModal = () => {
+            modal.close();
+            modal.remove();
+          };
+          btnCancelar.addEventListener("click", closeModal);
+          modal.addEventListener("mousedown", (e) => {
+            if (e.target.closest(".air-datepicker")) return;
+            if (e.target === modal) closeModal();
+          });
+
+          const datepickerConfig = {
+            locale: localeEs,
+            buttons: ['today', 'clear'],
+            autoClose: true,
+            dateFormat: "yyyy-MM-dd",
+            maxDate: new Date(),
+            container: modal,
+            onShow(isFinished) {
+              if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
+            },
+            onHide(isFinished) {
+              if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
+            }
+          };
+
+          const bDate = edadInput.dataset.isoDate || edadInput.value;
+          if (bDate) {
+            const parts = bDate.split('-');
+            const d = new Date(parts[0], parts[1] - 1, parts[2]);
+            d.setDate(d.getDate() + 1); // un día después del nacimiento
+            datepickerConfig.minDate = d;
+          }
+
+          new AirDatepicker(inputFecha, datepickerConfig);
+          validacion.validadorAutomatico.init(formModal);
+
+          btnGuardarVac.addEventListener("click", async () => {
+            const isValid = validacion.validadorAutomatico.validarTodo(formModal);
+            if (!isValid) return;
+
+            try {
+              const res = await api.patch(`petVaccines/${vacuna.id}`, {
+                name: inputNombre.value,
+                date: inputFecha.value
+              });
+              if (res && res.success) {
+                // Refresca la lista desde la API
+                vaccines = await api.get(`petVaccines/pet/${mascotaId}`) || [];
+                renderVaccines(vaccines);
+                closeModal();
+                await alerta.alertaOK(res.message);
+              } else if (res) {
+                alerta.alertaWarning(res.message, res.errors);
               }
-              return { success: false };
+            } catch (err) {
+              alerta.alertaError(err.errors || err.message);
             }
           });
+
+          modal.showModal();
         },
         async () => {
           // Callback al eliminar vacuna (en base de datos directamente)
@@ -141,31 +198,80 @@ export default async () => {
     });
   };
 
-  // Manejar click en agregar vacuna
   if (!esSupervisor) {
     btnAgregarVacuna.addEventListener("click", () => {
-      VacunaModal({
-        birthDate: edadInput.value,
-        onSave: async (vaccineData) => {
-          try {
-            const res = await api.post("petVaccines", {
-              ...vaccineData,
-              pet_id: mascotaId
-            });
-            if (res && res.success) {
-              // Refresca la lista desde la API
-              vaccines = await api.get(`petVaccines/pet/${mascotaId}`) || [];
-              renderVaccines(vaccines);
-              return { success: true, message: res.message };
-            } else if (res) {
-              alerta.alertaWarning(res.message, res.errors);
-            }
-          } catch (err) {
-            alerta.alertaError(err.errors || err.message);
+      const modal = VacunaModal({
+        birthDate: edadInput.dataset.isoDate || edadInput.value
+      });
+      document.body.appendChild(modal);
+
+      const formModal = modal.querySelector("form");
+      const btnCancelar = modal.querySelector(".modal-edicion__btn--secundario");
+      const btnGuardarVac = modal.querySelector(".modal-edicion__btn--primario");
+      const inputNombre = modal.querySelector(".form__nombreVacuna");
+      const inputFecha = modal.querySelector(".form__fechaVacuna");
+
+      const closeModal = () => {
+        modal.close();
+        modal.remove();
+      };
+      btnCancelar.addEventListener("click", closeModal);
+      modal.addEventListener("mousedown", (e) => {
+        if (e.target.closest(".air-datepicker")) return;
+        if (e.target === modal) closeModal();
+      });
+
+      const datepickerConfig = {
+        locale: localeEs,
+        buttons: ['today', 'clear'],
+        autoClose: true,
+        dateFormat: "yyyy-MM-dd",
+        maxDate: new Date(),
+        container: modal,
+        onShow(isFinished) {
+          if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
+        },
+        onHide(isFinished) {
+          if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
+        }
+      };
+
+      const bDate = edadInput.dataset.isoDate || edadInput.value;
+      if (bDate) {
+        const parts = bDate.split('-');
+        const d = new Date(parts[0], parts[1] - 1, parts[2]);
+        d.setDate(d.getDate() + 1); // un día después del nacimiento
+        datepickerConfig.minDate = d;
+      }
+
+      new AirDatepicker(inputFecha, datepickerConfig);
+      validacion.validadorAutomatico.init(formModal);
+
+      btnGuardarVac.addEventListener("click", async () => {
+        const isValid = validacion.validadorAutomatico.validarTodo(formModal);
+        if (!isValid) return;
+
+        try {
+          const res = await api.post("petVaccines", {
+            name: inputNombre.value,
+            date: inputFecha.value,
+            pet_id: mascotaId
+          });
+          if (res && res.success) {
+            // Refresca la lista desde la API
+            vaccines = await api.get(`petVaccines/pet/${mascotaId}`) || [];
+            renderVaccines(vaccines);
+            closeModal();
+            await alerta.alertaOK(res.message);
+          } else if (res) {
+            alerta.alertaWarning(res.message, res.errors);
           }
-          return { success: false };
+        } catch (err) {
+          alerta.alertaError(err.errors || err.message);
         }
       });
+
+      modal.showModal();
     });
   }
 
@@ -178,7 +284,7 @@ export default async () => {
     if (!isValid) return;
 
     // Validar fechas de vacunas
-    const birthDate = edadInput.value;
+    const birthDate = edadInput.dataset.isoDate || edadInput.value;
     if (birthDate) {
       const invalidVaccines = vaccines.filter(v => v.date <= birthDate);
       if (invalidVaccines.length > 0) {
@@ -197,7 +303,7 @@ export default async () => {
     const datosRegistro = {
       name: nombreInput.value,
       breed: razaInput.value,
-      birth_date: edadInput.value,
+      birth_date: edadInput.dataset.isoDate || edadInput.value,
       species_id: especiesSelect.value,
       animal_gender_id: generosSelect.value,
     };
