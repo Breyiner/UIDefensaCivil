@@ -123,9 +123,14 @@
 @media (min-width: 768px) {
 
   .container--grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    display: flex;
+    
+    flex-direction: row;
+    
+    gap: 12px;
   }
+
+
 }
 
 
