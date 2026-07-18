@@ -145,10 +145,13 @@
 }
 
 .tarjeta--introduccion_supervisor {
-    display: grid;
-    grid-template-columns: 4fr 2fr;
+    display: flex;
+    flex-direction: row;
     gap: 10px;
 }
+
+.tarjeta--introduccion_supervisor > .introduccionDiv { flex: 4; }
+.tarjeta--introduccion_supervisor > .verPlan__tipo--estado { flex: 2; }
 
 .introduccionDiv {
     display: flex;

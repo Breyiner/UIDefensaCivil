@@ -58,18 +58,26 @@ export default async () => {
     }
 
     const userId = localStorage.getItem("id");
-    if (userId) {
+    const contenedor = document.querySelector(".v-notifications-list");
+    if (userId && contenedor) {
         try {
             const notificaciones = await api.get("notifications/user/" + userId);
-            if (notificaciones && notificaciones.length > 0) {
-                const contenedor = document.querySelector(".v-notifications-list");
-                if (contenedor) {
-                    contenedor.innerHTML = "";
-                    notificaciones.slice(0, 3).forEach(n => contenedor.append(crearCardNotificacion(n)));
-                }
+            contenedor.innerHTML = "";
+            if (notificaciones?.length > 0) {
+                notificaciones.slice(0, 3).forEach(n => contenedor.append(crearCardNotificacion(n)));
+            } else {
+                const msg = document.createElement("p");
+                msg.className = "v-no-notifications";
+                msg.textContent = "No hay notificaciones recientes";
+                contenedor.appendChild(msg);
             }
         } catch (error) {
             console.error("Error al cargar notificaciones:", error);
+            contenedor.innerHTML = "";
+            const msg = document.createElement("p");
+            msg.className = "v-no-notifications";
+            msg.textContent = "No hay notificaciones recientes";
+            contenedor.appendChild(msg);
         }
     }
 

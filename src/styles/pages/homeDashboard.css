@@ -235,6 +235,9 @@
 .home-supervisor .status-pill { font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 12px; text-transform: capitalize; }
 .home-supervisor .status-pill.pendiente { background-color: #ffeacc; color: var(--color-primario); }
 .home-supervisor .status-pill.devuelto { background-color: #ffdde0; color: var(--color-vino); }
+.home-supervisor .status-pill.creado { background-color: #d6ecff; color: var(--color-secundario); }
+.home-supervisor .status-pill.rechazado { background-color: #ffdde0; color: var(--color-vino); }
+.home-supervisor .status-pill.completado { background-color: #d4f5d4; color: var(--color-verdoso); }
 .home-supervisor .devuelto-reason-container {
     background-color: #f1f5f9;
     border-radius: 10px;
@@ -363,6 +366,7 @@
 .v-notifications-list { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; max-height: 480px; padding-right: 5px; }
 .v-notifications-list::-webkit-scrollbar { width: 6px; }
 .v-notifications-list::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.1); border-radius: 10px; }
+.v-no-notifications { text-align: center; color: var(--color-grisOscuro); font-size: 14px; padding: 30px 20px; }
 .v-notification-card {
     background-color: var(--color-palido);
     border-radius: 20px;
