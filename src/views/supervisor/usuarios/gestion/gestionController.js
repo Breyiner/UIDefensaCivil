@@ -12,7 +12,7 @@ import { tarjetaEstados } from "@/componentes/gestionUser/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { searchBar, dropdownFiltro } from "@/componentes/filter/index.js";
 
-import { verUsuarioVentana } from "../../../../componentes/ver_Estado";
+import { verUsuarioVentana } from "@/componentes/ver_Estado";
 
 export default async () => {
     // Extrae los botones de navegación generales

@@ -715,6 +715,12 @@ export const routes = {
         controlador: AdministradorUsuarios.GestionController,
         config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
       },
+
+      historial: {
+        path: `administrador/usuarios/gestion/historial/index.html`,
+        controlador: AdministradorUsuarios.historialUsuario,
+        config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+      }
     }
   }
 

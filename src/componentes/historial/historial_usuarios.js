@@ -94,7 +94,7 @@ const historial_usuarios = async (endpoint, nombreSubDato) => {
             if (!confirmacion.isConfirmed) return;
 
             try {
-                const resultado = await api.bulkDelete("audits/bulk_delete", {
+                const resultado = await api.bulkDelete("audits/users/bulk_delete", {
                     audit_ids: selectedAuditIds,
                 });
 

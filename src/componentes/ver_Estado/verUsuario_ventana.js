@@ -8,6 +8,10 @@ BASE COMÚN
 ==================================================== */
 
 const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
+
+    const rolId = parseInt(localStorage.getItem("role_id"));
+    const esSupervisor = rolId === 2 && location.hash.includes("supervisor");
+
     const peticion = await api.get(endpoint);
 
     console.log("PETICIÓN",peticion); 
@@ -244,6 +248,10 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
     btnEditar.textContent = "Editar";
     btnEditar.classList.add("btn-editar");
 
+    if (esSupervisor) {
+        btnEditar.classList.add("oculto");
+    }
+
     /* ---------------- EDITAR ---------------- */
     let inputNombre = null;
     let inputApellidos = null;
@@ -342,7 +350,10 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         birthdayValue.replaceWith(boxBirthday);
 
         btnHistorial.classList.add("oculto");
-        btnEditar.classList.add("oculto");
+        if (!esSupervisor) {
+            btnEditar.classList.add("oculto");
+        }
+        btnDesactivar.classList.add("oculto");
         btnGuardar.classList.remove("oculto");
         btnCancelar.classList.remove("oculto");
 
@@ -429,6 +440,10 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
     btnGuardar.classList.add("btn-guardar");
     btnGuardar.classList.add("oculto");
 
+    const btnDesactivar = document.createElement("button");
+    btnDesactivar.textContent = peticion.status_id === 1 ? "Desactivar" : "Activar";
+    btnDesactivar.classList.add(peticion.status_id === 1 ? "btn-desactivar" : "btn-activar");
+
     btnCancelar.addEventListener("click", () => {
         boxNombre.replaceWith(nameValue);
         boxApellidos.replaceWith(lastNameValue);
@@ -441,9 +456,38 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         boxRol.replaceWith(rolValue);
 
         btnHistorial.classList.remove("oculto");
-        btnEditar.classList.remove("oculto");
+
+        if (!esSupervisor) {
+            btnEditar.classList.remove("oculto");
+        }
+
+        btnDesactivar.classList.remove("oculto");
         btnGuardar.classList.add("oculto");
         btnCancelar.classList.add("oculto");
+    });
+
+    btnDesactivar.addEventListener("click", async () => {
+        const nuevoEstadoId = peticion.status_id === 1 ? 2 : 1;
+
+        const data = await api.patch("users/change-status", {
+            user_ids: [peticion.id],
+            state_user_id: nuevoEstadoId,
+            async: false,
+        });
+
+        if (!data.success) {
+            await alerta.alertaError(data.message);
+            return;
+        }
+
+        await alerta.alertaOK(data.message);
+
+        btnDesactivar.textContent = nuevoEstadoId === 1 ? "Desactivar" : "Activar";
+        btnDesactivar.classList.toggle("btn-desactivar", nuevoEstadoId === 1);
+        btnDesactivar.classList.toggle("btn-activar", nuevoEstadoId === 2);
+
+        overlay.remove();
+        recargar();
     });
 
     btnGuardar.addEventListener("click", async (e) => {
@@ -463,30 +507,30 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         try {
             const urlUpdate = `profiles/${peticion.profile_id}`; 
         
+            // Si el usuario principal se actualizó, verificamos si cambió el rol
+            const nuevoRolId = parseInt(selectRol.value);
+            const antiguoRolId = parseInt(peticion.rol_id);
+
+            if (nuevoRolId !== antiguoRolId) {
+                const nombreRol = nuevoRolId === 2 ? "Supervisor" : "Voluntario";
+
+                const dataRol = await api.patch(`users/${peticion.id}/change-role`, {
+                    role: nombreRol 
+                });
+
+                // Validar si el cambio de rol también fue exitoso
+                if (!dataRol || !dataRol.success) {
+                    alerta.alertaWarning(dataRol.message || "Error al actualizar el rol", dataRol.errors);
+                    return; // Frenamos para que puedas ver qué falló en el rol
+                }
+            }
+
             // 1. Guardamos el retorno de la API para evaluar su estado real
             const dataUser = await api.patch(urlUpdate, datosUsuario);
 
             // 2. Evaluamos la propiedad success estándar de tu servicio
             if (dataUser && dataUser.success) {
             
-            // Si el usuario principal se actualizó, verificamos si cambió el rol
-                const nuevoRolId = parseInt(selectRol.value);
-                const antiguoRolId = parseInt(peticion.rol_id);
-
-                if (nuevoRolId !== antiguoRolId) {
-                    const nombreRol = nuevoRolId === 2 ? "Supervisor" : "Voluntario";
-
-                    const dataRol = await api.patch(`users/${peticion.id}/change-role`, {
-                        role: nombreRol 
-                    });
-
-                    // Validar si el cambio de rol también fue exitoso
-                    if (!dataRol || !dataRol.success) {
-                        alerta.alertaWarning(dataRol.message || "Error al actualizar el rol", dataRol.errors);
-                        return; // Frenamos para que puedas ver qué falló en el rol
-                    }
-                }
-
                 // Si todo fue exitoso
                 await alerta.alertaOK(dataUser.message || "Usuario actualizado correctamente");
                 overlay.remove();
@@ -496,23 +540,21 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
                 } else {
                     location.reload();
                 }
-
+                
             } else {
                 // Si el backend respondió success: false (Ej: Falló la validación)
                 alerta.alertaWarning(dataUser.message, dataUser.errors);
             }
 
         } catch (error) {
-            // Error crítico de red o colapso 500 del servidor
-            // console.error("Error crítico de red/servidor:", error);
-            // alerta.alertaError(error);
+
             console.error("Error crítico de red/servidor:", error);
             const mensaje = error?.message || "Ocurrió un error de conexión con el servidor.";
             alerta.alertaError(mensaje);
         }
     });
 
-    btnContEstado.append(btnEditar, btnHistorial, btnCancelar, btnGuardar, btnEliminar);
+    btnContEstado.append(btnEditar, btnHistorial, btnDesactivar, btnCancelar, btnGuardar, btnEliminar);
 
     ventana.append(btnCerrarCont, usuarioContainer, btnContEstado);
 
