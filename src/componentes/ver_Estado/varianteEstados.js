@@ -2,6 +2,8 @@ import verEstadoVentana from "./verEstado_ventana";
 import * as api from "@/helpers/api";
 import * as alerta from "@/helpers/alertas";
 
+import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
+
 /* =====================================================
 VARIANTE: INPUT SIMPLE-------------------------------------------------------------------------------------------------------------------------------------------->
 ==================================================== */
@@ -43,7 +45,7 @@ export const verEstado_input = (datoMaestro, recargar, urlHistorial, datoText) =
         btnEditar.addEventListener("click", () => {
 
             inputBox = document.createElement("div");
-            inputBox.classList.add("form__inputBox");
+            inputBox.classList.add("input--azul");
 
             const icon = document.createElement("i");
             icon.classList.add("ri-building-fill");
@@ -158,7 +160,7 @@ export const verEstado_doubleInput = (datoMaestro, recargar, urlHistorial, datoT
         btnEditar.addEventListener("click", () => {
 
             inputBox = document.createElement("div");
-            inputBox.classList.add("form__inputBox");
+            inputBox.classList.add("input--azul");
             const icon = document.createElement("i");
             icon.classList.add("ri-building-fill");
             inputNombre = document.createElement("input");
@@ -168,7 +170,7 @@ export const verEstado_doubleInput = (datoMaestro, recargar, urlHistorial, datoT
             nombre.replaceWith(inputBox);
 
             subInputBox = document.createElement("div");
-            subInputBox.classList.add("form__inputBox");
+            subInputBox.classList.add("input--azul");
             const subIcon = document.createElement("i");
             subIcon.classList.add("ri-article-fill");
             inputSubDato = document.createElement("input");
@@ -284,7 +286,7 @@ export const verEstado_select = (datoMaestro, subDatoMaestro, recargar, urlHisto
         btnEditar.addEventListener("click", async () => {
 
             inputBox = document.createElement("div");
-            inputBox.classList.add("form__inputBox");
+            inputBox.classList.add("input--azul");
 
             const icon = document.createElement("i");
             icon.classList.add("ri-building-fill");
@@ -298,13 +300,13 @@ export const verEstado_select = (datoMaestro, subDatoMaestro, recargar, urlHisto
             nombre.replaceWith(inputBox);
 
             subInputBox = document.createElement("div");
-            subInputBox.classList.add("form__inputBox");
+            subInputBox.classList.add("input--azul");
             const subIcon = document.createElement("i");
             subIcon.classList.add("ri-article-fill");
 
             const opcionesSubDato = datoText.urlSubDato !== null ? await api.get(datoText.urlSubDato) : [];
             inputSubDato = document.createElement("select");
-            inputSubDato.classList.add("form__input", "form__seccional");
+            inputSubDato.classList.add("selector-portatil");
 
             if (datoText.urlSubDato === null) {
 
@@ -337,6 +339,8 @@ export const verEstado_select = (datoMaestro, subDatoMaestro, recargar, urlHisto
 
             subInputBox.append(subIcon, inputSubDato);
             subNombre.replaceWith(subInputBox);
+
+            initTomSelectPortatil();
 
             btnDesactivar.classList.add("oculto");
             btnHistorial.classList.add("oculto");

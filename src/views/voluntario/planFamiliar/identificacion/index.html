@@ -1,10 +1,20 @@
 <div class="container">
+
   <div class="explicacion">
-    <p class="explicacion__titulo">Identificacion de la familia</p>
-    <p class="explicacion__subtitulo">
-      Llene los datos con la informacion de la familia
-    </p>
+
+    <div class="explicacion__titulo"> 
+
+      <i class="ri-bubble-chart-fill"></i>
+
+      <span>Identificación familiar</span>
+
+      <p>Datos principales de la familia que se usaron al registrarse.</p>
+    </div>
+
+    <img src="asset/ilustracion_menu.svg" alt="">
+
   </div>
+
   <form method="POST" class="form">
     <div class="input">
       <div class="form__inputBox">
@@ -35,7 +45,7 @@
     <div class="input">
       <div class="form__inputBox form__inputBox--selector">
         <i class="ri-community-line" id="selector__icono"></i>
-        <select class="selector" id="sectores">
+        <select class="selector-portatil" id="sectores">
           <option value="" hidden>Seleccione un sector...</option>
         </select>
       </div>
@@ -55,20 +65,12 @@
     <div class="input">
       <div class="form__inputBox form__inputBox--selector">
         <i class="ri-home-2-line" id="selector__icono"></i>
-        <select class="selector" id="calidadesVivienda">
+        <select class="selector-portatil" id="calidadesVivienda">
           <option value="" hidden>Seleccione una calidad de vivienda...</option>
         </select>
       </div>
     </div>
-    <!-- <div class="form__inputBox">
-      <i class="ri-earth-line"></i>
-      <div class="form__geo">
-        <div class="form__georeferencia">Georeferenciacion</div>
-<button class="form__botonGeo" disabled>
-          <i class="ri-add-fill"></i>
-        </button>
-      </div>
-    </div> -->
+
     <button class="boton" id="botonSiguiente" disabled>Siguiente</button>
   </form>
 </div>

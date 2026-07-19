@@ -1,72 +1,59 @@
+/* Contenedor principal que divide pantalla (Izq: Tarjetas, Der: Tabla) */
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr; /* 350px para las tarjetas, el resto para tabla */
+  gap: 30px;
+  padding: 20px;
+}
+
+/* El bloque de tarjetas*/
 .seccion {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  width: 100%;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas fijas */
+  gap: 15px;
+  align-content: start;
 }
 
 .seccion__tarjeta {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  height: 140px;
-  min-width: 120px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  border-radius: var(--border-radius-tarjetas);
-  font-family: var(--fuente-titulos);
-  color: var(--color-palido);
-  font-size: var(--tamano-pequeno);
-  font-weight: 400;
-  gap: 1rem;
-  text-align: center;
+  padding: 1.5rem;
+  border-radius: 15px;
+  color: white;
+  min-height: 120px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
 }
 
-.seccion__tarjeta--azul {
-  background-color: var(--color-secundario);
+.seccion__tarjeta:hover {
+  transform: translateY(-5px);
 }
 
-.seccion__tarjeta--amarillo {
-  background-color: var(--color-amarillo);
+.icono__tarjeta {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
 }
 
-.seccion__tarjeta--verde {
-  background-color: var(--color-verdoso);
-}
-
-.seccion__tarjeta--rojo {
-  background-color: var(--color-vino);
-}
-
-.seccion__tarjeta--naranja {
-  background-color: var(--color-primario);
-}
-
-.seccion__valor{
-  font-size: var(--tamano-grande);
+.seccion__valor {
+  font-size: 1.8rem;
   font-weight: bold;
 }
 
-.seccion__detalle{
-  font-size: var(--tamano-mediano);
-  font-weight: 500;
+.tarjeta__header-texto {
+  font-size: 0.75rem;
+  margin: 0;
+  text-transform: uppercase;
+  opacity: 0.9;
 }
 
-@media (min-width: 768px) {
-  .seccion{
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .seccion__tarjeta{
-    display: flex;
-    padding: 1.2rem;
-  }
-  .tarjeta__titulo--dissapear, .lista--planes, .seccion--accesos{
-    display: none
-  }
-  .tarjeta__header-texto{
-    font-size: var(--tamano-mediano);
-  }
-  .seccion__detalle{
-    font-size: var(--tamano-grande);
-  }
+.seccion__detalle {
+  font-size: 0.85rem;
 }
+
+/* Colores */
+.seccion__tarjeta--azul { background-color: #3b82f6; }
+.seccion__tarjeta--amarillo { background-color: #eab308; }
+.seccion__tarjeta--verde { background-color: #22c55e; }
+.seccion__tarjeta--rojo { background-color: #ef4444; }

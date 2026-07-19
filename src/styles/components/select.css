@@ -1,5 +1,6 @@
 select {
   font-size: var(--tamano-mediano);
+  outline: none;
 }
 
 .selector--estado__cont {

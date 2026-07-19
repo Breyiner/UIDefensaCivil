@@ -9,11 +9,12 @@ import { api } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { alertas as alerta } from "@/helpers/index.js";
 import AccesoPlan from "@/helpers/accesoPlan"; // Security Guard Midleware Role Front
+import { formatearLista, separarLista } from "../../../../componentes/separar/separarLista";
 
 export default async () => {
   // Selectores DOM de la Cuadrícula HTML de Módulos (Iconos grandes)
   const botonBack = document.getElementById("botonBack");
-  const nombreFamilia = document.querySelector(".informacion__nombreFamiliar");
+  const nombreFamilia = document.querySelector(".menu--header__nombre--familia");
   const datosPrincipales = document.getElementById("datosPrincipales");
   const integrante = document.getElementById("integrantes");
   const mascotas = document.getElementById("mascotas");
@@ -23,7 +24,6 @@ export default async () => {
   const planAccion = document.getElementById("planAccion");
   const graficoEntorno = document.getElementById("graficoEntorno");
   const georeferenciacion = document.getElementById("georeferenciacion");
-
   // Nodos UI Actioners Finales
   const comentarios = document.getElementById("comentarios"); // Badge Peligro Si hubo un rechazo ("Lee por qué lo devolvieron")
   const botonEnviar = document.getElementById("enviar"); // Submit Todo el dossier al Jefe
@@ -44,12 +44,12 @@ export default async () => {
   // Inyección Custom Title en Top Bar UI (Ej: Familia "Perez Rodriguez")
   nombreFamilia.textContent += `${planFamiliar.last_names}`;
 
-  
-
   // Definir si existen miembros de la familia para realizar acciones en el menu -------------------------------------------------------------------------------...
   const tieneMiembros = await api.get(`familyPlans/has-members/${id}`);
 
-  
+  const tieneRiesgo = await api.get(`riskFactors/familyPlan/${id}`);
+
+  console.log(tieneRiesgo);
 
   // Router Volver al Muro General
   botonBack.onclick = () => {
@@ -68,6 +68,7 @@ export default async () => {
    * SECCIÓN ENRUTADORES SUB-MÓDULOS (Branching Routes)
    * Asignan el HASH URL appending the Current Family Plan ID as argument passing.
    */
+
   datosPrincipales.addEventListener("click", async () => {
 
     location.href = `#/${base}/plan_familiar/datos?familia_id=${id}`;
@@ -115,7 +116,15 @@ export default async () => {
 
   planAccion.addEventListener("click", async () => {
 
-    location.href = `#/${base}/plan_familiar/plan_de_accion/antes?familia_id=${id}`;
+    // const sinMiembros = !tieneMiembros.has_members;
+    const sinRiesgo = (tieneRiesgo.data ?? tieneRiesgo).length <= 0;
+
+    if(!tieneMiembros.has_members || sinRiesgo){
+      alerta.alertaWarning(`El Plan de la Familia ${planFamiliar.last_names} no posee ningun integrantes y factores de riesgo`);
+      return;
+    }
+
+    location.href = `#/${base}/plan_familiar/plan_de_accion?familia_id=${id}`;
   });
 
   // BOTÓN MAESTRO: Entregar Trabajo (Cambio Flujo Vida Útil Status Id)
@@ -139,29 +148,33 @@ export default async () => {
     }
 
     if (confirmacion.isConfirmed) {
-      try {
 
+      try {
+        
         const validate = await api.get(`familyPlans/validate-requirements/${id}`);
 
         if (!validate || !validate.is_valid) {
-            const detalles = validate ? `
-                ${!validate.has_min_members ? '❌ Mínimo 2 integrantes\n' : ''} ${!validate.has_min_members ? ' | ' : ''}
-                ${!validate.has_risk_factors ? '❌ Al menos 1 factor de riesgo\n' : ''} ${!validate.has_risk_factors ? ' | ' : ''}
-                ${!validate.has_resources ? '❌ Al menos 1 recurso disponible\n' : ''} ${!validate.has_resources ? ' | ' : ''}
-                ${!validate.has_photos ? '❌ Al menos 1 foto del entorno\n' : ''} ${!validate.has_photos ? ' | ' : ''}
-                ${!validate.has_graphics ? '❌ Al menos 1 gráfico de vivienda\n' : ''} ${!validate.has_graphics ? ' | ' : ''}
-                ${!validate.has_action_before ? '❌ Plan de acción: falta Antes\n' : ''} ${!validate.has_action_before ? ' | ' : ''} 
-                ${!validate.has_action_during ? '❌ Plan de acción: falta Durante\n' : ''} ${!validate.has_action_during ? ' | ' : ''}
-                ${!validate.has_action_after ? '❌ Plan de acción: falta Después\n' : ''}
-            ` : 'No se pudo verificar el plan';
+            let detalles = 'No se pudo verificar el plan';
 
-            alerta.alertaWarning('Plan incompleto', detalles);
-            return;
+            if (validate) {
+
+              const faltantes = [];
+
+              if (!validate.has_min_members)    faltantes.push('Mínimo 2 integrantes');
+              if (!validate.has_risk_factors)   faltantes.push('Al menos 1 factor de riesgo');
+              if (!validate.has_resources)      faltantes.push('Al menos 1 recurso disponible');
+              if (!validate.has_photos)         faltantes.push('Al menos 1 foto del entorno');
+              if (!validate.has_graphics)       faltantes.push('Al menos 1 gráfico de vivienda');
+              if (!validate.has_action_before)  faltantes.push('Plan de acción: falta Antes');
+              if (!validate.has_action_during)  faltantes.push('Plan de acción: falta Durante');
+              if (!validate.has_action_after)   faltantes.push('Plan de acción: falta Después');
+
+              detalles = formatearLista(faltantes);
+          }
+
+          alerta.alertaWarning('Plan incompleto', detalles);
+          return;
         }
-                // const isValid = validate?.is_valid ?? false;
-        // const message = validate?.message ?? "Por favor completa el plan familiar";
-        // if (!isValid) {
-        //   alerta.alertaWarning("Validación fallida", message);
 
         // Envio Endpoint Workflow. 
         // 4 -> 'Enviado a Revisión (Ficha Completa)'. El supervisor ahora lo verá en su bandeja y al autor se le bloquea la app en modo Read-only a nivel backend.
@@ -194,7 +207,7 @@ export default async () => {
    * Si el Backend me mandó de vuelta la propiedad 'comentary' poblada 
    * significa que el supervisor me devolvió la tarea con notas rojas.
    */
-  if (planFamiliar.comentary) comentarios.classList.remove("invisible"); // Desenmascara la campana roja
+  if (planFamiliar.comentary) comentarios.classList.remove("oculto"); // Desenmascara la campana roja
   
   // Al pulsar la campana, Lanza el Sweet Alert Explicativo con el texto largo del Jefe
   comentarios.addEventListener("click", async () => {

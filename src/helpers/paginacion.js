@@ -13,6 +13,8 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
     // Barra inferior donde van los numeritos de página
     const containerPaginador = document.querySelector(".container__paginador");
 
+    containerPaginador.classList.add("oculto");
+    
     const esSupervisor = location.hash.includes("/supervisor/");
     const esVoluntario = location.hash.includes("/voluntario/");
 
@@ -24,15 +26,22 @@ const paginacion = async (peticion, mensajeVacio, carta) => {
 
     // 2. Comprueba si hay al menos 1 registro
     const evaluacion = await evaluarDatos();
+
     if (!evaluacion) {
         // 3. Renderiza números y la página default (1)
         await paginador();
         await cargarPagina();
 
         // 4. Si sobran números para llenar 1 página base, oculta la barra de paginación por innecesaria
-        if (paginas.paginate.total <= paginas.paginate.per_page) {
-            containerPaginador.classList.add("invisible");
+        // if (paginas.paginate.total <= paginas.paginate.per_page) {
+        //     containerPaginador.classList.add("invisible");
+        // }
+
+        // 4. MOSTRAR EL PAGINADOR SOLO SI HAY MÁS DE 1 PÁGINA
+        if (paginas.paginate.total > paginas.paginate.per_page) {
+            containerPaginador.classList.remove("oculto");
         }
+
         window.procesoPeticion = false
     }
     else {

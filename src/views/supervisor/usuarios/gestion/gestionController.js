@@ -121,6 +121,7 @@ export default async () => {
 
     // Escucha pasiva delegada al contenedor padre (Técnica Event Delegation optimizada RAM)
     contenedor.addEventListener("click", async (e) => {
+      
         // Verifica si el clic recayó exacto sobre, o dentro (Span/icon), de un <button> HTML
         const tarjetaClickeada = e.target.closest(".tarjeta");
 

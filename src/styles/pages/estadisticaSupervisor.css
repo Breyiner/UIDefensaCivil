@@ -337,9 +337,9 @@
 }
 
 @media (max-width: 600px) {
-    .stats-cards {
+    /* .stats-cards {
         grid-template-columns: 1fr 1fr;
-    }
+    } */
 
     .stats-card__valor {
         font-size: 1.4rem;

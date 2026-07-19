@@ -1,20 +1,7 @@
 
-// El parametro enlaces de crearAside() es un array de objetos que debe contener los datos de cada item del aside. Ejemplo:
-// Mas abajo hay asides predeterminados
-const ejemplo = [
-    { icono: 'ri-gallery-view-2',      texto: 'Inicio',           info: null,         perfil: false, href: '#/supervisor' },
-    { icono: 'ri-file-user-line',      texto: 'Planes Familiares',info: null,         perfil: false, href: '#/supervisor/plan_familiar' },
-    { icono: 'ri-group-line',          texto: 'Voluntarios',      info: null,         perfil: false, href: '#/supervisor/usuarios/gestion' },
-    { icono: 'ri-bar-chart-2-line',    texto: 'Estadisticas',     info: null,         perfil: false, href: '#/supervisor/estadisticas' },
-    { icono: 'ri-arrow-left-right-line',texto: 'Peticiones',      info: null,         perfil: false, href: '#/supervisor/usuarios/peticiones' },
-    { icono: 'ri-user-line',           texto: 'Nombre',           info: 'Supervisor', perfil: true , href: '#/usuarios/perfil' },
-];
-// De manera que el aside pueda usarse en cualquier lugar y desde la vista se especifiquen los items que se vayan a tener en esa vista en especifico
-
-
+// Sidebar: construye la navegación lateral (desktop) y bottom nav (mobile) con las 5 secciones del panel supervisor
 export const crearAside = (enlaces) => {
   // Crear el aside principal
-  
   const aside = document.createElement('aside');
   aside.classList.add('sidebar');
   
@@ -25,8 +12,8 @@ export const crearAside = (enlaces) => {
   // Construir y montar el sidebar
   enlaces.forEach(enlace => divLista.appendChild(crearEnlace(enlace)));
   aside.appendChild(divLista);
-  return aside
   
+  return aside;
 }
 
 
@@ -69,9 +56,51 @@ export const crearAsideSupervisor = () => {
     { icono: 'ri-group-line',          texto: 'Voluntarios',      info: null,         perfil: false, href: '#/supervisor/usuarios/gestion' },
     { icono: 'ri-bar-chart-2-line',    texto: 'Estadisticas',     info: null,         perfil: false, href: '#/supervisor/estadisticas' },
     { icono: 'ri-arrow-left-right-line',texto: 'Peticiones',      info: null,         perfil: false, href: '#/supervisor/usuarios/peticiones' },
-    { icono: 'ri-user-line',           texto: 'Nombre',           info: 'Supervisor', perfil: true , href: '#/usuarios/perfil' },
 ];
 
   return crearAside(enlaces);
 
 }
+
+//Sidebar mobile
+
+export const marcarActivo = (nav, hash) => {
+  nav.querySelectorAll('.sidebar-mobile__link').forEach(link => {
+    link.classList.remove('sidebar-mobile__link--active');
+    if (link.getAttribute('href') === hash) {
+      link.classList.add('sidebar-mobile__link--active');
+    }
+  });
+};
+
+
+export const crearAsideMobile = () => {
+  const enlaces = [
+    { icono: 'ri-gallery-view-2',       href: '#/supervisor' },
+    { icono: 'ri-file-user-line',       href: '#/supervisor/plan_familiar' },
+    { icono: 'ri-group-line',           href: '#/supervisor/usuarios/gestion' },
+    { icono: 'ri-bar-chart-2-line',     href: '#/supervisor/estadisticas' },
+    { icono: 'ri-arrow-left-right-line', href: '#/supervisor/usuarios/peticiones' },
+  ];
+
+  const nav = document.createElement('nav');
+  nav.classList.add('sidebar-mobile');
+  nav.id = 'sidebarMobile';
+
+  enlaces.forEach(({ icono, href }) => {
+    const a = document.createElement('a');
+    a.href = href;
+    a.classList.add('sidebar-mobile__link');
+
+    const i = document.createElement('i');
+    i.classList.add(icono, 'sidebar-mobile__icono');
+
+    a.appendChild(i);
+    nav.appendChild(a);
+  });
+
+  marcarActivo(nav, window.location.hash);
+
+  return nav;
+}
+

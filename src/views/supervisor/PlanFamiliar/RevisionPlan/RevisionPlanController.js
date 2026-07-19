@@ -24,6 +24,8 @@ const RevisionPlanController = async () => {
     const riskFactors = await api.get(`riskFactors/`);
 
     const Resources = await api.get(`availableResources/familyPlan/${id}`) ?? [];
+    
+    const principalCont = document.querySelector(".container");
 
     const contenedor = document.querySelector(".container__revision");
 

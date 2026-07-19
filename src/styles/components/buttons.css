@@ -1,6 +1,11 @@
+button {
+
+  cursor: pointer;
+}
+
 .boton {
-  width: 60%;
-  padding: 10px;
+  width: fit-content;
+  padding: 10px 20px;
   border-radius: var(--border-radius-botones);
   background-color: var(--color-primario);
   color: var(--color-palido);
@@ -9,6 +14,7 @@
   transition: 0.3s;
   border: 3px solid var(--color-transparencia);
   font-family: var(--fuente-titulos);
+  text-wrap: nowrap;
   cursor: pointer;
 }
 
@@ -176,4 +182,48 @@
 
 .boton--filtro:hover:not(.boton--filtro-activo) {
   background-color: var(--color-grisFondo);
+}
+
+.planAccion__botonera {
+
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  background: var(--color-palido);
+  border-radius: 200px;
+}
+
+.planAccion__botonera button{
+
+  font-size: 1.5rem;
+  padding: 10px;
+  width: 150px;
+  border-radius: 200px;
+  background: transparent;
+  border: none;
+  color: var(--color-grisOscuro);
+  /* overflow: hidden; */
+  /* position: relative; */
+
+  transition: 0.5s ease-in-out;
+}
+
+.planAccion__botonera button.activo{
+
+  background: var(--color-secundario);
+  color: var(--color-palido);
+}
+
+@media (max-width: 560px) {
+
+  .planAccion__botonera button{
+
+    font-size: 1.0rem;
+    padding: 10px;
+    width: fit-content;
+    border-radius: 200px;
+  }
 }

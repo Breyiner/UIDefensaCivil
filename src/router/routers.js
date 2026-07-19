@@ -38,15 +38,14 @@ import * as datosMaestros from "@/views/administrador/datosMaestros/index.js"
 import * as AdministradorUsuarios from "@/views/administrador/usuarios/index.js"
 import * as usuario from "@/views/usuario/index.js"
 import notificacionesController from "@/views/notificaciones/notificacionesController.js";
-import EstadisticaController from "../views/supervisor/Estadistica/EstadisticaController";
-import logController from "../views/auth/login_register/logController";
+import EstadisticaController from "@/views/supervisor/Estadistica/EstadisticaController";
+import logController from "@/views/auth/login_register/logController";
 
 // Configuraciones predefinidas de permisos para cada ruta
 const publicRoute = { private: false, permissions: [] };
 const voluntarioRoute = { private: true, permissions: ['voluntario'] };
 const supervisorRoute = { private: true, permissions: ['supervisor'] };
 const adminRoute = { private: true, permissions: ['admin'] };
-
 
 export const routes = {
   "": {
@@ -270,23 +269,12 @@ export const routes = {
       },
 
       plan_de_accion: {
-
-        antes: {
-          path: `voluntario/planAccion/index.html`,
-          controlador: planAccion.antes,
-          config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        },
-        durante: {
-          path: `voluntario/planAccion/index.html`,
-          controlador: planAccion.durante,
-          config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        },
-        despues: {
-          path: `voluntario/planAccion/index.html`,
-          controlador: planAccion.despues,
-          config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] },
-        }
+        
+        path: `voluntario/planAccion/index.html`,
+        controlador: planAccion.planAccionController,
+        config: { ...voluntarioRoute, permissions: ["home-frontend.voluntario"] }
       }
+
     }
 
   },

@@ -137,6 +137,12 @@
     position: relative;
 }
 
+.card-Cont .historial-Cont .historial-nameAction .name-historial__large {
+
+    margin-top: 8px;
+    font-size: 20px;
+}
+
 .card-Cont .historial-Cont .historial-nameAction .subname-Historial {
     font-weight: bold;
     color: var(--color-grisOscuro);
@@ -200,37 +206,55 @@
 
 /* Botones ________________________________________________________________________ */
 
-.container-eliminar-panel .botonera--panel__Eliminacion {
+.container-eliminar-panel .botonera--panel__Eliminacion,
+.container-acciones-panel .botonera--panel__Acciones {
+
     display: flex;
     gap: 5px;
 }
 
-.container-eliminar-panel .botonera--panel__Eliminacion button {
+.container-eliminar-panel .botonera--panel__Eliminacion button,
+.container-acciones-panel .botonera--panel__Acciones button {
     padding: 5px 15px;
     border-radius: 100px;
+    display: flex;
+    gap: 5px;
     border: none;
     cursor: pointer;
 }
 
 .container-historial .card-Cont .borrarHistorial,
-.container-eliminar-panel .btn_borrar {
+.container-eliminar-panel .btn_borrar,
+.container-acciones-panel .btnRechazar {
+
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
-    /* position: absolute;
-    bottom: 10px;
-    left: 10px; */
+    text-wrap: nowrap;
     color: var(--color-palido);
     background-color: var(--color-rojizo);
 }
 
-.container-eliminar-panel .btnSelectAll {
+
+.container-eliminar-panel .btnSelectAll,
+.container-acciones-panel .btnSelectAll {
+
     color: var(--color-palido);
+    text-wrap: nowrap;
     background-color: var(--color-primario);
 }
 
-.container-eliminar-panel .btnCerrar {
+.container-acciones-panel .btnAprobar {
+
+    color: var(--color-palido);
+    text-wrap: nowrap;
+    background-color: var(--color-verdoso);
+}
+
+.container-eliminar-panel .btnCerrar,
+.container-acciones-panel .btnCerrar {
+
     color: var(--color-palido);
     background-color: transparent;
     border: none;
@@ -240,7 +264,9 @@
 
 /* Panel de eliminación historial ___________________________________________________________*/
 
-.eliminar-panel {
+.eliminar-panel,
+.acciones-panel {
+
     width: 100%;
     height: 45px;
     background-color: var(--color-secundario);
@@ -254,7 +280,9 @@
         opacity 0.3s ease-in-out 0.2s;
 }
 
-.eliminar-panel.ocultar_opciones {
+.eliminar-panel.ocultar_opciones,
+.acciones-panel.ocultar_opciones {
+
     height: 0;
     width: 45px;
     opacity: 0;
@@ -266,7 +294,9 @@
 
 /*  */
 
-.container-eliminar-panel {
+.container-eliminar-panel,
+.container-acciones-panel {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -276,19 +306,23 @@
     transition: 0s ease-in-out 0.2s;
 }
 
-.eliminar-panel.ocultar_opciones .container-eliminar-panel {
+.eliminar-panel.ocultar_opciones .container-eliminar-panel,
+.acciones-panel.ocultar_opciones .container-acciones-panel {
+
     padding: 0;
 }
 
 /*  */
 
-.container-eliminar-panel * {
+.container-eliminar-panel *,
+.container-acciones-panel * {
     opacity: 1;
     transition: 0.2s ease-in-out 0.4s;
     transition-delay: 0.5s;
 }
 
-.eliminar-panel.ocultar_opciones .container-eliminar-panel * {
+.eliminar-panel.ocultar_opciones .container-eliminar-panel *,
+.acciones-panel.ocultar_opciones .container-acciones-panel * {
     opacity: 0;
     transition: 0.2s ease-in-out;
     /* transition-delay: 0s; */
@@ -296,56 +330,67 @@
 
 /*  */
 
-.container-eliminar-panel .contadorSpan {
+.container-eliminar-panel .contadorSpan,
+.container-acciones-panel .contadorSpan {
+
     color: var(--color-palido);
     text-wrap: nowrap;
 }
 
-/* ------------------------------------------------------------------- */
+@media (max-width: 765px) {
 
-.historial-usuariDatos {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    padding: 20px;
-}
+  .container.container--noHeader {
+    padding: 12px;
+  }
 
-.historial-usuariDatos .historial_dato {
-    text-wrap: nowrap;
-    display: flex;
+  .form__doubleCont,
+  .form__doubleinput {
     flex-direction: column;
-    gap: 5px;
+    gap: 20px;
+    position: relative;
+  }
+
+  .form__doubleinput i {
+    position: absolute;
+  }
+
+  .form__doubleinput .section__input {
+    /* position: absolute; */
+    padding-left: 35px;
+  }
 }
 
-.historial_dato .tittle_user-historial {
-    font-weight: bold;
-    background-color: rgb(122, 191, 255);
-    width: 200px;
-    border-radius: 100px;
-    padding: 5px 10px;
-    color: var(--color-palido);
-}
 
-.historial-usuariDatos .data_user-historial {
-    padding-left: 20px;
-}
+@media (max-width: 680px) {
 
-@media (max-width: 500px) {
-    .historial-usuariDatos {
-        grid-template-columns: 1fr;
+    .eliminar-panel.ocultar_opciones,
+    .acciones-panel.ocultar_opciones {
+
+        height: 0;
+        width: 80px;
+        opacity: 0;
+        border-radius: 100px;
+        transition: height 0.3s ease-in-out 0.45s, width 0.18s ease-in-out 0.2s, opacity 0.3s ease-in-out 0.25s, border-radius 0.5s ease-in-out 0.1s;
     }
-}
 
-.card-Cont--usuario .historial-Cont .historial-side .historial-sideElement:nth-child(2) {
-    border-bottom-left-radius: 0;
-    border-bottom: none;
-}
+    .eliminar-panel,
+    .acciones-panel {
 
-.container-historial .card-Cont--usuario .status-Cont {
-    padding-top: 0;
-    padding-left: 3.5px;
-}
+        height: 80px;
+        border-radius: 20px;
+    }
 
-.card-Cont--usuario .action-Historial {
-    width: 300px;
+    .container-eliminar-panel,
+    .container-acciones-panel {
+
+        flex-direction: column;
+    }
+    
+
+    .container-eliminar-panel .btnCerrar,
+    .container-acciones-panel .btnCerrar {
+
+        position: absolute;
+        left: 30px;
+    }
 }

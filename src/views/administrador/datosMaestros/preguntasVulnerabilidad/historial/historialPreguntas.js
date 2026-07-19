@@ -3,13 +3,15 @@ import historial from "@/componentes/historial/historial";
 import { api } from "@/helpers/index.js";
 
 const historialPreguntas = async () => {
+
+    const datoHistorial = document.querySelector(".dato--historial");
     
     const id = location.hash.split("=")[1];
-
-    const datoMaestro = await api.get(`vulnerableQuestions/${id}/history`);
-
-    console.log(datoMaestro);
     
+    const datoMaestro = await api.get(`vulnerableQuestions/${id}`);
+    
+    datoHistorial.textContent = datoMaestro.description;
+    console.log(datoMaestro);
     
     const endpoint = `vulnerableQuestions/${id}/history`;
 

@@ -1,7 +1,19 @@
 <div class="container">
+
     <div class="explicacion">
-        <p class="explicacion__titulo">Agregar recurso disponible</p>
-        <p class="explicacion__subtitulo">Llene los datos con la informacion del recurso</p>
+
+        <div class="explicacion__titulo">
+
+            <i class="ri-hospital-fill"></i>
+
+            <span>Agregar recursos</span>
+
+            <p>Agrega información sobre los recursos disponibles (hospitales, cruz roja, bomberos, etc) para la familia.</p>
+
+        </div>
+
+        <img src="asset/ilustracion_voluntarios.svg" alt="">
+
     </div>
 
     <form method="POST" class="form">
@@ -9,7 +21,7 @@
         <div class="input">
             <div class="form__inputBox form__inputBox--selector">
                 <i class="ri-error-warning-line" id="selector__icono"></i>
-                <select class="selector" id="recursos">
+                <select class="selector-portatil" id="recursos">
                     <option value="" hidden>Seleccione un recurso...</option>
                 </select>
             </div>

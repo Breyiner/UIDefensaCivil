@@ -8,7 +8,7 @@ export const tarjetaPeticion = (info) => {
     const tarjeta = document.createElement('div');
     // Guardamos el ID aquí para que sea accesible desde cualquier parte de la tarjeta, ya que se espera que al hacer click nos muestre el modal de rechazar o aceptar el acceso
     tarjeta.setAttribute("data-id", info.id);
-    tarjeta.classList.add('tarjeta', 'tarjeta--notificacion');
+    tarjeta.classList.add('tarjeta', 'tarjeta--notificacion', 'tarjeta__flex--row');
 
     //Header
     const tarjetaHeader = document.createElement('div');
@@ -87,16 +87,40 @@ export const tarjetaPeticion = (info) => {
     tarjetaBadge.textContent = info.status;
     tarjetaEstado.append(tarjetaTiempo, tarjetaBadge);
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.classList.add("tarjeta__checkbox");
+    // Checkbox con label (misma estructura que en historial.js)
+    const uniqueId = `checkPeticion-${info.id}`;
+
+    const checkCont = document.createElement('div');
+    checkCont.classList.add('check-peticion_cont');
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = uniqueId;
+    checkbox.classList.add('oculto');
     checkbox.value = info.id;
 
-    // Unir elementos al header
+    const labelCheckbox = document.createElement('label');
+    labelCheckbox.htmlFor = uniqueId;
+
+    const iconCheck = document.createElement('i');
+    iconCheck.className = 'ri-check-line';
+
+    labelCheckbox.appendChild(iconCheck);
+    checkCont.append(checkbox, labelCheckbox);
+
+    iconCheck.classList.toggle('oculto', !checkbox.checked);
+
+    checkbox.addEventListener('change', function () {
+
+        const isChecked = this.checked;
+
+        iconCheck.classList.toggle("oculto", !isChecked);
+    });
+
     tarjetaHeader.append(tarjetaIconoCont, tarjetaInfo, tarjetaEstado);
 
-    // Unir el header al contenedor principal
-    tarjeta.append(tarjetaHeader, checkbox);
+    
+    tarjeta.append(checkCont, tarjetaHeader);
 
     return tarjeta;
 };

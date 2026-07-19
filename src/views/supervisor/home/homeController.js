@@ -1,86 +1,99 @@
-/**
- * Controlador: Home Supervisor (homeController.js)
- * Construye la página principal o Dashboard del perfil Supervisor.
- * Muestra métricas rápidas (Planes Recibidos, Aprobados, Rechazados, Tiempos) 
- * y provee navegación rápida a los sub-módulos clave.
- */
-import { crearAside, crearAsideSupervisor } from "@/componentes/navegacion/aside";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { alertas as alerta } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { api } from "@/helpers/index.js";
+import { get } from "@/helpers/api.js";
+
+function h(tag, cls, ...children) {
+    const el = document.createElement(tag);
+    if (cls) el.className = cls;
+    children.forEach(c => el.append(typeof c === 'string' ? document.createTextNode(c) : c));
+    return el;
+}
+
+function crearCardPlan(plan) {
+    const esDevuelto = plan.status === "Devuelto";
+    const pillClass = esDevuelto ? "devuelto" : "pendiente";
+
+    const card = h('div', 'row-plan-card',
+        h('div', 'row-plan-main',
+            h('div', 'left-info-group',
+                h('div', 'avatar-circle-icon', h('span', 'ri-team-line')),
+                h('div', 'details-list',
+                    h('h4', null, plan.familia ?? "Familia sin nombre"),
+                    h('p', null, h('span', 'ri-map-pin-line'), ' ' + (plan.ubicacion ?? "Sin ubicación")),
+                    h('p', null, h('span', 'ri-calendar-line'), ' Recibido: ' + (plan.fecha ?? "—")),
+                    h('p', null, h('span', 'ri-user-line'), ' Voluntario: ' + (plan.voluntario ?? "—"))
+                )
+            ),
+            h('div', 'right-status-group',
+                h('div', 'timestamp', plan.tiempo ?? "—"),
+                h('div', 'status-pill ' + pillClass, plan.status ?? "Pendiente")
+            )
+        )
+    );
+
+    if (esDevuelto) {
+        card.appendChild(
+            h('div', 'devuelto-reason-container',
+                h('span', 'ri-chat-1-line'),
+                h('div', null, h('strong', null, 'Motivo'), h('br'), plan.motivo ?? "Sin especificar")
+            )
+        );
+    }
+
+    return card;
+}
+
+function actualizarElemento(id, valor) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = valor ?? 0;
+}
 
 export default async () => {
-    // Petición al endpoint del dashboard para obtener un objeto de métricas generales consolidadas
-    const dashBoard = await api.get('audits/dashBoardSupervisor');
+    try {
+        const dashBoard = await get('audits/dashBoardSupervisor');
 
-    // Nodos de presentación de 'Hola X persona'
-    const explicaciontitulo = document.querySelector(".explicacion__titulo");
-    
-    // Absorbe de localStorage (Sesión actual) el identity
-    const nombre = localStorage.getItem("full_name");
-    const genero = localStorage.getItem("gender_id");
+        const nombre = localStorage.getItem("full_name");
+        const genero = parseInt(localStorage.getItem("gender_id"), 10);
 
-    // renderizar componente de aside
-    const aside = crearAsideSupervisor();
-    const app = document.querySelector("#app"); 
-    app.prepend(aside)
+        const saludo = document.querySelector(".profile-details h3");
+        if (saludo) {
+            saludo.textContent = (genero === 2 ? "Bienvenida " : "Bienvenido ") + nombre;
+        }
 
+        actualizarElemento("planesRecibidos", dashBoard.pending_plans);
+        actualizarElemento("planesEnRevision", dashBoard.in_review_plans);
+        actualizarElemento("planesAprobados", dashBoard.approved_plans);
+        actualizarElemento("planesRechazados", dashBoard.rejected_plans);
+        actualizarElemento("totalRevisados", (dashBoard.approved_plans ?? 0) + (dashBoard.rejected_plans ?? 0));
 
-    // Lógica boba inclusiva para el saludo ('Bienvenido' vs 'Bienvenida') según catálogos previos (1=Masc, 2=Fem)
-    if (genero == 2) {
-        explicaciontitulo.textContent = "Bienvenida " + nombre;
-    } else {
-        explicaciontitulo.textContent = "Bienvenido " + nombre;
+        const sectionalId = localStorage.getItem("sectional_id");
+        if (sectionalId) {
+            const stats = await get(`sectionals/${sectionalId}/stats_supervisor`);
+            if (stats) {
+                actualizarElemento("voluntariosActivos", stats.voluntarios_activos);
+                actualizarElemento("promedioPlanes", (stats.promedio_planes_por_voluntario ?? 0) + "%");
+            }
+        }
+
+        const planesList = document.getElementById("planesList");
+        if (planesList && dashBoard.recent_plans?.length) {
+            const planes = dashBoard.recent_plans;
+            planesList.innerHTML = "";
+            for (let i = 0; i < planes.length; i += 4) {
+                const page = h('div', 'planes-page');
+                planes.slice(i, i + 4).forEach(plan => page.appendChild(crearCardPlan(plan)));
+                planesList.appendChild(page);
+            }
+        }
+
+        const RUTAS = {
+            btnEstadisticas: '#/supervisor/estadisticas',
+            btnVerTodos: '#/supervisor/plan_familiar/',
+        };
+
+        window.addEventListener('click', (e) => {
+            const btn = e.target.closest(Object.keys(RUTAS).map(k => '#' + k).join(','));
+            if (btn) window.location.hash = RUTAS[btn.id];
+        });
+    } catch (error) {
+        console.error("Error cargando dashboard supervisor:", error);
     }
-
-    // Nodos contadores crudos (Tarjetas resumen)
-    const planesRecibidos = document.getElementById('planesRecibidos');
-    const planesAprobados = document.getElementById('planesAprobados');
-    const planesRechazados = document.getElementById('planesRechazados');
-    const planesEnRevision = document.getElementById('planesEnRevision');
-    /* const tiempoAproximado = document.getElementById('tiempoAproximado'); */
-
-    // Accesos directos / Botonera secundaria
-    const botonVoluntarios = document.getElementById("voluntarios");
-    const botonPeticiones = document.getElementById("peticiones");
-    const botonPlanFamiliar = document.getElementById("planFamiliar");
-    const botonEstadistica = document.getElementById("estadisticas");
-
-
-    // Llenado estático de los contadores con las claves recuperadas del objeto 'dashboard' json
-    planesRecibidos.textContent = dashBoard.pending_plans;
-    planesAprobados.textContent = dashBoard.approved_plans;
-    planesRechazados.textContent = dashBoard.rejected_plans;
- /*    
-    // Algoritmo de formateo simple para presentar el Promedio de Tiempo en forma legible (Mins o Horas)
-    const tiempo = dashBoard.time_validation;
-    let tiempoValidado;
-    
-    // Si sobrepasa la métrica en Minutos (Ej: 90) -> Lo reduce a factor Horas ej: 1h
-    // TODO: Bug potencial - solo extrae horas pisando minutos. (Ej 90 -> 1h, perdiendo los 30 min)
-    if (tiempo > 60)
-    {
-        tiempoValidado = Math.floor(tiempo / 60);
-        tiempoValidado += "h" 
-    }
-    // Presentación en minutos puros si es lapso corto
-    else tiempoValidado = tiempo + "m"
-    
-    // Aplica el string formateado final
-    tiempoAproximado.textContent = tiempoValidado */
-
-    // Declaración de enrutamientos de la botonera principal Dashboard
-    botonVoluntarios.addEventListener("click", () => {
-        window.location.href = `#/supervisor/usuarios/gestion/`; // Vista Gestor Users
-    });
-    botonPeticiones.addEventListener("click", () => {
-        window.location.href = `#/supervisor/usuarios/peticiones`; // Vista Peticiones/Requests List
-    });
-    botonPlanFamiliar.addEventListener("click", () => {
-        window.location.href = `#/supervisor/plan_familiar/`; // Vista Planes List Main
-    });
-    botonEstadistica.addEventListener("click", () => {
-        window.location.href = `#/supervisor/estadisticas`; // La Dona Chart page
-    });
 };

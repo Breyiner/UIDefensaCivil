@@ -3,14 +3,14 @@ import historial from "@/componentes/historial/historial";
 import { api } from "@/helpers/index.js";
 
 const historialVivienda = async () => {
+
+    const datoHistorial = document.querySelector(".dato--historial");
     
     const id = location.hash.split("=")[1];
-
+    
     const datoMaestro = await api.get(`housingQualities/${id}`);
-
-    const datosHistorial = await api.get(`housingQualities/${id}/history/`);
-
-    console.log(datosHistorial);
+    
+    datoHistorial.textContent = datoMaestro.name;
 
     const endpoint = `housingQualities/${id}/history/`;
 

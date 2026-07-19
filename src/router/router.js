@@ -43,7 +43,7 @@ export const router = async (main) => {
 
         const rutasPublicas = ["", "/", "/#", "/login", "/register", "/forgotPassword", "/verificar_codigo", "/cambiar_password"];
             if (!rutasPublicas.includes(hash)) {
-            window.location.hash = "/#";
+            window.location.hash = "";
             return;
         }
     }
@@ -94,6 +94,17 @@ export const router = async (main) => {
 
     if (ruta.path) {
         await cargarVista(ruta.path, main);
+    }
+
+    // Asegurar que las vistas del supervisor tengan la clase container--supervisor para el padding lateral del aside
+    const esSupervisor = location.hash.includes("supervisor");
+    const container = document.querySelector(".container");
+    if (container) {
+        if (esSupervisor) {
+            container.classList.add("container--supervisor");
+        } else {
+            container.classList.remove("container--supervisor");
+        }
     }
 
     await ruta.controlador(parametros);

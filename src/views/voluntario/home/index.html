@@ -1,9 +1,127 @@
 <div class="container">
-    <div class="explicacion">
-        <p class="explicacion__titulo">Hola, Voluntari</p>
-        <p class="explicacion__subtitulo">Bienvenido al panel de Control</p>
-    </div>
-    <img src="familia.png" alt="logoDefensaCivil" class="container__imagen">
-    <button id="nuevoPlan" class="container__boton boton boton--grande boton--azul">Crear nuevo plan familiar</button>
-    <button id="verPlan" class="container__boton boton boton--grande">Continuar con planes guardados</button>
+
+    <main class="v-main-container">
+
+        <section class="v-panel v-panel-left">
+            <div class="v-panel-header">
+                <span class="v-panel-subtitle">PANEL VOLUNTARIO</span>
+                <h1 class="v-volunteer-name">Esteban Martinez</h1>
+                <p class="v-volunteer-location"><i class="ri-map-pin-line"></i> Santander · Voluntario activo</p>
+                <hr class="v-orange-line">
+            </div>
+
+            <div class="v-panel-stats-actions">
+                <div class="v-stats-container">
+                    <p class="v-stats-title">Total Planes Familiares Realizados</p>
+                    <div class="v-counter-row">
+                        <span class="v-counter-number" id="totalPlanes">0</span>
+                        <div class="v-counter-icon">
+                            <i class="ri-team-line"></i>
+                        </div>
+                    </div>
+                    <div class="v-tags-row">
+                        <span class="v-tag v-tag-vulnerable">
+                            <i class="ri-home-heart-fill"></i> <span id="numVuln">0</span> Familias vulnerables
+                        </span>
+                        <span class="v-tag v-tag-safe">
+                            <i class="ri-home-heart-fill"></i> <span id="numNoVuln">0</span> Familias no vulnerables
+                        </span>
+                    </div>
+                </div>
+
+                <div class="v-actions-container">
+                    <button id="verPlan" class="v-btn v-btn-orange">Ver planes guardados</button>
+                    <button id="nuevoPlan" class="v-btn v-btn-blue">+ Crear nuevo plan Familiar</button>
+                </div>
+            </div>
+
+            <div class="v-family-image-container">
+                <img src="asset/ilustracion_familia_b.svg" alt="Ilustración voluntarios" class="v-family-image">
+            </div>
+        </section>
+
+        <section class="v-panel v-panel-right">
+            <div class="v-notifications-header">
+                <h2>Notificaciones Recientes</h2>
+                <i class="ri-notification-3-fill v-bell-small"></i>
+            </div>
+
+            <div class="v-notifications-list">
+
+                <div class="v-notification-card">
+                    <div class="v-card-main">
+                        <div class="v-card-icon"><i class="ri-team-fill"></i></div>
+                        <div class="v-card-info">
+                            <h3>Familia Quintero</h3>
+                            <p class="v-card-location"><i class="ri-map-pin-fill"></i> Palonegro, Santander</p>
+                        </div>
+                        <div class="v-card-status">
+                            <span class="v-time">Hace 10 min</span>
+                            <span class="v-status-badge v-status-returned">Devuelto</span>
+                        </div>
+                    </div>
+                    <div class="v-card-reason">
+                        <p><strong>Motivo:</strong> Integrantes no identificados correctamente en el regi...</p>
+                    </div>
+                </div>
+
+                <div class="v-notification-card">
+                    <div class="v-card-main">
+                        <div class="v-card-icon"><i class="ri-team-fill"></i></div>
+                        <div class="v-card-info">
+                            <h3>Familia Quintero</h3>
+                            <p class="v-card-location"><i class="ri-map-pin-fill"></i> Palonegro, Santander</p>
+                            <p class="v-card-meta"><i class="ri-calendar-fill"></i> Recibido: 02/04/2026</p>
+                            <p class="v-card-meta"><i class="ri-user-fill"></i> Voluntario: Juan A. Diaz</p>
+                        </div>
+                        <div class="v-card-status">
+                            <span class="v-time">Hace 10 min</span>
+                            <span class="v-status-badge v-status-pending">Pendiente</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="v-notification-card">
+                    <div class="v-card-main">
+                        <div class="v-card-icon"><i class="ri-team-fill"></i></div>
+                        <div class="v-card-info">
+                            <h3>Familia Quintero</h3>
+                            <p class="v-card-location"><i class="ri-map-pin-fill"></i> Palonegro, Santander</p>
+                            <p class="v-card-meta"><i class="ri-calendar-fill"></i> Recibido: 02/04/2026</p>
+                            <p class="v-card-meta"><i class="ri-user-fill"></i> Voluntario: Juan A. Diaz</p>
+                        </div>
+                        <div class="v-card-status">
+                            <span class="v-time">Hace 10 min</span>
+                            <span class="v-status-badge v-status-pending">Pendiente</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="v-notification-card">
+                    <div class="v-card-main">
+                        <div class="v-card-icon"><i class="ri-team-fill"></i></div>
+                        <div class="v-card-info">
+                            <h3>Familia Quintero</h3>
+                            <p class="v-card-location"><i class="ri-map-pin-fill"></i> Palonegro, Santander</p>
+                            <p class="v-card-meta"><i class="ri-calendar-fill"></i> Recibido: 02/04/2026</p>
+                            <p class="v-card-meta"><i class="ri-user-fill"></i> Voluntario: Juan A. Diaz</p>
+                        </div>
+                        <div class="v-card-status">
+                            <span class="v-time">Hace 10 min</span>
+                            <span class="v-status-badge v-status-pending">Pendiente</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="v-panel-right-footer">
+                <button class="v-btn v-btn-orange v-btn-see-all" id="verTodasNotificaciones">Ver todo</button>
+            </div>
+        </section>
+
+        
+
+    </main>
+
 </div>

@@ -6,6 +6,26 @@
   font-family: roboto, sans-serif;
 }
 
-body {
-  background-color: var(--color-grisFondo);
+body.swal2-shown {
+  padding-right: 0px !important;
+}
+
+/* 1. Dimensiones estructurales */
+::-webkit-scrollbar {
+  width: 10px;  
+  height: 10px;
+}
+
+/* 2. Pista del scrollbar transparente para que se fusione con el fondo */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+/* 3. La barra (Thumb) usa bordes transparentes reales */
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primario);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }

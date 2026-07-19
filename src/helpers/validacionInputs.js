@@ -29,7 +29,7 @@ export const TECLAS_ESPECIALES = [
 // =====================================================
 
 // Dibuja visualmente un mensaje de error rojo debajo o al lado del input
-const mostrarError = (input, mensaje) => {
+export const mostrarError = (input, mensaje) => {
   limpiarError(input); // Borra cualquier error anterior para no apilarlos
 
   // Crea una nueva etiqueta <span> e inyecta la clase CSS ".error" y el texto descriptivo
@@ -37,23 +37,13 @@ const mostrarError = (input, mensaje) => {
   span.className = "error";
   span.textContent = mensaje;
 
-  // Sube dos niveles en el DOM (doble parentElement) para inyectarlo en el contenedor del input
-  // input.parentElement.parentElement.append(span);
-  input.parentElement.appendChild(span);
-  // input.parentElement.insertAdjacentElement('afterend', span);
+  const container = input.closest('.section__input') || input.closest('.input') || input.parentElement;
+  container.appendChild(span);
 };
 
 // Busca si hay un span ".error" colgando del contenedor del input y lo destruye
 export const limpiarError = (input) => {
-  // const error = input.parentElement.parentElement.querySelector(".error");
-  // if (error) error.remove();
-  //----------------------------------------------------------
-  // const error = input.parentElement.nextElementSibling;
-  // if (error && error.classList.contains("error")) {
-  //     error.remove();
-  // }
-  // ---------------------------------------------------------
-  const container = input.closest('.section__input') || input.parentElement;
+  const container = input.closest('.section__input') || input.closest('.input') || input.parentElement;
   
   const errores = container.querySelectorAll(".error");
   
@@ -362,8 +352,32 @@ const inputTipos={
   mayorDeEdad:{validacion:(input)=>validar_minimoMaximo(input)},
 
   // Se agregó la regla entera para "fecha", que te faltaba en tu diccionario original
-  fecha: { validacion: (input) => validar_mayoriaEdad(input)}
+  fecha: { validacion: (input) => validar_mayoriaEdad(input) },
   // Valida la edad al procesar
+  fechaVacuna: {
+    validacion: (input) => {
+      const birthDate = input.dataset.birthDate;
+      const value = input.value;
+      
+      limpiarError(input);
+      
+      if (!value) {
+        return error(input, "La fecha de la vacuna es obligatoria.");
+      }
+      
+      if (birthDate && value <= birthDate) {
+        return error(input, "La fecha de la vacuna debe ser posterior a la fecha de nacimiento de la mascota.");
+      }
+
+      // Evitar fechas futuras (la vacuna ya debió ser aplicada)
+      const hoy = new Date().toISOString().split('T')[0];
+      if (value > hoy) {
+        return error(input, "La fecha de la vacuna no puede ser posterior al día de hoy.");
+      }
+      
+      return true;
+    }
+  }
 };
 
 

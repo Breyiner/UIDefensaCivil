@@ -6,12 +6,15 @@
 .layout {
   width: 100%;
   min-height: 100vh;
+  min-width: 340px;
   display: grid;
   grid-template-rows: auto 1fr;
   grid-template-columns: 1fr;
   justify-content: center;
   padding: 0;
-  background: linear-gradient(0deg,rgba(133, 220, 255, 1) 0%, rgba(235, 248, 255, 1) 100%);
+  background: linear-gradient(180deg,#80c6ff 0%, rgba(235, 248, 255, 1) 100%);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #app {
