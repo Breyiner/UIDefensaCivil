@@ -7,5 +7,7 @@
 import PeticionesController from "./peticiones/peticionesController.js";
 import GestionController from "./gestion/gestionController.js"
 
+import historialUsuario from "./gestion/historial/historialUsuario.js";
+
 // Export múltiple (Barrel pattern)
-export {PeticionesController,GestionController};
+export {PeticionesController,GestionController, historialUsuario};
