@@ -6,7 +6,7 @@
  * @module riesgoModales
  */
 
-import { createFormGroup } from "./vistaRiesgo.js";
+import { campoFormulario } from "../campoFormulario.js";
 
 /**
  * Crea y retorna el nodo DOM del diálogo <dialog> para agregar/editar una vulnerabilidad.
@@ -37,7 +37,12 @@ export const agregarVulnerabilidadMemoria = ({ initialData = null, vulnerabiliti
   form.classList.add("modal-edicion__formulario");
 
   // Select 1: Vulnerability
-  const grupoVuln = createFormGroup("ri-alert-line", "selector-portatil", "vulnerabilidadSelect", "selector__icono");
+  const grupoVuln = campoFormulario({
+    iconClass: "ri-alert-line",
+    inputType: "selector-portatil",
+    id: "vulnerabilidadSelect",
+    iconId: "selector__icono"
+  });
   const selectVulnerability = grupoVuln.querySelector("select");
   selectVulnerability.classList.add("form__vulnerability");
   selectVulnerability.setAttribute("required", "");
@@ -58,7 +63,12 @@ export const agregarVulnerabilidadMemoria = ({ initialData = null, vulnerabiliti
   });
 
   // Select 2: Grade
-  const grupoGrade = createFormGroup("ri-bar-chart-line", "selector-portatil", "gradoSelect", "selector__icono");
+  const grupoGrade = campoFormulario({
+    iconClass: "ri-bar-chart-line",
+    inputType: "selector-portatil",
+    id: "gradoSelect",
+    iconId: "selector__icono"
+  });
   const selectGrade = grupoGrade.querySelector("select");
   selectGrade.classList.add("form__vulnerabilityGrade");
   selectGrade.setAttribute("required", "");
@@ -129,7 +139,11 @@ export const agregarAccionMemoria = ({ members = [], initialData = null }) => {
   form.classList.add("modal-edicion__formulario");
 
   // Campo Acción
-  const grupoAccion = createFormGroup("ri-shield-check-line", "input", "accionInput");
+  const grupoAccion = campoFormulario({
+    iconClass: "ri-shield-check-line",
+    inputType: "input",
+    id: "accionInput"
+  });
   const inputAction = grupoAccion.querySelector("input");
   inputAction.type = "text";
   inputAction.classList.add("form__action");
@@ -141,7 +155,12 @@ export const agregarAccionMemoria = ({ members = [], initialData = null }) => {
   }
 
   // Campo Miembro Encargado
-  const grupoMember = createFormGroup("ri-user-line", "selector-portatil", "miembroSelect", "selector__icono");
+  const grupoMember = campoFormulario({
+    iconClass: "ri-user-line",
+    inputType: "selector-portatil",
+    id: "miembroSelect",
+    iconId: "selector__icono"
+  });
   const selectMember = grupoMember.querySelector("select");
   selectMember.classList.add("form__member");
   selectMember.setAttribute("required", "");
@@ -162,7 +181,11 @@ export const agregarAccionMemoria = ({ members = [], initialData = null }) => {
   });
 
   // Campo Fecha
-  const grupoFecha = createFormGroup("ri-calendar-line", "input", "fechaInput");
+  const grupoFecha = campoFormulario({
+    iconClass: "ri-calendar-line",
+    inputType: "input",
+    id: "fechaInput"
+  });
   const inputDate = grupoFecha.querySelector("input");
   inputDate.type = "text";
   inputDate.placeholder = "Fecha de finalización";
@@ -223,10 +246,8 @@ export const verRiesgo = (riskData) => {
   content.classList.add("modal-edicion__content");
 
   const modalDiv = document.createElement("div");
-  modalDiv.classList.add("modalVer", "modal");
-  modalDiv.style.boxShadow = "none";
-  modalDiv.style.background = "transparent";
-  modalDiv.style.padding = "0";
+  modalDiv.classList.add("modalVer", "modal", "modal-ver-sin-contenedor");
+
 
   // 1. Tipo de Amenaza
   const datoAmenaza = document.createElement("div");

@@ -46,34 +46,34 @@ export default async () => {
     const carta = async (info) => {
 
         const div = document.createElement("div");
-        div.classList.add("verRiesgos"); 
+        div.classList.add("verRiesgos");
 
         const divTipo = document.createElement("div");
-        divTipo.className = "verRiesgos__tipoRiesgo";
+        divTipo.classList.add("verRiesgos__tipoRiesgo");
         const iTipo = document.createElement("i");
-        iTipo.className = "ri-error-warning-line";
+        iTipo.classList.add("ri-error-warning-line");
         divTipo.appendChild(iTipo);
         divTipo.appendChild(document.createTextNode(info.threat_type_name));
         div.appendChild(divTipo);
 
         const divUbicacion = document.createElement("div");
-        divUbicacion.className = "verRiesgos__ubicacion";
+        divUbicacion.classList.add("verRiesgos__ubicacion");
         const iUbicacion = document.createElement("i");
-        iUbicacion.className = "ri-map-2-line";
+        iUbicacion.classList.add("ri-map-2-line");
         divUbicacion.appendChild(iUbicacion);
         divUbicacion.appendChild(document.createTextNode(info.ubication));
         div.appendChild(divUbicacion);
 
         const divDistancia = document.createElement("div");
-        divDistancia.className = "verRiesgos__distancia";
+        divDistancia.classList.add("verRiesgos__distancia");
         const iDistancia = document.createElement("i");
-        iDistancia.className = "ri-map-pin-line";
+        iDistancia.classList.add("ri-map-pin-line");
         divDistancia.appendChild(iDistancia);
         divDistancia.appendChild(document.createTextNode(`${info.distance} m`));
         div.appendChild(divDistancia);
 
         const divDescripcion = document.createElement("div");
-        divDescripcion.className = "verRiesgos__descripcion";
+        divDescripcion.classList.add("verRiesgos__descripcion");
         const pDesc = document.createElement("p");
         pDesc.textContent = "Descripción:";
         divDescripcion.appendChild(pDesc);
@@ -81,19 +81,19 @@ export default async () => {
         div.appendChild(divDescripcion);
 
         const btnEditar = document.createElement("button");
-        btnEditar.className = "boton boton--azul verRiesgos__boton--editar";
+        btnEditar.classList.add("boton", "boton--azul", "verRiesgos__boton--editar");
         btnEditar.dataset.id = info.id;
         btnEditar.textContent = "Editar";
         div.appendChild(btnEditar);
 
         const btnEliminar = document.createElement("button");
-        btnEliminar.className = "boton boton--azul verRiesgos__boton--eliminar";
+        btnEliminar.classList.add("boton", "boton--azul", "verRiesgos__boton--eliminar");
         btnEliminar.dataset.id = info.id;
         btnEliminar.textContent = "Eliminar";
         div.appendChild(btnEliminar);
 
         const btnVerMas = document.createElement("button");
-        btnVerMas.className = "boton verRiesgos__boton--verMas";
+        btnVerMas.classList.add("boton", "verRiesgos__boton--verMas");
         btnVerMas.dataset.id = info.id;
         btnVerMas.textContent = "Ver más";
         div.appendChild(btnVerMas);
@@ -127,23 +127,23 @@ export default async () => {
         }
 
         // Borrar Riesgo 
-        if (boton.classList.contains("verRiesgos__boton--eliminar")) { 
+        if (boton.classList.contains("verRiesgos__boton--eliminar")) {
 
-            const confirmacion = await alerta.alertaQuest( 
-                "¿Seguro que deseas eliminar este factor de riesgo?" 
-            ); 
+            const confirmacion = await alerta.alertaQuest(
+                "¿Seguro que deseas eliminar este factor de riesgo?"
+            );
 
-            if (!confirmacion.isConfirmed) return; 
+            if (!confirmacion.isConfirmed) return;
 
-            const eliminado = await api.delet(`riskFactors/${riskId}`); 
+            const eliminado = await api.delet(`riskFactors/${riskId}`);
 
-            if (eliminado.success) { 
-                await alerta.alertaOK(eliminado.message); 
-                await recargarContainer(); 
-            } else { 
-                alerta.alertaError(eliminado.message); 
-            } 
-        } 
+            if (eliminado.success) {
+                await alerta.alertaOK(eliminado.message);
+                await recargarContainer();
+            } else {
+                alerta.alertaError(eliminado.message);
+            }
+        }
 
         // Ver detalles completos (ReadOnly de Relaciones Acción y Vulnerab)
         if (boton.classList.contains("verRiesgos__boton--verMas")) {

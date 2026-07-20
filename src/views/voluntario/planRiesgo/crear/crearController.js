@@ -3,19 +3,17 @@
  * Formulario inicial simplificado para registrar un tipo de amenaza ("Sismo", "Inundación").
  * Envía el Payload directo porque el cliente confía en el validador estricto del HTML Required Properties o DB side.
  */
-import { api, alertas as alerta, validacionInputs as validacion, adjuntarOpciones as adjuntarOpc, formatearFecha, } from "@/helpers/index.js";
+import { api, alertas as alerta, validacionInputs as validacion, adjuntarOpciones as adjuntarOpc, formatearFecha, fechas } from "@/helpers/index.js";
 import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil.js";
-import AirDatepicker from "air-datepicker";
-import localeEs from "air-datepicker/locale/es";
-import "air-datepicker/air-datepicker.css";
-import { VistaRiesgo, tarjetaVulnerabilidad, tarjetaAccion, agregarVulnerabilidadMemoria, agregarAccionMemoria, } from "@/componentes/riesgo/index.js";
+import { VistaRiesgo, agregarVulnerabilidadMemoria, agregarAccionMemoria, } from "@/componentes/riesgo/index.js";
+import { tarjetaChip } from "@/componentes/tarjetaChip.js";
 
 export default async () => {
-    // Selectores DOM Main Nav and Tools
+    // Elementos de la interfaz y parámetros
     const botonBack = document.getElementById("botonBack");
-    const id = location.hash.split("=")[1]; // Plan Familiar Parent Header Pointer UUID
+    const id = location.hash.split("=")[1]; // ID del plan familiar
 
-    /** @type {Array} Arreglos locales en memoria para almacenar las vulnerabilidades y acciones ingresadas */
+    // Estados locales para vulnerabilidades y acciones en memoria
     let vulnerabilities = [];
     let actions = [];
 
@@ -24,7 +22,7 @@ export default async () => {
     }
     window.procesoPeticion = false;
 
-    // Retorno Cancelación Safe
+    // Confirmación al presionar el botón de regresar
     botonBack.onclick = async () => {
         if (window.procesoPeticion) return;
         const confirmacion = await alerta.alertaQuest(
@@ -56,11 +54,11 @@ export default async () => {
     // Inicializar validador automático sobre el formulario
     validacion.validadorAutomatico.init(form);
 
-    // Selectores Dom Formularios
+    // Obtener referencias de elementos del DOM del formulario
     const descripcion = document.getElementById("descripcion");
     const distancia = document.getElementById("distancia");
     const ubicacion = document.getElementById("ubicacion");
-    const amenaza = document.getElementById("tiposAmenaza"); // Select Diccionario
+    const amenaza = document.getElementById("tiposAmenaza");
     const btnAgregarVuln = form.querySelector("#btnAgregarVulnerabilidad");
     const btnAgregarAcc = form.querySelector("#btnAgregarAccion");
     const listaVulnDiv = form.querySelector("#vulnerabilidades-lista");
@@ -73,17 +71,18 @@ export default async () => {
 
         if (vulnerabilities.length === 0) {
             const emptyMsg = document.createElement("p");
-            emptyMsg.className = "gestionarAfecciones__mensajeVacio";
+            emptyMsg.classList.add("gestionarAfecciones__mensajeVacio");
             emptyMsg.textContent = "No hay vulnerabilidades registradas.";
             listaVulnDiv.appendChild(emptyMsg);
             return;
         }
 
         vulnerabilities.forEach((vuln) => {
-            const tag = tarjetaVulnerabilidad(
-                vuln,
-                false, // esSupervisor
-                () => {
+            const tag = tarjetaChip({
+                labelText: vuln.labelText,
+                id: vuln.tempId,
+                esSupervisor: false,
+                onEdit: () => {
                     // Instanciar modal visual nativo
                     const modal = agregarVulnerabilidadMemoria({
                         initialData: vuln,
@@ -142,7 +141,7 @@ export default async () => {
                     modal.showModal();
                     initTomSelectPortatil();
                 },
-                async () => {
+                onDelete: async () => {
                     // Callback al eliminar de memoria
                     const confirmacion = await alerta.alertaQuest(
                         "¿Seguro que deseas eliminar esta vulnerabilidad?",
@@ -153,8 +152,8 @@ export default async () => {
                         );
                         renderVulnerabilities();
                     }
-                },
-            );
+                }
+            });
             listaVulnDiv.appendChild(tag);
         });
     };
@@ -165,17 +164,18 @@ export default async () => {
 
         if (actions.length === 0) {
             const emptyMsg = document.createElement("p");
-            emptyMsg.className = "gestionarAfecciones__mensajeVacio";
+            emptyMsg.classList.add("gestionarAfecciones__mensajeVacio");
             emptyMsg.textContent = "No hay acciones de reducción registradas.";
             listaAccDiv.appendChild(emptyMsg);
             return;
         }
 
         actions.forEach((action) => {
-            const tag = tarjetaAccion(
-                action,
-                false, // esSupervisor
-                () => {
+            const tag = tarjetaChip({
+                labelText: action.labelText,
+                id: action.tempId,
+                esSupervisor: false,
+                onEdit: () => {
                     // Instanciar modal visual nativo
                     const modal = agregarAccionMemoria({
                         members: membersList,
@@ -206,21 +206,11 @@ export default async () => {
                     });
 
                     // Configurar AirDatepicker con límites
-                    const datepickerConfig = {
-                        locale: localeEs,
-                        buttons: ['today', 'clear'],
-                        autoClose: true,
-                        dateFormat: "yyyy-MM-dd",
-                        minDate: new Date(),
-                        container: modal,
-                        onShow(isFinished) {
-                            if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
-                        },
-                        onHide(isFinished) {
-                            if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
-                        }
-                    };
-                    new AirDatepicker(inputDate, datepickerConfig);
+                    fechas.initModalDatepicker(inputDate, {
+                        modal,
+                        formModal,
+                        minDate: new Date()
+                    });
 
                     // Iniciar validador y evento de envío
                     validacion.validadorAutomatico.init(formModal);
@@ -268,7 +258,7 @@ export default async () => {
                     modal.showModal();
                     initTomSelectPortatil();
                 },
-                async () => {
+                onDelete: async () => {
                     // Callback al eliminar de memoria
                     const confirmacion = await alerta.alertaQuest(
                         "¿Seguro que deseas eliminar esta acción?",
@@ -277,8 +267,8 @@ export default async () => {
                         actions = actions.filter((a) => a.tempId !== action.tempId);
                         renderActions();
                     }
-                },
-            );
+                }
+            });
             listaAccDiv.appendChild(tag);
         });
     };
@@ -361,21 +351,11 @@ export default async () => {
         });
 
         // Configurar AirDatepicker con límites
-        const datepickerConfig = {
-            locale: localeEs,
-            buttons: ['today', 'clear'],
-            autoClose: true,
-            dateFormat: "yyyy-MM-dd",
-            minDate: new Date(),
-            container: modal,
-            onShow(isFinished) {
-                if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
-            },
-            onHide(isFinished) {
-                if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
-            }
-        };
-        new AirDatepicker(inputDate, datepickerConfig);
+        fechas.initModalDatepicker(inputDate, {
+            modal,
+            formModal,
+            minDate: new Date()
+        });
 
         validacion.validadorAutomatico.init(formModal);
         btnGuardar.addEventListener("click", () => {
@@ -419,63 +399,65 @@ export default async () => {
         initTomSelectPortatil();
     });
 
-    // Master Submit Hook Form Send
+    // Guardar el factor de riesgo al enviar el formulario
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Validar inputs principales
+        // Validar entradas
         const isValid = validacion.validadorAutomatico.validarTodo(form);
         if (!isValid) return;
 
         if (window.procesoPeticion) return;
-        window.procesoPeticion = true; // Lock doble hit prevent
+        window.procesoPeticion = true; // Bloquear doble clic
         botonSiguiente.disabled = true;
 
-        // Mapper a DB Contract DTO Expected properties names
+        // Estructura de datos para el API
         const datosRegistro = {
-            threat_type_id: amenaza.value, // Select Foreign Key Relational Data Dict App State Value numeric id
+            threat_type_id: amenaza.value,
             description: descripcion.value,
             ubication: ubicacion.value,
             distance: distancia.value,
-            family_plan_id: id, // Linkea Relacion Raiz (Plan Familiar)
+            family_plan_id: id,
         };
 
         try {
-            // Push HTTP Create Resource Entry Factor Riesgo "RiskFactors" tables back
-            const data = await api.post(`riskFactors`, datosRegistro); // Call Helpers Axios Wrapper Fetch
+            // Guardar factor de riesgo base
+            const data = await api.post(`riskFactors`, datosRegistro);
 
             if (data.success) {
                 const riesgoCreadoId = data.data.id;
 
-                // Guardar las vulnerabilidades registradas en memoria
-                for (const vuln of vulnerabilities) {
-                    await api.post("vulnerabilityFactors", {
+                // Guardar las vulnerabilidades registradas en memoria en paralelo
+                const promesasVulnerabilidades = vulnerabilities.map(vuln => 
+                    api.post("vulnerabilityFactors", {
                         vulnerability_id: vuln.vulnerability_id,
                         vulnerability_grade_id: vuln.vulnerability_grade_id,
                         risk_factor_id: riesgoCreadoId,
-                    });
-                }
+                    })
+                );
 
-                // Guardar las acciones registradas en memoria
-                for (const action of actions) {
-                    await api.post("riskReductionActions", {
+                // Guardar las acciones registradas en memoria en paralelo
+                const promesasAcciones = actions.map(action => 
+                    api.post("riskReductionActions", {
                         action: action.action,
                         member_id: action.member_id,
                         risk_factor_id: riesgoCreadoId,
                         end_date: action.end_date,
-                    });
-                }
+                    })
+                );
+
+                await Promise.all([...promesasVulnerabilidades, ...promesasAcciones]);
 
                 await alerta.alertaOK(data.message);
-                window.location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`; // Return Dash Layout Default Front
+                window.location.href = `#/voluntario/plan_familiar/factores_de_riesgo?familia_id=${id}`; // Redirección
             } else {
-                alerta.alertaWarning(data.message, data.errors); // Business Layer Error Catch From Server Backend Logic Validators
+                alerta.alertaWarning(data.message, data.errors); // Mostrar alertas de negocio
             }
         } catch (error) {
             alerta.alertaError(error.errors || error.message);
         }
 
-        // Release Form Locked Try-Catch Flow Completed Execution Return
+        // Desbloquear controles del formulario
         botonSiguiente.disabled = false;
         window.procesoPeticion = false;
     });

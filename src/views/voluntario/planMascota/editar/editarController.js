@@ -9,12 +9,10 @@
  */
 import { api } from "@/helpers/index.js";
 import { alertas as alerta } from "@/helpers/index.js";
-import { VistaMascotas, VacunaModal, crearVacunaTag } from "@/componentes/mascotas/index.js";
-import { validacionInputs as validacion, fechas } from "@/helpers/index.js";
+import { VistaMascotas, VacunaModal } from "@/componentes/mascotas/index.js";
+import { tarjetaChip } from "@/componentes/tarjetaChip.js";
+import { validacionInputs as validacion, fechas, adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
 import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil.js";
-import AirDatepicker from "air-datepicker";
-import localeEs from "air-datepicker/locale/es";
-import "air-datepicker/air-datepicker.css";
 
 /**
  * Inicializa el controlador de edición de mascota
@@ -52,24 +50,10 @@ export default async () => {
     vaccines = await api.get(`petVaccines/pet/${mascotaId}`) || [];
   }
 
-  // Instancia el componente visual de mascotas (retorna el nodo del formulario)
-  const form = await VistaMascotas({
-    petData: petData,
+  // Instancia el componente visual de mascotas (retorna el nodo del formulario síncronamente)
+  const form = VistaMascotas({
     esSupervisor: esSupervisor
   });
-
-  const contenedorMascota = document.getElementById("contenedor-mascota");
-  if (contenedorMascota) {
-    contenedorMascota.innerHTML = ""; // Limpiar
-    contenedorMascota.appendChild(form);
-    initTomSelectPortatil();
-
-    // Inicializar calendarios AirDatepicker
-    fechas.initFechas();
-  }
-
-  // Inicializar validador automático sobre el formulario
-  validacion.validadorAutomatico.init(form);
 
   // Obtener referencias de elementos del DOM internos del formulario
   const nombreInput = form.querySelector("#nombre");
@@ -81,23 +65,58 @@ export default async () => {
   const listaDiv = form.querySelector(".gestionarAfecciones__lista");
   const btnGuardar = form.querySelector("#botonGuardar");
 
+  const contenedorMascota = document.getElementById("contenedor-mascota");
+  if (contenedorMascota) {
+    contenedorMascota.innerHTML = ""; // Limpiar
+    contenedorMascota.appendChild(form);
+    
+    // Carga de opciones de Dropdowns en el controlador
+    await adjuntarOpc.adjuntar(especiesSelect, "species");
+    await adjuntarOpc.adjuntarNoValida(generosSelect, "animalGenders");
+
+    // Inyección de datos previos cargados
+    if (petData) {
+      nombreInput.value = petData.name || "";
+      razaInput.value = petData.breed || "";
+      if (petData.birth_date) {
+        const isoDate = petData.birth_date.split("T")[0];
+        edadInput.value = fechas.formatearFecha(isoDate);
+        edadInput.dataset.isoDate = isoDate;
+      } else {
+        edadInput.value = "";
+        edadInput.dataset.isoDate = "";
+      }
+      especiesSelect.value = petData.species_id || "";
+      generosSelect.value = petData.animal_gender_id || "";
+    }
+
+    initTomSelectPortatil();
+
+    // Inicializar calendarios AirDatepicker
+    fechas.initFechas();
+  }
+
+  // Inicializar validador automático sobre el formulario
+  validacion.validadorAutomatico.init(form);
+
   // Helper local para renderizar las vacunas
   const renderVaccines = (list) => {
     listaDiv.innerHTML = "";
 
     if (!list || list.length === 0) {
       const emptyMsg = document.createElement("p");
-      emptyMsg.className = "gestionarAfecciones__vacio";
+      emptyMsg.classList.add("gestionarAfecciones__vacio");
       emptyMsg.textContent = "No hay vacunas registradas.";
       listaDiv.appendChild(emptyMsg);
       return;
     }
 
     list.forEach((vacuna) => {
-      const tag = crearVacunaTag(
-        vacuna,
+      const tag = tarjetaChip({
+        labelText: `${vacuna.name} - ${fechas.formatearFecha(vacuna.date)}`,
+        id: vacuna.id,
         esSupervisor,
-        () => {
+        onEdit: () => {
           // Callback al editar vacuna (en base de datos directamente)
           const modal = VacunaModal({
             initialData: vacuna,
@@ -121,30 +140,21 @@ export default async () => {
             if (e.target === modal) closeModal();
           });
 
-          const datepickerConfig = {
-            locale: localeEs,
-            buttons: ['today', 'clear'],
-            autoClose: true,
-            dateFormat: "yyyy-MM-dd",
-            maxDate: new Date(),
-            container: modal,
-            onShow(isFinished) {
-              if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
-            },
-            onHide(isFinished) {
-              if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
-            }
-          };
-
           const bDate = edadInput.dataset.isoDate || edadInput.value;
+          let minDate = null;
           if (bDate) {
             const parts = bDate.split('-');
             const d = new Date(parts[0], parts[1] - 1, parts[2]);
             d.setDate(d.getDate() + 1); // un día después del nacimiento
-            datepickerConfig.minDate = d;
+            minDate = d;
           }
 
-          new AirDatepicker(inputFecha, datepickerConfig);
+          fechas.initModalDatepicker(inputFecha, {
+            modal,
+            formModal,
+            maxDate: new Date(),
+            minDate
+          });
           validacion.validadorAutomatico.init(formModal);
 
           btnGuardarVac.addEventListener("click", async () => {
@@ -172,7 +182,7 @@ export default async () => {
 
           modal.showModal();
         },
-        async () => {
+        onDelete: async () => {
           // Callback al eliminar vacuna (en base de datos directamente)
           const confirmacion = await alerta.alertaQuest(
             "¿Seguro que deseas eliminar esta vacuna de la mascota?"
@@ -193,7 +203,7 @@ export default async () => {
             alerta.alertaError(err.errors || err.message);
           }
         }
-      );
+      });
       listaDiv.appendChild(tag);
     });
   };
@@ -221,30 +231,21 @@ export default async () => {
         if (e.target === modal) closeModal();
       });
 
-      const datepickerConfig = {
-        locale: localeEs,
-        buttons: ['today', 'clear'],
-        autoClose: true,
-        dateFormat: "yyyy-MM-dd",
-        maxDate: new Date(),
-        container: modal,
-        onShow(isFinished) {
-          if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
-        },
-        onHide(isFinished) {
-          if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
-        }
-      };
-
       const bDate = edadInput.dataset.isoDate || edadInput.value;
+      let minDate = null;
       if (bDate) {
         const parts = bDate.split('-');
         const d = new Date(parts[0], parts[1] - 1, parts[2]);
         d.setDate(d.getDate() + 1); // un día después del nacimiento
-        datepickerConfig.minDate = d;
+        minDate = d;
       }
 
-      new AirDatepicker(inputFecha, datepickerConfig);
+      fechas.initModalDatepicker(inputFecha, {
+        modal,
+        formModal,
+        maxDate: new Date(),
+        minDate
+      });
       validacion.validadorAutomatico.init(formModal);
 
       btnGuardarVac.addEventListener("click", async () => {

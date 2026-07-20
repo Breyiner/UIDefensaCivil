@@ -1,15 +1,11 @@
 /**
- * Controlador: Gestor Completo del Riesgo, Modifica Riesgo Base e inyecta Relaciones Hijos (planRiesgo/editarController.js)
- * Controlador de Alta Complejidad. Permite Múltiples Operaciones Interrelacionadas:
- * 1. Edita Atributos Padre (Factor de Riesgo/Amenaza) PATCH Base.
- * 2. Visualización e Inserción usando modales de UI reutilizados de componentes para hijos: "Acciones para Reducir Riesgo" Y "Factores Vulnerabilidad".
+ * Controlador: Edición de Factor de Riesgo y gestión de sus vulnerabilidades y acciones asociadas.
+ * Permite actualizar el riesgo base y añadir/editar/eliminar sus relaciones secundarias.
  */
-import { api, alertas as alerta, validacionInputs as validacion, adjuntarOpciones as adjuntarOpc, formatearFecha } from "@/helpers/index.js";
+import { api, alertas as alerta, validacionInputs as validacion, adjuntarOpciones as adjuntarOpc, formatearFecha, fechas } from "@/helpers/index.js";
 import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil.js";
-import AirDatepicker from "air-datepicker";
-import localeEs from "air-datepicker/locale/es";
-import "air-datepicker/air-datepicker.css";
-import { VistaRiesgo, tarjetaVulnerabilidad, tarjetaAccion, agregarVulnerabilidadMemoria, agregarAccionMemoria } from "@/componentes/riesgo/index.js";
+import { VistaRiesgo, agregarVulnerabilidadMemoria, agregarAccionMemoria } from "@/componentes/riesgo/index.js";
+import { tarjetaChip } from "@/componentes/tarjetaChip.js";
 
 export default async () => {
     const esSupervisor = location.hash.includes("/supervisor/");
@@ -91,7 +87,7 @@ export default async () => {
 
         if (list.length === 0) {
             const emptyMsg = document.createElement("p");
-            emptyMsg.className = "gestionarAfecciones__mensajeVacio";
+            emptyMsg.classList.add("gestionarAfecciones__mensajeVacio");
             emptyMsg.textContent = "No hay vulnerabilidades registradas.";
             listaVulnDiv.appendChild(emptyMsg);
             return;
@@ -103,10 +99,11 @@ export default async () => {
             const gName = vuln.vulnerability_grade?.name || vuln.vulnerability_grade_name || vuln.grade_name || "";
             vuln.labelText = `${vName} - Grado: ${gName}`;
 
-            const tag = tarjetaVulnerabilidad(
-                vuln,
+            const tag = tarjetaChip({
+                labelText: vuln.labelText,
+                id: vuln.id,
                 esSupervisor,
-                () => {
+                onEdit: () => {
                     // Instanciar modal visual nativo
                     const modal = agregarVulnerabilidadMemoria({
                         initialData: vuln,
@@ -152,7 +149,7 @@ export default async () => {
                     modal.showModal();
                     initTomSelectPortatil();
                 },
-                async () => {
+                onDelete: async () => {
                     // Lógica del delete si es voluntario
                     const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar esta vulnerabilidad?");
                     if (!confirmacion.isConfirmed) return;
@@ -163,7 +160,7 @@ export default async () => {
                         cargarVulnerabilidades();
                     }
                 }
-            );
+            });
             listaVulnDiv.appendChild(tag);
         });
     };
@@ -175,7 +172,7 @@ export default async () => {
 
         if (list.length === 0) {
             const emptyMsg = document.createElement("p");
-            emptyMsg.className = "gestionarAfecciones__mensajeVacio";
+            emptyMsg.classList.add("gestionarAfecciones__mensajeVacio");
             emptyMsg.textContent = "No hay acciones de reducción registradas.";
             listaAccDiv.appendChild(emptyMsg);
             return;
@@ -187,10 +184,11 @@ export default async () => {
             const memberName = action.member ? `${action.member.names} ${action.member.last_names}` : (action.member_name || "Sin encargado");
             action.labelText = `${actionText} - ${memberName} - ${formatearFecha(action.end_date)}`;
 
-            const tag = tarjetaAccion(
-                action,
+            const tag = tarjetaChip({
+                labelText: action.labelText,
+                id: action.id,
                 esSupervisor,
-                () => {
+                onEdit: () => {
                     // Instanciar modal visual nativo
                     const modal = agregarAccionMemoria({
                         members: membersList,
@@ -216,21 +214,11 @@ export default async () => {
                     });
 
                     // Configurar AirDatepicker con límites
-                    const datepickerConfig = {
-                        locale: localeEs,
-                        buttons: ['today', 'clear'],
-                        autoClose: true,
-                        dateFormat: "yyyy-MM-dd",
-                        minDate: new Date(),
-                        container: modal,
-                        onShow(isFinished) {
-                            if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
-                        },
-                        onHide(isFinished) {
-                            if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
-                        }
-                    };
-                    new AirDatepicker(inputDate, datepickerConfig);
+                    fechas.initModalDatepicker(inputDate, {
+                        modal,
+                        formModal,
+                        minDate: new Date()
+                    });
 
                     // Iniciar validador y evento de envío a API
                     validacion.validadorAutomatico.init(formModal);
@@ -267,7 +255,7 @@ export default async () => {
                     modal.showModal();
                     initTomSelectPortatil();
                 },
-                async () => {
+                onDelete: async () => {
                     // Lógica del delete si es voluntario
                     const confirmacion = await alerta.alertaQuest("¿Seguro que deseas eliminar esta acción?");
                     if (!confirmacion.isConfirmed) return;
@@ -278,7 +266,7 @@ export default async () => {
                         cargarAcciones();
                     }
                 }
-            );
+            });
             listaAccDiv.appendChild(tag);
         });
     };
@@ -361,21 +349,11 @@ export default async () => {
             });
 
             // Configurar AirDatepicker con límites
-            const datepickerConfig = {
-                locale: localeEs,
-                buttons: ['today', 'clear'],
-                autoClose: true,
-                dateFormat: "yyyy-MM-dd",
-                minDate: new Date(),
-                container: modal,
-                onShow(isFinished) {
-                    if (!isFinished) formModal.classList.add("modal-edicion__formulario--desplegado");
-                },
-                onHide(isFinished) {
-                    if (!isFinished) formModal.classList.remove("modal-edicion__formulario--desplegado");
-                }
-            };
-            new AirDatepicker(inputDate, datepickerConfig);
+            fechas.initModalDatepicker(inputDate, {
+                modal,
+                formModal,
+                minDate: new Date()
+            });
 
             validacion.validadorAutomatico.init(formModal);
             btnGuardarAcc.addEventListener("click", async () => {
@@ -414,7 +392,7 @@ export default async () => {
         });
     }
 
-    // Submit del PADRE: Modificar Datos del Riesgo Base
+    // Guardar cambios del factor de riesgo base
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 

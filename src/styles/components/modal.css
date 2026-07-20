@@ -89,3 +89,11 @@
   background-color: #6c757d !important;
   color: white !important;
 }
+
+.modalVer.modal-ver-sin-contenedor {
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+}
+
+

@@ -1,2 +1,3 @@
-export { default as VistaMascotas, crearVacunaTag } from "./vistaMascotas.js";
-export { default as VacunaModal } from "./vacunaModal.js";
+export { default as VistaMascotas } from "./vistaMascotas.js";
+export { default as VacunaModal, mascotaDetalleModal } from "./vacunaModal.js";
+

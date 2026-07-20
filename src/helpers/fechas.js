@@ -67,4 +67,37 @@ export const formatearFecha = (dateStr) => {
   const parts = dateStr.split('-');
   if (parts.length !== 3) return dateStr;
   return `${parts[2]}/${parts[1]}/${parts[0].substring(2)}`;
-};
+};
+
+/**
+ * Inicializa un AirDatepicker para inputs dentro de modales con clases dinámicas desplegadas
+ * 
+ * @param {HTMLInputElement} input - Elemento input a asociar con el selector de fecha
+ * @param {Object} options - Opciones de configuración
+ * @param {HTMLElement} options.modal - Elemento modal contenedor del datepicker
+ * @param {HTMLElement} options.formModal - Elemento formulario del modal para clases desplegadas
+ * @param {Date} [options.minDate=null] - Fecha mínima seleccionable
+ * @param {Date} [options.maxDate=null] - Fecha máxima seleccionable
+ * @returns {AirDatepicker} Instancia del datepicker creado
+ */
+export const initModalDatepicker = (input, { modal, formModal, minDate = null, maxDate = null } = {}) => {
+  const config = {
+    locale: localeEs,
+    buttons: ['today', 'clear'],
+    autoClose: true,
+    dateFormat: "yyyy-MM-dd",
+    container: modal,
+    onShow(isFinished) {
+      if (!isFinished && formModal) formModal.classList.add("modal-edicion__formulario--desplegado");
+    },
+    onHide(isFinished) {
+      if (!isFinished && formModal) formModal.classList.remove("modal-edicion__formulario--desplegado");
+    }
+  };
+
+  if (minDate) config.minDate = minDate;
+  if (maxDate) config.maxDate = maxDate;
+
+  return new AirDatepicker(input, config);
+};
+
