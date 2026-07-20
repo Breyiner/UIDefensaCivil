@@ -207,3 +207,10 @@
 
     display: none;
 }
+
+.ventana_usuario .usuario-Cont {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+}
