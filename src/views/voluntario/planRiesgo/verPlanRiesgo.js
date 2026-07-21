@@ -3,12 +3,8 @@
  * Fetcher asíncrono para renderizar las tarjetas de cada amenaza registrada 
  * en el entorno de la familia. Permite eliminar y abrir modal de detalles avanzados.
  */
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { api } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { alertas as alerta } from "@/helpers/index.js";
+import { api, alertas as alerta, formatearFecha } from "@/helpers/index.js";
 import { verRiesgo } from "@/componentes/riesgo/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { paginacion } from "@/helpers/index.js";
 
 export default async () => {
@@ -17,7 +13,7 @@ export default async () => {
     const crear = document.getElementById("crear"); // Redirige a Nuevo
     const botonBack = document.getElementById("botonBack"); // Regresa a Menu Principal
     const id = location.hash.split("=")[1]; // PK Plan Familiar DB ID
-    
+
     // Contenedor Inyección Grilla Dom
     const contenedor = document.querySelector(".container__paginas");
 
@@ -50,34 +46,34 @@ export default async () => {
     const carta = async (info) => {
 
         const div = document.createElement("div");
-        div.classList.add("verRiesgos"); // Reutilización diseño Tarjetas CSS
+        div.classList.add("verRiesgos");
 
         const divTipo = document.createElement("div");
-        divTipo.className = "verRiesgos__tipoRiesgo";
+        divTipo.classList.add("verRiesgos__tipoRiesgo");
         const iTipo = document.createElement("i");
-        iTipo.className = "ri-error-warning-line";
+        iTipo.classList.add("ri-error-warning-line");
         divTipo.appendChild(iTipo);
         divTipo.appendChild(document.createTextNode(info.threat_type_name));
         div.appendChild(divTipo);
 
         const divUbicacion = document.createElement("div");
-        divUbicacion.className = "verRiesgos__ubicacion";
+        divUbicacion.classList.add("verRiesgos__ubicacion");
         const iUbicacion = document.createElement("i");
-        iUbicacion.className = "ri-map-2-line";
+        iUbicacion.classList.add("ri-map-2-line");
         divUbicacion.appendChild(iUbicacion);
         divUbicacion.appendChild(document.createTextNode(info.ubication));
         div.appendChild(divUbicacion);
 
         const divDistancia = document.createElement("div");
-        divDistancia.className = "verRiesgos__distancia";
+        divDistancia.classList.add("verRiesgos__distancia");
         const iDistancia = document.createElement("i");
-        iDistancia.className = "ri-map-pin-line";
+        iDistancia.classList.add("ri-map-pin-line");
         divDistancia.appendChild(iDistancia);
         divDistancia.appendChild(document.createTextNode(`${info.distance} m`));
         div.appendChild(divDistancia);
 
         const divDescripcion = document.createElement("div");
-        divDescripcion.className = "verRiesgos__descripcion";
+        divDescripcion.classList.add("verRiesgos__descripcion");
         const pDesc = document.createElement("p");
         pDesc.textContent = "Descripción:";
         divDescripcion.appendChild(pDesc);
@@ -85,19 +81,19 @@ export default async () => {
         div.appendChild(divDescripcion);
 
         const btnEditar = document.createElement("button");
-        btnEditar.className = "boton boton--azul verRiesgos__boton--editar";
+        btnEditar.classList.add("boton", "boton--azul", "verRiesgos__boton--editar");
         btnEditar.dataset.id = info.id;
         btnEditar.textContent = "Editar";
         div.appendChild(btnEditar);
 
         const btnEliminar = document.createElement("button");
-        btnEliminar.className = "boton boton--azul verRiesgos__boton--eliminar";
+        btnEliminar.classList.add("boton", "boton--azul", "verRiesgos__boton--eliminar");
         btnEliminar.dataset.id = info.id;
         btnEliminar.textContent = "Eliminar";
         div.appendChild(btnEliminar);
 
         const btnVerMas = document.createElement("button");
-        btnVerMas.className = "boton verRiesgos__boton--verMas";
+        btnVerMas.classList.add("boton", "verRiesgos__boton--verMas");
         btnVerMas.dataset.id = info.id;
         btnVerMas.textContent = "Ver más";
         div.appendChild(btnVerMas);
@@ -113,7 +109,7 @@ export default async () => {
         await paginacion(`riskFactors/familyPlan/${id}`, mensajeVacio, carta);
     };
 
-    // DELEGADOR MAESTRO Contenedor Grid Virtual (Event Bubbling Listener)
+    // DELEGADOR MAESTRO 
     contenedor.addEventListener("click", async (e) => {
 
         const boton = e.target.closest("button"); // Caza solo elements 'button'
@@ -121,42 +117,81 @@ export default async () => {
 
         const riskId = boton.dataset.id; // DB PK Extraído HTML Attr
 
-        // Branch 1: Modificar/Anexar Elemento Riesgo
+        //Modificar/Anexar Elemento Riesgo
         if (boton.classList.contains("verRiesgos__boton--editar")) {
-            // URL Mapeada con IDs csv (Plan y Riesgo Target)
-            if(esSupervisor){
+
+            if (esSupervisor) {
                 location.href = `#/supervisor/plan_familiar/factores_de_riesgo/editar?familia_id=${id}&riesgo_id=${riskId}`;
             }
             location.href = `#/voluntario/plan_familiar/factores_de_riesgo/editar?familia_id=${id}&riesgo_id=${riskId}`;
         }
 
-        // Branch 2: Borrar Riesgo Base (Backend ejecutará cascada con vulnerabilidades y acciones asociadas) 
+        // Borrar Riesgo 
         if (boton.classList.contains("verRiesgos__boton--eliminar")) {
-            
-            // Sweet alert Warning UI Doble Confirmación
+
             const confirmacion = await alerta.alertaQuest(
                 "¿Seguro que deseas eliminar este factor de riesgo?"
             );
 
             if (!confirmacion.isConfirmed) return;
 
-            // Rest DELETE DB Execution Target Entity
-            const eliminado = await api.delet(`threats/${riskId}`);
+            const eliminado = await api.delet(`riskFactors/${riskId}`);
 
             if (eliminado.success) {
                 await alerta.alertaOK(eliminado.message);
-                await recargarContainer(); // Auto Sync DOM Front 
+                await recargarContainer();
             } else {
                 alerta.alertaError(eliminado.message);
             }
         }
 
-        // Branch 3: Lanza SubRutina Ver detalles completos sweetalert Helper global (ReadOnly de Relaciones Acción y Vulnerab)
+        // Ver detalles completos (ReadOnly de Relaciones Acción y Vulnerab)
         if (boton.classList.contains("verRiesgos__boton--verMas")) {
-            verRiesgo(riskId);
+            const riskData = await api.get(`riskFactors/${riskId}`);
+            if (!riskData) return;
+            const actions = await api.get(`riskReductionActions/riskFactor/${riskId}`) || [];
+            const vulnerabilities = await api.get(`vulnerabilityFactors/riskFactor/${riskId}`) || [];
+
+            // Formatear acciones de reducción de riesgo en el controlador
+            const actionsText = actions.map(accion => {
+                const encName = accion.member ? `${accion.member.names} ${accion.member.last_names}` : (accion.member_name || "Sin encargado");
+                return `${accion.action} - Encargado: ${encName} - Fin: ${formatearFecha(accion.end_date)}`;
+            }).join(", ") || "ninguna";
+
+            // Formatear vulnerabilidades en el controlador
+            const vulnerabilitiesText = vulnerabilities.map(v => {
+                const vName = v.vulnerability?.name || v.vulnerability_name || "";
+                const gName = v.vulnerability_grade?.name || v.grade_name || "";
+                return `${vName} - Grado: ${gName}`;
+            }).join(", ") || "ninguna";
+
+            // Payload puramente de texto/datos sin lógica
+            const payload = {
+                threatTypeName: riskData.threat_type?.name || riskData.threat_type_name || "",
+                description: riskData.description || "",
+                location: riskData.ubication || riskData.location || "",
+                distanceText: `${riskData.distance || 0} m`,
+                actionsText,
+                vulnerabilitiesText
+            };
+
+            // Crear y mostrar modal
+            const modal = verRiesgo(payload);
+            document.body.appendChild(modal);
+
+            const btnCerrar = modal.querySelector(".modal-edicion__btn--secundario");
+            const closeModal = () => {
+                modal.close();
+                modal.remove();
+            };
+            btnCerrar.addEventListener("click", closeModal);
+            modal.addEventListener("mousedown", (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            modal.showModal();
         }
     });
 
-    // AutoBoot First Fetch Render Grid Container list
     await recargarContainer();
 };
