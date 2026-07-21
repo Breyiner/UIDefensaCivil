@@ -80,10 +80,10 @@ export const ver = async (id, recargarContainer) => {
 export const crear = async (recargarContainer) => {
 
     const explicacionDiv = document.createElement("div");
-    explicacionDiv.classList.add("explicacion", "modal");
+    explicacionDiv.classList.add("modal-edicion__cabecera");
 
     const tituloP = document.createElement("p");
-    tituloP.classList.add("explicacion__titulo");
+    tituloP.classList.add("modal-edicion__titulo");
     tituloP.textContent = "Crear Vulnerabilidad";
     explicacionDiv.appendChild(tituloP);
 

@@ -6,7 +6,6 @@ BASE COMÚN
 ==================================================== */
 
 const verEstadoVentana = (datoMaestro, recargar, urlHistorial, datoText, configurarEdicion) => {
-
     const overlay = document.createElement("div");
     overlay.classList.add("overlay_verEstado");
 
@@ -21,10 +20,9 @@ const verEstadoVentana = (datoMaestro, recargar, urlHistorial, datoText, configu
     btnCerrar.onclick = () => overlay.remove();
 
     const btnEliminar = document.createElement("button");
-    btnEliminar.classList.add("ri-delete-bin-2-fill","btn-eliminar")
+    btnEliminar.classList.add("ri-delete-bin-2-fill", "btn-eliminar");
 
     btnCerrarCont.append(btnCerrar);
-
 
     const btnContEstado = document.createElement("div");
     btnContEstado.classList.add("btnContEstado");
@@ -45,12 +43,7 @@ const verEstadoVentana = (datoMaestro, recargar, urlHistorial, datoText, configu
     btnDesactivar.textContent = datoMaestro.is_active ? "Desactivar" : "Activar";
     btnDesactivar.classList.add(datoMaestro.is_active ? "btn-desactivar" : "btn-activar");
 
-    if (datoMaestro) {
-        
-    }
-    
     btnDesactivar.addEventListener("click", async () => {
-
         const nuevoEstado = datoMaestro.is_active ? 0 : 1;
         const data = await api.patch(`${datoText.urlDato}/status/${datoMaestro.id}`, { is_active: nuevoEstado });
 
@@ -82,9 +75,16 @@ const verEstadoVentana = (datoMaestro, recargar, urlHistorial, datoText, configu
 
     // la lógica específica construye el contenido y lo monta en ventana
     configurarEdicion({
-        ventana, overlay, btnCerrarCont, btnContEstado,
-        btnEditar, btnGuardar, btnCancelar,
-        btnDesactivar, btnHistorial, btnEliminar
+        ventana,
+        overlay,
+        btnCerrarCont,
+        btnContEstado,
+        btnEditar,
+        btnGuardar,
+        btnCancelar,
+        btnDesactivar,
+        btnHistorial,
+        btnEliminar,
     });
 
     overlay.appendChild(ventana);

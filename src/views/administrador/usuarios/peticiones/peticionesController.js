@@ -9,6 +9,7 @@ import { alertas as alerta, api, paginacion } from "@/helpers/index.js";
 import { usuario as modalUsuario } from "@/helpers/modales/index.js";
 import { tarjetaPeticion } from "@/componentes/gestionUser/index.js";
 import { panelAcciones } from "../../../../componentes/peticiones/accionesPeticiones";
+import { verPeticionVentana } from "../../../../componentes/ver_Estado";
 
 export default async () => {
 
@@ -53,11 +54,13 @@ export default async () => {
         
         // 4. "Pescamos" el ID que guardamos en el componente tarjetaPeticion.
         const userId = tarjetaEscogida.dataset.id;
+
+        const endpoint = `users/${userId}`;
         
         // 5. Si tenemos el ID, lanzamos el modal.
         if (userId) {
-            // modalUsuario.ver(ID_DEL_USUARIO, CALLBACK_RECARGAR, MODO_PETICION, EDITABLE)
-            modalUsuario.ver(userId, recargarContainer, true, true);
+
+            verPeticionVentana(endpoint, recargarContainer, true);
         }
     });
     

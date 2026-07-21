@@ -12,7 +12,7 @@ import TomSelectDropdownInput from 'tom-select/dist/esm/plugins/dropdown_input/p
 TomSelect.define('dropdown_input', TomSelectDropdownInput);
 
 export const initTomSelectPortatil = () => {
-    const elements = document.querySelectorAll(".selector-portatil");
+    const elements = document.querySelectorAll("select.selector-portatil");
 
     elements.forEach(el => {
         

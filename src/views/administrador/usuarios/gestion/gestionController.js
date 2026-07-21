@@ -13,6 +13,8 @@ import { tarjetaEstados } from "@/componentes/gestionUser/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { searchBar, dropdownFiltro } from "@/componentes/filter/index.js";
 
+import { verUsuarioVentana } from "@/componentes/ver_Estado/";
+
 export default async () => {
 
     // Extrae los botones de navegación generales
@@ -121,21 +123,23 @@ export default async () => {
 
     // Escucha pasiva delegada al contenedor padre (Técnica Event Delegation optimizada RAM)
     contenedor.addEventListener("click", async (e) => {
-        
-        const tarjetaClickeada = e.target.closest(".tarjeta__header");
+      
+        // Verifica si el clic recayó exacto sobre, o dentro (Span/icon), de un <button> HTML
+        const tarjetaClickeada = e.target.closest(".tarjeta");
 
         if (!tarjetaClickeada) return; // Rompe si tocó pared vacía
 
-        // Recuperar Meta-ID guardado en tiempo de inyección (data-id)
         const userId = tarjetaClickeada.dataset.id;
 
-        console.log("USER ID", userId);
+        const endpoint = `users/${userId}`;
 
+        const logEndpoint = await api.get(`users/${userId}`);
 
-        // Lanza función "Ver" contenida en "modales/usuario.js" pasando 
-        // la ID identificadora, el refresco padre y el modo de usuario supervisor.
-        // El supervisor debe ver activar/desactivar.
-        modalUsuario.ver(userId, recargarContainer, false, false);
+        console.log(logEndpoint);
+
+        const urlHistorial = `#/administrador/usuarios/historial?id=${userId}`;
+
+        verUsuarioVentana(endpoint, recargarContainer, urlHistorial);
     });
 
     // Arranque de rutina nativo al desplegar esta vista la primera vez

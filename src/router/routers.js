@@ -303,6 +303,12 @@ export const routes = {
         config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
       },
 
+      historial: {
+        path: `supervisor/usuarios/gestion/historial/index.html`,
+        controlador: SupervisorUsuarios.historialUsuario,
+        config: { ...supervisorRoute, permissions: ["home-frontend.supervisor"] },
+      }
+
     },
 
     estadisticas: {
@@ -695,6 +701,12 @@ export const routes = {
       gestion: {
         path: `administrador/usuarios/gestion/index.html`,
         controlador: AdministradorUsuarios.GestionController,
+        config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
+      },
+
+      historial: {
+        path: `administrador/usuarios/gestion/historial/index.html`,
+        controlador: AdministradorUsuarios.historialUsuario,
         config: { ...adminRoute, permissions: ["home-frontend.administrador"] },
       }
     }

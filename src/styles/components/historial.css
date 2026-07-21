@@ -1,5 +1,4 @@
 .container-historial {
-
     padding: 30px 20px 20px 20px;
     width: 100%;
 }
@@ -27,14 +26,12 @@
 /* Contenido de Usuario ________________________________________________________________ */
 
 .container-historial .card-Cont .user-Cont {
-
     display: flex;
     /* align-items: center; */
     gap: 10px;
 }
 
 .card-Cont .user-Cont .user-div {
-
     width: 40px;
     height: 40px;
 
@@ -50,27 +47,22 @@
 }
 
 .card-Cont .user-Cont .user-div i {
-
     color: var(--color-palido);
     font-size: 20px;
 }
 
 .card-Cont .user-info {
-
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
 .card-Cont .user-info .user-name {
-
     font-weight: bold;
     font-size: 22px;
 }
 
-
 .card-Cont .user-info .user-rol {
-
     color: var(--color-palido);
     /* font-size: 20px; */
     background: var(--color-secundario);
@@ -83,19 +75,16 @@
 /* Contenido de Historial ________________________________________________________________ */
 
 .container-historial .card-Cont .historial-Cont {
-
     display: grid;
 
     grid-template-columns: 30px 1fr;
 
     grid-template-areas:
-    "side nameAction"
-    "status status"
-    ;
+        "side nameAction"
+        "status status";
 }
 
 .container-historial .card-Cont .historial-Cont .historial-nameAction {
-
     grid-area: nameAction;
 
     display: flex;
@@ -106,28 +95,27 @@
 }
 
 .container-historial .card-Cont .historial-Cont .historial-side {
-
     grid-area: side;
 
     width: 30px;
     display: flex;
-    gap: 4px;
+    gap: 10px;
     flex-direction: column;
     padding-top: 10px;
     padding-bottom: 7px;
 }
 
 .card-Cont .historial-Cont .historial-side .historial-sideElement:nth-child(1) {
-
-    min-width: 20px; max-width: 20px;
-    min-height: 20px; max-height: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    max-height: 20px;
     border-radius: 5px;
-    
+
     border: solid 2px var(--color-primario);
 }
 
 .card-Cont .historial-Cont .historial-side .historial-sideElement:nth-child(1) label {
-
     display: block;
     cursor: pointer;
     width: 100%;
@@ -135,7 +123,6 @@
 }
 
 .card-Cont .historial-Cont .historial-side .historial-sideElement:nth-child(2) {
-
     margin-left: 6.5px;
     width: 15px;
     height: 100%;
@@ -145,7 +132,6 @@
 }
 
 .card-Cont .historial-Cont .historial-nameAction .name-Historial {
-
     font-weight: bold;
     font-size: 30px;
     position: relative;
@@ -158,20 +144,17 @@
 }
 
 .card-Cont .historial-Cont .historial-nameAction .subname-Historial {
-
     font-weight: bold;
     color: var(--color-grisOscuro);
 }
 
 .card-Cont .historial-Cont .historial-nameAction .name-Description {
-
     font-weight: normal;
     font-size: 20px;
     position: relative;
 }
 
 .container-historial .card-Cont .status-Cont {
-
     grid-area: status;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -182,8 +165,6 @@
 }
 
 .container-historial .card-Cont .status-Cont .status-Element {
-
-
     display: flex;
     /* flex-direction: column; */
     align-items: center;
@@ -191,7 +172,6 @@
 }
 
 .card-Cont .status-Cont .status-Element .status-color {
-
     height: 10px;
     width: 10px;
     border-radius: 100%;
@@ -199,17 +179,14 @@
 }
 
 .card-Cont .status-Cont .status-Element .status-color.status-activo {
-
     background: var(--color-verdoso);
 }
 
 .card-Cont .status-Cont .status-Element .status-color.status-inactivo {
-
     background: var(--color-rojizo);
 }
 
 .container-historial .card-Cont .action-Cont {
-
     display: flex;
     /* align-items: center; */
     gap: 10px;
@@ -219,7 +196,6 @@
 /* Contenido Fecha ____________________________________________________________________ */
 
 .container-historial .card-Cont .date-Cont {
-
     display: flex;
     /* align-items: center; */
     gap: 10px;
@@ -298,7 +274,10 @@
     border-radius: 100px;
     display: flex;
     align-items: center;
-    transition: height 0.3s ease-in-out 0.0s, width 0.18s ease-in-out 0.2s, opacity 0.3s ease-in-out 0.2s;
+    transition:
+        height 0.3s ease-in-out 0s,
+        width 0.18s ease-in-out 0.2s,
+        opacity 0.3s ease-in-out 0.2s;
 }
 
 .eliminar-panel.ocultar_opciones,
@@ -307,7 +286,10 @@
     height: 0;
     width: 45px;
     opacity: 0;
-    transition: height 0.3s ease-in-out 0.45s, width 0.18s ease-in-out 0.2s, opacity 0.3s ease-in-out 0.25s;
+    transition:
+        height 0.3s ease-in-out 0.45s,
+        width 0.18s ease-in-out 0.2s,
+        opacity 0.3s ease-in-out 0.25s;
 }
 
 /*  */
@@ -321,7 +303,7 @@
     gap: 15px;
     padding: 10px 10px 10px 30px;
     width: 100%;
-    transition: 0.0s ease-in-out 0.2s;
+    transition: 0s ease-in-out 0.2s;
 }
 
 .eliminar-panel.ocultar_opciones .container-eliminar-panel,
@@ -336,7 +318,7 @@
 .container-acciones-panel * {
     opacity: 1;
     transition: 0.2s ease-in-out 0.4s;
-    transition-delay: 0.5s; 
+    transition-delay: 0.5s;
 }
 
 .eliminar-panel.ocultar_opciones .container-eliminar-panel *,
@@ -366,10 +348,6 @@
     flex-direction: column;
     gap: 20px;
     position: relative;
-  }
-
-  .form__doubleinput i {
-    position: absolute;
   }
 
   .form__doubleinput .section__input {
