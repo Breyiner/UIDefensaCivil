@@ -1,332 +1,347 @@
-import * as api from "@/helpers/api";
-import { alertas as alerta } from "@/helpers/index.js";
-import { validacionInputs as validacion } from "@/helpers/index.js";
+/**
+ * Componente UI: Modales de Factores de Riesgo
+ * Módulo visual puro encargado de estructurar y retornar los nodos DOM de los diálogos nativos.
+ * No contiene lógica de control de eventos, validaciones, montajes al DOM ni llamadas asíncronas.
+ * 
+ * @module riesgoModales
+ */
+
+import { campoFormulario } from "../campoFormulario.js";
 
 /**
- * Abre modal en memoria para agregar/editar una vulnerabilidad.
+ * Crea y retorna el nodo DOM del diálogo <dialog> para agregar/editar una vulnerabilidad.
  * 
  * @param {Object} params
  * @param {Object|null} params.initialData - Datos previos en caso de edición
- * @param {Function} params.onSave - Callback que retorna los datos seleccionados
+ * @param {Array} params.vulnerabilities - Listado de vulnerabilidades catálogos
+ * @param {Array} params.vulnerabilityGrades - Listado de grados de vulnerabilidades catálogos
+ * @returns {HTMLDialogElement} Elemento dialog listo para ser controlado
  */
-export const agregarVulnerabilidadMemoria = async ({ initialData = null, onSave }) => {
-    const vulnerabilityGrades = await api.get("vulnerabilityGrades");
-    const vulnerabilities = await api.get("vulnerabilities");
+export const agregarVulnerabilidadMemoria = ({ initialData = null, vulnerabilities = [], vulnerabilityGrades = [] }) => {
+  const modal = document.createElement("dialog");
+  modal.classList.add("modal-edicion");
 
-    const explicacionDiv = document.createElement("div");
-    explicacionDiv.classList.add("explicacion", "modal");
+  const cabecera = document.createElement("div");
+  cabecera.classList.add("modal-edicion__cabecera");
+  
+  const titulo = document.createElement("h3");
+  titulo.classList.add("modal-edicion__titulo");
+  titulo.textContent = initialData ? "Editar Vulnerabilidad" : "Agregar Vulnerabilidad";
+  cabecera.appendChild(titulo);
+  modal.appendChild(cabecera);
 
-    const tituloP = document.createElement("p");
-    tituloP.classList.add("explicacion__titulo");
-    tituloP.textContent = initialData ? "Editar Vulnerabilidad" : "Agregar Vulnerabilidad";
-    explicacionDiv.appendChild(tituloP);
+  const content = document.createElement("div");
+  content.classList.add("modal-edicion__content");
 
-    const formDiv = document.createElement("div");
-    formDiv.classList.add("form");
+  const form = document.createElement("form");
+  form.classList.add("modal-edicion__formulario");
 
-    const inputBox1 = document.createElement("div");
-    inputBox1.classList.add("form__inputBox", "modal-50");
+  // Select 1: Vulnerability
+  const grupoVuln = campoFormulario({
+    iconClass: "ri-alert-line",
+    inputType: "selector-portatil",
+    id: "vulnerabilidadSelect",
+    iconId: "selector__icono"
+  });
+  const selectVulnerability = grupoVuln.querySelector("select");
+  selectVulnerability.classList.add("form__vulnerability");
+  selectVulnerability.setAttribute("required", "");
+  
+  const optionDefault1 = document.createElement("option");
+  optionDefault1.value = "";
+  optionDefault1.textContent = "Seleccione vulnerabilidad";
+  selectVulnerability.appendChild(optionDefault1);
 
-    const icon1 = document.createElement("i");
-    icon1.className = "ri-alert-line";
+  vulnerabilities.forEach(item => {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.name;
+    if (initialData && (item.id == initialData.vulnerability_id || item.id == initialData.vulnerability?.id)) {
+      option.selected = true;
+    }
+    selectVulnerability.appendChild(option);
+  });
 
-    const selectVulnerability = document.createElement("select");
-    selectVulnerability.classList.add("form__input", "form__vulnerability");
+  // Select 2: Grade
+  const grupoGrade = campoFormulario({
+    iconClass: "ri-bar-chart-line",
+    inputType: "selector-portatil",
+    id: "gradoSelect",
+    iconId: "selector__icono"
+  });
+  const selectGrade = grupoGrade.querySelector("select");
+  selectGrade.classList.add("form__vulnerabilityGrade");
+  selectGrade.setAttribute("required", "");
 
-    const optionDefault1 = document.createElement("option");
-    optionDefault1.value = "";
-    optionDefault1.textContent = "Seleccione vulnerabilidad";
-    selectVulnerability.appendChild(optionDefault1);
+  const optionDefault2 = document.createElement("option");
+  optionDefault2.value = "";
+  optionDefault2.textContent = "Seleccione grado";
+  selectGrade.appendChild(optionDefault2);
 
-    vulnerabilities.forEach(item => {
-      const option = document.createElement("option");
-      option.value = item.id;
-      option.textContent = item.name;
-      if (initialData && (item.id == initialData.vulnerability_id || item.id == initialData.vulnerability?.id)) {
-        option.selected = true;
-      }
-      selectVulnerability.appendChild(option);
-    });
+  vulnerabilityGrades.forEach(item => {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.name;
+    if (initialData && (item.id == initialData.vulnerability_grade_id || item.id == initialData.vulnerability_grade?.id)) {
+      option.selected = true;
+    }
+    selectGrade.appendChild(option);
+  });
 
-    inputBox1.append(icon1, selectVulnerability);
-    formDiv.appendChild(inputBox1);
+  form.append(grupoVuln, grupoGrade);
+  content.appendChild(form);
+  modal.appendChild(content);
 
-    const inputBox2 = document.createElement("div");
-    inputBox2.classList.add("form__inputBox");
+  const pie = document.createElement("div");
+  pie.classList.add("modal-edicion__pie");
 
-    const icon2 = document.createElement("i");
-    icon2.className = "ri-bar-chart-line";
+  const btnCancelar = document.createElement("button");
+  btnCancelar.type = "button";
+  btnCancelar.classList.add("modal-edicion__btn", "modal-edicion__btn--secundario");
+  btnCancelar.textContent = "Cancelar";
 
-    const selectGrade = document.createElement("select");
-    selectGrade.classList.add("form__input", "form__vulnerabilityGrade");
+  const btnGuardar = document.createElement("button");
+  btnGuardar.type = "button";
+  btnGuardar.classList.add("modal-edicion__btn", "modal-edicion__btn--primario");
+  btnGuardar.textContent = "Guardar";
 
-    const optionDefault2 = document.createElement("option");
-    optionDefault2.value = "";
-    optionDefault2.textContent = "Seleccione grado";
-    selectGrade.appendChild(optionDefault2);
+  pie.append(btnCancelar, btnGuardar);
+  modal.appendChild(pie);
 
-    vulnerabilityGrades.forEach(item => {
-      const option = document.createElement("option");
-      option.value = item.id;
-      option.textContent = item.name;
-      if (initialData && (item.id == initialData.vulnerability_grade_id || item.id == initialData.vulnerability_grade?.id)) {
-        option.selected = true;
-      }
-      selectGrade.appendChild(option);
-    });
-
-    inputBox2.append(icon2, selectGrade);
-    formDiv.appendChild(inputBox2);
-
-    const container = document.createElement("div");
-    container.append(explicacionDiv, formDiv);
-
-    const funcionModal = async () => {
-        const vId = selectVulnerability.value;
-        const vgId = selectGrade.value;
-
-        validacion.limpiarError(selectVulnerability);
-        if (!vId) {
-            validacion.mostrarError(selectVulnerability, "Debe seleccionar una vulnerabilidad.");
-            return false;
-        }
-
-        validacion.limpiarError(selectGrade);
-        if (!vgId) {
-            validacion.mostrarError(selectGrade, "Debe seleccionar un grado de vulnerabilidad.");
-            return false;
-        }
-
-        const selectedVuln = vulnerabilities.find(v => v.id == vId);
-        const selectedGrade = vulnerabilityGrades.find(g => g.id == vgId);
-
-        if (onSave) {
-            const success = await onSave({
-                vulnerability_id: vId,
-                vulnerability_grade_id: vgId,
-                vulnerability_name: selectedVuln ? selectedVuln.name : "",
-                grade_name: selectedGrade ? selectedGrade.name : ""
-            });
-            return success;
-        }
-        return true;
-    };
-
-    alerta.Crear(container, funcionModal);
+  return modal;
 };
 
 /**
- * Abre modal en memoria para agregar/editar una acción de reducción.
+ * Crea y retorna el nodo DOM del diálogo <dialog> para agregar/editar una acción de reducción.
  * 
  * @param {Object} params
- * @param {string} params.familyPlanId - ID del plan familiar
+ * @param {Array} params.members - Listado de integrantes cargado
  * @param {Object|null} params.initialData - Datos previos en caso de edición
- * @param {Function} params.onSave - Callback que retorna los datos seleccionados
+ * @returns {HTMLDialogElement} Elemento dialog listo para ser controlado
  */
-export const agregarAccionMemoria = async ({ familyPlanId, initialData = null, onSave }) => {
-    const members = await api.get(`members/familyPlan/select/${familyPlanId}`);
+export const agregarAccionMemoria = ({ members = [], initialData = null }) => {
+  const modal = document.createElement("dialog");
+  modal.classList.add("modal-edicion");
 
-    const explicacionDiv = document.createElement("div");
-    explicacionDiv.classList.add("explicacion", "modal");
+  const cabecera = document.createElement("div");
+  cabecera.classList.add("modal-edicion__cabecera");
+  
+  const titulo = document.createElement("h3");
+  titulo.classList.add("modal-edicion__titulo");
+  titulo.textContent = initialData ? "Editar Acción" : "Agregar Acción de Reducción";
+  cabecera.appendChild(titulo);
+  modal.appendChild(cabecera);
 
-    const tituloP = document.createElement("p");
-    tituloP.classList.add("explicacion__titulo");
-    tituloP.textContent = initialData ? "Editar Acción" : "Agregar Acción de Reducción";
-    explicacionDiv.appendChild(tituloP);
+  const content = document.createElement("div");
+  content.classList.add("modal-edicion__content");
 
-    const formDiv = document.createElement("div");
-    formDiv.classList.add("form");
+  const form = document.createElement("form");
+  form.classList.add("modal-edicion__formulario");
 
-    const inputBox1 = document.createElement("div");
-    inputBox1.classList.add("form__inputBox", "modal-50");
+  // Campo Acción
+  const grupoAccion = campoFormulario({
+    iconClass: "ri-shield-check-line",
+    inputType: "input",
+    id: "accionInput"
+  });
+  const inputAction = grupoAccion.querySelector("input");
+  inputAction.type = "text";
+  inputAction.classList.add("form__action");
+  inputAction.placeholder = "Acción a realizar";
+  inputAction.setAttribute("data-tipo", "textoCorto");
+  inputAction.setAttribute("required", "");
+  if (initialData) {
+    inputAction.value = initialData.action || "";
+  }
 
-    const icon1 = document.createElement("i");
-    icon1.className = "ri-shield-check-line";
+  // Campo Miembro Encargado
+  const grupoMember = campoFormulario({
+    iconClass: "ri-user-line",
+    inputType: "selector-portatil",
+    id: "miembroSelect",
+    iconId: "selector__icono"
+  });
+  const selectMember = grupoMember.querySelector("select");
+  selectMember.classList.add("form__member");
+  selectMember.setAttribute("required", "");
+  
+  const optionDefault = document.createElement("option");
+  optionDefault.value = "";
+  optionDefault.textContent = "Seleccione un miembro";
+  selectMember.appendChild(optionDefault);
 
-    const inputAction = document.createElement("input");
-    inputAction.type = "text";
-    inputAction.classList.add("form__input", "form__action");
-    inputAction.placeholder = "Acción a realizar";
-    inputAction.autocomplete = "off";
-    if (initialData) {
-        inputAction.value = initialData.action || "";
+  members.forEach(member => {
+    const option = document.createElement("option");
+    option.value = member.id;
+    option.textContent = member.full_name || member.name || `${member.names} ${member.last_names}`;
+    if (initialData && member.id == (initialData.member_id || initialData.member?.id)) {
+      option.selected = true;
     }
+    selectMember.appendChild(option);
+  });
 
-    inputBox1.append(icon1, inputAction);
-    formDiv.appendChild(inputBox1);
+  // Campo Fecha
+  const grupoFecha = campoFormulario({
+    iconClass: "ri-calendar-line",
+    inputType: "input",
+    id: "fechaInput"
+  });
+  const inputDate = grupoFecha.querySelector("input");
+  inputDate.type = "text";
+  inputDate.placeholder = "Fecha de finalización";
+  inputDate.classList.add("form__date");
+  inputDate.setAttribute("required", "");
+  if (initialData) {
+    inputDate.value = initialData.end_date ? initialData.end_date.split("T")[0] : "";
+  }
 
-    const inputBox2 = document.createElement("div");
-    inputBox2.classList.add("form__inputBox");
+  form.append(grupoAccion, grupoMember, grupoFecha);
+  content.appendChild(form);
+  modal.appendChild(content);
 
-    const icon2 = document.createElement("i");
-    icon2.className = "ri-user-line";
+  const pie = document.createElement("div");
+  pie.classList.add("modal-edicion__pie");
 
-    const selectMember = document.createElement("select");
-    selectMember.classList.add("form__input", "form__member");
+  const btnCancelar = document.createElement("button");
+  btnCancelar.type = "button";
+  btnCancelar.classList.add("modal-edicion__btn", "modal-edicion__btn--secundario");
+  btnCancelar.textContent = "Cancelar";
 
-    const optionDefault = document.createElement("option");
-    optionDefault.value = "";
-    optionDefault.textContent = "Seleccione un miembro";
-    selectMember.appendChild(optionDefault);
+  const btnGuardar = document.createElement("button");
+  btnGuardar.type = "button";
+  btnGuardar.classList.add("modal-edicion__btn", "modal-edicion__btn--primario");
+  btnGuardar.textContent = "Guardar";
 
-    members.forEach(member => {
-      const option = document.createElement("option");
-      option.value = member.id;
-      option.textContent = member.full_name;
-      if (initialData && member.id == initialData.member_id) {
-        option.selected = true;
-      }
-      selectMember.appendChild(option);
-    });
+  pie.append(btnCancelar, btnGuardar);
+  modal.appendChild(pie);
 
-    inputBox2.append(icon2, selectMember);
-    formDiv.appendChild(inputBox2);
+  // Establecer fecha mínima como el día de hoy local en el calendario nativo
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  inputDate.setAttribute("min", todayStr);
 
-    const inputBox3 = document.createElement("div");
-    inputBox3.classList.add("form__inputBox");
-
-    const icon3 = document.createElement("i");
-    icon3.className = "ri-calendar-line";
-
-    const inputDate = document.createElement("input");
-    inputDate.type = "date";
-    inputDate.classList.add("form__input", "form__date");
-    if (initialData) {
-        inputDate.value = initialData.end_date || "";
-    }
-
-    inputBox3.append(icon3, inputDate);
-    formDiv.appendChild(inputBox3);
-
-    const container = document.createElement("div");
-    container.append(explicacionDiv, formDiv);
-
-    const funcionModal = async () => {
-        const action = inputAction.value;
-        const memberId = selectMember.value;
-        const date = inputDate.value;
-
-        validacion.limpiarError(inputAction);
-        if (!action) {
-            validacion.mostrarError(inputAction, "La acción es obligatoria.");
-            return false;
-        }
-
-        validacion.limpiarError(selectMember);
-        if (!memberId) {
-            validacion.mostrarError(selectMember, "Debe seleccionar un miembro encargado.");
-            return false;
-        }
-
-        validacion.limpiarError(inputDate);
-        if (!date) {
-            validacion.mostrarError(inputDate, "La fecha de finalización es obligatoria.");
-            return false;
-        }
-
-        // Validar que la fecha no sea pasada
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const selectedDate = new Date(date + "T00:00:00");
-        if (selectedDate < today) {
-            validacion.mostrarError(inputDate, "La fecha de la acción no puede ser anterior al día de hoy.");
-            return false;
-        }
-
-        const selectedMember = members.find(m => m.id == memberId);
-
-        if (onSave) {
-            const success = await onSave({
-                action,
-                member_id: memberId,
-                member_name: selectedMember ? selectedMember.full_name : "",
-                end_date: date
-            });
-            return success;
-        }
-        return true;
-    };
-
-    alerta.Crear(container, funcionModal);
+  return modal;
 };
 
 /**
- * Abre el modal de solo lectura para visualizar los detalles completos de un factor de riesgo.
+ * Crea y retorna el nodo DOM del diálogo <dialog> de sólo lectura para visualizar detalles del riesgo.
  * 
- * @param {string} id - ID del factor de riesgo
+ * @param {Object} riskData - Datos formateados del factor de riesgo y sus relaciones
+ * @returns {HTMLDialogElement} Elemento dialog listo para ser controlado
  */
-export const verRiesgo = async (id) => {
-    // 1. Invoca llamadas GET para centralizar info relacionada
-    const datos = await api.get(`riskFactors/${id}`);
-    const acciones = await api.get(`riskReductionActions/riskFactor/${id}`);
-    const vulnerabilidades = await api.get(`vulnerabilityFactors/riskFactor/${id}`);
-    
-    // Contenedores textuales iterables
-    let todasAcciones = "";
-    let todasVulnerabilidades = "";
-    let contadorAcciones = 0;
-    let contadorVulnerabilidades = 0;
+export const verRiesgo = (riskData) => {
+  const modal = document.createElement("dialog");
+  modal.classList.add("modal-edicion");
 
-    // Procesamiento y agrupación de Strings p/acciones
-    acciones.forEach((accion) => {
-        const encName = accion.member ? `${accion.member.names} ${accion.member.last_names}` : "Sin encargado";
-        if (contadorAcciones > 0) {
-            todasAcciones += `, ${accion.action} - Encargado: ${encName} - Fecha finalización: ${accion.end_date}`;
-        } else {
-            todasAcciones += `${accion.action} - Encargado: ${encName} - Fecha finalización: ${accion.end_date}`;
-        }
-        contadorAcciones++;
-    });
-    
-    if (acciones.length === 0) todasAcciones = "ninguna";
-    
-    // Procesamiento y agrupación de Strings p/vulnerabilidades
-    vulnerabilidades.forEach((vulnerabilidad) => {
-        const vName = vulnerabilidad.vulnerability?.name || "";
-        const gName = vulnerabilidad.vulnerability_grade?.name || "";
-        if (contadorVulnerabilidades > 0) {
-            todasVulnerabilidades += `, ${vName} - Grado: ${gName}`;
-        } else {
-            todasVulnerabilidades += `${vName} - Grado: ${gName}`;
-        }
-        contadorVulnerabilidades++;
-    });
-    
-    if (vulnerabilidades.length === 0) todasVulnerabilidades = "ninguna";
+  const cabecera = document.createElement("div");
+  cabecera.classList.add("modal-edicion__cabecera");
+  
+  const titulo = document.createElement("h3");
+  titulo.classList.add("modal-edicion__titulo");
+  titulo.textContent = "Detalles de Factor de Riesgo";
+  cabecera.appendChild(titulo);
+  modal.appendChild(cabecera);
 
-    // 2. Definición del cuerpo visual usando creación DOM
-    const modalDiv = document.createElement("div");
-    modalDiv.classList.add("modalVer", "modal");
+  const content = document.createElement("div");
+  content.classList.add("modal-edicion__content");
 
-    const crearDato = (claseIcono, titulo, texto, largo) => {
-        const dato = document.createElement("div");
-        dato.classList.add("modalVer__dato");
-        if (largo) dato.classList.add("modalVer__dato--largo");
+  const modalDiv = document.createElement("div");
+  modalDiv.classList.add("modalVer", "modal", "modal-ver-sin-contenedor");
 
-        const icon = document.createElement("i");
-        icon.classList.add(claseIcono);
 
-        const tituloDiv = document.createElement("div");
-        tituloDiv.classList.add("modalVer__titulo");
-        tituloDiv.textContent = titulo;
+  // 1. Tipo de Amenaza
+  const datoAmenaza = document.createElement("div");
+  datoAmenaza.classList.add("modalVer__dato", "modalVer__dato--largo");
+  const iconAmenaza = document.createElement("i");
+  iconAmenaza.classList.add("ri-shield-check-line");
+  const tituloAmenaza = document.createElement("div");
+  tituloAmenaza.classList.add("modalVer__titulo");
+  tituloAmenaza.textContent = "Tipo de Amenaza";
+  const textoAmenaza = document.createElement("div");
+  textoAmenaza.classList.add("modalVer__texto");
+  textoAmenaza.textContent = riskData.threatTypeName || "";
+  datoAmenaza.append(iconAmenaza, tituloAmenaza, textoAmenaza);
 
-        const textoDiv = document.createElement("div");
-        textoDiv.classList.add("modalVer__texto");
-        textoDiv.textContent = texto;
+  // 2. Descripcion
+  const datoDesc = document.createElement("div");
+  datoDesc.classList.add("modalVer__dato", "modalVer__dato--largo");
+  const iconDesc = document.createElement("i");
+  iconDesc.classList.add("ri-user-line");
+  const tituloDesc = document.createElement("div");
+  tituloDesc.classList.add("modalVer__titulo");
+  tituloDesc.textContent = "Descripcion";
+  const textoDesc = document.createElement("div");
+  textoDesc.classList.add("modalVer__texto");
+  textoDesc.textContent = riskData.description || "";
+  datoDesc.append(iconDesc, tituloDesc, textoDesc);
 
-        dato.append(icon, tituloDiv, textoDiv);
-        return dato;
-    };
+  // 3. Ubicacion del riesgo
+  const datoUbic = document.createElement("div");
+  datoUbic.classList.add("modalVer__dato");
+  const iconUbic = document.createElement("i");
+  iconUbic.classList.add("ri-map-pin-2-line");
+  const tituloUbic = document.createElement("div");
+  tituloUbic.classList.add("modalVer__titulo");
+  tituloUbic.textContent = "Ubicacion del riesgo";
+  const textoUbic = document.createElement("div");
+  textoUbic.classList.add("modalVer__texto");
+  textoUbic.textContent = riskData.location || "";
+  datoUbic.append(iconUbic, tituloUbic, textoUbic);
 
-    modalDiv.append(
-        crearDato("ri-shield-check-line", "Tipo de Amenaza", datos.threat_type?.name || "", true),
-        crearDato("ri-user-line", "Descripcion", datos.description || "", true),
-        crearDato("ri-calendar-line", "Ubicacion del riesgo", datos.ubication || datos.location || "", false),
-        crearDato("ri-map-pin-line", "Distancia", `${datos.distance || 0} m`, false),
-        crearDato("ri-list-check", "Acciones de reducción de riesgo", todasAcciones, true),
-        crearDato("ri-list-check", "Vulnerabilidades", todasVulnerabilidades, true)
-    );
+  // 4. Distancia
+  const datoDist = document.createElement("div");
+  datoDist.classList.add("modalVer__dato");
+  const iconDist = document.createElement("i");
+  iconDist.classList.add("ri-map-pin-line");
+  const tituloDist = document.createElement("div");
+  tituloDist.classList.add("modalVer__titulo");
+  tituloDist.textContent = "Distancia";
+  const textoDist = document.createElement("div");
+  textoDist.classList.add("modalVer__texto");
+  textoDist.textContent = riskData.distanceText || "";
+  datoDist.append(iconDist, tituloDist, textoDist);
 
-    // 3. Renderiza en pantalla sin botones CRUD
-    alerta.Ver(modalDiv, false, false, null, null, null);
+  // 5. Acciones de reducción de riesgo
+  const datoAcc = document.createElement("div");
+  datoAcc.classList.add("modalVer__dato", "modalVer__dato--largo");
+  const iconAcc = document.createElement("i");
+  iconAcc.classList.add("ri-list-check");
+  const tituloAcc = document.createElement("div");
+  tituloAcc.classList.add("modalVer__titulo");
+  tituloAcc.textContent = "Acciones de reducción de riesgo";
+  const textoAcc = document.createElement("div");
+  textoAcc.classList.add("modalVer__texto");
+  textoAcc.textContent = riskData.actionsText || "";
+  datoAcc.append(iconAcc, tituloAcc, textoAcc);
+
+  // 6. Vulnerabilidades
+  const datoVuln = document.createElement("div");
+  datoVuln.classList.add("modalVer__dato", "modalVer__dato--largo");
+  const iconVuln = document.createElement("i");
+  iconVuln.classList.add("ri-list-check");
+  const tituloVuln = document.createElement("div");
+  tituloVuln.classList.add("modalVer__titulo");
+  tituloVuln.textContent = "Vulnerabilidades";
+  const textoVuln = document.createElement("div");
+  textoVuln.classList.add("modalVer__texto");
+  textoVuln.textContent = riskData.vulnerabilitiesText || "";
+  datoVuln.append(iconVuln, tituloVuln, textoVuln);
+
+  modalDiv.append(datoAmenaza, datoDesc, datoUbic, datoDist, datoAcc, datoVuln);
+
+  content.appendChild(modalDiv);
+  modal.appendChild(content);
+
+  const pie = document.createElement("div");
+  pie.classList.add("modal-edicion__pie");
+
+  const btnCerrar = document.createElement("button");
+  btnCerrar.type = "button";
+  btnCerrar.classList.add("modal-edicion__btn", "modal-edicion__btn--secundario");
+  btnCerrar.textContent = "Cerrar";
+  
+  pie.appendChild(btnCerrar);
+  modal.appendChild(pie);
+
+  return modal;
 };

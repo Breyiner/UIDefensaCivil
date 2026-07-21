@@ -13,6 +13,8 @@
         "descripcion descripcion descripcion descripcion"
         "botonEditarRiesgo botonEliminarRiesgo botonVerMasRiesgo botonVerMasRiesgo";
     font-family: var(--fuente-contenido);
+
+    background-color: var(--color-palido);
 }
 
 .verRiesgos__tipoRiesgo {

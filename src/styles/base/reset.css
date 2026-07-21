@@ -29,3 +29,21 @@ body.swal2-shown {
   border: 2px solid transparent;
   background-clip: padding-box;
 }
+
+.air-datepicker-global-container {
+  z-index: 1000;
+}
+
+div:where(.swal2-container) div:where(.swal2-html-container) {
+
+  padding: 0 !important;
+}
+
+div:where(.swal2-container).swal2-center>.swal2-popup {
+
+  border-radius: var(--border-radius-tarjetas, 12px) !important;
+}
+
+textarea {
+  resize: none;
+}

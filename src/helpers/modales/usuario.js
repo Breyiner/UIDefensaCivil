@@ -237,11 +237,11 @@ export const ver = async (id, recargarContainer, esPeticion, esAdmin) => {
       select.id = "selectRol";
 
       const optVoluntario = document.createElement("option");
-      optVoluntario.value = 2;
+      optVoluntario.value = 3;
       optVoluntario.textContent = "Voluntario";
 
       const optSupervisor = document.createElement("option");
-      optSupervisor.value = 3;
+      optSupervisor.value = 2;
       optSupervisor.textContent = "Supervisor";
 
       // initTomSelectPortatil();

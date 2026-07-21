@@ -18,9 +18,9 @@
     transform: translateY(-50%);
     background-color: var(--color-palido);
     min-height: 400px;
-    width: 420px;
+    width: 450px;
     border-radius: 20px;
-    padding: 10px;
+    padding: 20px 40px;
 
     display: flex;
     flex-direction: column;
@@ -38,8 +38,9 @@
 .overlay_verEstado .ventana .btn-cerrar-Cont,
 .overlay_verEstado .ventana.ventana__supervisor .btn-cerrar-Cont{
 
-    width: 100%;
-    padding: 10px 0 0 10px;
+    width: 110%;
+    /* padding: 10px 0 0 10px; */
+    padding-bottom: 10px;
 }
 
 .overlay_verEstado .btn-cerrar-Estado {
@@ -159,6 +160,11 @@
     font-size: 20px;
 }
 
+.overlay_verEstado .ventana .btnContEstado .btn-eliminar-peticion {
+
+    background-color: var(--color-rojizo);
+}
+
 .overlay_verEstado .ventana.ventana__supervisor {
 
     align-items: center;
@@ -206,4 +212,27 @@
 .overlay_verEstado .ventana .oculto {
 
     display: none;
+}
+
+.ventana_usuario .usuario-Cont {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+}
+
+/* .ventana_usuario .usuario-Cont div {
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+} */
+
+.ventana_usuario span,
+.ventana_usuario i {
+
+    font-weight: bold;
+    text-wrap: nowrap;
 }
