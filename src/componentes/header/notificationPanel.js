@@ -12,39 +12,6 @@ const NOTIF_STATUS = { 4: 'pending', 5: 'returned', 6: 'pending', 7: 'pending' }
 
 const ROL_MAP = { 1: 'administrador', 2: 'supervisor', 3: 'voluntario' };
 
-const FAKE_NOTIFICATIONS = [
-  {
-    id: -1, is_read: false,
-    created_at: new Date(Date.now() - 10 * 60000).toISOString(),
-    entidad: { tipo: 'Plan Familiar', id: 9991, apellidos: 'QUINTERO LÓPEZ',
-      direccion: 'Cra 12 #45-67, Palonegro',
-      comentario: 'Los integrantes registrados no coinciden con los documentos aportados.',
-      estado: 'Devuelto', estado_id: 5 }
-  },
-  {
-    id: -2, is_read: false,
-    created_at: new Date(Date.now() - 35 * 60000).toISOString(),
-    entidad: { tipo: 'Plan Familiar', id: 9992, apellidos: 'MARTÍNEZ RAMOS',
-      direccion: 'Calle 8 #23-10, Girón', comentario: null,
-      estado: 'Pendiente', estado_id: 4 }
-  },
-  {
-    id: -3, is_read: false,
-    created_at: new Date(Date.now() - 90 * 60000).toISOString(),
-    entidad: { tipo: 'Plan Familiar', id: 9993, apellidos: 'RODRÍGUEZ PINEDA',
-      direccion: 'Mz 5 Casa 12, Bucaramanga',
-      comentario: 'Se requiere actualizar datos de integrantes menores de edad.',
-      estado: 'Devuelto', estado_id: 5 }
-  },
-  {
-    id: -4, is_read: true,
-    created_at: new Date(Date.now() - 240 * 60000).toISOString(),
-    entidad: { tipo: 'Plan Familiar', id: 9994, apellidos: 'GARCÍA SUÁREZ',
-      direccion: 'Vereda El Centro, Piedecuesta', comentario: null,
-      estado: 'Aprobado', estado_id: 7 }
-  },
-];
-
 function crearCardNotificacion(n, rolId) {
   const card = h('div', 'v-notification-card');
   if (n.entidad.tipo !== 'Plan Familiar') return card;
@@ -149,7 +116,7 @@ async function cargarNotificaciones(list, userId, rolId) {
     const maxNotis = 4;
     const data = notificaciones && notificaciones.length > 0
       ? notificaciones.slice(0, maxNotis)
-      : FAKE_NOTIFICATIONS;
+      : [];
     data.forEach(n => {
       const card = crearCardNotificacion(n, rolId);
       if (card.querySelector('.v-card-main')) list.appendChild(card);
