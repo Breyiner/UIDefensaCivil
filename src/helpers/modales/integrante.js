@@ -103,10 +103,10 @@ export const afeccionCrear = async (id, recargarContainer) => {
   const tiposAfeccionesPeticion = await api.get(`conditionTypes`);
 
   const explicacionDiv = document.createElement("div");
-  explicacionDiv.classList.add("explicacion", "modal");
+  explicacionDiv.classList.add("modal-edicion__cabecera");
 
   const tituloP = document.createElement("p");
-  tituloP.classList.add("explicacion__titulo");
+  tituloP.classList.add("modal-edicion__titulo");
   tituloP.textContent = "Agregar Afección";
   explicacionDiv.appendChild(tituloP);
 
@@ -226,12 +226,11 @@ export const afeccionCrear = async (id, recargarContainer) => {
   const funcionAlAbrir = async () => {
     const contenedor = document.querySelector(".container__gap");
     validacion.validadorAutomatico.init(contenedor);
+    initTomSelectPortatil();
   }
   
   // Ejecuta Sweet alert pasando modal visual y funciones reactivas para el on-click y on-open
   alerta.Crear(container, funcionModal, funcionAlAbrir);
-  // Inicializador del widget avanzado Tom Select adaptativo (en helper tomSelectPortatil.js)
-  initTomSelectPortatil();
 }
 
 
@@ -417,6 +416,7 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer, esS
     };
 
     // Reengancha detectores de escritura (restricciones de sintaxis dictadas) en el DOM recién abierto
+    // Y aplica renderizado Tom Select una vez SweetAlert ya insertó el modal en el DOM real
     const funcionAlAbrir = () => {
 
       const afeccion = document.getElementById("afecciones");
@@ -436,12 +436,12 @@ export const verEditarEliminar = async (id, integranteId, recargarContainer, esS
         validacion.limpiarError(e.target);
       });
 
+      initTomSelectPortatil();
+
     };
 
     // Abre modal de edición
     alerta.Crear(container, funcionModal, funcionAlAbrir);
-    // Aplica renderizado Tom Select
-    initTomSelectPortatil();
 
   };
   

@@ -14,10 +14,10 @@ export const agregarVulnerabilidadMemoria = async ({ initialData = null, onSave 
     const vulnerabilities = await api.get("vulnerabilities");
 
     const explicacionDiv = document.createElement("div");
-    explicacionDiv.classList.add("explicacion", "modal");
+    explicacionDiv.classList.add("modal-edicion__cabecera");
 
     const tituloP = document.createElement("p");
-    tituloP.classList.add("explicacion__titulo");
+    tituloP.classList.add("modal-edicion__titulo");
     tituloP.textContent = initialData ? "Editar Vulnerabilidad" : "Agregar Vulnerabilidad";
     explicacionDiv.appendChild(tituloP);
 
@@ -127,10 +127,10 @@ export const agregarAccionMemoria = async ({ familyPlanId, initialData = null, o
     const members = await api.get(`members/familyPlan/select/${familyPlanId}`);
 
     const explicacionDiv = document.createElement("div");
-    explicacionDiv.classList.add("explicacion", "modal");
+    explicacionDiv.classList.add("modal-edicion__cabecera");
 
     const tituloP = document.createElement("p");
-    tituloP.classList.add("explicacion__titulo");
+    tituloP.classList.add("modal-edicion__titulo");
     tituloP.textContent = initialData ? "Editar Acción" : "Agregar Acción de Reducción";
     explicacionDiv.appendChild(tituloP);
 

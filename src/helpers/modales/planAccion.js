@@ -13,10 +13,10 @@ export const crear = async (familyPlanId, actionTypeId, recargarContainer, idPla
   const members = await api.get(`members/familyPlan/select/${familyPlanId}`);
 
   const explicacionDiv = document.createElement("div");
-  explicacionDiv.classList.add("explicacion", "modal");
+  explicacionDiv.classList.add("modal-edicion__cabecera");
 
   const tituloP = document.createElement("p");
-  tituloP.classList.add("explicacion__titulo");
+  tituloP.classList.add("modal-edicion__titulo");
   tituloP.textContent = "Crear Acción";
   explicacionDiv.appendChild(tituloP);
 
