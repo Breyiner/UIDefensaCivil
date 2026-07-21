@@ -350,10 +350,6 @@
     position: relative;
   }
 
-  .form__doubleinput i {
-    position: absolute;
-  }
-
   .form__doubleinput .section__input {
     /* position: absolute; */
     padding-left: 35px;

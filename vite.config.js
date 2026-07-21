@@ -8,4 +8,9 @@ export default defineConfig({
         },
         extensions: [".js"],
     },
+
+    server: {
+        host: true, // escucha en 0.0.0.0, acepta conexiones externas
+        port: 5173, // opcional, pon el puerto que uses
+    },
 });

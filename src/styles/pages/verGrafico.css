@@ -8,6 +8,7 @@
     flex-direction: column;
     font-family: var(--fuente-contenido);
     gap: 10px;
+    background-color: var(--color-palido);
 }
 .verGraficos__imagenTexto{
     width: 100%;

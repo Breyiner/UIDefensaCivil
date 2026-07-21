@@ -13,6 +13,8 @@
     "parentesco parentesco edad edad"
     "botonEditar botonEliminar botonEliminar verMas";
     font-family: var(--fuente-contenido);
+
+  background-color: var(--color-palido);
 }
 .verIntegrante__nombre {
   grid-area: nombreApellido;

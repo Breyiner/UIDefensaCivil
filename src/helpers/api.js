@@ -9,10 +9,17 @@ import * as alerta from "./alertas";
 import * as cookie from "./cookies";
 import * as spinner from "./spinner"
 
-const url = import.meta.env.VITE_API_URL;
+// const url = import.meta.env.VITE_API_URL;
 
-// URL base donde se alojan los archivos estáticos en el backend (imágenes, documentos, etc.)
-export const urlStorage = import.meta.env.VITE_STORAGE_URL;
+// // URL base donde se alojan los archivos estáticos en el backend (imágenes, documentos, etc.)
+// export const urlStorage = import.meta.env.VITE_STORAGE_URL;
+
+const HOST = window.location.hostname;
+const esLocal = HOST === "localhost" || HOST === "127.0.0.1";
+
+const url = esLocal ? import.meta.env.VITE_API_URL : import.meta.env.VITE_API_URL.replace("localhost", HOST);
+export const urlStorage = esLocal ? import.meta.env.VITE_STORAGE_URL : import.meta.env.VITE_STORAGE_URL.replace("localhost", HOST);
+
 
 // ==========================================
 // FUNCIONES DE PETICIÓN (HTTP FETCH)

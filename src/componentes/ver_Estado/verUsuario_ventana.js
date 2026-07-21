@@ -2,10 +2,7 @@ import * as api from "@/helpers/api";
 import * as alerta from "@/helpers/alertas";
 import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
 import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
-
-/* =====================================================
-BASE COMÚN
-==================================================== */
+import * as fechas from "@/helpers/fechas";
 
 const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
 
@@ -277,31 +274,30 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
     btnEditar.addEventListener("click", async () => {
         // nombre
         boxNombre = document.createElement("div");
-        boxNombre.classList.add("form__inputBox");
-        const iconNombre = document.createElement("i");
-        iconNombre.classList.add("ri-user-line");
+        boxNombre.classList.add("input--azul");
+
         inputNombre = document.createElement("input");
         inputNombre.type = "text";
         inputNombre.value = peticion.names;
-        boxNombre.append(iconNombre, inputNombre);
+
+        boxNombre.append(inputNombre);
+
         nameValue.replaceWith(boxNombre);
 
         // apellidos
         boxApellidos = document.createElement("div");
-        boxApellidos.classList.add("form__inputBox");
-        const iconApellidos = document.createElement("i");
-        iconApellidos.classList.add("ri-user-line");
+        boxApellidos.classList.add("input--azul");
+
         inputApellidos = document.createElement("input");
         inputApellidos.type = "text";
         inputApellidos.value = peticion.last_names;
-        boxApellidos.append(iconApellidos, inputApellidos);
+
+        boxApellidos.append(inputApellidos);
         lastNameValue.replaceWith(boxApellidos);
 
         //tipo de documento
         boxDocumentType = document.createElement("div");
-        boxDocumentType.classList.add("form__inputBox");
-        const iconDocumentType = document.createElement("i");
-        iconDocumentType.classList.add("ri-file-text-line");
+        boxDocumentType.classList.add("input--azul");
 
         selectDocumentType = document.createElement("select");
         selectDocumentType.classList.add("selector-portatil");
@@ -309,25 +305,23 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         await adjuntarOpc.adjuntar(selectDocumentType, `documentTypes/`);
         selectDocumentType.value = peticion.document_type_id;
 
-        boxDocumentType.append(iconDocumentType, selectDocumentType);
+        boxDocumentType.append(selectDocumentType);
         documentTypeValue.replaceWith(boxDocumentType);
 
         // número de documento
         boxDocumentNumber = document.createElement("div");
-        boxDocumentNumber.classList.add("form__inputBox");
-        const iconDocumentNumber = document.createElement("i");
-        iconDocumentNumber.classList.add("ri-file-text-line");
+        boxDocumentNumber.classList.add("input--azul");
+
         inputDocumentNumber = document.createElement("input");
         inputDocumentNumber.type = "text";
         inputDocumentNumber.value = peticion.document_number;
-        boxDocumentNumber.append(iconDocumentNumber, inputDocumentNumber);
+
+        boxDocumentNumber.append(inputDocumentNumber);
         documentNumberValue.replaceWith(boxDocumentNumber);
 
         // genero
         boxGenders = document.createElement("div");
-        boxGenders.classList.add("form__inputBox");
-        const iconGenders = document.createElement("i");
-        iconGenders.classList.add("ri-file-text-line");
+        boxGenders.classList.add("input--azul");
 
         selectGenders = document.createElement("select");
         selectGenders.classList.add("selector-portatil");
@@ -335,18 +329,22 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         await adjuntarOpc.adjuntar(selectGenders, `genders/`);
         selectGenders.value = peticion.gender_id;
 
-        boxGenders.append(iconGenders, selectGenders);
+        boxGenders.append(selectGenders);
         genderValue.replaceWith(boxGenders);
 
         // fecha de nacimiento
         boxBirthday = document.createElement("div");
-        boxBirthday.classList.add("form__inputBox");
-        const iconBirthday = document.createElement("i");
-        iconBirthday.classList.add("ri-calendar-line");
+        boxBirthday.classList.add("input--azul");
+
         inputBirthday = document.createElement("input");
-        inputBirthday.type = "date";
+        inputBirthday.type = "text";
+        inputBirthday.id = "nacimientoEditar";
+        inputBirthday.autocomplete = "off";
         inputBirthday.value = peticion.birth_date;
-        boxBirthday.append(iconBirthday, inputBirthday);
+        inputBirthday.setAttribute("data-tipo", "fecha");
+        inputBirthday.setAttribute("data-fecha", "fechaAntes");
+
+        boxBirthday.append(inputBirthday);
         birthdayValue.replaceWith(boxBirthday);
 
         btnHistorial.classList.add("oculto");
@@ -359,9 +357,7 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
 
         // seccionales
         boxSectional = document.createElement("div");
-        boxSectional.classList.add("form__inputBox");
-        const iconSectional = document.createElement("i");
-        iconSectional.classList.add("ri-file-text-line");
+        boxSectional.classList.add("input--azul");
 
         selectSectional = document.createElement("select");
         selectSectional.classList.add("selector-portatil");
@@ -369,14 +365,12 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         await adjuntarOpc.adjuntar(selectSectional, "public/sectionals");
         selectSectional.value = peticion.sectional_id;
 
-        boxSectional.append(iconSectional, selectSectional);
+        boxSectional.append(selectSectional);
         sectionalValue.replaceWith(boxSectional);
 
         // organizaciones
         boxOrganization = document.createElement("div");
-        boxOrganization.classList.add("form__inputBox");
-        const iconOrganization = document.createElement("i");
-        iconOrganization.classList.add("ri-file-text-line");
+        boxOrganization.classList.add("input--azul");
 
         selectOrganization = document.createElement("select");
         selectOrganization.classList.add("selector-portatil");
@@ -384,7 +378,7 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         await adjuntarOpc.adjuntar(selectOrganization, `public/organizations/sectional/${selectSectional.value}`);
         selectOrganization.value = peticion.organization_id;
 
-        boxOrganization.append(iconOrganization, selectOrganization);
+        boxOrganization.append(selectOrganization);
         organizationValue.replaceWith(boxOrganization); 
 
         selectSectional.addEventListener("change", async () => {
@@ -395,9 +389,7 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         // rol
 
         boxRol = document.createElement("div");
-        boxRol.classList.add("form__inputBox");
-        const iconRol = document.createElement("i");
-        iconRol.classList.add("ri-file-text-line");
+        boxRol.classList.add("input--azul");
 
         selectRol = document.createElement("select");
         selectRol.classList.add("selector-portatil");
@@ -414,12 +406,12 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         
         selectRol.value = peticion.rol_id;
 
-        boxRol.append(iconRol, selectRol);
+        boxRol.append(selectRol);
 
         rolValue.replaceWith(boxRol);
         
         initTomSelectPortatil();
-
+        fechas.initFechas(); 
     });
     
     const btnHistorial = document.createElement("button");
@@ -554,7 +546,7 @@ const verUsuarioVentana = async (endpoint, recargar, urlHistorial) => {
         }
     });
 
-    btnContEstado.append(btnEditar, btnHistorial, btnDesactivar, btnCancelar, btnGuardar, btnEliminar);
+    btnContEstado.append(btnEditar, btnHistorial, btnDesactivar, btnCancelar, btnGuardar);
 
     ventana.append(btnCerrarCont, usuarioContainer, btnContEstado);
 

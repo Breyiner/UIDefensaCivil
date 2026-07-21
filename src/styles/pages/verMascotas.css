@@ -14,6 +14,8 @@
     ". . . ."
     "botonEditarMascota botonEliminarMascota verMasMascota verMasMascota";
   font-family: var(--fuente-contenido);
+
+  background-color: var(--color-palido);
 }
 .verMascotas__icono{
   display: flex;
