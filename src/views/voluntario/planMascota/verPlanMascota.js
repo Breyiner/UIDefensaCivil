@@ -1,106 +1,14 @@
 /**
- * Controlador: Listar y Gestionar Mascotas (verPlanMascota.js)
+ * Controlador: Listar y gestionar mascotas de la familia.
  * Fetcher asíncrono para renderizar las tarjetas de cada animal perteneciente al núcleo familiar.
  * Usa lógica condicional Switch Case para pintar Iconos SVG según 'Especie' de la Mascota.
  */
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { api } from "@/helpers/index.js";
-// Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
-import { alertas as alerta } from "@/helpers/index.js";
+import { api, alertas as alerta, formatearFecha } from "@/helpers/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { paginacion } from "@/helpers/index.js";
-
-// Modal detallado de la mascota (antes MascotaModal.js)
-const mostrarMascotaModal = ({ petData, vaccines }) => {
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    const parts = dateStr.split('-');
-    if (parts.length !== 3) return dateStr;
-    return `${parts[2]}/${parts[1]}/${parts[0].substring(2)}`;
-  };
-
-  const modal = document.createElement("dialog");
-  modal.className = "modal-edicion";
-
-  const cabecera = document.createElement("div");
-  cabecera.className = "modal-edicion__cabecera";
-  
-  const titulo = document.createElement("h3");
-  titulo.className = "modal-edicion__titulo";
-  titulo.textContent = `Detalles de ${petData.name}`;
-  cabecera.appendChild(titulo);
-  modal.appendChild(cabecera);
-
-  const content = document.createElement("div");
-  content.className = "modal-edicion__content";
-
-  const modalDiv = document.createElement("div");
-  modalDiv.classList.add("modalVer", "modal");
-  modalDiv.style.boxShadow = "none";
-  modalDiv.style.background = "transparent";
-  modalDiv.style.padding = "0";
-
-  const crearDato = (claseIcono, tituloDato, texto, largo) => {
-    const dato = document.createElement("div");
-    dato.classList.add("modalVer__dato");
-    if (largo) dato.classList.add("modalVer__dato--largo");
-
-    const icon = document.createElement("i");
-    icon.classList.add(claseIcono);
-
-    const tituloDiv = document.createElement("div");
-    tituloDiv.classList.add("modalVer__titulo");
-    tituloDiv.textContent = tituloDato;
-
-    const textoDiv = document.createElement("div");
-    textoDiv.classList.add("modalVer__texto");
-    textoDiv.textContent = texto;
-
-    dato.append(icon, tituloDiv, textoDiv);
-    return dato;
-  };
-
-  const formattedVaccines = vaccines.map(v => `${v.name} (${formatDate(v.date)})`).join(", ") || "ninguna";
-
-  modalDiv.append(
-    crearDato("ri-coupon-line", "Nombre", petData.name),
-    crearDato("ri-dna-line", "Raza", petData.breed),
-    crearDato("ri-cake-2-line", "Edad", petData.age),
-    crearDato("ri-bell-line", "Especie", petData.species ? petData.species.name : ""),
-    crearDato("ri-syringe-line", "Vacunas", formattedVaccines, true)
-  );
-
-  content.appendChild(modalDiv);
-  modal.appendChild(content);
-
-  const pie = document.createElement("div");
-  pie.className = "modal-edicion__pie";
-
-  const btnCerrar = document.createElement("button");
-  btnCerrar.type = "button";
-  btnCerrar.className = "modal-edicion__btn modal-edicion__btn--secundario";
-  btnCerrar.textContent = "Cerrar";
-  
-  const closeModal = () => {
-    modal.close();
-    modal.remove();
-  };
-
-  btnCerrar.addEventListener("click", closeModal);
-  pie.appendChild(btnCerrar);
-  modal.appendChild(pie);
-
-  document.body.appendChild(modal);
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-
-  modal.showModal();
-};
+import { mascotaDetalleModal } from "@/componentes/mascotas/index.js";
 
 
 export default async () => {
@@ -156,107 +64,129 @@ export default async () => {
         cartaInfo.classList.add("verMascotas"); // Card Wrapper BEM CSS Grid
 
         const divIcono = document.createElement("div");
-        divIcono.className = "verMascotas__icono";
+        divIcono.classList.add("verMascotas__icono");
         const img = document.createElement("img");
         img.src = `icon/${adaptarIcono(info.species_name)}.svg`;
         divIcono.appendChild(img);
         cartaInfo.appendChild(divIcono);
 
         const divNombre = document.createElement("div");
-        divNombre.className = "verMascotas__nombre";
+        divNombre.classList.add("verMascotas__nombre");
         divNombre.textContent = info.name;
         cartaInfo.appendChild(divNombre);
 
         const divDatos = document.createElement("div");
-        divDatos.className = "verMascotas__datos";
+        divDatos.classList.add("verMascotas__datos");
         divDatos.textContent = `${info.species_name} - ${info.breed}`;
         cartaInfo.appendChild(divDatos);
 
         const divEdad = document.createElement("div");
-        divEdad.className = "verMascotas__edad";
+        divEdad.classList.add("verMascotas__edad");
         divEdad.textContent = `${info.age} años`;
         cartaInfo.appendChild(divEdad);
 
         const divGeneroIcono = document.createElement("div");
-        divGeneroIcono.className = `verMascotas__generoIcono${info.animal_gender_id == 1 ? "" : " verMascotas__generoIcono--hembra"}`;
+        divGeneroIcono.classList.add("verMascotas__generoIcono");
+        if (info.animal_gender_id != 1) {
+            divGeneroIcono.classList.add("verMascotas__generoIcono--hembra");
+        }
         const iGenero = document.createElement("i");
-        iGenero.className = `ri-${info.animal_gender_id == 1 ? "men" : "women"}-line`;
+        iGenero.classList.add(`ri-${info.animal_gender_id == 1 ? "men" : "women"}-line`);
         divGeneroIcono.appendChild(iGenero);
         cartaInfo.appendChild(divGeneroIcono);
 
         const divGenero = document.createElement("div");
-        divGenero.className = "verMascotas__genero";
+        divGenero.classList.add("verMascotas__genero");
         const spanGenero = document.createElement("span");
         spanGenero.textContent = info.animal_gender_name;
         divGenero.appendChild(spanGenero);
         cartaInfo.appendChild(divGenero);
 
         const btnEditar = document.createElement("button");
-        btnEditar.className = "boton boton--azul verMascotas__boton--editar";
+        btnEditar.classList.add("boton", "boton--azul", "verMascotas__boton--editar");
         btnEditar.dataset.id = info.id;
         btnEditar.textContent = "Editar";
         cartaInfo.appendChild(btnEditar);
 
         const btnEliminar = document.createElement("button");
-        btnEliminar.className = "boton boton--azul verMascotas__boton--eliminar";
+        btnEliminar.classList.add("boton", "boton--azul", "verMascotas__boton--eliminar");
         btnEliminar.dataset.id = info.id;
         btnEliminar.textContent = "Eliminar";
         cartaInfo.appendChild(btnEliminar);
 
         const btnVerMas = document.createElement("button");
-        btnVerMas.className = "boton verMascotas__boton--verMas";
+        btnVerMas.classList.add("boton", "verMascotas__boton--verMas");
         btnVerMas.dataset.id = info.id;
         btnVerMas.textContent = "Ver más";
         cartaInfo.appendChild(btnVerMas);
 
-        return cartaInfo; // Div Node Retorno
+        return cartaInfo;
     };
 
-    // 🔥 MÉTODO RECARGAR CONTAINER Paginado Virtual Helper
+    // Recargar el listado de mascotas
     const recargarContainer = async () => {
         contenedor.innerHTML = "";
         await paginacion(`pets/familyPlan/${id}`, mensajeVacio, carta);
     };
 
-    // DELEGADOR MAIN Contenedor Eventos (Performance Optimization)
+    // Delegador de eventos para las acciones sobre mascotas
     contenedor.addEventListener("click", async (e) => {
 
-        // Branch 1: Modificar Raza/Nombre/Edad o Anexar Vacunas a Mascota
-        if (e.target.classList.contains("verMascotas__boton--editar")) {
-            // Router CSV args URL (Plan ID , Pet ID)
-            window.location.href = `#/voluntario/plan_familiar/mascotas/editar?familia_id=${id}&mascota_id=${e.target.dataset.id}`;
+        // Editar mascota
+        const btnEditar = e.target.closest(".verMascotas__boton--editar");
+        if (btnEditar) {
+            window.location.href = `#/voluntario/plan_familiar/mascotas/editar?familia_id=${id}&mascota_id=${btnEditar.dataset.id}`;
+            return;
         }
 
-        // Branch 2: Borrar de Existencia Mascota (Cascade de vacunas Backend)
-        if (e.target.classList.contains("verMascotas__boton--eliminar")) {
+        // Eliminar mascota de forma permanente
+        const btnEliminar = e.target.closest(".verMascotas__boton--eliminar");
+        if (btnEliminar) {
+            const petId = btnEliminar.dataset.id;
 
-            const petId = e.target.dataset.id; // DB PK
-
-            // Alert Doble check Delete
+            // Confirmación de eliminación
             const confirmacion = await alerta.alertaQuest(
                 "¿Seguro que deseas eliminar esta mascota de la familia?"
             );
 
             if (!confirmacion.isConfirmed) return;
 
-            // Delete API
+            // Petición de borrado
             const eliminado = await api.delet(`pets/${petId}`);
 
             if (eliminado.success) {
                 await alerta.alertaOK(eliminado.message);
-                await recargarContainer(); // 🔥 Force Refresh Virtual Grid Local Client Side
+                await recargarContainer();
             } else {
                 alerta.alertaError(eliminado.message);
             }
+            return;
         }
 
-        // Branch 3: Sweet Alert Expansor (Ver Vacunas Historial Específico si no quiero entrar a editar)
-        if (e.target.classList.contains("verMascotas__boton--verMas")) {
-            const petId = e.target.dataset.id;
-            const petData = await api.get(`pets/${petId}`);
+        // Mostrar modal con detalles y vacunas de la mascota
+        const btnVerMas = e.target.closest(".verMascotas__boton--verMas");
+        if (btnVerMas) {
+            const petId = btnVerMas.dataset.id;
+            const [petData, vaccines] = await Promise.all([
+                api.get(`pets/${petId}`),
+                api.get(`petVaccines/pet/${petId}`)
+            ]);
             if (!petData) return;
-            const vaccines = await api.get(`petVaccines/pet/${petId}`) || [];
-            mostrarMascotaModal({ petData, vaccines });
+
+            const modal = mascotaDetalleModal({ petData, vaccines: vaccines || [] });
+            document.body.appendChild(modal);
+
+            const btnCerrar = modal.querySelector(".modal-edicion__btn--secundario");
+            const closeModal = () => {
+                modal.close();
+                modal.remove();
+            };
+            btnCerrar.addEventListener("click", closeModal);
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            modal.showModal();
         }
     });
 
