@@ -15,11 +15,15 @@ import * as spinner from "./spinner"
 // export const urlStorage = import.meta.env.VITE_STORAGE_URL;
 
 const HOST = window.location.hostname;
-const esLocal = HOST === "localhost" || HOST === "127.0.0.1";
+const esLocal = HOST === "localhost" || HOST === "127.0.0.1" || /^(192\.168|10\.|172\.(1[6-9]|2[0-9]|3[0-1]))/.test(HOST);
 
-const url = esLocal ? import.meta.env.VITE_API_URL : import.meta.env.VITE_API_URL.replace("localhost", HOST);
-export const urlStorage = esLocal ? import.meta.env.VITE_STORAGE_URL : import.meta.env.VITE_STORAGE_URL.replace("localhost", HOST);
+const url = esLocal 
+  ? (import.meta.env.VITE_API_URL?.replace("localhost", HOST) ?? `http://${HOST}:8000/api`)
+  : import.meta.env.VITE_API_URL;
 
+export const urlStorage = esLocal 
+  ? (import.meta.env.VITE_STORAGE_URL?.replace("localhost", HOST) ?? `http://${HOST}:8000/storage`)
+  : import.meta.env.VITE_STORAGE_URL;
 
 // ==========================================
 // FUNCIONES DE PETICIÓN (HTTP FETCH)
