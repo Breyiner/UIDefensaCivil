@@ -39,6 +39,7 @@
 @import "./components/tablas.css";
 @import "./components/sidebar.css";
 @import "./components/toggle.css";
+@import "./components/notificationPanel.css";
 /* pages */
 @import "./pages/familiarcrear.css";
 @import "./pages/test.css";

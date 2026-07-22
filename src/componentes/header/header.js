@@ -1,6 +1,7 @@
 // Header: barra superior con logo, notificaciones y perfil; además inyecta sidebar y bottom nav para supervisores
 import * as api from "@/helpers/api";
 import { crearAsideSupervisor, crearAsideMobile, marcarActivo } from "@/componentes/navegacion/aside";
+import { crearNotificationPanel } from "./notificationPanel";
 
 export const componenteHeader = async () => {
     
@@ -104,6 +105,12 @@ export const componenteHeader = async () => {
         }
     }
 
+    const esVoluntarioDashboard = location.hash === '#/voluntario' || location.hash === '#/voluntario/';
+    let panelCtrl = null;
+    if (!esVoluntarioDashboard) {
+      panelCtrl = crearNotificationPanel(headerCont, rolId, userId);
+    }
+
     const cargarIndicador = async () => {
 
         if (!userId) return;
@@ -138,15 +145,17 @@ export const componenteHeader = async () => {
 
     if(botonNoti){
     botonNoti.addEventListener("click", () => {
-
-        if (rolId == 1) {
-            location.hash = "#/administrador/notificaciones";
-        }
-        if (rolId == 2) {
-            location.hash = "#/supervisor/notificaciones";
-        }
-        if (rolId == 3) {
-            location.hash = "#/voluntario/notificaciones";
+        const isDesktop = window.innerWidth >= 768;
+        if (isDesktop && panelCtrl && !esVoluntarioDashboard) {
+            panelCtrl.toggle();
+        } else {
+            if (rolId == 1) {
+                location.hash = "#/administrador/notificaciones";
+            } else if (rolId == 2) {
+                location.hash = "#/supervisor/notificaciones";
+            } else if (rolId == 3) {
+                location.hash = "#/voluntario/notificaciones";
+            }
         }
     });
     }
