@@ -7,33 +7,43 @@ function h(tag, cls, ...children) {
     return el;
 }
 
+const STATUS_MAP = {
+    1: 'creado',
+    2: 'creado',
+    3: 'pendiente',
+    4: 'pendiente',
+    5: 'devuelto',
+    6: 'rechazado',
+    7: 'completado'
+};
+
 function crearCardPlan(plan) {
-    const esDevuelto = plan.status === "Devuelto";
-    const pillClass = esDevuelto ? "devuelto" : "pendiente";
+    const pillClass = STATUS_MAP[plan.status_id] ?? 'pendiente';
+    const mostrarMotivo = plan.status_id === 5 || plan.status_id === 6;
 
     const card = h('div', 'row-plan-card',
         h('div', 'row-plan-main',
             h('div', 'left-info-group',
                 h('div', 'avatar-circle-icon', h('span', 'ri-team-line')),
                 h('div', 'details-list',
-                    h('h4', null, plan.familia ?? "Familia sin nombre"),
-                    h('p', null, h('span', 'ri-map-pin-line'), ' ' + (plan.ubicacion ?? "Sin ubicación")),
-                    h('p', null, h('span', 'ri-calendar-line'), ' Recibido: ' + (plan.fecha ?? "—")),
-                    h('p', null, h('span', 'ri-user-line'), ' Voluntario: ' + (plan.voluntario ?? "—"))
+                    h('h4', null, 'Familia ' + (plan.last_names ?? "sin nombre")),
+                    h('p', null, h('span', 'ri-map-pin-line'), ' ' + (plan.department ?? "Sin ubicación")),
+                    h('p', null, h('span', 'ri-calendar-line'), ' Recibido: ' + (plan.date_create ?? "—")),
+                    h('p', null, h('span', 'ri-user-line'), ' Voluntario: ' + (plan.responsable ?? "—"))
                 )
             ),
             h('div', 'right-status-group',
-                h('div', 'timestamp', plan.tiempo ?? "—"),
+                h('div', 'timestamp', plan.date_create ?? "—"),
                 h('div', 'status-pill ' + pillClass, plan.status ?? "Pendiente")
             )
         )
     );
 
-    if (esDevuelto) {
+    if (mostrarMotivo) {
         card.appendChild(
             h('div', 'devuelto-reason-container',
                 h('span', 'ri-chat-1-line'),
-                h('div', null, h('strong', null, 'Motivo'), h('br'), plan.motivo ?? "Sin especificar")
+                h('div', null, h('strong', null, 'Motivo'), h('br'), plan.comentary ?? "Sin especificar")
             )
         );
     }
@@ -72,16 +82,13 @@ export default async () => {
                 actualizarElemento("promedioPlanes", (stats.promedio_planes_por_voluntario ?? 0) + "%");
             }
         }
-
         const planesList = document.getElementById("planesList");
-        if (planesList && dashBoard.recent_plans?.length) {
-            const planes = dashBoard.recent_plans;
+        const planesRes = await get('familyPlans?per_page=4');
+        if (planesList && planesRes?.length) {
             planesList.innerHTML = "";
-            for (let i = 0; i < planes.length; i += 4) {
-                const page = h('div', 'planes-page');
-                planes.slice(i, i + 4).forEach(plan => page.appendChild(crearCardPlan(plan)));
-                planesList.appendChild(page);
-            }
+            const page = h('div', 'planes-page');
+            planesRes.slice(0, 4).forEach(plan => page.appendChild(crearCardPlan(plan)));
+            planesList.appendChild(page);
         }
 
         const RUTAS = {
