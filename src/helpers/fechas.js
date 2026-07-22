@@ -32,7 +32,7 @@ export const initFechas = () => {
 
     // SOLO FECHAS PASADAS
     if (tipo === "fechaAntes") {
-      config.dateFormat = "dd/MM/yy";
+      config.dateFormat = "yyyy-MM-dd";
       config.maxDate = new Date();
     }
 
@@ -100,4 +100,4 @@ export const initModalDatepicker = (input, { modal, formModal, minDate = null, m
 
   return new AirDatepicker(input, config);
 };
-
+
