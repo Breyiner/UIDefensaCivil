@@ -7,23 +7,33 @@
 import { factorRiesgoVentana, integranteVentana, mascotaVentana, recursosVentana } from "@/componentes/ver_EstadoSupervisor/index.js";
 // Importación explícita desde index.js del directorio para asegurar la resolución de rutas en Vite.
 import { alertas as alerta, api } from "@/helpers/index.js";
+import { panel_planAccion } from "../../../../componentes/panel_planAccion/panel_planAccion";
 
 const RevisionPlanController = async () => {
 
     const id = location.hash.split("=")[1];
 
-    const info = await api.get(`familyPlans/${id}`);
+    // const info = await api.get(`familyPlans/${id}`);
 
+    // const familyMembers = await api.get(`members/familyPlan/${id}`);
 
-    const familyMembers = await api.get(`familyMembers/`);
+    // const sectors = await api.get(`sectors/`);
 
-    const sectors = await api.get(`sectors/`);
+    // const pets = await api.get(`pets/familyPlan/${id}`);
 
-    const pets = await api.get(`pets/`);
+    // const riskFactors = await api.get(`riskFactors/familyPlan/${id}`);
 
-    const riskFactors = await api.get(`riskFactors/`);
+    // const Resources = await api.get(`availableResources/familyPlan/${id}`) ?? [];
 
-    const Resources = await api.get(`availableResources/familyPlan/${id}`) ?? [];
+    const [info, familyMembers, sectors, pets, riskFactors, Resources] = await Promise.all([
+    
+        api.get(`familyPlans/${id}`),
+        api.get(`members/familyPlan/${id}`),
+        api.get(`sectors/`),
+        api.get(`pets/familyPlan/${id}`),
+        api.get(`riskFactors/familyPlan/${id}`),
+        api.get(`availableResources/familyPlan/${id}`).catch(() => []),
+    ]);
     
     const principalCont = document.querySelector(".container");
 
@@ -82,11 +92,11 @@ const RevisionPlanController = async () => {
 
     departamento.append(ubicacionIcono, " " + info.address + ", " + (tiposSector?.name || "") + " " + info.sector_name + ", " + info.city + ", " + info.department);
 
-    const telfonoFamilia = document.createElement("div");
-    telfonoFamilia.classList.add("form_autorizacion");
+    const telefonoFamilia = document.createElement("div");
+    telefonoFamilia.classList.add("form_autorizacion");
     const telefonoIcono = document.createElement("i");
     telefonoIcono.classList.add("icono--pequeno", "ri-phone-line");
-    telfonoFamilia.append(telefonoIcono, info.landline_phone);
+    telefonoFamilia.append(telefonoIcono, info.landline_phone ?? 'Sin número');
 
     const calidadVivienda = document.createElement("div");
     calidadVivienda.classList.add("form_autorizacion");
@@ -109,12 +119,12 @@ const RevisionPlanController = async () => {
     const introduccionDiv = document.createElement("div");
     introduccionDiv.classList.add("introduccionDiv");
 
-    introduccionCont.append(familiaCont, departamento, telfonoFamilia, calidadVivienda, tipoFamilia, fechaRecibido);
+    introduccionCont.append(familiaCont, departamento, telefonoFamilia, calidadVivienda, tipoFamilia, fechaRecibido);
 
     introduccionDiv.append(imagenIcono, introduccionCont);
 
     const botonVerPDF = document.createElement("button");
-    botonVerPDF.classList.add("boton", "boton--height");
+    botonVerPDF.classList.add("boton");
     botonVerPDF.id = "verPDF";
     botonVerPDF.textContent = "Ver PDF";
 
@@ -145,15 +155,9 @@ const RevisionPlanController = async () => {
 
     integrantesHumanos.append(subtituloIntegrantes);
 
-    const miembrosFamilia = familyMembers.filter(miembros => {
-        return miembros.family_plan_id == info.id
-    });
+    familyMembers.forEach(async (miembro) => {
 
-    miembrosFamilia.forEach(async (integrante) => {
-
-        const miembro = await api.get(`members/${integrante.member_id}`);
-
-        const relacion = await api.get(`kinships/${miembro.kinship_id}`);
+        // console.log(miembro);
 
         const integranteCont = document.createElement("div");
         integranteCont.classList.add("integrante__container");
@@ -164,22 +168,19 @@ const RevisionPlanController = async () => {
         const Integrante = document.createElement("div");
         Integrante.classList.add("form_autorizacion", "integrante--nombre");
 
-        Integrante.textContent = `• ${miembro.names} ${miembro.last_names} - ${relacion.name}`;
+        Integrante.textContent = `• ${miembro.full_name} - ${miembro.kinship}`;
 
         const btnVisualizar = document.createElement("button");
         btnVisualizar.classList.add("ri-eye-line", "boton--pequenio");
 
         nombreCont.append(Integrante, btnVisualizar);
-
         integranteCont.append(nombreCont);
-
         integrantesHumanos.append(integranteCont);
 
         btnVisualizar.addEventListener("click", () => {
-
-            integranteVentana(miembro, relacion, info);
-
+            integranteVentana(miembro, miembro.kinship, info);
         });
+
     });
 
     const integrantesMascotas = document.createElement("div");
@@ -193,12 +194,12 @@ const RevisionPlanController = async () => {
 
     integrantesMascotas.append(subtituloMascotas);
 
-    const mascotasFamilia = pets.filter(mascota => {
-        return mascota.family_plan_id == info.id
-    });
-
-
-    mascotasFamilia.forEach(async mascota => {
+    // const mascotasFamilia = pets.filter(mascota => {
+    //     return mascota.family_plan_id == info.id
+    // });
+    // mascotasFamilia.forEach(async
+        
+    pets.forEach(async mascota => {
 
         const especie = await api.get(`species/${mascota.species_id}`);
 
@@ -238,14 +239,14 @@ const RevisionPlanController = async () => {
 
     FactoresRiesgoCont.append(subtituloRiesgo);
 
-    const factoresRiesgo = riskFactors.filter(factor => {
-        return factor.family_plan_id == info.id
-    });
+    // const factoresRiesgo = riskFactors.filter(factor => {
+    //     return factor.family_plan_id == info.id
+    // });
 
     let contadorRiesgos = 0;
 
     // factoresRiesgo.forEach(async factor => 
-    for (const factor of factoresRiesgo) {
+    for (const factor of riskFactors) {
 
         contadorRiesgos++;
 
@@ -337,7 +338,13 @@ const RevisionPlanController = async () => {
     btnPlanAccion.classList.add("boton", "boton--height");
     btnPlanAccion.textContent = "Plan de Acción";
 
-    contenedorBotonesExtra.append(btnGeo, btnEntorno, btnGraficos, btnPlanAccion);
+    const panelAccion = document.createElement("div");
+
+    const idPlanAccion = await api.get(`actionPlans/familyPlan/${id}`);
+
+    panel_planAccion(panelAccion, idPlanAccion, true, id);
+
+    contenedorBotonesExtra.append(btnGeo, btnEntorno, btnGraficos, panelAccion);
 
     // 📍 Georreferenciación
     btnGeo.addEventListener("click", () => {
@@ -356,7 +363,7 @@ const RevisionPlanController = async () => {
 
     // 📋 Plan de acción
     btnPlanAccion.addEventListener("click", () => {
-        location.hash = `#/supervisor/plan_familiar/plan_de_accion/antes?familia_id=${id}`;
+        location.hash = `#/supervisor/plan_familiar/plan_de_accion?familia_id=${id}`;
     });
 
     tarjetaContenido.append(contenedorBotonesExtra);

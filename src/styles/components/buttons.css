@@ -5,6 +5,7 @@ button {
 
 .boton {
   width: fit-content;
+  height: fit-content;
   padding: 10px 20px;
   border-radius: var(--border-radius-botones);
   background-color: var(--color-primario);
