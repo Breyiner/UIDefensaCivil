@@ -10,6 +10,7 @@ import { api } from "@/helpers/index.js";
 import { alertas as alerta } from "@/helpers/index.js";
 import AccesoPlan from "@/helpers/accesoPlan"; // Security Guard Midleware Role Front
 import { formatearLista, separarLista } from "../../../../componentes/separar/separarLista";
+import { obtenerRol } from "@/helpers/obtenerRol.js";
 
 export default async () => {
   // Selectores DOM de la Cuadrícula HTML de Módulos (Iconos grandes)
@@ -35,7 +36,7 @@ export default async () => {
   // Guardián Frontend: ¿El usuario que intenta entrar por URL es el dueño de este plan? ¿Tiene el estado correcto para modificarlo? Si no, lo patea.
   await AccesoPlan(id); 
 
-  const esSupervisor = location.hash.includes("supervisor/");
+  const {esSupervisor} = obtenerRol();
   const base = esSupervisor ? "supervisor" : "voluntario";
   
   // Fetch Cabecera Datos Básicos Flia 

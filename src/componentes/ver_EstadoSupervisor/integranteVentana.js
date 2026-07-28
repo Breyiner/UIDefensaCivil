@@ -3,6 +3,9 @@ import * as alerta from "@/helpers/alertas";
 
 const integranteVentana = async (miembro, info) =>{
 
+    console.log(miembro);
+    
+    
     const overlay = document.createElement("div");
     overlay.classList.add("overlay_verEstado");
 
@@ -55,7 +58,7 @@ const integranteVentana = async (miembro, info) =>{
 
     const relacionIntegrante = document.createElement("p");
     relacionIntegrante.classList.add("form_autorizacion");
-    relacionIntegrante.textContent = miembro.kindship;
+    relacionIntegrante.textContent = miembro.kinship;
 
     relacionCont.append(relacionTitulo, relacionIntegrante);
 
@@ -217,7 +220,7 @@ const integranteVentana = async (miembro, info) =>{
     tipoSangreTitulo.append(tipoSangreIcono, " Tipo de Sangre");
     const tipoSangre = document.createElement("p");
     tipoSangre.classList.add("form_autorizacion");
-    tipoSangre.textContent = miembro.blood_group.name;
+    tipoSangre.textContent = miembro.blood_group;
     tipoSangreCont.append(tipoSangreTitulo, tipoSangre);
     //
 
@@ -246,6 +249,7 @@ const integranteVentana = async (miembro, info) =>{
             overlay.remove();
         }
     };
+
 
     btnEditar.addEventListener("click", () => {
         location.href = `#/supervisor/plan_familiar/integrantes/editar?familia_id=${info.id}&integrante_id=${miembro.id}`;

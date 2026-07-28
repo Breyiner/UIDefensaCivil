@@ -142,7 +142,7 @@ export const panel_planAccion = async (panelCont, idPlanAccion, esSupervisor, fa
     antesBtn.classList.add('activo'); // Pestaña inicial
     
     // ---- Bloqueo si el plan ya fue aprobado/cerrado ----
-    const familyPlan = await api.get(`familyPlans/${id}`);
+    const familyPlan = await api.get(`familyPlans/${familyPlanId}`);
     
     if (familyPlan.status_plan_id === 6 || familyPlan.status_plan_id === 7) {
     

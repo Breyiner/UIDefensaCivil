@@ -1,29 +1,23 @@
 import { api } from "@/helpers/index.js";
-
 import { alertas as alerta } from "@/helpers/index.js";
-
 import { adjuntarOpciones as adjuntarOpc } from "@/helpers/index.js";
-
 import { cargarDatosHelper as cargarDatos } from "@/helpers/index.js";
-
 import { validacionInputs as validacion } from "@/helpers/index.js";
-
 import { planAccion as modalPlanAccion } from "@/helpers/modales/index.js";
-
 import { initTomSelectPortatil } from "@/helpers/tomSelectPortatil";
+import { obtenerRol } from "@/helpers/obtenerRol.js";
 
 const planAccionController = async () => {
 
     const botonBack = document.getElementById("botonBack"); // Botón para regresar al menú principal del Plan
     const boton = document.getElementById("botonGuardar"); // Botón principal para enviar el formulario
     const form = document.querySelector(".form"); // Formulario principal en la pantalla
-
-    const id = location.hash.split("=")[1];
-    const esSupervisor = location.hash.includes("/supervisor/");
-
     const miembro = document.getElementById("miembro"); // Lista desplegable de los familiares
     const factorRiesgo = document.getElementById("factorRiesgo"); // Lista desplegable de los riesgos
     const containerAccion = document.querySelector(".container__gap"); // Contenedor que aloja la lista de acciones (permanece oculto al inicio)
+    
+    const id = location.hash.split("=")[1];
+    const { esSupervisor } = obtenerRol();
 
     if (window.procesoPeticion === undefined) {
         window.procesoPeticion = true; // Se bloquea temporalmente mientras se cargan los datos de las listas
