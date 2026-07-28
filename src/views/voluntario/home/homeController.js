@@ -1,39 +1,78 @@
 import { api } from "@/helpers/index.js";
 import tiempoRelativo from "@/componentes/tiempos/tiempoRelativo";
 
-function h(tag, cls, ...children) {
-    const el = document.createElement(tag);
-    if (cls) el.className = cls;
-    children.forEach(c => el.append(typeof c === 'string' ? document.createTextNode(c) : c));
-    return el;
-}
-
 const NOTIF_STATUS = { 4: 'pending', 5: 'returned', 6: 'pending', 7: 'pending' };
 
 function crearCardNotificacion(n) {
-    const card = h('div', 'v-notification-card');
+    const card = document.createElement('div');
+    card.className = 'v-notification-card';
+
     if (n.entidad.tipo !== 'Plan Familiar') return card;
 
-    const icono = h('div', 'v-card-icon', h('i', 'ri-parent-fill'));
-    const info = h('div', 'v-card-info',
-        h('h3', null, 'Familia ' + n.entidad.apellidos),
-        h('p', 'v-card-location', h('i', 'ri-map-pin-fill'), ' ' + (n.entidad.direccion || ''))
-    );
+    // icono
+    const icono = document.createElement('div');
+    icono.className = 'v-card-icon';
+    const iconoI = document.createElement('i');
+    iconoI.className = 'ri-parent-fill';
+    icono.appendChild(iconoI);
 
+    // info: titulo + ubicacion
+    const info = document.createElement('div');
+    info.className = 'v-card-info';
+
+    const titulo = document.createElement('h3');
+    titulo.textContent = 'Familia ' + n.entidad.apellidos;
+
+    const ubicacion = document.createElement('p');
+    ubicacion.className = 'v-card-location';
+    const ubicacionI = document.createElement('i');
+    ubicacionI.className = 'ri-map-pin-fill';
+    ubicacion.appendChild(ubicacionI);
+    ubicacion.append(' ' + (n.entidad.direccion || ''));
+
+    info.appendChild(titulo);
+    info.appendChild(ubicacion);
+
+    // estado: tiempo + badge
     const badgeCls = 'v-status-badge v-status-' + (NOTIF_STATUS[n.entidad.estado_id] || 'pending');
-    const estado = h('div', 'v-card-status',
-        h('span', 'v-time', tiempoRelativo(n.created_at)),
-        h('span', badgeCls, n.entidad.estado)
-    );
+    const estado = document.createElement('div');
+    estado.className = 'v-card-status';
 
-    card.append(h('div', 'v-card-main', icono, info, estado));
+    const tiempo = document.createElement('span');
+    tiempo.className = 'v-time';
+    tiempo.textContent = tiempoRelativo(n.created_at);
 
+    const badge = document.createElement('span');
+    badge.className = badgeCls;
+    badge.textContent = n.entidad.estado;
+
+    estado.appendChild(tiempo);
+    estado.appendChild(badge);
+
+    // main: junta icono + info + estado
+    const main = document.createElement('div');
+    main.className = 'v-card-main';
+    main.appendChild(icono);
+    main.appendChild(info);
+    main.appendChild(estado);
+    card.appendChild(main);
+
+    // motivo (solo si hay comentario)
     if (n.entidad.comentario) {
-        card.append(h('div', 'v-card-reason',
-            h('p', null, h('strong', null, 'Motivo: '), n.entidad.comentario)
-        ));
+        const reason = document.createElement('div');
+        reason.className = 'v-card-reason';
+
+        const reasonP = document.createElement('p');
+        const strong = document.createElement('strong');
+        strong.textContent = 'Motivo: ';
+        reasonP.appendChild(strong);
+        reasonP.append(n.entidad.comentario);
+
+        reason.appendChild(reasonP);
+        card.appendChild(reason);
     }
 
+    // evento click para marcar como leido e ir al plan
     card.addEventListener('click', async () => {
         await api.patch('notifications/' + n.id, { is_read: true });
         window.location.href = '#/voluntario/plan_familiar/familia?id=' + n.entidad.id;
@@ -63,7 +102,7 @@ export default async () => {
         try {
             const notificaciones = await api.get("notifications/user/" + userId);
             contenedor.innerHTML = "";
-            if (notificaciones?.length > 0) {
+            if (notificaciones && notificaciones.length > 0) {
                 notificaciones.slice(0, 3).forEach(n => contenedor.append(crearCardNotificacion(n)));
             } else {
                 const msg = document.createElement("p");
