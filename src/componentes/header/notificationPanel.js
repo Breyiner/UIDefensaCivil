@@ -52,9 +52,6 @@ function crearCardNotificacion(n, rolId) {
 }
 
 export function crearNotificationPanel(headerCont, rolId, userId) {
-  const backdrop = document.createElement('div');
-  backdrop.className = 'notif-backdrop';
-
   const panel = document.createElement('div');
   panel.className = 'notif-panel';
 
@@ -79,20 +76,18 @@ export function crearNotificationPanel(headerCont, rolId, userId) {
   footer.appendChild(verTodoBtn);
 
   panel.append(headerNoti, list, footer);
-  headerCont.append(backdrop, panel);
+  headerCont.append(panel);
 
   let isOpen = false;
 
   function open() {
     if (isOpen) return;
     cargarNotificaciones(list, userId, rolId);
-    backdrop.classList.add('notif-backdrop--visible');
     panel.classList.add('notif-panel--visible');
     isOpen = true;
   }
 
   function close() {
-    backdrop.classList.remove('notif-backdrop--visible');
     panel.classList.remove('notif-panel--visible');
     isOpen = false;
   }
@@ -102,9 +97,11 @@ export function crearNotificationPanel(headerCont, rolId, userId) {
     else open();
   }
 
-  backdrop.addEventListener('click', close);
-
-  panel.addEventListener('click', (e) => e.stopPropagation());
+  document.addEventListener('click', (e) => {
+    if (isOpen && !panel.contains(e.target) && !e.target.closest('.header__boton--notificacion')) {
+      close();
+    }
+  });
 
   return { toggle, close };
 }
