@@ -1,41 +1,80 @@
 import { api } from "@/helpers/index.js";
 import tiempoRelativo from "@/componentes/tiempos/tiempoRelativo";
 
-function h(tag, cls, ...children) {
-  const el = document.createElement(tag);
-  if (cls) el.className = cls;
-  children.forEach(c => el.append(typeof c === 'string' ? document.createTextNode(c) : c));
-  return el;
-}
-
 const NOTIF_STATUS = { 4: 'pending', 5: 'returned', 6: 'pending', 7: 'pending' };
 
 const ROL_MAP = { 1: 'administrador', 2: 'supervisor', 3: 'voluntario' };
 
 function crearCardNotificacion(n, rolId) {
-  const card = h('div', 'v-notification-card');
+  const card = document.createElement('div');
+  card.className = 'v-notification-card';
+
   if (n.entidad.tipo !== 'Plan Familiar') return card;
 
-  const icono = h('div', 'v-card-icon', h('i', 'ri-parent-fill'));
-  const info = h('div', 'v-card-info',
-    h('h3', null, 'Familia ' + n.entidad.apellidos),
-    h('p', 'v-card-location', h('i', 'ri-map-pin-fill'), ' ' + (n.entidad.direccion || ''))
-  );
+  // icono
+  const icono = document.createElement('div');
+  icono.className = 'v-card-icon';
+  const iconoI = document.createElement('i');
+  iconoI.className = 'ri-parent-fill';
+  icono.appendChild(iconoI);
 
+  // info: titulo + ubicacion
+  const info = document.createElement('div');
+  info.className = 'v-card-info';
+
+  const titulo = document.createElement('h3');
+  titulo.textContent = 'Familia ' + n.entidad.apellidos;
+
+  const ubicacion = document.createElement('p');
+  ubicacion.className = 'v-card-location';
+  const ubicacionI = document.createElement('i');
+  ubicacionI.className = 'ri-map-pin-fill';
+  ubicacion.appendChild(ubicacionI);
+  ubicacion.append(' ' + (n.entidad.direccion || ''));
+
+  info.appendChild(titulo);
+  info.appendChild(ubicacion);
+
+  // estado: tiempo + badge
   const badgeCls = 'v-status-badge v-status-' + (NOTIF_STATUS[n.entidad.estado_id] || 'pending');
-  const estado = h('div', 'v-card-status',
-    h('span', 'v-time', tiempoRelativo(n.created_at)),
-    h('span', badgeCls, n.entidad.estado)
-  );
+  const estado = document.createElement('div');
+  estado.className = 'v-card-status';
 
-  card.append(h('div', 'v-card-main', icono, info, estado));
+  const tiempo = document.createElement('span');
+  tiempo.className = 'v-time';
+  tiempo.textContent = tiempoRelativo(n.created_at);
 
+  const badge = document.createElement('span');
+  badge.className = badgeCls;
+  badge.textContent = n.entidad.estado;
+
+  estado.appendChild(tiempo);
+  estado.appendChild(badge);
+
+  // main: junta icono + info + estado
+  const main = document.createElement('div');
+  main.className = 'v-card-main';
+  main.appendChild(icono);
+  main.appendChild(info);
+  main.appendChild(estado);
+  card.appendChild(main);
+
+  // motivo (solo si hay comentario)
   if (n.entidad.comentario) {
-    card.append(h('div', 'v-card-reason',
-      h('p', null, h('strong', null, 'Motivo: '), n.entidad.comentario)
-    ));
+    const reason = document.createElement('div');
+    reason.className = 'v-card-reason';
+
+    const reasonP = document.createElement('p');
+    const strong = document.createElement('strong');
+    strong.textContent = 'Motivo: ';
+    reasonP.appendChild(strong);
+    reasonP.append(n.entidad.comentario);
+
+    reason.appendChild(reasonP);
+    card.appendChild(reason);
   }
 
+  // evento click para ir al plan
   if (n.id > 0) {
     const baseUrl = rolId == 2
       ? '#/supervisor/plan_familiar/revision?familia_id='
@@ -57,39 +96,50 @@ export function crearNotificationPanel(headerCont, rolId, userId) {
 
   const headerNoti = document.createElement('div');
   headerNoti.className = 'notif-panel-header';
-  headerNoti.innerHTML = '<h2>Notificaciones Recientes</h2><i class="ri-notification-3-fill v-bell-small"></i>';
+
+  const headerTitle = document.createElement('h2');
+  headerTitle.textContent = 'Notificaciones Recientes';
+  const headerIcon = document.createElement('i');
+  headerIcon.className = 'ri-notification-3-fill v-bell-small';
+  headerNoti.appendChild(headerTitle);
+  headerNoti.appendChild(headerIcon);
 
   const list = document.createElement('div');
   list.className = 'notif-panel-list';
 
   const footer = document.createElement('div');
   footer.className = 'notif-panel-footer';
+
   const verTodoBtn = document.createElement('button');
   verTodoBtn.className = 'v-btn v-btn-orange v-btn-see-all';
   verTodoBtn.textContent = 'Ver todo';
+
+  let isOpen = false;
+
+  function close() {
+    panel.classList.remove('notif-panel--visible');
+    isOpen = false;
+  }
+
   verTodoBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     const rolSegmento = ROL_MAP[rolId] || 'voluntario';
     location.hash = '#/' + rolSegmento + '/notificaciones';
     close();
   });
+
   footer.appendChild(verTodoBtn);
 
-  panel.append(headerNoti, list, footer);
-  headerCont.append(panel);
-
-  let isOpen = false;
+  panel.appendChild(headerNoti);
+  panel.appendChild(list);
+  panel.appendChild(footer);
+  headerCont.appendChild(panel);
 
   function open() {
     if (isOpen) return;
     cargarNotificaciones(list, userId, rolId);
     panel.classList.add('notif-panel--visible');
     isOpen = true;
-  }
-
-  function close() {
-    panel.classList.remove('notif-panel--visible');
-    isOpen = false;
   }
 
   function toggle() {
@@ -119,9 +169,16 @@ async function cargarNotificaciones(list, userId, rolId) {
       if (card.querySelector('.v-card-main')) list.appendChild(card);
     });
     if (list.children.length === 0) {
-      list.innerHTML = '<div class="notif-panel-empty">No hay notificaciones recientes</div>';
+      const empty = document.createElement('div');
+      empty.className = 'notif-panel-empty';
+      empty.textContent = 'No hay notificaciones recientes';
+      list.appendChild(empty);
     }
   } catch (error) {
-    list.innerHTML = '<div class="notif-panel-empty">Error al cargar notificaciones</div>';
+    const empty = document.createElement('div');
+    empty.className = 'notif-panel-empty';
+    empty.textContent = 'Error al cargar notificaciones';
+    list.innerHTML = '';
+    list.appendChild(empty);
   }
 }

@@ -392,13 +392,14 @@
 .v-card-info h3 { font-size: 15px; color: var(--color-oscuro); font-weight: bold; margin: 0 0 2px; }
 .v-card-location { font-size: 12px; color: var(--color-grisOscuro); display: flex; align-items: center; gap: 4px; margin-top: 2px; }
 .v-card-meta { font-size: 11px; color: #888; display: flex; align-items: center; gap: 4px; margin-top: 2px; }
-.v-card-status { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+.v-card-status { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 1; max-width: 160px; }
 .v-time { font-size: 11px; color: #999; }
-.v-status-badge { font-size: 11px; font-weight: bold; padding: 4px 12px; border-radius: 10px; }
+.v-status-badge { font-size: 11px; font-weight: bold; padding: 4px 12px; border-radius: 10px; word-wrap: break-word; text-align: right;}
 .v-status-returned { background-color: #ffd6d6; color: #e54b4b; }
 .v-status-pending { background-color: #ffe9d6; color: var(--color-primario); }
 .v-card-reason {
     background-color: #e3f2fd;
+    
     border-radius: 10px;
     padding: 8px 12px;
     font-size: 11px;
